@@ -1,0 +1,370 @@
+﻿@model   DAL.SP_JobRegisterReportPrint_Result
+
+@{
+    Layout = null;
+    
+}
+
+<style>
+    .back {
+        background-color: red;
+        color: white;
+    }
+
+    #table1 tr
+    {
+        height:35px;
+    }
+</style>
+
+@*<script src="~/Content/jQuery-2.1.3.min.js"></script>*@
+
+ 
+ @ViewBag.companyname
+ @ViewBag.caddress1 @ViewBag.caddress2
+ @ViewBag.caddress3 @ViewBag.cphone
+
+   <div>
+
+       
+    <div class="row">
+            <table width="700px" border="1">
+                <tr>
+                    <td>
+                        <center><b><u>Job Register</u></b></center>
+                    </td>
+                </tr>
+                <tr height="750px">
+                    <td>
+                        <center>
+                        <table border="0" width="670px" style="margin-top:-270px;">
+                            <tr>
+                               
+                               
+                                 <td width="30%">Date:  @TrueBooksMVC.Models.CommanFunctions.GetShortDateFormat(@ViewBag.InvcDate)</td>
+                            </tr>
+                        </table></center>
+                        <br />
+                        <br />
+                        <table border="1" width="670px">
+                            <tr>
+                                <td>JOB NO  &nbsp; </td>
+                                <td>@Model.JobCode</td>
+                                <td>JOB TYPE &nbsp; </td>
+                                <td>@Model.JobDescription</td>
+                            </tr>
+                            <tr>
+                                <td>JOB DATE &nbsp; </td>
+                                <td>@Model.JobDate</td>
+                                <td>EMPLOYEE &nbsp; </td>
+                                <td>@Model.</td>
+                            </tr>
+                            <tr>
+                                <td>SHIPPER &nbsp; </td>
+                                <td>@Model.Customer</td>
+                                <td>LOAD PORT &nbsp; </td>
+                                <td>@Model.Port </td>
+                            </tr>
+                            <tr>
+                                <td>CONSIGNEE &nbsp; </td>
+                                <td>@Model.</td>
+                                <td>DELIVERY PORT &nbsp; </td>
+                                <td>@Model.Port</td>
+                            </tr>
+                            <tr>
+                                <td>INVOICE TO &nbsp; </td>
+                                <td>@Model.Customer</td>
+                                <td>PLACE OF RECIEPT &nbsp; </td>
+                                <td>@Model.Port</td>
+                            </tr>
+                            <tr>
+                                <td>NOTIFY TO &nbsp; </td>
+                                <td>@Model.Customer</td>
+                                <td> PLACE OF DELIVERY</td>
+                                <td> @Model.Port</td>
+                            </tr>
+                        </table>
+                        <br />
+                        <br />
+                       
+                        <table border="1" width="690px">
+                            <tr>
+                                <td>CARGO DESCRIPTION</td>
+                                <td> </td>
+                                <td></td>
+                                <td></td>
+
+                               
+                                
+                            </tr>
+                            <tr>
+                                <td>MARK &nbsp; </td>
+                                <td>@Model.</td>
+                                <td>VOLUME &nbsp; </td>
+                                <td>@Model.Volume</td>
+                            </tr>
+                            <tr>
+                                <td>DESCRIPTION &nbsp; </td>
+                                <td>@Model.ConDescription</td>
+                                <td>PACKAGE &nbsp; </td>
+                                <td>@Model.Package</td>
+                            </tr>
+                            <tr>
+                                <td>WEIGHT &nbsp; </td>
+                               @* <td>@Model.c</td>*@
+                                <td>GROSS WEIGHT &nbsp; </td>
+                                <td>@Model.GrossWeight</td>
+                            </tr>
+                            
+                           </table>
+                         <br />
+                        <br />
+                      <table border="1" width="690px">
+                            <tr>
+                                <td>CONTAINER DETAILS</td>
+                                 <td> </td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>CONTAINER TYPE &nbsp; </td>
+                                <td>@Model.ConDescription</td>
+                                <td>SERIAL NO &nbsp; </td>
+                                <td>@Model.SealNo</td>
+                            </tr>
+                            <tr>
+                                <td>CONTAINER NO &nbsp; </td>
+                                <td>@Model.containerNo</td>
+                                <td>DESCRIPTION &nbsp; </td>
+                                <td>@Model.ConDescription</td>
+                            </tr>
+                          </table>
+                         <br />
+                        <br />
+                         <table border="1" width="690px">
+                           <tr>
+                                <td>CUSTOMS</td>
+                                <td> </td>
+                                <td></td>
+                                <td></td>
+                                
+                            </tr>
+                            <tr>
+                                <td>IPT NO &nbsp; </td>
+                                <td>@Model.IPTNo</td>
+                                <td>MRN&nbsp; </td>
+                                <td>@Model.MRN</td>
+                            </tr>
+                            <tr>
+                                <td>CUSTOMER REFFERENCE &nbsp; </td>
+                                <td>@Model.CustRef</td>
+                                <td>CIF VALUE &nbsp; </td>
+                                <td>@Model.CLFValue</td>
+                            </tr>
+                             <tr>
+                                <td>ROTATION NO &nbsp; </td>
+                                <td>@Model.RotationNo</td>
+                                <td>DEPOSITE AMOUNT &nbsp; </td>
+                                <td>@Model.DepositAmount</td>
+                            </tr>
+                             <tr>
+                                <td>BL DATE &nbsp; </td>
+                                <td>@Model.BLDate</td>
+                                <td>DEPOSITE DATE &nbsp; </td>
+                                <td>@Model.DepositDate</td>
+                            </tr>
+                           <tr>
+                                <td>D.O.DATE &nbsp; </td>
+                                <td>@Model.DeliveryDate</td>
+                                <td>RECIEPT NO &nbsp; </td>
+                                <td>@Model.ReceiptNo</td>
+                            </tr>
+                            <tr>
+                                <td>DELIVERY ORDER &nbsp; </td>
+                                <td>@Model.DeliveryOrderNo</td>
+                                <td>REFUND DATE &nbsp; </td>
+                                <td>@Model.RefundDate</td>
+                            </tr>
+                            <tr>
+                                <td>COUNTRY OF ORIGIN &nbsp; </td>
+                                <td>@Model.CountryofOriginID</td>
+                                <td>REFUND AMOUNT &nbsp; </td>
+                                <td>@Model.RefundAmount</td>
+                            </tr>
+                           
+                        </table>
+                         <br />
+                        <br />
+                         <table border="1" width="690px">
+                            <tr>
+                                <td>CONTAINER DETAILS</td>
+                                 <td> </td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>CONTAINER TYPE &nbsp; </td>
+                                <td>@Model.ConDescription</td>
+                                <td>SERIAL NO &nbsp; </td>
+                                <td>@Model.SealNo</td>
+                            </tr>
+                            <tr>
+                                <td>CONTAINER NO &nbsp; </td>
+                                <td>@Model.containerNo</td>
+                                <td>DESCRIPTION &nbsp; </td>
+                                <td>@Model.ConDescription</td>
+                            </tr>
+                          </table>
+                         <br />
+                        <br />
+                         <table border="1" width="690px">
+                           <tr>
+                                <td>BILL OF LADING</td>
+                                <td> </td>
+                                <td></td>
+                                <td></td>
+                                
+                            </tr>
+                            <tr>
+                                <td>VESSELS &nbsp; </td>
+                                <td>@Model.Vessel</td>
+                                <td>FREIGHT&nbsp; </td>
+                                <td>@Model.Freight</td>
+                            </tr>
+                            <tr>
+                                <td>VOYAGE NO &nbsp; </td>
+                                <td>@Model.VoyageNo</td>
+                                <td>SAILING DATE &nbsp; </td>
+                                <td>@Model.SailingDate</td>
+                            </tr>
+                             <tr>
+                                <td>MBL &nbsp; </td>
+                                <td>@Model.MBL</td>
+                                <td>ARRIVAL DATE &nbsp; </td>
+                                <td>@Model.ArrivalDate</td>
+                            </tr>
+                             <tr>
+                                <td>HBL &nbsp; </td>
+                                <td>@Model.HBL</td>
+                                <td>CARRIER &nbsp; </td>
+                                <td</td>
+                            </tr>
+                           <tr>
+                                <td>BL SATUS &nbsp; </td>
+                                <td>@Model.BLStatus</td>
+                                </tr>
+                           
+                        </table>
+                         <br />
+                        <br />
+                        <table border="1" width="690px">
+                           <tr>
+                                <td>BILL OF ENTRY</td>
+                                <td> </td>
+                                <td></td>
+                                <td></td>
+                                
+                            </tr>
+                            <tr>
+                                <td>BILL OF ENTRY NO &nbsp; </td>
+                                <td>@Model.BIllOfEntry</td>
+                                <td>SHIPPING AGENT&nbsp; </td>
+                                <td>@Model.AgentName</td>
+                            </tr>
+                            <tr>
+                                <td>DATE &nbsp; </td>
+                                <td>@Model.BillOfEntryDate</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                           
+                        </table>
+                         <br />
+                        <br />
+                        <table border="1" width="690px">
+                           <tr>
+                                <td>DELIVERY ADVISE</td>
+                                <td> </td>
+                                <td></td>
+                                <td></td>
+                                
+                            </tr>
+                            <tr>
+                                <td>TRANSPORTER &nbsp; </td>
+                                <td>@Model.TransPorter</td>
+                                <td>DELIVERY DATE&nbsp; </td>
+                                <td>@Model.DeliveryDate</td>
+                            </tr>
+                            <tr>
+                                <td>COLLECTION DATE </td>
+                                <td>@Model.CollectionDate</td>
+                                <td>COLLECTION POINT</td>
+                                <td>@Model.CollectionPoint</td>
+                            </tr>
+                           <tr>
+                                <td>DELIVERY NOTE NO </td>
+                                <td>@Model.DeliveryNote</td>
+                                <td>COLLECTION INSTRUCTION</td>
+                                <td>@Model.CollectionInstructions</td>
+                            </tr>
+                            <tr>
+                                <td>DELIVERY POINT </td>
+                                <td>@Model.DeliveryPoint</td>
+                                <td>DRIVER DETAILS</td>
+                                <td>@Model.DriverDetails</td>
+                            </tr>
+                           
+                             <tr>
+                                <td>TRUCK REGISTER NO </td>
+                                <td>@Model.TruckRegNo</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                           
+                        </table>
+                        <br />
+                        <br />
+
+                        <table  border="1" width="690px">
+                            <tr>
+                                <td>
+                                    CHARGES
+                                </td>
+                                <td>DESCRIPTION</td>
+                                <td>ACCOUNT</td>
+                                <td>SUPPLIER</td>
+                                <td>SALES</td>
+                                <td>
+                                    COST
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>@Model.JobDescription</td>
+                                <td>@Model.RevenueType</td>
+                                <td>@Model.SupplierName</td>
+                                <td>@Model.ProvisionHome</td>
+                                <td>
+                                    @Model.Cost
+                                </td>
+                            </tr>
+
+                        </table>
+                    </td>
+                </tr>
+            @*    <tr>
+                    <td style="text-align:center">
+                       
+                                 RAMMAR SHIPPING SERVICES<br />
+                                P.O.BOX 121324 DUBAI U.A.E<br />
+                            Tel: 00971 4 3798831 Fax: 00971 4 3798832<br />
+                        noora@rammargroup.com / accounts@rammargroup.com <br />
+                        
+
+                    </td>
+                </tr>*@
+            </table>
+        </div>
+
+
+   </div>

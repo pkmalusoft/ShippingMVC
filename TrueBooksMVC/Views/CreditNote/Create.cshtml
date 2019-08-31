@@ -1,0 +1,224 @@
+﻿@model TrueBooksMVC.Models.CreditNoteVM
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
+}
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        var startdate = '@Session["FyearFrom"].ToString()';
+        var enddate = '@Session["FyearTo"].ToString()';
+        var sd = new Date(startdate);
+        var ed = new Date(enddate);
+
+        $("#CreditNoteNo").focus();
+        $(":text").css({ "border-radius": "5px" });
+        $("select").css({ "border-radius": "5px" });
+
+        $("#InvoiceAmount").attr("disabled", "disabled");
+        $("#ReceivedAmount").attr("disabled", "disabled");
+
+
+
+
+        $("#btnsave").click(function () {
+            var date = $("#Date").val();
+            var cust = $("#CustomerID option:selected").val();
+            var inv = $("#JobNO option:selected").val();
+            var amt = $("#Amount").val();
+
+
+
+            if (date == "") {
+                $("#alert").show();
+                return false;
+            }
+            else if (cust == "") {
+                $("#alert").show();
+                return false;
+            }
+            else if (inv == "") {
+                $("#alert").show();
+                return false;
+            }
+            else if (amt == "") {
+                $("#alert").show();
+                return false;
+            }
+
+
+            else {
+                $("#alert").hide();
+                return true;
+            }
+
+
+        });
+
+
+
+
+
+
+        var startdate = '@Session["FyearFrom"].ToString()';
+        var enddate = '@Session["FyearTo"].ToString()';
+        var sd = new Date(startdate);
+        var ed = new Date(enddate);
+
+        $("#Date").datepicker({
+            dateFormat: 'dd-M-yy',
+            minDate: sd,
+            maxDate: ed,
+            changeYear: true,
+            changeMonth: true
+        });
+
+        $("#CustomerID").change(function () {
+
+            $.ajax({
+                type: "POST",
+                url: "/CreditNote/GetJobNo",
+                datatype: "Json",
+                data: { id: $('#CustomerID option:selected').val() },
+                success: function (data) {
+                   
+                        $("#JobNO").empty();
+                        $("#JobNO").append("<option value=0>Select</option>");
+
+
+                        $.each(data, function (index, value) {
+                            $('#JobNO').append('<option value="' + value.JobNo + '">' + value.JobNo + '</option>');
+                        });
+
+                    }
+
+               
+
+            });
+        });
+
+        $("#JobNO").change(function () {
+
+            $.ajax({
+                type: "POST",
+                url: "/CreditNote/GetAmount",
+                datatype: "Json",
+                data: { id: $('#JobNO option:selected').val() },
+                success: function (data) {
+
+                    $("#InvoiceAmount").val(data.invoiceamt);
+                    $("#ReceivedAmount").val(data.recamt);
+                  
+                }
+
+
+
+            });
+        });
+    });
+    </script>
+<section class="content-header">
+    <h1 class="headingfont">Credit Note</h1>
+
+</section>
+@if (ViewBag.SuccessMsg != null)
+    {
+      <script type="text/javascript">
+          $(document).ready(function () {
+              $.notify("@ViewBag.SuccessMsg", "success");
+          });
+                                                </script>
+    }
+
+<section class="content">
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+        <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
+    <fieldset>
+       
+         <div class="row no-margin"> 
+             
+        
+             <div class="col-md-3">
+                          <label class="required headinglabel">Date</label>
+                         @Html.TextBoxFor(model => model.Date,new { @class = "form-control" })
+                         @Html.ValidationMessageFor(model => model.Date)
+                          
+             </div>
+          
+         
+              <div class="col-md-3">
+                      
+                   <label class="headinglabel">Expence A/C</label>
+        @Html.DropDownListFor(model => model.AcHeadID, new SelectList(@ViewBag.achead, "AcHeadID","AcHead1"), "Select", new { @class = "form-control" })
+           @Html.ValidationMessageFor(model => model.AcHeadID)
+        </div>
+            
+               <div class="col-md-3">
+                             <label class="headinglabel required">Customer</label>
+        @Html.DropDownListFor(model => model.CustomerID, new SelectList(@ViewBag.customer, "CustomerID","Customer1"), "Select", new { @class = "form-control" })
+           @Html.ValidationMessageFor(model => model.CustomerID)
+
+
+                   </div>
+                <div class="col-md-3">
+                          <label class="required headinglabel">Job No</label>
+                     
+                          @Html.DropDownListFor(model => model.JobNO, new SelectList(@ViewBag.jobno, "JobNo","JobNo"), "Select", new { @class = "form-control" })
+           @Html.ValidationMessageFor(model => model.JobNO)
+      
+
+             </div>
+      
+
+       </div>
+       
+              <div class="row no-margin"> 
+
+                
+                    <div class="col-md-3">
+                          <label class="headinglabel">Invoice Amount</label>
+                         @Html.TextBoxFor(model => model.InvoiceAmount,new { @class = "form-control" })
+                         @Html.ValidationMessageFor(model => model.InvoiceAmount)
+                          
+
+             </div>
+                    <div class="col-md-3">
+                          <label class="headinglabel">Received Amount</label>
+                         @Html.TextBoxFor(model => model.ReceivedAmount,new { @class = "form-control" })
+                         @Html.ValidationMessageFor(model => model.ReceivedAmount)
+                          
+             </div>
+                    <div class="col-md-3">
+                          <label class="required headinglabel">Amount</label>
+                         @Html.TextBoxFor(model => model.Amount,new { @class = "form-control" })
+                         @Html.ValidationMessageFor(model => model.Amount)
+                          
+             </div>
+                  </div>
+
+
+
+
+
+        <div class="row no-margin" style="padding-top:10px">
+                        <div class="col-md-12">
+                           
+                                <input type="submit"  value="Save"  class="btn btn-primary btnwidth" id="btnsave" />
+                               
+                            &nbsp; 
+                                           <a href='@Url.Action("Index", "CreditNote", new { id = 0 })' class="btn btn-primary btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+                           
+                        </div>
+                    </div>
+
+       
+    </fieldset>
+}
+    </section>
+

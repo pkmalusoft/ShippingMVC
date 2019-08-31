@@ -1,0 +1,150 @@
+﻿@model IEnumerable<DAL.Report_Ledger_Result>
+
+@using TrueBooksMVC.Models;
+@using DAL;
+@using System.Text;
+@{
+    Layout = null;
+    int bal = 0;
+    int crbal = 0;
+    int debbal = 0;
+
+    decimal? showbal = 0;
+    decimal cramt = 0;
+}
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>_CashBookReport</title>
+</head>
+<body>
+    <div class="row">
+        <div class="col-md-12" style="background-color:white">
+             @{
+                
+             int acheadid = Convert.ToInt32(ViewBag.acheadid);
+                DateTime fromdate = Convert.ToDateTime(ViewBag.fromdate);
+                DateTime todate = Convert.ToDateTime(ViewBag.todate);
+                
+                string path=System.Configuration.ConfigurationManager.AppSettings["spath"].ToString();
+                string url = path + "/Reports/Ledgerreport.aspx?acheadid=" + acheadid + "&fromdate=" + fromdate + "&todate=" + todate;
+                
+                <iframe src="@url" style="width:100%;height:1200px"></iframe>
+            }
+        </div>
+    </div>
+    @*<div class="row">
+        <div class="col-md-12" style="background-color: white; padding-top: 20px;padding-bottom:20px">
+             
+           <p style="border-bottom:solid 1px black;width: 883px">
+                @{
+                SHIPPING_FinalEntities db1 = new SHIPPING_FinalEntities();
+                var data = (from c in db1.AcCompanies select c).FirstOrDefault();
+              <b>@data.AcCompany1</b><br />
+              <span>@data.Address1 &nbsp; @data.Address2 &nbsp; @data.Address3</span>
+                
+            }
+           
+              
+           </p>
+            <table  border="0" style="width: 883px; background-color: white; margin-bottom: 25px; border-color: white;" class="details" class="table table-responsive">
+
+                <tr>
+                    <td colspan="11" style="text-align: center">
+                          @{
+                       DateTime tdate = Convert.ToDateTime(TempData["tdate"]);
+                   }
+                        <h2>Ledger As On : @TrueBooksMVC.Models.CommanFunctions.GetShortDateFormat(@tdate)</h2>
+                    </td>
+                </tr>
+
+                <tr style="font-weight: bold;border-bottom-color: black;border-bottom:solid 1px black;border-top:solid 1px black">
+                    <th>Voucher No.</th>
+                    <th>Transaction Date</th>
+                    <th style="text-align: right">Dr. Amount</th>
+                    <th style="text-align: right">Cr. Amount</th>
+                    <th style="text-align: right">Balance Amount</th>
+                    <th>Remarks</th>
+                    <th>Details</th>
+
+
+
+
+
+                </tr>
+                  @foreach (var item in Model)
+                    {
+           
+                        if (item.CrAmount < 0)
+                        {
+                            cramt = -item.CrAmount.Value;
+                        }
+                        else
+                        {
+                            cramt = item.CrAmount.Value;
+                        }
+
+
+                        if (item.BalanceAmount != null)
+                        {
+                            if (item.BalanceAmount < 0)
+                            {
+                                showbal = 0;
+                            }
+                            else
+                            {
+                                showbal = item.BalanceAmount.Value;
+                            }
+                        }
+                        else
+                        {
+                            showbal = 0;
+                        }
+
+
+                        crbal = crbal + Convert.ToInt32(cramt);
+                        debbal = debbal + Convert.ToInt32(item.DrAmount);
+                        bal = debbal - crbal;
+            
+           
+                        <tr style="border-style: none" class="headingfont">
+                            <td>@item.VoucherNo</td>
+                            <td>@TrueBooksMVC.Models.CommanFunctions.GetShortDateFormat(@item.TransDate)</td>
+                            <td style="text-align:right">@string.Format("{0:n2}", @item.DrAmount)
+                            </td>
+                            <td style="text-align:right">
+
+                              @string.Format("{0:n2}", @cramt)
+
+
+                            </td>
+                            <td style="text-align:right">
+
+                               @string.Format("{0:n2}", @showbal)
+                            </td>
+                            <td>@item.Remarks</td>
+                            <td>@item.Details</td>
+
+
+                        </tr>
+                        
+                    }
+                  <tr style=" font-weight: bold;border-top-color: black;border-top:solid 1px black;border-bottom:solid 1px black">
+                    <td></td>
+                    <td style="text-align: right;">Total:</td>
+                    <td class="textright">@string.Format("{0:n2}", @debbal)</td>
+                    <td class="textright">@string.Format("{0:n2}", @crbal)</td>
+                    <td class="textright">@string.Format("{0:n2}", @bal)</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+    </div>*@
+</body>
+</html>
+

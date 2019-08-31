@@ -1,0 +1,140 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Trianglesoft</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- css files -->
+    <link rel="stylesheet" href="~/Content/NewCSS/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Content/NewCSS/css/style.css">
+    <link rel="stylesheet" href="~/Content/NewCSS/css/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="~/Content/NewCSS/css/skins/skin-blue.min.css">
+</head>
+@{ string UserName = "";
+   if (Session["UserName"] != null)
+   {
+       UserName = Session["UserName"].ToString();
+   }
+}
+@{ Boolean IsUserAdmin = false;
+   if (Session["IsAdmin"] != null)
+   {
+       IsUserAdmin = Convert.ToBoolean(Session["IsAdmin"]);
+   }
+}
+<body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+
+        <!-- Main Header -->
+        <header class="main-header">
+
+            <!-- Logo -->
+            <a href="index2.html" class="logo">
+                <!-- mini logo for sidebar mini 50x50 pixels -->
+                <span class="logo-mini">
+                    <img class="img-responsive" src="~/Content/NewCSS/img/logosm.png" alt="logosmall"></span>
+                <!-- logo for regular state and mobile devices -->
+                <span class="logo-lg">
+                    <img class="img-responsive" src="~/Content/NewCSS/img/logo.png" alt="logolarge"></span> </a>
+
+            <!-- Header Navbar -->
+            <nav class="navbar navbar-static-top" role="navigation">
+                <!-- Sidebar toggle button-->
+                <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button"><span class="sr-only">Toggle navigation</span> </a>
+                <!-- Navbar Right Menu -->
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+
+                        <!-- User Account Menu -->
+                        <li class="dropdown user user-menu">
+                            <!-- Menu Toggle Button -->
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <!-- The user image in the navbar-->
+                                <img src="~/Content/NewCSS/img/user2-160x160.jpg" class="user-image" alt="User Image">
+                                <!-- hidden-xs hides the username on small devices so only the image appears. -->
+                                <span class="hidden-xs">@UserName</span> <b class="caret"></b></a>
+                            <ul class="dropdown-menu extended logout">
+                                <li><a href="#"><i class=" fa fa-suitcase"></i>Profile</a></li>
+                                <li><a href="#"><i class="fa fa-cog"></i>Settings</a></li>
+                                <li><a href="@Url.Action("Signout", "Login")"><i class="fa fa-key"></i>Log Out</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <!-- Left side column. contains the logo and sidebar -->
+        <aside class="main-sidebar">
+
+            <!-- sidebar: style can be found in sidebar.less -->
+            <section class="sidebar">
+
+                <!-- Sidebar Menu -->
+                <ul class="sidebar-menu">
+
+                    <!-- Optionally, you can add icons to the links -->
+                    <li class="active"><a href="@Url.Action("Home", "Home", new { })"><i class="fa fa-dashboard"></i><span>Dashboard</span></a></li>
+                    <li><a href="@Url.Action("JobDetails", "Job", new { ID = 0 })"><i class="fa fa-briefcase"></i><span>Job</span></a></li>
+                    <li><a href="@Url.Action("CostUpdationDetails", "CostUpdation", new { ID = 0 })"><i class="fa fa-dollar"></i><span>Cost Updation</span></a></li>
+                    <li><a href="@Url.Action("CustomerRecieptDetails", "CustomerReciept", new { ID = 0 })"><i class="fa fa-list-alt"></i><span>Customer Reciepts</span></a></li>
+                    <li><a href="@Url.Action("SupplierPaymentDetails", "SupplierPayment", new { ID = 0 })"><i class="fa fa-money"></i><span>Supplier Payments</span></a></li>
+                    @* <li><a href="#"><i class="fa fa-user"></i><span>Customer Ledger</span></a></li>*@
+                    @if (IsUserAdmin)
+                    {
+                        <li class="treeview"><a href="#"><i class="fa fa-link"></i><span>Masters</span> <i class="fa fa-angle-left pull-right"></i></a>
+                            <ul class="treeview-menu">
+                                <li><a href="@Url.Action("Index", "AcCompany", new { ID = 0 })"><i class="fa fa-circle-o"></i>AcCompany</a></li>
+
+                                <li><a href="@Url.Action("Index", "AcGroup", new { ID = 0 })"><i class="fa fa-circle-o"></i>AcGroup</a></li>
+                                <li><a href="@Url.Action("Index", "Carrier", new { ID = 0 })"><i class="fa fa-circle-o"></i>Carrier</a></li>
+                                <li><a href="@Url.Action("Index", "Country", new { ID = 0 })"><i class="fa fa-circle-o"></i>Country</a></li>
+                                <li><a href="@Url.Action("Index", "Customer", new { ID = 0 })"><i class="fa fa-circle-o"></i>Customer</a></li>
+                                <li><a href="@Url.Action("Index", "Department", new { ID = 0 })"><i class="fa fa-circle-o"></i>Departmrnt</a></li>
+                                <li><a href="@Url.Action("Index", "Designation", new { ID = 0 })"><i class="fa fa-circle-o"></i>Designation</a></li>
+                                <li><a href="@Url.Action("Index", "Employee", new { ID = 0 })"><i class="fa fa-circle-o"></i>Employee</a></li>
+                                <li><a href="@Url.Action("Index", "JobMode", new { ID = 0 })"><i class="fa fa-circle-o"></i>JobMode</a></li>
+                                <li><a href="@Url.Action("Index", "JobType", new { ID = 0 })"><i class="fa fa-circle-o"></i>JobType</a></li>
+                                <li><a href="@Url.Action("Index", "Location", new { ID = 0 })"><i class="fa fa-circle-o"></i>Location</a></li>
+                                <li><a href="@Url.Action("Index", "Port", new { ID = 0 })"><i class="fa fa-circle-o"></i>Port</a></li>
+                                <li><a href="@Url.Action("Index", "RevenueType", new { ID = 0 })"><i class="fa fa-circle-o"></i>RevenueType</a></li>
+                                <li><a href="@Url.Action("Index", "ShippingAgent", new { ID = 0 })"><i class="fa fa-circle-o"></i>ShippingAgent</a></li>
+                                <li><a href="@Url.Action("Index", "Transporter", new { ID = 0 })"><i class="fa fa-circle-o"></i>Transporter</a></li>
+                                <li><a href="@Url.Action("Index", "Vessel", new { ID = 0 })"><i class="fa fa-circle-o"></i>Vessel</a></li>
+                                <li><a href="@Url.Action("Index", "Vayage", new { ID = 0 })"><i class="fa fa-circle-o"></i>Voyage</a></li>
+                            </ul>
+
+                        </li>
+                    }
+                </ul>
+                <!-- /.sidebar-menu -->
+            </section>
+            <!-- /.sidebar -->
+        </aside>
+
+        <!-- Content Wrapper. Contains page content -->
+
+
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            @RenderBody()
+        </div>
+        <!-- /.content-wrapper -->
+
+        <!-- Main Footer -->
+        <footer class="main-footer">
+            <!-- To the right -->
+
+            <!-- Default to the left -->
+            Copyright &copy; 2016 <a href="#">Trianglesoft</a>. All rights reserved.
+        </footer>
+    </div>
+    <!-- ./wrapper -->
+
+    <!-- JS SCRIPTS -->
+    <script src="~/Content/NewCSS/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+    <script src="~/Content/NewCSS/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/Content/NewCSS/js/app.min.js"></script>
+</body>
+</html>

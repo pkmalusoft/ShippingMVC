@@ -1,0 +1,30 @@
+﻿@model DAL.CountryMaster
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
+}
+
+<section class="content-header">
+    <h1 class="haedingfont">
+        Country
+    </h1>
+</section>
+
+<section class="content-header">
+<fieldset>
+   
+    <h3 class="headingfont">Are you sure you want to delete this?</h3>
+    <div class="display-label">
+        @Html.Label("Country: ") @Html.DisplayFor(model => model.CountryName)
+    </div>
+   
+</fieldset>
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    <p>
+        <input type="submit" value="Delete" class="btn btn-primary"/>&nbsp;&nbsp;
+        <a href='@Url.Action("Index", "Country", new { id = 0 })' class="btn btn-primary" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+    </p>
+}
+    </section>

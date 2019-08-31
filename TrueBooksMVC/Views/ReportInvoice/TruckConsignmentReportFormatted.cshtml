@@ -1,0 +1,208 @@
+﻿@{
+    Layout = "~/Views/Shared/FormattedLayout.cshtml";
+}
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>TruckConsignmentReportFormatted</title>
+     <style>
+
+         body 
+        {
+            font-family:Calibri;
+        }
+
+
+        #Truck {
+            font-family:Calibri;
+        }
+
+        table {
+            font-family:Calibri;
+        }
+         pre {
+             font-family:Calibri;
+         }
+    </style>
+</head>
+<body>
+    <div id="Truck" >
+            <table width="700px" border="0">
+        
+                <tr>
+                    <td style="font-family:Calibri">
+                        <center><b>TRUCK CONSIGNMENT NOTE</b></center>
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>JOB NO.</b> &nbsp;@ViewBag.TJobCode</td>
+                </tr>
+                <tr>
+                    <td>
+                        <table border="1" width="790px" style="font-family:Calibri">
+                            <tr>
+                                <td>
+                                    <pre><b> CONSIGNER</b>
+
+ @ViewBag.TCUSTOMERCust
+ @ViewBag.TCUSTOMERAddrs1 @ViewBag.TCUSTOMERAddrs2
+ @ViewBag.TCUSTOMERAddrs3 @ViewBag.TCUSTOMERPhn
+
+                                    </pre>
+                                </td> 
+                                <td>
+                                    <pre><b> T.C.N : </b>  @TrueBooksMVC.Models.CommanFunctions.GetShortDateFormat(@ViewBag.TTDN)
+ DATE : @TrueBooksMVC.Models.CommanFunctions.GetShortDateFormat( @ViewBag.TJobDate)
+                                    </pre>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <pre><b> CONSIGNEE</b>
+ 
+ @ViewBag.TConsigneeCust
+ @ViewBag.TConsigneeAddrs1 @ViewBag.TConsigneeAddrs2
+ @ViewBag.TConsigneeAddrs3 @ViewBag.TConsigneePhn
+
+                                    </pre>
+                                </td>
+                                <td>
+                                    <pre><b> NOTIFY PARTY</b>
+
+ @ViewBag.TNotifyCust
+ @ViewBag.TNotifyAddrs @ViewBag.TNotifyAddrs2
+ @ViewBag.TNotifyAddrs3 @ViewBag.TNotifyPhn
+
+                                    </pre>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <table border="1" width="100%">
+                                        <tr>
+                                            <td>
+                                                <pre> <b>TRUCK REGISTRATION 
+ NUMBER :</b>
+
+                                    </pre>
+                                            </td>
+                                            <td>
+                                                <pre><b>DRIVER NAME & NATIONALITY</b>
+
+
+                                    </pre>
+                                            </td>
+                                            <td>
+                                                <pre><b> VALUE OF GOODS AS PER INV.
+ NO:</b> @ViewBag.TTruckRegNo
+
+                                    </pre>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <pre><b> FROM </b>
+ @ViewBag.TPort
+                                    </pre>
+                                            </td>
+                                            <td>
+                                                <pre><b> TO</b>
+ @ViewBag.TDestiPort
+                                    </pre>
+                                            </td>
+                                            <td>
+                                                <pre><b> DESPATCH DATE</b>
+ @TrueBooksMVC.Models.CommanFunctions.GetShortDateFormat(@ViewBag.TDeliveryOrderDate)
+                                    </pre>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <table border="1" width="100%">
+                                        <tr>
+                                            <td>
+                                                <pre> Marks & Numbers </pre>
+                                            </td>
+                                            <td>
+                                                <pre> Description of Goods </pre>
+                                            </td>
+                                            <td>
+                                                <pre> Quantity </pre>
+                                            </td>
+                                            <td>
+                                                <pre> G/ Wt </pre>
+                                            </td>
+                                            <td>
+                                                <pre> N/ Wt </pre>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <pre>@string.Format("{0:n2}", @ViewBag.TMark )</pre>
+                                            </td>
+                                            <td>
+                                                <pre>@string.Format("{0:n2}", @ViewBag.TDescription)</pre>
+                                            </td>
+                                            <td>
+                                                <pre> @string.Format("{0:n2}",@ViewBag.Tvolume) </pre>
+                                            </td>
+                                            <td>
+                                                <pre> @string.Format("{0:n2}",@ViewBag.Tweight) </pre>
+                                            </td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <pre>
+ <b> FREIGHT PREPAID </b>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        </pre>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <pre> 
+ Remarks:
+                                    </pre>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <pre><b>  Goods recieved in good condition : </b>
+  Stamp & signature
+                                 
+                </pre>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </body>
+</html>

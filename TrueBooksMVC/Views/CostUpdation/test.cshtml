@@ -1,0 +1,100 @@
+﻿@model DAL.CostUpdation
+
+@{
+    ViewBag.Title = "test";
+    Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
+}
+
+<h2>test</h2>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>CostUpdation</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.SupplierID)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.SupplierID)
+            @Html.ValidationMessageFor(model => model.SupplierID)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.JobID)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.JobID)
+            @Html.ValidationMessageFor(model => model.JobID)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.InvoiceNo)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.InvoiceNo)
+            @Html.ValidationMessageFor(model => model.InvoiceNo)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.InvoiceDate)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.InvoiceDate)
+            @Html.ValidationMessageFor(model => model.InvoiceDate)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.AcJournalID)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.AcJournalID)
+            @Html.ValidationMessageFor(model => model.AcJournalID)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.EmployeeID)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.EmployeeID)
+            @Html.ValidationMessageFor(model => model.EmployeeID)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.DocumentNo)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.DocumentNo)
+            @Html.ValidationMessageFor(model => model.DocumentNo)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.PrevCostupID)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.PrevCostupID)
+            @Html.ValidationMessageFor(model => model.PrevCostupID)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.SupplierPaymentStatus)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.SupplierPaymentStatus)
+            @Html.ValidationMessageFor(model => model.SupplierPaymentStatus)
+        </div>
+
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

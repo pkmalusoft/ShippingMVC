@@ -1,0 +1,37 @@
+﻿@model DAL.CountryMaster
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>CountryMaster</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.CountryID)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CountryID)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.CountryName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CountryName)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.CountryCode)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CountryCode)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id=Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

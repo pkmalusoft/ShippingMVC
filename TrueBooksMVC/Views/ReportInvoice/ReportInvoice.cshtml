@@ -1,0 +1,688 @@
+﻿@{
+    ViewBag.Title = "ReportInvoice";
+    Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
+}
+
+
+
+<script src="@Url.Content("~/Scripts/angular.js")"></script>
+<script src="@Url.Content("~/MyJsFiles/PrintReportInvoices.js")"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var x = "";
+        @* $(".btnprint").click(function ()
+        {
+            var x = $(this);
+            var name=x.text();
+          alert(x.text());
+            $("#myModal").modal('show');
+             
+           if (x.text() == "Invoice Report")
+            {
+                alert(x.text());
+                $("#btnsubmit").click(function ()
+                {
+                    if ($("#plain").is(':checked'))
+                    {
+
+                        window.location.href = '@Url.Action("InvoiceReport", "ReportInvoice", new {JobID=ViewBag.id ,layout = "~/Views/Shared/PlainLayout.cshtml" })';
+                    }
+
+                    if ($("#formatted").is(':checked'))
+                    {
+
+                         window.location.href = '@Url.Action("InvoiceReport", "ReportInvoice", new {JobID=ViewBag.id, layout = "~/Views/Shared/FormattedLayout.cshtml" })';
+                    }
+
+
+                 });
+
+            }
+
+           if (name=="Delivery Note Report")
+            {
+
+                alert(x.text());
+                $("#btnsubmit").click(function ()
+                {
+                    if ($("#plain").is(':checked'))
+                    {
+
+                        window.location.href = '@Url.Action("DeliveryReport", "ReportInvoice", new {JobID=ViewBag.id})';
+                    }
+
+                    if ($("#formatted").is(':checked'))
+                    {
+
+                         window.location.href = '@Url.Action("DeliveryReport", "ReportInvoice", new {JobID=ViewBag.id})';
+                    }
+
+
+                 });
+            }
+
+
+           
+
+        });*@
+
+        $("#btninvoice").click(function () {
+            x = "Invoice";
+            $("#myModal").modal('show');
+
+        });
+
+        $("#btndelivery").click(function () {
+
+            x = "DeliveryReport";
+            $("#myModal").modal('show');
+
+        });
+
+        $("#btnarrival").click(function () {
+
+            x = "Arrival";
+            $("#myModal").modal('show');
+
+        });
+
+        $("#btntruck").click(function () {
+
+            x = "Truck";
+            $("#myModal").modal('show');
+
+
+        });
+
+
+        $("#btnsubmitforreport").click(function () {
+          
+            if (x == "Invoice")
+            {
+
+                if ($("#plain").is(':checked')) {
+                    @*window.location.href = '@Url.Action("InvoiceReportPlain", "ReportInvoice", new { JobID = ViewBag.id})';*@
+                     window.location.href = 'http://shipping.trianglesoft.in/Reports/InvoiceReport.aspx?jobid=' + '@ViewBag.id', target = _blank;
+                    @*window.location.href = '@System.Configuration.ConfigurationManager.AppSettings["spath"].ToString()' + '/Reports/InvoiceReport.aspx?jobid=' + '@ViewBag.id', target = _blank;*@
+                }
+
+                if ($("#formatted").is(':checked')) {
+                    @*window.location.href = '@Url.Action("InvoiceReportFormatted", "ReportInvoice", new { JobID = ViewBag.id})';*@
+
+                    @*window.location.href = '@System.Configuration.ConfigurationManager.AppSettings["spath"].ToString()' + '/Reports/InvoiceReportFormatted.aspx?jobid=' + '@ViewBag.id', target = _blank;*@
+                    window.location.href = 'http://shipping.trianglesoft.in/Reports/InvoiceReportFormatted.aspx?jobid=' + '@ViewBag.id', target = _blank;
+                }
+            }
+            else if (x == "DeliveryReport")
+            {
+                if ($("#plain").is(':checked')) {
+                   @* window.location.href = '@Url.Action("DeliveryReportPlain", "ReportInvoice", new { JobID = ViewBag.id})';*@
+                    window.location.href = 'http://shipping.trianglesoft.in/Reports/DeliveryNote.aspx?jobid=' + '@ViewBag.id', target = _blank;
+                }
+
+                if ($("#formatted").is(':checked')) {
+                    @*window.location.href = '@Url.Action("DeliveryReportFormatted", "ReportInvoice", new { JobID = ViewBag.id})';*@
+                    @*  window.location.href = '@System.Configuration.ConfigurationManager.AppSettings["spath"].ToString()' + '/Reports/DeliveryNoteFormatted.aspx?jobid=' + '@ViewBag.id', target = _blank;*@
+                    window.location.href = 'http://shipping.trianglesoft.in/Reports/DeliveryNoteFormatted.aspx?jobid=' + '@ViewBag.id', target = _blank;
+                }
+            }
+            else if (x == "Truck")
+            {
+                if ($("#plain").is(':checked')) {
+                    @*window.location.href = '@Url.Action("TruckConsignmentReportPlain", "ReportInvoice", new { JobID = ViewBag.id})';*@
+                    @* window.location.href = '@System.Configuration.ConfigurationManager.AppSettings["spath"].ToString()' + '/Reports/TruckConsignmentNote.aspx?jobid=' + '@ViewBag.id', target = _blank;*@
+                    window.location.href = 'http://shipping.trianglesoft.in/Reports/TruckConsignmentNote.aspx?jobid=' + '@ViewBag.id', target = _blank;
+                 }
+
+                 if ($("#formatted").is(':checked')) {
+                     @* window.location.href = '@Url.Action("TruckConsignmentReportFormatted", "ReportInvoice", new { JobID = ViewBag.id})';*@
+                     @*window.location.href = '@System.Configuration.ConfigurationManager.AppSettings["spath"].ToString()' + '/Reports/TruckConsignmentNoteFormatted.aspx?jobid=' + '@ViewBag.id', target = _blank;*@
+                     window.location.href = 'http://shipping.trianglesoft.in/Reports/TruckConsignmentNoteFormatted.aspx?jobid=' + '@ViewBag.id', target = _blank;
+                }
+            }
+            else if (x == "Arrival") {
+                if ($("#plain").is(':checked')) {
+                    window.location.href = '@Url.Action("ArrivalReportPlain", "ReportInvoice", new { JobID = ViewBag.id})';
+                }
+
+                if ($("#formatted").is(':checked')) {
+                    window.location.href = '@Url.Action("ArrivalReportFormatted", "ReportInvoice", new { JobID = ViewBag.id})';
+                 }
+             }
+            
+            $("#myModal").modal('hide');
+
+        });
+    
+    });
+</script>
+<div ng-app="MyApp" ng-controller="MyController">
+    <div>
+        <div id="Invoice" style="display: none;">
+            <table width="700px" border="1">
+                <tr>
+                    <td>
+                        <center><b><u>INVOICE</u></b></center>
+                    </td>
+                </tr>
+                <tr height="750px">
+                    <td>
+                        <center>
+                        <table border="0" width="670px" style="margin-top: -370px;">
+                            <tr>
+                                <td width="70%" >
+                                    <pre>
+ To,
+
+ @ViewBag.Custmr 
+ @ViewBag.Adress1
+ @ViewBag.Adress2 
+ Ph : @ViewBag.Phne 
+                                    </pre>
+                                </td>
+                               
+                                <td width="30%">Date: @TrueBooksMVC.Models.CommanFunctions.GetShortDateFormat(@ViewBag.InvcDate)</td>
+                            </tr>
+                        </table></center>
+                        <br />
+                        <br />
+                        <table border="0" width="670px">
+                            <tr>
+                                <td>INVOICE # &nbsp; </td>
+                                <td>@ViewBag.InvceNo</td>
+                                <td>REF # &nbsp; </td>
+                                <td>@ViewBag.JobCd</td>
+                            </tr>
+                            <tr>
+                                <td>SHIPPER &nbsp; </td>
+                                <td>@ViewBag.Exp1</td>
+                                <td>ORIGIN &nbsp; </td>
+                                <td>@ViewBag.Prt</td>
+                            </tr>
+                            <tr>
+                                <td>VESSEL &nbsp; </td>
+                                <td>@ViewBag.Vesel</td>
+                                <td>DESTINATION &nbsp; </td>
+                                <td>@ViewBag.Exp2 </td>
+                            </tr>
+                            <tr>
+                                <td>VOYAGE NO &nbsp; </td>
+                                <td>@ViewBag.VyageNo</td>
+                                <td>BL # &nbsp; </td>
+                                <td>@ViewBag.BL</td>
+                            </tr>
+                            <tr>
+                                <td>ARRIVAL DATE &nbsp; </td>
+                                <td>@ViewBag.ArrvlDate</td>
+                                <td>FREIGHT &nbsp; </td>
+                                <td>@ViewBag.Frgt</td>
+                            </tr>
+                            <tr>
+                                <td>CUSTOMER REF &nbsp; </td>
+                                <td>@ViewBag.CuRef</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </table>
+                        <br />
+                        <br />
+                        <table border="1" width="690px">
+                            <tr>
+                                <td width="50%"><b>CHARGES</b></td>
+                                <td width="25%"><b>IN FOREIGN</b></td>
+                                <td width="25%"><b>IN DIRHAMS</b></td>
+                            </tr>
+                            @foreach (var item in ViewData.Model)
+                            {
+                                <tr>
+                                    <td width="50%">@item.RevenueCode</td>
+                                     <td width="25%">@string.Format("{0:n2}", @item.SalesForeign)</td>
+                                <td width="25%">@string.Format("{0:n2}", @item.SalesHome)</td>
+                                </tr>
+                            }
+                        </table>
+                    </td>
+                </tr>
+           @*     <tr>
+                    <td>
+                        <pre>
+                                 RAMMAR SHIPPING SERVICES
+                                P.O.BOX 121324 DUBAI U.A.E
+                            Tel: 00971 4 3798831 Fax: 00971 4 3798832
+                        noora@rammargroup.com / accounts@rammargroup.com 
+                        </pre>
+
+                    </td>
+                </tr>*@
+            </table>
+        </div>
+        <div id="Delivery" style="display: none;">
+            <table width="700px" border="0">
+                <tr>
+                    <td>
+                        <center><b><u>DELIVERY NOTE / COLLECTION NOTE</u></b></center>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <b>JOB NO.</b> &nbsp; @ViewBag.DJobCode
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <table border="1" width="699px">
+
+                            <tr>
+                                <td width="50%">
+                                    <pre><b> Collect From </b>&nbsp;  @ViewBag.DCustomer
+ <b>Customer Ref</b> &nbsp;
+                                    </pre>
+                                </td>
+                                <td rowspan="6" width="50%">
+                                    <center>Logo and Address</center>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <pre><b> B/L No </b>&nbsp; @ViewBag.DMBL
+ <b>B.E.No </b>&nbsp; @ViewBag.DBIllOfEntry</pre>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <pre> <b>Delivery To</b> 
+                                    
+ @ViewBag.DCollectionPoint
+ @ViewBag.DAddress1
+ Tel @ViewBag.DPhone
+                                    </pre>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <pre><b> Haulier</b> 
+
+
+                                    </pre>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <pre><b>  Place of Reciept               Port of Loading</b>
+       @ViewBag.DPortRP                 @ViewBag.DPort
+                                    </pre>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <pre><b>   Vessel                          Voyage No</b>
+ @ViewBag.DVessel                           @ViewBag.DVoyageNo
+                                    </pre>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <pre> <b>Place of Discharge       Place of Delivery          Date of Shipment/Arrival </b>
+ @ViewBag.DPortDL                     @ViewBag.DDestPort                @ViewBag.DArrivalDate
+                                                </pre>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <table width="699px" border="1">
+                                        <tr>
+                                            <td>
+                                                <pre> <b>Container No / Seal No
+ Marks And Numbers</b></pre>
+                                            </td>
+                                            <td>
+                                                <pre><b> No of Containers 
+ or Packages</b></pre>
+                                            </td>
+                                            <td>
+                                                <pre><b> Description of Packages 
+ and Goods</b></pre>
+                                            </td>
+                                            <td>
+                                                <pre><b> Gross Weight
+ (KGS)</b></pre>
+                                            </td>
+                                            <td>
+                                                <pre><b> Measurement 
+ (CBM)</b></pre>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <pre> @ViewBag.DMark  </pre>
+                                            </td>
+                                            <td>
+                                                <pre> @ViewBag.DPackages </pre>
+                                            </td>
+                                            <td>
+                                                <pre> @ViewBag.DDescription  </pre>
+                                            </td>
+                                            <td>
+                                                <pre> @ViewBag.Dweight </pre>
+                                            </td>
+                                            <td>
+                                                <pre> @ViewBag.Dvolume </pre>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <pre><b> COLLECTION Date, time,Instructions           Delivery Date, time,Instructions</b>
+
+   @ViewBag.DCollectionDate                               @ViewBag.DDeliveryDate
+
+                                    </pre>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <pre><b> COLLECTED By                             RECIEVED By </b>
+                                              
+ Signed            Date                   Signed             Date
+
+                                         </pre>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <pre><b> CONDITION Remarks on Collection                            CONDITION Remarks on Delivery</b>
+
+
+
+
+                                    </pre>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="Arrival" style="display: none;">
+            <table>
+                <tr>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+        <div id="Truck" style="display: none;">
+            <table width="700px" border="0">
+                <tr>
+                    <td>
+                        <pre>
+ <b>@ViewBag.CompanyName</b>
+@ViewBag.Address1                                      
+                        </pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <center><b>TRUCK CONSIGNMENT NOTE</b></center>
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>JOB NO.</b> &nbsp;@ViewBag.TJobCode</td>
+                </tr>
+                <tr>
+                    <td>
+                        <table border="1" width="790px">
+                            <tr>
+                                <td>
+                                    <pre><b> CONSIGNER</b>
+
+ @ViewBag.TCUSTOMERCust
+ @ViewBag.TCUSTOMERAddrs1 @ViewBag.TCUSTOMERAddrs2
+ @ViewBag.TCUSTOMERAddrs3 @ViewBag.TCUSTOMERPhn
+
+                                    </pre>
+                                </td>
+                                <td>
+                                    <pre><b> T.C.N : </b>  @ViewBag.TTDN 
+ DATE :  @ViewBag.TJobDate
+                                    </pre>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <pre><b> CONSIGNEE</b>
+ 
+ @ViewBag.TConsigneeCust
+ @ViewBag.TConsigneeAddrs1 @ViewBag.TConsigneeAddrs2
+ @ViewBag.TConsigneeAddrs3 @ViewBag.TConsigneePhn
+
+                                    </pre>
+                                </td>
+                                <td>
+                                    <pre><b> NOTIFY PARTY</b>
+
+ @ViewBag.TNotifyCust
+ @ViewBag.TNotifyAddrs @ViewBag.TNotifyAddrs2
+ @ViewBag.TNotifyAddrs3 @ViewBag.TNotifyPhn
+
+                                    </pre>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <table border="1" width="699px">
+                                        <tr>
+                                            <td>
+                                                <pre> <b>TRUCK REGISTRATION 
+ NUMBER :</b>
+
+                                    </pre>
+                                            </td>
+                                            <td>
+                                                <pre><b>DRIVER NAME & NATIONALITY</b>
+
+
+                                    </pre>
+                                            </td>
+                                            <td>
+                                                <pre><b> VALUE OF GOODS AS PER INV.
+ NO:</b> @ViewBag.TTruckRegNo
+
+                                    </pre>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <pre><b> FROM </b>
+ @ViewBag.TPort
+                                    </pre>
+                                            </td>
+                                            <td>
+                                                <pre><b> TO</b>
+ @ViewBag.TDestiPort
+                                    </pre>
+                                            </td>
+                                            <td>
+                                                <pre><b> DESPATCH DATE</b>
+ @ViewBag.TDeliveryOrderDate
+                                    </pre>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <table border="1" width="100%">
+                                        <tr>
+                                            <td>
+                                                <pre> Marks & Numbers </pre>
+                                            </td>
+                                            <td>
+                                                <pre> Description of Goods </pre>
+                                            </td>
+                                            <td>
+                                                <pre> Quantity </pre>
+                                            </td>
+                                            <td>
+                                                <pre> G/ Wt </pre>
+                                            </td>
+                                            <td>
+                                                <pre> N/ Wt </pre>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <pre> @ViewBag.TMark </pre>
+                                            </td>
+                                            <td>
+                                                <pre> @ViewBag.TDescription </pre>
+                                            </td>
+                                            <td>
+                                                <pre> @ViewBag.Tvolume </pre>
+                                            </td>
+                                            <td>
+                                                <pre> @ViewBag.Tweight </pre>
+                                            </td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <pre>
+ <b> FREIGHT PREPAID </b>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        </pre>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <pre> 
+ Remarks:
+                                    </pre>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <pre><b>  Goods recieved in good condition : </b>
+  Stamp & signature
+                                 
+                </pre>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <section class="content">
+            <div class="" dir="ltr" id="main" runat="server">
+                <div class="content">
+                    @*     <section class="content-header">
+                    <ol class="breadcrumb">
+                        <li><a href='@Url.Action("Home", "Home")'><i class="fa fa-dashboard"></i>Home</a></li>
+                        <li><a href="#">Gerenal</a></li>
+
+                    </ol>
+                    <br />
+                </section>*@
+                    <section class="content">
+                        <div id="divgridJob" class="row" runat="server" style="min-height: 250px; padding: 5px; margin-right: auto; margin-left: auto;">
+                            <div class="col-md-12">
+                                <div class="box box-primary">
+                                    <div class="box-header">
+                                        @*<h3 class="box-title">Job Details</h3>*@
+                                        <h4>Reports</h4>
+                                        <a href='@Url.Action("JobDetails", "Job", new { id = 0 })' class="btn btn-primary" data-toggle="tooltip" data-placement="right" title="Click here">Back to list</a>
+                                    </div>
+                                    <hr />
+
+                                    <div class="row" id="btnpanel">
+
+                                        <div class="col-lg-12">
+                                            <div class="panel panel-primary">
+                                                <div class="panel-heading">
+                                                    Choose report to print
+                       
+                                                </div>
+                                                <!-- .panel-heading -->
+                                                <div class="panel-body">
+                                                    <table>
+                                                        <tr>
+                                                            <td>
+                                                                <button class="btn btn-primary btnprint" data-toggle="tooltip" data-placement="top" title="Click here" id="btninvoice">Invoice Report</button>&nbsp;</td>
+                                                            <td>
+                                                                <button class="btn btn-primary btnprint" data-toggle="tooltip" data-placement="top" title="Click here" id="btndelivery">Delivery Note Report </button>
+                                                                &nbsp;
+                                                            </td>
+                                                            <td>
+                                                                <button class="btn btn-primary btnprint" data-toggle="tooltip" data-placement="top" title="Click here" id="btnarrival">Arrival Note Report</button>&nbsp;</td>
+                                                            <td>
+                                                                <button class="btn btn-primary btnprint" data-toggle="tooltip" data-placement="top" title="Click here" id="btntruck">Truck Consignment Report</button></td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                                <!-- .panel-body -->
+                                            </div>
+                                            <!-- /.panel -->
+                                        </div>
+                                        <!-- /.col-lg-12 -->
+                                    </div>
+
+                                    <div class="box-footer">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+            </div>
+        </section>
+
+        @* Popup Code*@
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content" style="width:400px">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Report</h4>
+                </div>
+                <div class="modal-body">
+                    <input type="radio" name="rpttype" id="plain" class="rbtn" value="plain" />&nbsp;Plain Report<br />
+                    <br />
+                    <input type="radio" id="formatted" name="rpttype" class="rbtn" value="formatted" />&nbsp;Formatted Report
+                </div>
+                <div class="modal-footer" style="text-align:left" >
+
+                    <button type="button" class="btn btn-primary" onclick="ShowReport()" id="btnsubmitforreport">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        @* End popup *@
+
+
+
+    </div>
+</div>

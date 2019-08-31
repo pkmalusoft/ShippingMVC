@@ -1,0 +1,118 @@
+﻿@{
+    ViewBag.Title = "TredingAccount";
+    Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
+}
+
+<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+
+<script type="text/javascript">
+
+    $(document).ready(function(){
+        
+        $(":text").css({ "border-radius": "5px" });
+        $("select").css({ "border-radius": "5px" });
+
+
+        $(function () {
+            $(".datepicker").datepicker({
+                dateFormat: 'dd-M-yy',
+                changeMonth: true,
+                changeYear:true,
+            });
+            
+
+            function GetEndDate() {
+                var m_names = new Array("Jan", "Feb", "Mar",
+        "Apr", "May", "Jun", "Jul", "Aug", "Sep",
+        "Oct", "Nov", "Dec");
+
+                var d = new Date("@Session["FyearTo"].ToString()");
+                var curr_date = d.getDate();
+                var curr_month = d.getMonth();
+                var curr_year = d.getFullYear();
+                return (curr_date + "-" + m_names[curr_month]
+                + "-" + curr_year);
+            }
+
+          
+            $("#txtto").val(GetEndDate());
+
+        });
+    });
+
+    $("#btnsearch").click(function () {
+       
+        var dto = $("#txtto").val();
+
+        if (from == "") {
+            $("#error").show();
+            return false;
+        }
+        else if (dto == "") {
+            $("#error").show();
+            return false;
+        }
+        else {
+            $("#error").hide();
+
+            $.ajax({
+                url: "@Url.Action("GetTredingData", "Report_TredingAccount")",
+                    data: {tdate: dto },
+                    type: "GET",
+                    dataType: "json",
+                    success: function (data) {
+
+                        $("#result").html(data.view);
+                    },
+                    error: function () {
+                        alert("Failed! Please try again.");
+                    }
+                });
+            }
+     });
+
+    </script>
+
+
+<section class="content-header">
+    <h1 class="headingfont">Treding Account</h1>
+</section>
+
+<section class="content-header">
+    <div id="error" style="color:red;font-family:Calibri;display:none">* Are Mandatory Fields.</div>
+
+
+   
+ <div class="row no-margin">
+       
+
+        <div class="col-md-4">
+
+            <div class="row">
+                <div class="col-md-3">
+                    <label class="headinglabel required">To Date:</label>
+
+                </div>
+                <div class="col-md-9">
+                    <input type="text" class="datepicker form-control" id="txtto" />
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    <br />
+   
+    <div class="col-md-3">
+            <button id="btnsearch" class="btn btn-primary">Print</button>
+        </div>
+    <br />
+
+    <div class="row no-margin" style="padding-top: 20px">
+        <div class="col-md-12 tblbackground">
+            <div class="row">
+                <div class="col-md-12" id="result">
+                </div>
+            </div>
+        </div>
+    </div>

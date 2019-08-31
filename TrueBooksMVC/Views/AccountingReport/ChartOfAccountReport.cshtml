@@ -1,0 +1,138 @@
+﻿@model IEnumerable<DAL.AcHeadSelectAll_Result>
+@using TrueBooksMVC.Models;
+@using DAL;
+@using System.Text;
+@{
+    ViewBag.Title = "ChartOfAccountReport";
+    Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
+    int i = 0;
+}
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+    <script src="@Url.Content("~/MyJsFiles/PrintReportInvoices.js")"></script>
+   <script type="text/javascript">
+
+
+
+       function printDiv(divName) {
+           var printContents = document.getElementById(divName).innerHTML;
+           var originalContents = document.body.innerHTML;
+
+           document.body.innerHTML = printContents;
+
+           window.print();
+
+           document.body.innerHTML = originalContents;
+       }
+    </script>
+  
+</head>
+<body>
+
+    <div class="row">
+        <div class="col-md-11" style="background-color:white">
+         @{
+               string path=System.Configuration.ConfigurationManager.AppSettings["spath"].ToString();
+                string url = path + "/Reports/chartofaccount.aspx";
+                
+                <iframe src="@url" style="width:100%;height:1200px"></iframe>
+         }
+        </div>
+    </div>
+   @* <div class="row">
+        <div class="col-md-3" style="margin-left:80px;margin-top:20px">
+           <button id="btnprint" class="btn btn-primary" onclick="printDiv('result');">Print</button>
+        </div>
+    </div>
+    <div class="row">
+      <div class="col-md-10" style="margin-left:75px;" id="result"> 
+            <table border="0" style=" width:850px; background-color: white; margin-bottom: 25px; border-color: white;" class="table table-responsive details">
+                <tr><td colspan="7">  
+           <p style="border-bottom:solid 1px black;">
+                @{
+                SHIPPING_FinalEntities db1 = new SHIPPING_FinalEntities();
+                var data = (from c in db1.AcCompanies select c).FirstOrDefault();
+              <b>@data.AcCompany1</b><br />
+              <span>@data.Address1 &nbsp; @data.Address2 &nbsp; @data.Address3</span>
+                
+            }
+           
+              
+           </p>
+       </td></tr>
+           <tr><td colspan="7" style="text-align:center"><h2> CHART OF ACCOUNTS </h2></td></tr>
+            <tr style="font-weight: bold;border-bottom-color: black;border-bottom:solid 1px black;border-top:solid 1px black">
+                <td style="text-align:center">Sr No.</td>
+                    <td>Account Head</td>
+                <td>Account Group</td>
+                
+           
+            </tr>
+               
+    
+      <div class="col-sm-12">
+
+          
+        @foreach (var item in Model)
+        {
+           
+           
+            <tr style="border-style:none" class="headingfont" >
+    
+                 <td style="text-align:center">
+                     @{
+            i=i + 1;   
+                     }
+                     @i
+
+                 </td>
+                        <td>@item.AcHead</td>
+                <td>@item.AcGroup</td>
+            </tr>
+        }
+          </div>
+             
+              </table>
+      </div>
+   </div>*@
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

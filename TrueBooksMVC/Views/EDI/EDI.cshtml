@@ -1,0 +1,64 @@
+﻿
+@{
+    ViewBag.Title = "EDI";
+    Layout = Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".link").hide();
+
+        $(":text").css({ "border-radius": "5px" });
+        $("select").css({ "border-radius": "5px" });
+   
+
+    $("#btnsearch").click(function () {
+        debugger;
+        
+        var rotationNo = $("#JobID option:selected").text();
+           
+            $.ajax({
+                url: "@Url.Action("GetRotationNo", "EDI")",
+                data: { RotationNo: rotationNo},
+                    type: "GET",
+                    dataType: "json",
+                    success: function (data) {
+                        if (data == true) {
+                            $(".link").show();
+                        }
+                    },
+                    error: function () {
+                        alert("Failed! Please try again.");
+                    }
+                });
+    });
+   
+    });
+
+</script>
+
+<section class="content-header">
+    <h1 class="headingfont">EDI</h1>
+</section>
+
+
+  <div class="row no-margin" style="padding-top: 10px">
+                  <div class="col-md-3">
+                        <label class="headinglabel">Rotation No</label>
+                        @Html.DropDownList("JobID",new SelectList(ViewBag.rotationNo,"JobID","RotationNo"),"Select", new { @class = "form-control" })
+
+                        </div>
+       </div>
+<br />
+      <div class="row no-margin">
+       <div class="col-md-3">
+            <button id="btnsearch" class="btn btn-primary">Print</button>
+             <button type="button" class="btn btn-primary link"  onclick="location.href='@Url.Action("CreateFile", "EDI")'" >
+   Download
+  
+</button>
+        </div>
+      </div>
+      
+
+@*@Html.ActionLink("Download EDI File", "CreateFile", "EDI", new { @class="link"})*@

@@ -1,0 +1,23 @@
+﻿@model DAL.JobMode
+
+@{
+    ViewBag.Title = "Details";
+     Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
+     }
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>JobMode</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.JobMode1)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.JobMode1)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.JobModeID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,79 @@
+﻿@model DAL.AnalysisGroup
+
+@{
+    ViewBag.Title = "ExpenseAnalysisGroup";
+    Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
+}
+
+
+<script type="text/javascript">
+        $(document).ready(function () {
+          
+            $(":text").css({ "border-radius": "5px" });
+            $("select").css({ "border-radius": "5px" });
+
+
+
+            $("#btnsave").click(function () {
+                var group = $("#AnalysisGroup1").val();
+                if (group == "") {
+                    $("#alert").show();
+                    return false;
+                }
+                else {
+                    $("#alert").hide();
+                    return true;
+                }
+
+
+            });
+
+
+        });
+    </script>
+<section class="content-header">
+    <h1 class="headingfont">Expense Analysis Group</h1>
+
+</section>
+
+
+<section class="content">
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+         <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
+    <fieldset>
+       
+         <div class="row no-margin"> 
+             
+             <div class="col-md-3">
+                          <label class="required headinglabel">Analysis Group</label>
+                       @Html.TextBoxFor(model => model.AnalysisGroup1,new { @class = "form-control txttarget" })
+                        @Html.ValidationMessageFor(model => model.AnalysisGroup1)
+                            
+             </div>
+          
+            
+       </div>
+
+       
+        <div class="row no-margin" style="padding-top:10px">
+                        <div class="col-md-12">
+                           
+                                <input type="submit"  value="Save"  class="btn btn-primary btnwidth" id="btnsave" />
+                               
+                            &nbsp; 
+                                           <a href='@Url.Action("IndexExpenseAnalysisGroup", "AccountingModule", new { id = 0 })' class="btn btn-primary btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+                           
+                        </div>
+                    </div>
+
+       
+    </fieldset>
+}
+    </section>
+
+@*@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}*@

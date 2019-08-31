@@ -1,0 +1,30 @@
+﻿@model DAL.Vessel
+
+@{
+    ViewBag.Title = "Details";
+   Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
+   }
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Vessel</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Vessel1)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Vessel1)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.CarrierID)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CarrierID)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.VesselID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

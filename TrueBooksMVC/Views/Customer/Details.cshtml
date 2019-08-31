@@ -1,0 +1,163 @@
+﻿@model DAL.CUSTOMER
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>CUSTOMER</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Customer1)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Customer1)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.ReferenceCode)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ReferenceCode)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.ContactPerson)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ContactPerson)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Address1)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Address1)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Address2)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Address2)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Address3)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Address3)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Phone)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Phone)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Fax)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Fax)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Email)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Email)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.WebSite)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.WebSite)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.MaxCreditDays)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.MaxCreditDays)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.MaxCreditLimit)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.MaxCreditLimit)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.DiscountPercentage)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.DiscountPercentage)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.StatusActive)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.StatusActive)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.StatusBlocked)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.StatusBlocked)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.StatusConsignor)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.StatusConsignor)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Remarks)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Remarks)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.StatusReserved)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.StatusReserved)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.ExporterCode)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ExporterCode)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.POBoxNo)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.POBoxNo)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.InvoiceTo)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.InvoiceTo)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.CustomerID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

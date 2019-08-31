@@ -1,0 +1,78 @@
+﻿@model List<TrueBooksMVC.Models.PDCOutstandingVM>
+
+<div id="divPDCReminderList"></div>
+<script type="text/javascript">
+    $(function () {
+        $("#dataTables").dataTable({
+            "bFilter": false,
+            "sPaginationType": "full_numbers",
+        });
+
+
+    });
+</script>
+<div style="padding: 15px">
+    @using (@Html.BeginForm())
+    {
+        <table class="table table-responsive table-bordered" id="dataTables">
+            <thead>
+                <tr>
+                    <td></td>
+                    <td>VoucherNo
+                    </td>
+                    <td>VoucherDate
+                    </td>
+                    <td>Account
+                    </td>
+                    <td>Amount
+                    </td>
+                    <td>ChequeNo
+                    </td>
+                    <td>ChequeDate
+                    </td>
+
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.Count; i++)
+                {
+ 
+                    <tr>
+                        <td>
+                            @Html.CheckBoxFor(model => model[i].IsSelected)
+                        </td>
+                        <td class="textright">
+                            @Model[i].VoucherNo
+                        </td>
+                        <td>
+                            @TrueBooksMVC.Models.CommanFunctions.GetShortDateFormat(@Model[i].VoucherDate)
+                        </td>
+                        <td>
+                            @Model[i].AcHead
+                        </td>
+                        <td class="textright">
+                            @string.Format("{0:n2}", @Model[i].Amount)
+                        </td>
+                        <td class="textright">
+                            @Model[i].ChequeNo
+                        </td>
+                        <td>
+                            @TrueBooksMVC.Models.CommanFunctions.GetShortDateFormat(@Model[i].ChequeDate)
+                        </td>
+
+                    </tr>
+                }
+
+                <tr>
+                    <td colspan="7">
+                         <input type="submit" value="Save" class="btn btn-primary" />
+                    </td>
+                </tr>
+
+            </tbody>
+           
+        </table>
+
+   
+    }
+</div>

@@ -1,0 +1,114 @@
+﻿@model IEnumerable<DAL.proCollectionDetails_Result>
+
+@{
+    Layout = null;
+  
+}
+
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>COLLECTION REPORT</title>
+
+
+    <style type="text/css">
+        .details tr
+        {
+            height: 25px;
+        }
+    </style>
+</head>
+
+
+<body>
+    <div class="row">
+        <div class="col-md-12" style="background-color: white; padding-top: 20px;padding-bottom:20px">
+               
+             <table border="0" style="width: 780px; background-color: white; margin-bottom: 25px; border-color: white;" class="details">
+                          <tr>
+                              <td style="text-align:center"><h4>Collection Report</h4></td>
+                          </tr>
+                </table>
+                @foreach (var group in Model.GroupBy(item => item.Customer))
+                {
+                    var x1 = group.FirstOrDefault();
+        
+                    <li style="list-style-type: none"><b style="padding-bottom:10px">Customer : @Html.Encode(group.Key)</b><br />
+                      
+
+                        <table border="1" style="width: 780px; background-color: white; margin-bottom: 25px; border-color: white;" class="details">
+                            <tr style="border-bottom-color: black">
+                                <th style="width:200px">Date</th>
+                                <th style="width:300px">Customer</th>
+                                <th style="width:540px">Reference No.</th>
+                               <th style="width:300px">Debit</th>
+                                <th style="width: 190px; text-align: right;padding-right:10px">Credit</th>
+                               
+                            </tr>
+                             @{
+                    decimal totalcr = 0;
+                    decimal totaldeb = 0;
+                    decimal totalbalance = 0;
+                    int count = 0;
+                            }
+                            @foreach (var item in group)
+                            {
+                               
+                                if (@item.Credit>0)
+                                {
+                                    totalcr = totalcr + @item.Credit.Value;
+                                }
+
+                                if (@item.Debit>0)
+                                {
+                                    totaldeb = totaldeb + @item.Debit.Value;
+                                }
+                                
+                                <tr>
+                                   <td>
+                                        @TrueBooksMVC.Models.CommanFunctions.GetShortDateFormat(@item.InvoiceDate)
+                                    </td>
+                                    
+                                       <td>@item.Customer </td>
+                                    <td style="padding-left:10px">@item.jobCode</td>
+                                  
+                      @*                  <td>@string.Format("{0:n2}", @item.InvoiceDate)</td>*@
+                                     <td style="text-align: right; padding-right: 10px">@string.Format("{0:n2}", @item.Debit)</td>
+                                        <td style="text-align: right; padding-right: 10px">@string.Format("{0:n2}", @item.Credit)</td>
+                                    
+                                 
+                                </tr>
+         
+                            }
+                            <tr style="border-top-color: black">
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td style="text-align: right; padding-right: 10px">
+                               
+                                    <b style="font-size: medium">@string.Format("{0:n2}", @totaldeb)</b>
+                                </td>
+                                <td style="text-align: right; padding-right: 10px">
+                                    <b style="font-size: medium">@string.Format("{0:n2}", @totalcr)</b>
+                                </td>
+                                 <td style="text-align: right; padding-right: 10px">
+                                    <b style="font-size: medium">@string.Format("{0:n2}", @totalbalance)</b>
+                                </td>
+                            </tr>
+                        </table>
+
+                    </li>
+
+                }
+                    
+        </div>
+    </div>
+
+
+</body>
+</html>

@@ -1,0 +1,278 @@
+﻿@model IEnumerable<DAL.Report_DayBook_Result>
+
+
+@{
+    ViewBag.Title = "DayBookReport";
+    Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
+}
+
+
+
+
+<style>
+    tfoot
+    {
+        display: table-header-group;
+    }
+
+    #tbl1 tr
+    {
+        height: 35px;
+    }
+</style>
+
+<script src="@Url.Content("~/Scripts/angular.js")"></script>
+ <script src="@Url.Content("~/MyJsFiles/PrintReportInvoices.js")"></script>
+   <script type="text/javascript">
+
+
+
+       function printDiv(divName) {
+           var printContents = document.getElementById(divName).innerHTML;
+           var originalContents = document.body.innerHTML;
+
+           document.body.innerHTML = printContents;
+
+           window.print();
+
+           document.body.innerHTML = originalContents;
+       }
+    </script>
+  
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        var startdate = '@Session["FyearFrom"].ToString()';
+        var enddate = '@Session["FyearTo"].ToString()';
+        var sd = new Date(startdate);
+        var ed = new Date(enddate);
+
+        function GetCurrentDate() {
+            var m_names = new Array("Jan", "Feb", "Mar",
+    "Apr", "May", "Jun", "Jul", "Aug", "Sep",
+    "Oct", "Nov", "Dec");
+
+            var d = new Date();
+            var curr_date = d.getDate();
+            var curr_month = d.getMonth();
+            var curr_year = d.getFullYear();
+            return (curr_date + "-" + m_names[curr_month]
+            + "-" + curr_year);
+        }
+
+        function GetStartDate() {
+            var m_names = new Array("Jan", "Feb", "Mar",
+    "Apr", "May", "Jun", "Jul", "Aug", "Sep",
+    "Oct", "Nov", "Dec");
+
+            var d = new Date(startdate);
+            var curr_date = d.getDate();
+            var curr_month = d.getMonth();
+            var curr_year = d.getFullYear();
+            return (curr_date + "-" + m_names[curr_month]
+            + "-" + curr_year);
+        }
+
+        $("#frmdate").val(GetStartDate());
+        $("#todate").val(GetCurrentDate());
+
+
+
+        $("#frmdate").css("border-radius", "5px");
+        $("#todate").css("border-radius", "5px");
+
+        $("#frmdate").datepicker({
+            dateFormat: 'dd-M-yy',
+            changeYear: true, changeMonth: true,
+            minDate: sd,
+            maxDate:ed,
+
+        });
+
+
+
+        $("#todate").datepicker({
+            dateFormat: 'dd-M-yy',
+            changeYear: true, changeMonth: true,
+            minDate: sd,
+            maxDate: ed,
+        });
+
+
+
+
+        $(":text").css({ "border-radius": "5px" });
+        $("select").css({ "border-radius": "5px" });
+
+        $("#btnsearch").click(function () {
+
+
+            var from = $("#frmdate").val();
+            var dto = $("#todate").val();
+            var acid = $("#AcHeadID option:selected").val();
+
+            var ac = 0;
+
+            if (acid == "")
+                ac = 0;
+            else
+                ac = acid;
+            
+            var rentflag = $("#Opr").val();
+            var montlyrent1 = $("#famount").val();
+            var montlyrent2 = $("#tamount").val();
+            var frm = new Date($('#frmdate').val());
+                var to = new Date($('#todate').val());
+
+              
+
+            if (from == "") {
+                $("#alert").show();
+                return false;
+            }
+            else if (dto == "") {
+                $("#alert").show();
+                return false;
+            }
+            else {
+                //  vaif(rf newfrom = from.getDay() + "/" + from.getMonth() + "/" + from.getFullYear();
+                //  var newto = dto.getDay() + "/" + dto.getMonth() + "/" + dto.getFullYear();
+                //alert(newfrom);
+                //alert(newto);
+                $("#alert").hide();
+                $("#date").hide();
+
+                
+                showLoading();
+                $.ajax({
+                    url: "@Url.Action("GetDayBookreport", "AccountingReport")",
+                    data: { fdate: from, tdate: dto, acheadid: ac, rentflag: rentflag, montlyrent1: montlyrent1, montlyrent2: montlyrent2 },
+                    type: "GET",
+                    dataType: "html",
+                    success: function (data) {
+                        hideLoading();
+                        $("#result").css("display", "block");
+
+
+                        $("#result").html(data);
+
+                    },
+                    error: function () {
+
+                        $("#result").css("display", "none");
+
+                    }
+
+                });
+            }
+            });
+
+
+
+
+    });
+
+
+
+</script>
+
+
+        <section class="content-header">
+            <h1 class="headingfont">Day Book Report<small></small></h1>
+
+        </section>
+   
+        <section class="content">
+         <div id="date" style="color:red;display:none;margin-left:10px;">*Please select valid date</div>
+                  <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
+             <div class="row no-margin">
+                  
+                 <div class="col-md-3">
+                  
+                            <label class="headinglabel required">From Date</label>
+                      
+                            <input type="text" id="frmdate" class="form-control"  />
+                    
+                        </div>
+                     <div class="col-md-3">
+                       <label class="headinglabel required">To Date</label>
+                            
+                       
+                            <input type="text" id="todate" class="form-control" />
+                      
+                           </div>
+
+                  <div class="col-md-3">
+                     <label class="headinglabel">Account</label>
+                                                  
+                             @Html.DropDownList("AcHeadID", new SelectList(ViewBag.daybook, "AcHeadID", "AcHead1"),"Select", new { @class = "form-control" })
+                     
+                     </div>
+               
+               </div>
+
+            <div class="row no-margin" style="padding-top:10px;">
+                <div class="col-md-3">
+
+                </div>
+                <div class="col-md-3">
+                     
+                </div>
+
+                <div class="col-md-3">
+                          <label class="headinglabel">Opreator</label>
+                        
+                               @Html.DropDownList("Opr", new List<SelectListItem> { new SelectListItem { Text = "All", Value = "0" } , new SelectListItem { Text = "Greater Then", Value = "1" }, new SelectListItem { Text = "Less Then", Value = "2" }, new SelectListItem { Text = "Between", Value = "3" }},new { @class = "form-control" })
+                
+                      </div>
+            </div>
+
+              <div class="row no-margin" style="padding-top:10px;">
+                <div class="col-md-3">
+                     
+                </div>
+                <div class="col-md-3">
+                     
+                </div>
+
+               <div class="col-md-3" ">
+                        <label class="headinglabel">Amount from</label>
+                          <input type="text" id=famount" class="form-control" />
+                        </div>
+            </div>
+
+             <div class="row no-margin" style="padding-top:10px">
+                       <div class="col-md-3">
+                     <button id="btnsearch" class="btn btn-primary sidebar-toggle" data-toggle="offcanvas">Generate</button>
+                </div>
+
+                  <div class="col-md-3">
+                     
+                </div>
+                 <div class="col-md-3">
+                         <label class="headinglabel">Amount To</label>
+                           <input type="text" id="tamount" class="form-control" />
+                             
+                      </div>   
+             </div>
+
+           
+              
+             
+         
+         <hr />
+    
+         
+         
+   <div class="row">
+       <div class="col-md-11" id="result">
+
+       </div>
+   </div>
+        </section>
+   
+
+   
+

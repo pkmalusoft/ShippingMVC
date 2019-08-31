@@ -1,0 +1,98 @@
+﻿@*@model IEnumerable<DAL.Report_TrialBalance_Result>*@
+@using TrueBooksMVC.Models;
+@using DAL;
+@using System.Text;
+
+@{
+    Layout = null;
+
+    decimal drtotal = 0;
+    decimal crtotal = 0;
+}
+<script type="text/javascript">
+   
+</script>
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>_GetTrialBalannce</title>
+</head>
+    <script type="text/javascript">
+     
+    </script>
+<body>
+      <div class="row">
+    <div class="col-md-12" style="background-color:white">
+         @{
+                
+           
+                DateTime fromdate = Convert.ToDateTime(ViewBag.fromdate);
+                DateTime todate = Convert.ToDateTime(ViewBag.todate);
+                
+                string path=System.Configuration.ConfigurationManager.AppSettings["spath"].ToString();
+                string url = path + "/Reports/trailbalance.aspx?fromdate=" + fromdate + "&todate=" + todate;
+                
+                <iframe src="@url" style="width:100%;height:1200px"></iframe>
+            }
+    </div>
+</div>
+
+    @* <div class="row">
+        <div class="col-md-12"  style="background-color: white; padding-top: 20px;padding-bottom:20px">
+             <p style="border-bottom:solid 1px black;width: 783px;">
+                @{
+                SHIPPING_FinalEntities db1 = new SHIPPING_FinalEntities();
+                var data = (from c in db1.AcCompanies select c).FirstOrDefault();
+              <b>@data.AcCompany1</b><br />
+              <span>@data.Address1 &nbsp; @data.Address2 &nbsp; @data.Address3</span>
+                
+            }
+           </p>
+            <table border="0" style="width: 783px; background-color: white; margin-bottom: 25px; border-color: white;" class="details" class="table table-responsive">
+                <tr>
+                    <td colspan="7" style="text-align: center"> 
+                            @{
+                       DateTime tdate = Convert.ToDateTime(TempData["tdate"]);
+                   }
+                        <h2>Trial Balance &nbsp; As On : @TrueBooksMVC.Models.CommanFunctions.GetShortDateFormat(@tdate)</h2>
+                    </td>
+                </tr>
+                <tr style="font-weight: bold;border-bottom-color: black;border-bottom:solid 1px black;border-top:solid 1px black">
+
+                    <td>Particulars</td>
+                    <td  style="text-align:right">Debit</td>
+                    <td style="text-align:right">Credit</td>
+                   
+                </tr>
+
+
+                <div class="col-sm-12">
+
+
+                    @foreach (var item in Model)
+                    {
+                        drtotal = drtotal + item.DrAmount.Value;
+                        crtotal = crtotal + item.CrAmount.Value;
+                      
+          
+                        <tr style="border-style: none" class="headingfont">
+                            <td>@item.AcGroup&nbsp;&nbsp;&nbsp; @item.AcHead</td>
+                            <td style="text-align:right">@item.DrAmount</td>
+                            <td style="text-align:right">@item.CrAmount</td>
+                          
+                        </tr>
+                    }
+                </div>
+                <tr style=" font-weight: bold;border-top-color: black;border-top:solid 1px black;border-bottom:solid 1px black">
+                    <td style="text-align:right">Grand Total:</td>
+                    <td style="text-align: right;">@drtotal</td>
+                    <td class="textright">@crtotal</td>
+                   
+                </tr>
+            </table>
+        </div>
+    </div>*@
+</body>
+</html>

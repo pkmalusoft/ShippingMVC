@@ -1,0 +1,179 @@
+﻿@*@model IEnumerable<DAL.ProCustomerLedger1_Result>*@
+@using TrueBooksMVC.Models;
+@using DAL;
+@using System.Text;
+@{
+    Layout = null;
+    decimal reportcrtotal = 0;
+    decimal reportdrtotal = 0;
+    decimal reportbalance = 0;
+}
+
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Customer Ledger Report</title>
+
+
+    <style type="text/css">
+        .details tr
+        {
+            height: 25px;
+        }
+    </style>
+</head>
+
+
+<body>
+        <div class="row">
+    <div class="col-md-12" style="background-color:white">
+         @{
+                
+             int custid = Convert.ToInt32(ViewBag.custid);
+             string fromdate = ViewBag.fromdate;
+             string todate = ViewBag.todate;
+                
+                string path=System.Configuration.ConfigurationManager.AppSettings["spath"].ToString();
+                string url = path + "/Reports/customerledger.aspx?custid=" + custid + "&fromdate=" + fromdate + "&todate=" + todate;
+                
+                <iframe src="@url" style="width:100%;height:1200px"></iframe>
+            }
+    </div>
+</div>
+
+
+   @* <div class="row">
+        <div class="col-md-12" style="background-color: white; padding-top: 20px;padding-bottom:20px">
+            <p style="border-bottom:solid 1px black;width: 780px">
+                @{
+                SHIPPING_FinalEntities db1 = new SHIPPING_FinalEntities();
+                var data = (from c in db1.AcCompanies select c).FirstOrDefault();
+              <b>@data.AcCompany1</b><br />
+              <span>@data.Address1 &nbsp; @data.Address2 &nbsp; @data.Address3</span>
+                
+            }
+           
+              @{
+                  
+                  DateTime tdate = Convert.ToDateTime(ViewBag.todate);
+              }
+           </p>
+
+            
+             <table border="0" style="width: 780px; background-color: white; margin-bottom: 25px; border-color: white;" class="details">
+                          <tr>
+                              <td style="text-align:center"><h4>CUSTMOER LEDGER As On : @TrueBooksMVC.Models.CommanFunctions.GetShortDateFormat(@tdate)</h4></td>
+                          </tr>
+              
+                </table>
+                @foreach (var group in Model.GroupBy(item => item.Customer))
+                {
+                    var x1 = group.FirstOrDefault();
+        
+                    <li style="list-style-type: none"><b>Customer : @Html.Encode(group.Key)</b><br />
+                        <b>Phone No :@x1.Phone</b><br />
+                        <b>Address :@x1.Address1</b><br /><br />
+
+                        <table border="0" style="width: 780px; background-color: white; margin-bottom: 25px; border-color: white;" class="details">
+                            <tr style="border-bottom-color: black;border-bottom:solid 1px black;border-top:solid 1px black">
+                                <th style="width:300px">Date</th>
+                                <th style="width:300px">Document No.</th>
+                                <th style="width: 400px">Particulars</th>
+                                <th style="width: 190px; text-align: right;padding-right:10px">Debit</th>
+                                <th style="width: 190px; text-align: right;padding-right:10px">Credit</th>
+                                <th style="width: 190px; text-align: right;padding-right:10px">Balance</th>
+                            </tr>
+
+                            @{
+                    decimal totalcr = 0;
+                    decimal totaldeb = 0;
+                    decimal totalbalance = 0; 
+                            }
+                            @foreach (var item in group)
+                            {
+                                if (@item.credit>0)
+                                {
+                                    totalcr = totalcr + @item.credit.Value;
+                                }
+
+                                if (@item.Debit>0)
+                                {
+                                    totaldeb = totaldeb + @item.Debit.Value;
+                                }
+                                
+                                <tr>
+                                    <td style="padding-left:10px">@TrueBooksMVC.Models.CommanFunctions.GetShortDateFormat(item.Date)</td>
+                                    <td>@item.VoucherNo</td>
+                                    <td>@item.Particulars</td>
+                                  
+                 
+                                        <td style="text-align: right; padding-right: 10px">@string.Format("{0:n2}", @item.Debit)</td>
+                                        <td style="text-align: right; padding-right: 10px">@string.Format("{0:n2}", @item.credit)</td>
+                                 
+                                    @if(@item.credit>0)
+                                    {
+                                        decimal x = 0;
+                                        
+                                        if (item.Debit!=null)
+                                        {
+                                            x = @item.credit.Value - @item.Debit.Value;
+                                        }
+                                    else
+                                        {
+                                             x = @item.credit.Value - 0;
+                                        }
+                                        totalbalance = totalbalance + x;
+                                        <td style="text-align: right; padding-right: 10px">@string.Format("{0:n2}", x)</td> 
+                                    }
+                                    else
+                                    {
+                                        decimal x = 0;
+
+                                        if (item.Debit != null && item.Debit > 0)
+                                        {
+                                            x = item.Debit.Value - 0;
+                                        }
+                                        else
+                                        {
+                                            x = 0 - 0;
+                                        }
+                                         totalbalance = totalbalance + x;
+                                        <td style="text-align: right; padding-right: 10px">@string.Format("{0:n2}", x)</td> 
+                                    }
+                                    
+                                      
+                                  
+                                </tr>
+         
+                            }
+                            <tr style="border-top-color: black;border-top:solid 1px black;border-bottom:solid 1px black">
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td style="text-align: right; padding-right: 10px">
+                               
+                                    <b style="font-size: medium">@string.Format("{0:n2}", @totaldeb)</b>
+                                </td>
+                                <td style="text-align: right; padding-right: 10px">
+                                    <b style="font-size: medium">@string.Format("{0:n2}", @totalcr)</b>
+                                </td>
+                                 <td style="text-align: right; padding-right: 10px">
+                                    <b style="font-size: medium">@string.Format("{0:n2}", @totalbalance)</b>
+                                </td>
+                            </tr>
+                        </table>
+
+                    </li>
+
+                }
+                    
+        </div>
+    </div>*@
+
+
+</body>
+</html>

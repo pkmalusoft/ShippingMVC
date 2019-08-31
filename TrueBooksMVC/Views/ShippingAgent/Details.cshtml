@@ -1,0 +1,121 @@
+﻿@model DAL.ShippingAgent
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>ShippingAgent</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.AgentName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.AgentName)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.ReferenceCode)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ReferenceCode)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.ContactPerson)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ContactPerson)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Address1)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Address1)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Address2)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Address2)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Address3)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Address3)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Phone)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Phone)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Fax)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Fax)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Email)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Email)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.WebSite)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.WebSite)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.StatusActive)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.StatusActive)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.StatusBlocked)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.StatusBlocked)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.StatusReserved)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.StatusReserved)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Remarks)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Remarks)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.CountryID)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CountryID)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.ShippingAgentID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

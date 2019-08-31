@@ -1,0 +1,23 @@
+﻿@model DAL.Department
+
+@{
+    ViewBag.Title = "Details";
+   Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
+   }
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Department</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Department1)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Department1)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.DepartmentID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

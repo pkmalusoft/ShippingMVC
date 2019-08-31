@@ -1,0 +1,985 @@
+﻿@model DAL.JobGeneration
+
+@{
+    ViewBag.Title = "Job";
+    Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
+    
+    
+}
+
+
+
+<script>
+    $(document).ready(function () {
+        $("#drop").hide();
+        $("#SubJob").attr('checked', false);
+
+        $("#SubJob").change(function () {
+            if ($("#SubJob").is(':checked')) {
+                $("#drop").show();
+            }
+            else {
+                $("#drop").hide();
+            }
+        });
+    });
+
+    function AddInvoiceNumber() {
+        if (confirm("Do you want to Generate Invoice?")) {
+            $('#InvoiceModal').modal('show');
+            return false;
+        }
+        else {
+            return true;
+        }
+
+    }
+</script>
+<script>
+    $(document).ready(function () {
+        $("#AddCargo").hide();
+        $("#AddContainer").hide();
+        $("#AddCharges").hide();
+        $("#AddBill").hide();
+        if ($("#add_cargo").click(function () {
+            $("#AddCargo").show();
+        }));
+        if ($("#add_container").click(function () {
+
+            $("#AddContainer").show();
+        }));
+        if ($("#add_charges").click(function () {
+
+            $("#AddCharges").show();
+        }));
+        if ($("#add_bill").click(function () {
+
+           $("#AddBill").show();
+        }));
+    });
+
+
+    function validation() {
+        var Flag = true;
+        if ($('#txtJobCode').val() == "") {
+            Flag = false;
+        }
+
+        if ($('#ddJobType').val() == 0) {
+            Flag = false;
+        }
+
+        if ($('#JobDate').val() == "") {
+            Flag = false;
+        }
+
+        if ($('#ddShipper').val() == "") {
+            Flag = false;
+        }
+        return Flag;
+    }
+
+</script>
+
+<script src="@Url.Content("~/Scripts/angular.js")"></script>
+<script src="@Url.Content("~/MyJsFiles/CargoDescription.js")"></script>
+
+<div ng-app="CargoApp" ng-controller="cargoController" class="container">
+
+    <div class="" dir="ltr" id="main" runat="server" style="width: 1000px;">
+         <section class="content-header">
+                <h1 class="headingfont">Job<small></small></h1>
+
+            </section> 
+              
+         <p class="cbtnpadding">
+            
+                    <a href='@Url.Action("JobDetails", "Job", new { id = 0 })' class="btn btn-primary" data-toggle="tooltip" data-placement="right" title="Click here">Back to list</a>
+                </p>
+        @using (Html.BeginForm())
+        {
+            @Html.ValidationSummary(true)
+     
+            <section class="content">
+                <div class="row no-margin">
+                      <div class="col-md-4">
+                         <label class="required headinglabel"> Job Type</label>
+                         @{ 
+            if (Model.JobID > 0)
+            {
+                                @Html.DropDownListFor(model => model.JobTypeID, (SelectList)ViewBag.JobType, "Select", new { @class = "form-control", required = "required" })
+            }
+            else
+            {
+                                @Html.DropDownListFor(model => model.JobTypeID, (SelectList)ViewBag.JobType, "Select", new { ng_model = "JobTypeID", ng_change = "getJobPrefix()", @class = "form-control", required = "required" })
+            }
+                                                                
+                            }
+
+
+
+                            @Html.ValidationMessageFor(model => model.JobTypeID)
+                         
+             </div>
+                 
+                      <div class="col-md-4">
+                        <label class="required headinglabel">  Job Code</label>
+                          
+                       
+                        
+                            @{ 
+            if (Model.JobID > 0)
+            {
+                                @Html.TextBoxFor(model => model.JobCode, new { @class = "form-control", @id = "txtJobCode" }) 
+            }
+            else
+            {
+                                @Html.TextBoxFor(model => model.JobCode, new { ng_model = "JobCode", @class = "form-control" }) 
+            }
+                            }
+                            @Html.ValidationMessageFor(model => model.JobCode)
+ 
+                    </div>
+                  
+                      <div class="col-md-4">
+                       <input type="checkbox" id="SubJob" name="SubJob" style = "height:12px;width:12px;margin-bottom:0px" /> <label class="headinglabel">   SubJob</label>
+                          <div  id="drop">   @Html.DropDownListFor(model => model.MainJobID, new SelectList(ViewBag.MainJobId, "JobID", "JobCode"), "Select Main Job", new { @class = "form-control" })
+                                                   </div> 
+                           </div>               
+                                      
+                </div>
+                   <div class="row no-margin">
+                      <div class="col-md-4">
+                         <label class="required headinglabel">     Job Date</label>
+                         @Html.TextBoxFor(model => model.JobDate, new { @class = "form-control", type = "date" })
+                            @Html.ValidationMessageFor(model => model.JobDate)
+                         
+             </div>
+                 
+                      <div class="col-md-4">
+                        <label class="required headinglabel">  Shipper</label>
+                            @Html.DropDownListFor(model => model.ConsignerID, (SelectList)ViewBag.Customer, "Select", new { @class = "form-control", required = "required" })
+                            @Html.ValidationMessageFor(model => model.ConsignerID)
+                       
+                        
+                            
+                    </div>
+                  
+                      <div class="col-md-4">
+                        <label class="headinglabel">Consignee</label>
+                            @Html.DropDownListFor(model => model.MainJobID, new SelectList(ViewBag.MainJobId, "JobID", "JobCode"), "Select Main Job", new { @class = "form-control" })
+                             @Html.DropDownListFor(model => model.ConsigneeID, (SelectList)ViewBag.Customer, "Select", new { @class = "form-control", required = "required" })
+                            @Html.ValidationMessageFor(model => model.ConsigneeID)                         
+                       
+                           </div> 
+                    
+                </div>
+                   <div class="row no-margin">
+                      <div class="col-md-4">
+                         <label class="required headinglabel">Invoice To</label>
+                         @Html.DropDownListFor(model => model.InvoiceToID, (SelectList)ViewBag.Customer, "Select", new { @class = "form-control", required = "required" })
+                            @Html.ValidationMessageFor(model => model.InvoiceToID)
+                         
+             </div>
+                 
+                      <div class="col-md-4">
+                        <label class="required headinglabel">Notify To</label>
+                           @Html.DropDownListFor(model => model.ShipperID, (SelectList)ViewBag.Customer, "Select", new { @class = "form-control", required = "required" })
+                            @Html.ValidationMessageFor(model => model.ShipperID)
+                       
+                        
+                            
+                    </div>
+                  
+                      <div class="col-md-4">
+                        <label class="headinglabel">Load Port</label>
+                            @Html.DropDownListFor(model => model.LoadPortID, (SelectList)ViewBag.Ports, "Select", new { @class = "form-control", required = "required" })
+                            @Html.ValidationMessageFor(model => model.LoadPortID)                   
+                       
+                           </div> 
+                    
+                </div>
+                    <div class="row no-margin">
+                      <div class="col-md-4">
+                         <label class="required headinglabel">Destination Port</label>
+                       @Html.DropDownListFor(model => model.DestinationPortID, (SelectList)ViewBag.Ports, "Select", new { @class = "form-control", required = "required" })
+                            @Html.ValidationMessageFor(model => model.DestinationPortID)
+                         
+             </div>
+                 
+                      <div class="col-md-4">
+                        <label class="required headinglabel">Place of Receipt</label>
+                           @Html.DropDownListFor(model => model.ReceiptPlaceID, (SelectList)ViewBag.Ports, "Select", new { @class = "form-control", required = "required" })
+                            @Html.ValidationMessageFor(model => model.ReceiptPlaceID) 
+                    </div>
+                  
+                      <div class="col-md-4">
+                        <label class="headinglabel">Place of Delivery</label>
+                            @Html.DropDownListFor(model => model.DeliveryPlaceID, (SelectList)ViewBag.Ports, "Select", new { @class = "form-control", required = "required" })
+                            @Html.ValidationMessageFor(model => model.DeliveryPlaceID)          
+                       
+                           </div> 
+                    
+                </div>
+
+       <div class="row no-margin">
+                      <div class="col-md-4">
+                         <label class="required headinglabel">Employee</label>
+                    @Html.DropDownListFor(model => model.EmployeeID, (SelectList)ViewBag.Employees, "Select", new { @class = "form-control", required = "required" })
+                            @Html.ValidationMessageFor(model => model.EmployeeID)
+                         
+             </div>
+                 
+                   
+                    
+                </div>
+        
+            
+                <div class="row no-margin jobs-tab">
+                    <ul id="jobsTab" class="nav nav-tabs" style="width: 905px;">
+                        <li class="active"><a href="#cargo_desc" data-toggle="tab">Cargo Description</a></li>
+                        <li><a href="#container_details" data-toggle="tab">Container Details</a></li>
+                        <li><a href="#customs" data-toggle="tab">Customs</a></li>
+                        <li><a href="#bill_of_landing" data-toggle="tab">Bill of Landing</a></li>
+                        <li><a href="#charges" data-toggle="tab">Charges</a></li>
+                        <li><a href="#bill_of_entry" data-toggle="tab">Bill of Entry</a></li>
+                        <li><a href="#delivery_advice" data-toggle="tab">Delivery Advice</a></li>
+                        <li><a href="#audit_log" data-toggle="tab">Audit Log</a></li>
+                    </ul>
+                    <div id="jobsTabContent" class="tab-content" style="width: 905px;">
+                        <div class="tab-pane fade in active" id="cargo_desc">
+                            <div class="inner-tab-content">
+                                <div class="row no-margin">
+                                    <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                        <div class="title">Mark</div>
+                                        <input type="text" ng-model="Mark" class="form-control" id="Mark" placeholder="Mark" style="text-align:left"/>
+                                    </div>
+                                    <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                        <div class="title">Description</div>
+                                        <input type="text" ng-model="CarDescription" class="form-control" id="Description" placeholder="Description" style="text-align:left" />
+                                    </div>
+                                    <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                        <div class="title">Weight</div>
+                                        <input type="number" ng-model="weight" class="form-control" id="weight" placeholder="weight" />
+                                    </div>
+                                    <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                        <div class="title">Volume</div>
+                                        <input type="number" ng-model="volume" class="form-control" id="volume" placeholder="volume" />
+                                    </div>
+                                    <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                        <div class="title">Packages</div>
+                                        <input type="number" ng-model="Packages" class="form-control" id="Packages" placeholder="Packages" />
+                                    </div>
+                                    <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                        <div class="title">Gross Weight</div>
+                                        <input type="number" ng-model="GrossWeight" class="form-control" id="GrossWeight" placeholder="GrossWeight" />
+                                    </div>
+                                </div>
+                                <div class="row no-margin border1px">
+                                    <div class="col-xs-12 no-padding">
+                                        <input type="button" id="add_cargo" data-ng-click="addCargoDesc()" value="Add" class="btn-style" />
+                                    </div>
+                                </div>
+                                
+                                <div class="row no-margin" id="AddCargo">
+                                    <div class="col-xs-12 no-padding for-device">
+                                        <div class="data-table">
+                                            <div class="heading">
+                                                <div class="title1">Mark</div>
+                                                <div class="title2">Description</div>
+                                                <div class="title3">Weight</div>
+                                                <div class="title4">Volume</div>
+                                                <div class="title5">Packages</div>
+                                                <div class="title6">Gross Weight</div>
+
+                                            </div>
+                                            <div class="data">
+                                                <table>
+                                                    <tr ng-repeat="CD in CargoDescription">
+
+                                                        <td>
+                                                            <div class="data1">{{CD.Mark}}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="data2">{{CD.Description}}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="data3">{{CD.weight | currency:""}}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="data4">{{CD.volume | currency:""}}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="data5">{{CD.Packages | currency:""}}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="data6">{{CD.GrossWeight | currency:""}}</div>
+                                                        </td>
+                                                        <td><a href="#" ng-click="deleteCargoDescription(CD.CargoDescriptionID)"><i class="fa fa-times-circle"></i></a></td>
+
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="tab-pane fade in" id="container_details">
+                            <div class="inner-tab-content">
+                                <div class="row no-margin">
+                                    <div class="col-xs-6 col-sm-3 col-md-3 no-padding">
+                                        <div class="title">Container Type</div>
+                                        @Html.DropDownList("Containers", (SelectList)ViewBag.ContainerTypes, new { ng_model = "ContainerTypeID", @class = "form-control", required = "required" })
+                                    </div>
+                                    <div class="col-xs-6 col-sm-3 col-md-3 no-padding">
+                                        <div class="title">Container No</div>
+                                        <input type="text" ng-model="ContainerNo" class="form-control" id="ContainerNo" placeholder="Container No",style="text-align:left" />
+                                    </div>
+                                    <div class="col-xs-6 col-sm-3 col-md-3 no-padding">
+                                        <div class="title">Seal No</div>
+                                        <input type="text" ng-model="CSealNo" class="form-control" id="SealNo" placeholder="Seal No" ,style="text-align:left"/>
+                                    </div>
+                                    <div class="col-xs-6 col-sm-3 col-md-3 no-padding">
+                                        <div class="title">Description</div>
+                                        <input type="text" ng-model="CDescription" class="form-control" id="CDescription" placeholder="Description" ,style="text-align:left"/>
+                                    </div>
+                                </div>
+                                <div class="row no-margin border1px">
+                                    <div class="col-xs-12 no-padding">
+                                        <input type="button" id="add_container" data-ng-click="addContainerDetails()" value="Add" class="btn-style" />
+                                    </div>
+                                </div>
+                                <div class="row no-margin" id="AddContainer">
+                                    <div class="col-xs-12 no-padding for-device">
+                                        <div class="data-table">
+                                            <div class="heading">
+                                                <div class="title1">Container Type</div>
+                                                <div class="title2">Container No</div>
+                                                <div class="title3">Seal No</div>
+                                                <div class="title4">Description</div>
+                                            </div>
+                                            <div class="data">
+                                                <table>
+                                                    <tr ng-repeat="cont in Containers">
+                                                        <td>
+                                                            <div class="data1">{{cont.ContainerType}}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="data2">{{cont.ContainerNo}}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="data3">{{cont.SealNo}}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="data4">{{cont.Description}}</div>
+                                                        </td>
+
+                                                        <td><a href="#" ng-click="deleteContainer(cont.JContainerDetailID)"><i class="fa fa-times-circle"></i></a>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="customs">
+                            <div class="inner-tab-content">
+                                <div class="row no-margin">
+                                    <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                        <div class="title">IPT No</div>
+                                        @Html.TextBoxFor(model => model.IPTNo, new { @class = "form-control" })
+
+                                        @Html.ValidationMessageFor(model => model.IPTNo)
+                                    </div>
+                                    <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                        <div class="title">MRN</div>
+                                        @Html.TextBoxFor(model => model.MRN, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.MRN)
+                                    </div>
+                                    <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                        <div class="title">Customer Ref No</div>
+                                        @Html.TextBoxFor(model => model.CustRef, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.CustRef)
+                                    </div>
+                                    <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                        <div class="title">CIF Value</div>
+                                        @Html.TextBoxFor(model => model.CLFValue, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.CLFValue)
+                                    </div>
+                                    <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                        <div class="title">Rotation No</div>
+                                        @Html.TextBoxFor(model => model.RotationNo, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.RotationNo)
+                                    </div>
+                                    <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                        <div class="title">Deposit Amount</div>
+                                        @Html.TextBoxFor(model => model.DepositAmount, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.DepositAmount)
+                                    </div>
+                                </div>
+                                <div class="row no-margin">
+                                    <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                        <div class="title">BL Date</div>
+                                        @Html.TextBoxFor(model => model.BLDate, new { @class = "form-control", type = "date" })
+                                        @Html.ValidationMessageFor(model => model.BLDate)
+                                    </div>
+                                    <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                        <div class="title">Deposit Date</div>
+                                        @Html.TextBoxFor(model => model.DepositDate, new { @class = "form-control", type = "date" })
+                                        @Html.ValidationMessageFor(model => model.DepositDate)
+                                    </div>
+                                    <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                        <div class="title">D O Date</div>
+                                        @Html.TextBoxFor(model => model.DeliveryOrderDate, new { @class = "form-control", type = "date" })
+                                        @Html.ValidationMessageFor(model => model.DeliveryOrderDate)
+                                    </div>
+                                    <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                        <div class="title">Receipt No</div>
+
+                                        @Html.TextBoxFor(model => model.ReceiptNo, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.ReceiptNo)
+                                    </div>
+                                    <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                        <div class="title">Deliver Order No</div>
+
+                                        @Html.TextBoxFor(model => model.DeliveryOrderNo, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.DeliveryOrderNo)
+                                    </div>
+                                    <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                        <div class="title">Refund Date</div>
+                                        @Html.TextBoxFor(model => model.RefundDate, new { @class = "form-control", type = "date" })
+                                        @Html.ValidationMessageFor(model => model.RefundDate)
+                                    </div>
+                                </div>
+                                <div class="row no-margin">
+                                    <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                        <div class="title">Country of Origin</div>
+
+                                        @Html.DropDownListFor(model => model.CountryofOriginID, (SelectList)ViewBag.Countries, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.CountryofOriginID)
+                                    </div>
+                                    <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                        <div class="title">Refund Amount</div>
+                                        @Html.TextBoxFor(model => model.RefundAmount, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.RefundAmount)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="bill_of_landing">
+                            <div class="inner-tab-content">
+
+                                <div class="row no-margin">
+                                    <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                        <div class="title">Voyage No</div>
+                                        @Html.TextBoxFor(model => model.VoyageNo, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.VoyageNo)
+                                    </div>
+                                    <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                        <div class="title">Sailing Date</div>
+                                        @Html.TextBoxFor(model => model.SailingDate, new { @class = "form-control", type = "date" })
+                                        @Html.ValidationMessageFor(model => model.SailingDate)
+                                    </div>
+                                    <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                        <div class="title">MBL</div>
+
+                                        @Html.TextBoxFor(model => model.MBL, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.MBL)
+                                    </div>
+                                    <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                        <div class="title">Arrival Date</div>
+                                        @Html.TextBoxFor(model => model.ArrivalDate, new { @class = "form-control", type = "date" })
+                                        @Html.ValidationMessageFor(model => model.ArrivalDate)
+                                    </div>
+                                    <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                        <div class="title">HBL</div>
+                                        @Html.TextBoxFor(model => model.HBL, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.HBL)
+                                    </div>
+                                    <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                        <div class="title">Carrier</div>
+
+                                        @Html.DropDownListFor(model => model.CarrierID, (SelectList)ViewBag.Carriers, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.CarrierID)
+                                    </div>
+                                </div>
+                                <div class="row no-margin">
+                                    <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                        <div class="title">BL Status</div>
+                                        @Html.DropDownListFor(model => model.BLStatus, new List<SelectListItem>() { new SelectListItem { Text = "SURRENDERED", Value = "SURRENDERED" }, new SelectListItem { Text = "WAY BILL", Value = "WAY BILL" }, new SelectListItem { Text = "OBL REQUIRED", Value = "OBL REQUIRED" } }, new { @class = "form-control" })
+                                    </div>
+                                    <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                        <div class="title">Vessel</div>
+                                        @Html.DropDownListFor(model => model.VesselID, (SelectList)@ViewBag.Vessels, new { @class = "form-control" })
+                                    </div>
+                                    <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                        <div class="title">Freight</div>
+                                        @Html.DropDownListFor(model => model.Freight, new List<SelectListItem>() { new SelectListItem { Text = "Prepaid", Value = "Prepaid" }, new SelectListItem { Text = "Destination", Value = "Destination" }, new SelectListItem { Text = "Collect", Value = "Collect" } }, new { @class = "form-control" })
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="charges">
+                            <div class="inner-tab-content">
+                                <div class="row no-margin">
+                                    <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                        <div class="title">Revenue Type</div>
+                                        @Html.DropDownList("RevenueType", (SelectList)ViewBag.RevenueT, new { ng_model = "RevenueTypeID", ng_change = "getSuppliers()", @class = "form-control" })
+                                    </div>
+                                    <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                        <div class="title">Supplier</div>
+                                        <select ng-model="Supplier2" class="form-control" ng-change="getSupplierID()">
+                                            <option ng-repeat="b in Sup" value='{{b.SupplierID}}'>{{b.SupplierName}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                        <div class="title">QTY</div>
+                                        <input type="number" class="form-control" ng-model="Quantity" id="QTY" placeholder="QTY" />
+                                    </div>
+                                    <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                        <div class="title">Provision Rate</div>
+                                        <input type="number" class="form-control" id="ProRate" placeholder="Rate" ng_model="ProvisionRate" ng_change="CalcProvForeign()" />
+                                    </div>
+                                    <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                        <div class="title">Provision Currency</div>
+                                        @Html.DropDownList("ProvisionCurrency", (SelectList)ViewBag.Curency, new { ng_model = "ProvisionExR", ng_change = "getProvisionCurEx()", @class = "form-control" })
+                                    </div>
+                                    <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                        <div class="title">Provision Ex. Rate</div>
+                                        <input type="text" ng_model="ProexChangeRate" class="form-control" id="ProvisionExRate" placeholder="Provision Ex Rate" />
+                                    </div>
+                                </div>
+                                <div class="row no-margin">
+                                    <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                        <div class="title">Provision Domestic</div>
+                                        <input type="text" ng-model="ProvisionDomestic" class="form-control" id="ProvisiDomestic" placeholder="Provision Domestic" />
+                                    </div>
+                                    <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                        <div class="title">Provision Foreign</div>
+                                        <input type="text" ng-model="ProvisionForeign" class="form-control" id="ProvisionForeign" placeholder="Provision Foreign" />
+                                    </div>
+                                    <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                        <div class="title">Sales Rate</div>
+                                        <input type="number" class="form-control" id="SalRate" ng_model="SaleRate" placeholder="Rate" ng_change="CalcSaleForeign()" />
+                                    </div>
+                                    <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                        <div class="title">Sales Currency</div>
+                                        @Html.DropDownList("SalesCurrency", (SelectList)ViewBag.Curency, new { ng_model = "SalesExR", ng_change = "getSalesCurEx()", @class = "form-control" })
+                                    </div>
+                                    <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                        <div class="title">Sales Ex. Rate</div>
+                                        <input type="text" ng-model="SaleexChangeRate" class="form-control" id="SalesExRate" placeholder="Sales Ex Rate" />
+                                    </div>
+                                    <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                        <div class="title">Sales Domestic</div>
+                                        <input type="text" ng-model="SalesDomestic" class="form-control" id="SalesDomestic" placeholder="Sales Domestic" />
+                                    </div>
+                                </div>
+                                <div class="row no-margin">
+                                    <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                        <div class="title">Sales Foreign</div>
+                                        <input type="text" ng-model="SalesForeign" class="form-control" id="SalesForeign" placeholder="Sales Foreign" />
+                                    </div>
+                                    <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                        <div class="title">Local Currency</div>
+                                        <input type="text" ng-model="LocalCur" class="form-control" id="LocalCurrency" placeholder="Local Currency" />
+                                    </div>
+                                </div>
+                                <div class="row no-margin border1px">
+                                    <div class="col-xs-12 no-padding">
+                                        <input type="button" id="add_charges" ng-click="addCharges()" value="Add" class="btn-style" />
+                                    </div>
+                                </div>
+                                <div class="row no-margin" id="AddCharges">
+                                    <div class="col-xs-12 no-padding for-device">
+                                        <div class="data-table" style="width: 905px;">
+
+                                            <div class="heading">
+
+                                                <div class="title1">Revenue Type</div>
+                                                <div class="title2">Supplier Name</div>
+                                                <div class="title3">Quantity</div>
+                                                <div class="title4">Provision Currency</div>
+                                                <div class="title5">Provision Ex. Rate</div>
+                                                <div class="title6">Provision Domestic</div>
+                                                <div class="title7">Provision Foreign</div>
+                                                <div class="title8">Sales Currency</div>
+                                                <div class="title9">Sales Ex. Rate</div>
+                                                <div class="title10">Sales Domestic</div>
+                                                <div class="title11">Sales Foreign</div>
+                                                <div class="title12">Local Currency</div>
+
+                                            </div>
+
+                                            <div class="data">
+                                                <table border="0" style="width: 905px;">
+                                                    <tr ng-repeat="Charge in Charges">
+
+                                                        <td>
+                                                            <div class="data1">{{Charge.RevenueType}}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="data2">{{Charge.SupplierName}}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="data3">{{Charge.Quantity}}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="data4">{{Charge.ProvisionCurrency}}</div>
+                                                        </td>
+                                                        <td style="text-align: right;">
+                                                            <div class="data5">{{Charge.ProvisionExchangeRate | currency:""}}</div>
+                                                        </td>
+                                                        <td style="text-align: right;">
+                                                            <div class="data6">{{Charge.ProvisionHome | currency:""}}</div>
+                                                        </td>
+                                                        <td style="text-align: right;">
+                                                            <div class="data7">{{Charge.ProvisionForeign | currency:""}}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="data8">{{Charge.SalesCurrency}}</div>
+                                                        </td>
+                                                        <td style="text-align: right;">
+                                                            <div class="data9">{{Charge.SalesExchangeRate | currency:""}}</div>
+                                                        </td>
+                                                        <td style="text-align: right;">
+                                                            <div class="data10">{{Charge.SalesHome | currency:""}}</div>
+                                                        </td>
+                                                        <td style="text-align: right;">
+                                                            <div class="data11">{{Charge.SalesForeign | currency:""}}</div>
+                                                        </td>
+                                                        <td style="text-align: right;">
+                                                            <div class="data12">{{Charge.Cost | currency:""}}</div>
+                                                        </td>
+                                                        <td><a href="#" ng-click="deleteInvoices(Charge.InvoiceID)"><i class="fa fa-times-circle"></i></a>&nbsp;</td>
+
+                                                    </tr>
+
+                                                </table>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="bill_of_entry">
+                            <div class="inner-tab-content">
+                                <div class="row no-margin">
+                                    <div class="col-xs-6 col-sm-4 no-padding">
+                                        <div class="title">Bill Of Entry</div>
+                                        <input type="text" ng-model="BIllOfEntry" class="form-control" id="BillOfEntry" placeholder="Bill Of Entry" />
+                                    </div>
+                                    <div class="col-xs-6 col-sm-4 no-padding">
+                                        <div class="title">Bill Of Entry Date</div>
+                                        <input type="date" ng-model="BillofEntryDate" class="form-control" id="BillOfEntryDate" placeholder="Bill Of Entry Date" />
+                                    </div>
+                                    <div class="col-xs-6 col-sm-4 no-padding">
+                                        <div class="title">Shipping Agent</div>
+                                        @Html.DropDownList("ShippingAgent", (SelectList)ViewBag.ShippingA, new { ng_model = "ShippingAgentID", @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="row no-margin border1px">
+                                    <div class="col-xs-12 no-padding">
+                                        <input type="button" id="add_bill" value="Add" ng-click="addBillOfEntry()" class="btn-style" />
+                                    </div>
+                                </div>
+                                <div class="row no-margin" id="AddBill">
+                                    <div class="col-xs-12 no-padding for-device">
+                                        <div class="data-table">
+                                            <div class="heading">
+                                                <div class="title1">Bill Of Entry</div>
+                                                <div class="title2">Bill Of Entry Date</div>
+                                                <div class="title3">Shipping Agent</div>
+                                            </div>
+                                            <div class="data">
+
+                                                <table>
+                                                    <tr ng-repeat="B in Billing">
+
+                                                        <td>
+                                                            <div class="data1">{{B.BIllOfEntry}}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="data2">{{B.BillofEntryDate | date : 'dd-MM-yyyy'}}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="data3">{{B.AgentName}}</div>
+                                                        </td>
+                                                        <td><a href="#" ng-click="deleteBills(B.BIllOfEntryID)"><i class="fa fa-times-circle"></i></a></td>
+                                                    </tr>
+                                                </table>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="delivery_advice">
+                            <div class="inner-tab-content">
+                                <div class="row no-margin">
+                                    <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                        <div class="title">Transporter</div>
+                                        @Html.DropDownListFor(model => model.TransporterID, (SelectList)ViewBag.Transporters, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.TransporterID)
+                                    </div>
+                                    <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                        <div class="title" >Delivery Date</div>
+                                        @Html.TextBoxFor(model => model.DeliveryDate, new { @class = "form-control", type = "date" })
+                                        @Html.ValidationMessageFor(model => model.DeliveryDate)
+                                    </div>
+                                    <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                        <div class="title">Delivery Note No</div>
+                                        @Html.TextBoxFor(model => model.DeliveryNote, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.DeliveryNote)
+                                    </div>
+                                    <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                        <div class="title">Delivery</div>
+                                        @Html.TextBoxFor(model => model.DeliveryInstructions, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.DeliveryInstructions)
+                                    </div>
+                                    <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                        <div class="title">Delivery Point</div>
+                                        @Html.TextBoxFor(model => model.DeliveryPoint, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.DeliveryPoint)
+                                    </div>
+                                    <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                        <div class="title">Truck Reg No</div>
+                                        @Html.TextBoxFor(model => model.TruckRegNo, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.TruckRegNo)
+                                    </div>
+                                </div>
+                                <div class="row no-margin">
+                                    <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                        <div class="title">Collection Date</div>
+                                        @Html.TextBoxFor(model => model.CollectionDate, new { @class = "form-control", type = "date" })
+                                        @Html.ValidationMessageFor(model => model.CollectionDate)
+                                    </div>
+                                    <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                        <div class="title">Collection Point</div>
+                                        @Html.TextBoxFor(model => model.CollectionPoint, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.CollectionPoint)
+                                    </div>
+                                    <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                        <div class="title">Collection Instructions</div>
+                                        @Html.TextBoxFor(model => model.CollectionInstructions, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.CollectionInstructions)
+                                    </div>
+                                    <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                        <div class="title">Driver Details</div>
+                                        @Html.TextBoxFor(model => model.DriverDetails, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.DriverDetails)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="audit_log">
+                            <div class="inner-tab-content">
+                                <div class="row no-margin">
+                                    <div class="col-xs-6 col-sm-4 no-padding">
+                                        <div class="title">Trans Date</div>
+                                        <input type="date" data-ng-model="TransDate" class="form-control" id="TranDate" placeholder="Trans Date" />
+                                    </div>
+                                    <div class="col-xs-6 col-sm-4 no-padding">
+                                        <div class="title">Remarks</div>
+                                        <input type="text" data-ng-model="Remarks" class="form-control" id="AuditRemarks" placeholder="Remarks" />
+                                    </div>
+                                </div>
+                                <div class="row no-margin border1px">
+                                    <div class="col-xs-12 no-padding">
+                                        <input type="button" id="add_audit" data-ng-click="addAuditDet()" value="Add Audit" class="btn-style" />
+                                    </div>
+                                </div>
+                                <div class="row no-margin">
+                                    <div class="col-xs-12 no-padding for-device">
+                                        <div class="data-table">
+                                            <div class="heading">
+                                                <div class="title1">Trans Date</div>
+                                                <div class="title2">Remarks</div>
+                                            </div>
+                                            <div class="data">
+                                                <table>
+                                                    <tr ng-repeat="A in Auditing">
+
+                                                        <td>
+                                                            <div class="data1">{{A.TransDate | date : 'dd-MM-yyyy'}}</div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="data2">{{A.Remarks}}</div>
+                                                        </td>
+                                                        <td><a href="#" ng-click="deleteAuditLogs(A.JAuditLogID)"><i class="fa fa-times-circle"></i></a></td>
+                                                    </tr>
+                                                </table>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row no-margin remarks">
+                    <div class="col-xs-3 col-sm-1 col-md-1">Remarks</div>
+                    <div class="col-xs-9 col-sm-5 col-md-4">
+                        @Html.TextAreaFor(model => model.Remarks, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Remarks)
+                    </div>
+                    <div class="col-xs-3 col-sm-2 col-md-2">
+                        Terms of<br class="visible-sm" />
+                        Shipments
+                    </div>
+                    <div class="col-xs-9 col-sm-4 col-md-5">
+                        @Html.TextAreaFor(model => model.shippingInstruction, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.shippingInstruction)
+                    </div>
+                </div>
+                <div class="row no-margin buttons">
+                    <div class="col-xs-12 align-right"> 
+                        @{ if (Model.JobID > 0)
+                           {
+                            <input type="submit" name="Command" value="Update" class="btn-style" /> 
+                           }
+                           else
+                           {
+                            <input type="submit" name="Command" value="Save" ng-click="GenerateInvoice()" class="btn-style" id="btnSave" />
+                           }
+                                                         
+                        } 
+                        &nbsp; 
+                                            <a href='@Url.Action("JobDetails", "Job", new { id = 0 })'  class="btn-style">Cancel</a> 
+                        &nbsp; 
+                                                   @{ if (Model.JobID > 0)
+                                                      {
+                                                          
+                                                       <input type="button" value="GenerateInvoice" onclick="return AddInvoiceNumber();" class="btn-style" />
+                                                      } 
+                                                    
+                                                   } 
+                    </div>
+                </div> 
+                <div id="wrapper">
+                    <div id="page-wrapper">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="modal fade" id="InvoiceModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header" style="background-color: #f5f5f5;">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+                                                <h4 class="modal-title" id="exampleModalLabel">
+                                                    <img src="~/Content/img/ipeak.png" /><span style="font-size: 14px; color: #3c8dbc !important; font-size: 14px">Generate Invoice</span></h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="container-fluid">
+                                                    <div class="row" style="padding-top: 5px">
+                                                        <div class="col-sm-12">
+                                                            <div class="row">
+                                                                <div class="col-xs-5 col-sm-3">
+                                                                    Invoice Date
+                                                                </div>
+                                                                <div class="col-xs-7 col-sm-4">
+                                                                    @Html.TextBoxFor(model => model.InvoiceDate, new { @class = "form-control" })
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-xs-5 col-sm-3">
+                                                                    Invoice No
+                                                                </div>
+                                                                <div class="col-xs-7 col-sm-4">
+                                                                    @Html.TextBoxFor(model => model.InvoiceNo, new { @class = "form-control" })
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer" style="padding-top: 5px">
+                                                <input type="hidden" id="hdnCountryID" />
+                                                <button type="button" class="btn btn-default" data-dismiss="modal" tabindex="6">Close</button>
+                                                <button type="submit" name="Command" value="SaveInvoice" class="btn btn-primary" tabindex="5" id="Button1">Save</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p>
+                    
+                </p>
+
+
+            </section>
+                
+        }
+
+
+    </div>
+
+</div> 
+     <link href="~/Content/themes/base/minified/jquery-ui.min.css" rel="stylesheet" />
+<script type="text/javascript">
+    // When the document is ready
+    $(document).ready(function () {
+
+        //$('#TransDate').datepicker({
+        //    format: "dd/mm/yyyy"
+        //});
+
+
+        $('#JobDate').datepicker(
+           { format: 'dd/mm/yyyy' }
+         );
+
+        $('#CollectionDate').datepicker({
+            format: "dd-mm-yyyy"
+        });
+
+        $('#DeliveryDate').datepicker({
+            format: "dd-mm-yyyy"
+        });
+
+        $('#ArrivalDate').datepicker({
+            format: "dd-mm-yyyy"
+        });
+
+        $('#InvoiceDate').datepicker({
+            format: "dd-mm-yyyy"
+        });
+
+        $('#SailingDate').datepicker({
+            format: "dd-mm-yyyy"
+        });
+
+        $('#RefundDate').datepicker({
+            format: "dd-mm-yyyy"
+        });
+
+        $('#DeliveryOrderDate').datepicker({
+            format: "dd-mm-yyyy"
+        });
+
+        $('#DepositDate').datepicker({
+            format: "dd-mm-yyyy"
+        });
+
+        $('#BLDate').datepicker({
+            format: "dd-mm-yyyy"
+        });
+    });
+
+
+</script>

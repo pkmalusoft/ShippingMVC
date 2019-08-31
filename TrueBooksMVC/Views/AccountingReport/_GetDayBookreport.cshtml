@@ -1,0 +1,157 @@
+﻿@*@model IEnumerable<DAL.Report_DayBook_Result>*@
+@using TrueBooksMVC.Models;
+@using DAL;
+@using System.Text;
+@{
+    Layout = null;
+    decimal reportcrtotal = 0;
+    decimal reportdrtotal = 0;
+}
+
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>_CashBookReport</title>
+
+
+    <style type="text/css">
+        .details tr
+        {
+            height: 25px;
+        }
+    </style>
+</head>
+
+
+<body>
+    <div class="row">
+    <div class="col-md-11" style="background-color:white">
+         @{
+                
+             int acheadid = Convert.ToInt32(ViewBag.acheadid);
+                DateTime fromdate = Convert.ToDateTime(ViewBag.fromdate);
+                DateTime todate = Convert.ToDateTime(ViewBag.todate);
+                int rentflag = Convert.ToInt32(ViewBag.rentflag);
+                int mrent1 = Convert.ToInt32(ViewBag.m1);
+                int mrent2 = Convert.ToInt32(ViewBag.m2);
+                string path=System.Configuration.ConfigurationManager.AppSettings["spath"].ToString();
+                string url = path + "/Reports/daybook.aspx?acheadid=" + acheadid + "&fromdate=" + fromdate + "&todate=" + todate + "&rentflag=" + rentflag + "&m1=" + mrent1 + "&m2=" + mrent2;
+                
+                <iframe src="@url" style="width:100%;height:1200px"></iframe>
+            }
+    </div>
+</div>
+
+   @* <div class="row">
+        <div class="col-md-12" style="background-color: white; padding-top: 20px;padding-bottom:20px">
+              <p style="border-bottom:solid 1px black;width: 783px;">
+                @{
+                SHIPPING_FinalEntities db1 = new SHIPPING_FinalEntities();
+                var data = (from c in db1.AcCompanies select c).FirstOrDefault();
+              <b>@data.AcCompany1</b><br />
+              <span>@data.Address1 &nbsp; @data.Address2 &nbsp; @data.Address3</span>
+                
+            }
+           
+              
+           </p>
+
+              
+        
+            <table border="0" style="width:783px">
+             
+                   <tr  style="width: 783px; background-color: white; margin-bottom: 25px; border-color: white;" class="details">
+                                @{
+                       DateTime tdate = Convert.ToDateTime(TempData["tdate"]);
+                   }
+                       
+                          <td colspan="3" style="text-align:center"><h4>@ViewBag.accounthead As On : @TrueBooksMVC.Models.CommanFunctions.GetShortDateFormat(@tdate)</h4></td>
+                          </tr>
+              
+                <tr>
+                    <td colspan="3">
+                @foreach (var group in Model.GroupBy(item => item.VoucherNo))
+                {
+                    var x1 = group.FirstOrDefault();
+        
+                    <li style="list-style-type: none"><b>Voucher No. : @Html.Encode(group.Key)</b><br />
+                        <b>Voucher Date. : @TrueBooksMVC.Models.CommanFunctions.GetShortDateFormat(@x1.TransDate)</b>
+
+                        <table border="0" style="width: 780px; background-color: white; margin-bottom: 25px; border-color: white;" class="details">
+                            <tr style="font-weight: bold;border-bottom-color: black;border-bottom:solid 1px black;border-top:solid 1px black">
+                                <th style="width: 400px">Particulars</th>
+                                <th style="width: 190px; text-align: right;padding-right:10px">Debit</th>
+                                <th style="width: 190px; text-align: right;padding-right:10px">Credit</th>
+                            </tr>
+
+                            @{
+                    decimal totalcr = 0;
+                    decimal totaldeb = 0;   
+                            }
+                            @foreach (var item in group)
+                            {
+            
+                                <tr>
+                                    <td>@item.AcHead</td>
+                                    @if (item.Amount > 0)
+                                    {
+                                        totaldeb = totaldeb + item.Amount.Value;
+                 
+                                        <td style="text-align: right; padding-right: 10px">@string.Format("{0:n2}", @item.Amount)</td>
+                                        <td style="text-align: right; padding-right: 10px">@string.Format("{0:n2}", 0)</td>
+                                    }
+                                    else
+                                    {
+                                        <td style="text-align: right; padding-right: 10px">@string.Format("{0:n2}", 0)</td>   
+                                        <td style="text-align: right; padding-right: 10px">
+                                            @{
+                                        decimal x = item.Amount.Value;
+                                        x = (-x);
+                                        totalcr = totalcr + x;
+                                            }
+                                           @string.Format("{0:n2}", @x)
+                                        </td>
+                                    }
+                                </tr>
+         
+                            }
+                            <tr style="border-top-color: black;border-top:solid 1px black;border-bottom:solid 1px black">
+                                <td></td>
+                                <td style="text-align: right; padding-right: 10px">
+                                    @{
+                            reportcrtotal = reportcrtotal + totalcr;
+                            reportdrtotal = reportdrtotal + totaldeb;   
+                                    }
+                                    <b style="font-size: medium">@string.Format("{0:n2}", @totaldeb)</b>
+                                </td>
+                                <td style="text-align: right; padding-right: 10px">
+                                    <b style="font-size: medium">@string.Format("{0:n2}", @totalcr)</b>
+                                </td>
+                            </tr>
+                        </table>
+
+                    </li>
+
+                }
+                        </td>
+                    </tr>
+                <tr style=" font-weight: bold;;border-top-color: black;border-top:solid 1px black;border-bottom:solid 1px black">
+                    <td style="width:401px;font-size: medium;text-align:right;font-weight:bold;padding-right:10px">Report Total</td>
+                    <td style="width:191px;font-size: medium;text-align:right;font-weight:bold;padding-right:10px">@string.Format("{0:n2}",@reportdrtotal)</td>
+                    <td style="width:191px;font-size: medium;text-align:right;font-weight:bold;padding-right:10px">@string.Format("{0:n2}",@reportcrtotal)</td>
+                </tr>
+
+
+
+
+            </table>
+        </div>
+    </div>*@
+
+
+</body>
+</html>

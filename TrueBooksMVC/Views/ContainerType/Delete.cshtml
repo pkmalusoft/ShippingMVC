@@ -1,0 +1,32 @@
+﻿@model DAL.ContainerType
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
+}
+
+<section class="content-header">
+    <h1 class="headingfont">Container Type</h1>
+</section>
+
+<section class="content-header">
+    <fieldset><legend></legend>
+   <h3 class="headingfont">Are you sure you want to delete this Record?</h3>
+
+    <div class="display-label">
+        @Html.Label("Container Type")
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ContainerType1)
+    </div>
+</fieldset>
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    <p>
+        <input type="submit" value="Delete" class="btn btn-primary" />&nbsp;&nbsp;
+      <a href='@Url.Action("Index", "ContainerType", new { id = 0 })' class="btn btn-primary" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+    </p>
+}
+
+</section>
+

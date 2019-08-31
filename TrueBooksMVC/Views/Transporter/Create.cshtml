@@ -1,0 +1,300 @@
+﻿@model DAL.Transporter
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
+    }
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#TransPorter1").focus();
+        $(":text").css({ "border-radius": "5px" });
+
+
+        $("#Email").css("text-transform", "lowercase");
+
+        $("#btnsave").click(function () {
+            var tran = $("#TransPorter1").val();
+            var ref = $("#ReferenceCode").val();
+            var con = $("#ContactPerson").val();
+            var add = $("#Address1").val();
+            var phone = $("#Phone").val();
+            var fax = $("#Fax").val();
+            var email = $("#Email").val();
+         
+          
+
+
+            if (tran == "") {
+                $("#alert").show();
+                return false;
+            }
+            else if (ref == "") {
+                $("#alert").show();
+                return false;
+            }
+            else if (con == "") {
+                $("#alert").show();
+                return false;
+            }
+            else if (add == "") {
+
+                $("#alert").show();
+                return false;
+            }
+            else if (phone == "") {
+
+                $("#alert").show();
+                return false;
+            }
+            else if (fax == "") {
+
+                $("#alert").show();
+                return false;
+            }
+            else if (email == "") {
+
+                $("#alert").show();
+                return false;
+            }
+           
+            else {
+                $("#alert").hide();
+                return true;
+            }
+
+
+        });
+
+    });
+</script>
+@if (ViewBag.SuccessMsg != null)
+    {
+      <script type="text/javascript">
+          $(document).ready(function () {
+              $.notify("@ViewBag.SuccessMsg", "success");
+          });
+                                                </script>
+    }
+<section class="content-header">
+    <h1 class="headingfont">Transporter</h1>
+
+</section>
+
+
+<section class="content">
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+      <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
+    <fieldset>
+      
+
+          <div class="row no-margin"> 
+             
+           
+         
+                 <div class="col-md-3">
+                          
+                                <label class="required headinglabel">Transporter</label>
+                             
+                                 @Html.TextBoxFor(model => model.TransPorter1,new { @class = "form-control txttarget" })
+                                 @Html.ValidationMessageFor(model => model.TransPorter1)
+                          
+                 </div>
+                 <div class="col-md-3">
+                          
+                                  <label class="required headinglabel">Reference Code</label>
+                             
+                                     @Html.TextBoxFor(model => model.ReferenceCode,new { @class = "form-control" })
+                                 @Html.ValidationMessageFor(model => model.ReferenceCode)
+                        
+                 </div>
+
+               <div class="col-md-3">
+           
+                       <label class="required headinglabel">Contact Person</label>
+                         @Html.TextBoxFor(model => model.ContactPerson,new { @class = "form-control txttarget" })
+                         @Html.ValidationMessageFor(model => model.ContactPerson)
+                </div>
+
+            
+              
+          </div>
+
+
+
+         <div class="row no-margin" style="padding-top:10px;"> 
+             
+           
+           
+                 <div class="col-md-3">
+                            
+                                <label class="required headinglabel">Address 1</label>
+                               
+                   
+                        @Html.TextBoxFor(model => model.Address1,new { @class = "form-control txttarget" })
+                          @Html.ValidationMessageFor(model => model.Address1)
+                          
+                 </div>
+                 <div class="col-md-3">
+                           <label class="headinglabel">Address 2</label>
+                   
+                       @Html.TextBoxFor(model => model.Address2,new { @class = "form-control txttarget" })
+                        @Html.ValidationMessageFor(model => model.Address2)
+                           
+                 </div>
+             <div class="col-md-3">
+                        <label class="headinglabel">Address 3</label>
+       
+                        @Html.TextBoxFor(model => model.Address3,new { @class = "form-control txttarget" })
+                        @Html.ValidationMessageFor(model => model.Address3)
+            
+
+            
+                 </div>
+          </div>
+     
+          <div class="row no-margin" style="padding-top:10px;"> 
+             
+           
+             
+                 <div class="col-md-3">
+                            <label class="required headinglabel">Phone</label>
+                       @Html.TextBoxFor(model => model.Phone,new { @class = "form-control textright txttarget" })
+            @Html.ValidationMessageFor(model => model.Phone)
+                  
+                 </div>
+                 <div class="col-md-3">
+                           <label class="required headinglabel">Fax</label>
+                   
+                       @Html.TextBoxFor(model => model.Fax,new { @class = "form-control textright" })
+                     @Html.ValidationMessageFor(model => model.Fax)
+                           
+                 </div>
+               <div class="col-md-3">
+                        <label class="required headinglabel">Email</label>
+                            @Html.TextBoxFor(model => model.Email,new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Email)
+                </div>
+
+            
+                
+          </div>
+        
+           <div class="row no-margin" style="padding-top:10px;"> 
+             
+           
+            
+                 <div class="col-md-3">
+                           
+                                <label class="headinglabel">Website</label>
+                                 
+                  
+                       @Html.TextBoxFor(model => model.WebSite,new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.WebSite)
+                          
+                 </div>
+                 <div class="col-md-3">
+                           <label class="headinglabel">Max Credit Days</label>
+                       @Html.TextBoxFor(model => model.MaxCreditDays,new { @class = "form-control textright" })
+                         @Html.ValidationMessageFor(model => model.MaxCreditDays)
+                           
+                 </div>
+                 <div class="col-md-3">
+                        <label class="headinglabel">Max Credit Limit</label>
+                        @Html.TextBoxFor(model => model.MaxCreditLimit,new { @class = "form-control textright" })
+                        @Html.ValidationMessageFor(model => model.MaxCreditLimit)
+                    </div>
+
+            
+                
+          </div>
+       
+         <div class="row no-margin" style="padding-top:10px;"> 
+             
+           
+           
+                 <div class="col-md-3">
+                           <label class="headinglabel">Discount Percentage</label>
+                             @Html.TextBoxFor(model => model.DiscountPercentage,new { @class = "form-control textright" })
+                             @Html.ValidationMessageFor(model => model.DiscountPercentage)
+                           
+                 </div>
+                   <div class="col-md-3">
+                           
+
+                          <label class="headinglabel">Exporter Code</label>
+                       @Html.TextBoxFor(model => model.ExporterCode,new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.ExporterCode)
+
+                    
+                 </div>
+               <div class="col-md-3">
+                        
+                        <label class="headinglabel">Remarks</label>
+                       @Html.TextBoxFor(model => model.Remarks,new { @class = "form-control txttarget" })
+            @Html.ValidationMessageFor(model => model.Remarks)
+                           
+                 </div>
+          </div>
+
+       
+         <div class="row no-margin" style="padding-top:10px;"> 
+             
+           
+            
+                 <div class="col-md-3" style="padding-top:15px">
+                          @Html.CheckBox("StatusConsignor", new { @name = "StatusConsignor"}) &nbsp <label class="headinglabel">Status Consignor</label>
+            @Html.ValidationMessageFor(model => model.StatusConsignor)
+                            
+                 </div>
+                 <div class="col-md-3"  style="padding-top:15px">
+                        
+                             @Html.CheckBox("StatusBlocked", new { @name = "StatusBlocked"}) &nbsp <label class="headinglabel">Status Blocked</label>
+                        @Html.ValidationMessageFor(model => model.StatusBlocked)
+
+                 </div>
+               <div class="col-md-3" style="padding-top:15px">
+              @Html.CheckBox("StatusReserved", new { @name = "StatusReserved"}) &nbsp <label class="headinglabel">Status Reserved</label>
+            @Html.ValidationMessageFor(model => model.StatusReserved)
+       
+            
+                 </div>
+          </div>
+      
+
+          <div class="row no-margin" style="padding-top:10px"> 
+             
+           
+           
+                 <div class="col-md-3"  style="padding-top:15px">
+                         @Html.CheckBox("StatusActive", new { @name = "StatusActive"}) &nbsp <label class="headinglabel">Status Active</label>
+                                @Html.ValidationMessageFor(model => model.StatusActive)
+                           
+                 </div>
+              
+
+          </div>
+       
+
+       
+        <div class="row no-margin" style="padding-top:10px;">
+                        <div class="col-md-12">
+                          
+                                <input type="submit"  value="Save"  class="btn btn-primary btnwidth" id="btnsave" />
+                               
+                            &nbsp; 
+                                           <a href='@Url.Action("Index", "Transporter", new { id = 0 })' class="btn btn-primary btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+                           
+                        </div>
+                    </div>
+    </fieldset>
+}
+
+</section>
+
+@*@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}*@

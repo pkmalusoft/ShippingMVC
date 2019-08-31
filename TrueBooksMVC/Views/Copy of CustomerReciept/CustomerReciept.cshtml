@@ -1,0 +1,482 @@
+﻿@model TrueBooksMVC.Models.CustomerRcieptVM
+
+@{
+    ViewBag.Title = "CustomerReciept";
+    Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
+}
+
+
+<script src="@Url.Content("~/Scripts/angular.js")"></script>
+<script src="@Url.Content("~/MyJsFiles/CustomerRecieptJS.js")"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+
+
+        $(":text").css({ "border-radius": "5px" });
+        $("select").css({ "border-radius": "5px" });
+        $("textarea").css({ "border-radius": "5px" });
+
+        $(".chkAllocate").prop("checked", true);
+        $("#FMoney").attr("readonly", false);
+
+        $("#EXRate").blur(function () {
+            var wt = $(this).val();
+            $("#EXRate").val(parseFloat(wt).toFixed(2));
+
+        });
+        $("#FMoney").blur(function () {
+            var wt = $(this).val();
+            $("#FMoney").val(parseFloat(wt).toFixed(2));
+        });
+
+
+        $(".chkAllocate").click(function () {
+            if ($(".chkAllocate").is(':checked')) {
+
+                $("#FMoney").attr("readonly", false);
+                $(".readonlyamt").show();
+                $(".textamt").hide();
+            }
+            else {
+
+                $("#FMoney").attr("readonly", true);
+                $(".readonlyamt").hide();
+                $(".textamt").show();
+            }
+        });
+    });
+</script>
+
+
+
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+    <div ng-app="MyApp" ng-controller="MyController">
+        <div class="wrapper" dir="ltr" id="main" runat="server">
+
+            @* <section class="content-header">
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-dashboard"></i>Home</a></li>
+                        <li><a href="#">Gerenal</a></li>
+                        <li class="active">Reciepts</li>
+                    </ol>
+                    <br />
+
+                </section>*@
+            <!-- Main content -->
+            <section class="content">
+                <div class="inner-wrapper">
+                    <div class="row page-title">
+                        <div class="col-xs-12">
+                            <section class="content-header">
+                                <h1>Customer Receipt<small></small></h1>
+
+                            </section>
+
+                        </div>
+                    </div>
+                    <div class="row back-to-list">
+                        <div class="col-xs-12" style="padding-left: 30px">
+                            <a href='@Url.Action("CustomerRecieptDetails", "CustomerReciept", new { id = 0 })' class="btn btn-primary  btnwidth" >Back to list</a>
+                            @Html.HiddenFor(model => model.RecPayID)
+                            @Html.HiddenFor(model => model.AcJournalID)
+                        </div>
+                    </div>
+                    <div class="row no-margin form-layout" style="padding-top: 10px">
+                        <div class="col-xs-12">
+                            <input type="radio" value="Cash" id="Cash" class="rdo-btn" ng-checked="ck" ng-model="Cash" ng-click="disabledCash=true; ShowHide()" />
+                            <span style="color: white; font-weight: bold; font-size: 17px">Cash</span>&nbsp;&nbsp;&nbsp;
+                                <input type="radio" value="Bank" id="Bank" class="rdo-btn spacer15" ng-model="Bank" ng-click="disabledCash=false; ShowHide2()" />
+                            <span style="color: white; font-weight: bold; font-size: 17px">Bank</span>
+                        </div>
+                    </div>
+                    <div class="row no-margin form-layout" style="padding-top: 10px">
+                        <div class="col-xs-12 col-sm-4">
+                            <label class="headinglabel">Document No</label>
+                            @Html.TextBoxFor(model => model.DocumentNo, new { @Value = ViewBag.DocumentNos, @class = "form-control", @readonly = "readonly" })
+
+                        </div>
+                        <div class="col-xs-12 col-sm-4">
+                            <label class="headinglabel">Date</label>
+                            @Html.TextBoxFor(model => model.RecPayDate, new { Value = Model.RecPayDate.Value.ToString("dd-MMM-yyyy"), @class = "form-control" })
+
+                        </div>
+                        <div class="col-xs-12 col-sm-4">
+                            <div id="divCash" ng-show="CashDiv">
+                                <label class=" required headinglabel">Cash</label>
+                                @*  @Html.DropDownListFor(model => model.CashBank, new List<SelectListItem> { 
+                                                                   new SelectListItem{Text="Cash Account",Value="Cash Account"},
+                                                                   new SelectListItem{Text="PETTY CASH",Value="PETTY CASH"},
+                                                                   new SelectListItem{Text="Cash ControlAccount",Value="Cash ControlAccount"},
+                                                                   new SelectListItem{Text="Petty Cash-Noora",Value="Petty Cash-Noora"},
+                                                                   new SelectListItem{Text="Petty Cash-Sreenithy",Value="Petty Cash-Sreenithy"}},
+                                                                   "Select", new { @class = "form-control" })*@
+                                @Html.DropDownListFor(model => model.CashBank, new SelectList(@ViewBag.achead, "AcHeadID", "AcHead1"), "Select", new { @class = "form-control" })
+
+                            </div>
+                            <div id="divBank" ng-show="BankDiv">
+                                <div class="form-title">
+                                    <label class=" required headinglabel">Bank</label>
+                                </div>
+                                <div class="form-field">
+                                    @* @Html.DropDownListFor(model => model.ChequeBank, new List<SelectListItem> { 
+                                                                   new SelectListItem{Text="BANK OF BARODA",Value="BANK OF BARODA"},
+                                                                   new SelectListItem{Text="Unpresented Cheques",Value="Unpresented Cheques"}},
+                                                                   "Select", new { @class = "form-control" })*@
+
+                                    @Html.DropDownListFor(model => model.ChequeBank, new SelectList(@ViewBag.acheadbank, "AcHeadID", "AcHead1"), "Select", new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row no-margin form-layout" style="padding-top: 10px">
+                        <div class="col-xs-12 col-sm-4">
+                            <label class=" required headinglabel">Cheque No</label>
+                            @Html.TextBoxFor(model => model.ChequeNo, new { ng_disabled = "disabledCash", @class = "form-control textright" })
+
+                        </div>
+                        <div class="col-xs-12 col-sm-4">
+                            <label class=" required headinglabel">Cheque Date</label>
+                            @if (Model.ChequeDate != null)
+                            {
+                                @Html.TextBoxFor(m => m.ChequeDate, new { Value = Model.ChequeDate.Value.ToString("dd-MMM-yyyy"), id = "", @class = "form-control" })
+                            }
+                            else
+                            {
+
+                                @Html.TextBoxFor(model => model.ChequeDate, new { ng_disabled = "disabledCash", @class = "form-control" })
+                            }
+                        </div>
+                        @if (Model.RecPayID <= 0)
+                        {
+                            <div class="col-xs-12 col-sm-4">
+                                <label class=" required headinglabel">Customer</label>
+                                @Html.DropDownListFor(model => model.CustomerID, (SelectList)ViewBag.Customer, "Select", new { ng_model = "CustomerID", ng_change = "getInvoice()", @class = "form-control", required = "required" })
+
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-xs-12 col-sm-4">
+                                <label class=" required headinglabel">Customer</label>
+                                @Html.DropDownListFor(model => model.CustomerID, (SelectList)ViewBag.Customer, "Select", new { @class = "form-control" })
+
+
+                            </div>
+                                    
+                        }
+
+                    </div>
+
+                    <div class="row no-margin form-layout" style="padding-top: 10px">
+                        @if (Model.RecPayID <= 0)
+                        {
+                            <div class="col-xs-12 col-sm-4">
+                                <label class=" required headinglabel">Currency</label>
+                                @Html.DropDownListFor(model => model.CurrencyId, (SelectList)ViewBag.Currency, "Select", new { ng_model = "ExR", ng_change = "getselectval()", @class = "form-control", required = "required" })
+
+                            </div>
+                            <div class="col-xs-12 col-sm-4">
+                                <label class="headinglabel">Exchange Rate</label>
+                                @Html.TextBoxFor(model => model.EXRate, new { ng_model = "exChangeRate", @class = "form-control textright" })
+
+                            </div>
+                           
+                            <div class="col-xs-12 col-sm-2">
+                                <input type="checkbox" class="chkAllocate" />&nbsp;&nbsp;&nbsp;<label class="headinglabel">Auto Allocate</label>
+
+                            </div>  
+                            <div class="col-xs-12 col-sm-2">
+                                <label class=" required headinglabel">Amount</label>
+                                @Html.TextBoxFor(model => model.FMoney, new { ng_model = "Amt", ng_change = "getvalueofamount()", @class = "form-control textright", required = "required" })
+
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-xs-12 col-sm-4">
+                                <label class="headinglabel">Currency</label>
+
+                                @Html.DropDownListFor(model => model.CurrencyId, (SelectList)ViewBag.Currency, "Select", new { @class = "form-control" })
+                            </div>
+                            <div class="col-xs-12 col-sm-4">
+                                <label class="headinglabel">Exchange Rate</label>
+                                @Html.TextBoxFor(model => model.EXRate, new { @readonly = "readonly", @class = "form-control" })
+
+                            </div>
+                           
+                            <div class="col-xs-12 col-sm-2">
+                                <input type="checkbox" class="chkAllocate" />&nbsp;&nbsp;&nbsp;<label class="headinglabel">Auto Allocate</label>
+
+                            </div>  
+                            <div class="col-xs-12 col-sm-2">
+                                <label class="headinglabel">Amount</label>
+                                @Html.TextBoxFor(model => model.FMoney, new { @class = "form-control textright", @readonly = "readonly" })
+
+                                @Html.HiddenFor(model => model.AcCompanyID)
+                                @Html.HiddenFor(model => model.AcJournalID)
+                                @Html.HiddenFor(model => model.BusinessCentreID)
+                                @Html.HiddenFor(model => model.DocumentNo)
+
+                                @Html.HiddenFor(model => model.FMoney)
+                                @Html.HiddenFor(model => model.FYearID)
+                                @Html.HiddenFor(model => model.RecPayDate)
+                                @Html.HiddenFor(model => model.RecPayID)
+                                @Html.HiddenFor(model => model.Remarks)
+                                @Html.HiddenFor(model => model.SupplierID)
+                                @Html.HiddenFor(model => model.CurrencyId)
+                                @Html.HiddenFor(model => model.EXRate)
+                                @Html.HiddenFor(model => model.FMoney)
+
+                            </div>
+                                
+                        }
+
+
+                    </div>
+                    <div class="row no-margin form-layout" style="padding-top: 10px">
+                        <div class="col-xs-12 col-sm-4">
+                            <label class="headinglabel">Remarks</label>
+                            @Html.TextAreaFor(model => model.Remarks, new { @class = "form-control txttarget" })
+                        </div>
+                    </div>
+                    <div class="row no-margin" style="padding-top: 10px">
+                        <div class="col-xs-12 no-padding for-device">
+                            <div class="data-table payment-div">
+                                @* <div class="heading">
+                                        <div class="title1">Invoice No</div>
+                                        <div class="title2">Job Code</div>
+                                        <div class="title3">Invoice Date</div>
+                                        <div class="title4">Amount To Be Received</div>
+                                        <div class="title5">Amount Already Received</div>
+                                        <div class="title6">Balance</div>
+                                        <div class="title7">Amount</div>
+                                    </div>*@
+                                <div class="data">
+                                    <table border="1" style="margin-left: 15px; width: 97%;" class="table table-responsive tblbackground">
+                                        @if (Model.RecPayID > 0)
+                                        {
+                                            <tr style="font-weight: bold">
+                                                <td>Invoice No</td>
+                                                <td>Job Code</td>
+                                                <td>Invoice Date</td>
+                                                @*<td>Invoice Amount</td>*@
+                                                <td>Amount Received</td>
+                                                @*<td>Balance</td>
+                                            <td>Amount Allocated</td>*@
+                                            </tr>
+                                        
+                               
+                                            for (int i = 0; i < Model.recPayDetail.Count; i++)
+                                            {
+                                   
+                                            <tr>
+
+                                                <td>
+                                                    <div class="data1" style="text-align: right">@*@Model.CostUpdationDetails[i].JobCode*@
+                                                        @Model.recPayDetail[i].InvNo
+                                                        @Html.HiddenFor(item => @Model.recPayDetail[i].InvNo)
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="data1">
+                                                        @Model.recPayDetail[i].RecPayDetailID
+                                                        @Html.HiddenFor(item => @Model.recPayDetail[i].RecPayDetailID)
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="data1">@*@Model.CostUpdationDetails[i].JobCode*@
+                                                        @if (@Model.recPayDetail[i].InvDate != null)
+                                                        {
+                                                            @TrueBooksMVC.Models.CommanFunctions.GetShortDateFormat(@Model.recPayDetail[i].InvDate)
+                                                            @Html.HiddenFor(item => @Model.recPayDetail[i].InvDate)
+                                                        }
+                                                        else
+                                                        {
+                                                            @Model.recPayDetail[i].InvDate
+                                                            @Html.HiddenFor(item => @Model.recPayDetail[i].InvDate)
+                                                        }
+                                                    </div>
+                                                </td>
+                                                @* <td style="text-align: right;">
+                                                 <div class="data1">
+                                                @Html.HiddenFor(item => @Model.recPayDetail[i].Amount)
+                                                     @string.Format("{0:n2}", @Model.recPayDetail[i].Amount)
+                                            </div>
+                                            </td>*@
+                                                <td style="text-align: right;">
+                                                    <div class="data1">@*@Model.CostUpdationDetails[i].JobCode*@
+                                                        @*   @Model.recPayDetail[i].Amount*@
+                                                        @Html.HiddenFor(item => @Model.recPayDetail[i].Amount)
+                                                        @string.Format("{0:n2}", @Model.recPayDetail[i].Amount)
+                                                    </div>
+                                                </td>
+                                                @* <td style="text-align: right;">
+                                                <div class="data6">{{order.Balance | currency:""}}</div>
+                                            </td>*@
+                                                @*<td style="text-align: right;">
+                                           
+                                                 <div class="data7 readonlyamt">{{order.Amount | currency:""}}</div>
+                                                <div class="data7 textamt" style="display:none"><input type="text" ng-bind="{{order.Amount}}" value="{{order.Amount}}" /></div>
+                                               
+                                            </td>*@
+                                            </tr>
+@*<tr>
+                                            <td>
+                                                <div class="data1">&nbsp;</div>
+                                            </td>
+                                            <td>
+                                                <div class="data2">&nbsp;</div>
+                                            </td>
+                                            <td>
+                                                <div class="data3">&nbsp;</div>
+                                            </td>
+                                            <td style="text-align: right;">
+                                                <div class="data4"><b>{{FinalAmount | currency:""}}</b></div>
+                                            </td>
+                                            <td style="text-align: right;">
+                                                <div class="data5">&nbsp;</div>
+                                            </td>
+                                            <td style="text-align: right;">
+                                                <div class="data6"><b>{{leftAmt | currency:""}}</b></div>
+                                            </td>
+                                            <td style="text-align: right;">
+                                                <div class="data7"><b>{{TotalAmt | currency:""}}</b></div>
+                                                 
+                                            </td>
+                                        </tr>*@
+                                            }
+                                        }
+
+                                        else
+                                        {
+                                            <tr style="font-weight: bold">
+                                                <td>Invoice No</td>
+                                                <td>Job Code</td>
+                                                <td>Invoice Date</td>
+                                                <td>Invoice Amount</td>
+                                                <td>Amount Received</td>
+                                                <td>Balance</td>
+                                                <td>Amount Allocated</td>
+                                            </tr>
+                                        
+                                             
+                                            <tr ng-repeat="order in Orders">
+
+                                                <td>
+                                                    <div class="data1 textright">{{order.InvoiceNo}}</div>
+                                                </td>
+                                                <td>
+                                                    <div class="data2 textright">{{order.JobCode}}</div>
+                                                </td>
+                                                <td>
+                                                    <div class="data3">{{order.InvoiceDate | date : 'dd-MMM-yyyy'}}</div>
+                                                </td>
+                                                <td style="text-align: right;">
+                                                    <div class="data4">{{order.AmountToBeRecieved | currency:""}}</div>
+                                                </td>
+                                                <td style="text-align: right;">
+                                                    <div class="data5">{{order.AmtPaidTillDate | currency:""}}</div>
+                                                </td>
+                                                <td style="text-align: right;">
+                                                    <div class="data6">{{order.Balance | currency:""}}</div>
+                                                </td>
+                                                <td style="text-align: right;">
+
+                                                    @*  <div class="data7">{{order.Amount | currency:""}}</div>
+                                                    <input type="text" ng-bind="{{order.Amount}}" value="{{order.Amount}}" />*@
+                                                    <div class="data7 readonlyamt">{{order.Amount | currency:""}}</div>
+                                                    <div class="data7 textamt" style="display: none">
+                                                        <input type="text" ng-bind="{{order.Amount}}" ng-model="Amount" value="{{order.Amount}}" /></div>
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="data1">&nbsp;</div>
+                                                </td>
+                                                <td>
+                                                    <div class="data2">&nbsp;</div>
+                                                </td>
+                                                <td>
+                                                    <div class="data3">&nbsp;</div>
+                                                </td>
+                                                <td style="text-align: right;">
+                                                    <div class="data4"><b>{{FinalAmount | currency:""}}</b></div>
+                                                </td>
+                                                <td style="text-align: right;">
+                                                    <div class="data5">&nbsp;</div>
+                                                </td>
+                                                <td style="text-align: right;">
+                                                    <div class="data6"><b>{{leftAmt | currency:""}}</b></div>
+                                                </td>
+                                                <td style="text-align: right;">
+                                                    <div class="data7"><b>{{TotalAmt | currency:""}}</b></div>
+                                                </td>
+                                            </tr>   
+                                        }
+                                    </table>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row no-margin buttons spacer9" style="padding-top: 10px">
+                        <div class="col-xs-12 align-right">
+                            @*   <input type="button" id="save_btn" value="Save" class="btn-style" />
+                                <input type="button" id="cancel_btn" value="Cancel" class="btn-style" />*@
+                            @if (Model.RecPayID > 0)
+                            {
+                                <input type="submit" class="btn btn-primary  btnwidth" value="Update" />
+                            }
+                            else
+                            {
+                                <input type="submit" class="btn btn-primary  btnwidth" value="Save" name="Command" />
+                            }
+                            <a href='@Url.Action("CustomerRecieptDetails", "CustomerReciept", new { id = 0 })' class="btn btn-primary  btnwidth" >Cancel</a>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+
+
+        </div>
+    </div>
+}
+
+<div>
+</div>
+
+<script type="text/javascript">
+    // When the document is ready
+    $(document).ready(function () {
+        var startdate = '@Session["FyearFrom"].ToString()';
+        var enddate = '@Session["FyearTo"].ToString()';
+        var sd = new Date(startdate);
+        var ed = new Date(enddate);
+        $('#RecPayDate').datepicker({
+
+            dateFormat: 'dd-M-yy',
+            minDate: sd,
+            maxDate: ed,
+            changeYear: true, changeMonth: true,
+        });
+
+
+        $('#ChequeDate').datepicker({
+            dateFormat: 'dd-M-yy',
+            minDate: sd,
+            maxDate: ed,
+            changeYear: true, changeMonth: true
+        });
+
+
+    });
+</script>

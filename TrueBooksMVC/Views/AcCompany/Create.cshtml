@@ -1,0 +1,234 @@
+﻿@model DAL.AcCompany
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
+    
+    
+ 
+    
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#AcCompany1").focus();
+            $(":text").css({ "border-radius": "5px" });
+            $("select").css({ "border-radius": "5px" });
+
+            $("#EMail").css("text-transform", "lowercase");
+          
+
+            $(".txttarget").change(function () {
+                var x = $(this);
+                var str = "";
+                str = x.val();
+                var splitStr = str.toLowerCase().split(' ');
+                for (var i = 0; i < splitStr.length; i++) {
+                    // You do not need to check if i is larger than splitStr length, as your for does that for you
+                    // Assign it back to the array
+                    splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
+                }
+                // Directly return the joined string
+                var newtxt = "";
+                newtxt = splitStr.join(' ');
+                $(x).val('');
+                $(x).val(newtxt);
+
+            });
+
+
+
+            $("#btnsave").click(function () {
+                var accom = $("#AcCompany1").val();
+                var add1 = $("#Address1").val();
+                var phone = $("#Phone").val();
+                var email = $("#EMail").val();
+                var country = $("#CountryID").val();
+                var currency = $("#CurrencyID").val();
+
+                if (accom == "") {
+
+                    $("#alert").show();
+                    return false;
+                }
+                else if (add1 == "") {
+                    $("#alert").show();
+                    return false;
+                }
+                else if (phone == "") {
+                    $("#alert").show();
+                    return false;
+                }
+                else if (country == "") {
+                    $("#alert").show();
+                    return false;
+                }
+                else if (currency == "") {
+                    $("#alert").show();
+                    return false;
+                }
+                else {
+                    $("#alert").hide();
+                    return true;
+                }
+
+
+            });
+        });
+    </script>
+}
+
+<section class="content-header">
+    <h1 class="headingfont">Company</h1>
+
+</section>
+ @if (ViewBag.SuccessMsg != null)
+    {
+      <script type="text/javascript">
+          $(document).ready(function () {
+              $.notify("@ViewBag.SuccessMsg", "success");
+          });
+                                                </script>
+    }
+
+<section class="content">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+
+        <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
+        <fieldset>
+           
+            <div class="row no-margin">
+                @* <div class="col-md-3">
+                            <div class="form-title">
+                                 @Html.LabelFor(model => model.AcCompanyID)
+                                  </div>
+                   <div class="form-field">
+                       @Html.TextBoxFor(model => model.AcCompanyID,new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.AcCompanyID)
+                            </div>
+                 </div>*@
+                <div class="col-md-3">
+                    <label class="required headinglabel">Company Name</label>
+                    @Html.TextBoxFor(model => model.AcCompany1, new { @class = "form-control txttarget" })
+                    @Html.ValidationMessageFor(model => model.AcCompany1)
+
+                </div>
+              
+                <div class="col-md-3">
+                    <label class="required headinglabel">Address 1</label>
+                    @Html.TextBoxFor(model => model.Address1, new { @class = "form-control txttarget" })
+                    @Html.ValidationMessageFor(model => model.Address1)
+
+                </div>
+
+                  <div class="col-md-3">
+                    <label class="headinglabel">Address 2</label>
+                    @Html.TextBoxFor(model => model.Address2, new { @class = "form-control txttarget" })
+                    @Html.ValidationMessageFor(model => model.Address2)
+
+                </div>
+
+                 <div class="col-md-3">
+                    <label class="headinglabel">Address 3</label>
+                    @Html.TextBoxFor(model => model.Address3, new { @class = "form-control txttarget" })
+                    @Html.ValidationMessageFor(model => model.Address3)
+
+                </div>
+            </div>
+
+            <div class="row no-margin" style="padding-top: 10px">
+
+              
+               
+                <div class="col-md-3">
+                    <label class="required headinglabel">Phone</label>
+                    @Html.TextBoxFor(model => model.Phone, new { @class = "form-control textright txttarget" })
+                    @Html.ValidationMessageFor(model => model.Phone)
+
+                </div>
+
+                    <div class="col-md-3">
+                    <label class="headinglabel">Email</label>
+                    @Html.TextBoxFor(model => model.EMail, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.EMail)
+
+                </div>
+
+                   <div class="col-md-3">
+                    <label class="headinglabel required">Country</label>
+                    @Html.DropDownListFor(model => model.CountryID,new SelectList(ViewBag.Country,"CountryID","CountryName"),"Select", new { @class = "form-control txttarget" })
+                    @Html.ValidationMessageFor(model => model.CountryID)
+
+                </div>
+                <div class="col-md-3">
+                    <label class="headinglabel required">Currency</label>
+                    @Html.DropDownListFor(model => model.CurrencyID,new SelectList(ViewBag.Currency,"CurrencyID","CurrencyName"),"Select", new { @class = "form-control txttarget" })
+                    @Html.ValidationMessageFor(model => model.CountryID)
+
+                </div>
+            </div>
+
+
+            
+                @*<div class="col-md-3">
+
+                    <label class="required headinglabel">User</label>
+                    @Html.TextBoxFor(model => model.UserID, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.UserID)
+
+                </div>
+                <div class="col-md-3">
+                    <label class="required headinglabel">Customer Clearence Code</label>
+                    @Html.TextBoxFor(model => model.CustomsClearanceCode, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.CustomsClearanceCode)
+
+                </div>*@
+        
+
+              @*<div class="col-md-3">
+                    <label class="required headinglabel">Parent</label>
+                    @Html.TextBoxFor(model => model.ParentID, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.ParentID)
+
+                </div>*@
+           @* <div class="row no-margin" style="padding-top: 10px">
+
+                <div class="col-md-3">
+                    <label class="required headinglabel">Port Agent Code</label>
+                    @Html.TextBoxFor(model => model.PortAgentCode, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.PortAgentCode)
+
+                </div>
+                <div class="col-md-3">
+                    <label class="required headinglabel">Port Clearence Code</label>
+                    @Html.TextBoxFor(model => model.PortClearanceCode, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.PortClearanceCode)
+
+                </div>
+
+            </div>*@
+
+            <div class="row no-margin" style="padding-top: 10px">
+                <div class="col-md-12">
+
+                    <input type="submit" value="Save" class="btn btn-primary btnwidth" id="btnsave" />
+
+                    &nbsp; 
+                                           <a href='@Url.Action("Index", "AcCompany", new { id = 0 })' class="btn btn-primary btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+
+                </div>
+            </div>
+
+
+        </fieldset>
+    
+    
+    }
+
+</section>
+
+@*@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}*@
+

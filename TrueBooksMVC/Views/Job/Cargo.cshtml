@@ -1,0 +1,64 @@
+﻿@model DAL.JCargoDescription
+
+<div class="panel-body">
+    <div class="table-responsive">
+
+        <table class="table">
+            <tr>
+                <td>Mark    
+                    @Html.TextBoxFor(model => model.Mark, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Mark)</td>
+                <td>Description
+                    @Html.TextBoxFor(model => model.Description, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Description)
+                </td>
+                <td>Weight
+                    @Html.TextBoxFor(model => model.weight, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.weight)
+                </td>
+                <td>Volume
+                   @Html.TextBoxFor(model => model.volume, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.volume)
+                </td>
+                <td>Packages
+                    @Html.TextBoxFor(model => model.Packages, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Packages)
+                </td>
+                <td>GrossWeight
+                    @Html.TextBoxFor(model => model.GrossWeight, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.GrossWeight)
+                </td>
+                <td>
+                    <input type="button" name="Command" value="Add Cargo" class="btn btn-primary" /></td>
+            </tr>
+        </table>
+
+    </div>
+</div>
+
+<table class="table table-striped table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Sr.no</th>
+            <th>Mark</th>
+            <th>Description</th>
+            <th>Weight</th>
+            <th>Volume</th>
+            <th>Packages</th>
+            <th>GrossWeight</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>Test</td>
+            <td>Test</td>
+            <td>Test</td>
+            <td>Test</td>
+        </tr>
+
+    </tbody>
+</table>
+

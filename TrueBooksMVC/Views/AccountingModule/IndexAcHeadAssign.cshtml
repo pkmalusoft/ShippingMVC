@@ -1,0 +1,122 @@
+﻿@model IEnumerable<DAL.AcHeadAssignSelectAll_Result>
+@{
+    ViewBag.Title = "Index Ac Head";
+    Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
+}
+
+<style>
+     tfoot {
+            display: table-header-group;
+     }
+        </style>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $('#dataTables-example tfoot th').each(function () {
+            var title = $(this).text();
+            $(this).html('<input type="text" style="width:100%" />');
+        });
+
+
+        var table = $('#dataTables-example').DataTable({ "sPaginationType": "full_numbers" });
+
+        table.columns().every(function () {
+            var that = this;
+
+            $('input', this.footer()).on('keyup change', function () {
+                if (that.search() !== this.value) {
+                    that
+                        .search(this.value)
+                        .draw();
+                }
+            });
+        });
+    });
+
+</script>
+
+
+<section class="content-header">
+    <h1 class="headingfont">Account Head Assign</h1>
+
+</section>
+<p class="indexbtnpadding">
+    @Html.ActionLink("Create New", "CreateAcHeadAssign",null,new {@class="btn btn-primary btnwidth"})
+</p>
+<section class="content">
+    @if (ViewBag.SuccessMsg != null)
+    {
+     <script type="text/javascript">
+         $(document).ready(function () {
+             $.notify("@ViewBag.SuccessMsg ", "success");
+         });
+                                                </script>
+    }
+<div class="table-responsive tblbackground" style="padding:15px">
+<table class="table table-responsive table-bordered tblfont" id="dataTables-example">
+    <thead>
+    <tr>
+        
+      <th>Provision Cost</th>
+      <th>Accrued Cost Control</th>
+      <th>Open Job Revenue</th>
+      <th>Customer Control</th>  
+      <th>Cash Control</th>
+      <th>Supplier Control</th>
+      <th>Action</th>
+    </tr>
+</thead>
+
+     <tfoot>
+    <tr>
+        
+      <th>Provision Cost</th>
+      <th>Accrued Cost Control</th>
+      <th>Open Job Revenue</th>
+      <th>Customer Control</th>  
+      <th>Cash Control</th>
+      <th>Supplier Control</th>
+      <th style="display:none">Action</th>
+    </tr>
+</tfoot>
+
+
+    <tbody>
+@foreach (var item in Model) {
+    <tr>
+      
+        <td>@item.ProvisionCostControl</td>
+        <td>@item.AccruedCostControl</td>
+        <td>@item.OpenJobRevenue</td>
+        <td>@item.CustomerControl</td>
+        <td>@item.CashControl</td>
+        <td>@item.SupplierControl</td>
+       
+        <td>
+           @*  @Html.ActionLink("Edit", "Edit", new { id=item.CountryID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.CountryID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.CountryID })*@
+
+            <a href="@Url.Action("EditAcHeadAssign", new { id = item.ID })"><i class="fa fa-pencil"></i></a> 
+@*<a href="@Url.Action("Delete", new { id = item.CountryID })"><i class="fa fa-times"></i></a>*@
+           @* <a href="#" onclick="Delete(ID=@item.AcGroupID)"><i class="fa fa-times"></i></a>*@
+
+        </td>
+    </tr>
+}
+<//tbody>
+</table>
+</div>
+    </section>
+
+
+@*<script type="text/javascript">
+    function Delete(ID) {
+        if (confirm("Are you sure? You want to Delete Country?")) {
+            window.location.href = "/AccountingModule/DeleteAcGroup/?id=" + ID;
+        }
+    }
+</script>
+*@

@@ -1,0 +1,104 @@
+﻿@model IEnumerable< DAL.AcJournalMasterSelectAllJV_Result>
+
+@{
+    ViewBag.Title = "AcJournalVoucherIndex";
+    Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
+}
+
+<style>
+     tfoot {
+            display: table-header-group;
+     }
+        </style>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $('#dataTables-example tfoot th').each(function () {
+            var title = $(this).text();
+            $(this).html('<input type="text" />');
+        });
+
+
+        var table = $('#dataTables-example').DataTable({ "sPaginationType": "full_numbers" });
+
+        table.columns().every(function () {
+            var that = this;
+
+            $('input', this.footer()).on('keyup change', function () {
+                if (that.search() !== this.value) {
+                    that
+                        .search(this.value)
+                        .draw();
+                }
+            });
+        });
+    });
+
+ </script>
+
+<section class="content-header">
+    <h1 class="headingfont">Account Journal Voucher</h1>
+
+</section>
+<p class="indexbtnpadding">
+    @Html.ActionLink("Create New", "AcJournalVoucherCreate",null,new {@class="btn btn-primary btnwidth"})
+</p>
+<section class="content">
+   @if (ViewBag.SuccessMsg != null)
+   {
+     <script type="text/javascript">
+         $(document).ready(function () {
+             $.notify("@ViewBag.SuccessMsg ", "success");
+         });
+                                                </script>
+   }
+
+    <div class="table-responsive tblbackground" style="padding:15px">
+<table class="table table-responsive table-bordered tblfont" id="dataTables-example">
+    <thead>
+    <tr>
+         <th>Voucher No</th>
+      <th>Voucher Type</th>
+      <th>Transaction Date </th>
+      <th>Remark</th>  
+        <th>Action</th>
+        </tr>
+        </thead>
+
+      <tfoot>
+    <tr>
+         <th>Voucher No</th>
+      <th>Voucher Type</th>
+      <th>Transaction Date </th>
+      <th>Remark</th>  
+        <th style="display:none"></th>
+        </tr>
+        </tfoot>
+
+    <tbody>
+@foreach (var item in Model) {
+    <tr>
+      
+        <td class="textright">@item.VoucherNo</td>
+        <td>@item.VoucherType</td>
+        <td>@TrueBooksMVC.Models.CommanFunctions.GetShortDateFormat(@item.TransDate)</td>
+        <td>@item.Remarks</td>
+       
+       
+        <td>
+           @*  @Html.ActionLink("Edit", "Edit", new { id=item.CountryID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.CountryID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.CountryID })*@
+
+            <a href="@Url.Action("AcJournalVoucherEdit", new { id = item.AcJournalID })"><i class="fa fa-pencil"></i></a> 
+@*<a href="@Url.Action("Delete", new { id = item.CountryID })"><i class="fa fa-times"></i></a>*@
+           @* <a href="#" onclick="Delete(ID=@item.AcGroupID)"><i class="fa fa-times"></i></a>*@
+
+        </td>
+    </tr>
+}
+<//tbody>
+</table>
+</div>
+    </section>

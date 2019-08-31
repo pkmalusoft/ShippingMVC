@@ -1,0 +1,172 @@
+﻿@model DAL.BranchMaster
+@*@model TrueBooksMVC.Models.BranchFinnancialYearVm*@
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
+}
+
+<section class="content-header">
+    <h1 class="headingfont">Branch</h1>
+</section>
+<script>
+
+    $(document).ready(function () {
+
+
+        $(":text").css({ "border-radius": "5px" });
+        $("select").css({ "border-radius": "5px" });
+
+        $("#EMail").css("text-transform", "lowercase");
+
+        $(function () {
+
+            $("#FromDate").datepicker({
+                dateFormat: 'dd-M-yy',
+
+                changeYear: true,
+                changeMonth: true
+            });
+            $('#ToDate').datepicker({
+                dateFormat: 'dd-M-yy',
+
+                changeYear: true,
+                changeMonth: true,
+            });
+        });
+
+        $("#btnsave").click(function () {
+            var fdate = $("#FromDate").val();
+            var tdate = $("#ToDate").val();
+            var com = $("#CompanyId selected:option").val();
+            var branch = $("#BranchName").val();
+            var con = $("#CountryID selected:option").val();
+            var curr = $("#CurrencyID selected:option").val();
+            var add = $("#Address").val();
+            var pho = $("#phone").val();
+            var em = $("#Email").val();
+            if (fdate == "") {
+                $("#alert").show();
+                return false;
+            }
+            else if (tdate == "") {
+                $("#alert").show();
+                return false;
+            }
+            else if (com == "") {
+                $("#alert").show();
+                return false;
+            }
+            else if (branch == "") {
+                $("#alert").show();
+                return false;
+            }
+            else if (con == "") {
+                $("#alert").show();
+                return false;
+            }
+            else if (curr == "") {
+                $("#alert").show();
+                return false;
+            }
+            else if (add == "") {
+                $("#alert").show();
+                return false;
+            }
+            else if (pho == "") {
+                $("#alert").show();
+                return false;
+            }
+            else {
+                $("#alert").hide();
+                return true;
+            }
+
+
+
+        });
+    });
+</script>
+<section class="content-header">
+    @using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+          <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
+    <fieldset>
+
+     <div class="row no-margin" >
+       
+         
+               
+                  <div class="col-md-3">
+                      @Html.HiddenFor(model=>model.BranchID)
+                    <label class="headinglabel required">Company Name</label>
+                  @Html.DropDownListFor(model=>model.AcCompanyID, new SelectList(ViewBag.Company,"AcCompanyID","AcCompany1"), new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.AcCompanyID)
+                      @Html.HiddenFor(model=>model.AcCompanyID)
+
+                </div>
+         <div class="col-md-3">
+                    <label class="headinglabel required">Branch Name</label>
+                    @Html.TextBoxFor(model => model.BranchName, new { @class = "form-control txttarget" })
+                    @Html.ValidationMessageFor(model => model.BranchName)
+
+                </div>
+         <div class="col-md-3">
+                    <label class=" headinglabel required">Country</label>
+                    @Html.DropDownListFor(model=>model.CountryID,new SelectList( ViewBag.CountryID,"CountryID","CountryName"), new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.CountryID)
+             @Html.HiddenFor(model=>model.CountryID)
+
+                </div>
+
+        </div>
+
+     
+             <div class="row no-margin" style="padding-top:10px;">
+                 
+                 
+                  <div class="col-md-3">
+                    <label class=" headinglabel required">Currency</label>
+                    @Html.DropDownListFor(model=>model.CurrencyID, new SelectList(ViewBag.CurrencyID,"CurrencyID","CurrencyName"), new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.CurrencyID)
+                      @Html.HiddenFor(model=>model.CurrencyID)
+
+                </div>
+                 <div class="col-md-3">
+                    <label class="headinglabel required">Address</label>
+                    @Html.TextBoxFor(model => model.Address1, new { @class = "form-control txttarget" })
+                    @Html.ValidationMessageFor(model => model.Address1)
+
+                </div>
+                 </div>
+             <div class="row no-margin" style="padding-top:10px;">
+                  
+                  <div class="col-md-3">
+                    <label class=" headinglabel required">Phone</label>
+                    @Html.TextBoxFor(model => model.Phone, new { @class = "form-control txttarget" })
+                    @Html.ValidationMessageFor(model => model.Phone)
+
+                </div>
+                  <div class="col-md-3">
+                    <label class=" headinglabel">Email</label>
+                    @Html.TextBoxFor(model => model.EMail, new { @class = "form-control txttarget" })
+                    @Html.ValidationMessageFor(model => model.EMail)
+
+                </div>
+                 </div>
+        
+        <div class="row no-margin" style="padding-top:10px;">
+                        <div class="col-md-12" style="padding-top:10px">
+                           
+                                <input type="submit"  value="Update"  class="btn btn-primary btnwidth" />
+                               
+                            &nbsp; 
+                                           <a href='@Url.Action("Index", "Branch", new { id = 0 })' class="btn btn-primary btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+                           
+                        </div>
+                    </div>
+
+    </fieldset>
+}
+
+<

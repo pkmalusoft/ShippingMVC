@@ -1,0 +1,225 @@
+﻿@model  IEnumerable <DAL.ProSupplierAgingDatewise_Result>
+@using DAL;
+@{
+    Layout = null;
+    
+}
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Supplier Aging</title>
+
+
+    <style type="text/css">
+        .details tr
+        {
+            height: 25px;
+        }
+    </style>
+</head>
+
+
+<body>
+       <div class="row">
+    <div class="col-md-12">
+        @{
+            int supid = Convert.ToInt32(ViewBag.supid);
+            string fromdate = ViewBag.fromdate;
+            string todate = ViewBag.todate;
+
+            string path = System.Configuration.ConfigurationManager.AppSettings["spath"].ToString();
+            string url = path + "/Reports/SupplierAging.aspx?supid=" + supid + "&fromdate=" + fromdate + "&todate=" + todate;
+            
+            <iframe src="@url" style="width:100%;height:1500px"></iframe>
+        }
+    </div>
+</div>
+
+
+ @*   <div class="row">
+        <div class="col-md-12" style="background-color: white; padding-top: 20px;padding-bottom:20px">
+                  <p>
+                @{
+                SHIPPING_FinalEntities db1 = new SHIPPING_FinalEntities();
+                var data = (from c in db1.AcCompanies select c).FirstOrDefault();
+              <b>@data.AcCompany1</b><br />
+              <span>@data.Address1 &nbsp; @data.Address2 &nbsp; @data.Address3</span>
+                
+                    string tdate = ViewBag.todate;
+                    
+            }
+           
+              
+           </p>
+           
+             <table border="0" style="width: 1000px; background-color: white; margin-bottom: 25px; border-color: white;" class="details">
+                          <tr style="border-bottom:solid 1px black;">
+                              <td style="text-align:center"><h4>SUPPLIER AGING As On : @tdate </h4></td>
+                          </tr>
+                </table>
+                @foreach (var group in Model.GroupBy(item => item.SupplierName))
+                {
+                    var x1 = group.FirstOrDefault();
+        
+                    <li style="list-style-type: none"><b style="padding-bottom:10px">Customer : @Html.Encode(group.Key)</b><br />
+                      
+
+                        <table border="0" style="width: 1000px; background-color: white; margin-bottom: 25px; border-color: white;" class="details">
+                            <tr style="border-bottom-color: black;border-top:solid 1px black;border-bottom:solid 1px black">
+                               
+                                <th style="width:200px">Invoice No.</th>
+                                <th style="width:300px">Voucher No.</th>
+                               <th style="width:300px;">Date</th>
+                                <th style="width: 180px; text-align: right;padding-right:10px;">[0-30]</th>
+                                   <th style="width: 180px; text-align: right;padding-right:10px;">[31-60]</th>
+                                   <th style="width: 180px; text-align: right;padding-right:10px;">[61-90]</th>
+                                   <th style="width: 180px; text-align: right;padding-right:10px;">[91-180]</th>
+                                   <th style="width: 180px; text-align: right;padding-right:10px;">[Above 180]</th>
+                                   <th style="width: 180px; text-align: right;padding-right:10px;">Total</th>
+                          
+                            </tr>
+                            
+                            @{
+                   
+
+
+                    decimal rTotal = 0;
+                    decimal r1 = 0;
+                    decimal r2 = 0;
+                    decimal r3 = 0;
+                    decimal r4 = 0;
+                    decimal r5 = 0;
+                  
+                            }
+                            @foreach (var item in group)
+                            {
+                               
+                              
+                                
+                                <tr>
+                                  
+                                    <td style="text-align:right;padding-right:25px">@item.InvoiceNo</td>
+                                       <td>@item.VoucherNo</td>
+                                    <td style="padding-left:10px">@TrueBooksMVC.Models.CommanFunctions.GetShortDateFormat(item.InvoiceDate)</td>
+                                    @{
+                                        
+                                decimal cTotal = 0;
+                                decimal c1 = 0;
+                                decimal c2 = 0;
+                                decimal c3 = 0;
+                                decimal c4 = 0;
+                                decimal c5 = 0;
+                                
+                                
+                                if (item.DiffDays < 30)
+                                {
+                                    c1 = item.AmtToBeReceived.Value;
+                                    c2 = 0;
+                                    c3 = 0;
+                                    c4 = 0;
+                                    c5 = 0;
+                                    cTotal = c1 + c2 + c3 + c4 + c5;
+                                        
+                                }
+                                else if (item.DiffDays > 30 && item.DiffDays <= 60)
+                                {
+                                    c1 = 0;
+                                    c2 = item.AmtToBeReceived.Value;
+                                    c3 = 0;
+                                    c4 = 0;
+                                    c5 = 0;
+                                    cTotal = c1 + c2 + c3 + c4 + c5;
+                                       
+                                }   
+                                  else if (item.DiffDays > 60 && item.DiffDays <= 90)
+                                {
+                                    c1 = 0;
+                                    c2 = 0;
+                                    c3 = item.AmtToBeReceived.Value;
+                                    c4 = 0;
+                                    c5 = 0;
+                                    cTotal = c1 + c2 + c3 + c4 + c5;
+                                        
+                                }   
+                                  else if (item.DiffDays > 90 && item.DiffDays <= 180)
+                                {
+                                    c1 = 0;
+                                    c2 = 0;
+                                    c3 = 0;
+                                    c4 = item.AmtToBeReceived.Value;
+                                    c5 = 0;
+                                    cTotal = c1 + c2 + c3 + c4 + c5;
+                                        
+                                }   
+                                   else if (item.DiffDays > 180)
+                                {
+                                    c1 = 0;
+                                    c2 = 0;
+                                    c3 = 0;
+                                    c4 = 0;
+                                    c5 = item.AmtToBeReceived.Value;
+                                    cTotal = c1 + c2 + c3 + c4 + c5;
+                                        
+                                }
+                                rTotal = rTotal + cTotal;
+                                r1 = r1 + c1;
+                                r2 = r2 + c2;
+                                r3 = r3 + c3;
+                                r4 = r4 + c4;
+                                r5 = r5 + c5; 
+                                    
+                                   
+                                    }
+                                        <td style="text-align:right;padding-right:5px">@string.Format("{0:n2}", @c1)</td>
+                                         <td style="text-align:right;padding-right:5px">@string.Format("{0:n2}", @c2)</td>
+                                         <td style="text-align:right;padding-right:5px">@string.Format("{0:n2}", @c3)</td>
+                                         <td style="text-align:right;padding-right:5px">@string.Format("{0:n2}", @c4)</td>
+                                         <td style="text-align:right;padding-right:5px">@string.Format("{0:n2}", @c5)</td>
+                                         <td style="text-align:right;padding-right:5px">@string.Format("{0:n2}", @cTotal)</td>
+                                 
+                                 
+                                      
+                                  
+                                </tr>
+         
+                            }
+                           <tr style="border-top-color: black;height:30px;border-top:solid 1px black;border-bottom:solid 1px black">
+                               <td colspan="3">
+                                   <b>@x1.SupplierName</b>
+                               </td>
+                                <td style="text-align: right;padding-right:5px">
+                               
+                                    <b style="font-size: medium">@string.Format("{0:n2}", @r1)</b>
+                                </td>
+                                <td style="text-align: right;padding-right:5px">
+                                    <b style="font-size: medium">@string.Format("{0:n2}", @r2)</b>
+                                </td>
+                                 <td style="text-align: right;padding-right:5px">
+                                    <b style="font-size: medium">@string.Format("{0:n2}", @r3)</b>
+                                </td>
+                                 <td style="text-align: right;padding-right:5px">
+                               
+                                    <b style="font-size: medium">@string.Format("{0:n2}", @r4)</b>
+                                </td>
+                                <td style="text-align: right;padding-right:5px">
+                                    <b style="font-size: medium">@string.Format("{0:n2}", @r5)</b>
+                                </td>
+                                 <td style="text-align: right;padding-right:5px">
+                                    <b style="font-size: medium">@string.Format("{0:n2}", @rTotal)</b>
+                                </td>
+                            </tr>
+                        </table>
+
+                    </li>
+
+                }
+                    
+        </div>
+    </div>*@
+
+
+</body>
+</html>
+
+

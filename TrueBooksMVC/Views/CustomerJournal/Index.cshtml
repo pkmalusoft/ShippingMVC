@@ -1,0 +1,303 @@
+﻿@model TrueBooksMVC.Models.CustomerJournalVM
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
+}
+
+<section class="content-header">
+    <h1 class="headingfont">CustomerJournal / Supplier Journal</h1>
+
+</section>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var x = 2;
+        $(":text").css({ "border-radius": "5px" });
+        $("select").css({ "border-radius": "5px" });
+
+        $("textarea").css({ "border-radius": "5px" });
+
+        $("#CustomerHeadId").css({ "display": "none" });
+        $("#lblCustomer").css({ "display": "none" });
+        // $("#SupplierID").css({ "display": "none" });
+        //$("#SupplierID").prop("disabled", false);
+        $(".rdCustomer").click(function () {
+            $("#lblCustomer").css({ "display": "block" });
+            $("#CustomerHeadId").css({ "display": "block" });
+            $("#SupplierHeadId").css({ "display": "none" });
+            $("#lblsupplier").css({ "display": "none" });
+
+            x = 1;
+        });
+
+        $(".rdSupplier").click(function () {
+            //$("#SupplierID").prop("disabled", false);
+            $("#CustomerHeadId").css({ "display": "none" });
+            $("#SupplierHeadId").css({ "display": "block" });
+            $("#lblCustomer").css({ "display": "none" });
+            $("#lblsupplier").css({ "display": "block" });
+            x = 2;
+
+
+        });
+        $(".btnadd").click(function () {
+
+            var Achead = $("#dropAcHead option:selected").text();
+            var Acheadid = $("#dropAcHead option:selected").val();
+            var Amount = $("#txtAmount").val();
+            var PaymentType = $("#dropAmount").val();
+            var remark = $("#txtremark").val();
+            var Invoice = $("#txtInvoice").val();
+            if(Achead!=null && Amount!=""){
+                $("#tbl1 tr:last-child").before('<tr><td>' + Achead + '<input type="hidden" class="headid" value=' + Acheadid + '></td><td>' + Amount + '</td><td>' + PaymentType + '</td><td> ' + remark + ' </td><td>' + Invoice + '</td><td><input type="button" value="Delete" class="btndelete" onClick="DeleteRow(this)"  /></td></tr>');
+            
+                $("#dropAcHead").val($("#dropAcHead option:first").val());
+                $("#txtAmount").val('');
+                $("#txtremark").val('');
+                $("#txtInvoice").val('');
+               
+            }
+
+            return false;
+        });
+
+
+        //$(".btndelete").click(function () {
+        //    var row = $(this).parent("td").parent("tr");
+
+        //    $(row).css("background-color", "red");
+
+        //    $(row).fadeOut(1000, function () {
+        //        $(row).remove();
+        //    });
+
+        //    return false;
+
+        //});
+
+     
+
+    });
+
+    function SaveDetails(data) {
+        debugger;
+        var x = "";
+        if (data.AcJournalID > 0) {
+            $("#tbl1").find('tr:not(:first-child,:last-child)').each(function (i, el) {
+                var $tds = $(this).find('td'),
+                  acheadid = $tds.find(".headid").val(),
+                   Amount = $tds.eq(1).text(),
+                   PaymentType = $tds.eq(2).text();
+                Remark = $tds.eq(3).text();
+                Invoice = $tds.eq(4).text();
+                debiteorcredit = $tds.eq(2).text();
+                $.ajax({
+                    type: "POST",
+                    url: "/CustomerJournal/saveGridData",
+                    datatype: "Json",
+                    data: { AcHeadid: acheadid, amount: Amount, remark: Remark,debiteorcredit:debiteorcredit, AcJournalID: data.AcJournalID },
+                    success: function (data) {
+                        alert("Record Saved Successfully..!");
+                        location.reload();
+                    }
+                });
+            });
+        }
+    }
+
+    function CheckValidation() {
+      
+        var flag = true;
+        var x = 2;
+
+        if ($('.rdCustomer').is(':checked')) {
+            x = 1;
+        }
+        else if($('.rdSupplier').is(':checked'))
+        {
+            x=2;
+        }
+      
+        if (x == 1 && $("#CustomerHeadId option:selected").val() == "") {
+            flag = false;
+        }
+        else if (x == 2 && $("#SupplierHeadId option:selected").val() == "") {
+            flag = false;
+        }
+        else if ($("#Amount").val() == "") {
+          
+            flag = false;
+        }
+        else if ($("#Invoice").val() == "") {
+            flag = false;
+        }
+
+        if (flag==false) {
+            alert("Please fill mandatory fields")
+            return false;
+        }
+        else if (flag == true) {
+            return true;
+        }
+    }
+
+
+
+    //$("#btnsave").click(function () {
+       
+    //    var cont = $("#CustomerHeadId option:selected").val();
+    //    var amo = $("#Amount").val();
+    //    var inv = $("#Invoice").val();
+
+    //    if (cont == "") {
+    //        $("#alert").show();
+    //        return false;
+    //    }
+    //    else if (amo == "") {
+    //        $("#alert").show();
+    //        return false;
+    //    }
+    //    else if (inv == "") {
+    //        $("#alert").show();
+    //        return false;
+    //    }
+
+    //    else {
+    //        $("#alert").hide();
+    //        return true;
+    //    }
+
+
+    //});
+
+</script>
+<script type="text/javascript">
+    function DeleteRow(x) {
+        var row = $(x).parent("td").parent("tr");
+
+        $(row).css("background-color", "orange");
+
+        $(row).fadeOut(200, function () {
+            $(row).remove();
+        });
+
+        return false;
+    }
+</script>
+
+
+<section class="content">
+    @using (Ajax.BeginForm("GetGridData", "CustomerJournal", new AjaxOptions { OnBegin = "return CheckValidation()", OnSuccess = "SaveDetails" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+         <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
+        <fieldset>
+          
+            <div class="row no-margin">
+                <div class="col-md-3">
+
+                    @Html.RadioButtonFor(model => model.IsCustomerSelected, true, new { @class = "rdCustomer",name="cust" })<label class="headinglabel">Customer</label>&nbsp;
+                       @Html.RadioButtonFor(model => model.IsCustomerSelected, false, new { @class = "rdSupplier",name="sup" })<label class="headinglabel">Supplier</label>
+
+
+                </div>
+
+            </div>
+            <div class="row no-margin">
+                <div class="col-md-3">
+                    <label class="required headinglabel" id="lblCustomer">Customer</label>
+                    @Html.DropDownListFor(model => model.CustomerHeadId, new SelectList(ViewBag.customers, "CustomerID", "Customer1"), "Select", new { @class = "form-control" })
+
+                    <label class=" required headinglabel" id="lblsupplier">Supplier</label>
+                    @Html.DropDownListFor(model => model.SupplierHeadId, new SelectList(ViewBag.supplier, "SupplierID", "SupplierName"), "Select", new { @class = "form-control" })
+
+                    <input type="hidden" />
+
+                </div>
+
+                <div class="col-md-3">
+                    <label class=" required headinglabel">Amount</label>
+                    @Html.TextBox("Amount", "", new { @class = "form-control" })
+                </div>
+                 <div class="col-md-3">
+                    <label class=" required headinglabel">Invoice</label>
+                    @Html.TextBox("Invoice", "", new { @class = "form-control"})
+
+                </div>
+                <div class="col-md-3">
+
+                    @Html.RadioButtonFor(model => model.DebitCreditID, true, "Debit")<label class="headinglabel">Dr</label>&nbsp;&nbsp;&nbsp;
+
+                    @Html.RadioButtonFor(model => model.DebitCreditID, false, "Credit")<label class="headinglabel">cr</label>
+
+                </div>
+            </div>
+            <div class="row no-margin">
+                <div class="col-md-3">
+                    <label class="headinglabel">Remark</label>
+                    @Html.TextArea("Remark", "", new { @class = "form-control" })
+
+                </div>
+               
+            </div>
+            <div class="row no-margin form-layout">
+                <div class="col-xs-12" style="padding-top: 10px">
+                    <div class="data" style="padding-top: 10px;">
+                        <table border="1" class="table table-responsive tblbackground" style="width: 100%" id="tbl1">
+                            <tr style="font-weight: bold">
+
+                                <th>A/C Head</th>
+                                <th>Amount</th>
+                                <th>Dr/Cr</th>
+                                <th>Remark
+                                </th>
+                                <th>Invoice
+                                </th>
+                                <th>Action</th>
+                               
+
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.DropDownList("AcHeadId", ViewBag.acHead as SelectList, "Select", new { @class = "form-control", id = "dropAcHead" })
+
+                                </td>
+                                <td>
+                                    <input type="text" id="txtAmount"></td>
+                                <td>
+                                    <select id="dropAmount">
+                                        <option value="Dr">Dr</option>
+                                        <option value="Cr">Cr</option>
+                                    </select></td>
+                                <td>
+                                    <input type="text" id="txtremark" /></td>
+                                <td colspan="2">
+                                    <input type="text" id="txtInvoice" />&nbsp;<a href="" class="glyphicon glyphicon-plus btnadd"></a></td>
+
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row no-margin" style="padding-top: 10px">
+                <div class="col-md-12">
+
+                    <input type="submit" value="Save" class="btn btn-primary btnwidth" id="btnsave" />
+
+                    &nbsp; 
+               <a href='@Url.Action("CustomerJList", "CustomerJournal", new { id = 0 })' class="btn btn-primary btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+
+                </div>
+
+                <div id="tmpdata" style="width: 500px; height: 400px; color: white">
+                </div>
+            </div>
+
+        </fieldset> 
+    }
+
+</section>

@@ -1,0 +1,31 @@
+﻿@*@model IEnumerable<DAL.qrySupplierOutstanding>*@
+@using TrueBooksMVC.Models;
+@using DAL;
+@using System.Text;
+@using System.Configuration;
+
+@{
+    Layout = null;
+
+   
+  
+}
+
+<div class="row">
+    <div class="col-md-12">
+        @{
+            int supid = Convert.ToInt32(ViewBag.supid);
+            DateTime fromdate = Convert.ToDateTime(ViewBag.fromdate);
+            DateTime todate = Convert.ToDateTime(ViewBag.todate);
+
+            string path = ConfigurationManager.AppSettings["spath"].ToString();
+            string url = path + "/Reports/SupplierStatement.aspx?supid=" + supid + "&fromdate=" + fromdate + "&todate=" + todate;
+            
+            <iframe src="@url" style="width:100%;height:1500px"></iframe>
+        }
+    </div>
+</div>
+
+
+
+

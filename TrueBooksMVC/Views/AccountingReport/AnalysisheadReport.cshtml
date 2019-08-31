@@ -1,0 +1,139 @@
+﻿@{
+    ViewBag.Title = "AnalysisheadReport";
+    Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
+}
+
+
+
+
+
+<style>
+    tfoot
+    {
+        display: table-header-group;
+    }
+
+    #tbl1 tr
+    {
+        height:35px;
+    }
+</style>
+
+<script src="@Url.Content("~/Scripts/angular.js")"></script>
+<script src="@Url.Content("~/MyJsFiles/CustomerRecieptDetails.js")"></script>
+<script src="~/Content/jquery.dataTables.min.js"></script>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+
+
+        $("#frmdate").css("border-radius", "5px");
+        $("#todate").css("border-radius", "5px");
+
+        $("#frmdate").datepicker({
+            dateFormat: 'dd-M-yy',
+            changeYear: true, changeMonth: true,
+
+
+        });
+      
+       
+
+        $("#todate").datepicker({
+            dateFormat: 'dd-M-yy',
+            changeYear: true, changeMonth: true,
+
+        });
+
+   
+
+   
+        $("#frmdate").css("border-radius", "5px");
+  
+         $("#btnsearch").click(function () {
+             var from = $("#frmdate").val();
+             var dto = $("#todate").val();
+             var acid = $("#AnalysisHeadID option:selected").val();
+             
+               
+            //  vaif(rf newfrom = from.getDay() + "/" + from.getMonth() + "/" + from.getFullYear();
+            //  var newto = dto.getDay() + "/" + dto.getMonth() + "/" + dto.getFullYear();
+            //alert(newfrom);
+            //alert(newto);
+     
+
+            $.ajax({
+                url: "@Url.Action("GetAnalysisreport", "AccountingReport")",
+                data: { fdate: from, tdate: dto, AnalysisHeadID: acid },
+                type: "GET",
+                dataType: "json",
+                success: function (data) {
+                    $("#result").html(data.view);
+                },
+                error: function () {
+                    alert("Failed! Please try again.");
+                }
+            });
+        });
+
+});
+
+
+
+</script>
+
+<div ng-app="MyApp" ng-controller="MyController">
+    <div class="" dir="ltr" id="main" runat="server">
+        <section class="content-header">
+            <h1 class="headingfont">Analysis Head Report<small></small></h1>
+
+        </section>
+     
+        <section class="content">
+         <p style="color:white" class="cbtnpadding">
+             <div class="col-md-12">
+                 <div class="col-md-3">
+                  <table border="0" style="width:700px; margin-left:10px; " id="tbl1">
+                    <tr>
+                        <td>
+                             @Html.DropDownList("AnalysisHeadID",new SelectList(ViewBag.anlaysishead,"AnalysisHeadID","AnalysisHead"))
+                        </td>
+                        <td style="color:white">
+                            From Date
+                        </td>
+                          <td>
+                            <input type="text" id="frmdate"  />
+                        </td>
+                    
+                        </div>
+                     <div class="col-md-3" style="margin-left">
+                        <td style="color:white">
+                            To Date
+                        </td>
+                          <td>
+                            <input type="text" id="todate" />
+                        </td>
+                           </div>
+
+                    <div class="col-md-3">
+                        <td>
+                           <input type="button" value="Search" id="btnsearch" class="btn btn-primary btnwidth" />
+                        </td>
+                          </div>
+                    </tr>
+                </table>
+
+             </div>
+             </div>
+
+    
+         
+          </p>
+        </section>
+    <div id="result" style="width:900px"></div>
+
+    </div>
+</div>
+

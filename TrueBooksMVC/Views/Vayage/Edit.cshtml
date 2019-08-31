@@ -1,0 +1,82 @@
+﻿@model DAL.Voyage
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
+    }
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#Voyage1").focus();
+        $(":text").css({ "border-radius": "5px" });
+
+
+
+        $("#btnsave").click(function () {
+
+            var ves = $("#Voyage1").val();
+
+
+
+            if (ves == "") {
+                $("#alert").show();
+                return false;
+            }
+
+            else {
+                $("#alert").hide();
+                return true;
+            }
+
+
+        });
+    });
+</script>
+
+
+<section class="content-header">
+    <h1 class="headingfont">Voyage</h1>
+</section>
+
+<section class="content-header">
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+      <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
+    <fieldset>
+       
+
+         <div class="row no-margin"> 
+             
+               
+                 <div class="col-md-3">
+                      @Html.HiddenFor(model=>model.VoyageID)
+                          <label class="required headinglabel">Voyage</label>
+                       @Html.TextBoxFor(model => model.Voyage1,new { @class = "form-control txttarget" })
+            @Html.ValidationMessageFor(model => model.Voyage1)
+                       
+                 </div>
+               
+
+          </div>
+
+        
+        <div class="row no-margin" style="padding-top:10px">
+                        <div class="col-md-12">
+                         
+                                <input type="submit"  value="Update"  class="btn btn-primary btnwidth" id="btnsave" />
+                               
+                            &nbsp; 
+                                           <a href='@Url.Action("Index", "Vayage", new { id = 0 })' class="btn btn-primary btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+                           
+                        </div>
+                    </div>
+    </fieldset>
+}
+    </section>
+
+
+
+@*@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}*@

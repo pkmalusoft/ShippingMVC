@@ -1,0 +1,95 @@
+﻿@model TrueBooksMVC.Models.AcGroupVM
+@{
+    ViewBag.Title = "AcGroup";
+    Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
+}
+
+<script type="text/javascript">
+        $(document).ready(function () {
+        
+            $(":text").css({ "border-radius": "5px" });
+            $("select").css({ "border-radius": "5px" });
+
+            $("#AcCategoryID").change(function () {
+                $("#GroupCode").empty('');
+                var catid = $("#AcCategoryID option:selected").val();
+                $.ajax({
+                    url: '/AccountingModule/GetGroupsByID',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: { Category: catid },
+                    success: function (groups) {
+                        $("#City").html(""); // clear before appending new list 
+                        $.each(groups, function (i, group) {
+                            $("#GroupCode").append(
+                                $('<option></option>').val(group.AcGroupID).html(group.AcGroup));
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+
+<section class="content-header">
+    <h1 class="headingfont">Account Groups</h1>
+</section>
+
+<section class="content-header">
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+     
+
+           <div class="row no-margin"> 
+               @Html.HiddenFor(model=>model.AcGroupID)
+            <div class="col-md-3">
+                          <label class="required headinglabel">Category</label>
+                       @Html.DropDownListFor(model => model.AcCategoryID, new SelectList(ViewBag.Category,"AcCategoryID","AcCategory"),"Select", new { @class = "form-control txttarget" })
+                        @Html.ValidationMessageFor(model => model.AcCategoryID)
+                            
+             </div>
+             <div class="col-md-3">
+                       <label class="headinglabel">Group</label>
+                         @Html.DropDownListFor(model => model.ParentID,new SelectList(ViewBag.groups, "AcGroupID", "AcGroup"),"Select",new { @class = "form-control" })
+                       @*  @Html.ValidationMessageFor(model => model.AcGroup)*@
+                         
+                          
+             </div>
+              <div class="col-md-3">
+                       <label class="required headinglabel">Sub Group</label>
+                         @Html.TextBoxFor(model => model.subgroup, new {@class="form-control" })
+                         @Html.ValidationMessageFor(model => model.subgroup)
+                         
+                          
+             </div>
+              
+                   <div class="col-md-3">
+                       <label class="required headinglabel">Group Code</label>
+                         @Html.TextBoxFor(model => model.GroupCode, new {@class="form-control" })
+                         @Html.ValidationMessageFor(model => model.GroupCode)
+                    
+                          
+             </div>
+              
+            
+      </div>
+      
+        <div class="row no-margin" style="padding-top:10px">
+                        <div class="col-md-3">
+                           
+                                <input type="submit"  value="Update"  class="btn btn-primary btnwidth" />
+                               
+                            &nbsp; 
+                                           <a href='@Url.Action("IndexAcGroup", "AccountingModule", new { id = 0 })' class="btn btn-primary btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+                           
+                        </div>
+                    </div>
+
+       
+    </fieldset>
+}
+
+</section>
+

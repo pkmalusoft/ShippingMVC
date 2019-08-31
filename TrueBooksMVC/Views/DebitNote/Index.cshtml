@@ -1,0 +1,196 @@
+﻿@*@model DAL.BranchMaster*@
+@model TrueBooksMVC.Models.DebitNoteVM
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(":text").css({ "border-radius": "5px" });
+        $("select").css({ "border-radius": "5px" });
+        $("#InvoiceAmount").attr("disabled", "disabled");
+        $("#AmountPaid").attr("disabled", "disabled");
+
+
+
+
+        $("#btnsave").click(function () {
+            var date = $("#Date").val();
+            var supp = $("#SupplierID option:selected").val();
+            var inv = $("#Invoice option:selected").val();
+            var amt = $("#Amount").val();
+
+
+
+            if (date == "") {
+                $("#alert").show();
+                return false;
+            }
+            else if (supp == "") {
+                $("#alert").show();
+                return false;
+            }
+            else if (inv == "") {
+                $("#alert").show();
+                return false;
+            }
+            else if (amt == "") {
+                $("#alert").show();
+                return false;
+            }
+
+
+            else {
+                $("#alert").hide();
+                return true;
+            }
+
+
+        });
+
+
+
+
+
+
+
+
+
+
+        var startdate = '@Session["FyearFrom"].ToString()';
+        var enddate = '@Session["FyearTo"].ToString()';
+        var sd = new Date(startdate);
+        var ed = new Date(enddate);
+
+        $("#Date").datepicker({
+            dateFormat: 'dd-M-yy',
+            minDate: sd,
+            maxDate: ed,
+            changeYear: true,
+            changeMonth: true
+        });
+
+        $("#SupplierID").change(function () {
+            $.ajax({
+                type: "POST",
+                url: "/DebitNote/GetInvoices",
+                datatype: "Json",
+                data: { id: $("#SupplierID option:selected").val() },
+                success: function (data) {
+                    $("#InvoiceNo").empty();
+                    $("#InvoiceNo").append("<option value=0>Select</option>");
+
+                    $.each(data, function (index, value) {
+                        $('#InvoiceNo').append('<option value="' + value.InvoiceNo + '">' + value.InvoiceNo + '</option>');
+                    });
+
+                }
+            });
+        });
+
+        $("#InvoiceNo").change(function(){
+            $.ajax({
+                type: "POST",
+                url: "/DebitNote/GetAmount",
+                datatype: "Json",
+                data: { invno: $("#InvoiceNo option:selected").val() },
+                success: function (data) {
+                    $("#InvoiceAmount").val(data.InvAmt);
+                    $("#AmountPaid").val(data.AmtPaid);
+                }
+            });
+        })
+    });
+        
+    </script>
+
+<section class="content-header">
+    <h1 class="headingfont">Debit Note</h1>
+
+</section>
+  <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
+<section class="content">
+
+      @if (TempData["SuccessMsg"]!= null)
+    {
+     <script type="text/javascript">
+         $(document).ready(function () {
+             $.notify("@TempData["SuccessMsg"]", "success");
+         });
+                                                </script>
+    }
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+
+        <fieldset>
+             <div class="row no-margin">
+               
+                 <div class="col-md-3">
+                      <label class="headinglabel required">Date</label>
+                     @Html.TextBoxFor(model=>model.Date,new {@class="form-control"})
+                 </div>
+           <div class="col-md-3">
+                 
+               <label class="headinglabel">Expense A/C</label>
+                   @Html.DropDownListFor(model=>model.AcHeadID,new SelectList(@ViewBag.AcHead,"AcHeadID","AcHead1"),"Select",new{@class="form-control"})
+               
+                </div>
+                 <div class="col-md-3">
+                        <label class="headinglabel required">Supplier</label>
+                   @Html.DropDownListFor(model=>model.SupplierID,new SelectList(@ViewBag.Supplier,"SupplierID","SupplierName"),"Select",new{@class="form-control"})
+               </div>
+
+                   <div class="col-md-3">
+                     <label class="headinglabel required">Invoice No</label>
+                  @*<select name="InvoiceNo" id="InvoiceNo"></select>*@
+                     @Html.DropDownListFor(model=>model.InvoiceNo,new SelectList(@ViewBag.Invoice,"InvoiceNo","invoiceNo"),"Select",new{@class="form-control"})
+               </div>
+               
+            </div>
+
+         
+
+            <div class="row no-margin" style="padding-top:10px;">
+              <div class="col-md-3">
+                  <label class="headinglabel">Invoice Amount</label>
+                     @Html.TextBoxFor(model=>model.InvoiceAmount,new {@class="form-control"})
+              </div>
+                 <div class="col-md-3">
+                  <label class="headinglabel">Amount Paid</label>
+                     @Html.TextBoxFor(model=>model.AmountPaid,new {@class="form-control"})
+              </div>
+                 <div class="col-md-3">
+                  <label class="headinglabel required">Amount</label>
+                     @Html.TextBoxFor(model=>model.Amount,new {@class="form-control"})
+              </div>
+               
+
+            </div>
+
+             <div class="row no-margin" style="padding-top:10px;">
+                    <div class="col-md-12">
+                           
+                                <input type="submit"  value="Save"  class="btn btn-primary btnwidth" id="btnsave" />
+                               
+                            &nbsp; 
+                                           <a href='@Url.Action("List", "DebitNote", new { id = 0 })' class="btn btn-primary btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+                           
+                        </div>
+                 </div>
+
+
+        </fieldset>
+    
+    
+    }
+
+</section>
+
+
+ 
+
+

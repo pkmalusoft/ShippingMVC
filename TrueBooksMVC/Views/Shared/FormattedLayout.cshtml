@@ -1,0 +1,169 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>FormattedLayout</title>
+
+    <style>
+        .contentbody table tr:first-child
+        {
+            background-color:lightblue;
+            font-weight:bold;
+        }
+        .contentbody table tr
+        {
+            height:30px;
+            text-align:center;
+        }
+         
+         body 
+        {
+            font-family:Calibri;
+        }
+
+
+        #Invoice {
+            font-family:Calibri;
+        }
+        table {
+            font-family:Calibri;
+        }
+   
+    </style>
+    <script src="~/Content/jQuery-2.1.3.min.js"></script>
+    <script src="@Url.Content("~/MyJsFiles/PrintReportInvoices.js")"></script>
+   <script type="text/javascript">
+
+      
+
+        function printDiv(divName) {
+            var printContents = document.getElementById(divName).innerHTML;
+            var originalContents = document.body.innerHTML;
+
+            document.body.innerHTML = printContents;
+
+            window.print();
+
+            document.body.innerHTML = originalContents;
+        }
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $("#btnhidden").val(document.referrer.toString());
+            
+            $("#btncancel").click(function () {
+                window.location.href = $("#btnhidden").val();
+            });
+
+
+
+            var add1 = $("#caddress1").val();
+            var add2 = $("#caddress2").val();
+            var add3 = $("#caddress3").val();
+
+            if (add1 == "")
+            {
+                $("#caddress1").hide();
+                return false;
+            }
+            else if(add2 == "")
+           {
+                $("#caddress1").hide();
+                return false;
+           }
+            else if(add3 == "")
+            {
+                $("#caddress1").hide();
+                return false;
+            }
+            else
+            {
+                $("#caddress1").show();
+                $("#caddress1").show();
+                $("#caddress1").show();
+                return true;
+            }
+            });
+
+
+    </script>
+   
+</head>
+<body>
+   @* <div>
+        <div style="position:absolute;width:750px;border:solid 0px black;left:20px;margin:0 auto">
+            <div style="position:absolute;top:0px;left:0px;width:100%;height:140px">
+                <div style="position:absolute;top:0px;left:0px;width:50%;height:100%">
+                    <h2 style="color:red">@ViewBag.company</h2>
+                    <h4>@ViewBag.address</h4>
+                </div>
+                <div style="position:absolute;top:0px;left:50%;width:50%;height:100%">
+                    <img src=@ViewBag.image width="80" height="80" style="float:right" />
+                </div>
+            </div>
+
+            <div class="contentbody" style="position:absolute;top:141px;left:0px;height:auto">
+                @RenderBody()
+            </div>
+         
+        </div>
+      
+    </div>*@
+    <div id="prtdiv" style="position:absolute;width:70%;left:15%;top:10px">
+    <table align="center">
+        <tr>
+            <td>
+                <table style="width:100%">
+                    <tr>
+                        <td style="width:80%"><b>@ViewBag.companyname</b><br />
+                            @if(ViewBag.caddress1!="")
+                            {
+                               <b> @ViewBag.caddress1</b><br />
+                            }
+                             @if (ViewBag.caddress2 != "")
+                            {
+                                @ViewBag.caddress2<br />
+                            }
+                              @if (ViewBag.caddress3 != "")
+                            {
+                                @ViewBag.caddress3<br />
+                            }
+                            @ViewBag.cphone
+                        </td>
+                        <td style="width:20%"><img src="~/Images/companylogo.png" width="146" height="50" style="float:right;margin-right:5px" /></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @RenderBody()
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align:center;font-weight:bold">
+                Report Created by Trianglesoft on @TrueBooksMVC.Models.CommanFunctions.GetShortDateFormat(DateTime.Now.ToString())&nbsp;&nbsp;@DateTime.Now.ToString("hh:mm:ss tt") by @Session["UserName"].ToString()
+            </td>
+        </tr>
+    </table>
+        </div>
+  <button id="btncancel" >Cancel</button> <button value="print" id="btnprint" onclick="printDiv('prtdiv');">Print</button><input type="hidden" id="btnhidden" />
+</body>
+</html>
+ <script type="text/javascript">
+     $(document).ready(function () {
+
+         $("#btnhidden").val(document.referrer.toString());
+
+         $("#btncancel").click(function () {
+             window.location.href = $("#btnhidden").val();
+         });
+     });
+    </script>

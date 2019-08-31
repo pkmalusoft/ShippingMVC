@@ -1,0 +1,186 @@
+﻿@{
+    ViewBag.Title = "BalanceSheet";
+    Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
+}
+ <script src="@Url.Content("~/MyJsFiles/PrintReportInvoices.js")"></script>
+   <script type="text/javascript">
+
+
+
+       function printDiv(divName) {
+           var printContents = document.getElementById(divName).innerHTML;
+           var originalContents = document.body.innerHTML;
+
+           document.body.innerHTML = printContents;
+
+           window.print();
+
+           document.body.innerHTML = originalContents;
+       }
+    </script>
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        var startdate = '@Session["FyearFrom"].ToString()';
+        var enddate = '@Session["FyearTo"].ToString()';
+        var sd = new Date(startdate);
+        var ed = new Date(enddate);
+
+
+        $("#frmdate").css("border-radius", "5px");
+        $("#todate").css("border-radius", "5px");
+
+        $("#frmdate").val(GetStartDate());
+
+        $("#todate").val(GetCurrentDate());
+
+        $("#frmdate").datepicker({
+            dateFormat: 'dd-M-yy',
+            changeYear: true, changeMonth: true,
+
+
+        });
+      
+       
+
+        $("#todate").datepicker({
+            dateFormat: 'dd-M-yy',
+            changeYear: true, changeMonth: true,
+            minDate: sd,
+            maxDate:ed,
+
+        });
+
+   
+
+   
+        $("#frmdate").css("border-radius", "5px");
+        $("#AcHeadID").css("border-radius", "5px");
+
+         $("#btnsearch").click(function () {
+             var frm = $("#frmdate").val();
+             var dto = $("#todate").val();
+         
+             var from = new Date($('#frmdate').val());
+             var to = new Date($('#todate').val());
+              
+            //  vaif(rf newfrom = from.getDay() + "/" + from.getMonth() + "/" + from.getFullYear();
+            //  var newto = dto.getDay() + "/" + dto.getMonth() + "/" + dto.getFullYear();
+            //alert(newfrom);
+            //alert(newto);
+             if (frm == "") {
+                 $("#alert").show();
+                 return false;
+
+             }
+             else if (dto == "") {
+                 $("#alert").show();
+                 return false;
+             }
+             else   if (from > to) {
+                 $("#date").show();
+                 return false;
+             }
+             else {
+                 $("#alert").hide();
+                 $("#date").hide();
+                 showLoading();
+                 $.ajax({
+                     url: "@Url.Action("GetBalanceSheet", "AccountingReport")",
+                     data: { fdate: frm, tdate: dto},
+                     type: "GET",
+                     dataType: "json",
+                     success: function (data) {
+                         hideLoading();
+                         $("#result").css("display", "block");
+                      
+                         $("#result").html(data.view);
+                     },
+                     error: function () {
+                         $("#result").css("display", "none");
+                        
+                     }
+                 });
+             }
+        });
+
+        function GetCurrentDate() {
+            var m_names = new Array("Jan", "Feb", "Mar",
+    "Apr", "May", "Jun", "Jul", "Aug", "Sep",
+    "Oct", "Nov", "Dec");
+
+            var d = new Date();
+            var curr_date = d.getDate();
+            var curr_month = d.getMonth();
+            var curr_year = d.getFullYear();
+            return (curr_date + "-" + m_names[curr_month]
+            + "-" + curr_year);
+        }
+
+        function GetStartDate() {
+            var m_names = new Array("Jan", "Feb", "Mar",
+    "Apr", "May", "Jun", "Jul", "Aug", "Sep",
+    "Oct", "Nov", "Dec");
+
+            var d = new Date("@Session["FyearFrom"].ToString()");
+            var curr_date = d.getDate();
+            var curr_month = d.getMonth();
+            var curr_year = d.getFullYear();
+            return (curr_date + "-" + m_names[curr_month]
+            + "-" + curr_year);
+        }
+
+});
+
+
+
+</script>
+<div ng-app="MyApp" ng-controller="MyController">
+    <div class="" dir="ltr" id="main" runat="server">
+        <section class="content-header">
+            <h1 class="headingfont">Balance Sheet<small></small></h1>
+
+        </section>
+   
+        <section class="content">
+        <div id="date" style="color:red;display:none;margin-left:10px;">*Please select valid date</div>
+                  <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
+             <div class="row no-margin">
+                 
+
+                  <div class="col-md-3">
+                            <label class="headinglabel required"> From Date</label>
+                             <input type="text" id="frmdate" class="form-control"  />
+                 </div>
+                    <div class="col-md-3">
+                            <label class="headinglabel required"> To Date</label>
+                             <input type="text" id="todate"  class="form-control"  />
+                 </div>
+                
+                            
+                      
+               
+                 <div class="col-md-4" style="padding-top:25px">
+                       <button id="btnsearch" class="btn btn-primary sidebar-toggle" data-toggle="offcanvas">Generate</button>
+                 </div>        
+         
+             </div>
+            <hr />
+         <div class="row" style="padding-top:20px">
+             <div class="col-md-11" id="result">
+
+             </div>
+           
+         </div>
+
+    
+         
+       
+   
+        </section>
+   
+
+    </div>
+</div>

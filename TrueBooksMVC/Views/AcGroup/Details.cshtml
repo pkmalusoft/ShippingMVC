@@ -1,0 +1,79 @@
+﻿@model DAL.AcGroup
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>AcGroup</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.AcCompanyID)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.AcCompanyID)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.AcGroup1)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.AcGroup1)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.AcType)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.AcType)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.AcClass)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.AcClass)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.ParentID)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ParentID)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.GroupOrder)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.GroupOrder)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.StaticEdit)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.StaticEdit)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.StatusHide)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.StatusHide)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.UserID)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.UserID)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.AcGroupID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

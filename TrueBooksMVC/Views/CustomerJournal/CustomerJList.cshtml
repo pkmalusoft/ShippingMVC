@@ -1,0 +1,92 @@
+﻿@model IEnumerable<TrueBooksMVC.Models.CustomerJournalVM>
+
+@{
+    ViewBag.Title = "CustomerJList";
+    Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
+}
+
+<style>
+     tfoot {
+            display: table-header-group;
+     }
+        </style>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $(".rdCustomer").attr('checked', true);
+
+        $.ajax({
+            type: "POST",
+            url: "/CustomerJournal/GetCustomerJList",
+            datatype: "Json",
+            data: { id: 1 },
+            success: function (data) {
+
+                $("#result").html(data.view);
+
+            }
+        });
+
+        $(".rdCustomer").click(function () {
+          
+            $.ajax({
+                type: "POST",
+                url: "/CustomerJournal/GetCustomerJList",
+                datatype: "Json",
+                data: { id: 1 },
+                success: function (data) {
+
+                    $("#result").html(data.view);
+                   
+                }
+            });
+         
+        });
+
+        $(".rdSupplier").click(function () {
+         
+            $.ajax({
+                type: "POST",
+                url: "/CustomerJournal/GetCustomerJList",
+                datatype: "Json",
+                data: { id: 2 },
+                success: function (data) {
+
+                    $("#result").html(data.view);
+
+                }
+            });
+
+
+        });
+
+     
+    });
+</script>
+
+<section class="content-header">
+    <h1 class="headingfont">Customer / Supplier Journal</h1>
+</section>
+<p class="indexbtnpadding">
+    @Html.ActionLink("Create New", "Index",null,new {@class="btn btn-primary btnwidth"})
+</p>
+<section class="content">
+     @if (ViewBag.SuccessMsg != null)
+    {
+       <script type="text/javascript">
+           $(document).ready(function () {
+               $.notify("@ViewBag.SuccessMsg ", "success");
+           });
+                                                </script>   
+    }
+
+   <div class="row">
+        <div class="col-md-3">
+           <input type="radio" name="g1" class="rdCustomer" value="Customer" checked="checked" />&nbsp;&nbsp;<label style="color:white">Customer</label> &nbsp;&nbsp;&nbsp;&nbsp;   <input type="radio" name="g1" class="rdSupplier" value="Customer" />&nbsp;&nbsp;<label style="color:white">Supplier</label>
+    </div>
+   </div>
+    <div class="table-responsive tblbackground" style="padding:15px" id="result">
+    
+    </div>
+</section>

@@ -1,0 +1,296 @@
+﻿
+@{
+    ViewBag.Title = "Job Cost Report";
+    Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
+}
+<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+<script src="@Url.Content("~/Scripts/angular.js")"></script>
+<script src="@Url.Content("~/MyJsFiles/PrintReportInvoices.js")"></script>
+   <script type="text/javascript">
+
+
+
+       function printDiv(divName) {
+           var printContents = document.getElementById(divName).innerHTML;
+           var originalContents = document.body.innerHTML;
+
+           document.body.innerHTML = printContents;
+
+           window.print();
+
+           document.body.innerHTML = originalContents;
+       }
+    </script>
+<script type="text/javascript">
+
+    $(document).ready(function(){
+        
+        $(":text").css({ "border-radius": "5px" });
+        $("select").css({ "border-radius": "5px" });
+
+        var startdate = '@Session["FyearFrom"].ToString()';
+        var enddate = '@Session["FyearTo"].ToString()';
+        var sd = new Date(startdate);
+        var ed = new Date(enddate);
+
+        $(function () {
+            $(".datepicker").datepicker({
+                dateFormat: 'dd-M-yy',
+                changeMonth: true,
+                changeYear: true,
+                minDate: sd,
+                maxDate: ed,
+            });
+
+            function GetCurrentDate() {
+                var m_names = new Array("Jan", "Feb", "Mar",
+        "Apr", "May", "Jun", "Jul", "Aug", "Sep",
+        "Oct", "Nov", "Dec");
+
+                var d = new Date();
+                var curr_date = d.getDate();
+                var curr_month = d.getMonth();
+                var curr_year = d.getFullYear();
+                return (curr_date + "-" + m_names[curr_month]
+                + "-" + curr_year);
+            }
+
+            function GetStartDate() {
+                var m_names = new Array("Jan", "Feb", "Mar",
+        "Apr", "May", "Jun", "Jul", "Aug", "Sep",
+        "Oct", "Nov", "Dec");
+
+                var d = new Date("@Session["FyearFrom"].ToString()");
+            var curr_date = d.getDate();
+            var curr_month = d.getMonth();
+            var curr_year = d.getFullYear();
+            return (curr_date + "-" + m_names[curr_month]
+            + "-" + curr_year);
+        }
+
+            $("#txtfrom").val(GetStartDate());
+            $("#txtto").val(GetCurrentDate());
+
+        });
+
+        $("#btnsearch").click(function () {
+            var from = $("#txtfrom").val();
+            var dto = $("#txtto").val();
+            showLoading();
+            if (from == "") {
+                $("#error").show();
+                return false;
+            }
+            else if (dto == "") {
+                $("#error").show();
+                return false;
+            }
+            else {
+                $("#error").hide();
+              
+                var custid = $("#CustomerID option:selected").val();
+                var jobTypeid = $("#JobTypeID option:selected").val();
+                var employee = $("#EmployeeID option:selected").val();
+                
+
+               
+                if (custid == "") {
+                    custid = 0;
+                }
+                if (jobTypeid == "") {
+                    jobTypeid = 0;
+                }
+                if (employee == "") {
+                    employee = 0;
+                }
+                debugger;
+                $.ajax({
+                    url: "@Url.Action("GetAllJobReportData", "JobCostReport")",
+                    data: { CustomerID: custid, JobTypeID: jobTypeid, Employee: employee, frmdate: from, tdate: dto },
+                    type: "GET",
+                    dataType: "json",
+                    success: function (data) {
+                        hideLoading();
+                        $("#result").html(data.view);
+                    },
+                    error: function () {
+                        alert("Failed! Please try again.");
+                    }
+                });
+            }
+         });
+   
+
+        $("#btnprint").click(function () {
+            var from = $("#txtfrom").val();
+            var dto = $("#txtto").val();
+
+            if (from == "") {
+                $("#error").show();
+                return false;
+            }
+            else if (dto == "") {
+                $("#error").show();
+                return false;
+            }
+            else {
+                $("#error").hide();
+
+                var custid = $("#CustomerID option:selected").val();
+                var jobTypeid = $("#JobTypeID option:selected").val();
+                var employee = $("#EmployeeID option:selected").val();
+
+                var path = '@System.Configuration.ConfigurationManager.AppSettings["spath"].ToString()';
+                var src = path + "/Reports/Report_JobCost.aspx?fromdate=" + from + "&todate=" + dto + "&custid=" + custid + "&jobtypeid=" + jobTypeid + "&empid=" + employee;
+                window.open(src, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=0,left=0,width=1000,height=1200");
+
+
+                //var custid = $("#CustomerID option:selected").val();
+                //var jobTypeid = $("#JobTypeID option:selected").val();
+                //var employee = $("#EmployeeID option:selected").val();
+                //if (custid == "") {
+                //    custid = 0;
+                //}
+                //if (jobTypeid == "") {
+                //    jobTypeid = 0;
+                //}
+                //if (employee == "") {
+                //    employee = 0;
+                //}
+               @* $.ajax({
+                    url: "@Url.Action("GetAllJobReportDataForPrint", "JobAnalysisReport")",
+                    data: { CustomerID: custid, JobTypeID: jobTypeid, Employee: employee, frmdate: from, tdate: dto },
+                    type: "GET",
+                    dataType: "json",
+                    success: function (data) {
+
+                        $("#PrintTable").html(data.view);
+                        printDiv('PrintTable');
+                    },
+                    error: function () {
+                        alert("Failed! Please try again.");
+                    }
+                });*@
+            }
+          });
+
+    });
+
+
+</script>
+
+
+<section class="content-header">
+    <h1 class="headingfont">Job Cost Report</h1>
+</section>
+
+<section class="content-header">
+    <div id="error" style="color:red;font-family:Calibri;display:none">* Are Mandatory Fields.</div>
+
+
+   
+
+    
+   <div class="row no-margin">
+        <div class="col-md-4">
+            <div class="row">
+                <div class="col-md-3">
+                    <label class="headinglabel required">From:</label>
+
+                </div>
+                <div class="col-md-9">
+                    <input type="text" class="datepicker form-control" id="txtfrom" />
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="row">
+                <div class="col-md-3">
+                    <label class="headinglabel required">To:</label>
+
+                </div>
+                <div class="col-md-9">
+                    <input type="text" class="datepicker form-control" id="txtto" />
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+    <div class="row no-margin" style="padding-top: 20px">
+        <div class="col-md-4">
+
+            <div class="row">
+                <div class="col-md-3">
+                    <label class="headinglabel">Customer:</label>
+                </div>
+                <div class="col-md-9">
+                    @Html.DropDownList("CustomerID", ViewBag.customer as SelectList, "All", new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="row">
+                <div class="col-md-3">
+                    <label class="headinglabel">JobType:</label>
+                </div>
+                <div class="col-md-9">
+                    @Html.DropDownList("JobTypeID", ViewBag.JobType as SelectList, "All", new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+
+          <div class="col-md-4">
+
+            <div class="row">
+                <div class="col-md-3">
+                    <label class="headinglabel">Employee:</label>
+                </div>
+                <div class="col-md-9">
+                    @Html.DropDownList("EmployeeID", ViewBag.Employee as SelectList, "All", new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+           
+       
+    </div>
+    <br />
+    <br />
+
+
+    <br />
+   
+    <div class="col-md-3">
+            <button id="btnsearch" class="btn btn-primary btnwidth">Generate</button>
+        <button id="btnprint" class="btn btn-primary btnwidth">Print</button>
+         @*<button id="btnprint" class="btn btn-primary btnwidth">Print</button>*@
+        </div>
+    <br />
+
+    <div class="row no-margin" style="padding-top: 20px">
+        <div class="col-md-12 tblbackground">
+            <div class="row">
+                <div class="col-md-12" id="result">
+                </div>
+            </div>
+        </div>
+    </div>
+
+     <div class="row no-margin" style="padding-top: 20px;visibility:hidden">
+        <div class="col-md-12 tblbackground">
+            <div class="row">
+                <div class="col-md-12" id="PrintTable">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</section>

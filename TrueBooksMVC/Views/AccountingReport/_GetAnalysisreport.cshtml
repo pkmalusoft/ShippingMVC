@@ -1,0 +1,46 @@
+﻿@model IEnumerable<DAL.Report_AnalysisHeadExpenses_Result>
+@using TrueBooksMVC.Models;
+@using DAL;
+@using System.Text;
+
+@{
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Analysis Head</title>
+</head>
+<body>
+    <div>
+        <table border="1" style="background-color:white">
+            <tr>
+                <td>Voucher No</td>
+                <td>Voucher date</td>
+                  <td>Account Head</td>
+                    <td>Analysis Head</td>
+                    <td>Analysis Group</td>
+                    <td>Analysis Amount</td>
+            </tr>
+
+      
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.VoucherNo</td>
+                <td>@item.TransDate</td>
+                   <td>@item.AcHead</td>
+                   <td>@item.AnalysisHead</td>
+                   <td>@item.AnalysisGroup</td>
+                   <td>@item.AnalysisAmount</td>
+               
+            </tr>
+        }
+              </table>
+    </div>
+</body>
+</html>

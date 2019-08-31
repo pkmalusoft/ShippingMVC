@@ -1,0 +1,92 @@
+﻿@model DAL.Location
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
+}
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#Location1").focus();
+
+        $(":text").css({ "border-radius": "5px" });
+
+        $("#btnsave").click(function () {
+            var loc = $("#Location1").val();
+            var pre = $("#prefix").val();
+
+
+
+            if (loc == "") {
+                $("#alert").show();
+               
+                return false;
+            }
+            else if (pre == "") {
+                $("#alert").show();
+           
+                return false;
+            }
+
+            else {
+                $("#alert").hide();
+                return true;
+            }
+
+
+        });
+
+    });
+</script>
+<section class="content-header">
+    <h1 class="headingfont">Location</h1>
+</section>
+
+<section class="content-header">
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+     <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
+    <fieldset>
+       
+
+      
+    </fieldset>
+    
+    
+    <div class="row no-margin">
+        <div class="col-md-3">
+            <label class="required headinglabel">Location</label>
+            @Html.HiddenFor(model=>model.LocationID)
+             @Html.TextBoxFor(model => model.Location1,new { @class = "form-control txttarget" })
+            @Html.ValidationMessageFor(model => model.Location1)
+
+        </div>
+
+        <div class="col-md-3">
+              <label class="required headinglabel">Prefix</label>
+             @Html.TextBoxFor(model => model.prefix,new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.prefix)
+
+        </div>
+    </div>
+    
+    <div class="row no-margin" style="padding-top:10px">
+        <div class="col-md-3">
+          
+             <input type="submit"  value="Update"  class="btn btn-primary btnwidth" id="btnsave" />
+                               
+                            &nbsp; 
+                                           <a href='@Url.Action("Index", "Location", new { id = 0 })' class="btn btn-primary btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+        </div>
+
+    </div>
+}
+
+
+    </section>
+
+@*@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}*@

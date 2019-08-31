@@ -1,0 +1,586 @@
+﻿@model TrueBooksMVC.Models.AcBookVM
+@{
+    ViewBag.Title = "Cash and Bank Book";
+    Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+      
+           
+            $(function () {
+                $("#transdate").datepicker({
+                    dateFormat: 'dd-M-yy',
+                    changeYear: true, changeMonth: true,
+                });
+            });
+
+            $(function () {
+                $("#chequedate").datepicker({
+                    dateFormat: 'dd-M-yy',
+                    changeYear: true, changeMonth: true,
+                });
+            });
+
+           
+
+
+           
+
+            $(":text").css({ "border-radius": "5px" });
+            $("select").css({ "border-radius": "5px" });
+          
+
+            $("#bankname").prop('disabled', true);
+            $("#chequeno").prop('disabled', true);
+            $("#chequedate").prop('disabled', true);
+            $("#partyname").prop('disabled', true);
+
+
+           
+
+            $("#transtype").change(function () {
+                var v = $("#transtype option:selected").val();
+
+             
+                if (v == "1") {
+                    $(".label1").html("Received From");
+                }
+                else {
+                    $(".label1").html("Paid To");
+                }
+
+
+                var rcbpaytype = $("#transtype option:selected").val();
+                var rcbType = $("#paytype option:selected").val();
+
+                if (rcbpaytype == "1" && rcbType == "1") {
+                    $("#TransactionType").val("CBR");
+                    $("#chequeno").prop('disabled', true);
+                    $("#chequedate").prop('disabled', true);
+                    $("#bankname").prop('disabled', true);
+
+                    $("#partyname").prop('disabled', true);
+
+                }
+                else if (rcbpaytype == "1" && rcbType > 1) {
+                    $("#TransactionType").val("BKR");
+                    $("#bankname").prop('disabled', false);
+
+                    $("#partyname").prop('disabled', false);
+                    $("#chequeno").prop('disabled', false);
+                    $("#chequedate").prop('disabled', false);
+                }
+                else if (rcbpaytype == "2" && rcbType == "1") {
+                    $("#TransactionType").val("CBP");
+                    $("#chequeno").prop('disabled', true);
+                    $("#chequedate").prop('disabled', true);
+                    $("#bankname").prop('disabled', true);
+
+                    $("#partyname").prop('disabled', true);
+                }
+                else if (rcbpaytype == "2" && rcbType > 1) {
+                    $("#TransactionType").val("BKP");
+                    $("#bankname").prop('disabled', true);
+
+                    $("#partyname").prop('disabled', true);
+                    $("#chequeno").prop('disabled', false);
+                    $("#chequedate").prop('disabled', false);
+                }
+            });
+
+
+
+            $("#paytype").change(function () {
+                var v = $("#paytype option:selected").val();
+                if (v == "1") {
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/AccountingModule/GetHeadsForCash",
+                        datatype: "Json",
+                        success: function (data) {
+                            $("#AcHead").empty();
+                          
+                            $.each(data, function (index, value) {
+                                $('#AcHead').append('<option value="' + value.AcHeadID + '">' + value.AcHead + '</option>');
+                            });
+
+                        }
+                    });
+
+                }
+                else {
+                    $.ajax({
+                        type: "POST",
+                        url: "/AccountingModule/GetHeadsForBank",
+                        datatype: "Json",
+                        success: function (data) {
+                            $("#AcHead").empty();
+                         
+                            $.each(data, function (index, value) {
+                                $('#AcHead').append('<option value="' + value.AcHeadID + '">' + value.AcHead + '</option>');
+                            });
+
+                        }
+                    });
+                }
+
+
+                var rcbpaytype = $("#transtype option:selected").val();
+                var rcbType = $("#paytype option:selected").val();
+
+                if (rcbpaytype == "1" && rcbType == "1") {
+                    $("#TransactionType").val("CBR");
+                    $("#chequeno").prop('disabled', true);
+                    $("#chequedate").prop('disabled', true);
+                    $("#bankname").prop('disabled', true);
+
+                    $("#partyname").prop('disabled', true);
+
+                }
+                else if (rcbpaytype == "1" && rcbType > 1) {
+                    $("#TransactionType").val("BKR");
+                    $("#bankname").prop('disabled', false);
+
+                    $("#partyname").prop('disabled', false);
+                    $("#chequeno").prop('disabled', false);
+                    $("#chequedate").prop('disabled', false);
+                }
+                else if (rcbpaytype == "2" && rcbType == "1") {
+                    $("#TransactionType").val("CBP");
+                    $("#chequeno").prop('disabled', true);
+                    $("#chequedate").prop('disabled', true);
+                    $("#bankname").prop('disabled', true);
+
+                    $("#partyname").prop('disabled', true);
+                }
+                else if (rcbpaytype == "2" && rcbType > 1) {
+                    $("#TransactionType").val("BKP");
+                    $("#bankname").prop('disabled', true);
+
+                    $("#partyname").prop('disabled', true);
+                    $("#chequeno").prop('disabled', false);
+                    $("#chequedate").prop('disabled', false);
+                }
+            });
+
+
+            //$("#AcHead").change(function () {
+            //    $.ajax({
+            //        type: "POST",
+            //        url: "/AccountingModule/GetBalance",
+            //        datatype: "Json",
+            //        data:{acheadid:$("#AcHead option:selected").val()},
+            //        success: function (data) {
+                        
+            //            $("#balance").html(data.d);
+            //        }
+            //    });
+            //});
+
+
+            //$("#btnAdd").click(function () {
+             
+            //    var str = "";
+            //    var totalamt = 0;
+            //    $("#details tr:last-child").after('<tr><td>' + $("#ReceivedFrom option:selected").val() + '</td><td>' + $("#ReceivedFrom option:selected").text() + '</td><td>' + $("#amount").val() + '</td><td>' + $("#remark1").val() + '</td></tr>');
+
+            //    $("#details").find('tr:not(:first-child)').each(function (i, el) {
+            //        var $tds = $(this).find('td'),
+            //          acheadid = $tds.eq(0).text(),
+            //           Amount = $tds.eq(2).text(),
+                     
+            //        Remark = $tds.eq(3).text();
+            //        str = str + acheadid + "~" + Amount + "~" + Remark + "~";
+            //        totalamt = parseInt(totalamt) + parseInt(Amount);
+            //    });
+
+            //    $("#AcJournalDetail").val(str);
+            //    $("#TotalAmt").val(totalamt);
+            //    return false;
+            //});
+
+
+            $("#btnAdd").click(function () {
+
+                if ($("#ReceivedFrom option:selected").val() == "") {
+                    alert("Please Select Head");
+                    $("#ReceivedFrom").focus();
+                    return false;
+                }
+                else if ($("#amount").val() == "") {
+                    alert("Please Enter The Amount");
+                    $("#amount").focus();
+                    return false;
+                }
+                else {
+
+
+
+                    var str = "";
+                    var totalamt = 0;
+                    var i = $('#details tr').length - 1;
+
+                    $("#details").append('<tr>' + '<td>' + $("#ReceivedFrom option:selected").text() + '<input type="hidden" class=JAcHead value=' + $("#ReceivedFrom option:selected").val() + ' name="AcJDetailVM[' + i + '].AcHeadID"><input type="hidden" value=' + $("#ReceivedFrom option:selected").text() + ' name="AcJDetailVM[' + i + '].AcHead"></td>' +
+                        '<td class=textright><input type="textbox" class="JAcAmt" value=' + parseFloat($("#amount").val()).toFixed(2) + ' name="AcJDetailVM[' + i + '].Amt"></td>' + '<td>' + $("#remark1").val() + '<input type="hidden" value=' + $("#remark1").val() + ' name="AcJDetailVM[' + i + '].Rem"></td></tr>');
+
+                    $("#ReceivedFrom").val($("#ReceivedFrom option:first").val());
+                    $("#amount").val('');
+                    $("#remark1").val('');
+                }
+
+                //$("#details").find('tr:not(:first-child)').each(function (i, el) {
+                 
+                //    Amount = $tds.eq(2).find().text();
+                     
+              
+                //           totalamt = parseInt(totalamt) + parseInt(Amount);
+                //       });
+
+                   
+                //$("#TotalAmt").val(totalamt);
+                //$("#lblamt").text(totalamt);
+                return false;
+            });
+
+            $(".Allocate").click(function () {
+                alert("hiii");
+            });
+
+
+
+
+
+            $("#btn1").click(function () {
+          
+                alert("Hiii");
+                //var acid=$(this).parent("td").parent("tr").find(".JAcHead").val();
+                //var amt=$(this).parent("td").parent("tr").find(".JAcAmt").val();
+                //var ajaxCallURL = '/AccountingModule/ExpAllocation';
+                //$.ajax({
+                //    type: "GET",
+                //    url: ajaxCallURL,
+                //    contentType: "application/json; charset=utf-8",
+                //    datatype: "json",
+                //    success: function (data) {
+                //        $('#mycontent').html(data);
+                //        //$('#myModal').modal(options);
+                //        $('#myModal').modal('show');
+                //    },
+                //    error: function () {
+                //        alert("Content load failed.");
+                //    }
+                //});
+
+
+                $.ajax({
+                    url: "@Url.Action("ExpAllocation", "AccountingModule")",
+                    data: { amount:500,acheadid:325 },
+                    type: "GET",
+                       dataType: "json",
+                       success: function (data) {
+                           //$("#res").html(data.view);
+                           $(".modal-body").html(data.view);
+                           $("#myModal").modal('show');
+                         
+                       },
+                       error: function () {
+                           alert("Failed! Please try again.");
+                       }
+                   });
+            });
+
+
+
+            $("#btnsave").click(function () {
+                if ($("#transdate").val() == "") {
+                    alert("Please Select Transaction Date");
+                    return false;
+
+                }
+                else if ($("#AcHead").val() == "") {
+                    alert("Please Select Account Head");
+                    return false;
+                }
+                else {
+                    return true;
+                }
+            });
+
+            $("#btnUpdate").click(function () {
+                var ind = $("#currindex").val();
+                var amt = $("#amount").val();
+                alert(ind);
+                $("#details").find("tr:eq('" + ind + "')").find("td:eq(1)").empty();
+                $("#details").find("tr:eq('" + ind + "')").find("td:eq(1)").html(amt + '<input type="hidden" class="JAcAmt" value=' + amt + ' name="AcJDetailVM[' + ind + '].Amt">');
+               
+
+                $(this).hide();
+                $("#btnAdd").show();
+                $("#amount").val('');
+
+            });
+
+
+            var v = $("#transtype option:selected").val();
+        
+            $.ajax({
+                type: "POST",
+                url: "/AccountingModule/GetAcJDetails",
+                datatype: "Json",
+                data: { id: $("#AcJournalID").val(), transtype: v },
+                success: function (data) {
+
+                    $.each(data, function (index, value) {
+                        var i = $('#details tr').length - 1;
+                        $("#details").append('<tr>' + '<td>' + value.AcHead + '<input type="hidden" class=JAcHead value=' + value.AcHeadID + ' name="AcJDetailVM[' + i + '].AcHeadID"><input type="hidden" value=' + value.AcHead + ' name="AcJDetailVM[' + i + '].AcHead"><input type="hidden" value=' + value.AcJournalDetID + ' name="AcJDetailVM[' + i + '].AcJournalDetID"></td>' +
+                     '<td class=textright><input type="textbox" class="JAcAmt" value=' + parseFloat(value.Amt).toFixed(2) + ' name="AcJDetailVM[' + i + '].Amt"></td>' + '<td>' + value.Rem + '<input type="hidden" value=' + value.Rem + ' name="AcJDetailVM[' + i + '].Rem"></td></tr>');
+                    });
+                }
+
+
+            });
+
+
+
+           
+        });
+</script>
+<script>
+    //$(document).ready(function(){
+    //    function EditData(obj) {
+    //        var tempobj = $(obj).parent("td").parent("tr");
+
+    //        var currentindex = $(tempobj).index('this');
+    //        alert(currentindex);
+    //        $("#currindex").val(currentindex);
+
+    //        var amt = $(tempobj).find("td:eq(1)").find('input[type=hidden]').val();
+
+    //        $("#amount").val(amt);
+
+    //        $("#btnAdd").hide();
+    //        $("#btnUpdate").show();
+    //    }
+    //    });
+    
+
+</script>
+
+   
+
+<section class="content-header">
+    <h1 class="headingfont">Cash and Bank Book</h1>
+
+</section>
+
+
+<section class="content">
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+    
+         <div class="row no-margin"> 
+             
+             <div class="col-md-3">
+                 @Html.HiddenFor(model => model.AcJournalID)
+                 @Html.HiddenFor(model => model.AcBankDetailID)
+                 @Html.HiddenFor(model=>model.VoucherType)
+                   @Html.HiddenFor(model=>model.VoucherNo)
+                 @Html.HiddenFor(model => model.TransactionType)
+   @*              @Html.HiddenFor(model => model.transtype)*@
+                 @Html.HiddenFor(model => model.paytype)
+
+                 <input type="hidden" id="currindex" />
+
+                          <label class="headinglabel">Transaction Type</label>
+                       @Html.DropDownListFor(model => model.transtype, ViewBag.transtypes as SelectList, new { @class = "form-control txttarget" })
+                        @Html.ValidationMessageFor(model => model.transtype)
+                 @Html.HiddenFor(Model => Model.TransactionType)
+                            
+             </div>
+             <div class="col-md-3">
+                          <label class="headinglabel">Payment Type</label>
+                         @Html.DropDownListFor(model => model.paytype,ViewBag.paytypes as SelectList,new { @class = "form-control" })
+                         @Html.ValidationMessageFor(model => model.paytype)
+                          
+             </div>
+               <div class="col-md-3">
+                          <label class="headinglabel">Transaction Date</label>
+                         @Html.TextBoxFor(model => model.transdate,String.Format("{0:dd-MMM-yyyy}",this.Model.transdate), new{@class = "form-control" })
+                         @Html.ValidationMessageFor(model => model.transdate)
+                          
+             </div>
+
+                <div class="col-md-3">
+                          <label class="headinglabel">Account Head</label>
+                       @Html.DropDownListFor(model => model.AcHead,new SelectList(ViewBag.heads,"AcHeadID","AcHead"),"Select", new { @class = "form-control txttarget" })
+                        @Html.ValidationMessageFor(model => model.AcHead)
+                            
+             </div>
+            
+       </div>
+
+           <div class="row no-margin" style="padding-top:10px"> 
+             
+          
+             <div class="col-md-3">
+                  <label class="headinglabel">Reference</label>
+                @Html.TextBoxFor(model => model.reference,new { @class = "form-control" })
+                         @Html.ValidationMessageFor(model => model.reference)
+                          
+             </div>
+               <div class="col-md-3">
+                          <label class="headinglabel">Remarks</label>
+                         @Html.TextAreaFor(model => model.remarks,new { @class = "form-control" })
+                         @Html.ValidationMessageFor(model => model.remarks)
+                       <span id="balance"></span>
+             </div>
+            
+       </div>
+
+       
+     @*   <div class="row no-margin" style="padding-top:10px">
+                        <div class="col-md-12">
+                           
+                                <input type="submit"  value="Save"  class="btn btn-primary btnwidth" />
+                               
+                            &nbsp; 
+                                           <a href='@Url.Action("IndexAcBook", "AccountingModule", new { id = 0 })' class="btn btn-primary btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+                           
+                        </div>
+                    </div>*@
+
+       
+    </fieldset>
+    
+    <br />
+       <fieldset>
+        <legend style="color:white">Bank Details</legend>
+       
+         <div class="row no-margin"> 
+             
+             <div class="col-md-3">
+                          <label class="headinglabel">Bank Name</label>
+                       @Html.TextBoxFor(model => model.bankname,new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.bankname)
+                            
+             </div>
+                <div class="col-md-3">
+                          <label class="headinglabel">Cheque No</label>
+                       @Html.TextBoxFor(model => model.chequeno,new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.chequeno)
+                            
+             </div>
+                <div class="col-md-3">
+                          <label class="headinglabel">Cheque Date</label>
+                       @Html.TextBoxFor(model => model.chequedate,String.Format("{0:dd-MMM-yyyy}",this.Model.chequedate),new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.chequedate)
+                            
+             </div>
+
+             
+                         <div class="col-md-3">
+                                      <label class="headinglabel">Party Name</label>
+                                   @Html.TextBoxFor(model => model.partyname,new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.partyname)
+                            
+                         </div>
+        </div>
+
+           
+        </fieldset>
+    
+    
+     <fieldset>
+        <legend style="color:white">Add Details</legend>
+       
+         <div class="row no-margin"> 
+             
+             <div class="col-md-3">
+                          <label class="headinglabel label1">Received From</label>
+                       @Html.DropDownListFor(model => model.ReceivedFrom,new SelectList(ViewBag.headsreceived,"AcHeadID","AcHead"),"Select", new { @class = "form-control txttarget" })
+                        @Html.ValidationMessageFor(model => model.ReceivedFrom)
+                            
+             </div>
+             
+
+             <div class="col-md-3">
+                          <label class="headinglabel">Amount</label>
+                             @Html.TextBoxFor(model => model.amount,new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.amount)
+                            
+             </div>
+             <div class="col-md-3">
+                          <label class="headinglabel">Remark</label>
+                             @Html.TextAreaFor(model => model.remark1,new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.remark1)
+                            
+             </div>
+
+             
+             <div class="col-md-3"><br />
+                        <input type="button" class="btn btn-primary" value="Add" id="btnAdd">
+                 <input type="button" class="btn btn-primary" value="Update" id="btnUpdate" style="display:none;">
+                            
+             </div>
+        </div>
+
+        
+             
+
+            <div class="row no-margin" style="padding-top:10px"> 
+                <table class="table table-bordered table-responsive" id="details" style="background-color:white">
+                 
+                       <thead>
+                           
+                            <th>AcHead</th>
+                            <th>Amount</th>
+                            <th>Remark</th>
+                          
+                      </thead>
+                     
+                </table>
+                @Html.HiddenFor(model=>model.AcJournalDetail)
+                @Html.HiddenFor(model=>model.TotalAmt)
+            </div>
+         <div class="row no-margin">
+             <div class="col-md-10" id="res">
+
+             </div>
+         </div>
+          <div class="row no-margin" style="padding-top:10px">
+        @*   <input type="button" id="btn1" value="add" />*@
+              <input type="submit" value="Update" class="btn btn-primary btnwidth" id="btnsave" /> &nbsp;&nbsp;<a href='@Url.Action("IndexAcBook", "AccountingModule", new { id = 0 })' class="btn btn-primary btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+              </div>
+         </fieldset>
+    
+}
+    </section>
+
+@*Popup code*@
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel">Report</h4>
+                    </div>
+                    <div class="modal-body">
+                       
+                    </div>
+                    <div class="modal-footer">
+                     
+                        <button type="button" class="btn btn-primary" id="btnsubmitforreport">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+@* End Popup *@

@@ -1,0 +1,117 @@
+﻿@{
+    Layout = "~/Views/Shared/PlainLayout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>InvoiceReportPlain</title>
+</head>
+<body>
+    <div id="Invoice">
+        <table width="700px" border="1">
+            <tr>
+                <td>
+                    <center><b><u>INVOICE</u></b><b style="float:right">@ViewBag.CurrencyName</b></center>
+                </td>
+            </tr>
+            <tr height="750px">
+                <td>
+                    <center>
+                        <table border="0" width="670px" style="position:relative;margin-top : 0px;">
+                            <tr>
+                                <td width="70%" ><br />
+                                 
+ To,<br />
+
+ @ViewBag.Custmr<br /> 
+ @ViewBag.Adress1<br />
+ @ViewBag.Adress2 <br />
+ Ph : @ViewBag.Phne 
+                                   
+                                </td>
+                               
+                                <td width="30%">Date:@TrueBooksMVC.Models.CommanFunctions.GetShortDateFormat(@ViewBag.InvcDate)</td>
+                            </tr>
+                        </table></center>
+                    <br />
+                    <br />
+                    <table border="0" width="670px">
+                        <tr>
+                            <td>INVOICE # &nbsp; </td>
+                            <td>@ViewBag.InvceNo</td>
+                            <td>REF # &nbsp; </td>
+                            <td>@ViewBag.JobCd</td>
+                        </tr>
+                        <tr>
+                            <td>INVOICE TO &nbsp; </td>
+                            <td>@ViewBag.Exp1</td>
+                            <td>ORIGIN &nbsp; </td>
+                            <td>@ViewBag.Prt</td>
+                        </tr>
+                        <tr>
+                            <td>VESSEL &nbsp; </td>
+                            <td>@ViewBag.Vesel</td>
+                            <td>DESTINATION &nbsp; </td>
+                            <td>@ViewBag.Exp2 </td>
+                        </tr>
+                        <tr>
+                            <td>VOYAGE NO &nbsp; </td>
+                            <td>@ViewBag.VyageNo</td>
+                            <td>BL # &nbsp; </td>
+                            <td>@ViewBag.BL</td>
+                        </tr>
+                        <tr>
+                            <td>ARRIVAL DATE &nbsp; </td>
+                            <td>@TrueBooksMVC.Models.CommanFunctions.GetShortDateFormat(@ViewBag.ArrvlDate)</td>
+                            <td>FREIGHT &nbsp; </td>
+                            <td>@ViewBag.Frgt</td>
+                        </tr>
+                        <tr>
+                            <td>CUSTOMER REF &nbsp; </td>
+                            <td>@ViewBag.CuRef</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                    <br />
+                    <br />
+                      <b>CHARGES</b>
+                    <table border="1" width="690px">
+                        <tr>
+                            <td width="25%">Revenue Code</td>
+                            <td width="25%"><b>@ViewBag.CurrencyName</b></td>
+                            <td width="25%"><b>@ViewBag.BaseCurrency </b></td>
+                            <td width="25%"><b>DESCRIPTION</b></td>
+                            @foreach (var item in ViewData.Model)
+                            { 
+                                <tr>
+                                    <td width="25%">@item.RevenueCode</td>
+                                    <td width="25%" style="text-align:right">@string.Format("{0:n2}", @item.SalesForeign)</td>
+                                    <td width="25%" style="text-align:right">@string.Format("{0:n2}", @item.SalesHome)</td>
+
+                                    <td width="25%">@item.Description</td>
+
+                                </tr>
+                               
+                            }
+
+                    </table>
+                </td>
+            </tr>
+          @*  <tr>
+                <td style="text-align: center">RAMMAR SHIPPING SERVICES<br />
+                    P.O.BOX 121324 DUBAI U.A.E<br />
+                    Tel: 00971 4 3798831 Fax: 00971 4 3798832<br />
+                    noora@rammargroup.com / accounts@rammargroup.com 
+                     
+
+                </td>
+            </tr>*@
+        </table>
+    </div>
+
+</body>
+</html>

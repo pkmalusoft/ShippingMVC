@@ -1,0 +1,296 @@
+﻿@{
+    ViewBag.Title = "Home";
+    Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
+}
+
+
+
+<script type="text/javascript" src="~/Scripts/Highcharts/highcharts.js"></script>
+
+@*<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>Dashboard <small></small></h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i>Level</a></li>
+        <li class="active">Here</li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-aqua">
+                <div class="inner">
+                    <h3>24</h3>
+                    <p>Job</p>
+                </div>
+                <div class="icon"><i class="fa fa-briefcase"></i></div>
+                <a href='@Url.Action("JobDetails", "Job", new { ID = 0 })' class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-green">
+                <div class="inner">
+                    <h3>60<sup style="font-size: 20px">%</sup></h3>
+                    <p>Cost Updation</p>
+                </div>
+                <div class="icon"><i class="fa fa-refresh"></i></div>
+                <a class="small-box-footer" href='@Url.Action("CostUpdationDetails", "CostUpdation", new { ID = 0 })'>More info <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-yellow">
+                <div class="inner">
+                    <h3>42</h3>
+                    <p>Customer Receipt</p>
+                </div>
+                <div class="icon"><i class="fa fa fa-list-alt"></i></div>
+                <a class="small-box-footer" href='@Url.Action("CustomerRecieptDetails", "CustomerReciept", new { ID = 0 })'>More info <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-red">
+                <div class="inner">
+                    <h3>64	</h3>
+                    <p>Supplier Payment</p>
+                </div>
+                <div class="icon"><i class="fa fa-credit-card"></i></div>
+                <a class="small-box-footer" href='@Url.Action("SupplierPaymentDetails", "SupplierPayment", new { ID = 0 })'>More info <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <!-- ./col -->
+    </div>
+</section>
+<!-- /.content -->*@
+
+
+
+
+
+
+
+
+<!-- Main content -->
+<section class="content">
+    <div class="box-body">
+
+
+        <div class="col-md-4" style="padding-right: 20px">
+            <div class="row wh">
+                <div class="col-md-12">
+                    <h3 class="fa fa-money">Cost Updation</h3>
+                    @* <span class="fa fa-doller">JOB</span>*@
+                    <div style="height: 40px">
+                        <table width="50%">
+                          @*  <tr>
+                                <td>PROVISION
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>UPDATED
+                                </td>
+                            </tr>*@
+
+                            
+                                @foreach (var item in @ViewBag.CostUpdationDetails)
+                                {
+                                    <tr>
+                                         <td>PROVISION
+                                </td>
+                                    <td style="text-align:right">@if (@item.Provision != null)
+                                        {
+                                        <span>@string.Format("{0:n2}", @item.Provision)</span>
+                                        }
+                                    </td>
+                                        </tr>
+                                     <tr>
+                                         <td>UPDATED
+                                </td>
+                                    <td style="text-align:right">
+                                        @if (@item.Updated != null)
+                                        {
+                                            <span>@string.Format("{0:n2}", @item.Updated)</span>
+                                        }
+
+
+                                    </td>   </tr>
+                                    
+                                }
+                           
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="row wh">
+                <div class="pad mgt col-sm-12 wh">
+                    <div id="CostUpdationChart" style="height: 150px">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4" style="padding-right: 20px">
+            <div class="row wh">
+                <div class="col-md-12">
+                    <h3 class="fa fa-list-alt">Receivable</h3>
+
+                    <table width="50%">
+                     @*   <tr>
+                            <td>INVOICED
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>RECEIVED</td>
+                        </tr>
+                        <tr>*@
+                            @foreach (var item in @ViewBag.custReciavable)
+                            {
+                                 <tr>
+                                         <td>INVOICED
+                                </td>
+                                <td style="text-align:right">@if (@item.Invoiced != null)
+                                    {
+                                    <span>@string.Format("{0:n2}", @item.Invoiced)</span>
+                                    }
+                                </td>
+                                     </tr>
+                                <tr>
+                                    <td>RECEIVED</td>
+                                <td style="text-align:right">
+                                    @if (@item.Recievable != null)
+                                    {
+                                        <span>@string.Format("{0:n2}", @item.Recievable)</span>
+                                    }
+
+
+                                </td>   
+                                    </tr>
+                                
+                                
+                            }
+                       
+                    </table>
+                </div>
+            </div>
+            <div class="row wh">
+
+                <div class="pad mgt col-sm-12 wh">
+                    <div id="receivable" style="height: 150px">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+
+        <div class="col-md-4">
+            <div class="row wh">
+                <div class="col-md-12">
+                    <h3 class="fa fa-money">Payable</h3>
+                    @* <span class="fa fa-briefcase">JOB</span>*@
+                    <table width="50%">
+                       @* <tr>
+                            <td>INVOICED
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>PAID</td>
+                        </tr>*@
+                       
+
+                            @foreach (var item in @ViewBag.Payble)
+                            {
+                                <tr>
+                                    <td>INVOICED</td>
+                                <td style="text-align:right">@if (@item.Invoiced != null)
+                                    {
+                                    <span>@string.Format("{0:n2}", @item.Invoiced)</span>
+                                    }
+                                </td>
+                                </tr>
+                                <tr>
+                                    <td>PAID</td>
+                                <td style="text-align:right">
+                                    @if (@item.Paid != null)
+                                    {
+                                        <span>@string.Format("{0:n2}", @item.Paid)</span>
+                                    }
+                                </td>   
+                                </tr> 
+                               
+                            }
+
+                        
+                    </table>
+                </div>
+            </div>
+            <div class="row wh">
+                <div class="pad mgt col-sm-12 wh">
+                    <div id="payble" style="height: 150px">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+    <div class="box-body">
+        <div class="col-md-12" style="padding-right: 20px;">
+            <div class="row wh">
+                <div class="col-md-12">
+                    @*<span ><i  class="fa fa-briefcase" ></i></span>*@
+                    <h3 class="fa fa-briefcase">JOB</h3>
+                    @* <span class="fa fa-briefcase">JOB</span>*@
+
+                    <div class="col-md-12">
+
+                      
+
+                       
+                        @foreach (var item in ViewBag.JobCostDetails)
+                        {
+                            
+                            if (@item.JobDescription != null)
+                            {
+                                
+                            <div class="col-sm-3">@item.JobDescription
+                            </div>}
+                            if (@item.Cost != null)
+                            {
+                            <div class="col-sm-3" style="text-align:right">@string.Format("{0:n2}", @item.Cost)
+                            </div> 
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="row wh">
+
+                <div class="pad mgt col-sm-12 wh">
+
+
+                    <div id="JobChart" style="height: 150px">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- /.content -->
+
+
+
+<script type="text/javascript" src="~/Scripts/Highcharts/Home.js"></script>

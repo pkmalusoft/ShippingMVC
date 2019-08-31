@@ -1,0 +1,30 @@
+﻿@model DAL.Designation
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Designation</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Designation1)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Designation1)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.User1)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.User1)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.DesignationID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

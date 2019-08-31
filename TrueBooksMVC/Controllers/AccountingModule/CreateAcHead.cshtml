@@ -1,0 +1,109 @@
+﻿@model DAL.AcHead
+@{
+    ViewBag.Title = "AcHead";
+    Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
+}
+
+<script type="text/javascript">
+        $(document).ready(function () {
+           
+            $(":text").css({ "border-radius": "5px" });
+            $("select").css({ "border-radius": "5px" });
+
+            $("#btnsave").click(function () {
+                var acgroup = $("#AcGroupID option:selected").val();
+                var head = $("#AcHead1").val();
+                var code = $("#AcHeadKey").val();
+                var prefix = $("#Prefix").val();
+
+
+
+
+                if (acgroup == "") {
+                    $("#alert").show();
+                    return false;
+                }
+                else if (head == "") {
+                    $("#alert").show();
+                    return false;
+                }
+                else if (code == "") {
+                    $("#alert").show();
+                    return false;
+                }
+                else if (prefix == "") {
+                    $("#alert").show();
+                    return false;
+
+                }
+                else {
+                    $("#alert").hide();
+                    return true;
+                }
+            });
+
+      
+        });
+    </script>
+<section class="content-header">
+    <h1 class="headingfont">Chart Of Accounts</h1>
+
+</section>
+
+
+<section class="content">
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+      <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
+    <fieldset>
+       
+         <div class="row no-margin"> 
+             
+             <div class="col-md-3">
+                          <label class="required headinglabel">Group</label>
+                       @Html.DropDownListFor(model => model.AcGroupID, new SelectList(ViewBag.groups,"AcGroupID","AcGroup"), new { @class = "form-control txttarget" })
+                        @Html.ValidationMessageFor(model => model.AcGroupID)
+                            
+             </div>
+             <div class="col-md-3">
+                          <label class="required headinglabel">Head</label>
+                         @Html.TextBoxFor(model => model.AcHead1,new { @class = "form-control txttarget" })
+                         @Html.ValidationMessageFor(model => model.AcHead1)
+                          
+             </div>
+               <div class="col-md-3">
+                          <label class="required headinglabel">Code</label>
+                         @Html.TextBoxFor(model => model.AcHeadKey,new { @class = "form-control" })
+                         @Html.ValidationMessageFor(model => model.AcHeadKey)
+                          
+             </div>
+            
+       </div>
+
+          <div class="row no-margin" style="padding-top:10px"> 
+              <div class="col-md-3">
+                          <label class="required headinglabel">Prefix</label>
+                         @Html.TextBoxFor(model => model.Prefix,new { @class = "form-control" })
+                         @Html.ValidationMessageFor(model => model.Prefix)
+                          
+             </div>
+          </div>
+
+       
+        <div class="row no-margin" style="padding-top:10px">
+                        <div class="col-md-12">
+                           
+                                <input type="submit"  value="Save"  class="btn btn-primary btnwidth" id="btnsave" />
+                               
+                            &nbsp; 
+                                           <a href='@Url.Action("IndexAcHead", "AccountingModule", new { id = 0 })' class="btn btn-primary btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+                           
+                        </div>
+                    </div>
+
+       
+    </fieldset>
+}
+    </section>

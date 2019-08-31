@@ -1,0 +1,141 @@
+﻿@*@model  IEnumerable<DAL.qryCustomerStatement>*@
+@using TrueBooksMVC.Models;
+@using DAL;
+
+@{
+    Layout = null;
+    decimal orgrec = 0;
+    decimal orgpaid = 0;
+    decimal orgbalance = 0;
+}
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Customer  Outstanding Report</title>
+
+
+    <style type="text/css">
+        .details tr
+        {
+            height: 32px;
+        }
+    </style>
+</head>
+
+
+<body>
+      <div class="row">
+    <div class="col-md-12" style="background-color:white">
+         @{
+                
+             int custid = Convert.ToInt32(ViewBag.custid);
+                DateTime fromdate = Convert.ToDateTime(ViewBag.fromdate);
+                DateTime todate = Convert.ToDateTime(ViewBag.todate);
+                
+                string path=System.Configuration.ConfigurationManager.AppSettings["spath"].ToString();
+                string url = path + "/Reports/customeroutstanding.aspx?custid=" + custid + "&fromdate=" + fromdate + "&todate=" + todate;
+                
+                <iframe src="@url" style="width:100%;height:1200px"></iframe>
+            }
+    </div>
+</div>
+
+  @*  <div class="row">
+        <div class="col-md-12" style="background-color: white; padding-top: 20px;padding-bottom:20px">
+                    <p style="border-bottom:solid 1px black;width:960px">
+                @{
+                SHIPPING_FinalEntities db1 = new SHIPPING_FinalEntities();
+                var data = (from c in db1.AcCompanies select c).FirstOrDefault();
+              <b>@data.AcCompany1</b><br />
+              <span>@data.Address1 &nbsp; @data.Address2 &nbsp; @data.Address3</span>
+                
+            }
+           
+              
+           </p>
+           
+              <table border="0" style="width: 960px; background-color: white; margin-bottom: 25px; border-color: white;" class="details">
+                          <tr>
+                              @{
+                                  
+                                  DateTime tdate = Convert.ToDateTime(ViewBag.todate);
+                              }
+                              <td style="text-align:center"><h4>CUSTMOER OUTSTANDING As On : @TrueBooksMVC.Models.CommanFunctions.GetShortDateFormat(@tdate)</h4></td>
+                          </tr>
+              
+                </table>
+
+             <table border=0" style="width: 960px; background-color: white; margin-bottom: 25px; border-color: white;" class="details">
+                            <tr style="border-bottom-color: black;border-bottom:solid 1px black">
+                                <th style="width:200px">Customer</th>
+                                <th style="width:300px;text-align:right">Org. Inv.</th>
+                                <th style="width:540px;text-align:right">Received</th>
+                               <th style="width:300px;text-align:right">Balance</th>
+                             
+                            </tr>
+
+                @foreach (var group in Model.GroupBy(item=>item.InvoiceToID))
+                {
+                    var x1 = group.FirstOrDefault();
+
+
+
+                    SHIPPING_FinalEntities db = new SHIPPING_FinalEntities();
+                       
+                        
+                    decimal org = 0;
+                    decimal rec = 0;
+                    decimal balance = 0;
+                    string suppname = (from c in db.CUSTOMERs where c.CustomerID == x1.InvoiceToID select c.Customer1).FirstOrDefault();
+                         
+                    
+                            foreach (var item in group)
+                            {
+                                org = org + item.AmtToBeReceived;
+                                rec = rec + (-item.AmtAlreadyReceived);
+                                
+                            }
+                            <tr>
+
+                                @{
+                    balance = org - rec;
+
+                    orgrec = orgrec + org;
+                    orgpaid = orgpaid + rec;
+                    orgbalance = orgbalance + balance;
+                    
+                                }
+                                <td style="width:680px;padding-left:10px;">
+                                   @suppname
+                                </td>
+                                <td style="text-align:right">@string.Format("{0:n2}", @org)</td>
+                                <td style="text-align:right">@string.Format("{0:n2}", @rec)</td>
+                                <td style="text-align:right">@string.Format("{0:n2}", @balance)</td>
+                             
+                            </tr>
+                       
+
+                
+
+                }
+
+                 <tr style="border-top-color: black;border-top:solid 1px black;border-bottom:solid 1px black">
+                     <td>
+                         
+                     </td>
+                     <td style="text-align:right"><b>@string.Format("{0:n2}", @orgrec)</b></td>
+                     <td style="text-align:right"><b>@string.Format("{0:n2}", @orgpaid)</b></td>
+                     <td style="text-align:right"><b>@string.Format("{0:n2}", @orgbalance)</b></td>
+                 </tr>
+                  </table>
+                    
+        </div>
+    </div>*@
+
+
+</body>
+</html>

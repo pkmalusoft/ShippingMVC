@@ -1,0 +1,30 @@
+﻿@model IEnumerable<DAL.Report_TrialBalance_Result>
+@{
+    ViewBag.Title = "xyztemp";
+    Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
+}
+<style>
+    body
+    {
+        color:white;
+    }
+</style>
+<h2>xyztemp</h2>
+
+  @foreach (var group in Model.GroupBy(item => item.AcCategory))
+  {
+      <p>Category: @Html.Encode(group.Key)</p>
+      foreach (var i in group.Take(1))
+      {
+          <p>@i.ParenatGroup</p>
+      
+              <p>Group: @i.AcGroup</p>
+              foreach (var x in group)
+              {
+                <div>@x.AcHead&nbsp;&nbsp;&nbsp;@x.DrAmount&nbsp;&nbsp;&nbsp;&nbsp;@x.CrAmount </div>
+              }
+         
+      }
+     
+  }
+

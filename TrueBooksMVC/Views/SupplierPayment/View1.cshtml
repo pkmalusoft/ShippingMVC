@@ -1,0 +1,171 @@
+﻿@model DAL.RecPay
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>View1</title>
+</head>
+<body>
+    <script src="~/Scripts/jquery-1.7.1.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    
+    @using (Html.BeginForm()) {
+        @Html.ValidationSummary(true)
+    
+        <fieldset>
+            <legend>RecPay</legend>
+    
+            <div class="editor-label">
+                @Html.LabelFor(model => model.RecPayDate)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.RecPayDate)
+                @Html.ValidationMessageFor(model => model.RecPayDate)
+            </div>
+    
+            <div class="editor-label">
+                @Html.LabelFor(model => model.DocumentNo)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.DocumentNo)
+                @Html.ValidationMessageFor(model => model.DocumentNo)
+            </div>
+    
+            <div class="editor-label">
+                @Html.LabelFor(model => model.CustomerID)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.CustomerID)
+                @Html.ValidationMessageFor(model => model.CustomerID)
+            </div>
+    
+            <div class="editor-label">
+                @Html.LabelFor(model => model.SupplierID)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.SupplierID)
+                @Html.ValidationMessageFor(model => model.SupplierID)
+            </div>
+    
+            <div class="editor-label">
+                @Html.LabelFor(model => model.BusinessCentreID)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.BusinessCentreID)
+                @Html.ValidationMessageFor(model => model.BusinessCentreID)
+            </div>
+    
+            <div class="editor-label">
+                @Html.LabelFor(model => model.BankName)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.BankName)
+                @Html.ValidationMessageFor(model => model.BankName)
+            </div>
+    
+            <div class="editor-label">
+                @Html.LabelFor(model => model.ChequeNo)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.ChequeNo)
+                @Html.ValidationMessageFor(model => model.ChequeNo)
+            </div>
+    
+            <div class="editor-label">
+                @Html.LabelFor(model => model.ChequeDate)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.ChequeDate)
+                @Html.ValidationMessageFor(model => model.ChequeDate)
+            </div>
+    
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Remarks)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Remarks)
+                @Html.ValidationMessageFor(model => model.Remarks)
+            </div>
+    
+            <div class="editor-label">
+                @Html.LabelFor(model => model.AcJournalID)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.AcJournalID)
+                @Html.ValidationMessageFor(model => model.AcJournalID)
+            </div>
+    
+            <div class="editor-label">
+                @Html.LabelFor(model => model.StatusRec)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.StatusRec)
+                @Html.ValidationMessageFor(model => model.StatusRec)
+            </div>
+    
+            <div class="editor-label">
+                @Html.LabelFor(model => model.StatusEntry)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.StatusEntry)
+                @Html.ValidationMessageFor(model => model.StatusEntry)
+            </div>
+    
+            <div class="editor-label">
+                @Html.LabelFor(model => model.StatusOrigin)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.StatusOrigin)
+                @Html.ValidationMessageFor(model => model.StatusOrigin)
+            </div>
+    
+            <div class="editor-label">
+                @Html.LabelFor(model => model.FYearID)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.FYearID)
+                @Html.ValidationMessageFor(model => model.FYearID)
+            </div>
+    
+            <div class="editor-label">
+                @Html.LabelFor(model => model.AcCompanyID)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.AcCompanyID)
+                @Html.ValidationMessageFor(model => model.AcCompanyID)
+            </div>
+    
+            <div class="editor-label">
+                @Html.LabelFor(model => model.EXRate)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.EXRate)
+                @Html.ValidationMessageFor(model => model.EXRate)
+            </div>
+    
+            <div class="editor-label">
+                @Html.LabelFor(model => model.FMoney)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.FMoney)
+                @Html.ValidationMessageFor(model => model.FMoney)
+            </div>
+    
+            <p>
+                <input type="submit" value="Create" />
+            </p>
+        </fieldset>
+    }
+    
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+</body>
+</html>

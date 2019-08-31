@@ -1,0 +1,32 @@
+﻿@model IEnumerable<TrueBooksMVC.Models.JobRegisterVM>
+@{
+    ViewBag.Title = "JobRegisterFormat";
+    Layout = "~/Views/Shared/FormatedReportLayout.cshtml";
+}
+
+<h2>JobRegisterFormat</h2>
+<div>
+    <table border="1">
+        <tr>
+            <td>
+                @Html.Label("JobTypeId")
+            </td>
+            <td>
+                @Html.Label("JobCode")
+            </td>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr
+                >
+                <td>
+                    @Html.DisplayFor(p=>item.JobTypeID)
+                </td>
+                <td>
+                    @Html.DisplayFor(p=>item.JobCode)
+                </td>
+            </tr>
+        }
+    </table>
+ 
+</div>

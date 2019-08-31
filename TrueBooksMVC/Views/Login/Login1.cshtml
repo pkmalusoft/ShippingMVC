@@ -1,0 +1,217 @@
+﻿@model DAL.UserRegistration
+
+@{
+    ViewBag.Title = "Login";
+    Layout = null;
+}
+
+@*<center> @ViewBag.Message</center>*@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Trianglesoft</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <!-- /css files -->
+    <link href="~/Content/NewCSS/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/NewCSS/css/animate.css" rel="stylesheet" media="screen">
+    <link rel="stylesheet" href="~/Content/NewCSS/css/style.css">
+
+
+
+    <style>
+        .logo
+        {
+            display: block;
+        }
+
+        .header-row
+        {
+            background-color: rgb(5,95,120);
+        }
+
+        .login-row
+        {
+            background-color: rgb(5,95,120);
+        }
+
+        .back-img
+        {
+            display: block;
+        }
+
+        body
+        {
+            font-family: Calibri;
+        }
+
+        .footer-back
+        {
+            background-color: black;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row header-row">
+            <div class="col-sm-2" style="clear:both;padding-left:0px">
+              
+                    <img class="img-responsive" src="~/Content/NewCSS/img/logo.png" style="left:0px" />
+               
+            </div>
+        </div>
+        <div class="row login-row">
+            <div class="col-sm-7">
+                <div class="row">
+                    <div class="col-sm-12">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-2">
+                    </div>
+                    <div class="col-sm-8">
+                        <h2 style="color: white">Shipping and freight forwarding system</h2>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <span class="back-img">
+                                    <img src="~/Content/NewCSS/img/shipping.jpg" class="img-responsive" style="margin-bottom: 15px;" />
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-5">
+                <div class="row">
+                    <div class="col-sm-12">
+                    </div>
+                </div>
+
+                <div class="row" style="padding-top: 70px;">
+                    <div class="col-sm-2">
+                    </div>
+                    <div class="col-sm-8">
+                        @* <form class="form-header" role="form">
+                                <div class="row">
+                                    <div class="col-sm-4 label-font">
+                                        UserName:
+                                    </div>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(model => model.UserName, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-4 label-font">
+                                        Password:
+                                    </div>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(model => model.Password, new { @class = "form-control" })
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                   
+                                    <div class="col-sm-12">
+                                        <input type="submit" value="LOG IN" class="form-control btn btn-primary" />
+                                    </div>
+                                </div>
+
+                            </form>*@
+                        @using (@Html.BeginForm("", "", FormMethod.Post, new { @class = "form-header", @role = "form" }))
+                        {
+                            
+                            <div class="row">
+
+                                <div class="col-sm-4" style="color: white; font-weight: bold">
+                                    UserName:
+                                </div>
+
+                                <div class="col-sm-8">
+                                    <div class="form-group">
+                                        @Html.TextBoxFor(model => model.UserName, new { @style = "width:100%;border-radius:5px" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4" style="color: white; font-weight: bold">
+                                    Password:
+                                </div>
+
+                                <div class="col-sm-8">
+                                    <div class="form-group">
+                                        @Html.PasswordFor(model => model.Password, new { @style = "width:100%;border-radius:5px" })
+                                    </div>
+                                </div>
+                            </div>
+             
+                            <div class="row">
+                                <div class="col-sm-12">
+
+                                    <input type="submit" class="btn btn-warning" style="background-color: #00BFFF; border-radius: 5px" value="LOG IN">
+                                </div>
+                            </div>
+                                
+         
+                       
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <!--  For Tag-->
+                <div class="row">
+                    <div class="col-sm-12" style="background-color: rgb(248,248,248); text-align: center; font-weight: bold; font-style: italic; font-size: 20px; padding-top: 10px; padding-bottom: 10px">
+                        Helps You Work Smarter
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-8" style="padding-left: 20px; padding-top: 30px;">
+                        <b style="font-size: 17px">Traingle soft..
+                        </b>
+                        <p style="font-size: 16px">
+                            Is a "software products and services" company specialised in developing and<br />
+                            supporting industry specific commercial applications. Shipping and Freight forwarding<br />
+                            system is one of out flagship products for freight forwarding industry. The system is<br />
+                            bundled with operations, finance and Electronic data interchange (edi)<br />
+                            modules along with various MIS reports.
+                        </p>
+                    </div>
+                    <div class="col-sm-4">
+                        <span class="companylogo">
+                            <img src="~/Images/companylogo.png" class="img-responsive" style="margin-top: 25px;" />
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row footer-back">
+            <div class="col-sm-12" style="padding-top: 12px; padding-bottom: 12px; text-align: center">
+                <a href="www.trianglesoft.in" style="text-decoration: none; color: white">Copyright © 2016 Trianglesoft. All rights reserved.</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- /javascript files -->
+    @* <script src="~/Content/NewCSS/js/jquery.js"></script>
+    <script src="~/Content/NewCSS/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/Content/NewCSS/js/custom.js"></script>
+    <script src="~/Content/NewCSS/js/wow.min.js"></script>
+    <script src="~/Content/NewCSS/js/owl.carousel.min.js"></script>
+    <script>
+        new WOW().init();
+    </script>*@
+</body>
+</html>

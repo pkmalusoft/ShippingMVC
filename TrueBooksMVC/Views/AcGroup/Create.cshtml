@@ -1,0 +1,130 @@
+﻿@model DAL.AcGroup
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
+    
+}
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#AcCompanyID").focus();
+        $(":text").css({ "border-radius": "5px" });
+        $("select").css({ "border-radius": "5px" });
+
+    });
+</script>
+
+<section class="content-header">
+    <h1 class="headingfont">AcGroup</h1>
+</section>
+
+
+<section class="content">
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        
+        <div class="row no-margin">
+         
+
+
+           @* <div class="col-md-3">
+                <div class="form-title">
+                    @Html.LabelFor(model => model.AcGroupID)
+                </div>
+                <div class="form-field">
+                    @Html.TextBoxFor(model => model.AcGroupID, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.AcGroupID)
+                </div>
+            </div>*@
+            <div class="col-md-3">
+                    <label class="headinglabel">Company</label>
+                    @Html.DropDownListFor(model => model.AcCompanyID, (IEnumerable<SelectListItem>)ViewBag.Company,"Select", new { @class = "form-control" })
+               
+            </div>
+            <div class="col-md-3">
+                    <label class="required headinglabel">Account Group</label>
+                    @Html.TextBoxFor(model => model.AcGroup1, new { @class = "form-control txttarget" })
+                    @Html.ValidationMessageFor(model => model.AcGroup1)
+                
+            </div>
+             <div class="col-md-3">
+                      <label class="required headinglabel">Account Type</label>
+                    @Html.TextBoxFor(model => model.AcType, new { @class = "form-control txttarget" })
+                    @Html.ValidationMessageFor(model => model.AcType)
+                
+            </div>
+
+        </div>
+        <div class="row no-margin" style="padding-top:10px">
+           
+            <div class="col-md-3">
+                      <label class="headinglabel">Account Class</label>
+                    @Html.TextBoxFor(model => model.AcClass, new { @class = "form-control txttarget" })
+                    @Html.ValidationMessageFor(model => model.AcClass)
+               
+            </div>
+
+            <div class="col-md-3">
+                  <label class="required headinglabel">Parent</label>
+                    @Html.TextBoxFor(model => model.ParentID, new { @class = "form-control textright" })
+                    @Html.ValidationMessageFor(model => model.ParentID)
+                
+            </div>
+             <div class="col-md-3">
+                      <label class="headinglabel">Group Order</label>
+                    @Html.TextBoxFor(model => model.GroupOrder, new { @class = "form-control textright" })
+                    @Html.ValidationMessageFor(model => model.GroupOrder)
+
+            </div>
+        </div>
+
+        <div class="row no-margin" style="padding-top:10px">
+           
+            <div class="col-md-3">
+                      <label class="headinglabel">StaticEdit</label>
+                    @Html.TextBoxFor(model => model.StaticEdit, new { @class = "form-control textright" })
+                    @Html.ValidationMessageFor(model => model.StaticEdit)
+               
+            </div>
+            <div class="col-md-3" style="padding-top:15px">
+                    
+        @Html.CheckBox("StatusHide", new { @name = "StatusHide"}) &nbsp <label class="required headinglabel">Status Hide</label>
+                    @Html.ValidationMessageFor(model => model.StatusHide)
+               
+            </div>
+
+             <div class="col-md-3">
+                     <label class="headinglabel">User</label>
+                    @Html.TextBoxFor(model => model.UserID, new { @class = "form-control textright" })
+                    @Html.ValidationMessageFor(model => model.UserID)
+                
+            </div>
+        </div>
+
+      
+        <div class="row no-margin" style="padding-top:10px">
+            <div class="col-md-12">
+
+                <input type="submit" value="Save" class="btn btn-primary btnwidth" />
+
+                &nbsp; 
+                                           <a href='@Url.Action("Index", "AcGroup", new { id = 0 })' class="btn btn-primary btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+
+            </div>
+        </div>
+
+    </fieldset>
+}
+
+</section>
+
+@*@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}*@

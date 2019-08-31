@@ -1,0 +1,106 @@
+﻿@model DAL.RecPay
+<style>
+    .back {
+        background-color: red;
+        color: white;
+    }
+
+     tfoot {
+    display: table-header-group;
+    }
+</style>
+
+@*<script src="~/Content/jQuery-2.1.3.min.js"></script>*@
+
+ 
+<script type="text/javascript">
+    
+     $(document).ready(function () {
+
+
+
+         $('#dataTables-example tfoot th').each(function () {
+             var title = $(this).text();
+             $(this).html('<input type="text"  style="width:90%" />');
+         });
+
+
+         var table = $('#dataTables-example').DataTable();
+        
+         table.draw();
+         table.columns().every(function () {
+             var that = this;
+
+             $('input', this.footer()).on('keyup change', function () {
+                 if (that.search() !== this.value) {
+                     that
+                         .search(this.value)
+                         .draw();
+                 }
+             });
+         });
+     });
+
+    
+</script>
+
+
+ @ViewBag.companyname
+ @ViewBag.caddress1 @ViewBag.caddress2
+ @ViewBag.caddress3 @ViewBag.cphone
+
+<div class="row">
+    <table width="700px" border="1">
+                <tr>
+                    <td>
+                        <center><b><u>Receipt Voucher</u></b></center>
+                    </td>
+                    </tr>
+        </table>
+    <table>
+         <tr height="750px">
+                    <td>
+                        <table border="1" width="670px">
+                            <tr>
+                                <td>Date  &nbsp; </td>
+                                <td>@Model.RecPayDate</td>
+                                <td>Document No &nbsp; </td>
+                                <td>@Model.DocumentNo</td>
+                            </tr>
+                            <tr>
+                                <td>JOB DATE &nbsp; </td>
+                                <td></td>
+                                <td>Amount &nbsp; </td>
+                                <td>@Model.FMoney</td>
+                            </tr>
+                            <tr>
+                                <td>Recieved From &nbsp; </td>
+                                <td>@Model.</td>
+                                <td>Account Name&nbsp; </td>
+                                <td>@Model.BankName </td>
+                            </tr>
+                            <tr>
+                                <td> </td>
+                                <td></td>
+                                <td>Cheque No &nbsp; </td>
+                                <td>@Model.ChequeDate</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td>Cheque Date &nbsp; </td>
+                                <td>@Model.ChequeDate</td>
+                            </tr>
+                            <tr>
+                                <td> </td>
+                                <td></td>
+                                <td>Customer Bank</td>
+                                <td> @Model.BankName</td>
+                            </tr>
+                            <tr>
+                        </table>
+                        </td>
+                        </tr>
+        </table>
+
+</div>

@@ -1,0 +1,332 @@
+﻿@model DAL.Employee
+
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
+    }
+
+
+<script type="text/javascript">
+        $(document).ready(function () {
+            $("#EmployeeName").focus();
+            var startdate = '@Session["FyearFrom"].ToString()';
+            var enddate = '@Session["FyearTo"].ToString()';
+            var sd = new Date(startdate);
+            var ed = new Date(enddate);
+            $(":text").css({ "border-radius": "5px" });
+            $("select").css({ "border-radius": "5px" });
+
+            var flag = 0;
+
+
+            $(function () {
+                //var date = new Date("2016-09-01");
+                //var currentMonth = date.getMonth();
+                //var currentDate = date.getDate();
+                //var currentYear = date.getFullYear();
+
+                //$("#DOJ").datepicker({ dateFormat: 'dd-mm-yy', maxDate: '0',changeYear:true,changeMonth:true });
+                $("#DOL").datepicker({
+                    dateFormat: 'dd-M-yy',
+                    minDate: sd,
+                    maxDate: ed,
+                    changeYear: true,
+                    changeMonth: true
+                });
+                
+               
+
+
+               
+              
+
+                $('#DOJ').datepicker({
+                    dateFormat: 'dd-M-yy',
+                    minDate: sd,
+                    maxDate: ed,
+                    changeYear: true,
+                    changeMonth: true,
+                });
+                
+
+                $(".dolclass").css({ "display": "none" });
+                $(".chkclass").css({ "display": "block" });
+                $("#StatusActive").attr('checked', true);
+
+                $("#StatusActive").click(function () {
+                    if ($("#StatusActive").is(':checked')) {
+                        $(".dolclass").css({ "display": "none" });
+                      
+                    }
+                    else {
+                        $(".dolclass").css({ "display": "block" });
+                        
+                    }
+                });
+
+            });
+
+         
+
+            $("#btnsave").click(function () {
+                var emp = $("#EmployeeName").val();
+                var add = $("#Address1").val();
+                var con = $("#ContactNo").val();
+                var des = $("#DesignationID option:selected").val();
+                var dep = $("#DepartmentID option:selected").val();
+                var loc = $("#LocationID option:selected").val();
+             
+                $("#alert1").hide();
+                $("#alert").hide();
+
+                if (emp == "") {
+                    $("#alert").show();
+                    return false;
+                }
+                else if (add == "") {
+                    $("#alert").show();
+                    return false;
+                }
+                else if (con == "") {
+                    $("#alert").show();
+                    return false;
+                }
+                else if (des == "") {
+
+                    $("#alert").show();
+                    return false;
+                }
+                else if (dep == "") {
+
+                    $("#alert").show();
+                    return false;
+                }
+                else if (loc == "") {
+
+                    $("#alert").show();
+                    return false;
+                }
+                else if (flag == 1) {
+                    $("#alert").hide();
+                    $("#alert1").show();
+                    return false;
+                }
+                else {
+                    $("#alert1").hide();
+                    $("#alert").hide();
+                    return true;
+                }
+
+
+            });
+
+            $("#btnsave").click(function () {
+              
+               
+
+
+                var doj = new Date($('#DOJ').val());
+                var dol = new Date($('#DOL').val());
+                
+                if (doj > dol) {
+                    $("#date").show();
+                    return false;
+                }
+                else {
+                    $("#date").hide();
+                    return true;
+                }
+
+            });
+
+            $("#EmployeeName").blur(function () {
+                var total;
+                var flg;
+                $.ajax({
+                    type: "GET",
+                    url: "/Employee/GetEmployeeName",
+                    datatype: "Json",
+                    data: { empname: $('#EmployeeName').val() },
+                    success: function (data) {
+                        if (data.flag == 0) {
+                            flag = 0;
+                        }
+                        else if (data.flag == 1) {
+                            flag = 1;
+                        }
+                    }
+                    
+                    });
+            });
+
+        });
+    </script>
+
+<section class="content-header">
+    <h1 class="headingfont">Employee</h1>
+
+</section>
+
+@if (ViewBag.SuccessMsg != null)
+{
+      <script type="text/javascript">
+          $(document).ready(function () {
+              $.notify("@ViewBag.SuccessMsg", "success");
+          });
+                                                </script>
+}
+<section class="content">
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+       <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
+     <div id="alert1" style="color:red;display:none;margin-left:10px;">*Employee Name Already Exist</div>
+    <fieldset>
+        
+          <div class="row no-margin"> 
+              
+             <div class="col-md-3">
+                     <label class="required headinglabel">Employee Name</label>
+                       @Html.TextBoxFor(model => model.EmployeeName, new { @class = "form-control txttarget" })
+                          @Html.ValidationMessageFor(model => model.EmployeeName)
+                        
+             </div>
+
+             <div class="col-md-3">
+                        
+                          <label class="required headinglabel">Address 1</label>
+                        @Html.TextBoxFor(model => model.Address1, new { @class = "form-control txttarget" })
+                        @Html.ValidationMessageFor(model => model.Address1)
+            </div>
+
+            
+               
+                 <div class="col-md-3">
+                            <label class="headinglabel">Address 2</label>
+                       @Html.TextBoxFor(model => model.Address2, new { @class = "form-control txttarget" })
+                         @Html.ValidationMessageFor(model => model.Address2)
+                           
+                 </div>
+              </div>
+
+
+            <div class="row no-margin" style="padding-top:10px"> 
+             
+             <div class="col-md-3">
+                           <label class="headinglabel">Address 3</label>
+                       @Html.TextBoxFor(model => model.Address3, new { @class = "form-control txttarget" })
+                        @Html.ValidationMessageFor(model => model.Address3)
+                         
+             </div>
+             <div class="col-md-3">
+                          <label class="required headinglabel">Contact No</label>
+                        @Html.TextBoxFor(model => model.ContactNo, new { @class = "form-control textright txttarget" })
+                        @Html.ValidationMessageFor(model => model.ContactNo)
+             </div>
+
+            
+                
+                 <div class="col-md-3">
+                          
+                          <label class="required headinglabel">Designation</label>
+                        @Html.DropDownListFor(model => model.DesignationID, (IEnumerable<SelectListItem>)ViewBag.Designation, "Select", new { @class = "form-control" })
+                         @Html.ValidationMessageFor(model => model.DesignationID)
+
+                 </div>
+              </div>
+
+       
+
+          <div class="row no-margin" style="padding-top:10px"> 
+              
+             <div class="col-md-3">
+                       <label class="required headinglabel">Department</label>
+                       @Html.DropDownListFor(model => model.DepartmentID, (IEnumerable<SelectListItem>)ViewBag.Department, "Select", new { @class = "form-control" })
+                          @Html.ValidationMessageFor(model => model.DepartmentID) 
+             </div>
+
+             <div class="col-md-3">
+                         <label class="required headinglabel">Location</label>
+                         @Html.DropDownListFor(model => model.LocationID, (IEnumerable<SelectListItem>)ViewBag.Location, "select", new { @class = "form-control" })
+                         @Html.ValidationMessageFor(model => model.LocationID)
+
+            
+             </div>
+               <div class="col-md-3">
+                           <label class="headinglabel">Nationality</label>
+                       @Html.TextBoxFor(model => model.Nationality, new { @class = "form-control txttarget" })
+                         @Html.ValidationMessageFor(model => model.Nationality)
+                     
+              </div>
+         </div>
+
+        <div class="row no-margin" style="padding-top:10px"> 
+              
+             <div class="col-md-3">
+                          <label class="headinglabel">DOJ</label>  
+                       @Html.TextBoxFor(model => model.DOJ, new { @class = "form-control" })
+                     @Html.ValidationMessageFor(model => model.DOJ)
+                           
+             </div>
+             <div class="col-md-3 dolclass" >
+                  <label class="headinglabel">DOL</label>
+                       @Html.TextBoxFor(model => model.DOL, new { @class = "form-control" })
+                         @Html.ValidationMessageFor(model => model.DOL)
+            
+            </div>
+              <div class="col-md-3 chkclass" style="padding-top:30px">
+                         
+                             @Html.CheckBox("StatusActive", new { @name = "StatusActive" }) &nbsp <label class="headinglabel">Status Active</label>
+                    @Html.ValidationMessageFor(model => model.StatusActive)
+    
+              </div>
+            </div>
+       
+
+          @* <div class="row no-margin" style="padding-top:10px"> 
+             
+             <div class="col-md-3">
+                         <label class="headinglabel">Basic</label>
+                       @Html.TextBoxFor(model => model.Basic,new { @class = "form-control" })
+                         @Html.ValidationMessageFor(model => model.Basic)
+                         
+            </div>
+
+             <div class="col-md-3">
+                          <label class="headinglabel">Housing</label>
+                        @Html.TextBoxFor(model => model.Housing,new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Housing)
+            </div>
+
+            
+                
+                <div class="col-md-3">
+                           <label class="headinglabel">TA</label>
+                       @Html.TextBoxFor(model => model.TA,new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.TA)
+                           
+                </div>
+          </div>
+        *@
+
+         <div id="date" style="color:red;display:none;margin-left:10px;">*Please select valid date</div>
+        <div class="row no-margin" style="padding-top:10px">
+                        <div class="col-md-12">
+                           
+                                <input type="submit"  value="Save"  class="btn btn-primary btnwidth" id="btnsave" />
+                               
+                            &nbsp; 
+                                           <a href='@Url.Action("Index", "Employee", new { id = 0 })' class="btn btn-primary btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+                           
+                        </div>
+                    </div>
+    </fieldset>
+}
+
+</section>
+
+@*@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}*@

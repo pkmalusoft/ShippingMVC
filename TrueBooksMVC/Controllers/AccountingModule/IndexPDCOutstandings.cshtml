@@ -1,0 +1,96 @@
+﻿@model List<TrueBooksMVC.Models.PDCOutstandingVM>
+@{
+    ViewBag.Title = "IndexPDCOutstandings";
+    Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
+}
+<script>
+    $(function () {
+        $(".datepicker").datepicker({
+            dateFormat: 'dd-M-yy', maxDate: '0',
+            changeYear: true, changeMonth: true,
+        });
+
+
+
+        $("#btnsearch").click(function () {
+            var from = $("#txtMatureDate").val();
+           
+            //  vaif(r newfrom = from.getDay() + "/" + from.getMonth() + "/" + from.getFullYear();
+            //  var newto = dto.getDay() + "/" + dto.getMonth() + "/" + dto.getFullYear();
+            //alert(newfrom);
+            //alert(newto);
+            if ($("#txtMatureDate").val() == "") {
+                $("#alert").show();
+                return false;
+
+            }
+            else {
+
+                $.ajax({
+
+                    url: "@Url.Action("GetPDCOutstandings", "AccountingModule")",
+                    data: { iMatureDate: from },
+                    type: "GET",
+                    dataType: "json",
+                    success: function (data) {
+
+                        $("#divPDCReminderList").html(data.view);
+                    },
+                    error: function () {
+                        alert("Failed! Please try again.");
+                    }
+                });
+            }
+            
+         });
+
+
+
+        $(":text").css({ "border-radius": "5px" });
+        $("select").css({ "border-radius": "5px" });
+
+
+       
+    });
+
+</script>
+
+    
+
+<section class="content-header">
+    <h1 class="headingfont">PDC Outstandings</h1>
+</section>
+ 
+<section class="content">
+
+
+     <div id="alert" style="color:red;display:none;margin-left:10px;">*Please Select Matured Date</div>
+    <div class="row no-margin">
+       
+          
+                <div class="col-md-3">
+                    <label class="headinglabel required">Matured Date:</label>
+
+                    <input type="text" class="datepicker form-control" id="txtMatureDate" />
+                </div>
+                <div class="col-md-2" style="padding-top:5px"><br />
+                    <input type="button" value="Search" id="btnsearch" class="btn btn-primary" />
+                </div>
+            
+
+        </div>
+
+     
+
+    <div class="row no-margin" style="padding-top: 20px">
+        <div class="col-md-12 tblbackground">
+            <div class="row">
+                <div class="col-md-12" id="divPDCReminderList">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</section>

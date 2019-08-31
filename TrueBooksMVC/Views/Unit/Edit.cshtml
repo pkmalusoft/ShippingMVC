@@ -1,0 +1,140 @@
+﻿@model DAL.ItemUnit
+
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
+    }
+
+
+<script type="text/javascript">
+        $(document).ready(function () {
+           
+
+            $(":text").css({ "border-radius": "5px" });
+            $("select").css({ "border-radius": "5px" });
+
+            $("#btnsave").click(function () {
+                var itemunit = $("#ItemUnit1").val();
+
+                if (itemunit == "") {
+                    $("#alert").show();
+                    return false;
+                }
+                else {
+                    $("#alert").hide();
+                    return true;
+                }
+            });
+
+        });
+    </script>
+
+<section class="content-header">
+    <h1 class="headingfont">Unit</h1>
+
+</section>
+
+@if (ViewBag.SuccessMsg != null)
+    {
+      <script type="text/javascript">
+          $(document).ready(function () {
+              $.notify("@ViewBag.SuccessMsg", "success");
+          });
+                                                </script>
+    }
+<section class="content">
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+       <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
+  
+    <fieldset>
+        
+          <div class="row no-margin"> 
+              
+             <div class="col-md-3">
+                 @Html.HiddenFor(model=>model.ItemUnitID)
+                     <label class="required headinglabel">Item Unit</label>
+                       @Html.TextBoxFor(model => model.ItemUnit1,new { @class = "form-control txttarget" })
+                          @Html.ValidationMessageFor(model => model.ItemUnit1)
+                        
+             </div>
+
+             <div class="col-md-3">
+                        
+                          <label class="headinglabel">Equalent Qty</label>
+                        @Html.TextBoxFor(model => model.EqualentQty,new { @class = "form-control txttarget" })
+                        @Html.ValidationMessageFor(model => model.EqualentQty)
+            </div>
+
+            
+               
+                 <div class="col-md-3">
+                            <label class="headinglabel">Remark</label>
+                       @Html.TextBoxFor(model => model.Remarks,new { @class = "form-control txttarget" })
+                         @Html.ValidationMessageFor(model => model.Remarks)
+                           
+                 </div>
+
+                 <div class="col-md-3" style="padding-top:30px">
+                         
+                             @Html.CheckBox("StatusActive", new { @name = "StatusActive"}) &nbsp <label class="headinglabel">Status Active</label>
+                    @Html.ValidationMessageFor(model => model.StatusActive)
+    
+              </div>
+              </div>
+
+
+           
+
+
+      
+       
+
+          @* <div class="row no-margin" style="padding-top:10px"> 
+             
+             <div class="col-md-3">
+                         <label class="headinglabel">Basic</label>
+                       @Html.TextBoxFor(model => model.Basic,new { @class = "form-control" })
+                         @Html.ValidationMessageFor(model => model.Basic)
+                         
+            </div>
+
+             <div class="col-md-3">
+                          <label class="headinglabel">Housing</label>
+                        @Html.TextBoxFor(model => model.Housing,new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Housing)
+            </div>
+
+            
+                
+                <div class="col-md-3">
+                           <label class="headinglabel">TA</label>
+                       @Html.TextBoxFor(model => model.TA,new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.TA)
+                           
+                </div>
+          </div>
+        *@
+
+         
+        <div class="row no-margin" style="padding-top:10px">
+                        <div class="col-md-12">
+                           
+                                <input type="submit"  value="Update"  class="btn btn-primary btnwidth" id="btnsave" />
+                               
+                            &nbsp; 
+                                           <a href='@Url.Action("Index", "Unit", new { id = 0 })' class="btn btn-primary btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+                           
+                        </div>
+                    </div>
+    </fieldset>
+}
+
+</section>
+
+@*@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}*@

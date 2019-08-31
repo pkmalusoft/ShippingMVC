@@ -1,0 +1,62 @@
+﻿@model IEnumerable<DAL.Report_ProfitAndLossAccount_Result>
+@using TrueBooksMVC.Models;
+@using DAL;
+@using System.Text;
+@{
+@{
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+      @{
+                       DateTime tdate = Convert.ToDateTime(TempData["tdate"]);
+                   }
+    <title>Profit And Loss Account &nbsp; As On : @TrueBooksMVC.Models.CommanFunctions.GetShortDateFormat(@tdate)</title>
+</head>
+<body>
+    <div class="col-md-12" style="background-color: white; padding-top: 20px;padding-bottom:20px;width:883px; ">
+          <p style="border-bottom:solid 1px black;">
+                @{
+                SHIPPING_FinalEntities db1 = new SHIPPING_FinalEntities();
+                var data = (from c in db1.AcCompanies select c).FirstOrDefault();
+              <b>@data.AcCompany1</b><br />
+              <span>@data.Address1 &nbsp; @data.Address2 &nbsp; @data.Address3</span>
+                
+            }
+           
+              
+           </p>
+        <table  border="0" style=" width:850px; background-color: white; margin-bottom: 25px; border-color: white;" class="table table-responsive details">
+            <tr style="font-weight: bold;border-bottom-color: black;border-bottom:solid 1px black;border-top:solid 1px black">
+                <td>Particular</td>
+              <td>debit</td>
+                    <td>credit</td>
+                
+            </tr>
+
+      
+        @foreach (var item in Model)
+        {
+            <tr>
+               <td>@item.AcHead</td>
+              <td>@item.DrAmount</td>
+                     <td>@item.CrAmount</td>
+              
+                 
+                 
+                   
+            </tr>
+        }
+              </table>
+    </div>
+
+    <div>
+
+    </div>
+</body>
+</html>

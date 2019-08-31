@@ -1,0 +1,58 @@
+﻿@model DAL.JobType
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>JobType</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.JobDescription)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.JobDescription)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.JobModeID)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.JobModeID)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Remarks)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Remarks)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.JobCode)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.JobCode)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.JobPrefix)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.JobPrefix)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.StatusSea)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.StatusSea)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.JobTypeID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

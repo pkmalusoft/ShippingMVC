@@ -1,0 +1,276 @@
+﻿@{
+    ViewBag.Title = "JobRemark";
+    Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
+}
+
+<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+
+ <script type="text/javascript">
+
+
+
+     function printDiv(divName) {
+         var printContents = document.getElementById(divName).innerHTML;
+         var originalContents = document.body.innerHTML;
+
+         document.body.innerHTML = printContents;
+
+         window.print();
+
+         document.body.innerHTML = originalContents;
+     }
+    </script>
+
+<script type="text/javascript">
+
+    $(document).ready(function(){
+        
+        $(":text").css({ "border-radius": "5px" });
+        $("select").css({ "border-radius": "5px" });
+
+
+        $(function () {
+            $(".datepicker").datepicker({
+                dateFormat: 'dd-M-yy',
+                changeMonth: true,
+                changeYear:true,
+            });
+
+            function GetCurrentDate() {
+                var m_names = new Array("Jan", "Feb", "Mar",
+        "Apr", "May", "Jun", "Jul", "Aug", "Sep",
+        "Oct", "Nov", "Dec");
+
+                var d = new Date();
+                var curr_date = d.getDate();
+                var curr_month = d.getMonth();
+                var curr_year = d.getFullYear();
+                return (curr_date + "-" + m_names[curr_month]
+                + "-" + curr_year);
+            }
+
+            function GetStartDate() {
+                var m_names = new Array("Jan", "Feb", "Mar",
+        "Apr", "May", "Jun", "Jul", "Aug", "Sep",
+        "Oct", "Nov", "Dec");
+
+                var d = new Date("@Session["FyearFrom"].ToString()");
+            var curr_date = d.getDate();
+            var curr_month = d.getMonth();
+            var curr_year = d.getFullYear();
+            return (curr_date + "-" + m_names[curr_month]
+            + "-" + curr_year);
+        }
+
+            $("#txtfrom").val(GetStartDate());
+            $("#txtto").val(GetCurrentDate());
+
+        });
+
+        $("#btnsearch").click(function () {
+            var from = $("#txtfrom").val();
+            var dto = $("#txtto").val();
+
+            if (from == "") {
+                $("#error").show();
+                return false;
+            }
+            else if (dto == "") {
+                $("#error").show();
+                return false;
+            }
+            else {
+                $("#error").hide();
+              
+                var jobid = $("#JobID option:selected").val();
+                var jobTypeid = $("#JobTypeID option:selected").val();
+                var employee = $("#EmployeeID option:selected").val();
+                if (jobid == "") {
+                    jobid = 0;
+                }
+                if (jobTypeid == "") {
+                    jobTypeid = 0;
+                }
+                if (employee == "") {
+                    employee = 0;
+                }
+                $.ajax({
+                    url: "@Url.Action("GetAllJobRemark", "ReportJobRemark")",
+                    data: { JobID: jobid, JobTypeID: jobTypeid, Employee: employee, frmdate: from, tdate: dto },
+                    type: "GET",
+                    dataType: "json",
+                    success: function (data) {
+                       
+                        $("#result").html(data.view);
+                    },
+                    error: function () {
+                        alert("Failed! Please try again.");
+                    }
+                });
+            }
+        });
+
+
+        $("#btnprint").click(function () {
+            var from = $("#txtfrom").val();
+            var dto = $("#txtto").val();
+
+            if (from == "") {
+                $("#error").show();
+                return false;
+            }
+            else if (dto == "") {
+                $("#error").show();
+                return false;
+            }
+            else {
+                $("#error").hide();
+
+                var jobid = $("#JobID option:selected").val();
+                var jobTypeid = $("#JobTypeID option:selected").val();
+                var employee = $("#EmployeeID option:selected").val();
+                if (jobid == "") {
+                    jobid = 0;
+                }
+                if (jobTypeid == "") {
+                    jobTypeid = 0;
+                }
+                if (employee == "") {
+                    employee = 0;
+                }
+                $.ajax({
+                    url: "@Url.Action("GetAllJobRemarkForPrint", "ReportJobRemark")",
+                    data: { JobID: jobid, JobTypeID: jobTypeid, Employee: employee, frmdate: from, tdate: dto },
+                    type: "GET",
+                    dataType: "json",
+                    success: function (data) {
+
+                        $("#PrintTable").html(data.view);
+
+                        printDiv('PrintTable');
+                    },
+                    error: function () {
+                        alert("Failed! Please try again.");
+                    }
+                });
+            }
+         });
+   
+
+    });
+
+
+</script>
+
+
+<section class="content-header">
+    <h1 class="headingfont">Job Remark</h1>
+</section>
+
+<section class="content-header">
+    <div id="error" style="color:red;font-family:Calibri;display:none">* Are Mandatory Fields.</div>
+
+
+   
+
+    <div class="row no-margin" style="padding-top: 20px">
+        <div class="col-md-4">
+
+            <div class="row">
+                <div class="col-md-3">
+                    <label class="headinglabel">Job Code:</label>
+                </div>
+                <div class="col-md-9">
+                    @Html.DropDownList("JobID", ViewBag.jobCode as SelectList, "All", new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="row">
+                <div class="col-md-3">
+                    <label class="headinglabel">JobType:</label>
+                </div>
+                <div class="col-md-9">
+                    @Html.DropDownList("JobTypeID", ViewBag.JobType as SelectList, "All", new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+
+          <div class="col-md-4">
+
+            <div class="row">
+                <div class="col-md-3">
+                    <label class="headinglabel">Employee:</label>
+                </div>
+                <div class="col-md-9">
+                    @Html.DropDownList("EmployeeID", ViewBag.Employee as SelectList, "All", new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+           
+       
+    </div>
+    <br />
+    <br />
+   <div class="row no-margin">
+        <div class="col-md-4">
+            <div class="row">
+                <div class="col-md-3">
+                    <label class="headinglabel required">From:</label>
+
+                </div>
+                <div class="col-md-9">
+                    <input type="text" class="datepicker form-control" id="txtfrom" />
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="row">
+                <div class="col-md-3">
+                    <label class="headinglabel required">To:</label>
+
+                </div>
+                <div class="col-md-9">
+                    <input type="text" class="datepicker form-control" id="txtto" />
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    <br />
+   
+    <div class="col-md-3">
+            <button id="btnsearch" class="btn btn-primary">Search</button>
+
+          <button id="btnprint" class="btn btn-primary">Print</button>
+        </div>
+    <br />
+
+    <div class="row no-margin" style="padding-top: 20px">
+        <div class="col-md-12 tblbackground">
+            <div class="row">
+                <div class="col-md-12" id="result">
+                </div>
+            </div>
+        </div>
+    </div>
+
+     <div class="row no-margin" style="padding-top: 20px;visibility:hidden">
+        <div class="col-md-12 tblbackground">
+            <div class="row">
+                <div class="col-md-12" id="PrintTable">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</section>
+

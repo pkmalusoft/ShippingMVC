@@ -1,0 +1,183 @@
+﻿
+@model IEnumerable<DAL.JobRegisterReport_Result>
+@{
+    Layout = null;
+    
+}
+
+<style>
+    .back {
+        background-color: red;
+        color: white;
+    }
+
+     tfoot {
+    display: table-header-group;
+    }
+</style>
+
+@*<script src="~/Content/jQuery-2.1.3.min.js"></script>*@<script src="~/MyJsFiles/PrintReportInvoices.js"></script>
+     <script type="text/javascript">
+
+
+
+         function printDiv(divName) {
+             var printContents = document.getElementById(divName).innerHTML;
+             var originalContents = document.body.innerHTML;
+
+             document.body.innerHTML = printContents;
+
+             window.print();
+
+             document.body.innerHTML = originalContents;
+         }
+    </script>
+ 
+<script type="text/javascript">
+    
+     $(document).ready(function () {
+
+         var vJobid = 0;
+         debugger;
+         function showModel(jobid) { vJobid = jobid; $("#myModal").modal('show'); }
+        
+         $('#dataTables-example tfoot th').each(function () {
+             var title = $(this).text();
+             $(this).html('<input type="text"  style="width:90%" />');
+         });
+
+     
+
+         var table = $('#dataTables-example').DataTable();
+        
+         table.draw();
+         table.columns().every(function () {
+             var that = this;
+
+             $('input', this.footer()).on('keyup change', function () {
+                 if (that.search() !== this.value) {
+                     that
+                         .search(this.value)
+                         .draw();
+                 }
+             });
+         });
+     });
+
+     var x = 0;
+
+     $(".btnprint").click(function () {
+
+       
+         debugger;
+         var x = $(this).parent("th").parent("tr");
+         var jid = $(x).find("th").eq(0).find('input[type=hidden]').val();
+         var path = '@System.Configuration.ConfigurationManager.AppSettings["spath"].ToString()';
+         var src = path + "/Reports/JobRegisterReport.aspx?jobid=" + jid;
+
+         window.open(src, "_blank");
+
+@*         $.ajax({
+             url: "@Url.Action("getDataForPrintByJobid", "ReportInvoice")",
+             data: { JobID: jid },
+               type: "GET",
+               dataType: "json",
+               success: function (data) {
+
+                   $("#PrintTable").html(data.view);
+                   printDiv('PrintTable');
+               },
+               error: function () {
+                   alert("Failed! Please try again.");
+               }
+           });*@
+
+     });
+
+
+
+
+
+
+
+     //function ShowReport() {
+
+     //    if ($("#plain").is(':checked')) {
+     //        var invoiceno = 0;
+     //        window.location.href = '/ReportInvoice/CustomerInvoiceReportPlain?InvoiceNo=' + vinvoiceno;
+     //    }
+
+     //    if ($("#formatted").is(':checked')) {
+     //        window.location.href = '/ReportInvoice/CustomerInvoiceReportFormatted?InvoiceNo=' + vinvoiceno;
+
+     //    }
+     //}
+
+    
+</script>
+
+
+<div class="table-responsive" style="padding:10px">
+    <table class="table table-responsive table-bordered" id="dataTables-example">
+        <thead>
+            <tr>
+                <th>Sr.No.</th>
+                <th>Job Code</th>
+                <th>Job Date</th>
+                <th>Customer</th>
+                <th>Invoice No</th>
+                <th>Provision</th>
+                <th>Sales</th>
+                <th>Profit</th>
+               <th></th>
+
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>Sr.No.</th>
+                <th>Job Code</th>
+                <th>Job Date</th>
+                <th>Customer</th>
+                <th>Invoice No</th>
+                <th>Provision</th>
+                <th>Sales</th>
+                <th>Profit</th>
+               <th></th>
+
+            </tr>
+        </tfoot>
+        @{
+       
+            int cnt = 1;
+        }
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <th style="text-align:right">@Convert.ToInt32(cnt++)
+                        @Html.HiddenFor(model => item.JobID, new { @name = "hf" })
+                    </th>
+                    <th>@item.JobCode</th>
+                    <th style="text-align:right">@TrueBooksMVC.Models.CommanFunctions.GetShortDateFormat(@item.JobDate)</th>
+                    <th>@item.Customer</th>
+                    <th style="text-align: right">@item.InvoiceNo</th>
+                    <th class="textright">@string.Format("{0:n2}", @item.ProvisionHome)</th>
+                    <th class="textright">@string.Format("{0:n2}", @item.SalesHome)</th>
+                    <th class="textright">
+                        @string.Format("{0:n2}", @item.Profit)
+
+                    </th>
+                  <th><button class="btnprint">Print</button></th>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+  <div class="row no-margin" style="padding-top: 20px;visibility:hidden">
+          
+                <div class="col-md-12" id="PrintTable" style="background-color:white;height:auto;visibility:hidden">
+                
+                </div>
+           
+        </div>

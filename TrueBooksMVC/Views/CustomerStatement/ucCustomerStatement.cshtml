@@ -1,0 +1,156 @@
+﻿@*@model IEnumerable<DAL.qryCustomerStatement>*@
+@using DAL;
+@using System.Configuration;
+
+@using TrueBooksMVC.Models;
+@{
+    Layout = null;
+  
+}
+
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>CUSTOMER STATEMENT REPORT</title>
+
+
+    <style type="text/css">
+        .details tr
+        {
+            height: 25px;
+        }
+    </style>
+</head>
+
+
+<body>
+
+    <div class="row">
+        <div class="col-md-12">
+            @{
+                
+                int custid = Convert.ToInt32(ViewBag.custid);
+                DateTime fromdate = Convert.ToDateTime(ViewBag.fromdate);
+                DateTime todate = Convert.ToDateTime(ViewBag.todate);
+                
+                string path=ConfigurationManager.AppSettings["spath"].ToString();
+                string url = path + "/Reports/CustomerStatement.aspx?custid=" + custid + "&fromdate=" + fromdate + "&todate=" + todate;
+                
+                <iframe src="@url" style="width:100%;height:1500px"></iframe>
+            }
+        </div>
+    </div>
+    @*<div class="row">
+        <div class="col-md-12" style="background-color: white; padding-top: 20px;padding-bottom:20px">
+              <p>
+                @{
+                SHIPPING_FinalEntities db1 = new SHIPPING_FinalEntities();
+                var data = (from c in db1.AcCompanies select c).FirstOrDefault();
+              <b>@data.AcCompany1</b><br />
+              <span>@data.Address1 &nbsp; @data.Address2 &nbsp; @data.Address3</span>
+                    
+                    DateTime tdate = Convert.ToDateTime(ViewBag.todate);
+                
+            }
+           
+              
+           </p>
+               
+             <table border="0" style="width: 780px; background-color: white; margin-bottom: 25px; border-color: white;" class="details">
+                          <tr style="border-bottom:solid 1px black">
+                              <td style="text-align:center"><h4>CUSTOMER STATEMENT As On : @TrueBooksMVC.Models.CommanFunctions.GetShortDateFormat(tdate)</h4></td>
+                          </tr>
+                </table>
+                @foreach (var group in Model.GroupBy(item=>item.InvoiceToID))
+                {
+                    SHIPPING_FinalEntities db=new SHIPPING_FinalEntities();
+                    var x1 = group.FirstOrDefault();
+                    string customer = (from c in db.CUSTOMERs where c.CustomerID == x1.InvoiceToID select c.Customer1).FirstOrDefault();
+                    <li style="list-style-type: none"><b style="padding-bottom:10px">Customer : @customer</b><br />
+                      
+
+                        <table border="0" style="width: 780px; background-color: white; margin-bottom: 25px;border-top:solid 1px black;border-bottom:solid 1px black" class="details">
+                            <tr style="border-bottom-color: black">
+                                <th style="width:200px">Sr. No.</th>
+                                <th style="width:300px">Invoice No.</th>
+                                <th style="width:540px">Job Code.</th>
+                               <th style="width:300px">Date</th>
+                                <th style="width: 190px; text-align: right;padding-right:10px">Debit</th>
+                                <th style="width: 190px; text-align: right;padding-right:10px">Credit</th>
+                                <th style="width: 190px; text-align: right;padding-right:10px">Balance</th>
+                            </tr>
+                            
+                            @{
+                    decimal totalcr = 0;
+                    decimal totaldeb = 0;
+                    decimal totalbalance = 0;
+                    int count = 0;
+                    
+                            }
+                            @foreach (var item in group)
+                            {
+
+                                
+                               totaldeb = totaldeb + item.AmtToBeReceived;
+
+                               totalcr = totalcr + (-item.AmtAlreadyReceived);
+                                
+                                <tr>
+                                    <td style="padding-left:3px">@{
+                                count=count + 1;
+                              @count
+                                    }
+                                        
+                                    </td>
+                                   
+                                       <td>@item.InvoiceID</td>
+                                     <td>@item.JobCode</td>
+                                    <td style="padding-left:10px">@TrueBooksMVC.Models.CommanFunctions.GetShortDateFormat(item.InvoiceDate)</td>
+                                  
+                                        <td style="text-align: right; padding-right: 10px">@string.Format("{0:n2}", @item.AmtToBeReceived)</td>
+                                        <td style="text-align: right; padding-right: 10px">@string.Format("{0:n2}", -@item.AmtAlreadyReceived)</td>
+                                 
+                                    @{
+                                decimal x = 0;
+                                x = item.AmtToBeReceived - (-item.AmtAlreadyReceived);   
+                                    }
+                                        <td style="text-align: right; padding-right: 10px">@string.Format("{0:n2}", x)</td> 
+                                    
+                                   
+                                      
+                                  
+                                </tr>
+         
+                            }
+                            <tr style="border-top-color: black;border-top:solid 1px black;border-bottom:solid 1px black">
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td style="text-align: right; padding-right: 10px">
+                               
+                                    <b style="font-size: medium">@string.Format("{0:n2}", @totaldeb)</b>
+                                </td>
+                                <td style="text-align: right; padding-right: 10px">
+                                    <b style="font-size: medium">@string.Format("{0:n2}", @totalcr)</b>
+                                </td>
+                                 <td style="text-align: right; padding-right: 10px">
+                                    <b style="font-size: medium">@string.Format("{0:n2}", (@totaldeb-@totalcr))</b>
+                                </td>
+                            </tr>
+                        </table>
+
+                    </li>
+
+                }
+                    
+        </div>
+    </div>*@
+
+
+</body>
+</html>

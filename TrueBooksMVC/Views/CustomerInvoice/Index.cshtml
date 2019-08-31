@@ -1,0 +1,359 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
+}
+<style>
+    tfoot {
+        display: table-header-group;
+    }
+</style>
+
+
+<section class="content-header">
+    <h1 class="headingfont">Customer Invoice</h1>
+</section>
+<section class="content-header">
+
+    <script>
+        var vinvoiceno = 0;
+        function showModel(invoiceno) { vinvoiceno = invoiceno; $("#myModal").modal('show'); }
+        $("document").ready(function () {
+            $("select").css({ "border-radius": "5px" });
+
+
+
+            var startdate = '@Session["FyearFrom"].ToString()';
+            var enddate = '@Session["FyearTo"].ToString()';
+            var sd = new Date(startdate);
+            var ed = new Date(enddate);
+
+
+            function GetCurrentDate() {
+                var m_names = new Array("Jan", "Feb", "Mar",
+        "Apr", "May", "Jun", "Jul", "Aug", "Sep",
+        "Oct", "Nov", "Dec");
+
+                var d = new Date();
+                var curr_date = d.getDate();
+                var curr_month = d.getMonth();
+                var curr_year = d.getFullYear();
+                return (curr_date + "-" + m_names[curr_month]
+                + "-" + sd.getFullYear());
+            }
+
+            function GetStartDate() {
+                var m_names = new Array("Jan", "Feb", "Mar",
+        "Apr", "May", "Jun", "Jul", "Aug", "Sep",
+        "Oct", "Nov", "Dec");
+
+                var d = new Date("@Session["FyearFrom"].ToString()");
+            var curr_date = d.getDate();
+            var curr_month = d.getMonth();
+            var curr_year = d.getFullYear();
+            return (curr_date + "-" + m_names[curr_month]
+            + "-" + curr_year);
+        }
+
+            $("#frmdate").val(GetStartDate());
+            $("#todate").val(GetCurrentDate());
+
+
+            $("#frmdate").css("border-radius", "5px");
+            $("#todate").css("border-radius", "5px");
+
+            $("#frmdate").datepicker({
+                dateFormat: 'dd-M-yy',
+                changeYear: true, changeMonth: true,
+                minDate: sd,
+                maxDate: ed,
+
+            });
+
+
+
+            $("#todate").datepicker({
+                dateFormat: 'dd-M-yy',
+                changeYear: true, changeMonth: true,
+                minDate: sd,
+                maxDate: ed,
+            });
+
+
+
+            $("#btnsearch").click(function () {
+                var jobid = $("#JobID option:selected").val();
+
+                var jid = 0;
+               
+
+                if (jobid == "")
+                    jid = 0;
+                else
+                    jid = parseInt(jobid);
+
+                
+                var frm = $("#frmdate").val();
+                var dto = $("#todate").val();
+             
+                var from = new Date($('#frmdate').val());
+                var to = new Date($('#todate').val());
+                //var currencyid = $("#CurrencyID").val()
+
+                //if (currencyid == "") {
+                //    currencyid = 0;
+                //}
+
+                //currencyid = 0;
+                //$('#resulttable tr:gt(0)').remove()
+
+                showLoading();
+                $.ajax({
+                    url: "@Url.Action("GetInvoiceDetails", "CustomerInvoice")",
+                    data: { jobid: jid, fromdate:frm,todate:dto },
+                    type: "GET",
+                    dataType: "json",
+                    success: function (data) {
+                        //$.each(data, function (index, value) {
+                        //    var date = new Date(parseInt(value.InvoiceDate.substr(6)));
+                        //    var tempdate = new Date(date).getDate() + '/' + new Date(date).getMonth() + '/' + new Date(date).getFullYear();
+
+
+                        //    $("#resulttable").append('<tr><td style="text-align:right">' + value.InvoiceNo + '</td><td style="text-align:right">' + tempdate + '</td><td>' + value.Currency + '</td><td style="text-align:right">' + parseFloat(value.InvoiceAmount).toFixed(2) + '</td><td style="text-align:right">' + parseFloat(value.AmountRecieved).toFixed(2) + '</td><td style="text-align:right">' + parseFloat(value.Balence).toFixed(2) + '</td><td> <button onclick="showModel(' + value.InvoiceNo + ')" >Print</button></td></tr>');
+                        //})
+                        hideLoading();
+                        $("#result").empty();
+                        $("#result").append(data.view);
+
+                    },
+                    error: function () {
+                        alert("Failed! Please try again.");
+                    }
+                });
+            });
+
+          @*  $("#JobID").change(function () {
+
+                var jobId = $("#JobID").val();
+
+                $.ajax({
+                    type: 'GET',
+                    url: '@Url.Action("GetCurrency", "CustomerInvoice")',
+                    datatype: "html",
+                    data: { jobid: jobId },
+                    success: function (data) {
+
+                        $('#CurrencyID').empty();
+                        $('#CurrencyID').append('<option value="0">Select</option>');
+                        $.each(data, function (index, value) {
+
+
+                            $('#CurrencyID').append('<option value="' + value.CurrencyID + '">' + value.CurrencyName + '</option>');
+                        });
+                    }
+                });
+            });*@
+
+            $('#resulttable tfoot th:not(:last)').each(function () {
+                var title = $(this).text();
+                $(this).html('<input type="text" placeholder="Search ' + title + '" style="width:90%" />');
+            });
+
+
+            var table = $('#resulttable').DataTable();
+
+            table.columns().every(function () {
+                var that = this;
+
+                $('input', this.footer()).on('keyup change', function () {
+                    if (that.search() !== this.value) {
+                        that
+                            .search(this.value)
+                            .draw();
+                    }
+                });
+            });
+
+        });
+
+
+      
+
+
+
+
+        //function ShowReport() {
+
+        //    if ($("#plain").is(':checked')) {
+        //        var invoiceno = 0;
+        //        window.location.href = '/ReportInvoice/CustomerInvoiceReportPlain?InvoiceNo=' + vinvoiceno;
+        //    }
+
+        //    if ($("#formatted").is(':checked')) {
+        //        window.location.href = '/ReportInvoice/CustomerInvoiceReportFormatted?InvoiceNo=' + vinvoiceno;
+
+        //    }
+        //}
+    </script>
+    <div class="row no-margin">
+          <div class="col-md-3">
+                       <label class="headinglabel required">From Date</label>
+                       
+                            <input type="text" id="frmdate" class="form-control"  />
+                    
+                 </div>  
+                 <div class="col-md-3">   
+                           <label class="headinglabel required">To Date</label>
+                     
+                            <input type="text" id="todate" class="form-control"  />
+                  </div>  
+        
+           <div class="col-md-3">
+            <label class="headinglabel">JobCode:</label>
+            @Html.DropDownList("JobID", new SelectList(ViewBag.JobCode, "JobID", "JobCode"), "Select", new { @class = "form-control" })
+        </div> 
+    </div> 
+
+   
+     
+    <div class="row no-margin" style="padding-top:20px">
+        <div class="col-md-3">
+            <button id="btnsearch" class="btn btn-primary btnwidth">Generate</button>
+        </div>
+
+
+    </div>
+
+    <div class="row no-margin" style="padding-top: 20px">
+    </div>
+
+    <div class="row no-margin" style="padding-top: 20px">
+        <div class="col-md-12 tblbackground">
+            <div class="row">
+                <div class="col-md-12" id="result" style="padding: 10px">
+                    @*  <table class="table table-bordered table-responsive" id="resulttable">
+                        <thead>
+                            <tr>
+                                <th>Invoice No
+                                </th>
+                                <th>Invoice Date
+                                </th>
+                                <th>Currency
+                                </th>
+                                <th>Invoice Amount
+                                </th>
+                                <th>Amount Recieved
+                                </th>
+                                <th>Balance
+                                </th>
+                                <th>Print</th>
+                            </tr>
+                        </thead>
+
+                        <tfoot>
+                            <tr>
+                                <td>Invoice No
+                                </td>
+                                <td>Invoice Date
+                                </td>
+                                <td>Currency
+                                </td>
+                                <td>Amount Recieved
+                                </td>
+                                <td>Invoice Amount
+                                </td>
+                                <td>Balance
+                                </td>
+                                <td>Print</td>
+                            </tr>
+                        </tfoot>
+                         
+
+                    </table>*@
+                   @* <table class="table table-striped table-bordered table-hover" id="resulttable">
+                        <thead>
+                            <tr>
+                                <th>Invoice No1
+                                </th>
+                                <th>Invoice Date
+                                </th>
+                                <th>Currency
+                                </th>
+                                <th>Amount Recieved
+                                </th>
+                                <th>Invoice Amount
+                                </th>
+                                <th>Balance
+                                </th>
+                                <th>Print</th>
+                            </tr>
+                        </thead>
+
+                        <tfoot>
+                            <tr>
+                                <th>Invoice No
+                                </th>
+                                <th>Invoice Date
+                                </th>
+                                <th>Currency
+                                </th>
+                                <th>Amount Recieved
+                                </th>
+                                <th>Invoice Amount
+                                </th>
+                                <th>Balance
+                                </th>
+                                <th>Print</th>
+                            </tr>
+                        </tfoot>
+                        @{
+       
+                            int cnt = 1;
+                        }
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+
+                                    <th>@item.InvoiceNo</th>
+                                    <th style="text-align: right">@TrueBooksMVC.Models.CommanFunctions.GetShortDateFormat(@item.InvoiceDate)</th>
+                                    <th>@item.Currency</th>
+
+                                    <th class="textright">@string.Format("{0:n2}", @item.AmountRecieved)</th>
+                                    <th class="textright">@string.Format("{0:n2}", @item.InvoiceAmount)</th>
+                                    <th class="textright">
+                                        @string.Format("{0:n2}", @item.Balence)
+
+                                    </th>
+                                    <th>
+                                        <button onclick="showModel(@item.InvoiceNo)" >Print</button>
+                                    </th>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>*@
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content" style="width: 400px">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Report</h4>
+                </div>
+                <div class="modal-body">
+                    <input type="radio" name="rpttype" id="plain" class="rbtn" value="plain" />&nbsp;Plain Report<br />
+                    <br />
+                    <input type="radio" id="formatted" name="rpttype" class="rbtn" value="formatted" />&nbsp;Formatted Report
+                </div>
+                <div class="modal-footer" style="text-align: left">
+
+                    <button type="button" class="btn btn-primary" onclick="ShowReport()" id="btnsubmitforreport">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>

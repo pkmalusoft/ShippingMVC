@@ -1,0 +1,107 @@
+﻿@model IEnumerable<DAL.proJobCostFull_Result>
+
+@{
+    Layout = null;
+    
+}
+
+<style>
+    .back {
+        background-color: red;
+        color: white;
+    }
+
+     tfoot {
+    display: table-header-group;
+    }
+</style>
+
+@*<script src="~/Content/jQuery-2.1.3.min.js"></script>*@
+
+ 
+<script type="text/javascript">
+    
+     $(document).ready(function () {
+
+         $('#dataTables-example tfoot th').each(function () {
+             var title = $(this).text();
+             $(this).html('<input type="text"  style="width:90%" />');
+         });
+
+
+         var table = $('#dataTables-example').DataTable();
+        
+         table.draw();
+         table.columns().every(function () {
+             var that = this;
+
+             $('input', this.footer()).on('keyup change', function () {
+                 if (that.search() !== this.value) {
+                     that
+                         .search(this.value)
+                         .draw();
+                 }
+             });
+         });
+     });
+
+    
+</script>
+
+
+<div class="table-responsive" style="padding:10px">
+    <table class="table table-responsive table-bordered" id="dataTables-example">
+        <thead>
+            <tr>
+                <th>Job Code</th>
+                <th>Actual Cost</th>
+                <th>Sales Home</th>
+                <th>Profit</th>
+                <th>Profit %</th>
+                <th>Invoice Date</th>
+                <th>Invoice No</th>
+                <th>Customer</th>
+
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>Job Code</th>
+                <th>Actual Cost</th>
+                <th>Sales Home</th>
+                <th>Profit</th>
+                <th>Profit %</th>
+                <th>Invoice Date</th>
+                <th>Invoice No</th>
+                <th>Customer</th>
+
+            </tr>
+        </tfoot>
+       
+        <tbody>
+            @foreach (var item in Model)
+            {
+                var percentage = (((item.SalesHome - item.ProvisionHome) / (item.ProvisionHome)) * 100);
+                <tr>
+                    
+                    <th>@item.JobCode</th>
+                    <th class="textright">
+                        @string.Format("{0:n2}", @item.ActualCost)
+
+                    </th>
+                     <th class="textright">
+                        @string.Format("{0:n2}", @item.SalesHome)
+
+                    </th>
+                    <th class="textright">
+                        @string.Format("{0:n2}",(@item.SalesHome-@item.ActualCost))
+                    </th>
+                     <th style="text-align:right"> @string.Format("{0:n2}", @percentage)</th>
+                     <th style="text-align:right">@TrueBooksMVC.Models.CommanFunctions.GetShortDateFormat(@item.InvoiceDate)</th>
+                     <th class="textright">@item.InvoiceNo</th>
+                     <th>@item.Customer</th>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

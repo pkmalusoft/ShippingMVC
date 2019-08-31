@@ -1,0 +1,163 @@
+﻿@{
+    Layout = "~/Views/Shared/FormattedLayout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>DeliveryReport</title>
+</head>
+<body>
+    <div id="Delivery">
+            <table width="700px" border="0" style="font-family:Calibri">
+                <tr>
+                    <td>
+                        <center><b><u>DELIVERY NOTE / COLLECTION NOTE</u></b></center>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <b>JOB NO.</b> &nbsp; @ViewBag.DJobCode
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <table border="1" width="699px">
+
+                            <tr>
+                                <td width="50%">
+                                    <pre><b> Collect From </b>&nbsp;  @ViewBag.DCustomer
+ <b>Customer Ref</b> &nbsp;
+                                    </pre>
+                                </td>
+                                <td rowspan="6" width="50%">
+                                    <center>Logo and Address</center>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <pre><b> B/L No </b>&nbsp; @ViewBag.DMBL
+ <b>B.E.No </b>&nbsp; @ViewBag.DBIllOfEntry</pre>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <pre> <b>Delivery To</b> 
+                                    
+ @ViewBag.DCollectionPoint
+ @ViewBag.DAddress1
+ Tel @ViewBag.DPhone
+                                    </pre>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <pre><b> Haulier</b> 
+
+
+                                    </pre>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <pre><b>  Place of Reciept               Port of Loading</b>
+       @ViewBag.DPortRP                 @ViewBag.DPort
+                                    </pre>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <pre><b>   Vessel                          Voyage No</b>
+ @ViewBag.DVessel                           @ViewBag.DVoyageNo
+                                    </pre>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <pre> <b>Place of Discharge       Place of Delivery          Date of Shipment/Arrival </b>
+ @ViewBag.DPortDL                     @ViewBag.DDestPort                 @TrueBooksMVC.Models.CommanFunctions.GetShortDateFormat(@ViewBag.DArrivalDate)
+                                                </pre>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <table width="699px" border="1" style="font-family:Calibri">
+                                        <tr>
+                                            <td>
+                                                <pre> <b>Container No / Seal No
+ Marks And Numbers</b></pre>
+                                            </td>
+                                            <td>
+                                                <pre><b> No of Containers 
+ or Packages</b></pre>
+                                            </td>
+                                            <td>
+                                                <pre><b> Description of Packages 
+ and Goods</b></pre>
+                                            </td>
+                                            <td>
+                                                <pre><b> Gross Weight
+ (KGS)</b></pre>
+                                            </td>
+                                            <td>
+                                                <pre><b> Measurement 
+ (CBM)</b></pre>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <pre> @ViewBag.DMark  </pre>
+                                            </td>
+                                            <td>
+                                                <pre> @ViewBag.DPackages </pre>
+                                            </td>
+                                            <td>
+                                                <pre> @ViewBag.DDescription  </pre>
+                                            </td>
+                                            <td>
+                                                <pre> @ViewBag.Dweight </pre>
+                                            </td>
+                                            <td>
+                                                <pre> @ViewBag.Dvolume </pre>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <pre><b> COLLECTION Date, time,Instructions           Delivery Date, time,Instructions</b>
+
+   @TrueBooksMVC.Models.CommanFunctions.GetShortDateFormat( @ViewBag.DCollectionDate)                               @TrueBooksMVC.Models.CommanFunctions.GetShortDateFormat(@ViewBag.DDeliveryDate)
+
+                                    </pre>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <pre><b> COLLECTED By                             RECIEVED By </b>
+                                              
+ Signed            Date                   Signed             Date
+
+                                         </pre>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <pre><b> CONDITION Remarks on Collection                            CONDITION Remarks on Delivery</b>
+
+
+
+
+                                    </pre>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+</body>
+</html>

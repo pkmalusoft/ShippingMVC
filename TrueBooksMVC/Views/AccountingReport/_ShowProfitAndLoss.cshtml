@@ -1,0 +1,143 @@
+﻿@model IEnumerable<DAL.Report_ProfitAndLossAccount_Result>
+@using TrueBooksMVC.Models;
+@using DAL;
+@using System.Text;
+@{
+    Layout = null;
+
+    decimal drtotal = 0;
+    decimal crtotal = 0;
+    decimal netpl = 0;
+    string lbl = "";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ProfitAndLoss</title>
+</head>
+<body>
+     <div class="row">
+        <div class="col-md-12" style="background-color: white; padding-top: 20px;padding-bottom:20px;width:883px; ">
+                  <p style="border-bottom:solid 1px black;">
+                @{
+                SHIPPING_FinalEntities db1 = new SHIPPING_FinalEntities();
+                var data = (from c in db1.AcCompanies select c).FirstOrDefault();
+              <b>@data.AcCompany1</b><br />
+              <span>@data.Address1 &nbsp; @data.Address2 &nbsp; @data.Address3</span>
+                
+            }
+           
+              
+           </p>
+       
+            
+            <table border="0" style=" width:850px; background-color: white; margin-bottom: 25px; border-color: white;" class="details" class="table table-responsive">
+                <tr>
+                    <td colspan="7" style="text-align: center">
+                            @{
+                       DateTime tdate = Convert.ToDateTime(TempData["tdate"]);
+                   }
+                        <h2>Profit & Loss Acoount &nbsp; As On : @TrueBooksMVC.Models.CommanFunctions.GetShortDateFormat(@tdate)</h2>
+                    </td>
+                </tr>
+                <tr style="font-weight: bold;border-bottom-color: black;border-bottom:solid 1px black;border-top:solid 1px black">
+
+                    <td>Particulars</td>
+                    <td  style="text-align:right">Debit</td>
+                    <td style="text-align:right">Credit</td>
+                   
+                </tr>
+
+
+                <div class="col-sm-12">
+
+
+                    @foreach (var item in Model)
+                    {
+                        drtotal = drtotal + item.DrAmount.Value;
+                        crtotal = crtotal + item.CrAmount.Value;
+                      
+           
+                        <tr style="border-style: none" class="headingfont">
+                            <td>@item.AcGroup&nbsp;&nbsp;&nbsp; @item.AcHead</td>
+                            <td style="text-align:right">@string.Format("{0:n2}", @item.DrAmount)</td>
+                            <td style="text-align:right">@string.Format("{0:n2}", @item.CrAmount)</td>
+                          <td></td>
+                            <td></td>
+                        </tr>
+                    }
+
+                    @{
+                            if(drtotal>crtotal)
+                            {
+                                netpl = drtotal - crtotal;
+                                lbl = "P";
+                            }    
+                            else
+                            {
+                                netpl = crtotal - drtotal;
+                                lbl = "L";  
+                            }
+                    
+                    }
+                </div>
+                <tr style="border-top: solid 1px black; font-weight: bold">
+                    <td style="text-align:right">Grand Total:
+                    
+                    </td>
+                    <td style="text-align: right;">@string.Format("{0:n2}", @drtotal)</td>
+                    <td class="textright">@string.Format("{0:n2}", @crtotal)</td>
+                   
+                </tr>
+            
+                    @{
+                        if(lbl=="P")
+                        {    <tr style="border-top: solid 2px black; font-weight: bold">
+                    
+                              <td style="text-align:right">
+                                  Gross Profit:
+                            </td>
+                            <td style="text-align: right;">@string.Format("{0:n2}", @netpl)</td>
+                                    </tr>
+                        
+                         <tr style="border-top: solid 2px black; font-weight: bold">
+                    
+                              <td style="text-align:right">
+                                  Net Profit:
+                            </td>
+                            <td style="text-align: right;">@string.Format("{0:n2}", @netpl)</td>
+                             <td></td><td></td>
+                                    </tr>
+                        }
+                        else
+                        {
+                            <tr style="border-top: solid 2px black; font-weight: bold">
+                    
+                              <td style="text-align:right">
+                                  Gross Loss:
+                            </td>
+                            <td style="text-align: right;">@string.Format("{0:n2}", @netpl)</td>
+                                    </tr>
+                        
+                         <tr style="border-top: solid 2px black; font-weight: bold">
+                    
+                              <td style="text-align:right">
+                                  Net Loss:
+                            </td>
+                            <td style="text-align: right;">@string.Format("{0:n2}", @netpl)</td>
+                             <td></td><td></td>
+                                    </tr>
+                        }
+                    }
+                  
+                
+                   
+               
+            </table>
+        </div>
+    </div>
+</body>
+</html>

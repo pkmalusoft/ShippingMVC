@@ -1,0 +1,68 @@
+﻿@model IEnumerable<DAL.proJobCostFull_Result>
+
+@{
+    Layout = null;
+    
+}
+
+<style>
+    .back {
+        background-color: red;
+        color: white;
+    }
+
+   
+</style>
+
+@*<script src="~/Content/jQuery-2.1.3.min.js"></script>*@
+
+ 
+
+
+
+        <table style="width:950px" id="table1" border="0">
+                <tr>
+                    <td colspan="8" style="text-align:center"><h3>Job Analysis Report</h3></td>
+                </tr>
+            </table>
+    <table style="width:950px" id="table1" border="1">
+        <thead>
+            <tr>
+                <th>Job Code</th>
+                <th>Actual Cost</th>
+                <th>Sales Home</th>
+                <th>Profit</th>
+                <th>Profit %</th>
+                <th>Invoice Date</th>
+                <th>Invoice No</th>
+                <th>Customer</th>
+
+            </tr>
+        </thead>
+      
+       
+            @foreach (var item in Model)
+            {
+                <tr>
+                    
+                    <th style="padding:5px;">@item.JobCode</th>
+                    <th class="textright" style="padding-right:10px;">
+                        @string.Format("{0:n2}", @item.ActualCost)
+
+                    </th>
+                     <th class="textright" style="padding-right:10px;">
+                        @string.Format("{0:n2}", @item.SalesHome)
+
+                    </th>
+                    <th class="textright" style="padding-right:10px;">
+                        @string.Format("{0:n2}",(@item.SalesHome-@item.ActualCost))
+                    </th>
+                     <th style="padding:10px;">@item.ProvisionHome</th>
+                     <th style="text-align:right; padding-right:10px;" >@TrueBooksMVC.Models.CommanFunctions.GetShortDateFormat(@item.InvoiceDate)</th>
+                     <th style="padding:10px;">@item.InvoiceNo</th>
+                     <th style="padding:10px;">@item.Customer</th>
+                </tr>
+            }
+      
+    </table>
+

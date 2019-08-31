@@ -1,0 +1,186 @@
+﻿@model TrueBooksMVC.Models.YearEndProcessVM
+@{
+    ViewBag.Title = "YearEndProcess";
+    Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
+}
+
+<script type="text/javascript">
+        $(document).ready(function () {
+           
+            $(":text").css({ "border-radius": "5px" });
+            $("select").css({ "border-radius": "5px" });
+
+
+            //$("#GroupCode").empty('');
+            //var catid = $("#AcCategoryID option:selected").val();
+            //$.ajax({
+            //    url: '/AccountingModule/GetGroupsByID',
+            //    type: "GET",
+            //    dataType: "JSON",
+            //    data: { Category: catid },
+            //    success: function (groups) {
+            //        $("#City").html(""); // clear before appending new list 
+            //        $.each(groups, function (i, group) {
+            //            $("#GroupCode").append(
+            //                $('<option></option>').val(group.AcGroupID).html(group.AcGroup));
+            //        });
+            //    }
+            //});
+
+
+
+
+            //$("#AcCategoryID").change(function () {
+            //    $("#GroupCode").empty('');
+            //    var catid = $("#AcCategoryID option:selected").val();
+            //    $.ajax({
+            //        url: '/AccountingModule/GetGroupsByID',
+            //        type: "GET",
+            //        dataType: "JSON",
+            //        data: { Category: catid },
+            //        success: function (groups) {
+            //            $("#City").html(""); // clear before appending new list 
+            //            $.each(groups, function (i, group) {
+            //                $("#GroupCode").append(
+            //                    $('<option></option>').val(group.AcGroupID).html(group.AcGroup));
+            //            });
+            //        }
+            //    });
+            //});
+
+
+            $("#WNewYear").hide();
+            $("#AcYearEnd").hide();
+
+            $("#btnNextYear").click(function () {
+              
+                $.ajax({
+                    url: '/AccountingModule/GetNewFYear',
+                    data: { cFyearFrom: $("#CurrentFYearFrom").val(), cFyearTo: $("#CurrentFYearTo").val() },
+                            type: "GET",
+                            dataType: "JSON",
+                            success: function (data) {
+                              
+                                $("#NewFYearFrom").val(data.NewFYearFrom);
+                                $("#NewFYearTo").val(data.NewFYearTo);
+                                $("#Reference").val(data.Reference);
+
+                                $("#WCurrentYear").hide();
+                                $("#WNewYear").show();
+                               
+                            }
+                        });
+            });
+
+            $("#btnPrevYear").click(function () {
+                $("#WCurrentYear").show();
+                $("#WNewYear").hide();
+            });
+
+
+            $("#btnOpenHead").click(function () {
+                $.ajax({
+                    url: '/AccountingModule/BindOpenHead',
+                    data: { NewYearFrom: $("#NewFYearFrom").val(), NewYearTo: $("#NewYearTo").val(),ref1:$("#Reference").val() },
+                    type: "GET",
+                    dataType: "JSON",
+                    success: function (data) {
+                        $("#WNewYear").hide();
+                        $("#AcYearEnd").show();
+
+                        $("#AcYearEnd").find("#tableopenhead").append("<table><tr><td>Sr. No</td><td>Account Head</td><td>Opening Balance</td><td>Balance</td></tr></table>");
+                    }
+                });
+            });
+
+            $("#btnPrevNewYear").click(function () {
+                $("#WNewYear").show();
+                $("#AcYearEnd").hide();
+            });
+        });
+    </script>
+<section class="content-header">
+    <h1 class="headingfont">Year End Processs
+    </h1>
+
+</section>
+
+
+<section class="content">
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+       
+         <div class="row no-margin" id="WCurrentYear"> 
+             
+             <div class="col-md-3">
+                          <label class="required headinglabel">Current Year From</label>
+                     @Html.TextBoxFor(model => model.CurrentFYearFrom, new { @class = "form-control",@Value = @ViewBag.currentFyearFrom })
+                      
+                            
+             </div>
+             <div class="col-md-3">
+                          <label class="required headinglabel">Current Year To</label>
+                     @Html.TextBoxFor(model => model.CurrentFYearTo, new { @class = "form-control",@Value = @ViewBag.currentFyearTo })
+                          
+             </div>
+               <div class="col-md-3" style="padding-top:22px">
+                    <input type="button" id="btnNextYear" value="Next" class="btn btn-primary" />  
+                          
+             </div>
+            
+       </div>
+
+        <div class="row no-margin" id="WNewYear"> 
+           
+             <div class="col-md-3">
+                          <label class="required headinglabel">New Year From</label>
+                     @Html.TextBoxFor(model => model.NewFYearFrom, new { @class = "form-control" })
+                      
+                            
+             </div>
+             <div class="col-md-3">
+                          <label class="required headinglabel">New Year To</label>
+                     @Html.TextBoxFor(model => model.NewFYearTo, new { @class = "form-control"})
+                          
+             </div>
+               <div class="col-md-3">
+                     <label class="required headinglabel">Reference</label>
+                     @Html.TextBoxFor(model => model.Reference, new { @class = "form-control"})
+                          
+             </div>
+             <div class="col-md-3" style="padding-top:22px">
+                    <input type="button" id="btnPrevYear" value="Prev" class="btn btn-primary" />  &nbsp;&nbsp<input type="button" id="btnOpenHead" value="Next" class="btn btn-primary" />
+                     
+                      
+             </div>
+            
+       </div>
+         <div class="row no-margin" id="AcYearEnd"> 
+             
+             <div class="col-md-5" id="tableopenhead" style="color:white">
+                          <label class="required headinglabel">Account Year End</label>
+                  
+                      
+                            
+             </div>
+           
+             <div class="col-md-3" style="padding-top:22px">
+                    <input type="button" id="btnPrevNewYear" value="Prev" class="btn btn-primary" />  &nbsp;&nbsp<input type="button" id="btnYearEnd" value="Next" class="btn btn-primary" />
+                     
+                      
+             </div>
+            
+       </div>
+
+
+       
+        
+
+       
+    </fieldset>
+}
+    </section>

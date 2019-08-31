@@ -1,0 +1,140 @@
+﻿@{
+    Layout = "~/Views/Shared/FormattedLayout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>InvoiceReportFormatted</title>
+    <style>
+
+         body 
+        {
+            font-family:Calibri;
+        }
+
+
+        #Invoice {
+            font-family:Calibri;
+        }
+        table {
+            font-family:Calibri;
+        }
+    </style>
+</head>
+<body>
+    <div id="Invoice">
+            <table width="700px" border="1">
+                <tr>
+                    <td>
+                        <center><b><u>INVOICE</u></b></center>
+                    </td>
+                </tr>
+                <tr height="750px">
+                    <td>
+                        <center>
+                        <table border="0" width="670px" style="margin-top:-270px;">
+                            <tr>
+                                <td width="70%" >
+                            
+ To,<br />
+
+ @ViewBag.Custmr <br />
+ @ViewBag.Adress1<br />
+ @ViewBag.Adress2 <br />
+ Ph : @ViewBag.Phne
+                                     
+                                </td>
+                               
+                                <td width="30%">Date: @TrueBooksMVC.Models.CommanFunctions.GetShortDateFormat(@ViewBag.InvcDate)</td>
+                            </tr>
+                        </table></center>
+                        <br />
+                        <br />
+                        <table border="0" width="670px">
+                            <tr>
+                                <td>INVOICE # &nbsp; </td>
+                                <td>@ViewBag.InvceNo</td>
+                                <td>REF # &nbsp; </td>
+                                <td>@ViewBag.JobCd</td>
+                            </tr>
+                            <tr>
+                                <td>SHIPPER &nbsp; </td>
+                                <td>@ViewBag.Exp1</td>
+                                <td>ORIGIN &nbsp; </td>
+                                <td>@ViewBag.Prt</td>
+                            </tr>
+                            <tr>
+                                <td>VESSEL &nbsp; </td>
+                                <td>@ViewBag.Vesel</td>
+                                <td>DESTINATION &nbsp; </td>
+                                <td>@ViewBag.Exp2 </td>
+                            </tr>
+                            <tr>
+                                <td>VOYAGE NO &nbsp; </td>
+                                <td>@ViewBag.VyageNo</td>
+                                <td>BL # &nbsp; </td>
+                                <td>@ViewBag.BL</td>
+                            </tr>
+                            <tr>
+                                <td>ARRIVAL DATE &nbsp; </td>
+                                <td>@ViewBag.ArrvlDate</td>
+                                <td>FREIGHT &nbsp; </td>
+                                <td>@ViewBag.Frgt</td>
+                            </tr>
+                            <tr>
+                                <td>CUSTOMER REF &nbsp; </td>
+                                <td>@ViewBag.CuRef</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </table>
+                        <br />
+                        <br />
+                        <table border="1" width="690px">
+                            <tr>
+                                <td width="50%"><b>CHARGES</b></td>
+                                 <td width="25%"><b> @ViewBag.CurrencyName (@ViewBag.symbol)</b></td>
+                                <td width="25%"><b> @ViewBag.BaseCurrency 
+                            </tr>
+                         
+                                <tr>
+                                    @if (@ViewData.Model.RevenueCode!=null)
+                                    {
+
+                                    <td width="50%">@string.Format("{0:n2}",@ViewData.Model.RevenueCode)</td>
+                                    }
+                                    else
+                                    {
+                                         <td width="50%">@ViewData.Model.RevenueCode</td>
+                                    }
+                                    <td width="25%">@string.Format("{0:n2}",@ViewData.Model.SalesForeign)</td>
+                                    <td width="25%">@string.Format("{0:n2}",@ViewData.Model.SalesHome)</td>
+                                </tr>
+                            <tr>
+                                <td width="25%"><b>DESCRIPTION</b></td>
+                                <td>@ViewBag.description</td>
+
+                               
+                            </tr>
+                           
+                        </table>
+                    </td>
+                </tr>
+              @*  <tr>
+                    <td style="text-align:center">
+                       
+                                 RAMMAR SHIPPING SERVICES<br />
+                                P.O.BOX 121324 DUBAI U.A.E<br />
+                            Tel: 00971 4 3798831 Fax: 00971 4 3798832<br />
+                        noora@rammargroup.com / accounts@rammargroup.com <br />
+                        
+
+                    </td>
+                </tr>*@
+            </table>
+        </div>
+</body>
+</html>

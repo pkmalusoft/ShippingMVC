@@ -1,0 +1,343 @@
+﻿@model TrueBooksMVC.Models.CustomerJournalVM
+
+@{
+    ViewBag.Title = "openingInvoice";
+    Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
+}
+
+
+
+
+<section class="content-header">
+    <h1 class="headingfont">Opening Invoice</h1>
+
+</section>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+
+
+        $('#OPDate').datepicker({
+            dateFormat: 'dd-M-yy', maxDate: '0',
+            changeYear: true, changeMonth: true,
+        });
+        $('#txtInvoiceDate').datepicker({
+            dateFormat: 'dd-M-yy', maxDate: '0',
+            changeYear: true, changeMonth: true,
+        });
+        $('#txtLastTransDate').datepicker({
+            dateFormat: 'dd-M-yy', maxDate: '0',
+            changeYear: true, changeMonth: true,
+        });
+
+        $(".rdCustomer").trigger("click");
+        $('#OPDate').val(GetCurrentDate());
+
+
+        var fstart = '@Session["FyearFrom"].ToString()';
+
+        var d = new Date(fstart);
+        
+
+
+        function GetCurrentDate() {
+            var m_names = new Array("Jan", "Feb", "Mar",
+    "Apr", "May", "Jun", "Jul", "Aug", "Sep",
+    "Oct", "Nov", "Dec");
+
+            var startdate = '@Session["FyearFrom"].ToString()';
+          
+
+               var str = new Date(startdate);
+
+
+             
+               var curr_month = str.getMonth();
+              
+               return (str.getDate() + "-" + m_names[curr_month] + "-" + str.getFullYear());
+
+
+           }
+
+
+
+        var x = 2;
+        $(":text").css({ "border-radius": "5px" });
+        $("select").css({ "border-radius": "5px" });
+
+        $("textarea").css({ "border-radius": "5px" });
+
+        $("#SupplierHeadId").css({ "display": "none" });
+        $("#lblsupplier").css({ "display": "none" });
+        // $("#SupplierID").css({ "display": "none" });
+        //$("#SupplierID").prop("disabled", false);
+        $(".rdCustomer").click(function () {
+            $("#lblCustomer").css({ "display": "block" });
+            $("#CustomerHeadId").css({ "display": "block" });
+            $("#SupplierHeadId").css({ "display": "none" });
+            $("#lblsupplier").css({ "display": "none" });
+
+
+            x = 1;
+        });
+
+
+
+        $(".rdSupplier").click(function () {
+            //$("#SupplierID").prop("disabled", false);
+            $("#CustomerHeadId").css({ "display": "none" });
+            $("#SupplierHeadId").css({ "display": "block" });
+            $("#lblCustomer").css({ "display": "none" });
+            $("#lblsupplier").css({ "display": "block" });
+            x = 2;
+
+
+        });
+        $(".btnadd").click(function () {
+
+            var Invoice = $("#txtInoiceNo").val();
+            var jobCode = $("#txtJobCode").val();
+            var invoiceDate = $("#txtInvoiceDate").val();
+            var lastTransDate = $("#txtLastTransDate").val();
+            var amount = $("#txtAmount").val();
+
+            if (Invoice != null && amount != "" && jobCode != "") {
+                $("#tbl1 tr:last-child").before('<tr><td>' + Invoice + '</td><td>' + jobCode + '</td><td>' + invoiceDate + '</td><td> ' + lastTransDate + ' </td><td style="text-align:right">' + parseFloat(amount).toFixed(2) + '</td><td><input type="button" value="Delete" class="btndelete" onClick="DeleteRow(this)"  /></td></tr>');
+
+                $("#txtInoiceNo").val('');
+                $("#txtJobCode").val('');
+                $("#txtInvoiceDate").val('');
+                $("#txtLastTransDate").val('');
+                $("#txtAmount").val('');
+
+            }
+
+            return false;
+        });
+    });
+
+    function SaveDetails(data) {
+      
+        var x = "";
+        // if (data.AcJournalID > 0) {
+        $("#tbl1").find('tr:not(:first-child,:last-child)').each(function (i, el) {
+            var $tds = $(this).find("td");
+
+            InvoiceNo = $tds.eq(0).text(),
+         
+               JobCode = $tds.eq(1).text(),
+               InvoiceDate = $tds.eq(2).text();
+            LastTransDate = $tds.eq(3).text();
+            Amount = $tds.eq(4).text();
+            DebitOrCredit = data.drORcr;
+            $.ajax({
+                type: "POST",
+                url: "/OpeningInvoice/saveGridData",
+                datatype: "Json",
+                data: {
+                    InvoiceNo: InvoiceNo, JobCode: JobCode, InvoiceDate: InvoiceDate, LastTransDate: LastTransDate, Amount: Amount, AcJournalID: data.AcJournalID, AcOPInvoiceMasterId: data.AcOpeningMasterID
+               , DebitOrCredit: DebitOrCredit
+                },
+
+                success: function (data) {
+                    alert("Record Saved Successfully..!");
+                    location.reload();
+                }
+            });
+        });
+    }
+    // }
+
+    function CheckValidation() {
+     
+        var flag = true;
+        var x = 2;
+
+        if ($('.rdCustomer').is(':checked')) {
+            x = 1;
+        }
+        else if ($('.rdSupplier').is(':checked')) {
+            x = 2;
+        }
+
+        if (x == 1 && $("#CustomerHeadId option:selected").val() == "") {
+            flag = false;
+        }
+        else if (x == 2 && $("#SupplierHeadId option:selected").val() == "") {
+            flag = false;
+        }
+        else if ($("#Amount").val() == "") {
+
+            flag = false;
+        }
+        else if ($("#Invoice").val() == "") {
+            flag = false;
+        }
+
+        if (flag == false) {
+            alert("Please fill mandatory fields")
+            return false;
+        }
+        else if (flag == true) {
+            return true;
+        }
+    }
+
+
+
+    //$("#btnsave").click(function () {
+
+    //    var cont = $("#CustomerHeadId option:selected").val();
+    //    var amo = $("#Amount").val();
+    //    var inv = $("#Invoice").val();
+
+    //    if (cont == "") {
+    //        $("#alert").show();
+    //        return false;
+    //    }
+    //    else if (amo == "") {
+    //        $("#alert").show();
+    //        return false;
+    //    }
+    //    else if (inv == "") {
+    //        $("#alert").show();
+    //        return false;
+    //    }
+
+    //    else {
+    //        $("#alert").hide();
+    //        return true;
+    //    }
+
+
+    //});
+
+</script>
+<script type="text/javascript">
+    function DeleteRow(x) {
+        var row = $(x).parent("td").parent("tr");
+
+        $(row).css("background-color", "orange");
+
+        $(row).fadeOut(200, function () {
+            $(row).remove();
+        });
+
+        return false;
+    }
+</script>
+
+
+<section class="content">
+    @using (Ajax.BeginForm("GetGridData", "OpeningInvoice", new AjaxOptions { HttpMethod = "Post", OnBegin = "return CheckValidation()", OnSuccess = "SaveDetails" }))
+    {
+@*  @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+         *@<div id="alert" style="color: red; display: none; margin-left: 10px;">*Please fill mandatory fields</div>
+        <fieldset>
+
+            <div class="row no-margin">
+                <div class="col-md-3">
+
+                    @Html.RadioButtonFor(model => model.IsCustomerSelected, true, new { @class = "rdCustomer", name = "cust" })<label class="headinglabel">Customer</label>&nbsp;
+                       @Html.RadioButtonFor(model => model.IsCustomerSelected, false, new { @class = "rdSupplier", name = "sup" })<label class="headinglabel">Supplier</label>
+
+
+                </div>
+
+            </div>
+            <div class="row no-margin">
+                <div class="col-md-3">
+                    <label class="required headinglabel" id="lblCustomer">Customer</label>
+                    @Html.DropDownListFor(model => model.CustomerHeadId, new SelectList(ViewBag.customers, "CustomerID", "Customer1"), "Select", new { @class = "form-control" })
+
+                    <label class=" required headinglabel" id="lblsupplier">Supplier</label>
+                    @Html.DropDownListFor(model => model.SupplierHeadId, new SelectList(ViewBag.supplier, "SupplierID", "SupplierName"), "Select", new { @class = "form-control" })
+
+                    <input type="hidden" />
+
+                </div>
+
+                <div class="col-md-3">
+                    <label class=" required headinglabel">OP. Date</label>
+                    @Html.TextBox("OPDate", "", new { @class = "form-control" })
+                </div>
+                @*  <div class="col-md-3">
+                    <label class=" required headinglabel">Invoice</label>
+                    @Html.TextBox("InvoiceAmount", "", new { @class = "form-control"})
+
+                </div>*@
+                <div class="col-md-3">
+                    <label class=" required headinglabel">Debit / Credit</label>
+                    @*  @Html.RadioButtonFor(model => model.DebitCreditID, true, "Debit")<label class="headinglabel">Dr</label>&nbsp;&nbsp;&nbsp;
+
+                    @Html.RadioButtonFor(model => model.DebitCreditID, false, "Credit")<label class="headinglabel">cr</label>*@
+                    @Html.DropDownListFor(model => model.DebitCreditID, new List<SelectListItem> { new SelectListItem { Text = "Debit", Value = "true" }, new SelectListItem { Text = "Credit", Value = "false" } }, "Select", new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="row no-margin">
+                <div class="col-md-3">
+                    <label class="headinglabel">Remark</label>
+                    @Html.TextArea("Remark", "", new { @class = "form-control" })
+
+                </div>
+
+            </div>
+            <div class="row no-margin form-layout">
+                <div class="col-xs-12" style="padding-top: 10px">
+                    <div class="data" style="padding-top: 10px;">
+                        <table border="1" class="table table-responsive tblbackground" style="width: 100%" id="tbl1">
+                            <tr style="font-weight: bold">
+
+                                <th>Invoice NO</th>
+                                <th>Job Code</th>
+                                <th>Invoice Date</th>
+                                <th>Last Trans. Date
+                                </th>
+                                <th>Amount
+                                </th>
+                                <th>Action</th>
+
+                            </tr>
+                            <tr>
+                                <td>
+
+                                    <input type="text" id="txtInoiceNo">
+                                </td>
+                                <td>
+                                    <input type="text" id="txtJobCode"></td>
+                                <td>
+                                    <input type="text" id="txtInvoiceDate" />
+                                </td>
+                                <td>
+                                    <input type="text" id="txtLastTransDate" /></td>
+                                <td colspan="2">
+                                    <input type="text" id="txtAmount" style="text-align:right" />&nbsp;<a href="" class="glyphicon glyphicon-plus btnadd"></a></td>
+
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row no-margin" style="padding-top: 10px">
+                <div class="col-md-12">
+
+                    <input type="submit" value="Save" class="btn btn-primary btnwidth" id="btnsave" />
+
+                    &nbsp; 
+               <a href='@Url.Action("Index", "OpeningInvoice", new { id = 0 })' class="btn btn-primary btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Back To List</a>
+
+                </div>
+
+                <div id="tmpdata" style="width: 500px; height: 400px; color: white">
+                </div>
+            </div>
+
+        </fieldset> 
+    }
+
+</section>
+

@@ -1,0 +1,104 @@
+﻿@model IEnumerable<DAL.SP_GetAllPaymentsDetails_Result>
+
+@{
+    Layout = null;
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $('#dataTables-example tfoot th:not(:last)').each(function () {
+            var title = $(this).text();
+            $(this).html('<input type="text"  style="width:90%" />');
+        });
+
+
+        var table = $('#dataTables-example').DataTable({ "sPaginationType": "full_numbers" });
+
+        table.columns().every(function () {
+            var that = this;
+
+            $('input', this.footer()).on('keyup change', function () {
+                if (that.search() !== this.value) {
+                    that
+                        .search(this.value)
+                        .draw();
+                }
+            });
+        });
+    });
+</script>
+
+
+
+
+                              <div class="box-body">
+                                <div class="col-md-12">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="tab-content">
+                                                    <div class="panel panel-danger">
+                                                        <div class="panel-body">
+
+                                                            <div class="dataTable_wrapper">
+                                                                <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                                                    <thead>
+                                                                        <tr>
+
+                                                                            <th>Payment Date</th>
+                                                                            <th>Document No</th>
+                                                                            <th>Supplier Name</th>
+                                                                            <th>Amount</th>
+                                                                            <th>Currency</th>
+                                                                            <th style="width: 70px;">Action</th>
+
+                                                                        </tr>
+                                                                    </thead>
+
+                                                                    <tfoot>
+                                                                        <tr>
+
+                                                                            <th>Payment Date</th>
+                                                                            <th>Document No</th>
+                                                                            <th>Supplier Name</th>
+                                                                            <th>Amount</th>
+                                                                            <th>Currency</th>
+                                                                            <th style="width: 70px;"></th>
+
+                                                                        </tr>
+                                                                    </tfoot>
+                                                                    <tbody>
+                                                                        @foreach (var item in Model)
+                                                                        {
+                                                                            <tr>
+
+                                                                                <td>@TrueBooksMVC.Models.CommanFunctions.GetShortDateFormat(item.RecPayDate)</td>
+                                                                                <td>@Html.DisplayFor(modelItem => item.DocumentNo)</td>
+                                                                                <td class="tdtarget">@Html.DisplayFor(modelItem => item.PartyName)</td>
+                                                                                <td class="textright">@Html.DisplayFor(modelItem => item.Amount)</td>
+                                                                                <td>@Html.DisplayFor(modelItem => item.Currency)</td>
+
+                                                                                <td>
+                                                                                    <a href='@Url.Action("SupplierPayment", "SupplierPayment", new { id = item.RecPayID })' data-toggle="tooltip" data-placement="left" title="Click here"><i class="fa fa-pencil"></i></a>|
+                                                                          
+                                                                              @*  <a href='@Url.Action("DeleteSupplierDet", "SupplierPayment", new { id = item.RecPayID })' data-toggle="tooltip" data-placement="right" title="Click here"><i class="fa fa-times-circle"></i></a>*@
+                                                                                         <a href="#" onclick="Delete(ID=@item.RecPayID)"><i class="fa fa-times"></i></a>
+                                                                                    @*                                           @Html.ActionLink("Edit", "", new { id = item.RecPayID }) |
+          
+                                                                        @Html.ActionLink("Delete", "", new { id = item.RecPayID })*@</td>
+                                                                            </tr>
+                                                                        }
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>

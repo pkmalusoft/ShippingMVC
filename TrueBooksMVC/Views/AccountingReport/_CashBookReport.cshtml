@@ -1,0 +1,47 @@
+﻿@*@model IEnumerable<DAL.Report_CashBook_Result>*@
+@using TrueBooksMVC.Models;
+@using DAL;
+@using System.Text;
+@using System.Configuration;
+
+@{
+    Layout = null;
+    int bal = 0;
+    int crbal = 0;
+    int debbal = 0;
+
+    decimal showbal = 0;
+    decimal cramt = 0;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>_CashBookReport</title>
+
+</head>
+<body>
+    <div class="row">
+        <div class="col-md-11" style="background-color:white;">
+
+            @{
+                
+             int acheadid = Convert.ToInt32(ViewBag.acheadid);
+                DateTime fromdate = Convert.ToDateTime(ViewBag.fromdate);
+                DateTime todate = Convert.ToDateTime(ViewBag.todate);
+                
+                string path=ConfigurationManager.AppSettings["spath"].ToString();
+                string url = path + "/Reports/cashbookreport.aspx?acheadid=" + acheadid + "&fromdate=" + fromdate + "&todate=" + todate;
+                
+                <iframe src="@url" style="width:100%;height:1200px"></iframe>
+            }
+        </div>
+
+    </div>
+
+    
+
+</body>
+</html>

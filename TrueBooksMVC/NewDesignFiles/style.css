@@ -1,0 +1,170 @@
+﻿/* Common CSS */
+body {margin: 0px; padding: 0px; font-family: Arial; font-size: 14px; color: #333333;background: url("body-bk.jpg") repeat-x 0px 0px;}
+.clearBoth {clear: both;}
+a, img {outline: none !important;}
+.no-margin {margin: 0px;}
+.no-padding {padding: 0px;}
+.no-margin-padding {margin: 0px; padding: 0px;}
+.main-div{min-width: 320px; max-width: 1280px; width: 100%; margin: 0px auto; /*background: #deb887;*/ background: #fff; min-height: 400px;}
+.body-content {min-width: 320px; max-width: 970px; width: 100%; margin: 0px auto; background: #ffffff; min-height: 300px; padding-bottom: 25px;}
+.body-content .inner-wrapper {min-width: 320px; max-width: 950px; width: 100%; margin: 0px auto; background: #ffffff; border: 1px solid #f1f1f1;
+                              border-top: 3px solid #3c8dbc;}
+
+/* Header style */
+.header-logo{height: 42px; background: #666666;}
+.header-logo img{height: 42px;}
+.align-left{text-align: left;}
+.align-right{text-align: right;}
+.align-right p{margin: 10px 0 0 0; padding: 0px; color: #ffffff;}
+
+/*.header-logo a{width: 196px; display: block;}*/
+
+/* Navigation style */
+.header-nav .navbar-default{min-width: 320px; max-width: 1280px; width: 100%; margin: 0px auto; border-radius: 0px; background-color: #ffffff; border: 0px;}
+.header-nav .container{max-width: 1280px; /*border-bottom: 1px solid #999;*/ padding-bottom: 10px; background: #3c8dbc;}
+.header-nav .navbar-nav > li > a{padding-top: 5px; padding-bottom: 5px;}
+.header-nav .navbar-collapse{padding: 0px;}
+.header-nav .navbar-nav{margin-top: 10px;}
+.navbar-fixed-top{top: 42px;}
+.header-nav .navbar-default .navbar-nav > li > a{font-weight: bold; color: #fff;}
+.header-nav .navbar-default .navbar-nav > li.active > a{color: #3c8dbc; background: #fff;}
+
+/* Subpage style */
+.page-nav{min-width: 320px; max-width: 970px; width: 100%; margin: 0px auto; margin-right: 164px; margin-bottom: 18px; margin-top: 18px;}
+.page-nav a{ font-size: 12px; color: #111111; }
+.page-nav span{ color: #999999; }
+.page-title{border-bottom: 1px solid #eeeeee;min-width: 320px; max-width: 950px; width: 100%; margin: 0px auto;}
+.page-title h1{margin: 15px 0px 15px 0px; padding:0px; font-weight: bold; font-size: 18px;}
+.back-to-list{border-bottom: 1px solid #eeeeee;min-width: 320px; max-width: 950px; width: 100%; margin: 10px 0 0 0;}
+.back-to-list a{font-weight: bold; font-size: 12px;background: #3c8dbc; padding: 6px 18px; border-radius: 5px; color: #fff; display: block; width: 102px;
+                margin-bottom: 10px;}
+.back-to-list a:hover{text-decoration: none;}
+.form-layout{margin: 20px 0 0 40px; padding: 0px;}
+.form-layout .form-title{font-size: 12px; font-weight: bold; margin-bottom: 3px;}
+.form-layout select, .form-layout input{ font-size: 11px; padding: 5px;margin-bottom:17px; width: 200px; height: 27px; border: 1px solid #d2d6de; }
+.form-layout input.rdo-btn{ font-size: 11px; padding: 5px; width: 20px; border: 0px;}
+.form-layout .spacer15{margin-left: 15px;}
+.form-layout span{position: relative; top: -8px; font-weight: bold; font-size: 12px;}
+.jobs-tab{ padding: 40px 15px; }
+.jobs-tab .nav > li > a{padding: 10px 14px; font-size: 13px; font-weight: bold;}
+.jobs-tab select, .jobs-tab input{ font-size: 11px; padding: 5px; width: 120px; height: 27px; border: 1px solid #d2d6de; font-size: 12px; }
+.jobs-tab #container_details select, .jobs-tab #container_details input{ width: 190px; }
+.jobs-tab #bill_of_entry select, .jobs-tab #bill_of_entry input, .jobs-tab #audit_log input{width: 260px;}
+.jobs-tab .title{font-size: 12px;}
+.jobs-tab .nav-tabs > li.active > a{color: #222222;}
+.inner-tab-content{border: 1px solid #ddd; padding: 20px 15px 10px 15px; border-top: 0px;}
+.btn-style{ background: #3c8dbc; border: 0px !important; color: #fff; padding: 5px; margin: 15px 0px; width: auto !important; padding: 6px 20px !important; font-size: 12px;
+            font-weight: bold; border-radius: 5px;}
+.border1px{ border-bottom: 1px solid #666666;}
+.data-table{width: 886px; float: left; margin-top: 15px; border: 1px solid #ccc;}
+.payment-div{width: 900px; margin: 24px 0 0 24px;}
+.data-table .heading{padding: 10px 0px; background: #ccc; width: 100%; float: left;}
+.data-table .data{padding: 0px 0px; width: 100%; float: left;}
+.data-table .heading div{width: 147px; float: left; text-align: center; font-size: 12px; font-weight: bold; color: #111111;}
+.payment-div .heading div{width: 128px;}
+.data-table .data div{width: 147px; float: left; text-align: left; font-size: 12px; color: #333333; padding: 10px; border-right: 1px solid #ccc; }
+.payment-div .data div{width: 128px;}
+#charges .data-table .data div{min-height: 56px;}
+#container_details .data-table .heading div{width: 221px;}
+#container_details .data-table .data div{width: 221px;}
+#charges .data-table .heading div{width: 73px;}
+#charges .data-table .data div{width: 73px;}
+#bill_of_entry .data-table .heading div{width: 290px;}
+#bill_of_entry .data-table .data div{width: 290px;}
+#audit_log .data-table .heading div{width: 435px;}
+#audit_log .data-table .data div{width: 435px;}
+#customs input, #bill_of_landing input, #charges input, #delivery_advice input{margin-bottom: 10px;}
+#charges .btn-style{margin: 5px 0px 15px 0px;}
+.data-table .data div.last{border-right: 0px;}
+.remarks{font-size: 12px; font-weight: bold; margin-left: 50px;}
+.remarks textarea{ width: 270px; height: 50px; border: 1px solid #d2d6de; }
+.buttons{margin-right: 74px;}
+.login-buttons{margin-left: 40px;}
+.spacer9{margin-right: 9px;}
+.top-space{margin-top: 50px;}
+.spacer10{margin-bottom: 10px;}
+.buttons input{padding: 7px 20px 5px 20px !important;}
+.footer{min-width: 320px; max-width: 1280px; width: 100%; margin: 0px auto; background: #f0f0f0; font-size: 12px; padding: 10px 0px;}
+
+/*--------------- mobile view --------------------*/
+@media(min-width: 0px) and (max-width: 767px) {
+    .header-nav .navbar-nav > li > a{padding-top: 10px; padding-bottom: 10px;}
+    .header-nav .navbar-collapse{padding-left: 15px; padding-right: 15px; position: absolute; width: 100%; background: #72bde9;}
+    .header-nav .navbar-nav{margin-top: 0px; margin-bottom: 0px; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd;}
+    .header-nav .container{padding-bottom: 0px; background: #3c8dbc;}
+    .header-nav .navbar-default .navbar-toggle{border-color: #fff;}
+    .header-nav .navbar-default .navbar-toggle .icon-bar{background-color: #fff;}
+    .header-nav .navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus{background-color: transparent;}
+    .header-logo a{width: 162px; display: block;}
+    .page-nav{padding-right: 10px; margin-top: 18px;}
+    .navbar-fixed-top{top: 42px;}
+    .form-layout{margin-top: 0px;}
+    .page-title{margin-bottom: 11px;}
+    .form-layout .col-xs-12{margin-bottom: 10px;}
+    .jobs-tab .panel-title > a{display: block; padding: 10px 0px; text-decoration: none;}
+    .jobs-tab .panel-heading{padding: 0px 15px;}
+    .jobs-tab select, .jobs-tab input{margin-bottom: 10px;}
+    .inner-tab-content{padding: 0px; border: 0px;}
+    .for-device{width: 100%; overflow: scroll; -webkit-overflow-scrolling: touch;}
+    .remarks{margin-left: 0px;}
+    .remarks .col-xs-9{margin-bottom: 15px;}
+    .remarks .col-xs-3{padding-right: 0px;}
+    .remarks textarea{min-width: 208px; max-width: 640px; width: 100%;}
+    #container_details-collapse .data-table{width: 704px;}
+    #container_details-collapse .data-table .heading div{width: 175px;}
+    #container_details-collapse .data-table .data div{width: 175px;}
+    #charges-collapse .data-table .heading div{width: 73px;}
+    #charges-collapse .data-table .data div{width: 73px;}
+    #audit_log-collapse .data-table{width: 600px;}
+    #audit_log-collapse .data-table .heading div{width: 130px;}
+    #audit_log-collapse .data-table .data div{width: 120px;}
+    #audit_log-collapse .data-table .data div.last{width: 470px;}
+    #bill_of_entry-collapse .data-table{width: 704px;}
+    #bill_of_entry-collapse .data-table .heading div{width: 234px;}
+    #bill_of_entry-collapse .data-table .data div{width: 234px;}
+    .buttons{margin-right: 0px;}
+    .back-to-list{margin-bottom: 15px; min-width: 310px;}
+    .payment-div{margin-left: 15px;}
+    .jobs-tab .panel-title > a{background: url("open-arrow.png") no-repeat right;}
+    .jobs-tab .panel-title > a.collapsed{background: url("close-arrow.png") no-repeat right;}
+}  
+
+/*--------------- iPhone 4S / 5S - portrait view -----------*/
+@media(min-width: 0px) and (max-width: 320px) {
+    .jobs-tab select, .jobs-tab input{ font-size: 11px; padding: 5px; width: 120px; height: 27px; border: 1px solid #d2d6de; margin-right: 10px; }
+    .page-title{min-width: 315px;}
+}
+
+/*--------------- ipad/tablet - portrait view --------------------*/
+@media(min-width: 768px) and (max-width: 990px) {
+    .page-nav{padding-right: 10px;} 
+    .form-layout{margin-left: 18px;}      
+    .jobs-tab .nav > li > a{padding: 10px 8px; font-size: 12px; font-weight: normal;}
+    .jobs-tab .nav-tabs > li.active > a{font-weight: bold;}
+    .jobs-tab select, .jobs-tab input{width: 100px;}
+    .for-device{width: 100%; overflow: auto;}
+    .remarks{margin-left: 0px;}
+    .remarks textarea{ width: 240px; }
+    .remarks .col-sm-4{padding: 0px;}
+    .remarks .col-sm-2{text-align: right;}
+    .buttons{margin-left: 65px;}
+    .jobs-tab #container_details select, .jobs-tab #container_details input{width: 160px;}
+    .jobs-tab #bill_of_entry select, .jobs-tab #bill_of_entry input, .jobs-tab #audit_log input{width: 210px;}
+    #container_details .data-table{width: 704px;}
+    #container_details .data-table .heading div{width: 175px;}
+    #container_details .data-table .data div{width: 175px;}
+    #bill_of_entry .data-table{width: 704px;}
+    #bill_of_entry .data-table .heading div{width: 234px;}
+    #bill_of_entry .data-table .data div{width: 234px;}
+    #audit_log .data-table{width: 704px;}
+    #audit_log .data-table .heading div{width: 350px;}
+    #audit_log .data-table .data div{width: 350px;}
+    .buttons{margin: 0px;}
+    .payment-div{margin-left: 15px;}
+}
+
+/*--------------- iPad - landscape view --------------------*/
+@media(min-width: 991px) and (max-width: 1024px) {
+    .page-nav{margin-right: 37px;}   
+}
+
