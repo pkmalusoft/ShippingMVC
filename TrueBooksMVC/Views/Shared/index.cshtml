@@ -39,7 +39,6 @@
     <link rel="stylesheet" href="~/Content/NewCSS/css/style.css">
     <link rel="stylesheet" href="~/Content/NewCSS/css/font-awesome/css/font-awesome.css">
     <link rel="stylesheet" href="~/Content/NewCSS/css/skins/skin-blue.min.css">
-    
 
 
     <style>
@@ -47,7 +46,7 @@
             background-color:silver !important;
         }*/
         html, button, input, optgroup, select, textarea {
-            font-family: 'Montserrat', sans-serif !important;
+            font-family: Calibri;
         }
 
         .field-validation-error {
@@ -182,21 +181,21 @@
     </style>
 
     <style>
-        @@media screen and (min-width: 992px) {
+            @@media screen and (min-width: 992px) {
 
-            .notifyjs-corner {
-                width: 65% !important;
-                border-radius: 1px;
-                font-family: Calibri;
-            }
+                .notifyjs-corner {
+                    width: 65% !important;
+                    border-radius: 1px;
+                    font-family: Calibri;
+                }
 
-            .notifyjs-bootstrap-base {
-                text-align: center !important;
-                font-family: Calibri;
-                /*background-color:#35b8eb;
+                .notifyjs-bootstrap-base {
+                    text-align: center !important;
+                    font-family: Calibri;
+                    /*background-color:#35b8eb;
         color:white;*/
+                }
             }
-        }
     </style>
     <style type="text/css">
         body {
@@ -356,10 +355,10 @@
         });*@
     </script>
 </head>
-@{ 
+@{
     string UserName = "";
     var AcYearList = new List<DAL.AcFinancialYearSelect_Result>();
-   // var AcYearList1 = new List<DAL.AcFinancialYearSelect_Result>();
+    // var AcYearList1 = new List<DAL.AcFinancialYearSelect_Result>();
     AcYearList.Where(item => item.AcFinancialYearID == Convert.ToInt32(Session["fyearid"]));
     if (Session["UserName"] != null)
     {
@@ -372,17 +371,17 @@
     }
 }
 @{ Boolean IsUserAdmin = false;
-   if (Session["IsAdmin"] != null)
-   {
-       IsUserAdmin = Convert.ToBoolean(Session["IsAdmin"]);
-   }
+    if (Session["IsAdmin"] != null)
+    {
+        IsUserAdmin = Convert.ToBoolean(Session["IsAdmin"]);
+    }
 }
-<body class="hold-transition sidebar-mini ">
+<body class="hold-transition skin-blue sidebar-mini ">
     <div class="modalloader" style="display: none">
-    <div class="center">
-        <img src="~/Images/loader.gif" />      
+        <div class="center">
+            <img src="~/Images/loader.gif" />
+        </div>
     </div>
-</div>
     <div class="se-pre-con"></div>
     <div class="wrapper">
 
@@ -393,21 +392,18 @@
             <a href="index2.html" class="logo">
                 <!-- mini logo for sidebar mini 50x50 pixels -->
                 <span class="logo-mini">
-                    <img class="img-responsive" src="~/Content/img/logo.png" alt="logosmall"></span>
+                    <img class="img-responsive" src="~/Content/img/logo.png" alt="logosmall">
+                </span>
                 <!-- logo for regular state and mobile devices -->
                 <span class="logo-lg">
-                    <img class="img-responsive" src="~/Content/img/logo.png" alt="logolarge"></span> </a>
+                    <img class="img-responsive" src="~/Content/img/logo.png" alt="logolarge">
+                </span>
+            </a>
 
             <!-- Header Navbar -->
             <nav class="navbar navbar-static-top" role="navigation">
                 <!-- Sidebar toggle button-->
-                <a href="index2.html" class="logoimages">
-                    <!-- mini logo for sidebar mini 50x50 pixels -->
-                                  <!-- logo for regular state and mobile devices -->
-                    <span class="logosmall">
-                        <img class="img-responsive logonav" src="~/Content/img/logo.png" alt="logolarge">
-                    </span>
-                </a>
+
                 <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button"><span class="sr-only">Toggle navigation</span> </a>
                 <div style="display: inline-block; padding-top: 15px;">
                     @Html.DropDownList("AcFYearID", new SelectList(AcYearList, "AcFinancialYearID", "FYearName"), new { @class = "form-control" })
@@ -464,60 +460,62 @@
                                 {
                                     if (obj.IsAccessibleMenu(menuid, RoleId))
                                     {
-                        <li><a id="@item.MenuID" href=@item.Link><i class="@item.imgclass"></i><span>@item.Title</span></a>
-                            @if (menuList.Count(p => p.ParentID == item.MenuID) > 0)
-                            {
-                                @:<ul class="treeview-menu">
+                                        <li>
+                                            <a id="@item.MenuID" href=@item.Link><i class="@item.imgclass"></i><span>@item.Title</span></a>
+                                            @if (menuList.Count(p => p.ParentID == item.MenuID) > 0)
+                                            {
+                                                @:<ul class="treeview-menu">
                                                 }
-                            @RenderMenuList(menuList, item)
-                                                 @if (menuList.Count(p => p.ParentID == item.MenuID) > 0)
-                                                 {
-                                                  @:</ul>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         }
-                        </li>
+                                            @RenderMenuList(menuList, item)
+                                            @if (menuList.Count(p => p.ParentID == item.MenuID) > 0)
+                                            {
+                                            @:</ul>
+                                        }
+                                        </li>
                                     }
                                 }
                                 else
                                 {
-                        <li><a id="@item.MenuID" href=@item.Link><i class="@item.imgclass"></i><span>@item.Title</span></a>
-                            @if (menuList.Count(p => p.ParentID == item.MenuID) > 0)
-                            {
-                                @:<ul class="treeview-menu">
-                                                }
-                            @RenderMenuList(menuList, item)
-                                                 @if (menuList.Count(p => p.ParentID == item.MenuID) > 0)
-                                                 {
-                                                  @:</ul>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         }
-                        </li>
+                                    <li>
+                                        <a id="@item.MenuID" href=@item.Link><i class="@item.imgclass"></i><span>@item.Title</span></a>
+                                        @if (menuList.Count(p => p.ParentID == item.MenuID) > 0)
+                                        {
+                                            @:<ul class="treeview-menu">
+                                            }
+                                        @RenderMenuList(menuList, item)
+                                        @if (menuList.Count(p => p.ParentID == item.MenuID) > 0)
+                                        {
+                                        @:</ul>
+                                    }
+                                    </li>
                                 }
 
                             }
                         }
-                                   
+
                         @helper RenderMenuList(List<DAL.Menu> menuList, DAL.Menu mi)
-{
-    foreach (var item1 in menuList.Where(p => p.ParentID == mi.MenuID))
-    {
-                            @:<li>
-<a id="
+                        {
+                            foreach (var item1 in menuList.Where(p => p.ParentID == mi.MenuID))
+                            {
+                                @:<li>
+                                    <a id="
                             @item1.MenuID" href=@item1.Link><i class="@item1.imgclass"></i><span>@item1.Title</span></a>
-        if (menuList.Count(p => p.ParentID == item1.MenuID) > 0)
-        {
-                            @:<ul>
-                                           }
-                            @RenderMenuList(menuList, item1)
-        if (menuList.Count(p => p.ParentID == item1.MenuID) > 0)
-        {
-                            @:</ul>
-                                           }
-        else
-        {
-                            @:</li>   
-                                           }
-    }
+                            if (menuList.Count(p => p.ParentID == item1.MenuID) > 0)
+                            {
+                                @:<ul>
+                                }
+                                @RenderMenuList(menuList, item1)
+                                if (menuList.Count(p => p.ParentID == item1.MenuID) > 0)
+                                {
+                                @:</ul>
+                            }
+                            else
+                            {
+                            @:</li>
                         }
-                                   
+                    }
+                        }
+
                     }
                     <!-- Optionally, you can add icons to the links -->
 
@@ -537,11 +535,9 @@
             @RenderBody()
         </div>
         <!-- /.content-wrapper -->
-
         <!-- Main Footer -->
         <footer class="main-footer">
             <!-- To the right -->
-
             <!-- Default to the left -->
             Copyright &copy; 2016 <a href="#">Trianglesoft</a>. All rights reserved.
         </footer>

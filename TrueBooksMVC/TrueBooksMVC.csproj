@@ -2896,6 +2896,7 @@
     <Content Include="Views\ContainerReport\ucReport.cshtml" />
     <Content Include="Views\AirShipmentReport\Index.cshtml" />
     <Content Include="Views\AirShipmentReport\ucReport.cshtml" />
+    <Content Include="Views\Shared\index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\script\" />

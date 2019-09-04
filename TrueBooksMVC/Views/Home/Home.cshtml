@@ -83,72 +83,83 @@
     <div class="box-body">
 
 
-        <div class="col-md-4" style="padding-right: 20px">
-            <div class="row wh">
+        <div class=" card col-md-4">
+            
                 <div class="col-md-12">
-                    <h3 class="fa fa-money">Updation</h3>
-                    <div style="height: 40px">
-                        <table width="50%">
-                            @foreach (var item in @ViewBag.CostUpdationDetails)
-                            {
-                                <tr>
-                                    <td>PROVISION
-                                    </td>
-                                    <td style="text-align: right">@if (@item.Provision != null)
-                                                                  {
-                                        <span>@string.Format("{0:n2}", @item.Provision)</span>
-                                                                  }
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>UPDATED
-                                    </td>
-                                    <td style="text-align: right">
-                                        @if (@item.Updated != null)
-                                        {
-                                            <span>@string.Format("{0:n2}", @item.Updated)</span>
-                                        }
+                  
+                        <div class="card-header">
+                            <h3 class="head">Updation</h3>
+                            </div>
+                            <div class="card-body">
+                                <table width="50%">
+                                    @foreach (var item in @ViewBag.CostUpdationDetails)
+                                    {
+                                        <tr>
+                                            <td>
+                                                PROVISION
+                                            </td>
+                                            <td style="text-align: right">
+                                                @if (@item.Provision != null)
+                                                {
+                                                    <span>@string.Format("{0:n2}", @item.Provision)</span>
+                                                }
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            UPDATED
+                                        </td>
+                                        <td style="text-align: right">
+                                            @if (@item.Updated != null)
+                                            {
+                                                <span>@string.Format("{0:n2}", @item.Updated)</span>
+                                            }
 
 
-                                    </td>
-                                </tr>
-                                    
-                            }
+                                        </td>
+                                    </tr>
 
-                        </table>
-                    </div>
-                </div>
+                                }
+
+                                </table>
+                            </div>
+                       
             </div>
-            <div class="row wh">
-                <div class="pad mgt col-sm-12 wh">
+              
+         
+                <div class="pad mgt col-sm-12 ">
                     <div id="CostUpdationChart" style="height: 200px">
                     </div>
                 </div>
-            </div>
+            
         </div>
-        <div class="col-md-4" style="padding-right: 20px">
+        <div class=" card col-md-4">
             <div class="row wh">
                 <div class="col-md-12">
-                    <h3 class="fa fa-list-alt">Receivable</h3>
-                    <div style="height: 40px">
-                        <table width="50%">
-                            @*   <tr>
-                            <td>INVOICED
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>RECEIVED</td>
-                        </tr>
-                        <tr>*@
-                            @foreach (var item in @ViewBag.custReciavable)
-                            {
-                                <tr>
-                                    <td>INVOICED
-                                    </td>
-                                    <td style="text-align: right">@if (@item.Invoiced != null)
-                                                                  {
-                                        <span>@string.Format("{0:n2}", @item.Invoiced)</span>
-                                                                  }
+                    <div class="card-header">
+                        <h3 class="fa fa-list-alt">Receivable</h3>
+                        </div>
+                        <div class="card-body">
+                            <table width="50%">
+                                @*   <tr>
+                        <td>INVOICED
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>RECEIVED</td>
+                    </tr>
+                    <tr>*@
+                                @foreach (var item in @ViewBag.custReciavable)
+                                {
+                                    <tr>
+                                        <td>
+                                            INVOICED
+                                        </td>
+                                        <td style="text-align: right">
+                                            @if (@item.Invoiced != null)
+                                            {
+                                                <span>@string.Format("{0:n2}", @item.Invoiced)</span>
+                                            }
                                     </td>
                                 </tr>
                                 <tr>
@@ -162,14 +173,14 @@
 
                                     </td>
                                 </tr>
-                                
-                                
+
+
                             }
 
-                        </table>
+                            </table>
+                        </div>
                     </div>
                 </div>
-            </div>
             <div class="row wh">
 
                 <div class="pad mgt col-sm-12 wh">
@@ -182,11 +193,13 @@
 
 
 
-        <div class="col-md-4" style="padding-right: 20px">
+        <div class="card col-md-4">
             <div class="row wh">
                 <div class="col-md-12">
-                    <h3 class="fa fa-money">Payable</h3>
-                    <div style="height: 40px">
+                    <div class="card-header">
+                        <h3 class="fa fa-money">Payable</h3>
+                    </div>
+                    <div class="card-body">
 
                         <table width="50%">
                             @* <tr>
