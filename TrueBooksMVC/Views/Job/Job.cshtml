@@ -11,7 +11,35 @@
 .modal-footer {
   text-align:left;
 }
- 
+    .headinglabel {
+        font-family: Calibri;
+        font-size: 15px;
+        color: #0c0c0c !important;
+        display: inline;
+    }
+    .form-control {
+        border-radius: 0;
+        box-shadow: none;
+        border-color: #d2d6de;
+        margin-top: 1px;
+    }
+    a:hover, a:active, a:focus {
+        outline: none;
+        text-decoration: none;
+        color: #ffffff;
+    }
+    .headinglabel {
+        font-family: Calibri;
+        font-size: 14px;
+        color: #0c0c0c !important;
+        display: inline;
+    }
+    
+    .no-padding {
+        width: 16.22%;
+        padding: 0;
+        margin-right: 7px;
+    }
 </style>
 
 <script type="text/javascript">
@@ -382,7 +410,7 @@
         {
             @Html.ValidationSummary(true)
      
-            <section class="content">
+            <section class="content jobform">
                 <div class="row no-margin">
                     <div class="col-md-4">
                         <label class="required headinglabel">Job Type</label>
@@ -425,7 +453,7 @@
 
                     <div class="col-md-4">
                         <input type="checkbox" id="SubJob" name="SubJob" style="height: 12px; width: 12px; margin-bottom: 0px" />
-                        <label class="headinglabel" style="margin-bottom: 3px">SubJob</label>
+                        <label class="headinglabel" >SubJob</label>
                         <div id="drop">
                             @Html.DropDownListFor(model => model.MainJobID, new SelectList(ViewBag.MainJobId, "JobID", "JobCode"), "Select Main Job", new { @class = "form-control" })
                         </div>
@@ -530,14 +558,14 @@
                                     <a class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-894775" href="#panel-element-cargo_desc">Cargo Description</a>
                                 </div>
                                 <div id="panel-element-cargo_desc" class="panel-collapse collapse">
-                                    <div class="panel-body" style="background-color: #30465D">
+                                    <div class="panel-body" style="background-color: #fff">
                                         <div class="inner-tab-content">
                                             <div class="row no-margin">
                                                 <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
                                                     <label class="headinglabel">Mark</label>
                                                     <input type="text" ng-model="Mark" class="form-control txttarget" id="Mark" placeholder="Mark" style="text-align: left" />
                                                 </div>
-                                                <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                                <div class="col-xs-6 col-sm-2 col-md-2 no-padding ">
                                                     <label class="headinglabel">Description</label>
                                                     <input type="text" ng-model="CarDescription" class="form-control txttarget" id="Description" placeholder="Description" style="text-align: left" />
                                                 </div>
@@ -628,7 +656,7 @@
                                     <a class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-894775" href="#panel-element-contianer">Container Details</a>
                                 </div>
                                 <div id="panel-element-contianer" class="panel-collapse collapse">
-                                    <div class="panel-body" style="background-color: #30465D">
+                                    <div class="panel-body" style="background-color: #fff">
                                         <div class="inner-tab-content">
                                             <div class="row no-margin">
                                                 <div class="col-xs-6 col-sm-3 col-md-3 no-padding">
@@ -706,7 +734,7 @@
                                     <a class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-894775" href="#panel-element-pkg">Bill Of Lading (Air)</a>
                                 </div>
                                 <div id="panel-element-pkg" class="panel-collapse collapse">
-                                    <div class="panel-body" style="background-color: #30465D">
+                                    <div class="panel-body" style="background-color: #fff">
                                         <div class="inner-tab-content">
 
                                             <div class="row no-margin">
@@ -759,7 +787,7 @@
                                     <a class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-894775" href="#panel-element-customs">Customs</a>
                                 </div>
                                 <div id="panel-element-customs" class="panel-collapse collapse">
-                                    <div class="panel-body" style="background-color: #30465D">
+                                    <div class="panel-body" style="background-color: #fff">
                                         <div class="inner-tab-content">
                                             <div class="row no-margin">
                                                 <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
@@ -850,7 +878,7 @@
                                     <a class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-894775" href="#panel-element-bol">Bill Of Lading (Sea)</a>
                                 </div>
                                 <div id="panel-element-bol" class="panel-collapse collapse">
-                                    <div class="panel-body" style="background-color: #30465D">
+                                    <div class="panel-body" style="background-color: #fff">
                                         <div class="inner-tab-content">
 
                                             <div class="row no-margin">
@@ -930,7 +958,7 @@
                                     <a class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-894775" href="#panel-element-charges">Charges</a>
                                 </div>
                                 <div id="panel-element-charges" class="panel-collapse collapse">
-                                    <div class="panel-body" style="background-color: #30465D">
+                                    <div class="panel-body" style="background-color: #fff">
                                         <div class="inner-tab-content">
                                             <div class="row no-margin">
                                                 <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
@@ -1149,7 +1177,7 @@
                                     <a class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-894775" href="#panel-element-boe">Bill Of Entry</a>
                                 </div>
                                 <div id="panel-element-boe" class="panel-collapse collapse">
-                                    <div class="panel-body" style="background-color: #30465D">
+                                    <div class="panel-body" style="background-color: #fff">
                                         <div class="inner-tab-content">
                                             <div class="row no-margin">
                                                 <div class="col-xs-6 col-sm-4 no-padding">
@@ -1216,7 +1244,7 @@
                                     <a class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-894775" href="#panel-element-da">Delivery Note</a>
                                 </div>
                                 <div id="panel-element-da" class="panel-collapse collapse">
-                                    <div class="panel-body" style="background-color: #30465D">
+                                    <div class="panel-body" style="background-color: #fff">
                                         <div class="inner-tab-content">
                                             <div class="row no-margin">
                                                 <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
@@ -1304,7 +1332,7 @@
                                     <a class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-894775" href="#panel-element-audit">Audit Log</a>
                                 </div>
                                 <div id="panel-element-audit" class="panel-collapse collapse">
-                                    <div class="panel-body" style="background-color: #30465D">
+                                    <div class="panel-body" style="background-color: #fff">
                                         <div class="inner-tab-content">
                                             <div class="row no-margin">
                                                 <div class=" col-md-3 no-padding">
