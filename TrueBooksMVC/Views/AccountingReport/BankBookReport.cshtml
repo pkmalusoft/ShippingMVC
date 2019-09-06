@@ -19,6 +19,22 @@
     {
         height:35px;
     }
+    .searchdiv {
+        background-color: #fff;
+        width: 100%;
+        margin: 0 auto;
+        max-width: 500px;
+        padding: 20px;
+        margin-top: 50px;
+        border-radius: 10px;
+        box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
+    }
+
+    .headinglabel {
+        font-family: Calibri;
+        font-size: 16px;
+        color: #2b2929 !important;
+    }
 </style>
 
 <script src="~/Content/jquery.dataTables.min.js"></script>
@@ -167,17 +183,18 @@
       
         <section class="content">
            <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
+            <div class="searchdiv">
              <div class="row no-margin">
-                 <div class="col-md-3">
+                 <div class="col-md-4">
                             <label class="headinglabel required">Account Head</label>
                              @Html.DropDownList("AcHeadID", new SelectList(ViewBag.bankhead, "AcHeadID", "AcHead"),"Select", new { @class = "form-control" })
                  </div>
 
-                  <div class="col-md-3">
+                  <div class="col-md-4">
                             <label class="headinglabel required"> From Date</label>
                              <input type="text" id="frmdate" class="form-control"  />
                  </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                             <label class="headinglabel required"> To Date</label>
                              <input type="text" id="todate"  class="form-control"  />
                  </div>
@@ -186,11 +203,11 @@
              </div>
 
             <div class="row no-margin" style="padding-top:10px">
-                 <div class="col-md-4" style="padding-top:25px">
-                          <button id="btnsearch" class="btn btn-primary sidebar-toggle" data-toggle="offcanvas">Generate</button>
+                 <div class="col-md-12" style="padding-top:25px;text-align:center;">
+                          <button id="btnsearch" class="btn btn-primary btnwid sidebar-toggle" data-toggle="offcanvas">Generate</button>
                  </div>         
               
-                     
+                     </div>
                
             </div>
          <div class="row" style="padding-top:20px">

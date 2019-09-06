@@ -4,6 +4,29 @@
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
 }
+<style>
+    .jobform {
+        background-color: #fff;
+        box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
+        border-radius: 25px;
+        margin-bottom: 27px;
+        padding: 20px;
+        width: 100%;
+        margin: 50px auto;
+        max-width: 881px;
+    }
+    .headinglabel {
+        font-family: Calibri;
+        font-size: 15px;
+        color: #1d1a1a !important;
+        font-weight: 600;
+        display: inline;
+    }
+    a.menutrv {
+        color: #000 !important;
+        font-size: 16px;
+    }
+</style>
 <script type="text/javascript">
     $(document).ready(function () {
 
@@ -103,7 +126,7 @@
                                                 </script>
     }
 
-<section class="content">
+<section class="content jobform">
     @using (Html.BeginForm())
     {
         @Html.ValidationSummary(true)
@@ -111,20 +134,20 @@
         <fieldset>
            
             <div class="row no-margin">
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <label class="required headinglabel">Menu Title</label>
                     @Html.TextBoxFor(model => model.Title, new { @class = "form-control txttarget" })
                     @Html.ValidationMessageFor(model => model.Title)
                     <span id="parentmenu"></span>
                     @Html.HiddenFor(model => model.ParentID)
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <label class="required headinglabel">Navigation Link</label>
                     @Html.TextBoxFor(model => model.Link, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Link)
                 </div>
 
-                 <div class="col-md-3">
+                 <div class="col-md-4">
                     <label class="required headinglabel">Order</label>
                     @Html.TextBoxFor(model => model.MenuOrder, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.MenuOrder)
@@ -132,7 +155,7 @@
             </div>
 
             <div class="row no-margin" style="padding-top: 10px">
-                <div class="col-md-3">
+                <div class="col-md-6">
                     <label class="required headinglabel">Parent</label>
                     <ul class="treeview-menu">
                        
@@ -195,15 +218,15 @@
 
                     </ul>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-6">
                   
                     @Html.CheckBox("PermissionRequired", new { @name = "PermissionRequired" }) &nbsp <label class="required headinglabel">Permission Required</label>
                 </div>
             </div>
             <div class="row no-margin" style="padding-top: 10px">
-                <div class="col-md-12">
-                    <input type="submit" value="Save" class="btn btn-primary btnwidth" id="btnsave" />
-                    <a href='@Url.Action("Index", "MenuCreation", new { id = 0 })' class="btn btn-primary btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+                <div class="col-md-12" style="text-align:center;">
+                    <input type="submit" value="Save" class="btn btn-primary btnwid" id="btnsave" />
+                    <a href='@Url.Action("Index", "MenuCreation", new { id = 0 })' class="btn btn-danger btnwid" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
                 </div>
             </div>
         </fieldset>

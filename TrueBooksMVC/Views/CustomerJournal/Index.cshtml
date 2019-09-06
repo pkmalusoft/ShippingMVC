@@ -9,7 +9,32 @@
     <h1 class="headingfont">CustomerJournal / Supplier Journal</h1>
 
 </section>
-
+<style>
+    .searchdivs {
+        width: 100%;
+        margin: 0 auto;
+        background-color: #fff;
+        padding: 16px;
+        max-width: 458px;
+        border-radius: 10px;
+        box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
+    }
+    .headinglabel {
+        font-family: Calibri;
+        font-size: 17px;
+        color: #151414 !important;
+        display: inline;
+        font-weight: 700;
+        padding-left: 10px;
+    }
+    .formfields {
+        background-color: #fff;
+        margin-top: 50px;
+        padding: 23px;
+        border-radius: 10px;
+        box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
+    }
+</style>
 
 <script type="text/javascript">
     $(document).ready(function () {
@@ -194,110 +219,120 @@
         @Html.AntiForgeryToken()
         @Html.ValidationSummary(true)
          <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
-        <fieldset>
-          
-            <div class="row no-margin">
-                <div class="col-md-3">
+         <fieldset>
+             <div class="searchdivs">
+                 <div class="row no-margin">
+                     <div class="col-md-6">
 
-                    @Html.RadioButtonFor(model => model.IsCustomerSelected, true, new { @class = "rdCustomer",name="cust" })<label class="headinglabel">Customer</label>&nbsp;
-                       @Html.RadioButtonFor(model => model.IsCustomerSelected, false, new { @class = "rdSupplier",name="sup" })<label class="headinglabel">Supplier</label>
+                         @Html.RadioButtonFor(model => model.IsCustomerSelected, true, new { @class = "rdCustomer", name = "cust" })<label class="headinglabel">Customer</label>&nbsp;
+                     </div>
+                     <div class="col-md-6">
+                         @Html.RadioButtonFor(model => model.IsCustomerSelected, false, new { @class = "rdSupplier", name = "sup" })<label class="headinglabel">Supplier</label>
 
 
-                </div>
+                     </div>
 
-            </div>
-            <div class="row no-margin">
-                <div class="col-md-3">
-                    <label class="required headinglabel" id="lblCustomer">Customer</label>
-                    @Html.DropDownListFor(model => model.CustomerHeadId, new SelectList(ViewBag.customers, "CustomerID", "Customer1"), "Select", new { @class = "form-control" })
+                 </div>
+             </div>
+             <div class="formfields">
+                 <div class="row no-margin">
+                     <div class="col-md-3">
+                         <label class="required headinglabel" id="lblCustomer">Customer</label>
+                         @Html.DropDownListFor(model => model.CustomerHeadId, new SelectList(ViewBag.customers, "CustomerID", "Customer1"), "Select", new { @class = "form-control" })
 
-                    <label class=" required headinglabel" id="lblsupplier">Supplier</label>
-                    @Html.DropDownListFor(model => model.SupplierHeadId, new SelectList(ViewBag.supplier, "SupplierID", "SupplierName"), "Select", new { @class = "form-control" })
+                         <label class=" required headinglabel" id="lblsupplier">Supplier</label>
+                         @Html.DropDownListFor(model => model.SupplierHeadId, new SelectList(ViewBag.supplier, "SupplierID", "SupplierName"), "Select", new { @class = "form-control" })
 
-                    <input type="hidden" />
+                         <input type="hidden" />
 
-                </div>
+                     </div>
 
-                <div class="col-md-3">
-                    <label class=" required headinglabel">Amount</label>
-                    @Html.TextBox("Amount", "", new { @class = "form-control" })
-                </div>
-                 <div class="col-md-3">
-                    <label class=" required headinglabel">Invoice</label>
-                    @Html.TextBox("Invoice", "", new { @class = "form-control"})
+                     <div class="col-md-3">
+                         <label class=" required headinglabel">Amount</label>
+                         @Html.TextBox("Amount", "", new { @class = "form-control" })
+                     </div>
+                     <div class="col-md-3">
+                         <label class=" required headinglabel">Invoice</label>
+                         @Html.TextBox("Invoice", "", new { @class = "form-control" })
 
-                </div>
-                <div class="col-md-3">
+                     </div>
+                     <div class="col-md-3">
 
-                    @Html.RadioButtonFor(model => model.DebitCreditID, true, "Debit")<label class="headinglabel">Dr</label>&nbsp;&nbsp;&nbsp;
+                         @Html.RadioButtonFor(model => model.DebitCreditID, true, "Debit")<label class="headinglabel">Dr</label>&nbsp;&nbsp;&nbsp;
 
-                    @Html.RadioButtonFor(model => model.DebitCreditID, false, "Credit")<label class="headinglabel">cr</label>
+                         @Html.RadioButtonFor(model => model.DebitCreditID, false, "Credit")<label class="headinglabel">cr</label>
 
-                </div>
-            </div>
-            <div class="row no-margin">
-                <div class="col-md-3">
-                    <label class="headinglabel">Remark</label>
-                    @Html.TextArea("Remark", "", new { @class = "form-control" })
+                     </div>
+                 </div>
+                 <div class="row no-margin">
+                     <div class="col-md-3">
+                         <label class="headinglabel">Remark</label>
+                         @Html.TextArea("Remark", "", new { @class = "form-control" })
 
-                </div>
-               
-            </div>
-            <div class="row no-margin form-layout">
-                <div class="col-xs-12" style="padding-top: 10px">
-                    <div class="data" style="padding-top: 10px;">
-                        <table border="1" class="table table-responsive tblbackground" style="width: 100%" id="tbl1">
-                            <tr style="font-weight: bold">
+                     </div>
 
-                                <th>A/C Head</th>
-                                <th>Amount</th>
-                                <th>Dr/Cr</th>
-                                <th>Remark
-                                </th>
-                                <th>Invoice
-                                </th>
-                                <th>Action</th>
-                               
+                 </div>
+                 <div class="row no-margin form-layout">
+                     <div class="col-xs-12" style="padding-top: 10px">
+                         <div class="data" style="padding-top: 10px;">
+                             <table border="1" class="table table-responsive tblbackground" style="width: 100%" id="tbl1">
+                                 <tr style="font-weight: bold;background-color: #35b8eb;color: #fff;font-size: 16px;">
 
-                            </tr>
-                            <tr>
-                                <td>
-                                    @Html.DropDownList("AcHeadId", ViewBag.acHead as SelectList, "Select", new { @class = "form-control", id = "dropAcHead" })
+                                     <th>A/C Head</th>
+                                     <th>Amount</th>
+                                     <th>Dr/Cr</th>
+                                     <th>
+                                         Remark
+                                     </th>
+                                     <th>
+                                         Invoice
+                                     </th>
+                                     <th>Action</th>
 
-                                </td>
-                                <td>
-                                    <input type="text" id="txtAmount"></td>
-                                <td>
-                                    <select id="dropAmount">
-                                        <option value="Dr">Dr</option>
-                                        <option value="Cr">Cr</option>
-                                    </select></td>
-                                <td>
-                                    <input type="text" id="txtremark" /></td>
-                                <td colspan="2">
-                                    <input type="text" id="txtInvoice" />&nbsp;<a href="" class="glyphicon glyphicon-plus btnadd"></a></td>
 
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-            </div>
+                                 </tr>
+                                 <tr>
+                                     <td>
+                                         @Html.DropDownList("AcHeadId", ViewBag.acHead as SelectList, "Select", new { @class = "form-control", id = "dropAcHead" })
 
-            <div class="row no-margin" style="padding-top: 10px">
-                <div class="col-md-12">
+                                     </td>
+                                     <td>
+                                         <input type="text" id="txtAmount">
+                                     </td>
+                                     <td>
+                                         <select id="dropAmount">
+                                             <option value="Dr">Dr</option>
+                                             <option value="Cr">Cr</option>
+                                         </select>
+                                     </td>
+                                     <td>
+                                         <input type="text" id="txtremark" />
+                                     </td>
+                                     <td colspan="2">
+                                         <input type="text" id="txtInvoice" />&nbsp;<a href="" class="glyphicon glyphicon-plus btnadd"></a>
+                                     </td>
 
-                    <input type="submit" value="Save" class="btn btn-primary btnwidth" id="btnsave" />
+                                 </tr>
+                             </table>
+                         </div>
+                     </div>
+                 </div>
 
-                    &nbsp; 
-               <a href='@Url.Action("CustomerJList", "CustomerJournal", new { id = 0 })' class="btn btn-primary btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+                 <div class="row no-margin" style="padding-top: 10px">
+                     <div class="col-md-12">
 
-                </div>
+                         <input type="submit" value="Save" class="btn btn-primary btnwidth" id="btnsave" />
 
-                <div id="tmpdata" style="width: 500px; height: 400px; color: white">
-                </div>
-            </div>
+                         &nbsp;
+                         <a href='@Url.Action("CustomerJList", "CustomerJournal", new { id = 0 })' class="btn btn-primary btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
 
-        </fieldset> 
+                     </div>
+
+                     <div id="tmpdata" style="width: 500px; height: 400px; color: white">
+                     </div>
+                 </div>
+             </div>
+         </fieldset> 
     }
 
 </section>

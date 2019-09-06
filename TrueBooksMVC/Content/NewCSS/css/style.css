@@ -23,6 +23,7 @@ body {
     min-height: 100%;
     position: relative;
     overflow: hidden;
+    background-color: #f4f4f4;
 }
 
     .wrapper:before, .wrapper:after {
@@ -93,6 +94,7 @@ body {
     padding: 15px;
     color: #444;
     border-top: 1px solid #d2d6de;
+    margin-top: 30px;
 }
 
 .fixed .main-header, .fixed .main-sidebar, .fixed .left-side {
@@ -5753,7 +5755,7 @@ label > select {
 }
 label {
     width: 100%;
-    font-size: 18px;
+    font-size: 15px;
     padding: 2px;
 }
 div#dataTables-example_info {
@@ -5771,4 +5773,30 @@ div#dataTables-example_paginate {
     border-radius: 25px;
     margin-bottom: 27px;
     padding: 20px;
+}
+/*customerinvoce*/
+.btonlabel {
+    text-align: right;
+    width: 15%;
+    padding: 0;
+    margin-top: 31px;
+}
+.searchdivs {
+    width: 100%;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 16px;
+    max-width: 769px;
+    border-radius: 10px;
+    box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
+}
+.searcfied {
+    width: 27%;
+    margin-right: 5px;
+}
+.btnwid {
+    width: 100px;
+    margin-right: 15px;
+    font-size: 18px;
+    border-radius: 10px;
 }

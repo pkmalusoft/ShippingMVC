@@ -3,6 +3,29 @@
     ViewBag.Title = "IndexPDCOutstandings";
     Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
 }
+<style>
+    .tblbackground {
+        background-color: #fff;
+        box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
+        border-radius: 10px;
+    }
+    .searchdiv {
+        background-color: #fff;
+        width: 100%;
+        margin: 0 auto;
+        max-width: 500px;
+        padding: 20px;
+        margin-top: 50px;
+        border-radius: 10px;
+        box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
+    }
+
+    .headinglabel {
+        font-family: Calibri;
+        font-size: 16px;
+        color: #2b2929 !important;
+    }
+</style>
 <script>
     $(function () {
         $(".datepicker").datepicker({
@@ -65,21 +88,23 @@
 
 
      <div id="alert" style="color:red;display:none;margin-left:10px;">*Please Select Matured Date</div>
-    <div class="row no-margin">
-       
-          
-                <div class="col-md-3">
-                    <label class="headinglabel required">Matured Date:</label>
+     <div class="searchdiv">
+         <div class="row no-margin">
 
-                    <input type="text" class="datepicker form-control" id="txtMatureDate" />
-                </div>
-                <div class="col-md-2" style="padding-top:5px"><br />
-                    <input type="button" value="Search" id="btnsearch" class="btn btn-primary" />
-                </div>
-            
 
-        </div>
+             <div class="col-md-6">
+                 <label class="headinglabel required">Matured Date:</label>
 
+                 <input type="text" class="datepicker form-control" id="txtMatureDate" />
+             </div>
+             <div class="col-md-6" style="padding-top:5px">
+                 <br />
+                 <input type="button" value="Search" id="btnsearch" class="btn btn-primary btnwidt" />
+             </div>
+
+
+         </div>
+     </div>
      
 
     <div class="row no-margin" style="padding-top: 20px">
