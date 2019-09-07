@@ -55,37 +55,38 @@
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
-       <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
-       <div class="searchdiv">
-           <fieldset>
+       
+    <div class="searchdiv">
+        <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
+        <fieldset>
 
-               <div class="row no-margin">
+            <div class="row no-margin">
 
-                   <div class="col-md-12">
-                       <label class="required headinglabel">Category</label>
-                       @Html.TextBoxFor(model => model.AcCategory1, new { @class = "form-control txttarget" })
-                       @Html.ValidationMessageFor(model => model.AcCategory1)
+                <div class="col-md-12">
+                    <label class="required headinglabel">Category</label>
+                    @Html.TextBoxFor(model => model.AcCategory1, new { @class = "form-control txttarget" })
+                    @Html.ValidationMessageFor(model => model.AcCategory1)
 
-                   </div>
-
-
-               </div>
+                </div>
 
 
-               <div class="row no-margin" style="padding-top:10px">
-                   <div class="col-md-12" style="text-align:center;padding:10px;">
-
-                       <input type="submit" value="Save" class="btn btn-primary btnwid" id="btnSave" />
-
-                       &nbsp;
-                       <a href='@Url.Action("IndexAcCategory", "AccountingModule", new { id = 0 })' class="btn btn-danger btnwid" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
-
-                   </div>
-               </div>
+            </div>
 
 
-           </fieldset>
-           </div>
+            <div class="row no-margin" style="padding-top:10px">
+                <div class="col-md-12" style="text-align:center;padding:10px;">
+
+                    <input type="submit" value="Save" class="btn btn-primary btnwid" id="btnSave" />
+
+                    &nbsp;
+                    <a href='@Url.Action("IndexAcCategory", "AccountingModule", new { id = 0 })' class="btn btn-danger btnwid" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+
+                </div>
+            </div>
+
+
+        </fieldset>
+    </div>
            }
 </section>
 

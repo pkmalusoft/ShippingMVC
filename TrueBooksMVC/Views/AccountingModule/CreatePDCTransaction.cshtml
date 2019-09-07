@@ -3,7 +3,32 @@
     ViewBag.Title = "PDC Transaction";
     Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
 }
+<style>
+    #details tr {
+        height: 32px;
+    }
 
+    .headinglabel {
+        font-family: Calibri;
+        font-size: 16px;
+        color: #2b2929 !important;
+    }
+
+    .jobform {
+        background-color: #fff;
+        box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
+        border-radius: 25px;
+        margin-bottom: 27px;
+        padding: 20px;
+        width: 100%;
+        margin: 0 auto;
+        max-width: 700px;
+    }
+
+    legend {
+        color: #000 !important;
+    }
+</style>
 <script type="text/javascript">
         $(document).ready(function () {
            
@@ -176,7 +201,7 @@
 </section>
 
 
-<section class="content">
+<section class="content jobform">
 
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
@@ -187,7 +212,7 @@
     
          <div class="row no-margin"> 
              
-             <div class="col-md-3">
+             <div class="col-md-6">
                           <label class="headinglabel">Transaction Type</label>
                        @Html.DropDownListFor(model => model.transtype, ViewBag.transtypes as SelectList, new { @class = "form-control txttarget" })
                         @Html.ValidationMessageFor(model => model.transtype)
@@ -195,21 +220,21 @@
                             
              </div>
            
-               <div class="col-md-3">
+               <div class="col-md-6">
                           <label class="required headinglabel">Transaction Date</label>
                          @Html.TextBoxFor(model => model.transdate,new { @class = "form-control" })
                          @Html.ValidationMessageFor(model => model.transdate)
                           
              </div>
 
-               <div class="col-md-3">
+               <div class="col-md-6">
                           <label class="required headinglabel">Deposit Bank</label>
                        @Html.DropDownListFor(model => model.AcHead,new SelectList(ViewBag.heads,"AcHeadID","AcHead"), new { @class = "form-control txttarget" })
                         @Html.ValidationMessageFor(model => model.AcHead)
                             
              </div>
 
-               <div class="col-md-3">
+               <div class="col-md-6">
                           <label class="headinglabel">Remarks</label>
                          @Html.TextAreaFor(model => model.remarks,new { @class = "form-control" })
                          @Html.ValidationMessageFor(model => model.remarks)
@@ -240,26 +265,26 @@
        
          <div class="row no-margin"> 
              
-             <div class="col-md-3">
+             <div class="col-md-6">
                           <label class="headinglabel">Bank Name</label>
                        @Html.TextBoxFor(model => model.bankname,new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.bankname)
                             
              </div>
-                <div class="col-md-3">
+                <div class="col-md-6">
                           <label class="required headinglabel">Cheque No</label>
                        @Html.TextBoxFor(model => model.chequeno,new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.chequeno)
                             
              </div>
-                <div class="col-md-3">
+                <div class="col-md-6">
                           <label class="required headinglabel">Cheque Date</label>
                        @Html.TextBoxFor(model => model.chequedate,new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.chequedate)
                             
              </div>
 
-                 <div class="col-md-3">
+                 <div class="col-md-6">
                                       <label class="headinglabel">Party Name</label>
                                    @Html.TextBoxFor(model => model.partyname,new { @class = "form-control" })
                                     @Html.ValidationMessageFor(model => model.partyname)
@@ -270,62 +295,64 @@
           
         </fieldset>
     
-    
-     <fieldset>
-        <legend style="color:white">Add Details</legend>
-       
-         <div class="row no-margin"> 
-             
-             <div class="col-md-3">
-                          <label class="headinglabel label1">Received From</label>
-                       @Html.DropDownListFor(model => model.ReceivedFrom,new SelectList(ViewBag.headsreceived,"AcHeadID","AcHead"), new { @class = "form-control txttarget" })
-                        @Html.ValidationMessageFor(model => model.ReceivedFrom)
-                            
-             </div>
-             
+    <br/>
+       <fieldset>
+           <legend style="color:white">Add Details</legend>
 
-             <div class="col-md-3">
-                          <label class="headinglabel">Amount</label>
-                             @Html.TextBoxFor(model => model.amount,new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.amount)
-                            
-             </div>
-             <div class="col-md-3">
-                          <label class="headinglabel">Remark</label>
-                             @Html.TextAreaFor(model => model.remark1,new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.remark1)
-                            
-             </div>
+           <div class="row no-margin">
 
-             
-             <div class="col-md-3"><br />
-                        <input type="button" class="btn btn-primary" value="Add" id="btnAdd">
-                            
-             </div>
-        </div>
+               <div class="col-md-4">
+                   <label class="headinglabel label1">Received From</label>
+                   @Html.DropDownListFor(model => model.ReceivedFrom, new SelectList(ViewBag.headsreceived, "AcHeadID", "AcHead"), new { @class = "form-control txttarget" })
+                   @Html.ValidationMessageFor(model => model.ReceivedFrom)
 
-        
-             
+               </div>
 
-            <div class="row no-margin" style="padding-top:10px"> 
-                <table class="table table-bordered table-responsive" id="details" style="background-color:white">
-                 
+
+               <div class="col-md-4">
+                   <label class="headinglabel">Amount</label>
+                   @Html.TextBoxFor(model => model.amount, new { @class = "form-control" })
+                   @Html.ValidationMessageFor(model => model.amount)
+
+               </div>
+               <div class="col-md-4">
+                   <label class="headinglabel">Remark</label>
+                   @Html.TextAreaFor(model => model.remark1, new { @class = "form-control" })
+                   @Html.ValidationMessageFor(model => model.remark1)
+
+               </div>
+           </div>
+           <div class="row no-margin" style="padding-top:10px">
+               <div class="col-md-12" style="text-align:center">
+                   <input type="button" class="btn btn-primary btnwid" value="Add" id="btnAdd">
+
+               </div>
+               </div>
+
+
+               <hr />
+
+               <div class="row no-margin" style="padding-top:10px">
+                   <table class="table table-bordered table-responsive" id="details" style="background-color:white">
+
                        <thead>
-                            <th>AcHead</th>
-                            <th>Amount</th>
-                            <th>Remark</th>
-                           
-                      </thead>
-                    
-                </table>
-     
-                @Html.HiddenFor(model=>model.TotalAmt)
-            </div>
+                       <th>AcHead</th>
+                       <th>Amount</th>
+                       <th>Remark</th>
 
-          <div class="row no-margin" style="padding-top:10px"> 
-              <input type="submit" value="Save" class="btn btn-primary btnwidth" id="btnsave" />&nbsp;&nbsp;<a href='@Url.Action("IndexPDCTransaction", "AccountingModule", new { id = 0 })' class="btn btn-primary btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
-              </div>
-         </fieldset>
+                       </thead>
+
+                   </table>
+
+                   @Html.HiddenFor(model => model.TotalAmt)
+               </div>
+
+               <div class="row no-margin" style="padding-top:10px">
+                   <div class="col-md-12 butdivs">
+                   <input type="submit" value="Save" class="btn btn-primary btnwid" id="btnsave" />&nbsp;&nbsp;<a href='@Url.Action("IndexPDCTransaction", "AccountingModule", new { id = 0 })' class="btn btn-danger btnwid" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+               </div>
+                   </div>
+       </fieldset>
     
 }
     </section>

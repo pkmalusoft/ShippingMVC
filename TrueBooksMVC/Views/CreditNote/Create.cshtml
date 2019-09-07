@@ -5,7 +5,34 @@
     Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
 }
 
+<style>
+    tfoot {
+        display: table-header-group;
+    }
 
+    .tblbackground {
+        background-color: #fff;
+        box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
+        border-radius: 10px;
+    }
+
+    .searchdiv {
+        background-color: #fff;
+        width: 100%;
+        margin: 0 auto;
+        max-width: 765px;
+        padding: 20px;
+        margin-top: 50px;
+        border-radius: 10px;
+        box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
+    }
+
+    .headinglabel {
+        font-family: Calibri;
+        font-size: 16px;
+        color: #2b2929 !important;
+    }
+</style>
 <script type="text/javascript">
     $(document).ready(function () {
 
@@ -138,87 +165,89 @@
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
+    <div class="searchdiv">
         <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
-    <fieldset>
-       
-         <div class="row no-margin"> 
-             
-        
-             <div class="col-md-3">
-                          <label class="required headinglabel">Date</label>
-                         @Html.TextBoxFor(model => model.Date,new { @class = "form-control" })
-                         @Html.ValidationMessageFor(model => model.Date)
-                          
-             </div>
-          
-         
-              <div class="col-md-3">
-                      
-                   <label class="headinglabel">Expence A/C</label>
-        @Html.DropDownListFor(model => model.AcHeadID, new SelectList(@ViewBag.achead, "AcHeadID","AcHead1"), "Select", new { @class = "form-control" })
-           @Html.ValidationMessageFor(model => model.AcHeadID)
-        </div>
-            
-               <div class="col-md-3">
-                             <label class="headinglabel required">Customer</label>
-        @Html.DropDownListFor(model => model.CustomerID, new SelectList(@ViewBag.customer, "CustomerID","Customer1"), "Select", new { @class = "form-control" })
-           @Html.ValidationMessageFor(model => model.CustomerID)
+        <fieldset>
+
+            <div class="row no-margin">
 
 
-                   </div>
                 <div class="col-md-3">
-                          <label class="required headinglabel">Job No</label>
-                     
-                          @Html.DropDownListFor(model => model.JobNO, new SelectList(@ViewBag.jobno, "JobNo","JobNo"), "Select", new { @class = "form-control" })
-           @Html.ValidationMessageFor(model => model.JobNO)
-      
+                    <label class="required headinglabel">Date</label>
+                    @Html.TextBoxFor(model => model.Date, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Date)
 
-             </div>
-      
-
-       </div>
-       
-              <div class="row no-margin"> 
-
-                
-                    <div class="col-md-3">
-                          <label class="headinglabel">Invoice Amount</label>
-                         @Html.TextBoxFor(model => model.InvoiceAmount,new { @class = "form-control" })
-                         @Html.ValidationMessageFor(model => model.InvoiceAmount)
-                          
-
-             </div>
-                    <div class="col-md-3">
-                          <label class="headinglabel">Received Amount</label>
-                         @Html.TextBoxFor(model => model.ReceivedAmount,new { @class = "form-control" })
-                         @Html.ValidationMessageFor(model => model.ReceivedAmount)
-                          
-             </div>
-                    <div class="col-md-3">
-                          <label class="required headinglabel">Amount</label>
-                         @Html.TextBoxFor(model => model.Amount,new { @class = "form-control" })
-                         @Html.ValidationMessageFor(model => model.Amount)
-                          
-             </div>
-                  </div>
+                </div>
 
 
+                <div class="col-md-3">
+
+                    <label class="headinglabel">Expence A/C</label>
+                    @Html.DropDownListFor(model => model.AcHeadID, new SelectList(@ViewBag.achead, "AcHeadID", "AcHead1"), "Select", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.AcHeadID)
+                </div>
+
+                <div class="col-md-3">
+                    <label class="headinglabel required">Customer</label>
+                    @Html.DropDownListFor(model => model.CustomerID, new SelectList(@ViewBag.customer, "CustomerID", "Customer1"), "Select", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.CustomerID)
+
+
+                </div>
+                <div class="col-md-3">
+                    <label class="required headinglabel">Job No</label>
+
+                    @Html.DropDownListFor(model => model.JobNO, new SelectList(@ViewBag.jobno, "JobNo", "JobNo"), "Select", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.JobNO)
+
+
+                </div>
+
+
+            </div>
+
+            <div class="row no-margin">
+
+
+                <div class="col-md-3">
+                    <label class="headinglabel">Invoice Amount</label>
+                    @Html.TextBoxFor(model => model.InvoiceAmount, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.InvoiceAmount)
+
+
+                </div>
+                <div class="col-md-3">
+                    <label class="headinglabel">Received Amount</label>
+                    @Html.TextBoxFor(model => model.ReceivedAmount, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.ReceivedAmount)
+
+                </div>
+                <div class="col-md-3">
+                    <label class="required headinglabel">Amount</label>
+                    @Html.TextBoxFor(model => model.Amount, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Amount)
+
+                </div>
+            </div>
 
 
 
-        <div class="row no-margin" style="padding-top:10px">
-                        <div class="col-md-12">
-                           
-                                <input type="submit"  value="Save"  class="btn btn-primary btnwidth" id="btnsave" />
-                               
-                            &nbsp; 
-                                           <a href='@Url.Action("Index", "CreditNote", new { id = 0 })' class="btn btn-primary btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
-                           
-                        </div>
-                    </div>
 
-       
-    </fieldset>
-}
-    </section>
+
+            <div class="row no-margin" style="padding-top:10px">
+                <div class="col-md-12 butdivs">
+
+                    <input type="submit" value="Save" class="btn btn-primary btnwid" id="btnsave" />
+
+                    &nbsp;
+                    <a href='@Url.Action("Index", "CreditNote", new { id = 0 })' class="btn btn-danger btnwid" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+
+                </div>
+            </div>
+
+
+        </fieldset>
+        </div>
+        }
+</section>
 

@@ -2461,6 +2461,7 @@ a {
 .btn-primary {
     background-color: #35b8eb;
     border-color: #47b7e3;
+    border-radius:5px;
 }
 
     .btn-primary:hover, .btn-primary:active, .btn-primary.hover {
@@ -5701,7 +5702,7 @@ td.tabs_class {
     color: #f3f7f9;
     font-size: 16px;
     /* text-align: center; */
-    font-weight: 600;
+    font-weight: 500;
 }
     .sidebar-menu li a:active, .sidebar-menu li a:hover, .sidebar-menu li a:focus {
         background: linear-gradient(135deg, #07a7e3 0%, #32dac3 100%);
@@ -5739,7 +5740,7 @@ input[type=text]:focus, textarea:focus {
     float: right;
     margin-right: 15px;
     font-size: 18px;
-    border-radius: 10px;
+    border-radius: 5px;
 }
 .btn-primary.active.focus, .btn-primary.active:focus, .btn-primary.active:hover, .btn-primary:active.focus, .btn-primary:active:focus, .btn-primary:active:hover, .open > .dropdown-toggle.btn-primary.focus, .open > .dropdown-toggle.btn-primary:focus, .open > .dropdown-toggle.btn-primary:hover {
     color: #fff;
@@ -5798,5 +5799,9 @@ div#dataTables-example_paginate {
     width: 100px;
     margin-right: 15px;
     font-size: 18px;
-    border-radius: 10px;
+    border-radius: 5px;
 }
+.butdivs {
+    text-align:center;padding:10px;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button{border-raduis:5px;}
