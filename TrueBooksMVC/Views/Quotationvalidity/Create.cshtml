@@ -3,35 +3,52 @@
 @{
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
+}
+<style>
+    .headinglabel {
+        font-size: 16px;
+        color: #2b2929 !important;
+        display: inline;
     }
 
+    .searchdiv {
+        background-color: #fff;
+        width: 100%;
+        margin: 0 auto;
+        max-width: 500px;
+        padding: 20px;
+        margin-top: 50px;
+        border-radius: 10px;
+        box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
+    }
+</style>
 <script type="text/javascript">
-        $(document).ready(function () {
-            $("#Validity").focus();
-            $(":text").css({ "border-radius": "5px" });
-            $("select").css({ "border-radius": "5px" });
-
-            
-            
-            $("#btnsave").click(function () {
-                var dep = $("#Validity").val();
-                
-                if (dep == "") {
-                    $("#alert").show();
-                    return false;
-                }
-                else {
-                    $("#alert").hide();
-                    return true;
-                }
+    $(document).ready(function () {
+        $("#Validity").focus();
+        $(":text").css({ "border-radius": "5px" });
+        $("select").css({ "border-radius": "5px" });
 
 
-                });
 
+        $("#btnsave").click(function () {
+            var dep = $("#Validity").val();
+
+            if (dep == "") {
+                $("#alert").show();
+                return false;
+            }
+            else {
+                $("#alert").hide();
+                return true;
+            }
 
 
         });
-    </script>
+
+
+
+    });
+</script>
 
 
 <section class="content-header">
@@ -39,48 +56,51 @@
 
 </section>
 
- @if (ViewBag.SuccessMsg != null)
-    {
-      <script type="text/javascript">
+@if (ViewBag.SuccessMsg != null)
+{
+    <script type="text/javascript">
           $(document).ready(function () {
               $.notify("@ViewBag.SuccessMsg", "success");
           });
-                                                </script>
-    }
+    </script>
+}
 <section class="content">
 
-@using (Html.BeginForm()) {
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true)
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+    <div class="searchdiv">
 
-    <fieldset>
-      
-         <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
-         <div class="row no-margin"> 
-               
-            
-           
-             <div class="col-md-3">
-                          <label class="required headinglabel">Validity</label>
-                       @Html.TextBoxFor(model => model.Validity,new { @class = "form-control txttarget" })
+        <fieldset>
+            <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
+
+            <div class="row no-margin">
+
+
+
+                <div class="col-md-12">
+                    <label class="required headinglabel">Validity</label>
+                    @Html.TextBoxFor(model => model.Validity, new { @class = "form-control txttarget" })
                     @Html.ValidationMessageFor(model => model.Validity)
-                        
-                 </div>
-           
-            
-                 </div>
-    
-       
-        <div class="row no-margin" style="padding-top:10px">
-                        <div class="col-md-12">
-                           
-                                <input type="submit"  value="Save"  class="btn btn-primary btnwidth" id="btnsave" />
-                               
-                            &nbsp; 
-                                           <a href='@Url.Action("Index", "Quotationvalidity", new { id = 0 })' class="btn btn-primary btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
-                           
-                        </div>
-                    </div>
-    </fieldset>
-}
-    </section>
+
+                </div>
+
+
+            </div>
+
+
+            <div class="row no-margin" style="padding-top:10px">
+                <div class="col-md-12 butdivs">
+
+                    <input type="submit" value="Save" class="btn btn-primary btnwid" id="btnsave" />
+
+                    &nbsp;
+                    <a href='@Url.Action("Index", "Quotationvalidity", new { id = 0 })' class="btn btn-danger btnwid" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+
+                </div>
+            </div>
+        </fieldset>
+    </div>
+    }
+</section>

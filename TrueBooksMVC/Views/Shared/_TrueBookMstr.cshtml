@@ -389,14 +389,7 @@
         <!-- Main Header -->
         <header class="main-header">
 
-            <!-- Logo -->
-            <a href="index2.html" class="logo">
-                <!-- mini logo for sidebar mini 50x50 pixels -->
-                <span class="logo-mini">
-                    <img class="img-responsive" src="~/Content/img/logotri.png" alt="logosmall"></span>
-                <!-- logo for regular state and mobile devices -->
-                <span class="logo-lg">
-                    <img class="img-responsive" src="~/Content/img/logotri.png" alt="logolarge"></span> </a>
+           
 
             <!-- Header Navbar -->
             <nav class="navbar navbar-static-top" role="navigation">
@@ -436,95 +429,114 @@
                 </div>
             </nav>
         </header>
+        <script>
+            (function () {
+                let isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+                let isSafari = /Safari/.test(navigator.userAgent) && /Apple Computer/.test(navigator.vendor);
+                let scrollbarDiv = document.querySelector('.main-sidebar');
+                if (!isChrome && !isSafari) {
+                    scrollbarDiv.innerHTML = 'You need Webkit browser to run this code';
+                }
+            })();
+
+
+        </script>
         <!-- Left side column. contains the logo and sidebar -->
-        <aside class="main-sidebar">
+        <aside class="main-sidebar" style="display:none">
 
             <!-- sidebar: style can be found in sidebar.less -->
             <section class="sidebar">
+                <a href="index2.html" class="logo">
+                    <!-- mini logo for sidebar mini 50x50 pixels -->
+                    <span class="logo-mini">
+                        <img class="img-responsive" src="~/Content/img/logotri.png" alt="logosmall">
+                    </span>
+                    </a>
+                    <!-- Sidebar Menu -->
+                    <ul class="sidebar-menu" style="margin-top: 20px">
+                        @{
+                            TrueBooksMVC.Models.SourceMastersModel obj = new TrueBooksMVC.Models.SourceMastersModel();
 
-                <!-- Sidebar Menu -->
-                <ul class="sidebar-menu">
-                    @{
-                        TrueBooksMVC.Models.SourceMastersModel obj = new TrueBooksMVC.Models.SourceMastersModel();
-
-                        List<DAL.Menu> menuList = (List<DAL.Menu>)Session["Menu"];
-                        List<DAL.Menu> parentMenu = new List<DAL.Menu>();
-                        if (menuList != null)
-                        {
-                            parentMenu = menuList.Where(p => Convert.ToInt32(p.ParentID) == 0).ToList();
-                        }
-
-                        if (parentMenu != null)
-                        {
-                            foreach (var item in parentMenu)
+                            List<DAL.Menu> menuList = (List<DAL.Menu>)Session["Menu"];
+                            List<DAL.Menu> parentMenu = new List<DAL.Menu>();
+                            if (menuList != null)
                             {
-                                List<int> RoleId = (List<int>)Session["RoleID"];
-                                int menuid = Convert.ToInt32(item.MenuID);
-                                if (item.PermissionRequired.HasValue && item.PermissionRequired.Value)
-                                {
-                                    if (obj.IsAccessibleMenu(menuid, RoleId))
-                                    {
-                        <li><a id="@item.MenuID" href=@item.Link><i class="@item.imgclass"></i><span>@item.Title</span></a>
-                            @if (menuList.Count(p => p.ParentID == item.MenuID) > 0)
-                            {
-                                @:<ul class="treeview-menu">
-                                                }
-                            @RenderMenuList(menuList, item)
-                                                 @if (menuList.Count(p => p.ParentID == item.MenuID) > 0)
-                                                 {
-                                                  @:</ul>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         }
-                        </li>
-                                    }
-                                }
-                                else
-                                {
-                        <li><a id="@item.MenuID" href=@item.Link><i class="@item.imgclass"></i><span>@item.Title</span></a>
-                            @if (menuList.Count(p => p.ParentID == item.MenuID) > 0)
-                            {
-                                @:<ul class="treeview-menu">
-                                                }
-                            @RenderMenuList(menuList, item)
-                                                 @if (menuList.Count(p => p.ParentID == item.MenuID) > 0)
-                                                 {
-                                                  @:</ul>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         }
-                        </li>
-                                }
-
+                                parentMenu = menuList.Where(p => Convert.ToInt32(p.ParentID) == 0).ToList();
                             }
-                        }
-                                   
-                        @helper RenderMenuList(List<DAL.Menu> menuList, DAL.Menu mi)
-{
-    foreach (var item1 in menuList.Where(p => p.ParentID == mi.MenuID))
-    {
-                            @:<li>
-<a id="
+
+                            if (parentMenu != null)
+                            {
+                                foreach (var item in parentMenu)
+                                {
+                                    List<int> RoleId = (List<int>)Session["RoleID"];
+                                    int menuid = Convert.ToInt32(item.MenuID);
+                                    if (item.PermissionRequired.HasValue && item.PermissionRequired.Value)
+                                    {
+                                        if (obj.IsAccessibleMenu(menuid, RoleId))
+                                        {
+                                            <li>
+                                                <a id="@item.MenuID" href=@item.Link><i class="@item.imgclass"></i><span>@item.Title</span></a>
+                                                @if (menuList.Count(p => p.ParentID == item.MenuID) > 0)
+                                                {
+                                                    @:<ul class="treeview-menu">
+                                                    }
+                                                @RenderMenuList(menuList, item)
+                                                @if (menuList.Count(p => p.ParentID == item.MenuID) > 0)
+                                                {
+                                                @:</ul>
+                                            }
+                                            </li>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <li>
+                                            <a id="@item.MenuID" href=@item.Link><i class="@item.imgclass"></i><span>@item.Title</span></a>
+                                            @if (menuList.Count(p => p.ParentID == item.MenuID) > 0)
+                                            {
+                                                @:<ul class="treeview-menu">
+                                                }
+                                            @RenderMenuList(menuList, item)
+                                            @if (menuList.Count(p => p.ParentID == item.MenuID) > 0)
+                                            {
+                                            @:</ul>
+                                        }
+                                        </li>
+                                    }
+
+                                }
+                            }
+
+                            @helper RenderMenuList(List<DAL.Menu> menuList, DAL.Menu mi)
+                            {
+                                foreach (var item1 in menuList.Where(p => p.ParentID == mi.MenuID))
+                                {
+                                    @:<li>
+                                        <a id="
                             @item1.MenuID" href=@item1.Link><i class="@item1.imgclass"></i><span>@item1.Title</span></a>
-        if (menuList.Count(p => p.ParentID == item1.MenuID) > 0)
-        {
-                            @:<ul>
-                                           }
-                            @RenderMenuList(menuList, item1)
-        if (menuList.Count(p => p.ParentID == item1.MenuID) > 0)
-        {
-                            @:</ul>
-                                           }
-        else
-        {
-                            @:</li>   
-                                           }
-    }
+                            if (menuList.Count(p => p.ParentID == item1.MenuID) > 0)
+                            {
+                                @:<ul>
+                                }
+                                @RenderMenuList(menuList, item1)
+                                if (menuList.Count(p => p.ParentID == item1.MenuID) > 0)
+                                {
+                                @:</ul>
+                            }
+                            else
+                            {
+                            @:</li>
                         }
-                                   
                     }
-                    <!-- Optionally, you can add icons to the links -->
+                            }
+
+                        }
+                        <!-- Optionally, you can add icons to the links -->
 
 
-                </ul>
+                    </ul>
 
-                <!-- /.sidebar-menu -->
+                    <!-- /.sidebar-menu -->
             </section>
             <!-- /.sidebar -->
         </aside>
@@ -543,7 +555,7 @@
             <!-- To the right -->
 
             <!-- Default to the left -->
-            Copyright &copy; 2016 <a href="#">Trianglesoft</a>. All rights reserved.
+            Copyright &copy; 2016 <a href="#" class="comname">Trianglesoft</a>. All rights reserved.
         </footer>
     </div>
     <!-- ./wrapper -->

@@ -5,7 +5,24 @@
    Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
    }
 
+<style>
+    .headinglabel {
+        font-size: 16px;
+        color: #2b2929 !important;
+        display: inline;
+    }
 
+    .searchdiv {
+        background-color: #fff;
+        width: 100%;
+        margin: 0 auto;
+        max-width: 500px;
+        padding: 20px;
+        margin-top: 50px;
+        border-radius: 10px;
+        box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
+    }
+</style>
 <script type="text/javascript">
         $(document).ready(function () {
             $("#CountryName").focus();
@@ -53,47 +70,50 @@
                                                 </script>
     }
 
-<section class="content">
+      <section class="content">
 
-@using (Html.BeginForm()) {
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true)
-        <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
-    <fieldset>
-       
-         <div class="row no-margin"> 
-             
-             <div class="col-md-3">
-                          <label class="required headinglabel">Country Name</label>
-                       @Html.TextBoxFor(model => model.CountryName,new { @class = "form-control txttarget" })
-                        @Html.ValidationMessageFor(model => model.CountryName)
-                            
-             </div>
-             <div class="col-md-3">
-                          <label class="required headinglabel">Country Code</label>
-                         @Html.TextBoxFor(model => model.CountryCode,new { @class = "form-control" })
-                         @Html.ValidationMessageFor(model => model.CountryCode)
-                          
-             </div>
-            
-       </div>
+          @using (Html.BeginForm())
+          {
+              @Html.AntiForgeryToken()
+              @Html.ValidationSummary(true)
+              <div class="searchdiv">
+                 
+                  <fieldset>
+                      <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
+                      <div class="row no-margin">
 
-       
-        <div class="row no-margin" style="padding-top:10px">
-                        <div class="col-md-12">
-                           
-                                <input type="submit"  value="Save"  class="btn btn-primary btnwidth" id="btnsave" />
-                               
-                            &nbsp; 
-                                           <a href='@Url.Action("Index", "Country", new { id = 0 })' class="btn btn-primary btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
-                           
-                        </div>
-                    </div>
+                          <div class="col-md-6">
+                              <label class="required headinglabel">Country Name</label>
+                              @Html.TextBoxFor(model => model.CountryName, new { @class = "form-control txttarget" })
+                              @Html.ValidationMessageFor(model => model.CountryName)
 
-       
-    </fieldset>
-}
-    </section>
+                          </div>
+                          <div class="col-md-6">
+                              <label class="required headinglabel">Country Code</label>
+                              @Html.TextBoxFor(model => model.CountryCode, new { @class = "form-control" })
+                              @Html.ValidationMessageFor(model => model.CountryCode)
+
+                          </div>
+
+                      </div>
+
+
+                      <div class="row no-margin" style="padding-top:10px">
+                          <div class="col-md-12 butdivs">
+
+                              <input type="submit" value="Save" class="btn btn-primary btnwid" id="btnsave" />
+
+                              &nbsp;
+                              <a href='@Url.Action("Index", "Country", new { id = 0 })' class="btn btn-danger btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+
+                          </div>
+                      </div>
+
+
+                  </fieldset>
+                  </div>
+                  }
+          </section>
 
 @*@section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

@@ -4,7 +4,24 @@
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
 }
+<style>
+    .headinglabel {
+        font-size: 16px;
+        color: #2b2929 !important;
+        display: inline;
+    }
 
+    .searchdiv {
+        background-color: #fff;
+        width: 100%;
+        margin: 0 auto;
+        max-width: 800px;
+        padding: 20px;
+        margin-top: 50px;
+        border-radius: 10px;
+        box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
+    }
+</style>
 
 <script type="text/javascript">
     $(document).ready(function () {
@@ -55,19 +72,20 @@
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
-     <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
+    <div class="searchdiv">
+     
     <fieldset>
-        
+        <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
 
             <div class="row no-margin"> 
             
-                 <div class="col-md-3">
+                 <div class="col-md-6">
                           <label class="required headinglabel">Vessel</label>  
                        @Html.TextBoxFor(model => model.Vessel1,new { @class = "form-control txttarget" })
             @Html.ValidationMessageFor(model => model.Vessel1)
                  </div>
          
-               <div class="col-md-3">
+               <div class="col-md-6">
            
                        <label class="required headinglabel">Carrier</label>       
                 @Html.DropDownListFor(model => model.CarrierID, (IEnumerable<SelectListItem>)ViewBag.carrier,"Select", new { @class="form-control"})
@@ -82,9 +100,9 @@
      
        
         <div class="row no-margin">
-                        <div class="col-md-12">
+                        <div class="col-md-12 butdivs">
                            <br />
-                                <input type="submit"  value="Save"  class="btn btn-primary btnwidth" id="btnsave" />
+                                <input type="submit"  value="Save"  class="btn btn-danger btnwid" id="btnsave" />
                                
                             &nbsp; 
                                            <a href='@Url.Action("Index", "Vessel", new { id = 0 })' class="btn btn-primary btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
@@ -92,6 +110,7 @@
                         </div>
                     </div>
     </fieldset>
+        </div>
 }
 </section>
 

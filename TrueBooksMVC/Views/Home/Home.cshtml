@@ -146,40 +146,42 @@
                         <div class="card-body">
                             <table width="50%">
                                 @*   <tr>
-                        <td>INVOICED
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>RECEIVED</td>
-                    </tr>
-                    <tr>*@
+            <td>INVOICED
+            </td>
+        </tr>
+        <tr>
+            <td>RECEIVED</td>
+        </tr>
+        <tr>*@
                                 @foreach (var item in @ViewBag.custReciavable)
                                 {
                                     <tr>
                                         <td class="tab_class">
                                             INVOICED
                                         </td>
-                                        <td  style="text-align: right">
+                                        <td style="text-align: right">
                                             @if (@item.Invoiced != null)
                                             {
                                                 <span>@string.Format("{0:n2}", @item.Invoiced)</span>
                                             }
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="tabs_class">RECEIVED</td>
-                                    <td style="text-align: right">
-                                        @if (@item.Recievable != null)
-                                        {
-                                            <span>@string.Format("{0:n2}", @item.Recievable)</span>
-                                        }
+                                        </td>
+                                    </tr>
+
+                                     
+                                    <tr>
+                                        <td class="tabs_class">RECEIVED</td>
+                                        <td style="text-align: right">
+                                            @if (@item.Recievable != null)
+                                            {
+                                                <span>@string.Format("{0:n2}", @item.Recievable)</span>
+                                            }
 
 
-                                    </td>
-                                </tr>
+                                        </td>
+                                    </tr>
 
 
-                            }
+                                }
 
                             </table>
                         </div>

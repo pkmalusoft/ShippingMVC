@@ -14,6 +14,7 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     /*font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;*/
+    font-family: 'Montserrat', sans-serif !important;
     font-weight: 400;
     overflow-x: hidden;
     overflow-y: auto;
@@ -52,7 +53,7 @@ body {
     -moz-transition: -moz-transform .3s ease-in-out, margin .3s ease-in-out;
     -o-transition: -o-transform .3s ease-in-out, margin .3s ease-in-out;
     transition: transform .3s ease-in-out, margin .3s ease-in-out;
-    margin-left: 230px;
+   /* margin-left: 230px;*/
     z-index: 820;
 }
 
@@ -90,10 +91,10 @@ body {
 }
 
 .main-footer {
-    background: #e6e7e9;
+    background: #f4f4f4;
     padding: 15px;
     color: #444;
-    border-top: 1px solid #d2d6de;
+    /*border-top: 1px solid #d2d6de;*/
     margin-top: 30px;
 }
 
@@ -197,7 +198,7 @@ a {
 .main-header {
     position: relative;
     max-height: 135px;
-    z-index: 1030;
+    z-index: 99;
 }
 
     .main-header > .navbar {
@@ -205,7 +206,7 @@ a {
         -o-transition: margin-left .3s ease-in-out;
         transition: margin-left .3s ease-in-out;
         margin-bottom: 0;
-        margin-left: 230px;
+        /*margin-left: 230px;*/
         border: none;
         min-height: 60px;
         border-radius: 0;
@@ -273,9 +274,10 @@ a {
     float: left;
     background-color: transparent;
     background-image: none;
-    padding: 17px 15px;
+    padding: 13px 21px;
     font-family: fontAwesome;
-    font-size: 17px;
+    font-size: 31px;
+    color: #97a9b2 !important;
 }
 
     .main-header .sidebar-toggle:before {
@@ -466,10 +468,10 @@ a {
     position: absolute;
     top: 0;
     left: 0;
-    padding-top: 60px;
+    /*padding-top: 60px;*/
     min-height: 100%;
     width: 230px;
-    z-index: 810;
+    z-index: 999;
     -webkit-transition: -webkit-transform .3s ease-in-out, width .3s ease-in-out;
     -moz-transition: -moz-transform .3s ease-in-out, width .3s ease-in-out;
     -o-transition: -o-transform .3s ease-in-out, width .3s ease-in-out;
@@ -655,9 +657,11 @@ a {
         -ms-transform: translate(0, 0);
         -o-transform: translate(0, 0);
         transform: translate(0, 0);
-        width: 50px !important;
+        width: 240px !important;
         z-index: 850;
-        display:none;
+        display: block !important;
+        
+        color: #fff;
     }
 
     .sidebar-mini.sidebar-collapse .sidebar-menu > li {
@@ -684,24 +688,24 @@ a {
 
         .sidebar-mini.sidebar-collapse .sidebar-menu > li:hover > a > span:not(.pull-right), .sidebar-mini.sidebar-collapse .sidebar-menu > li:hover > .treeview-menu {
             display: block !important;
-            position: absolute;
+            position: relative;
             width: 180px;
-            left: 50px;
+            left: 0px;
         }
 
         .sidebar-mini.sidebar-collapse .sidebar-menu > li:hover > a > span {
             top: 0;
-            margin-left: -3px;
-            padding: 12px 5px 12px 20px;
+            margin-left: 0px;
+            padding: 0px;
             background-color: inherit;
         }
 
         .sidebar-mini.sidebar-collapse .sidebar-menu > li:hover > .treeview-menu {
-            top: 44px;
+            top: 0px;
             margin-left: 0;
         }
 
-        .sidebar-mini.sidebar-collapse .main-sidebar .user-panel > .info, .sidebar-mini.sidebar-collapse .sidebar-form, .sidebar-mini.sidebar-collapse .sidebar-menu > li > a > span, .sidebar-mini.sidebar-collapse .sidebar-menu > li > .treeview-menu, .sidebar-mini.sidebar-collapse .sidebar-menu > li > a > .pull-right, .sidebar-mini.sidebar-collapse .sidebar-menu li.header {
+        .sidebar-mini.sidebar-collapse .main-sidebar .user-panel > .info, .sidebar-mini.sidebar-collapse .sidebar-form,  .sidebar-mini.sidebar-collapse .sidebar-menu > li > .treeview-menu, .sidebar-mini.sidebar-collapse .sidebar-menu > li > a > .pull-right, .sidebar-mini.sidebar-collapse .sidebar-menu li.header {
             display: none !important;
             -webkit-transform: translateZ(0);
         }
@@ -712,7 +716,7 @@ a {
     }
 
     .logoimages {
-        display: none;
+        display: block;
     }
     .sidebar-mini.sidebar-collapse .main-header .logo > .logo-mini {
         display: block;
@@ -725,10 +729,10 @@ a {
             display: none;
         }
 
-    .sidebar-mini.sidebar-collapse .main-header .navbar {
+   /* .sidebar-mini.sidebar-collapse .main-header .navbar {
         margin-left: 50px;
         
-    }
+    }*/
 }
 
 .sidebar-menu, .main-sidebar .user-panel, .sidebar-menu > li.header {
@@ -5700,7 +5704,7 @@ td.tabs_class {
 }
 .sidebar-menu li a {
     color: #f3f7f9;
-    font-size: 16px;
+    font-size: 12px;
     /* text-align: center; */
     font-weight: 500;
 }
@@ -5805,3 +5809,73 @@ div#dataTables-example_paginate {
     text-align:center;padding:10px;
 }
 .dataTables_wrapper .dataTables_paginate .paginate_button{border-raduis:5px;}
+
+.headinglabel {
+    font-family: 'Montserrat', sans-serif !important;
+}
+.tblbackground {
+    background-color: #fff;
+    box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
+    border-radius: 10px;
+}
+.form-control {
+    margin-top:10px;}
+select#AcFYearID {
+    margin-top: 0 !important;
+}
+nav.navbar.navbar-static-top {
+    text-transform: uppercase;
+    letter-spacing: 0.03rem;
+    padding: 1.5rem 3rem !important;
+    box-shadow: 0 2px 23px 0 rgba(0, 0, 0, 0.1), 0 2px 49px 0 rgba(0, 0, 0, 0.06);
+    z-index: 9000;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    -ms-border-radius: 0;
+    -o-border-radius: 0;
+    border-radius: 0;
+    background-color: #fff;
+}
+.logo {
+display:block;
+padding:20px;
+}
+
+
+
+.main-sidebar::-webkit-scrollbar {
+    background-color: #122f3b;
+    width: 20px
+}
+
+/* background of the scrollbar except button or resizer */
+.main-sidebar::-webkit-scrollbar-track {
+    background-color: #fff
+}
+
+.main-sidebar::-webkit-scrollbar-track:hover {
+    background-color: #f4f4f4
+}
+
+/* scrollbar itself */
+.main-sidebar::-webkit-scrollbar-thumb {
+    background-color: #babac0;
+    border-radius: 16px;
+    border: 5px solid #fff
+}
+
+
+
+/* set button(top and bottom of the scrollbar) */
+.main-sidebar::-webkit-scrollbar-button {
+    display: none
+}
+
+
+
+.main-sidebar {
+    height: 75vh;
+    min-width: 150px;
+     overflow-y: scroll
+}
+
