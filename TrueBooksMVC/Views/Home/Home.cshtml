@@ -155,9 +155,9 @@
         <tr>*@
                                 @foreach (var item in @ViewBag.custReciavable)
                                 {
-                                    <tr>
+                                    <tr class="rows">
                                         <td class="tab_class">
-                                            INVOICED
+                                            <p class="subhead">INVOICED</p>
                                         </td>
                                         <td style="text-align: right">
                                             @if (@item.Invoiced != null)
@@ -169,7 +169,7 @@
 
                                      
                                     <tr>
-                                        <td class="tabs_class">RECEIVED</td>
+                                        <td class="tabs_class"><p class="subhead">RECEIVED</p></td>
                                         <td style="text-align: right">
                                             @if (@item.Recievable != null)
                                             {
