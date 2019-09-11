@@ -45,9 +45,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\DAL\bin\Release\DAL.dll</HintPath>
     </Reference>
-    <Reference Include="DotNetOpenAuth.OpenId">
-      <HintPath>D:\backup\24-8-2016\TrueBooksMVC(vp4-8-2016)\TrueBooksMVC\bin\DotNetOpenAuth.OpenId.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.ReportViewer.WebForms">
       <HintPath>..\packages\ReportViewerMVC.12.0.0.0\Microsoft.ReportViewer.WebForms.dll</HintPath>
