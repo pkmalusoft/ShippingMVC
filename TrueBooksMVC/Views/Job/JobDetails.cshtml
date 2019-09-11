@@ -237,21 +237,49 @@ function (settings, data, dataIndex) {
         </p>
         <section class="content">
             <p style="color: white" class="cbtnpadding">
-                <div id="error" style="display: none; font-family: Calibri; color: red">* From Date must not be Greater than To Date</div>
-                <table class="searchtabs" id="tbl1">
+                <div id="error" style="display: none; font-family: 'Montserrat', sans-serif !important; color: red">* From Date must not be Greater than To Date</div>
+                <table class="searchtabs tabsser" id="tbl1">
                     <tr>
-                        <td  class="searlabel">From Date
+                        <td class="searlabel ">
+                            From Date
                         </td>
-                        <td  class="searinput">
+                        <td class="searinput">
                             <input type="text" id="frmdate" class="form-control" />
                         </td>
-                        <td  class="searlabel">To Date
+                        <td class="searlabel">
+                            To Date
                         </td>
-                        <td    class="searinput">
+                        <td class="searinput">
                             <input type="text" id="todate" class="form-control" />
                         </td>
                         <td>
                             <input type="button" value="Search" id="btnsearch" class="btn btn-primary btnwidt fa fa-search" />
+                        </td>
+                    </tr>
+
+
+                </table>
+                <table class="searchtabs tablserch" id="tbl1">
+                    <tr>
+                        <td class="searlabel">
+                            From Date
+                        </td>
+                        <td class="searinput">
+                            <input type="text" id="frmdate" class="form-control" />
+                        </td>
+                        </tr><br />
+                    <tr>
+                        <td class="searlabel">
+                            To Date
+                        </td>
+                        <td class="searinput">
+                            <input type="text" id="todate" class="form-control" />
+                        </td>
+                        </tr><br />
+                    <tr>
+                        <td></td>
+                        <td style="text-align:center">
+                            <input type="button" value="Search" id="btnsearch" class="btn btn-primary btnwid fa fa-search" />
                         </td>
                     </tr>
 
@@ -264,7 +292,7 @@ function (settings, data, dataIndex) {
             <div class="row no-margin" style="padding-top: 20px">
                 <div class="col-md-12 col-lg-12 col=xs-12 col-sm-12 tblbackground">
                     <div class="row">
-                        <div class="col-md-12" id="result">
+                        <div class="col-md-12 col-xs-12 col-sm-12" id="result">
                         </div>
                     </div>
                 </div>
