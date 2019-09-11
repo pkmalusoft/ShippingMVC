@@ -69,8 +69,8 @@ namespace TrueBooksMVC.Controllers
             else if (string.IsNullOrEmpty(UR.Password))
                 status = false;
             else if (UR.BranchID <= 0)
-                status = false;
-            else if (UR.AcFinancialYearID <= 0)
+                  status = false;
+              else if (UR.AcFinancialYearID <= 0)
                 status = false;
 
 

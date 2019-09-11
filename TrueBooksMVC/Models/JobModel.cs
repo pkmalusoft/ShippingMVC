@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using System.Data;
 using DAL;
 using System.Data.Entity;
+using System.Data.Objects;
 
 namespace TrueBooksMVC.Models
 {
@@ -17,8 +18,10 @@ namespace TrueBooksMVC.Models
 
         public int AddJob(JobGeneration JG)
         {
-            int query = Convert.ToInt32(Context1.SP_InsertJob(JG.JobCode, JG.JobTypeID, JG.JobDate, JG.ConsignerID, JG.ConsigneeID, JG.InvoiceToID, JG.EmployeeID, JG.ShipperID, JG.IPTNo, JG.RefNo, JG.BillOfEnquiry, JG.BLDate, JG.DeliveryOrderNo, JG.BLStatus, JG.CLFValue, JG.DepositAmount, JG.DepositDate, JG.ReceiptNo, JG.RefundDate, JG.RefundAmount, JG.VesselID, JG.VoyageNo, JG.Freight, JG.SailingDate, JG.ArrivalDate, JG.MBL, JG.HBL, JG.LoadPortID, JG.DestinationPortID, JG.DeliveryPlaceID, JG.ReceiptPlaceID, JG.CountryofOriginID, JG.TransporterID, JG.CollectionDate, JG.DeliveryInstructions, JG.TruckRegNo, JG.DriverDetails, JG.Remarks, JG.RotationNo, JG.CarrierID, JG.CollectionPoint, JG.DeliveryNote, JG.DeliveryPoint, JG.CollectionInstructions, Convert.ToInt32(JG.InvoiceNo.Value), Convert.ToDateTime(JG.InvoiceDate), JG.MainJobID.HasValue ? JG.MainJobID.Value : 0,JG.DeliveryDate,JG.DepartingDate,JG.Flight,JG.MAWB,JG.HAWB));
-            return query;
+            ObjectParameter objMaxJobId = new ObjectParameter("MaxJObID",0);
+            int query = Convert.ToInt32(Context1.SP_InsertJob(JG.JobCode, JG.JobTypeID, JG.JobDate, JG.ConsignerID, JG.ConsigneeID, JG.InvoiceToID, JG.EmployeeID, JG.ShipperID, JG.IPTNo, JG.RefNo, JG.BillOfEnquiry, JG.BLDate, JG.DeliveryOrderNo, JG.BLStatus, JG.CLFValue, JG.DepositAmount, JG.DepositDate, JG.ReceiptNo, JG.RefundDate, JG.RefundAmount, JG.VesselID, JG.VoyageNo, JG.Freight, JG.SailingDate, JG.ArrivalDate, JG.MBL, JG.HBL, JG.LoadPortID, JG.DestinationPortID, JG.DeliveryPlaceID, JG.ReceiptPlaceID, JG.CountryofOriginID, JG.TransporterID, JG.CollectionDate, JG.DeliveryInstructions, JG.TruckRegNo, JG.DriverDetails, JG.Remarks, JG.RotationNo, JG.CarrierID, JG.CollectionPoint, JG.DeliveryNote, JG.DeliveryPoint, JG.CollectionInstructions, Convert.ToInt32(JG.InvoiceNo.Value), Convert.ToDateTime(JG.InvoiceDate), JG.MainJobID.HasValue ? JG.MainJobID.Value : 0,JG.DeliveryDate,JG.DepartingDate,JG.Flight,JG.MAWB,JG.HAWB, objMaxJobId));
+
+            return Convert.ToInt32(objMaxJobId.Value);
         }
 
         public int UpdateJob(JobGeneration JG)
@@ -52,6 +55,12 @@ namespace TrueBooksMVC.Models
             int query = Context1.SP_InsertBillOfEntry(JBE.BIllOfEntry, JBE.JobID, JBE.BillofEntryDate, JBE.ShippingAgentID, Convert.ToInt32(UserID));
             return query;
         }
+
+        //public int AddBillOfLoading(JBIllOfLoading JBE, string UserID)
+        //{
+        //    int query = Context1.SP_InsertBillOfEntry(JBE.BIllOfEntry, JBE.JobID, JBE.BillofEntryDate, JBE.ShippingAgentID, Convert.ToInt32(UserID));
+        //    return query;
+        //}
 
         public int AddAuditLog(JAuditLog JAL, string UserID)
         {
@@ -244,6 +253,12 @@ namespace TrueBooksMVC.Models
             return i;
         }
 
+        public int DeleteJobDetailsByJobID(int JobID)
+        {
+            int i = Context1.SP_DeleteJobDetailsByJobID(JobID);
+            return i;
+        }
+
         public int DeleteAudit(int AuditID)
         {
 
@@ -285,7 +300,7 @@ namespace TrueBooksMVC.Models
 
         public int UpdateInvoiceNumber(int JobID, int InvoiceNumber, DateTime Invdate,int Fyearid)
         {
-            int i = Context1.SP_UpdateInvoiceNumber(InvoiceNumber, Invdate, JobID,Fyearid);
+            int i = Context1.SP_UpdateInvoiceNumber(InvoiceNumber, Invdate, JobID);
 
             return i;
         }

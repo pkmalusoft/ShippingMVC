@@ -316,7 +316,13 @@
                                                                     <td>@TrueBooksMVC.Models.CommanFunctions.GetShortDateFormat(Model[i].JobDate)</td>
                                                                     <td class="tdtarget">@Html.DisplayFor(modelItem => Model[i].JobDescription)</td>
                                                                     <td>@Html.DisplayFor(modelItem => Model[i].Shipper,new { @title = "Doit contenir ... spécial" })
-                                                                            <span title="@Model[i].Shipper">@Model[i].Shipper.ToString().Substring(0,2)</span>
+                                                                            <span title="@Model[i].Shipper">
+                                                                        
+                                                                            @if (Model[i].Shipper != null) {
+                                                                                @Model[i].Shipper.ToString().Substring(0, 2)
+                                                                            }
+                                                                        
+                                                                        </span>
                                                                         <span title="@Model[i].Shipper" class="tdtarget">@Model[i].Shipper</span>
                                                                     </td>
                                                                     <td>@Html.DisplayFor(modelItem => Model[i].Consignee) <span title="@Model[i].Consignee" class="tdtarget">@Model[i].Consignee</span></td>

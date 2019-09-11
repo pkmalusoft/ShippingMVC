@@ -853,8 +853,9 @@ namespace TrueBooksMVC.Controllers
 
             //if (currid == 0)
             //{
-              var data = entity.JobRegisterReport(Convert.ToDateTime(fdate), Convert.ToDateTime(todate), vcustid, vjobid, vstatus).ToList();
-
+            //todo:fix to run by sethu
+            // var data = entity.JobRegisterReport(Convert.ToDateTime(fdate), Convert.ToDateTime(todate), vcustid, vjobid, vstatus).ToList();
+            var data = entity.JobRegisterReport(Convert.ToDateTime(fdate), Convert.ToDateTime(todate), vcustid, vjobid).ToList();
             //    view = this.RenderPartialView("ucJobRegister", data);
 
 
@@ -862,7 +863,7 @@ namespace TrueBooksMVC.Controllers
             //    return PartialView("ucJobRegister", data);
             //}
 
-              return PartialView("ucJobRegister", data);
+            return PartialView("ucJobRegister", data);
 
             //return new LargeJsonResult
             //{

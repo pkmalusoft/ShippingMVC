@@ -73,8 +73,9 @@ namespace TrueBooksMVC.Reports
 
 
 
-
-                var data = entity.SP_GetJOBCostReport(fromdate, todate, custid, jobid,status).ToList();
+               //todo:fix to run by sethu
+                //   var data = entity.SP_GetJOBCostReport(fromdate, todate, custid, jobid,status).ToList();
+                var data = entity.SP_GetJOBCostReport(fromdate, todate, custid, jobid).ToList();
                 _rsource = new ReportDataSource("JobCostReport", data);
                 ReportViewer1.LocalReport.DataSources.Add(_rsource);
 

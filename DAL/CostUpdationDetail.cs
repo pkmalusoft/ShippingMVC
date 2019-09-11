@@ -35,10 +35,5 @@ namespace DAL
         public string SupplierReference { get; set; }
         public string SupplierPayStatus { get; set; }
         public Nullable<bool> Lock { get; set; }
-
-        public string CurrencyName { get; set; }
-        public decimal InvoiceAmount { get; set; }
-        public string RevenueTypeName { get; set; }
-        public int JobID { get; set; }
     }
 }

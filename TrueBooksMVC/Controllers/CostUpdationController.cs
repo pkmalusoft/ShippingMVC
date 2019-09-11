@@ -38,8 +38,8 @@ namespace TrueBooksMVC.Controllers
                     {
                         string currency = (from c in entity.CurrencyMasters where c.CurrencyID == item.ProvisionCurrencyID select c.CurrencyName).FirstOrDefault();
                         string revenuename = (from r in entity.RevenueTypes where r.RevenueTypeID == item.RevenueTypeID select r.RevenueType1).FirstOrDefault();
-                        item.RevenueTypeName = revenuename;
-                        item.CurrencyName = currency;
+                      //  item.RevenueTypeName = revenuename;
+                      //  item.CurrencyName = currency;
                     }
                     BindMasters_ForEdit(Cost);
                 }
@@ -89,9 +89,11 @@ namespace TrueBooksMVC.Controllers
                 {
                     foreach (var item in costupdationIdlist)
                     {
+                        //todo:fix to run by sethu
+                        int jid = (from c in entity.CostUpdations where c.CostUpdationID == item select c.CostUpdationID).FirstOrDefault();
+                        //todo:fix to run by sethu
+                        var d = CostU.CostUpdationDetails.Where(x => x.CostUpdationID == jid).ToList();
 
-                        int jid = (from c in entity.CostUpdations where c.CostUpdationID == item select c.JobID).FirstOrDefault().Value;
-                        var d = CostU.CostUpdationDetails.Where(x => x.JobID == jid).ToList();
                         if (d.Count==0)
                         {
                             var query1 = (from t in CostU.CostUpdationDetails where t.CostUpdationID == item select t).ToList();

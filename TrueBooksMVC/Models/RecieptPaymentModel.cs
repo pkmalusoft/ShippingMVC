@@ -70,8 +70,9 @@ namespace TrueBooksMVC.Models
         public List<SP_GetCustomerInvoiceDetailsForReciept_Result> GetCustomerInvoiceDetails(int CustomerID,DateTime fromdate,DateTime todate)
         {
 
-
-            return Context1.SP_GetCustomerInvoiceDetailsForReciept(CustomerID, fromdate, todate).ToList();
+            //todo:fix to run by sethu
+            //  return Context1.SP_GetCustomerInvoiceDetailsForReciept(CustomerID, fromdate, todate).ToList();
+            return Context1.SP_GetCustomerInvoiceDetailsForReciept(CustomerID).ToList();
         }
 
         public List<SP_GetSupplierCostDetailsForPayment_Result> GetSupplierCostDetails(int SupplierID)
@@ -102,14 +103,19 @@ namespace TrueBooksMVC.Models
 
         public int InsertRecpayDetailsForCust(int RecPayID, int InvoiceID,int JInvoiceID, decimal Amount, string Remarks, string StatusInvoice, bool StatusAdvance, string statusReceip, string InvDate, string InvNo, int CurrencyID, int invoiceStatus)
         {
-            int query = Context1.SP_InsertRecPayDetailsForCustomer(RecPayID, InvoiceID, JInvoiceID, Amount, Remarks, StatusInvoice, StatusAdvance, statusReceip, InvDate, InvNo, CurrencyID, invoiceStatus);
+            //todo:fix to run by sethu
+            int query = Context1.SP_InsertRecPayDetailsForCustomer(RecPayID, InvoiceID
+                , Amount, Remarks, StatusInvoice
+                , StatusAdvance, statusReceip, InvDate
+                , InvNo, CurrencyID, invoiceStatus);
 
             return query;
         }
 
         public int InsertRecpayDetailsForSup(int RecPayID, int InvoiceID,int JInvoiceID, decimal Amount, string Remarks, string StatusInvoice, bool StatusAdvance, string statusReceip, string InvDate, string InvNo, int CurrencyID, int invoiceStatus)
         {
-            int query = Context1.SP_InsertRecPayDetailsForSupplier(RecPayID, InvoiceID,JInvoiceID, Amount, Remarks, StatusInvoice, StatusAdvance, statusReceip, InvDate, InvNo, CurrencyID, invoiceStatus);
+            //todo:fix to run by sethu
+            int query = Context1.SP_InsertRecPayDetailsForSupplier(RecPayID, InvoiceID, Amount, Remarks, StatusInvoice, StatusAdvance, statusReceip, InvDate, InvNo, CurrencyID, invoiceStatus);
 
             return query;
         }

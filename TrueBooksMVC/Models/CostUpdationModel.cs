@@ -202,7 +202,9 @@ namespace TrueBooksMVC.Models
 
                     objCostUpdationDetail.PaidOrNot = "N";
                     objCostUpdationDetail.SupplierReference = costupdationdetailsid.SupplierReference;
-                    objCostUpdationDetail.AmountPaidTillDate = costupdationdetailsid.InvoiceAmount + costupdationdetailsid.AmountPaidTillDate;
+                    //todo:fix to run by sethu
+                    //    objCostUpdationDetail.AmountPaidTillDate = costupdationdetailsid.InvoiceAmount + costupdationdetailsid.AmountPaidTillDate;
+                    objCostUpdationDetail.AmountPaidTillDate = costupdationdetailsid.AmountPaidTillDate;
                     objCostUpdationDetail.SupplierPayStatus = "1";
                     objCostUpdationDetail.CostUpdationID = costUpdationID;
 
@@ -238,7 +240,10 @@ namespace TrueBooksMVC.Models
                     objCostUpdationDetail.Variance=null;
 
                     objCostUpdationDetail.SupplierReference = costupdationdetailsid.SupplierReference;
-                    objCostUpdationDetail.AmountPaidTillDate = costupdationdetailsid.InvoiceAmount;
+                    //todo:fix to run by sethu
+                    //  objCostUpdationDetail.AmountPaidTillDate = costupdationdetailsid.InvoiceAmount;
+                     objCostUpdationDetail.AmountPaidTillDate = costupdationdetailsid.AmountPaidTillDate;
+
                     if (objCostUpdationDetail.AmountPaidTillDate > 0)
                     {
                         objCostUpdationDetail.PaidOrNot = "Y";

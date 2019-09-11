@@ -4,185 +4,20 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="SHIPPING_FinalModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityContainer Name="SHIPPING_FinalModelStoreContainer">
-          <EntitySet Name="AcAnalysisHeadAllocation" EntityType="SHIPPING_FinalModel.Store.AcAnalysisHeadAllocation" store:Type="Tables" store:Schema="dbo" store:Name="AcAnalysisHeadAllocation">
-            <DefiningQuery>SELECT 
-      [AcAnalysisHeadAllocation].[AcAnalysisHeadAllocationID] AS [AcAnalysisHeadAllocationID], 
-      [AcAnalysisHeadAllocation].[AcjournalDetailID] AS [AcjournalDetailID], 
-      [AcAnalysisHeadAllocation].[AnalysisHeadID] AS [AnalysisHeadID], 
-      [AcAnalysisHeadAllocation].[Amount] AS [Amount]
-      FROM [dbo].[AcAnalysisHeadAllocation] AS [AcAnalysisHeadAllocation]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="AcBankDetails" EntityType="SHIPPING_FinalModel.Store.AcBankDetails" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="AcCategory" EntityType="SHIPPING_FinalModel.Store.AcCategory" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="AcCompany" EntityType="SHIPPING_FinalModel.Store.AcCompany" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="AcFinancialYear" EntityType="SHIPPING_FinalModel.Store.AcFinancialYear" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="AcGroup" EntityType="SHIPPING_FinalModel.Store.AcGroup" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="AcHead" EntityType="SHIPPING_FinalModel.Store.AcHead" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="AcHeadAssign" EntityType="SHIPPING_FinalModel.Store.AcHeadAssign" store:Type="Tables" store:Schema="dbo" store:Name="AcHeadAssign">
-            <DefiningQuery>SELECT 
-      [AcHeadAssign].[ID] AS [ID], 
-      [AcHeadAssign].[ProvisionCostControlAcID] AS [ProvisionCostControlAcID], 
-      [AcHeadAssign].[AccruedCostControlAcID] AS [AccruedCostControlAcID], 
-      [AcHeadAssign].[OpenJobRevenueAcID] AS [OpenJobRevenueAcID], 
-      [AcHeadAssign].[CustomerControlAcID] AS [CustomerControlAcID], 
-      [AcHeadAssign].[CashControlAcID] AS [CashControlAcID], 
-      [AcHeadAssign].[SupplierControlAcID] AS [SupplierControlAcID]
-      FROM [dbo].[AcHeadAssign] AS [AcHeadAssign]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="AcJournalDetail" EntityType="SHIPPING_FinalModel.Store.AcJournalDetail" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="AcJournalMaster" EntityType="SHIPPING_FinalModel.Store.AcJournalMaster" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="AcMemoBankDetails" EntityType="SHIPPING_FinalModel.Store.AcMemoBankDetails" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="AcMemoJournalDetail" EntityType="SHIPPING_FinalModel.Store.AcMemoJournalDetail" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="AcMemoJournalMaster" EntityType="SHIPPING_FinalModel.Store.AcMemoJournalMaster" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="AcOpeningMaster" EntityType="SHIPPING_FinalModel.Store.AcOpeningMaster" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="AcOPInvoiceDetails" EntityType="SHIPPING_FinalModel.Store.AcOPInvoiceDetails" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="AcOPInvoiceMaster" EntityType="SHIPPING_FinalModel.Store.AcOPInvoiceMaster" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Airline" EntityType="SHIPPING_FinalModel.Store.Airline" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="AnalysisGroup" EntityType="SHIPPING_FinalModel.Store.AnalysisGroup" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="AnalysisHead" EntityType="SHIPPING_FinalModel.Store.AnalysisHead" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="AspNetRoles" EntityType="SHIPPING_FinalModel.Store.AspNetRoles" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="BranchMaster" EntityType="SHIPPING_FinalModel.Store.BranchMaster" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Carrier" EntityType="SHIPPING_FinalModel.Store.Carrier" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Commodity" EntityType="SHIPPING_FinalModel.Store.Commodity" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="ContainerType" EntityType="SHIPPING_FinalModel.Store.ContainerType" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="CostUpdation" EntityType="SHIPPING_FinalModel.Store.CostUpdation" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="CostUpdationDetails" EntityType="SHIPPING_FinalModel.Store.CostUpdationDetails" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="CountryMaster" EntityType="SHIPPING_FinalModel.Store.CountryMaster" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="CreditNote" EntityType="SHIPPING_FinalModel.Store.CreditNote" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="CurrencyMaster" EntityType="SHIPPING_FinalModel.Store.CurrencyMaster" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="CUSTOMER" EntityType="SHIPPING_FinalModel.Store.CUSTOMER" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="DebitNote" EntityType="SHIPPING_FinalModel.Store.DebitNote" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Department" EntityType="SHIPPING_FinalModel.Store.Department" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Designation" EntityType="SHIPPING_FinalModel.Store.Designation" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Employees" EntityType="SHIPPING_FinalModel.Store.Employees" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="ItemUnit" EntityType="SHIPPING_FinalModel.Store.ItemUnit" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="JAuditLog" EntityType="SHIPPING_FinalModel.Store.JAuditLog" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="JBIllOfEntry" EntityType="SHIPPING_FinalModel.Store.JBIllOfEntry" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="JCargoDescription" EntityType="SHIPPING_FinalModel.Store.JCargoDescription" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="JContainerDetails" EntityType="SHIPPING_FinalModel.Store.JContainerDetails" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="JInvoice" EntityType="SHIPPING_FinalModel.Store.JInvoice" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="JobGeneration" EntityType="SHIPPING_FinalModel.Store.JobGeneration" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="JobMode" EntityType="SHIPPING_FinalModel.Store.JobMode" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="JobType" EntityType="SHIPPING_FinalModel.Store.JobType" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Location" EntityType="SHIPPING_FinalModel.Store.Location" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Menu" EntityType="SHIPPING_FinalModel.Store.Menu" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="MenuAccessLevel" EntityType="SHIPPING_FinalModel.Store.MenuAccessLevel" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="PaymentTerms" EntityType="SHIPPING_FinalModel.Store.PaymentTerms" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Port" EntityType="SHIPPING_FinalModel.Store.Port" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="RecPay" EntityType="SHIPPING_FinalModel.Store.RecPay" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="RecPayDetails" EntityType="SHIPPING_FinalModel.Store.RecPayDetails" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Remarks" EntityType="SHIPPING_FinalModel.Store.Remarks" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="RevenueType" EntityType="SHIPPING_FinalModel.Store.RevenueType" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="RoleMaster" EntityType="SHIPPING_FinalModel.Store.RoleMaster" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="ShippingAgent" EntityType="SHIPPING_FinalModel.Store.ShippingAgent" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Supplier" EntityType="SHIPPING_FinalModel.Store.Supplier" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Transporter" EntityType="SHIPPING_FinalModel.Store.Transporter" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="UserProfile" EntityType="SHIPPING_FinalModel.Store.UserProfile" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="UserRegistration" EntityType="SHIPPING_FinalModel.Store.UserRegistration" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Validity" EntityType="SHIPPING_FinalModel.Store.Validity" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Vessel" EntityType="SHIPPING_FinalModel.Store.Vessel" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Voyage" EntityType="SHIPPING_FinalModel.Store.Voyage" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="qryCustomerStatement" EntityType="SHIPPING_FinalModel.Store.qryCustomerStatement" store:Type="Views" store:Schema="dbo" store:Name="qryCustomerStatement">
-            <DefiningQuery>SELECT 
-      [qryCustomerStatement].[InvoiceID] AS [InvoiceID], 
-      [qryCustomerStatement].[InvoiceToID] AS [InvoiceToID], 
-      [qryCustomerStatement].[JobCode] AS [JobCode], 
-      [qryCustomerStatement].[InvoiceNo] AS [InvoiceNo], 
-      [qryCustomerStatement].[InvoiceDate] AS [InvoiceDate], 
-      [qryCustomerStatement].[AmtToBeReceived] AS [AmtToBeReceived], 
-      [qryCustomerStatement].[AmtAlreadyReceived] AS [AmtAlreadyReceived], 
-      [qryCustomerStatement].[REMARKS] AS [REMARKS], 
-      [qryCustomerStatement].[EmployeeID] AS [EmployeeID]
-      FROM [dbo].[qryCustomerStatement] AS [qryCustomerStatement]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="qrySupplierOutstanding" EntityType="SHIPPING_FinalModel.Store.qrySupplierOutstanding" store:Type="Views" store:Schema="dbo" store:Name="qrySupplierOutstanding">
-            <DefiningQuery>SELECT 
-      [qrySupplierOutstanding].[InvoiceID] AS [InvoiceID], 
-      [qrySupplierOutstanding].[InvoiceNo] AS [InvoiceNo], 
-      [qrySupplierOutstanding].[InvoiceDate] AS [InvoiceDate], 
-      [qrySupplierOutstanding].[SupplierID] AS [SupplierID], 
-      [qrySupplierOutstanding].[AmtToBeReceived] AS [AmtToBeReceived], 
-      [qrySupplierOutstanding].[AmtAlreadyReceived] AS [AmtAlreadyReceived], 
-      [qrySupplierOutstanding].[JobCode] AS [JobCode], 
-      [qrySupplierOutstanding].[EmployeeID] AS [EmployeeID], 
-      [qrySupplierOutstanding].[JobID] AS [JobID]
-      FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
-          </EntitySet>
-          <AssociationSet Name="FK_AcCompany_CountryMaster" Association="SHIPPING_FinalModel.Store.FK_AcCompany_CountryMaster">
-            <End Role="CountryMaster" EntitySet="CountryMaster" />
-            <End Role="AcCompany" EntitySet="AcCompany" />
-          </AssociationSet>
-          <AssociationSet Name="FK_AcCompany_CurrencyMaster" Association="SHIPPING_FinalModel.Store.FK_AcCompany_CurrencyMaster">
-            <End Role="CurrencyMaster" EntitySet="CurrencyMaster" />
-            <End Role="AcCompany" EntitySet="AcCompany" />
-          </AssociationSet>
-          <AssociationSet Name="FK_AcCompany_Designation" Association="SHIPPING_FinalModel.Store.FK_AcCompany_Designation">
-            <End Role="Designation" EntitySet="Designation" />
-            <End Role="AcCompany" EntitySet="AcCompany" />
-          </AssociationSet>
-          <AssociationSet Name="FK_AcCompany_Location" Association="SHIPPING_FinalModel.Store.FK_AcCompany_Location">
-            <End Role="Location" EntitySet="Location" />
-            <End Role="AcCompany" EntitySet="AcCompany" />
-          </AssociationSet>
-          <AssociationSet Name="FK_AcGroup_AcCategory" Association="SHIPPING_FinalModel.Store.FK_AcGroup_AcCategory">
-            <End Role="AcCategory" EntitySet="AcCategory" />
-            <End Role="AcGroup" EntitySet="AcGroup" />
-          </AssociationSet>
-          <AssociationSet Name="FK_AcGroup_AcCompany" Association="SHIPPING_FinalModel.Store.FK_AcGroup_AcCompany">
-            <End Role="AcCompany" EntitySet="AcCompany" />
-            <End Role="AcGroup" EntitySet="AcGroup" />
-          </AssociationSet>
-          <AssociationSet Name="FK_AcOpeningMaster_AcCompany" Association="SHIPPING_FinalModel.Store.FK_AcOpeningMaster_AcCompany">
-            <End Role="AcCompany" EntitySet="AcCompany" />
-            <End Role="AcOpeningMaster" EntitySet="AcOpeningMaster" />
-          </AssociationSet>
-          <AssociationSet Name="FK_AcOpeningMaster_AcFinancialYear" Association="SHIPPING_FinalModel.Store.FK_AcOpeningMaster_AcFinancialYear">
-            <End Role="AcFinancialYear" EntitySet="AcFinancialYear" />
-            <End Role="AcOpeningMaster" EntitySet="AcOpeningMaster" />
-          </AssociationSet>
-          <AssociationSet Name="FK_AcOpeningMaster_AcHead" Association="SHIPPING_FinalModel.Store.FK_AcOpeningMaster_AcHead">
-            <End Role="AcHead" EntitySet="AcHead" />
-            <End Role="AcOpeningMaster" EntitySet="AcOpeningMaster" />
-          </AssociationSet>
-          <AssociationSet Name="FK_AnalysisHead_AcCompany" Association="SHIPPING_FinalModel.Store.FK_AnalysisHead_AcCompany">
-            <End Role="AcCompany" EntitySet="AcCompany" />
-            <End Role="AnalysisHead" EntitySet="AnalysisHead" />
-          </AssociationSet>
-          <AssociationSet Name="FK_AnalysisHead_AnalysisGroup" Association="SHIPPING_FinalModel.Store.FK_AnalysisHead_AnalysisGroup">
-            <End Role="AnalysisGroup" EntitySet="AnalysisGroup" />
-            <End Role="AnalysisHead" EntitySet="AnalysisHead" />
-          </AssociationSet>
-          <AssociationSet Name="FK_BranchMaster_CountryMaster" Association="SHIPPING_FinalModel.Store.FK_BranchMaster_CountryMaster">
-            <End Role="CountryMaster" EntitySet="CountryMaster" />
-            <End Role="BranchMaster" EntitySet="BranchMaster" />
-          </AssociationSet>
-          <AssociationSet Name="FK_BranchMaster_CurrencyMaster" Association="SHIPPING_FinalModel.Store.FK_BranchMaster_CurrencyMaster">
-            <End Role="CurrencyMaster" EntitySet="CurrencyMaster" />
-            <End Role="BranchMaster" EntitySet="BranchMaster" />
-          </AssociationSet>
-          <AssociationSet Name="FK_BranchMaster_Designation" Association="SHIPPING_FinalModel.Store.FK_BranchMaster_Designation">
-            <End Role="Designation" EntitySet="Designation" />
-            <End Role="BranchMaster" EntitySet="BranchMaster" />
-          </AssociationSet>
-          <AssociationSet Name="FK_BranchMaster_Location" Association="SHIPPING_FinalModel.Store.FK_BranchMaster_Location">
-            <End Role="Location" EntitySet="Location" />
-            <End Role="BranchMaster" EntitySet="BranchMaster" />
-          </AssociationSet>
-        </EntityContainer>
+    <Schema Namespace="SHIPPING_FinalModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <!--Errors Found During Generation:
-      warning 6002: The table/view 'ShippingProduction.dbo.AcAnalysisHeadAllocation' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
-      -->
+warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.AcAnalysisHeadAllocation' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="AcAnalysisHeadAllocation">
           <Key>
             <PropertyRef Name="AcAnalysisHeadAllocationID" />
           </Key>
-          <Property Name="AcAnalysisHeadAllocationID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="AcAnalysisHeadAllocationID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="AcjournalDetailID" Type="int" />
           <Property Name="AnalysisHeadID" Type="int" />
           <Property Name="Amount" Type="money" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.AcBankDetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="AcBankDetails">
           <Key>
             <PropertyRef Name="AcBankDetailID" />
@@ -201,14 +36,14 @@
           <Key>
             <PropertyRef Name="AcCategoryID" />
           </Key>
-          <Property Name="AcCategoryID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="AcCategoryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="AcCategory" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="AcCompany">
           <Key>
             <PropertyRef Name="AcCompanyID" />
           </Key>
-          <Property Name="AcCompanyID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="AcCompanyID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="AcCompany" Type="varchar" MaxLength="125" />
           <Property Name="ParentID" Type="int" />
           <Property Name="Address1" Type="varchar" MaxLength="50" />
@@ -280,13 +115,12 @@
           <Property Name="StatusControlAc" Type="bit" />
         </EntityType>
         <!--Errors Found During Generation:
-      warning 6002: The table/view 'ShippingProduction.dbo.AcHeadAssign' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
-      -->
+warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.AcHeadAssign' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="AcHeadAssign">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ProvisionCostControlAcID" Type="int" />
           <Property Name="AccruedCostControlAcID" Type="int" />
           <Property Name="OpenJobRevenueAcID" Type="int" />
@@ -298,7 +132,7 @@
           <Key>
             <PropertyRef Name="AcJournalDetailID" />
           </Key>
-          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="AcJournalDetailID" Type="int" Nullable="false" />
           <Property Name="AcJournalID" Type="int" />
           <Property Name="AcHeadID" Type="int" />
@@ -316,7 +150,7 @@
           <Key>
             <PropertyRef Name="AcJournalID" />
           </Key>
-          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="AcJournalID" Type="int" Nullable="false" />
           <Property Name="VoucherNo" Type="nvarchar" MaxLength="20" />
           <Property Name="TransDate" Type="datetime" />
@@ -348,7 +182,7 @@
           <Key>
             <PropertyRef Name="AcMemoJournalDetailID" />
           </Key>
-          <Property Name="AcMemoJournalDetailID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="AcMemoJournalDetailID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="AcMemoJournalID" Type="int" />
           <Property Name="AcHeadID" Type="int" />
           <Property Name="AnalysisHeadID" Type="int" />
@@ -362,7 +196,7 @@
           <Key>
             <PropertyRef Name="AcMemoJournalID" />
           </Key>
-          <Property Name="AcMemoJournalID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="AcMemoJournalID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="AcJournalID" Type="int" />
           <Property Name="VoucherNo" Type="nvarchar" MaxLength="20" />
           <Property Name="TransDate" Type="datetime" />
@@ -377,7 +211,7 @@
           <Key>
             <PropertyRef Name="AcOpeningID" />
           </Key>
-          <Property Name="AcOpeningID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="AcOpeningID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="AcFinancialYearID" Type="int" />
           <Property Name="OPDate" Type="datetime" />
           <Property Name="AcHeadID" Type="int" />
@@ -423,7 +257,7 @@
           <Key>
             <PropertyRef Name="AirlineID" />
           </Key>
-          <Property Name="AirlineID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="AirlineID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Airline" Type="nvarchar" MaxLength="50" />
           <Property Name="ShortName" Type="nvarchar" MaxLength="2" />
         </EntityType>
@@ -438,7 +272,7 @@
           <Key>
             <PropertyRef Name="AnalysisHeadID" />
           </Key>
-          <Property Name="AnalysisHeadID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="AnalysisHeadID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="AnalysisCode" Type="nvarchar" MaxLength="50" />
           <Property Name="AnalysisHead" Type="nvarchar" MaxLength="50" />
           <Property Name="AnalysisGroupID" Type="int" />
@@ -448,14 +282,14 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="nvarchar" Nullable="false" MaxLength="128" />
-          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="256" />
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
         </EntityType>
         <EntityType Name="BranchMaster">
           <Key>
             <PropertyRef Name="BranchID" />
           </Key>
-          <Property Name="BranchID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="BranchID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="BranchName" Type="varchar" MaxLength="125" />
           <Property Name="Address1" Type="varchar" MaxLength="50" />
           <Property Name="Address2" Type="varchar" MaxLength="50" />
@@ -490,7 +324,7 @@
           <Key>
             <PropertyRef Name="CommodityID" />
           </Key>
-          <Property Name="CommodityID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="CommodityID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Commodity" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="ContainerType">
@@ -666,7 +500,7 @@
           <Key>
             <PropertyRef Name="ItemUnitID" />
           </Key>
-          <Property Name="ItemUnitID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ItemUnitID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ItemUnit" Type="nvarchar" MaxLength="50" />
           <Property Name="EqualentQty" Type="int" />
           <Property Name="StatusActive" Type="bit" />
@@ -676,7 +510,7 @@
           <Key>
             <PropertyRef Name="JAuditLogID" />
           </Key>
-          <Property Name="JAuditLogID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="JAuditLogID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TransDate" Type="datetime" />
           <Property Name="Remarks" Type="nvarchar" MaxLength="500" />
           <Property Name="LoginID" Type="int" />
@@ -687,7 +521,7 @@
           <Key>
             <PropertyRef Name="BIllOfEntryID" />
           </Key>
-          <Property Name="BIllOfEntryID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="BIllOfEntryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="BIllOfEntry" Type="nvarchar" MaxLength="50" />
           <Property Name="JobID" Type="int" />
           <Property Name="BillofEntryDate" Type="datetime" />
@@ -698,7 +532,7 @@
           <Key>
             <PropertyRef Name="CargoDescriptionID" />
           </Key>
-          <Property Name="CargoDescriptionID" Type="int" Nullable="false" />
+          <Property Name="CargoDescriptionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="JobID" Type="int" />
           <Property Name="Mark" Type="nvarchar" MaxLength="50" />
           <Property Name="Description" Type="ntext" />
@@ -712,7 +546,7 @@
           <Key>
             <PropertyRef Name="JContainerDetailID" />
           </Key>
-          <Property Name="JContainerDetailID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="JContainerDetailID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="JobID" Type="int" />
           <Property Name="ContainerTypeID" Type="int" />
           <Property Name="ContainerNo" Type="nvarchar" MaxLength="50" />
@@ -868,7 +702,7 @@
           <Key>
             <PropertyRef Name="MenuID" />
           </Key>
-          <Property Name="MenuID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="MenuID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Title" Type="nvarchar" MaxLength="256" />
           <Property Name="Link" Type="text" />
           <Property Name="ParentID" Type="int" />
@@ -889,7 +723,7 @@
           <Key>
             <PropertyRef Name="MenuAccessID" />
           </Key>
-          <Property Name="MenuAccessID" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="MenuAccessID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="MenuID" Type="int" />
           <Property Name="RoleID" Type="int" />
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="50" />
@@ -903,7 +737,7 @@
           <Key>
             <PropertyRef Name="PaymentTermID" />
           </Key>
-          <Property Name="PaymentTermID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="PaymentTermID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="PaymentTerm" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="Port">
@@ -955,13 +789,12 @@
           <Property Name="InvNo" Type="nvarchar" MaxLength="100" />
           <Property Name="CurrencyID" Type="int" />
           <Property Name="Lock" Type="bit" />
-          <Property Name="InvoiceAmount" Type="money" />
         </EntityType>
         <EntityType Name="Remarks">
           <Key>
             <PropertyRef Name="RemarksID" />
           </Key>
-          <Property Name="RemarksID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="RemarksID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Remarks" Type="nvarchar" MaxLength="250" />
         </EntityType>
         <EntityType Name="RevenueType">
@@ -979,8 +812,8 @@
           <Key>
             <PropertyRef Name="RoleID" />
           </Key>
-          <Property Name="RoleID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="RoleName" Type="nvarchar" Nullable="false" MaxLength="30" />
+          <Property Name="RoleID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleName" Type="nvarchar" MaxLength="30" Nullable="false" />
         </EntityType>
         <EntityType Name="ShippingAgent">
           <Key>
@@ -1056,18 +889,18 @@
           <Key>
             <PropertyRef Name="UserId" />
           </Key>
-          <Property Name="UserId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="UserName" Type="nvarchar" Nullable="false" MaxLength="56" />
+          <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="56" Nullable="false" />
         </EntityType>
         <EntityType Name="UserRegistration">
           <Key>
             <PropertyRef Name="UserID" />
           </Key>
-          <Property Name="UserID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="UserName" Type="nvarchar" Nullable="false" MaxLength="30" />
-          <Property Name="Password" Type="nvarchar" Nullable="false" MaxLength="20" />
-          <Property Name="Phone" Type="nvarchar" Nullable="false" MaxLength="20" />
-          <Property Name="EmailId" Type="nvarchar" Nullable="false" MaxLength="30" />
+          <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="EmailId" Type="nvarchar" MaxLength="30" Nullable="false" />
           <Property Name="IsActive" Type="bit" />
           <Property Name="RoleID" Type="int" />
           <Property Name="EmployeeID" Type="int" Nullable="false" />
@@ -1076,7 +909,7 @@
           <Key>
             <PropertyRef Name="ValidityID" />
           </Key>
-          <Property Name="ValidityID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ValidityID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Validity" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="Vessel">
@@ -1095,8 +928,7 @@
           <Property Name="Voyage" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--Errors Found During Generation:
-      warning 6002: The table/view 'ShippingProduction.dbo.qryCustomerStatement' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
-      -->
+warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.qryCustomerStatement' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="qryCustomerStatement">
           <Key>
             <PropertyRef Name="InvoiceID" />
@@ -1114,8 +946,7 @@
           <Property Name="EmployeeID" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-      warning 6002: The table/view 'ShippingProduction.dbo.qrySupplierOutstanding' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
-      -->
+warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.qrySupplierOutstanding' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="qrySupplierOutstanding">
           <Key>
             <PropertyRef Name="InvoiceID" />
@@ -1133,8 +964,8 @@
           <Property Name="JobID" Type="int" />
         </EntityType>
         <Association Name="FK_AcCompany_CountryMaster">
-          <End Role="CountryMaster" Type="SHIPPING_FinalModel.Store.CountryMaster" Multiplicity="0..1" />
-          <End Role="AcCompany" Type="SHIPPING_FinalModel.Store.AcCompany" Multiplicity="*" />
+          <End Role="CountryMaster" Type="Self.CountryMaster" Multiplicity="0..1" />
+          <End Role="AcCompany" Type="Self.AcCompany" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="CountryMaster">
               <PropertyRef Name="CountryID" />
@@ -1145,8 +976,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_AcCompany_CurrencyMaster">
-          <End Role="CurrencyMaster" Type="SHIPPING_FinalModel.Store.CurrencyMaster" Multiplicity="0..1" />
-          <End Role="AcCompany" Type="SHIPPING_FinalModel.Store.AcCompany" Multiplicity="*" />
+          <End Role="CurrencyMaster" Type="Self.CurrencyMaster" Multiplicity="0..1" />
+          <End Role="AcCompany" Type="Self.AcCompany" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="CurrencyMaster">
               <PropertyRef Name="CurrencyID" />
@@ -1157,8 +988,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_AcCompany_Designation">
-          <End Role="Designation" Type="SHIPPING_FinalModel.Store.Designation" Multiplicity="0..1" />
-          <End Role="AcCompany" Type="SHIPPING_FinalModel.Store.AcCompany" Multiplicity="*" />
+          <End Role="Designation" Type="Self.Designation" Multiplicity="0..1" />
+          <End Role="AcCompany" Type="Self.AcCompany" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Designation">
               <PropertyRef Name="DesignationID" />
@@ -1169,8 +1000,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_AcCompany_Location">
-          <End Role="Location" Type="SHIPPING_FinalModel.Store.Location" Multiplicity="0..1" />
-          <End Role="AcCompany" Type="SHIPPING_FinalModel.Store.AcCompany" Multiplicity="*" />
+          <End Role="Location" Type="Self.Location" Multiplicity="0..1" />
+          <End Role="AcCompany" Type="Self.AcCompany" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Location">
               <PropertyRef Name="LocationID" />
@@ -1181,8 +1012,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_AcGroup_AcCategory">
-          <End Role="AcCategory" Type="SHIPPING_FinalModel.Store.AcCategory" Multiplicity="0..1" />
-          <End Role="AcGroup" Type="SHIPPING_FinalModel.Store.AcGroup" Multiplicity="*" />
+          <End Role="AcCategory" Type="Self.AcCategory" Multiplicity="0..1" />
+          <End Role="AcGroup" Type="Self.AcGroup" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="AcCategory">
               <PropertyRef Name="AcCategoryID" />
@@ -1193,8 +1024,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_AcGroup_AcCompany">
-          <End Role="AcCompany" Type="SHIPPING_FinalModel.Store.AcCompany" Multiplicity="0..1" />
-          <End Role="AcGroup" Type="SHIPPING_FinalModel.Store.AcGroup" Multiplicity="*" />
+          <End Role="AcCompany" Type="Self.AcCompany" Multiplicity="0..1" />
+          <End Role="AcGroup" Type="Self.AcGroup" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="AcCompany">
               <PropertyRef Name="AcCompanyID" />
@@ -1205,8 +1036,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_AcOpeningMaster_AcCompany">
-          <End Role="AcCompany" Type="SHIPPING_FinalModel.Store.AcCompany" Multiplicity="0..1" />
-          <End Role="AcOpeningMaster" Type="SHIPPING_FinalModel.Store.AcOpeningMaster" Multiplicity="*" />
+          <End Role="AcCompany" Type="Self.AcCompany" Multiplicity="0..1" />
+          <End Role="AcOpeningMaster" Type="Self.AcOpeningMaster" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="AcCompany">
               <PropertyRef Name="AcCompanyID" />
@@ -1217,8 +1048,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_AcOpeningMaster_AcFinancialYear">
-          <End Role="AcFinancialYear" Type="SHIPPING_FinalModel.Store.AcFinancialYear" Multiplicity="0..1" />
-          <End Role="AcOpeningMaster" Type="SHIPPING_FinalModel.Store.AcOpeningMaster" Multiplicity="*" />
+          <End Role="AcFinancialYear" Type="Self.AcFinancialYear" Multiplicity="0..1" />
+          <End Role="AcOpeningMaster" Type="Self.AcOpeningMaster" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="AcFinancialYear">
               <PropertyRef Name="AcFinancialYearID" />
@@ -1229,8 +1060,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_AcOpeningMaster_AcHead">
-          <End Role="AcHead" Type="SHIPPING_FinalModel.Store.AcHead" Multiplicity="0..1" />
-          <End Role="AcOpeningMaster" Type="SHIPPING_FinalModel.Store.AcOpeningMaster" Multiplicity="*" />
+          <End Role="AcHead" Type="Self.AcHead" Multiplicity="0..1" />
+          <End Role="AcOpeningMaster" Type="Self.AcOpeningMaster" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="AcHead">
               <PropertyRef Name="AcHeadID" />
@@ -1241,8 +1072,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_AnalysisHead_AcCompany">
-          <End Role="AcCompany" Type="SHIPPING_FinalModel.Store.AcCompany" Multiplicity="0..1" />
-          <End Role="AnalysisHead" Type="SHIPPING_FinalModel.Store.AnalysisHead" Multiplicity="*" />
+          <End Role="AcCompany" Type="Self.AcCompany" Multiplicity="0..1" />
+          <End Role="AnalysisHead" Type="Self.AnalysisHead" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="AcCompany">
               <PropertyRef Name="AcCompanyID" />
@@ -1253,8 +1084,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_AnalysisHead_AnalysisGroup">
-          <End Role="AnalysisGroup" Type="SHIPPING_FinalModel.Store.AnalysisGroup" Multiplicity="0..1" />
-          <End Role="AnalysisHead" Type="SHIPPING_FinalModel.Store.AnalysisHead" Multiplicity="*" />
+          <End Role="AnalysisGroup" Type="Self.AnalysisGroup" Multiplicity="0..1" />
+          <End Role="AnalysisHead" Type="Self.AnalysisHead" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="AnalysisGroup">
               <PropertyRef Name="AnalysisGroupID" />
@@ -1265,8 +1096,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_BranchMaster_CountryMaster">
-          <End Role="CountryMaster" Type="SHIPPING_FinalModel.Store.CountryMaster" Multiplicity="0..1" />
-          <End Role="BranchMaster" Type="SHIPPING_FinalModel.Store.BranchMaster" Multiplicity="*" />
+          <End Role="CountryMaster" Type="Self.CountryMaster" Multiplicity="0..1" />
+          <End Role="BranchMaster" Type="Self.BranchMaster" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="CountryMaster">
               <PropertyRef Name="CountryID" />
@@ -1277,8 +1108,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_BranchMaster_CurrencyMaster">
-          <End Role="CurrencyMaster" Type="SHIPPING_FinalModel.Store.CurrencyMaster" Multiplicity="0..1" />
-          <End Role="BranchMaster" Type="SHIPPING_FinalModel.Store.BranchMaster" Multiplicity="*" />
+          <End Role="CurrencyMaster" Type="Self.CurrencyMaster" Multiplicity="0..1" />
+          <End Role="BranchMaster" Type="Self.BranchMaster" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="CurrencyMaster">
               <PropertyRef Name="CurrencyID" />
@@ -1289,8 +1120,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_BranchMaster_Designation">
-          <End Role="Designation" Type="SHIPPING_FinalModel.Store.Designation" Multiplicity="0..1" />
-          <End Role="BranchMaster" Type="SHIPPING_FinalModel.Store.BranchMaster" Multiplicity="*" />
+          <End Role="Designation" Type="Self.Designation" Multiplicity="0..1" />
+          <End Role="BranchMaster" Type="Self.BranchMaster" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Designation">
               <PropertyRef Name="DesignationID" />
@@ -1301,8 +1132,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_BranchMaster_Location">
-          <End Role="Location" Type="SHIPPING_FinalModel.Store.Location" Multiplicity="0..1" />
-          <End Role="BranchMaster" Type="SHIPPING_FinalModel.Store.BranchMaster" Multiplicity="*" />
+          <End Role="Location" Type="Self.Location" Multiplicity="0..1" />
+          <End Role="BranchMaster" Type="Self.BranchMaster" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Location">
               <PropertyRef Name="LocationID" />
@@ -1485,10 +1316,6 @@
           <Parameter Name="FyearID" Type="int" Mode="In" />
           <Parameter Name="CompanyID" Type="int" Mode="In" />
         </Function>
-        <Function Name="AirshipmentReport" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="FromDate" Type="datetime" Mode="In" />
-          <Parameter Name="ToDate" Type="datetime" Mode="In" />
-        </Function>
         <Function Name="AnalysisGroupDelete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="AnalysisGroupIDs" Type="nvarchar(max)" Mode="In" />
         </Function>
@@ -1524,10 +1351,6 @@
           <Parameter Name="AnalysisCode" Type="nvarchar" Mode="In" />
           <Parameter Name="AnalysisHead" Type="nvarchar" Mode="In" />
           <Parameter Name="AnalysisGroupID" Type="int" Mode="In" />
-        </Function>
-        <Function Name="ContainerReport" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="FromDate" Type="datetime" Mode="In" />
-          <Parameter Name="ToDate" Type="datetime" Mode="In" />
         </Function>
         <Function Name="ConvertJournaltoPDC" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="AcMemoJournalIDs" Type="nvarchar(max)" Mode="In" />
@@ -1584,17 +1407,6 @@
           <Parameter Name="todate" Type="datetime" Mode="In" />
           <Parameter Name="CustomerID" Type="int" Mode="In" />
           <Parameter Name="JobID" Type="int" Mode="In" />
-          <Parameter Name="StatusInvoiced" Type="int" Mode="In" />
-        </Function>
-        <Function Name="JobWiseIncomeExpenditure" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="fromdate" Type="datetime" Mode="In" />
-          <Parameter Name="todate" Type="datetime" Mode="In" />
-        </Function>
-        <Function Name="MonthlySalesRegister" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="FromDate" Type="datetime" Mode="In" />
-          <Parameter Name="ToDate" Type="datetime" Mode="In" />
-          <Parameter Name="CustomerID" Type="int" Mode="In" />
-          <Parameter Name="SalesPersonID" Type="int" Mode="In" />
         </Function>
         <Function Name="proCollectionDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Fromdate" Type="varchar" Mode="In" />
@@ -1769,11 +1581,6 @@
         </Function>
         <Function Name="SP_GetAllCarrier" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_GetAllClosedJobsDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
-        <Function Name="SP_GetAllClosedJobsDetailsByDate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="FromDate" Type="datetime" Mode="In" />
-          <Parameter Name="Todate" Type="datetime" Mode="In" />
-          <Parameter Name="FyearId" Type="int" Mode="In" />
-        </Function>
         <Function Name="SP_GetAllContainerTypes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_GetAllCostUpdation" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_GetAllCountries" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
@@ -1847,8 +1654,6 @@
         </Function>
         <Function Name="SP_GetCustomerInvoiceDetailsForReciept" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="CustomerID" Type="int" Mode="In" />
-          <Parameter Name="FromDate" Type="datetime" Mode="In" />
-          <Parameter Name="EndDate" Type="datetime" Mode="In" />
         </Function>
         <Function Name="SP_GetCustomerInvoiceReport" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="InvoiceNo" Type="int" Mode="In" />
@@ -1886,7 +1691,6 @@
           <Parameter Name="Todate" Type="datetime" Mode="In" />
           <Parameter Name="CustomerID" Type="int" Mode="In" />
           <Parameter Name="JobID" Type="int" Mode="In" />
-          <Parameter Name="StatusInvoice" Type="int" Mode="In" />
         </Function>
         <Function Name="SP_GetJobGenerationByJobID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="JobID" Type="int" Mode="In" />
@@ -2074,6 +1878,7 @@
           <Parameter Name="Flight" Type="nvarchar" Mode="In" />
           <Parameter Name="MAWB" Type="nvarchar" Mode="In" />
           <Parameter Name="HAWB" Type="nvarchar" Mode="In" />
+          <Parameter Name="MaxJObID" Type="int" Mode="InOut" />
         </Function>
         <Function Name="SP_InsertJournalEntryForCostUpdation" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="CostUpdationID" Type="int" Mode="In" />
@@ -2118,7 +1923,6 @@
         <Function Name="SP_InsertRecPayDetailsForCustomer" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="RecPayID" Type="int" Mode="In" />
           <Parameter Name="InvoiceID" Type="int" Mode="In" />
-          <Parameter Name="JInvoiceID" Type="int" Mode="In" />
           <Parameter Name="Amount" Type="money" Mode="In" />
           <Parameter Name="Remarks" Type="nvarchar" Mode="In" />
           <Parameter Name="StatusInvoice" Type="nvarchar" Mode="In" />
@@ -2132,7 +1936,6 @@
         <Function Name="SP_InsertRecPayDetailsForSupplier" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="RecPayID" Type="int" Mode="In" />
           <Parameter Name="InvoiceID" Type="int" Mode="In" />
-          <Parameter Name="JInvoiceID" Type="int" Mode="In" />
           <Parameter Name="Amount" Type="money" Mode="In" />
           <Parameter Name="Remarks" Type="nvarchar" Mode="In" />
           <Parameter Name="StatusInvoice" Type="nvarchar" Mode="In" />
@@ -2166,7 +1969,6 @@
           <Parameter Name="InvoiceNo" Type="int" Mode="In" />
           <Parameter Name="InvoiceDate" Type="datetime" Mode="In" />
           <Parameter Name="JobID" Type="int" Mode="In" />
-          <Parameter Name="FYearID" Type="int" Mode="In" />
         </Function>
         <Function Name="SP_UpdateJob" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="JobCode" Type="nvarchar" Mode="In" />
@@ -2233,10 +2035,185 @@
           <Parameter Name="todate" Type="datetime" Mode="In" />
         </Function>
         <Function Name="SupStatement" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
-        <Function Name="UpdateJournalEntryForJob" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="JobID" Type="int" Mode="In" />
-        </Function>
         <Function Name="YTDSummary" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="SHIPPING_FinalModelStoreContainer">
+          <EntitySet Name="AcCategory" EntityType="Self.AcCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AcCompany" EntityType="Self.AcCompany" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AcFinancialYear" EntityType="Self.AcFinancialYear" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AcGroup" EntityType="Self.AcGroup" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AcHead" EntityType="Self.AcHead" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AcJournalDetail" EntityType="Self.AcJournalDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AcJournalMaster" EntityType="Self.AcJournalMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AcMemoBankDetails" EntityType="Self.AcMemoBankDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AcMemoJournalDetail" EntityType="Self.AcMemoJournalDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AcMemoJournalMaster" EntityType="Self.AcMemoJournalMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AcOpeningMaster" EntityType="Self.AcOpeningMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AcOPInvoiceDetails" EntityType="Self.AcOPInvoiceDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AcOPInvoiceMaster" EntityType="Self.AcOPInvoiceMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Airline" EntityType="Self.Airline" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AnalysisGroup" EntityType="Self.AnalysisGroup" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AnalysisHead" EntityType="Self.AnalysisHead" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BranchMaster" EntityType="Self.BranchMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Carrier" EntityType="Self.Carrier" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Commodity" EntityType="Self.Commodity" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ContainerType" EntityType="Self.ContainerType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CostUpdation" EntityType="Self.CostUpdation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CostUpdationDetails" EntityType="Self.CostUpdationDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CountryMaster" EntityType="Self.CountryMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CreditNote" EntityType="Self.CreditNote" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CurrencyMaster" EntityType="Self.CurrencyMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CUSTOMER" EntityType="Self.CUSTOMER" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DebitNote" EntityType="Self.DebitNote" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Designation" EntityType="Self.Designation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Employees" EntityType="Self.Employees" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ItemUnit" EntityType="Self.ItemUnit" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="JAuditLog" EntityType="Self.JAuditLog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="JBIllOfEntry" EntityType="Self.JBIllOfEntry" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="JCargoDescription" EntityType="Self.JCargoDescription" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="JContainerDetails" EntityType="Self.JContainerDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="JInvoice" EntityType="Self.JInvoice" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="JobGeneration" EntityType="Self.JobGeneration" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="JobMode" EntityType="Self.JobMode" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="JobType" EntityType="Self.JobType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Location" EntityType="Self.Location" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Menu" EntityType="Self.Menu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MenuAccessLevel" EntityType="Self.MenuAccessLevel" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PaymentTerms" EntityType="Self.PaymentTerms" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Port" EntityType="Self.Port" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RecPay" EntityType="Self.RecPay" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RecPayDetails" EntityType="Self.RecPayDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Remarks" EntityType="Self.Remarks" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RevenueType" EntityType="Self.RevenueType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RoleMaster" EntityType="Self.RoleMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ShippingAgent" EntityType="Self.ShippingAgent" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Supplier" EntityType="Self.Supplier" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Transporter" EntityType="Self.Transporter" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserProfile" EntityType="Self.UserProfile" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserRegistration" EntityType="Self.UserRegistration" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Validity" EntityType="Self.Validity" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Vessel" EntityType="Self.Vessel" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Voyage" EntityType="Self.Voyage" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AcAnalysisHeadAllocation" EntityType="Self.AcAnalysisHeadAllocation" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+[AcAnalysisHeadAllocation].[AcAnalysisHeadAllocationID] AS [AcAnalysisHeadAllocationID], 
+[AcAnalysisHeadAllocation].[AcjournalDetailID] AS [AcjournalDetailID], 
+[AcAnalysisHeadAllocation].[AnalysisHeadID] AS [AnalysisHeadID], 
+[AcAnalysisHeadAllocation].[Amount] AS [Amount]
+FROM [dbo].[AcAnalysisHeadAllocation] AS [AcAnalysisHeadAllocation]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="AcBankDetails" EntityType="Self.AcBankDetails" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+[AcBankDetails].[AcBankDetailID] AS [AcBankDetailID], 
+[AcBankDetails].[AcJournalID] AS [AcJournalID], 
+[AcBankDetails].[BankName] AS [BankName], 
+[AcBankDetails].[ChequeNo] AS [ChequeNo], 
+[AcBankDetails].[ChequeDate] AS [ChequeDate], 
+[AcBankDetails].[PartyName] AS [PartyName], 
+[AcBankDetails].[StatusTrans] AS [StatusTrans], 
+[AcBankDetails].[StatusReconciled] AS [StatusReconciled], 
+[AcBankDetails].[ValueDate] AS [ValueDate]
+FROM [dbo].[AcBankDetails] AS [AcBankDetails]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="AcHeadAssign" EntityType="Self.AcHeadAssign" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+[AcHeadAssign].[ID] AS [ID], 
+[AcHeadAssign].[ProvisionCostControlAcID] AS [ProvisionCostControlAcID], 
+[AcHeadAssign].[AccruedCostControlAcID] AS [AccruedCostControlAcID], 
+[AcHeadAssign].[OpenJobRevenueAcID] AS [OpenJobRevenueAcID], 
+[AcHeadAssign].[CustomerControlAcID] AS [CustomerControlAcID], 
+[AcHeadAssign].[CashControlAcID] AS [CashControlAcID], 
+[AcHeadAssign].[SupplierControlAcID] AS [SupplierControlAcID]
+FROM [dbo].[AcHeadAssign] AS [AcHeadAssign]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="qryCustomerStatement" EntityType="Self.qryCustomerStatement" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+[qryCustomerStatement].[InvoiceID] AS [InvoiceID], 
+[qryCustomerStatement].[InvoiceToID] AS [InvoiceToID], 
+[qryCustomerStatement].[JobCode] AS [JobCode], 
+[qryCustomerStatement].[InvoiceNo] AS [InvoiceNo], 
+[qryCustomerStatement].[InvoiceDate] AS [InvoiceDate], 
+[qryCustomerStatement].[AmtToBeReceived] AS [AmtToBeReceived], 
+[qryCustomerStatement].[AmtAlreadyReceived] AS [AmtAlreadyReceived], 
+[qryCustomerStatement].[REMARKS] AS [REMARKS], 
+[qryCustomerStatement].[EmployeeID] AS [EmployeeID]
+FROM [dbo].[qryCustomerStatement] AS [qryCustomerStatement]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="qrySupplierOutstanding" EntityType="Self.qrySupplierOutstanding" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+[qrySupplierOutstanding].[InvoiceID] AS [InvoiceID], 
+[qrySupplierOutstanding].[InvoiceNo] AS [InvoiceNo], 
+[qrySupplierOutstanding].[InvoiceDate] AS [InvoiceDate], 
+[qrySupplierOutstanding].[SupplierID] AS [SupplierID], 
+[qrySupplierOutstanding].[AmtToBeReceived] AS [AmtToBeReceived], 
+[qrySupplierOutstanding].[AmtAlreadyReceived] AS [AmtAlreadyReceived], 
+[qrySupplierOutstanding].[JobCode] AS [JobCode], 
+[qrySupplierOutstanding].[EmployeeID] AS [EmployeeID], 
+[qrySupplierOutstanding].[JobID] AS [JobID]
+FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_AcCompany_CountryMaster" Association="Self.FK_AcCompany_CountryMaster">
+            <End Role="CountryMaster" EntitySet="CountryMaster" />
+            <End Role="AcCompany" EntitySet="AcCompany" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AcCompany_CurrencyMaster" Association="Self.FK_AcCompany_CurrencyMaster">
+            <End Role="CurrencyMaster" EntitySet="CurrencyMaster" />
+            <End Role="AcCompany" EntitySet="AcCompany" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AcCompany_Designation" Association="Self.FK_AcCompany_Designation">
+            <End Role="Designation" EntitySet="Designation" />
+            <End Role="AcCompany" EntitySet="AcCompany" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AcCompany_Location" Association="Self.FK_AcCompany_Location">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="AcCompany" EntitySet="AcCompany" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AcGroup_AcCategory" Association="Self.FK_AcGroup_AcCategory">
+            <End Role="AcCategory" EntitySet="AcCategory" />
+            <End Role="AcGroup" EntitySet="AcGroup" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AcGroup_AcCompany" Association="Self.FK_AcGroup_AcCompany">
+            <End Role="AcCompany" EntitySet="AcCompany" />
+            <End Role="AcGroup" EntitySet="AcGroup" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AcOpeningMaster_AcCompany" Association="Self.FK_AcOpeningMaster_AcCompany">
+            <End Role="AcCompany" EntitySet="AcCompany" />
+            <End Role="AcOpeningMaster" EntitySet="AcOpeningMaster" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AcOpeningMaster_AcFinancialYear" Association="Self.FK_AcOpeningMaster_AcFinancialYear">
+            <End Role="AcFinancialYear" EntitySet="AcFinancialYear" />
+            <End Role="AcOpeningMaster" EntitySet="AcOpeningMaster" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AcOpeningMaster_AcHead" Association="Self.FK_AcOpeningMaster_AcHead">
+            <End Role="AcHead" EntitySet="AcHead" />
+            <End Role="AcOpeningMaster" EntitySet="AcOpeningMaster" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AnalysisHead_AcCompany" Association="Self.FK_AnalysisHead_AcCompany">
+            <End Role="AcCompany" EntitySet="AcCompany" />
+            <End Role="AnalysisHead" EntitySet="AnalysisHead" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AnalysisHead_AnalysisGroup" Association="Self.FK_AnalysisHead_AnalysisGroup">
+            <End Role="AnalysisGroup" EntitySet="AnalysisGroup" />
+            <End Role="AnalysisHead" EntitySet="AnalysisHead" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BranchMaster_CountryMaster" Association="Self.FK_BranchMaster_CountryMaster">
+            <End Role="CountryMaster" EntitySet="CountryMaster" />
+            <End Role="BranchMaster" EntitySet="BranchMaster" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BranchMaster_CurrencyMaster" Association="Self.FK_BranchMaster_CurrencyMaster">
+            <End Role="CurrencyMaster" EntitySet="CurrencyMaster" />
+            <End Role="BranchMaster" EntitySet="BranchMaster" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BranchMaster_Designation" Association="Self.FK_BranchMaster_Designation">
+            <End Role="Designation" EntitySet="Designation" />
+            <End Role="BranchMaster" EntitySet="BranchMaster" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BranchMaster_Location" Association="Self.FK_BranchMaster_Location">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="BranchMaster" EntitySet="BranchMaster" />
+          </AssociationSet>
+        </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -3020,6 +2997,7 @@
             <Parameter Name="Flight" Mode="In" Type="String" />
             <Parameter Name="MAWB" Mode="In" Type="String" />
             <Parameter Name="HAWB" Mode="In" Type="String" />
+            <Parameter Name="MaxJObID" Mode="InOut" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="proJobCostFull" ReturnType="Collection(SHIPPING_FinalModel.proJobCostFull_Result)">
             <Parameter Name="Fromdate" Mode="In" Type="String" />
@@ -3347,15 +3325,12 @@
             <Parameter Name="InvoiceNo" Mode="In" Type="Int32" />
             <Parameter Name="InvoiceDate" Mode="In" Type="DateTime" />
             <Parameter Name="JobID" Mode="In" Type="Int32" />
-            <Parameter Name="FYearID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="UpdateJournalEntryForJob">
           <Parameter Name="JobID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_GetCustomerInvoiceDetailsForReciept" ReturnType="Collection(SHIPPING_FinalModel.SP_GetCustomerInvoiceDetailsForReciept_Result)">
-            <Parameter Name="CustomerID" Mode="In" Type="Int32" />
-            <Parameter Name="FromDate" Mode="In" Type="DateTime" />
-            <Parameter Name="EndDate" Mode="In" Type="DateTime" />
+          <Parameter Name="CustomerID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_GetSupplierCostDetailsForPayment" ReturnType="Collection(SHIPPING_FinalModel.SP_GetSupplierCostDetailsForPayment_Result)">
           <Parameter Name="SupplierID" Mode="In" Type="Int32" />
@@ -3363,7 +3338,6 @@
           <FunctionImport Name="SP_InsertRecPayDetailsForSupplier">
             <Parameter Name="RecPayID" Mode="In" Type="Int32" />
             <Parameter Name="InvoiceID" Mode="In" Type="Int32" />
-            <Parameter Name="JInvoiceID" Mode="In" Type="Int32" />
             <Parameter Name="Amount" Mode="In" Type="Decimal" />
             <Parameter Name="Remarks" Mode="In" Type="String" />
             <Parameter Name="StatusInvoice" Mode="In" Type="String" />
@@ -3391,7 +3365,6 @@
           <FunctionImport Name="SP_InsertRecPayDetailsForCustomer">
             <Parameter Name="RecPayID" Mode="In" Type="Int32" />
             <Parameter Name="InvoiceID" Mode="In" Type="Int32" />
-            <Parameter Name="JInvoiceID" Mode="In" Type="Int32" />
             <Parameter Name="Amount" Mode="In" Type="Decimal" />
             <Parameter Name="Remarks" Mode="In" Type="String" />
             <Parameter Name="StatusInvoice" Mode="In" Type="String" />
@@ -3407,7 +3380,6 @@
             <Parameter Name="todate" Mode="In" Type="DateTime" />
             <Parameter Name="CustomerID" Mode="In" Type="Int32" />
             <Parameter Name="JobID" Mode="In" Type="Int32" />
-            <Parameter Name="StatusInvoiced" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="JobWiseIncomeExpenditure" ReturnType="Collection(SHIPPING_FinalModel.JobWiseIncomeExpenditure_Result)">
             <Parameter Name="fromdate" Mode="In" Type="DateTime" />
@@ -3424,7 +3396,6 @@
             <Parameter Name="Todate" Mode="In" Type="DateTime" />
             <Parameter Name="CustomerID" Mode="In" Type="Int32" />
             <Parameter Name="JobID" Mode="In" Type="Int32" />
-            <Parameter Name="StatusInvoice" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="ContainerReport" ReturnType="Collection(SHIPPING_FinalModel.ContainerReport_Result)">
             <Parameter Name="FromDate" Mode="In" Type="DateTime" />
@@ -9493,21 +9464,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="SP_GetAllClosedJobsDetailsByDate" FunctionName="SHIPPING_FinalModel.Store.SP_GetAllClosedJobsDetailsByDate">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="SHIPPING_FinalModel.SP_GetAllClosedJobsDetailsByDate_Result">
-                <ScalarProperty Name="JobID" ColumnName="JobID" />
-                <ScalarProperty Name="InvoiceNo" ColumnName="InvoiceNo" />
-                <ScalarProperty Name="InvoiceDate" ColumnName="InvoiceDate" />
-                <ScalarProperty Name="JobDate" ColumnName="JobDate" />
-                <ScalarProperty Name="JobDescription" ColumnName="JobDescription" />
-                <ScalarProperty Name="JobCode" ColumnName="JobCode" />
-                <ScalarProperty Name="Shipper" ColumnName="Shipper" />
-                <ScalarProperty Name="Consignee" ColumnName="Consignee" />
-                <ScalarProperty Name="Customer" ColumnName="Customer" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="YTDSummary" FunctionName="SHIPPING_FinalModel.Store.YTDSummary">
             <ResultMapping>
               <ComplexTypeMapping TypeName="SHIPPING_FinalModel.YTDSummary_Result">
@@ -9548,7 +9504,6 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="SP_UpdateInvoiceNumber" FunctionName="SHIPPING_FinalModel.Store.SP_UpdateInvoiceNumber" />
-          <FunctionImportMapping FunctionImportName="UpdateJournalEntryForJob" FunctionName="SHIPPING_FinalModel.Store.UpdateJournalEntryForJob" />
           <FunctionImportMapping FunctionImportName="SP_GetCustomerInvoiceDetailsForReciept" FunctionName="SHIPPING_FinalModel.Store.SP_GetCustomerInvoiceDetailsForReciept">
             <ResultMapping>
               <ComplexTypeMapping TypeName="SHIPPING_FinalModel.SP_GetCustomerInvoiceDetailsForReciept_Result">
@@ -9599,32 +9554,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="JobWiseIncomeExpenditure" FunctionName="SHIPPING_FinalModel.Store.JobWiseIncomeExpenditure">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="SHIPPING_FinalModel.JobWiseIncomeExpenditure_Result">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Date" ColumnName="Date" />
-                <ScalarProperty Name="CostProvision" ColumnName="CostProvision" />
-                <ScalarProperty Name="CostActual" ColumnName="CostActual" />
-                <ScalarProperty Name="CostVARIANCE" ColumnName="CostVARIANCE" />
-                <ScalarProperty Name="SalesActual" ColumnName="SalesActual" />
-                <ScalarProperty Name="ProfitActual" ColumnName="ProfitActual" />
-                <ScalarProperty Name="ProfitRatio" ColumnName="ProfitRatio" />
-                <ScalarProperty Name="Customer" ColumnName="Customer" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="MonthlySalesRegister" FunctionName="SHIPPING_FinalModel.Store.MonthlySalesRegister">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="SHIPPING_FinalModel.MonthlySalesRegister_Result">
-                <ScalarProperty Name="JobDate" ColumnName="JobDate" />
-                <ScalarProperty Name="JobCode" ColumnName="JobCode" />
-                <ScalarProperty Name="InvoiceNo" ColumnName="InvoiceNo" />
-                <ScalarProperty Name="Customer" ColumnName="Customer" />
-                <ScalarProperty Name="Amount" ColumnName="Amount" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="SP_GetJOBCostReport" FunctionName="SHIPPING_FinalModel.Store.SP_GetJOBCostReport">
             <ResultMapping>
               <ComplexTypeMapping TypeName="SHIPPING_FinalModel.SP_GetJOBCostReport_Result">
@@ -9640,33 +9569,6 @@
                 <ScalarProperty Name="Customer" ColumnName="Customer" />
                 <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
                 <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="ContainerReport" FunctionName="SHIPPING_FinalModel.Store.ContainerReport">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="SHIPPING_FinalModel.ContainerReport_Result">
-                <ScalarProperty Name="JobID" ColumnName="JobID" />
-                <ScalarProperty Name="JobDate" ColumnName="JobDate" />
-                <ScalarProperty Name="Customer" ColumnName="Customer" />
-                <ScalarProperty Name="volume" ColumnName="volume" />
-                <ScalarProperty Name="SealNo" ColumnName="SealNo" />
-                <ScalarProperty Name="ContainerNo" ColumnName="ContainerNo" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="ContainerType" ColumnName="ContainerType" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="AirshipmentReport" FunctionName="SHIPPING_FinalModel.Store.AirshipmentReport">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="SHIPPING_FinalModel.AirshipmentReport_Result">
-                <ScalarProperty Name="JobID" ColumnName="JobID" />
-                <ScalarProperty Name="JobDate" ColumnName="JobDate" />
-                <ScalarProperty Name="Customer" ColumnName="Customer" />
-                <ScalarProperty Name="Flight" ColumnName="Flight" />
-                <ScalarProperty Name="HAWB" ColumnName="HAWB" />
-                <ScalarProperty Name="MAWB" ColumnName="MAWB" />
-                <ScalarProperty Name="Volume" ColumnName="Volume" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -9687,6 +9589,7 @@
         <DesignerProperty Name="EnablePluralization" Value="True" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="True" />
       </DesignerInfoPropertySet>
     </Options>
     <!-- Diagram content (shape and connector positions) -->
