@@ -43,7 +43,7 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
     BindRevenueType();
     BindProvisionCurrency();
     BindContainerType();
-   
+
     $scope.getJobPrefix = function () {
         //alert($scope.JobTypeID);
         //LoadJobPrefix($scope.JobTypeID);
@@ -66,7 +66,7 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
             url: '/Job/GetSupplierOfRevID/' + $scope.RevenueTypeID,
             method: 'GET'
         }).success(function (data, status, headers, config) {
-           
+
             $scope.Sup = data;
 
         });
@@ -153,7 +153,7 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
     };
 
     var vCharges = JSON.parse('[]');
-   
+
     $scope.addCharges = function () {
         debugger;
         if ($.isNumeric($('#RevenueTypeID').val()) == false || $('#RevenueTypeID').val() <= 0) {
@@ -161,7 +161,7 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
             $('#RevenueTypeID').focus();
             return;
         }
-        var ChargeObj =  {
+        var ChargeObj = {
             InvoiceID: ($scope.InvoiceID == undefined) ? "" : $scope.InvoiceID,
             RevenueTypeID: $('#RevenueTypeID').val() + "",
             RevenueTypeName: $('#RevenueTypeID option:selected').text(),
@@ -206,7 +206,7 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
         tdString = tdString + '<td><div class="data12"><input type="text" value="' + ChargeObj.SalesForeign + '" name="SalesForeign_' + vCharges.length + '" id="SalesHome_' + vCharges.length + '" /></div></td>';
         tdString = tdString + '<td><div class="data13"><input type="text" value="' + ChargeObj.Cost + '" name="Cost_' + vCharges.length + '" id="Cost_' + vCharges.length + '" /></div></td>';
         tdString = tdString + '<td><a href="javascript:void(0)" onclick="deleteCharge(this)"><i class="fa fa-times-circle"></i></a></td>';
-        tdString = tdString + '</tr>';                                             
+        tdString = tdString + '</tr>';
         $("#charges_table").append(tdString);
         $("#AddCharges").show();
     };
@@ -290,14 +290,14 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
         });
     };
 
-   
+
 
     var vAuditDet = JSON.parse('[]');
     $scope.addAuditDet = function () {
 
         var AuditObj = {
             TransDate: ($scope.TransDate == undefined) ? "" : $scope.TransDate,
-            Remarks: ($scope.Remarks == undefined) ? "" : $scope.Remarks 
+            Remarks: ($scope.Remarks == undefined) ? "" : $scope.Remarks
         };
         var AuditObjStr = JSON.stringify(AuditObj);
         vAuditDet.push(AuditObjStr);
@@ -310,22 +310,22 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
     };
 
 
-  var vBillOfEntry = JSON.parse('[]');
-  $scope.addBillOfEntry = function () {
-      var BillOfEntryObj = {
-          BIllOfEntry: ($scope.BIllOfEntry == undefined) ? "" : $scope.BIllOfEntry,
-          BillofEntryDate: ($scope.BillofEntryDate == undefined) ? "" : $scope.BillofEntryDate,
-          ShippingAgentID: ($scope.ShippingAgentID == undefined) ? "" : $scope.ShippingAgentID,
+    var vBillOfEntry = JSON.parse('[]');
+    $scope.addBillOfEntry = function () {
+        var BillOfEntryObj = {
+            BIllOfEntry: ($scope.BIllOfEntry == undefined) ? "" : $scope.BIllOfEntry,
+            BillofEntryDate: ($scope.BillofEntryDate == undefined) ? "" : $scope.BillofEntryDate,
+            ShippingAgentID: ($scope.ShippingAgentID == undefined) ? "" : $scope.ShippingAgentID,
             ShippingAgentName: $('#ShippingAgentID option:selected').text()
-      };
-      var BillOfEntryStr = JSON.stringify(BillOfEntryObj);
-      vBillOfEntry.push(BillOfEntryStr);
-      var tdString = '<tr><td><div class= "data1" ><input type="text" style="width:125px;" value="' + BillOfEntryObj.BIllOfEntry + '" name="BIllOfEntry_' + vBillOfEntry.length + '" id="BIllOfEntry_' + vBillOfEntry.length + '" /></div></td>';
-      tdString = tdString + '<td><div class="data2" ><input style="width:125px;" type="text" value="' + BillOfEntryObj.BillofEntryDate + '" name="BillofEntryDate_' + vBillOfEntry.length + '" id="BillofEntryDate_' + vBillOfEntry.length + '" /></div></td>';
-      tdString = tdString + '<td><div class="data3"><input type="text" value="' + BillOfEntryObj.ShippingAgentName + '" name="ShippingAgentName_' + vBillOfEntry.length + '" id="ShippingAgentName_' + vBillOfEntry.length + '" /><input type="hidden" value="' + BillOfEntryObj.ShippingAgentID + '" name="ShippingAgentID_' + vBillOfEntry.length + '" id="ShippingAgentID_' + vBillOfEntry.length + '" /></div></td>';
-      tdString = tdString + '<td><a href="javascript:void(0)" onclick="deleteRow(this)"><i class="fa fa-times-circle"></i></a></td>';
-      tdString = tdString + '</tr>';
-      $("#bill_of_entry_table").append(tdString);
+        };
+        var BillOfEntryStr = JSON.stringify(BillOfEntryObj);
+        vBillOfEntry.push(BillOfEntryStr);
+        var tdString = '<tr><td><div class= "data1" ><input type="text" style="width:125px;" value="' + BillOfEntryObj.BIllOfEntry + '" name="BIllOfEntry_' + vBillOfEntry.length + '" id="BIllOfEntry_' + vBillOfEntry.length + '" /></div></td>';
+        tdString = tdString + '<td><div class="data2" ><input style="width:125px;" type="text" value="' + BillOfEntryObj.BillofEntryDate + '" name="BillofEntryDate_' + vBillOfEntry.length + '" id="BillofEntryDate_' + vBillOfEntry.length + '" /></div></td>';
+        tdString = tdString + '<td><div class="data3"><input type="text" value="' + BillOfEntryObj.ShippingAgentName + '" name="ShippingAgentName_' + vBillOfEntry.length + '" id="ShippingAgentName_' + vBillOfEntry.length + '" /><input type="hidden" value="' + BillOfEntryObj.ShippingAgentID + '" name="ShippingAgentID_' + vBillOfEntry.length + '" id="ShippingAgentID_' + vBillOfEntry.length + '" /></div></td>';
+        tdString = tdString + '<td><a href="javascript:void(0)" onclick="deleteRow(this)"><i class="fa fa-times-circle"></i></a></td>';
+        tdString = tdString + '</tr>';
+        $("#bill_of_entry_table").append(tdString);
     };
 
     var vContainer = JSON.parse('[]');
@@ -337,33 +337,33 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
             SealNo: ($scope.SealNo == undefined) ? "" : $scope.SealNo,
             Description: ($scope.ContainerDescription == undefined) ? "" : $scope.ContainerDescription
         };
-   
 
-    var ContainerStr = JSON.stringify(ContainerObj);
-    vContainer.push(ContainerStr);
-    var tdString = '<tr><td><div class= "data1" ><input type="text" value="' + ContainerObj.ContainerTypeName + '" name="ContainerType_' + vContainer.length + '" id="ContainerType_' + vContainer.length + '" /><input type="hidden" value="' + ContainerObj.ContainerTypeID + '" name="ContainerTypeID_' + vContainer.length + '" id="ContainerTypeID_' + vContainer.length + '" /></div ></td>';
-    tdString = tdString + '<td><div class="data2" ><input type="text" style="width:60px;" value="' + ContainerObj.ContainerNo + '" name="ContainerNo_' + vContainer.length + '" id="ContainerNo_' + vContainer.length + '" /></div></td>';
-    tdString = tdString + '<td><div class="data3"><input type="text" style="width:60px;" value="' + ContainerObj.SealNo + '" name="SealNo_' + vContainer.length + '" id="SealNo_' + vContainer.length + '" /></div></td>';
+
+        var ContainerStr = JSON.stringify(ContainerObj);
+        vContainer.push(ContainerStr);
+        var tdString = '<tr><td><div class= "data1" ><input type="text" value="' + ContainerObj.ContainerTypeName + '" name="ContainerType_' + vContainer.length + '" id="ContainerType_' + vContainer.length + '" /><input type="hidden" value="' + ContainerObj.ContainerTypeID + '" name="ContainerTypeID_' + vContainer.length + '" id="ContainerTypeID_' + vContainer.length + '" /></div ></td>';
+        tdString = tdString + '<td><div class="data2" ><input type="text" style="width:60px;" value="' + ContainerObj.ContainerNo + '" name="ContainerNo_' + vContainer.length + '" id="ContainerNo_' + vContainer.length + '" /></div></td>';
+        tdString = tdString + '<td><div class="data3"><input type="text" style="width:60px;" value="' + ContainerObj.SealNo + '" name="SealNo_' + vContainer.length + '" id="SealNo_' + vContainer.length + '" /></div></td>';
         tdString = tdString + '<td><div class="data" ><input type="text" value="' + ContainerObj.Description + '" name="ContainerDescription_' + vContainer.length + '" id="ContainerDescription_' + vContainer.length + '" /></div></td>';
-    tdString = tdString + '<td><a href="javascript:void(0)" onclick="deleteRow(this)"><i class="fa fa-times-circle"></i></a></td>';
-    tdString = tdString + '</tr>';
-    $("#container_table").append(tdString);
-    //   $scope.Charges = vCharges;
-    //  var test = JSON.stringify(vCharges);
-    $("#AddContainer").show();
+        tdString = tdString + '<td><a href="javascript:void(0)" onclick="deleteRow(this)"><i class="fa fa-times-circle"></i></a></td>';
+        tdString = tdString + '</tr>';
+        $("#container_table").append(tdString);
+        //   $scope.Charges = vCharges;
+        //  var test = JSON.stringify(vCharges);
+        $("#AddContainer").show();
     };
-         
+
     var vCargoDesc = JSON.parse('[]');
     $scope.addCargoDesc = function () {
         var CargoDescObj = {
             Mark: ($scope.Mark == undefined) ? "" : $scope.Mark,
             Description: ($scope.CarDescription == undefined) ? "" : $scope.CarDescription,
-            weight: ($scope.weight == undefined) ? "" :  $scope.weight,
+            weight: ($scope.weight == undefined) ? "" : $scope.weight,
             volume: ($scope.volume == undefined) ? "" : $scope.volume,
             Packages: ($scope.Packages == undefined) ? "" : $scope.Packages,
-            GrossWeight: ($scope.GrossWeight == undefined) ? "" :  $scope.GrossWeight
+            GrossWeight: ($scope.GrossWeight == undefined) ? "" : $scope.GrossWeight
         };
-   
+
         var CargoDescStr = JSON.stringify(CargoDescObj);
         vCargoDesc.push(CargoDescStr);
         var tdString = '<tr><td><div class= "data1" ><input type="text" style="width:70px;" value="' + CargoDescObj.Mark + '" name="Mark_' + vCargoDesc.length + '" id="Mark_' + vCargoDesc.length + '" /></div ></td>';
@@ -485,13 +485,13 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
         }).success(function (data, status, headers, config) {
 
             $scope.CurrencyList = data;
-          
+
 
         });
     }
 
 
-   
+
 
     $scope.deleteContainer = function (id) {
 
@@ -575,9 +575,9 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
         $scope.Description = Charge.Description;
         $scope.RevenueTypeID = Charge.RevenueTypeID;
         $scope.RevenueTypeID1 = Charge.RevenueTypeID1;
-        
+
         //$scope.RevenueTypeID = Charge.RevenueTypeID
-       // $scope.RevenueType2 = Charge.RevenueType; 
+        // $scope.RevenueType2 = Charge.RevenueType; 
         $scope.Supplier2 = Charge.SupplierID;
         $scope.ProvisionRate = Charge.ProvisionRate;
         $scope.ProvisionExR = Charge.ProvisionCurrencyID;
@@ -590,7 +590,7 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
         $scope.SalesForeign = Charge.SalesForeign;
         $scope.LocalCur = Charge.Cost;
         $scope.ProvisionCurrencyID = Charge.ProvisionCurrencyID;
-        $scope.ProvisionExR = Charge.ProvisionCurrencyID;        
+        $scope.ProvisionExR = Charge.ProvisionCurrencyID;
         $scope.ProvisionCurrencyID1 = Charge.ProvisionCurrencyID;
         $scope.SupplierID = Charge.SupplierID;
         $scope.SalesCurrencyID = Charge.SalesCurrencyID;

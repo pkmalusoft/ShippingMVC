@@ -144,7 +144,7 @@ namespace TrueBooksMVC.Controllers
         {
             List<SP_GetAllJobsDetails_Result> AllJobs = new List<SP_GetAllJobsDetails_Result>();
 
-           // AllJobs = J.AllJobsDetails();
+            // AllJobs = J.AllJobsDetails();
             DateTime a = Convert.ToDateTime(Session["FyearFrom"]);
             DateTime b = Convert.ToDateTime(Session["FyearTo"]);
             var data = (from t in AllJobs where (t.JobDate >= Convert.ToDateTime(Session["FyearFrom"]) && t.JobDate <= Convert.ToDateTime(Session["FyearTo"])) select t).ToList();
@@ -198,7 +198,7 @@ namespace TrueBooksMVC.Controllers
         {
             JobGeneration JM = new JobGeneration();
             UpdateModel<JobGeneration>(JM);
-         
+
             int i;
             int JobId = 0;
             BindAllMasters();
@@ -212,7 +212,7 @@ namespace TrueBooksMVC.Controllers
                 JM.InvoiceDate = System.DateTime.UtcNow;
                 JM.InvoiceNo = 0;
                 JobId = Convert.ToInt32(J.MaxJobID()) - 1;
-              //  JM.JobID = JobId;
+                //  JM.JobID = JobId;
 
                 i = J.AddJob(JM);
                 JobId = i;
@@ -221,383 +221,383 @@ namespace TrueBooksMVC.Controllers
                 {
                     DeleteAndInsertRecords(formCollection, JobId);
 
-                  /*  int ChargesCount = 0;
-                    ArrayList ChargesArray = new ArrayList();
-                    for (int j=0;j<formCollection.Keys.Count; j++)
-                    {
-                        if(formCollection.Keys[j].StartsWith("RevenueTypeID_")){
-                            ChargesCount = ChargesCount + 1;
-                            ChargesArray.Add(formCollection.Keys[j].Replace("RevenueTypeID_", "").Trim());
-                        }
-                    }
-                    for(int c = 1; c <= ChargesCount; c++)
-                    {
-                        string[] strArray;
-                        JInvoice Charges = new JInvoice();
-                        Charges.UserID = Convert.ToInt32(Session["UserID"].ToString());
-                        Charges.JobID = JobId;
-                        int RevenueTypeID = 0;
-                        if (formCollection.GetValue("RevenueTypeID_" + ChargesArray[c]) != null) {
-                            strArray = (string[]) formCollection.GetValue("RevenueTypeID_" + ChargesArray[c]).RawValue;
-                            int.TryParse(strArray[0], out RevenueTypeID);
-                        }
-                        Charges.RevenueTypeID = RevenueTypeID;
-                        int SupplierId = 0;
-                        if (formCollection.GetValue("SupplierID_" + ChargesArray[c]) != null)
-                        {
-                            strArray = (string[])formCollection.GetValue("SupplierID_" + ChargesArray[c]).RawValue;
-                           int.TryParse(strArray[0], out SupplierId);
-                        }
-                        Charges.SupplierID = SupplierId;
-                        if (formCollection.GetValue("ChargeDescription_" + ChargesArray[c]) != null)
-                        {
-                            strArray = (string[])formCollection.GetValue("ChargeDescription_" + ChargesArray[c]).RawValue;
-                            Charges.Description = strArray[0].Trim();
-                        }
-                        double Qty = 0;
-                        if (formCollection.GetValue("Quantity_" + c.ToString()) != null)
-                        {
-                            strArray = (string[])formCollection.GetValue("Quantity_" + ChargesArray[c]).RawValue;
-                            double.TryParse(strArray[0], out Qty);
-                        }
-                        Charges.Quantity = Qty;
-                        decimal ProvRate = 0;
-                        if (formCollection.GetValue("ProvisionRate_" + c.ToString()) != null)
-                        {
-                            strArray = (string[])formCollection.GetValue("ProvisionRate_" + ChargesArray[c]).RawValue;
-                            decimal.TryParse(strArray[0], out ProvRate);
-                        }
-                        Charges.ProvisionRate = ProvRate;
-                        int ProvCurrency = 0;
-                        if (formCollection.GetValue("ProvisionCurrencyId_" + ChargesArray[c]) != null)
-                        {
-                            strArray = (string[])formCollection.GetValue("ProvisionCurrencyId_" + ChargesArray[c]).RawValue;
-                            int.TryParse(strArray[0], out ProvCurrency);
-                        }
-                        Charges.ProvisionCurrencyID = ProvCurrency;
-                        decimal ProvExRate = 0;
-                        if (formCollection.GetValue("ProvisionExchangeRate_" + ChargesArray[c]) != null)
-                        {
-                            strArray = (string[])formCollection.GetValue("ProvisionExchangeRate_" + ChargesArray[c]).RawValue;
-                            decimal.TryParse(strArray[0].Trim(), out ProvExRate);
-                        }
-                        Charges.ProvisionExchangeRate = ProvExRate;
+                    /*  int ChargesCount = 0;
+                      ArrayList ChargesArray = new ArrayList();
+                      for (int j=0;j<formCollection.Keys.Count; j++)
+                      {
+                          if(formCollection.Keys[j].StartsWith("RevenueTypeID_")){
+                              ChargesCount = ChargesCount + 1;
+                              ChargesArray.Add(formCollection.Keys[j].Replace("RevenueTypeID_", "").Trim());
+                          }
+                      }
+                      for(int c = 1; c <= ChargesCount; c++)
+                      {
+                          string[] strArray;
+                          JInvoice Charges = new JInvoice();
+                          Charges.UserID = Convert.ToInt32(Session["UserID"].ToString());
+                          Charges.JobID = JobId;
+                          int RevenueTypeID = 0;
+                          if (formCollection.GetValue("RevenueTypeID_" + ChargesArray[c]) != null) {
+                              strArray = (string[]) formCollection.GetValue("RevenueTypeID_" + ChargesArray[c]).RawValue;
+                              int.TryParse(strArray[0], out RevenueTypeID);
+                          }
+                          Charges.RevenueTypeID = RevenueTypeID;
+                          int SupplierId = 0;
+                          if (formCollection.GetValue("SupplierID_" + ChargesArray[c]) != null)
+                          {
+                              strArray = (string[])formCollection.GetValue("SupplierID_" + ChargesArray[c]).RawValue;
+                             int.TryParse(strArray[0], out SupplierId);
+                          }
+                          Charges.SupplierID = SupplierId;
+                          if (formCollection.GetValue("ChargeDescription_" + ChargesArray[c]) != null)
+                          {
+                              strArray = (string[])formCollection.GetValue("ChargeDescription_" + ChargesArray[c]).RawValue;
+                              Charges.Description = strArray[0].Trim();
+                          }
+                          double Qty = 0;
+                          if (formCollection.GetValue("Quantity_" + c.ToString()) != null)
+                          {
+                              strArray = (string[])formCollection.GetValue("Quantity_" + ChargesArray[c]).RawValue;
+                              double.TryParse(strArray[0], out Qty);
+                          }
+                          Charges.Quantity = Qty;
+                          decimal ProvRate = 0;
+                          if (formCollection.GetValue("ProvisionRate_" + c.ToString()) != null)
+                          {
+                              strArray = (string[])formCollection.GetValue("ProvisionRate_" + ChargesArray[c]).RawValue;
+                              decimal.TryParse(strArray[0], out ProvRate);
+                          }
+                          Charges.ProvisionRate = ProvRate;
+                          int ProvCurrency = 0;
+                          if (formCollection.GetValue("ProvisionCurrencyId_" + ChargesArray[c]) != null)
+                          {
+                              strArray = (string[])formCollection.GetValue("ProvisionCurrencyId_" + ChargesArray[c]).RawValue;
+                              int.TryParse(strArray[0], out ProvCurrency);
+                          }
+                          Charges.ProvisionCurrencyID = ProvCurrency;
+                          decimal ProvExRate = 0;
+                          if (formCollection.GetValue("ProvisionExchangeRate_" + ChargesArray[c]) != null)
+                          {
+                              strArray = (string[])formCollection.GetValue("ProvisionExchangeRate_" + ChargesArray[c]).RawValue;
+                              decimal.TryParse(strArray[0].Trim(), out ProvExRate);
+                          }
+                          Charges.ProvisionExchangeRate = ProvExRate;
 
-                        decimal ProvHome = 0;
-                        if (formCollection.GetValue("ProvisionHome_" + ChargesArray[c]) != null)
-                        {
-                            strArray = (string[])formCollection.GetValue("ProvisionHome_" + ChargesArray[c]).RawValue;
-                            decimal.TryParse(strArray[0].Trim(), out ProvHome);
-                        }
-                        Charges.ProvisionHome = ProvHome;
+                          decimal ProvHome = 0;
+                          if (formCollection.GetValue("ProvisionHome_" + ChargesArray[c]) != null)
+                          {
+                              strArray = (string[])formCollection.GetValue("ProvisionHome_" + ChargesArray[c]).RawValue;
+                              decimal.TryParse(strArray[0].Trim(), out ProvHome);
+                          }
+                          Charges.ProvisionHome = ProvHome;
 
-                        decimal ProvForiegn = 0;
-                        if (formCollection.GetValue("ProvisionForeign_" + ChargesArray[c]) != null)
-                        {
-                            strArray = (string[])formCollection.GetValue("ProvisionForeign_" + ChargesArray[c]).RawValue;
-                            decimal.TryParse(strArray[0].Trim(), out ProvForiegn);
-                        }
-                        Charges.ProvisionForeign = ProvForiegn;
+                          decimal ProvForiegn = 0;
+                          if (formCollection.GetValue("ProvisionForeign_" + ChargesArray[c]) != null)
+                          {
+                              strArray = (string[])formCollection.GetValue("ProvisionForeign_" + ChargesArray[c]).RawValue;
+                              decimal.TryParse(strArray[0].Trim(), out ProvForiegn);
+                          }
+                          Charges.ProvisionForeign = ProvForiegn;
 
-                        decimal SalesRate = 0;
-                        if (formCollection.GetValue("SalesRate_" + ChargesArray[c]) != null)
-                        {
-                            strArray = (string[])formCollection.GetValue("SalesRate_" + ChargesArray[c]).RawValue;
-                            decimal.TryParse(strArray[0].Trim(), out SalesRate);
-                        }
-                        Charges.SalesRate = ProvForiegn;
-                        int SalesCurrencyId = 0;
-                        if (formCollection.GetValue("SalesCurrencyId_" + ChargesArray[c]) != null)
-                        {
-                            strArray = (string[])formCollection.GetValue("SalesCurrencyId_" + ChargesArray[c]).RawValue;
-                            int.TryParse(strArray[0].Trim(), out SalesCurrencyId);
-                        }
-                        Charges.SalesCurrencyID = SalesCurrencyId;
-                        decimal SalesExRate = 0;
-                        if (formCollection.GetValue("SalesExchangeRate_" + ChargesArray[c]) != null)
-                        {
-                            strArray = (string[])formCollection.GetValue("SalesExchangeRate_" + ChargesArray[c]).RawValue;
-                            decimal.TryParse(strArray[0].Trim(), out SalesExRate);
-                        }
-                        Charges.SalesExchangeRate = SalesExRate;
+                          decimal SalesRate = 0;
+                          if (formCollection.GetValue("SalesRate_" + ChargesArray[c]) != null)
+                          {
+                              strArray = (string[])formCollection.GetValue("SalesRate_" + ChargesArray[c]).RawValue;
+                              decimal.TryParse(strArray[0].Trim(), out SalesRate);
+                          }
+                          Charges.SalesRate = ProvForiegn;
+                          int SalesCurrencyId = 0;
+                          if (formCollection.GetValue("SalesCurrencyId_" + ChargesArray[c]) != null)
+                          {
+                              strArray = (string[])formCollection.GetValue("SalesCurrencyId_" + ChargesArray[c]).RawValue;
+                              int.TryParse(strArray[0].Trim(), out SalesCurrencyId);
+                          }
+                          Charges.SalesCurrencyID = SalesCurrencyId;
+                          decimal SalesExRate = 0;
+                          if (formCollection.GetValue("SalesExchangeRate_" + ChargesArray[c]) != null)
+                          {
+                              strArray = (string[])formCollection.GetValue("SalesExchangeRate_" + ChargesArray[c]).RawValue;
+                              decimal.TryParse(strArray[0].Trim(), out SalesExRate);
+                          }
+                          Charges.SalesExchangeRate = SalesExRate;
 
-                        decimal SalesHome = 0;
-                        if (formCollection.GetValue("SalesHome_" + ChargesArray[c]) != null)
-                        {
-                            strArray = (string[])formCollection.GetValue("SalesHome_" + ChargesArray[c]).RawValue;
-                            decimal.TryParse(strArray[0].Trim(), out SalesHome);
-                        }
-                        Charges.SalesHome = SalesHome;
+                          decimal SalesHome = 0;
+                          if (formCollection.GetValue("SalesHome_" + ChargesArray[c]) != null)
+                          {
+                              strArray = (string[])formCollection.GetValue("SalesHome_" + ChargesArray[c]).RawValue;
+                              decimal.TryParse(strArray[0].Trim(), out SalesHome);
+                          }
+                          Charges.SalesHome = SalesHome;
 
-                        decimal SalesForeign = 0;
-                        if (formCollection.GetValue("SalesForeign_" + ChargesArray[c]) != null)
-                        {
-                            strArray = (string[])formCollection.GetValue("SalesHome_" + ChargesArray[c]).RawValue;
-                            decimal.TryParse(strArray[0].Trim(), out SalesForeign);
-                        }
-                        Charges.SalesForeign = SalesForeign;
-                        decimal Cost = 0;
-                        if (formCollection.GetValue("Cost_" + ChargesArray[c]) != null)
-                        {
-                            strArray = (string[])formCollection.GetValue("SalesHome_" + ChargesArray[c]).RawValue;
-                            decimal.TryParse(strArray[0].Trim(), out Cost);
-                        }
-                        Charges.Cost = Cost;
+                          decimal SalesForeign = 0;
+                          if (formCollection.GetValue("SalesForeign_" + ChargesArray[c]) != null)
+                          {
+                              strArray = (string[])formCollection.GetValue("SalesHome_" + ChargesArray[c]).RawValue;
+                              decimal.TryParse(strArray[0].Trim(), out SalesForeign);
+                          }
+                          Charges.SalesForeign = SalesForeign;
+                          decimal Cost = 0;
+                          if (formCollection.GetValue("Cost_" + ChargesArray[c]) != null)
+                          {
+                              strArray = (string[])formCollection.GetValue("SalesHome_" + ChargesArray[c]).RawValue;
+                              decimal.TryParse(strArray[0].Trim(), out Cost);
+                          }
+                          Charges.Cost = Cost;
 
-                        int iCharge = J.AddCharges(Charges, Session["UserID"].ToString());
-                    }
-                    int CargoCount = 0;
-                    ArrayList CargoArray = new ArrayList();
-                    for (int j = 0; j < formCollection.Keys.Count; j++)
-                    {
-                        if (formCollection.Keys[j].StartsWith("Mark_"))
-                        {
-                            CargoCount = CargoCount + 1;
-                            CargoArray.Add(formCollection.Keys[j].Replace("Mark_","").Trim());
-                        }
-                    }
-                    for (int c = 1; c <= CargoCount; c++)
-                    {
-                        string[] strArray;
-                        JCargoDescription Cargo = new JCargoDescription();
-                        Cargo.UserID = Session["UserID"].ToString();
-                        Cargo.JobID = JobId;
-                        string MarkId = "";
-                        if (formCollection.GetValue("Mark_" + CargoArray[c]) != null)
-                        {
-                            strArray = (string[])formCollection.GetValue("Mark_" + CargoArray[c]).RawValue;
-                            MarkId = strArray[0];
-                        }
-                        string Description = "";
-                        if (formCollection.GetValue("CarDescription_" + c.ToString()) != null)
-                        {
-                            strArray = (string[])formCollection.GetValue("CarDescription_" + CargoArray[c]).RawValue;
-                            Description = strArray[0];
-                        }
-                        Cargo.Description = Description;
-                        decimal Weight = 0;
-                        if (formCollection.GetValue("weight_" + ChargesArray[c]) != null)
-                        {
-                            strArray = (string[])formCollection.GetValue("weight_" + ChargesArray[c]).RawValue;
-                            decimal.TryParse(strArray[0].Trim(), out Weight);
-                        }
-                        Cargo.weight = Weight;
-                        decimal Volume = 0;
-                        if (formCollection.GetValue("volume_" + ChargesArray[c]) != null)
-                        {
-                            strArray = (string[])formCollection.GetValue("volume_" + ChargesArray[c]).RawValue;
-                            decimal.TryParse(strArray[0].Trim(), out Volume);
-                        }
-                        Cargo.volume = Volume;
+                          int iCharge = J.AddCharges(Charges, Session["UserID"].ToString());
+                      }
+                      int CargoCount = 0;
+                      ArrayList CargoArray = new ArrayList();
+                      for (int j = 0; j < formCollection.Keys.Count; j++)
+                      {
+                          if (formCollection.Keys[j].StartsWith("Mark_"))
+                          {
+                              CargoCount = CargoCount + 1;
+                              CargoArray.Add(formCollection.Keys[j].Replace("Mark_","").Trim());
+                          }
+                      }
+                      for (int c = 1; c <= CargoCount; c++)
+                      {
+                          string[] strArray;
+                          JCargoDescription Cargo = new JCargoDescription();
+                          Cargo.UserID = Session["UserID"].ToString();
+                          Cargo.JobID = JobId;
+                          string MarkId = "";
+                          if (formCollection.GetValue("Mark_" + CargoArray[c]) != null)
+                          {
+                              strArray = (string[])formCollection.GetValue("Mark_" + CargoArray[c]).RawValue;
+                              MarkId = strArray[0];
+                          }
+                          string Description = "";
+                          if (formCollection.GetValue("CarDescription_" + c.ToString()) != null)
+                          {
+                              strArray = (string[])formCollection.GetValue("CarDescription_" + CargoArray[c]).RawValue;
+                              Description = strArray[0];
+                          }
+                          Cargo.Description = Description;
+                          decimal Weight = 0;
+                          if (formCollection.GetValue("weight_" + ChargesArray[c]) != null)
+                          {
+                              strArray = (string[])formCollection.GetValue("weight_" + ChargesArray[c]).RawValue;
+                              decimal.TryParse(strArray[0].Trim(), out Weight);
+                          }
+                          Cargo.weight = Weight;
+                          decimal Volume = 0;
+                          if (formCollection.GetValue("volume_" + ChargesArray[c]) != null)
+                          {
+                              strArray = (string[])formCollection.GetValue("volume_" + ChargesArray[c]).RawValue;
+                              decimal.TryParse(strArray[0].Trim(), out Volume);
+                          }
+                          Cargo.volume = Volume;
 
-                        decimal Packages = 0;
-                        if (formCollection.GetValue("Packages_" + ChargesArray[c]) != null)
-                        {
-                            strArray = (string[])formCollection.GetValue("Packages_" + ChargesArray[c]).RawValue;
-                            decimal.TryParse(strArray[0].Trim(), out Packages);
-                        }
-                        Cargo.Packages = Packages;
+                          decimal Packages = 0;
+                          if (formCollection.GetValue("Packages_" + ChargesArray[c]) != null)
+                          {
+                              strArray = (string[])formCollection.GetValue("Packages_" + ChargesArray[c]).RawValue;
+                              decimal.TryParse(strArray[0].Trim(), out Packages);
+                          }
+                          Cargo.Packages = Packages;
 
-                        decimal GrossWeight = 0;
-                        if (formCollection.GetValue("GrossWeight_" + ChargesArray[c]) != null)
-                        {
-                            strArray = (string[])formCollection.GetValue("GrossWeight_" + ChargesArray[c]).RawValue;
-                            decimal.TryParse(strArray[0].Trim(), out GrossWeight);
-                        }
-                        Cargo.GrossWeight = GrossWeight;
-                        i = J.AddCargo(Cargo, Session["UserID"].ToString());
-                    }
+                          decimal GrossWeight = 0;
+                          if (formCollection.GetValue("GrossWeight_" + ChargesArray[c]) != null)
+                          {
+                              strArray = (string[])formCollection.GetValue("GrossWeight_" + ChargesArray[c]).RawValue;
+                              decimal.TryParse(strArray[0].Trim(), out GrossWeight);
+                          }
+                          Cargo.GrossWeight = GrossWeight;
+                          i = J.AddCargo(Cargo, Session["UserID"].ToString());
+                      }
 
-                    int ContainerCount = 0;
-                    ArrayList ContainerArray = new ArrayList();
-                    for (int j = 0; j < formCollection.Keys.Count; j++)
-                    {
-                        if (formCollection.Keys[j].StartsWith("ContainerType_"))
-                        {
-                            ContainerCount = ContainerCount + 1;
-                            ContainerArray.Add(formCollection.Keys[j].Replace("ContainerType_", "").Trim());
-                        }
-                    }
-                    for (int c = 1; c <= ContainerCount; c++)
-                    {
-                        string[] strArray;
-                        JContainerDetail ContainerObj = new JContainerDetail();
-                        ContainerObj.JobID = JobId;
-                        int ContainerTypeId = 0;
-                        if (formCollection.GetValue("ContainerTypeID_" + ContainerArray[c]) != null)
-                        {
-                            strArray = (string[])formCollection.GetValue("ContainerTypeID_" + ContainerArray[c]).RawValue;
-                            int.TryParse(strArray[0].Trim(), out ContainerTypeId);
-                        }
-                        ContainerObj.ContainerTypeID = ContainerTypeId;
-                        string ContainerNo = "";
-                        if (formCollection.GetValue("ContainerNo_" + ContainerArray[c]) != null)
-                        {
-                            strArray = (string[])formCollection.GetValue("ContainerNo_" + ContainerArray[c]).RawValue;
-                            ContainerNo = strArray[0].Trim();
-                        }
-                        ContainerObj.ContainerNo = ContainerNo;
-                        string SealNo = "";
-                        if (formCollection.GetValue("SealNo_" + ContainerArray[c]) != null)
-                        {
-                            strArray = (string[])formCollection.GetValue("SealNo_" + ContainerArray[c]).RawValue;
-                            SealNo = strArray[0].Trim();
-                        }
-                        ContainerObj.SealNo = SealNo;
-                        string ContainerDescription = "";
-                        if (formCollection.GetValue("ContainerDescription_" + ContainerArray[c]) != null)
-                        {
-                            strArray = (string[])formCollection.GetValue("ContainerDescription_" + ContainerArray[c]).RawValue;
-                            ContainerDescription = strArray[0].Trim();
-                        }
-                        ContainerObj.Description = ContainerDescription;
-                        AddContainerDetails(ContainerObj);
-                    }
+                      int ContainerCount = 0;
+                      ArrayList ContainerArray = new ArrayList();
+                      for (int j = 0; j < formCollection.Keys.Count; j++)
+                      {
+                          if (formCollection.Keys[j].StartsWith("ContainerType_"))
+                          {
+                              ContainerCount = ContainerCount + 1;
+                              ContainerArray.Add(formCollection.Keys[j].Replace("ContainerType_", "").Trim());
+                          }
+                      }
+                      for (int c = 1; c <= ContainerCount; c++)
+                      {
+                          string[] strArray;
+                          JContainerDetail ContainerObj = new JContainerDetail();
+                          ContainerObj.JobID = JobId;
+                          int ContainerTypeId = 0;
+                          if (formCollection.GetValue("ContainerTypeID_" + ContainerArray[c]) != null)
+                          {
+                              strArray = (string[])formCollection.GetValue("ContainerTypeID_" + ContainerArray[c]).RawValue;
+                              int.TryParse(strArray[0].Trim(), out ContainerTypeId);
+                          }
+                          ContainerObj.ContainerTypeID = ContainerTypeId;
+                          string ContainerNo = "";
+                          if (formCollection.GetValue("ContainerNo_" + ContainerArray[c]) != null)
+                          {
+                              strArray = (string[])formCollection.GetValue("ContainerNo_" + ContainerArray[c]).RawValue;
+                              ContainerNo = strArray[0].Trim();
+                          }
+                          ContainerObj.ContainerNo = ContainerNo;
+                          string SealNo = "";
+                          if (formCollection.GetValue("SealNo_" + ContainerArray[c]) != null)
+                          {
+                              strArray = (string[])formCollection.GetValue("SealNo_" + ContainerArray[c]).RawValue;
+                              SealNo = strArray[0].Trim();
+                          }
+                          ContainerObj.SealNo = SealNo;
+                          string ContainerDescription = "";
+                          if (formCollection.GetValue("ContainerDescription_" + ContainerArray[c]) != null)
+                          {
+                              strArray = (string[])formCollection.GetValue("ContainerDescription_" + ContainerArray[c]).RawValue;
+                              ContainerDescription = strArray[0].Trim();
+                          }
+                          ContainerObj.Description = ContainerDescription;
+                          AddContainerDetails(ContainerObj);
+                      }
 
-                    int BillOfEntryCount = 0;
-                    ArrayList BillOfEntryArray = new ArrayList();
-                    for (int j = 0; j < formCollection.Keys.Count; j++)
-                    {
-                        if (formCollection.Keys[j].StartsWith("BIllOfEntry_"))
-                        {
-                            BillOfEntryCount = ContainerCount + 1;
-                            BillOfEntryArray.Add(formCollection.Keys[j].Replace("BIllOfEntry_", "").Trim());
-                        }
-                    }
-                    for (int c = 1; c <= BillOfEntryCount; c++)
-                    {
-                        string[] strArray;
-                        JBIllOfEntry objBillOfEntry = new JBIllOfEntry();
-                        objBillOfEntry.JobID = JobId;
-                        string BIllOfEntry = "";
-                        if (formCollection.GetValue("BIllOfEntry_" + BillOfEntryArray[c]) != null)
-                        {
-                            strArray = (string[])formCollection.GetValue("BIllOfEntry_" + BillOfEntryArray[c]).RawValue;
-                            BIllOfEntry = strArray[0].Trim();
-                        }
-                        objBillOfEntry.BIllOfEntry = BIllOfEntry;
-                        DateTime BIllOfEntryDate;
-                        if (formCollection.GetValue("BillofEntryDate_" + BillOfEntryArray[c]) != null)
-                        {
-                            strArray = (string[])formCollection.GetValue("BillofEntryDate_" + BillOfEntryArray[c]).RawValue;
-                            DateTime.TryParseExact(strArray[0].Trim(), "dd-MMM-yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out BIllOfEntryDate);
-                            objBillOfEntry.BillofEntryDate = BIllOfEntryDate;
-                        }
-                        int ShippingAgentId = 0;
-                        if (formCollection.GetValue("ShippingAgentID_" + BillOfEntryArray[c]) != null)
-                        {
-                            strArray = (string[])formCollection.GetValue("ShippingAgentID_" + BillOfEntryArray[c]).RawValue;
-                            int.TryParse(strArray[0].Trim(), out ShippingAgentId);
-                        }
-                        objBillOfEntry.ShippingAgentID = ShippingAgentId;
-                        AddBill(objBillOfEntry);
-                    }
-                    int NotificationCount = 0;
-                    ArrayList NotificationArray = new ArrayList();
-                    for (int j = 0; j < formCollection.Keys.Count; j++)
-                    {
-                        if (formCollection.Keys[j].StartsWith("AuditTransDate_"))
-                        {
-                            NotificationCount = NotificationCount + 1;
-                            NotificationArray.Add(formCollection.Keys[j].Replace("AuditTransDate_", "").Trim());
-                        }
-                    }
-                    for (int c = 1; c <= ContainerCount; c++)
-                    {
-                        JAuditLog objAudit = new JAuditLog();
-                        objAudit.JobID = JobId;
-                        string[] strArray;
-                        DateTime NotificationDate;
-                        if (formCollection.GetValue("AuditTransDate_" + NotificationArray[c]) != null)
-                        {
-                            strArray = (string[])formCollection.GetValue("AuditTransDate_" + NotificationArray[c]).RawValue;
-                            DateTime.TryParseExact(strArray[0].Trim(), "dd-MMM-yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out NotificationDate);
-                            objAudit.TransDate = NotificationDate;
-                        }
-                       
-                        if (formCollection.GetValue("AuditRemarks_" + NotificationArray[c]) != null)
-                        {
-                            strArray = (string[])formCollection.GetValue("AuditRemarks_" + NotificationArray[c]).RawValue;
-                            objAudit.Remarks = strArray[0].Trim();
-                        }
-                        objAudit.JobID = JobId;
-                        AddALog(objAudit);
-                    }
-                    -------
-                          if (Session["Cargoid"] != null)
-                           {
-                               List<int> list = new List<int>();
-                               list = (List<int>)Session["Cargoid"];
-                               foreach (var item in list)
-                               {
-                                   int cargoid = Convert.ToInt32(item.ToString());
-                                   var a = (from t in entity.JCargoDescriptions where t.CargoDescriptionID == cargoid select t).FirstOrDefault();
+                      int BillOfEntryCount = 0;
+                      ArrayList BillOfEntryArray = new ArrayList();
+                      for (int j = 0; j < formCollection.Keys.Count; j++)
+                      {
+                          if (formCollection.Keys[j].StartsWith("BIllOfEntry_"))
+                          {
+                              BillOfEntryCount = ContainerCount + 1;
+                              BillOfEntryArray.Add(formCollection.Keys[j].Replace("BIllOfEntry_", "").Trim());
+                          }
+                      }
+                      for (int c = 1; c <= BillOfEntryCount; c++)
+                      {
+                          string[] strArray;
+                          JBIllOfEntry objBillOfEntry = new JBIllOfEntry();
+                          objBillOfEntry.JobID = JobId;
+                          string BIllOfEntry = "";
+                          if (formCollection.GetValue("BIllOfEntry_" + BillOfEntryArray[c]) != null)
+                          {
+                              strArray = (string[])formCollection.GetValue("BIllOfEntry_" + BillOfEntryArray[c]).RawValue;
+                              BIllOfEntry = strArray[0].Trim();
+                          }
+                          objBillOfEntry.BIllOfEntry = BIllOfEntry;
+                          DateTime BIllOfEntryDate;
+                          if (formCollection.GetValue("BillofEntryDate_" + BillOfEntryArray[c]) != null)
+                          {
+                              strArray = (string[])formCollection.GetValue("BillofEntryDate_" + BillOfEntryArray[c]).RawValue;
+                              DateTime.TryParseExact(strArray[0].Trim(), "dd-MMM-yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out BIllOfEntryDate);
+                              objBillOfEntry.BillofEntryDate = BIllOfEntryDate;
+                          }
+                          int ShippingAgentId = 0;
+                          if (formCollection.GetValue("ShippingAgentID_" + BillOfEntryArray[c]) != null)
+                          {
+                              strArray = (string[])formCollection.GetValue("ShippingAgentID_" + BillOfEntryArray[c]).RawValue;
+                              int.TryParse(strArray[0].Trim(), out ShippingAgentId);
+                          }
+                          objBillOfEntry.ShippingAgentID = ShippingAgentId;
+                          AddBill(objBillOfEntry);
+                      }
+                      int NotificationCount = 0;
+                      ArrayList NotificationArray = new ArrayList();
+                      for (int j = 0; j < formCollection.Keys.Count; j++)
+                      {
+                          if (formCollection.Keys[j].StartsWith("AuditTransDate_"))
+                          {
+                              NotificationCount = NotificationCount + 1;
+                              NotificationArray.Add(formCollection.Keys[j].Replace("AuditTransDate_", "").Trim());
+                          }
+                      }
+                      for (int c = 1; c <= ContainerCount; c++)
+                      {
+                          JAuditLog objAudit = new JAuditLog();
+                          objAudit.JobID = JobId;
+                          string[] strArray;
+                          DateTime NotificationDate;
+                          if (formCollection.GetValue("AuditTransDate_" + NotificationArray[c]) != null)
+                          {
+                              strArray = (string[])formCollection.GetValue("AuditTransDate_" + NotificationArray[c]).RawValue;
+                              DateTime.TryParseExact(strArray[0].Trim(), "dd-MMM-yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out NotificationDate);
+                              objAudit.TransDate = NotificationDate;
+                          }
 
-                                   a.JobID = JobId;
-                                   entity.SaveChanges();
-                               }
-                           }
+                          if (formCollection.GetValue("AuditRemarks_" + NotificationArray[c]) != null)
+                          {
+                              strArray = (string[])formCollection.GetValue("AuditRemarks_" + NotificationArray[c]).RawValue;
+                              objAudit.Remarks = strArray[0].Trim();
+                          }
+                          objAudit.JobID = JobId;
+                          AddALog(objAudit);
+                      }
+                      -------
+                            if (Session["Cargoid"] != null)
+                             {
+                                 List<int> list = new List<int>();
+                                 list = (List<int>)Session["Cargoid"];
+                                 foreach (var item in list)
+                                 {
+                                     int cargoid = Convert.ToInt32(item.ToString());
+                                     var a = (from t in entity.JCargoDescriptions where t.CargoDescriptionID == cargoid select t).FirstOrDefault();
 
-                           if (Session["ContainerID"] != null)
-                           {
-                               List<int> list = new List<int>();
-                               list = (List<int>)Session["ContainerID"];
-                               foreach (var item in list)
-                               {
+                                     a.JobID = JobId;
+                                     entity.SaveChanges();
+                                 }
+                             }
 
-                                   int containerid = Convert.ToInt32(item.ToString());
-                                   var a = (from t in entity.JContainerDetails where t.JContainerDetailID == containerid select t).FirstOrDefault();
+                             if (Session["ContainerID"] != null)
+                             {
+                                 List<int> list = new List<int>();
+                                 list = (List<int>)Session["ContainerID"];
+                                 foreach (var item in list)
+                                 {
 
-                                   a.JobID = JobId;
-                                   entity.SaveChanges();
-                               }
-                           }
+                                     int containerid = Convert.ToInt32(item.ToString());
+                                     var a = (from t in entity.JContainerDetails where t.JContainerDetailID == containerid select t).FirstOrDefault();
 
-                           if (Session["AddLog"] != null)
-                           {
-                               List<int> list = new List<int>();
-                               list = (List<int>)Session["AddLog"];
-                               foreach (var item in list)
-                               {
-                                   int addlog = Convert.ToInt32(item.ToString());
-                                   var a = (from t in entity.JAuditLogs where t.JAuditLogID == addlog select t).FirstOrDefault();
+                                     a.JobID = JobId;
+                                     entity.SaveChanges();
+                                 }
+                             }
 
-                                   a.JobID = JobId;
-                                   entity.SaveChanges();
-                               }
-                           }
+                             if (Session["AddLog"] != null)
+                             {
+                                 List<int> list = new List<int>();
+                                 list = (List<int>)Session["AddLog"];
+                                 foreach (var item in list)
+                                 {
+                                     int addlog = Convert.ToInt32(item.ToString());
+                                     var a = (from t in entity.JAuditLogs where t.JAuditLogID == addlog select t).FirstOrDefault();
 
-                           if (Session["AddBill"] != null)
-                           {
-                               List<int> list = new List<int>();
-                               list = (List<int>)Session["AddBill"];
-                               foreach (var item in list)
-                               {
-                                   int addbill = Convert.ToInt32(item.ToString());
-                                   var a = (from t in entity.JBIllOfEntries where t.BIllOfEntryID == addbill select t).FirstOrDefault();
+                                     a.JobID = JobId;
+                                     entity.SaveChanges();
+                                 }
+                             }
 
-                                   a.JobID = JobId;
-                                   entity.SaveChanges();
-                               }
-                           }
+                             if (Session["AddBill"] != null)
+                             {
+                                 List<int> list = new List<int>();
+                                 list = (List<int>)Session["AddBill"];
+                                 foreach (var item in list)
+                                 {
+                                     int addbill = Convert.ToInt32(item.ToString());
+                                     var a = (from t in entity.JBIllOfEntries where t.BIllOfEntryID == addbill select t).FirstOrDefault();
 
-                           if (Session["InvoiceID"] != null)
-                           {
-                               List<int> list = new List<int>();
-                               list = (List<int>)Session["InvoiceID"];
-                               foreach (var item in list)
-                               {
-                                   int charges = Convert.ToInt32(item.ToString());
-                                   var a = (from t in entity.JInvoices where t.InvoiceID == charges select t).FirstOrDefault();
+                                     a.JobID = JobId;
+                                     entity.SaveChanges();
+                                 }
+                             }
 
-                                   a.JobID = JobId;
-                                   entity.SaveChanges();
-                               }
-                           }*/
+                             if (Session["InvoiceID"] != null)
+                             {
+                                 List<int> list = new List<int>();
+                                 list = (List<int>)Session["InvoiceID"];
+                                 foreach (var item in list)
+                                 {
+                                     int charges = Convert.ToInt32(item.ToString());
+                                     var a = (from t in entity.JInvoices where t.InvoiceID == charges select t).FirstOrDefault();
 
-                        // int j = J.UpdateJobIDinAllModules(JobId, Convert.ToInt32(Session["UserID"]), Convert.ToInt32(Session["fyearid"]));
+                                     a.JobID = JobId;
+                                     entity.SaveChanges();
+                                 }
+                             }*/
 
-                        Session["JobID"] = JobId;
+                    // int j = J.UpdateJobIDinAllModules(JobId, Convert.ToInt32(Session["UserID"]), Convert.ToInt32(Session["fyearid"]));
+
+                    Session["JobID"] = JobId;
 
                     JM.JobID = JobId;
                     return RedirectToAction("Job", "Job", new { ID = JobId });
@@ -655,7 +655,7 @@ namespace TrueBooksMVC.Controllers
                                 entity.Entry(data1).State = EntityState.Modified;
                                 entity.SaveChanges();
 
-                                DeleteAndInsertRecords(formCollection,JobId);
+                                DeleteAndInsertRecords(formCollection, JobId);
 
                                 //var acjournalid = (from m in entity.JobGenerations where m.JobID == JobId select m.AcJournalID).FirstOrDefault();
                                 //if (acjournalid > 0)
@@ -694,7 +694,7 @@ namespace TrueBooksMVC.Controllers
                         }
                         else
                         {
-                          //  int j = J.UpdateJobIDinAllModules(JobId, Convert.ToInt32(Session["UserID"]), Convert.ToInt32(Session["fyearid"]));
+                            //  int j = J.UpdateJobIDinAllModules(JobId, Convert.ToInt32(Session["UserID"]), Convert.ToInt32(Session["fyearid"]));
                         }
                         return RedirectToAction("JobDetails", "Job", new { ID = 20 });
                     }
@@ -1006,7 +1006,7 @@ namespace TrueBooksMVC.Controllers
                     ChargesArray.Add(formCollection.Keys[j].Replace("RevenueTypeID_", "").Trim());
                 }
             }
-           
+
             for (int c = 1; c <= ChargesCount; c++)
             {
                 string[] strArray;
@@ -1743,7 +1743,7 @@ namespace TrueBooksMVC.Controllers
 
         }
 
-        
+
 
         public JsonResult DeleteContainerJobIdandUserID(JContainerDetail Conta)
         {
@@ -1915,7 +1915,7 @@ namespace TrueBooksMVC.Controllers
                 // ViewBag.RevenueT = new SelectList(RevenueType, "RevenueTypeID", "RevenueType");
                 // ViewBag.Curency = new SelectList(Currency, "CurrencyID", "CurrencyName");
                 //  ViewBag.Suplier = new SelectList(Supplier, "SupplierID", "SupplierName");
-                ViewBag.ShippingA = new SelectList(ShippingAgent.OrderBy(x=>x.AgentName).ToList(), "ShippingAgentID", "AgentName");
+                ViewBag.ShippingA = new SelectList(ShippingAgent.OrderBy(x => x.AgentName).ToList(), "ShippingAgentID", "AgentName");
                 ViewBag.MaxInvoiceNumber = J.GetMaxInvoiceNumber();
                 ViewBag.voyages = (from c in entity.Voyages select c).ToList();
 
@@ -2199,12 +2199,12 @@ namespace TrueBooksMVC.Controllers
 
         public ActionResult GetJob(DateTime fdate, DateTime tdate)
         {
-            
+
             var data = entity.SP_GetAllJobsDetailsByDate(Convert.ToDateTime(fdate), Convert.ToDateTime(tdate)).ToList();
 
 
-           
-           string  view = this.RenderPartialView("_GetJob", data);
+
+            string view = this.RenderPartialView("_GetJob", data);
 
             return new JsonResult
             {
