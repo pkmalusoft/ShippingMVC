@@ -5,7 +5,25 @@
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
 }
-
+<style>
+    .jobform {
+        background-color: #fff;
+        box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
+        border-radius: 25px;
+        margin-bottom: 27px;
+        padding: 20px;
+        width: 100%;
+        margin: 50px auto;
+        max-width: 881px;
+    }
+    .headinglabel {
+        font-family: Calibri;
+        font-size: 15px;
+        color: #1d1a1a !important;
+        font-weight: 600;
+        display: inline;
+    }
+</style>
 
 <script src="~/Scripts/jquery-1.10.2.js"></script>  
 <script src="~/Scripts/jquery.validate.js"></script>  
@@ -73,7 +91,7 @@
 
 
 
-<section class="content">
+<section class="content jobform">
       @if (TempData["SuccessMSG"] != null)
     {
      <div class="alert alert-success alert-dismissable" role="alert" id="divMsgHeader" ng-show="SuccessAlert">
@@ -99,20 +117,20 @@
             @Html.ValidationMessageFor(model => model.UserID)
         </div>*@
         <div class="row no-margin">
-                <div class="col-md-3">
+                <div class="col-md-4">
                    @Html.HiddenFor(model=>model.UserID)
                     <label class="required headinglabel">User Name</label>
                     @Html.TextBoxFor(model => model.UserName, new { @class = "form-control txttarget" })
                     @Html.ValidationMessageFor(model => model.UserName)
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <label class="required headinglabel">Password</label>
                     @Html.PasswordFor(model => model.Password, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Password)
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <label class="required headinglabel">Role</label>
                     
                     @Html.DropDownListFor(model => model.RoleID, new SelectList(ViewBag.UserRole, "RoleID", "RoleName"), "Select Role", new { @class = "form-control" })
@@ -123,18 +141,18 @@
 
 
         <div class="row no-margin" style="padding-top:10px">
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <label class="required headinglabel">Phone</label>
                     @Html.TextBoxFor(model => model.Phone, new { @class = "form-control textright txttarget" })
                     @Html.ValidationMessageFor(model => model.Phone)
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <label class="required headinglabel">Email</label>
                     @Html.TextBoxFor(model => model.EmailId, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.EmailId)
                 </div>
-              <div class="col-md-3">
+              <div class="col-md-4">
                     <label class="required headinglabel">Employee ID</label>
                     
                     @Html.DropDownListFor(model => model.EmployeeID, new SelectList(ViewBag.Employee, "EmployeeID", "EmployeeName"), "Select Employee", new { @class = "form-control" })
@@ -153,9 +171,9 @@
 
           </div>
         <div class="row no-margin" style="padding-top:10px">
-            <div class="col-md-3">
-                  <input type="submit" value="Create" class="btn btn-primary btnwidth" id="btnsave" />&nbsp;
-                <a href='@Url.Action("Index", "UserRegistration", new { id = 0 })' class="btn btn-primary btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+            <div class="col-md-12" style="text-align:center;padding:10px;">
+                  <input type="submit" value="Create" class="btn btn-primary btnwid" id="btnsave" />&nbsp;
+                <a href='@Url.Action("Index", "UserRegistration", new { id = 0 })' class="btn btn-danger btnwid" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
            </div>
         </div>
 

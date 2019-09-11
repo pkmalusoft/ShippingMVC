@@ -9,6 +9,27 @@
    tfoot {
     display: table-header-group;
     }
+    #tbl1 tr {
+        height: 35px;
+    }
+
+    .panel-body {
+        padding: 0px;
+    }
+
+    .panel {
+        background-color: unset;
+    }
+    .tblbackground {
+        background-color: #fff;
+        box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
+        border-radius: 10px;
+        padding:50px;
+    }
+    .tblbackgroun {
+        background-color:unset;
+      
+    }
 </style>
 
 <script src="@Url.Content("~/Scripts/angular.js")"></script>
@@ -197,25 +218,25 @@
                 <a href='@Url.Action("CostUpdation", "CostUpdation", new { id = 0 })' class="btn btn-primary" data-toggle="tooltip" data-placement="right" style="width:90px;" >Add</a>
           </div>
 
-                        </div>>
+                        </div>
                           </div>
                     <section class="content">
                            <p style="color: white" class="cbtnpadding">
                 <div id="error" style="display: none; font-family: Calibri; color: red">* From Date must not be Greater than To Date</div>
-                <table border="0" style="margin-left: 10px;" id="tbl1">
+                <table class="searchtabs" id="tbl1">
                     <tr>
-                        <td style="color: white; padding-right: 10px">From Date
+                        <td class="searlabel">From Date
                         </td>
-                        <td style="padding-right: 10px">
+                        <td class="searinput">
                             <input type="text" id="frmdate" class="form-control" />
                         </td>
-                        <td style="color: white; padding-right: 10px">To Date
+                        <td class="searlabel">To Date
                         </td>
-                        <td style="padding-right: 10px">
+                        <td class="searinput">
                             <input type="text" id="todate" class="form-control" />
                         </td>
                         <td>
-                            <input type="button" value="Search" id="btnsearch" class="btn btn-primary btnwidth" />
+                            <input type="button" value="Search" id="btnsearch" class="btn btn-primary btnwidt" />
                         </td>
                     </tr>
 
@@ -224,11 +245,11 @@
             </p>
                 <div id="divgridJob" class="row" runat="server" style="min-height: 250px; margin-right: auto; margin-left: auto;">
                     <div class="col-md-12">
-                        <div class="box box-primary">
+                        
                             
                           
           <div class="row no-margin">
-        <div class="col-md-12 tblbackground">
+        <div class="col-md-12 tblbackgroun">
             <div class="row">
                 <div class="col-md-12" id="result">
                 </div>
@@ -237,7 +258,7 @@
     </div>
                         </div>
                     </div>
-                </div>
+               
             
             </section> 
         }

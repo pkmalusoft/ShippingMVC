@@ -39,7 +39,6 @@
     <link rel="stylesheet" href="~/Content/NewCSS/css/style.css">
     <link rel="stylesheet" href="~/Content/NewCSS/css/font-awesome/css/font-awesome.css">
     <link rel="stylesheet" href="~/Content/NewCSS/css/skins/skin-blue.min.css">
-    
 
 
     <style>
@@ -47,7 +46,7 @@
             background-color:silver !important;
         }*/
         html, button, input, optgroup, select, textarea {
-            font-family: 'Montserrat', sans-serif !important;
+            font-family: Calibri;
         }
 
         .field-validation-error {
@@ -182,21 +181,21 @@
     </style>
 
     <style>
-        @@media screen and (min-width: 992px) {
+            @@media screen and (min-width: 992px) {
 
-            .notifyjs-corner {
-                width: 65% !important;
-                border-radius: 1px;
-                font-family: Calibri;
-            }
+                .notifyjs-corner {
+                    width: 65% !important;
+                    border-radius: 1px;
+                    font-family: Calibri;
+                }
 
-            .notifyjs-bootstrap-base {
-                text-align: center !important;
-                font-family: Calibri;
-                /*background-color:#35b8eb;
+                .notifyjs-bootstrap-base {
+                    text-align: center !important;
+                    font-family: Calibri;
+                    /*background-color:#35b8eb;
         color:white;*/
+                }
             }
-        }
     </style>
     <style type="text/css">
         body {
@@ -356,10 +355,10 @@
         });*@
     </script>
 </head>
-@{ 
+@{
     string UserName = "";
     var AcYearList = new List<DAL.AcFinancialYearSelect_Result>();
-   // var AcYearList1 = new List<DAL.AcFinancialYearSelect_Result>();
+    // var AcYearList1 = new List<DAL.AcFinancialYearSelect_Result>();
     AcYearList.Where(item => item.AcFinancialYearID == Convert.ToInt32(Session["fyearid"]));
     if (Session["UserName"] != null)
     {
@@ -372,35 +371,39 @@
     }
 }
 @{ Boolean IsUserAdmin = false;
-   if (Session["IsAdmin"] != null)
-   {
-       IsUserAdmin = Convert.ToBoolean(Session["IsAdmin"]);
-   }
+    if (Session["IsAdmin"] != null)
+    {
+        IsUserAdmin = Convert.ToBoolean(Session["IsAdmin"]);
+    }
 }
-<body class="hold-transition sidebar-mini ">
+<body class="hold-transition skin-blue sidebar-mini ">
     <div class="modalloader" style="display: none">
-    <div class="center">
-        <img src="~/Images/loader.gif" />      
+        <div class="center">
+            <img src="~/Images/loader.gif" />
+        </div>
     </div>
-</div>
     <div class="se-pre-con"></div>
     <div class="wrapper">
 
         <!-- Main Header -->
         <header class="main-header">
 
-           
+            <!-- Logo -->
+            <a href="index2.html" class="logo">
+                <!-- mini logo for sidebar mini 50x50 pixels -->
+                <span class="logo-mini">
+                    <img class="img-responsive" src="~/Content/img/logo.png" alt="logosmall">
+                </span>
+                <!-- logo for regular state and mobile devices -->
+                <span class="logo-lg">
+                    <img class="img-responsive" src="~/Content/img/logo.png" alt="logolarge">
+                </span>
+            </a>
 
             <!-- Header Navbar -->
             <nav class="navbar navbar-static-top" role="navigation">
                 <!-- Sidebar toggle button-->
-                <a href="index2.html" class="logoimages">
-                    <!-- mini logo for sidebar mini 50x50 pixels -->
-                                  <!-- logo for regular state and mobile devices -->
-                    <span class="logosmall">
-                        <img class="img-responsive logonav" src="~/Content/img/logo.png" alt="logolarge">
-                    </span>
-                </a>
+
                 <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button"><span class="sr-only">Toggle navigation</span> </a>
                 <div style="display: inline-block; padding-top: 15px;">
                     @Html.DropDownList("AcFYearID", new SelectList(AcYearList, "AcFinancialYearID", "FYearName"), new { @class = "form-control" })
@@ -413,85 +416,51 @@
                         <!-- User Account Menu -->
                         <li class="dropdown user user-menu">
                             <!-- Menu Toggle Button -->
-
-                            <ul class="dropdown-menu extended logout">
-                                <li><a href="#"><i class=" fa fa-suitcase"></i>Profile</a></li>
-                                <li><a href="#"><i class="fa fa-cog"></i>Settings</a></li>
-                                <li><a href="@Url.Action("Signout", "Login")"><i class="fa fa-key"></i>Log Out</a></li>
-                            </ul>
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <!-- The user image in the navbar-->
                                 <img src="~/Content/NewCSS/img/user2-160x160.jpg" class="user-image" alt="User Image">
                                 <!-- hidden-xs hides the username on small devices so only the image appears. -->
                                 <span class="hidden-xs">@UserName</span> <b class="caret"></b>
                             </a>
+                            <ul class="dropdown-menu extended logout">
+                                <li><a href="#"><i class=" fa fa-suitcase"></i>Profile</a></li>
+                                <li><a href="#"><i class="fa fa-cog"></i>Settings</a></li>
+                                <li><a href="@Url.Action("Signout", "Login")"><i class="fa fa-key"></i>Log Out</a></li>
+                            </ul>
                         </li>
                     </ul>
                 </div>
             </nav>
         </header>
-        <script>
-            (function () {
-                let isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
-                let isSafari = /Safari/.test(navigator.userAgent) && /Apple Computer/.test(navigator.vendor);
-                let scrollbarDiv = document.querySelector('.main-sidebar');
-                if (!isChrome && !isSafari) {
-                    scrollbarDiv.innerHTML = 'You need Webkit browser to run this code';
-                }
-            })();
-
-
-        </script>
         <!-- Left side column. contains the logo and sidebar -->
-        <aside class="main-sidebar" style="display:none">
+        <aside class="main-sidebar">
 
             <!-- sidebar: style can be found in sidebar.less -->
             <section class="sidebar">
-                <a href="index2.html" class="logo">
-                    <!-- mini logo for sidebar mini 50x50 pixels -->
-                    <span class="logo-mini">
-                        <img class="img-responsive" src="~/Content/img/logotri.png" alt="logosmall">
-                    </span>
-                    </a>
-                    <!-- Sidebar Menu -->
-                    <ul class="sidebar-menu" style="margin-top: 20px">
-                        @{
-                            TrueBooksMVC.Models.SourceMastersModel obj = new TrueBooksMVC.Models.SourceMastersModel();
 
-                            List<DAL.Menu> menuList = (List<DAL.Menu>)Session["Menu"];
-                            List<DAL.Menu> parentMenu = new List<DAL.Menu>();
-                            if (menuList != null)
-                            {
-                                parentMenu = menuList.Where(p => Convert.ToInt32(p.ParentID) == 0).ToList();
-                            }
+                <!-- Sidebar Menu -->
+                <ul class="sidebar-menu">
+                    @{
+                        TrueBooksMVC.Models.SourceMastersModel obj = new TrueBooksMVC.Models.SourceMastersModel();
 
-                            if (parentMenu != null)
+                        List<DAL.Menu> menuList = (List<DAL.Menu>)Session["Menu"];
+                        List<DAL.Menu> parentMenu = new List<DAL.Menu>();
+                        if (menuList != null)
+                        {
+                            parentMenu = menuList.Where(p => Convert.ToInt32(p.ParentID) == 0).ToList();
+                        }
+
+                        if (parentMenu != null)
+                        {
+                            foreach (var item in parentMenu)
                             {
-                                foreach (var item in parentMenu)
+                                List<int> RoleId = (List<int>)Session["RoleID"];
+                                int menuid = Convert.ToInt32(item.MenuID);
+                                if (item.PermissionRequired.HasValue && item.PermissionRequired.Value)
                                 {
-                                    List<int> RoleId = (List<int>)Session["RoleID"];
-                                    int menuid = Convert.ToInt32(item.MenuID);
-                                    if (item.PermissionRequired.HasValue && item.PermissionRequired.Value)
+                                    if (obj.IsAccessibleMenu(menuid, RoleId))
                                     {
-                                        if (obj.IsAccessibleMenu(menuid, RoleId))
-                                        {
-                                            <li class="treeliss">
-                                                <a id="@item.MenuID" href=@item.Link><i class="@item.imgclass"></i><span>@item.Title</span></a>
-                                                @if (menuList.Count(p => p.ParentID == item.MenuID) > 0)
-                                                {
-                                                    @:<ul class="treeview-menu">
-                                                    }
-                                                @RenderMenuList(menuList, item)
-                                                @if (menuList.Count(p => p.ParentID == item.MenuID) > 0)
-                                                {
-                                                @:</ul>
-                                            }
-                                            </li>
-                                        }
-                                    }
-                                    else
-                                    {
-                                        <li class="treeliss">
+                                        <li>
                                             <a id="@item.MenuID" href=@item.Link><i class="@item.imgclass"></i><span>@item.Title</span></a>
                                             @if (menuList.Count(p => p.ParentID == item.MenuID) > 0)
                                             {
@@ -504,20 +473,36 @@
                                         }
                                         </li>
                                     }
-
                                 }
-                            }
-
-                            @helper RenderMenuList(List<DAL.Menu> menuList, DAL.Menu mi)
-                            {
-                                foreach (var item1 in menuList.Where(p => p.ParentID == mi.MenuID))
+                                else
                                 {
-                                    @:<li class="treeli">
-                                        <a id="
+                                    <li>
+                                        <a id="@item.MenuID" href=@item.Link><i class="@item.imgclass"></i><span>@item.Title</span></a>
+                                        @if (menuList.Count(p => p.ParentID == item.MenuID) > 0)
+                                        {
+                                            @:<ul class="treeview-menu">
+                                            }
+                                        @RenderMenuList(menuList, item)
+                                        @if (menuList.Count(p => p.ParentID == item.MenuID) > 0)
+                                        {
+                                        @:</ul>
+                                    }
+                                    </li>
+                                }
+
+                            }
+                        }
+
+                        @helper RenderMenuList(List<DAL.Menu> menuList, DAL.Menu mi)
+                        {
+                            foreach (var item1 in menuList.Where(p => p.ParentID == mi.MenuID))
+                            {
+                                @:<li>
+                                    <a id="
                             @item1.MenuID" href=@item1.Link><i class="@item1.imgclass"></i><span>@item1.Title</span></a>
                             if (menuList.Count(p => p.ParentID == item1.MenuID) > 0)
                             {
-                                @:<ul class="treemenus">
+                                @:<ul>
                                 }
                                 @RenderMenuList(menuList, item1)
                                 if (menuList.Count(p => p.ParentID == item1.MenuID) > 0)
@@ -529,15 +514,15 @@
                             @:</li>
                         }
                     }
-                            }
-
                         }
-                        <!-- Optionally, you can add icons to the links -->
+
+                    }
+                    <!-- Optionally, you can add icons to the links -->
 
 
-                    </ul>
+                </ul>
 
-                    <!-- /.sidebar-menu -->
+                <!-- /.sidebar-menu -->
             </section>
             <!-- /.sidebar -->
         </aside>
@@ -550,13 +535,11 @@
             @RenderBody()
         </div>
         <!-- /.content-wrapper -->
-
         <!-- Main Footer -->
         <footer class="main-footer">
             <!-- To the right -->
-
             <!-- Default to the left -->
-            Copyright &copy; 2016 <a href="#" class="comname">Trianglesoft</a>. All rights reserved.
+            Copyright &copy; 2016 <a href="#">Trianglesoft</a>. All rights reserved.
         </footer>
     </div>
     <!-- ./wrapper -->

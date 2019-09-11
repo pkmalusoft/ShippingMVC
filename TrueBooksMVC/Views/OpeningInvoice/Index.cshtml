@@ -9,6 +9,21 @@
      tfoot {
             display: table-header-group;
      }
+    .tblbackground {
+        background-color: #fff;
+        box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
+        border-radius: 10px;
+        margin-top:50px;
+    }
+    .searchdivs {
+        width: 100%;
+        margin: 0 auto;
+        background-color: #fff;
+        padding: 16px;
+        max-width: 458px;
+        border-radius: 10px;
+        box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
+    }
         </style>
 
 <script type="text/javascript">
@@ -71,21 +86,25 @@
     @Html.ActionLink("Create New", "openingInvoice",null,new {@class="btn btn-primary btnwidth"})
 </p>
 <section class="content">
-     @if (ViewBag.SuccessMsg != null)
+    @if (ViewBag.SuccessMsg != null)
     {
-       <script type="text/javascript">
+        <script type="text/javascript">
            $(document).ready(function () {
                $.notify("@ViewBag.SuccessMsg ", "success");
            });
-                                                </script>   
+        </script>
     }
+    <div class="searchdivs">
+        <div class="row">
+            <div class="col-md-6">
+                <input type="radio" name="g1" class="rdCustomer" value="Customer" checked="checked" />&nbsp;&nbsp;<label style="color:#000">Customer</label>
+            </div>
+            <div class="col-md-6">
+                <input type="radio" name="g1" class="rdSupplier" value="Customer" />&nbsp;&nbsp;<label style="color:#000">Supplier</label>
+            </div>
+        </div>
+        </div>
+        <div class="table-responsive tblbackground" style="padding:15px" id="result">
 
-     <div class="row">
-        <div class="col-md-3">
-           <input type="radio" name="g1" class="rdCustomer" value="Customer" checked="checked" />&nbsp;&nbsp;<label style="color:white">Customer</label> &nbsp;&nbsp;&nbsp;&nbsp;   <input type="radio" name="g1" class="rdSupplier" value="Customer" />&nbsp;&nbsp;<label style="color:white">Supplier</label>
-    </div>
-         </div>
-    <div class="table-responsive tblbackground" style="padding:15px" id="result">
-   
-    </div>
+        </div>
 </section>

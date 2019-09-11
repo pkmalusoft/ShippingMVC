@@ -4,7 +4,24 @@
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
 }
+<style>
+    .headinglabel {
+        font-size: 16px;
+        color: #2b2929 !important;
+        display: inline;
+    }
 
+    .searchdiv {
+        background-color: #fff;
+        width: 100%;
+        margin: 0 auto;
+        max-width: 500px;
+        padding: 20px;
+        margin-top: 50px;
+        border-radius: 10px;
+        box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
+    }
+</style>
 <script type="text/javascript">
     $(document).ready(function () {
         $("#Location1").focus();
@@ -56,40 +73,43 @@
 @*<p class="cbtnpadding">
     @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary btnwidth" })
 </p>*@
-<section class="content">
-@using (Html.BeginForm()) {
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true)
-     <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
-  <fieldset>
-      
- 
-    
-    <div class="row no-margin">
-        <div class="col-md-3">
-            <label class="required headinglabel">Location</label>
-            @Html.TextBoxFor(model => model.Location1,new { @class = "form-control txttarget" })
-            @Html.ValidationMessageFor(model => model.Location1)
-        </div>
+      <section class="content">
+          @using (Html.BeginForm())
+          {
+              @Html.AntiForgeryToken()
+              @Html.ValidationSummary(true)
+              <div class="searchdiv">
+                  
+                  <fieldset>
+                      <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
 
-        <div class="col-md-3">
-            <label class="required headinglabel">Prefix</label>
-            @Html.TextBoxFor(model => model.prefix,new { @class = "form-control" })
-        </div>
 
-    </div>
-    <div class="row no-margin" style="padding-top:10px">
-        <div class="col-md-12">
-              <input type="submit"  value="Save"  class="btn btn-primary btnwidth" id="btnsave" />
-                               
-                            &nbsp; 
-                                           <a href='@Url.Action("Index", "Location", new { id = 0 })' class="btn btn-primary btnwidth" data-toggle="tooltip" data-placement="right" title="Click here" >Cancel</a>
-        </div>
-    </div>
-       </fieldset> 
-}
+                      <div class="row no-margin">
+                          <div class="col-md-6">
+                              <label class="required headinglabel">Location</label>
+                              @Html.TextBoxFor(model => model.Location1, new { @class = "form-control txttarget" })
+                              @Html.ValidationMessageFor(model => model.Location1)
+                          </div>
 
-</section>
+                          <div class="col-md-6">
+                              <label class="required headinglabel">Prefix</label>
+                              @Html.TextBoxFor(model => model.prefix, new { @class = "form-control" })
+                          </div>
+
+                      </div>
+                      <div class="row no-margin" style="padding-top:10px">
+                          <div class="col-md-12 butdivs">
+                              <input type="submit" value="Save" class="btn btn-primary btnwid" id="btnsave" />
+
+                              &nbsp;
+                              <a href='@Url.Action("Index", "Location", new { id = 0 })' class="btn btn-danger btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+                          </div>
+                      </div>
+                  </fieldset>
+                  </div>
+                  }
+
+          </section>
 
 @*@section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

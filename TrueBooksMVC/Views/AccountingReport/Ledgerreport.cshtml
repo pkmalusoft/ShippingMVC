@@ -19,6 +19,26 @@
     {
         height:35px;
     }
+    .searchdiv {
+        background-color: #fff;
+        width: 100%;
+        margin: 0 auto;
+        max-width: 500px;
+        padding: 20px;
+        margin-top: 50px;
+        border-radius: 10px;
+        box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
+    }
+    .tblbackground {
+        background-color: #fff;
+        box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
+        border-radius: 10px;
+    }
+    .headinglabel {
+        font-family: Calibri;
+        font-size: 16px;
+        color: #2b2929 !important;
+    }
 </style>
 
 <script src="@Url.Content("~/Scripts/angular.js")"></script>
@@ -174,22 +194,23 @@
         </section>
       
         <section class="content">
+            <div class="searchdiv">
              <div id="date" style="color:red;display:none;margin-left:10px;">*Please select valid date</div>
                   <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
              <div class="row no-margin">
-                   <div class="col-md-3">   
+                   <div class="col-md-4">   
                       <label class="headinglabel required">Account Head</label>
                       @Html.DropDownList("AcHeadID", new SelectList(ViewBag.legherhead, "AcHeadID", "AcHead1"),"Select", new { @class = "form-control" })
 
                 </div>
 
-                 <div class="col-md-3">
+                 <div class="col-md-4">
                        <label class="headinglabel required">From Date</label>
                        
                             <input type="text" id="frmdate" class="form-control"  />
                     
                  </div>  
-                 <div class="col-md-3">   
+                 <div class="col-md-4">   
                            <label class="headinglabel required">To Date</label>
                      
                             <input type="text" id="todate" class="form-control"  />
@@ -198,10 +219,11 @@
             </div>
 
             <div class="row no-margin" style="padding-top:10px">
-                <div class="col-md-4">
-                     <button id="btnsearch" class="btn btn-primary sidebar-toggle" data-toggle="offcanvas">Generate</button>
+                <div class="col-md-12 butdivs">
+                     <button id="btnsearch" class="btn btn-primary btnwid sidebar-toggle" data-toggle="offcanvas">Generate</button>
                 </div>
             </div>
+                </div>
 <hr />
     <div class="row no-margin" style="padding-top:10px">
          <div id="result" class="col-md-12">

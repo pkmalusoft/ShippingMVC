@@ -6,7 +6,24 @@
     Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
     }
 
+<style>
+    .headinglabel {
+        font-size: 16px;
+        color: #2b2929 !important;
+        display:inline;
+    }
 
+    .searchdiv {
+        background-color: #fff;
+        width: 100%;
+        margin: 0 auto;
+        max-width: 800px;
+        padding: 20px;
+        margin-top: 50px;
+        border-radius: 10px;
+        box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
+    }
+</style>
 <script type="text/javascript">
         $(document).ready(function () {
             $("#EmployeeName").focus();
@@ -176,156 +193,159 @@
           });
                                                 </script>
 }
-<section class="content">
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true)
-       <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
-     <div id="alert1" style="color:red;display:none;margin-left:10px;">*Employee Name Already Exist</div>
-    <fieldset>
-        
-          <div class="row no-margin"> 
+      <section class="content">
+          @using (Html.BeginForm())
+          {
+              @Html.AntiForgeryToken()
+              @Html.ValidationSummary(true)
               
-             <div class="col-md-3">
-                     <label class="required headinglabel">Employee Name</label>
-                       @Html.TextBoxFor(model => model.EmployeeName, new { @class = "form-control txttarget" })
-                          @Html.ValidationMessageFor(model => model.EmployeeName)
-                        
-             </div>
+              <div class="searchdiv">
 
-             <div class="col-md-3">
-                        
-                          <label class="required headinglabel">Address 1</label>
-                        @Html.TextBoxFor(model => model.Address1, new { @class = "form-control txttarget" })
-                        @Html.ValidationMessageFor(model => model.Address1)
-            </div>
+                  <fieldset>
+                      <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
+                      <div id="alert1" style="color:red;display:none;margin-left:10px;">*Employee Name Already Exist</div>
+                      <div class="row no-margin">
 
-            
-               
-                 <div class="col-md-3">
-                            <label class="headinglabel">Address 2</label>
-                       @Html.TextBoxFor(model => model.Address2, new { @class = "form-control txttarget" })
-                         @Html.ValidationMessageFor(model => model.Address2)
-                           
-                 </div>
-              </div>
+                          <div class="col-md-4">
+                              <label class="required headinglabel">Employee Name</label>
+                              @Html.TextBoxFor(model => model.EmployeeName, new { @class = "form-control txttarget" })
+                              @Html.ValidationMessageFor(model => model.EmployeeName)
+
+                          </div>
+
+                          <div class="col-md-4">
+
+                              <label class="required headinglabel">Address 1</label>
+                              @Html.TextBoxFor(model => model.Address1, new { @class = "form-control txttarget" })
+                              @Html.ValidationMessageFor(model => model.Address1)
+                          </div>
 
 
-            <div class="row no-margin" style="padding-top:10px"> 
-             
-             <div class="col-md-3">
-                           <label class="headinglabel">Address 3</label>
-                       @Html.TextBoxFor(model => model.Address3, new { @class = "form-control txttarget" })
-                        @Html.ValidationMessageFor(model => model.Address3)
-                         
-             </div>
-             <div class="col-md-3">
-                          <label class="required headinglabel">Contact No</label>
-                        @Html.TextBoxFor(model => model.ContactNo, new { @class = "form-control textright txttarget" })
-                        @Html.ValidationMessageFor(model => model.ContactNo)
-             </div>
 
-            
-                
-                 <div class="col-md-3">
-                          
-                          <label class="required headinglabel">Designation</label>
-                        @Html.DropDownListFor(model => model.DesignationID, (IEnumerable<SelectListItem>)ViewBag.Designation, "Select", new { @class = "form-control" })
-                         @Html.ValidationMessageFor(model => model.DesignationID)
+                          <div class="col-md-4">
+                              <label class="headinglabel">Address 2</label>
+                              @Html.TextBoxFor(model => model.Address2, new { @class = "form-control txttarget" })
+                              @Html.ValidationMessageFor(model => model.Address2)
 
-                 </div>
-              </div>
+                          </div>
+                      </div>
 
-       
 
-          <div class="row no-margin" style="padding-top:10px"> 
-              
-             <div class="col-md-3">
-                       <label class="required headinglabel">Department</label>
-                       @Html.DropDownListFor(model => model.DepartmentID, (IEnumerable<SelectListItem>)ViewBag.Department, "Select", new { @class = "form-control" })
-                          @Html.ValidationMessageFor(model => model.DepartmentID) 
-             </div>
+                      <div class="row no-margin" style="padding-top:10px">
 
-             <div class="col-md-3">
-                         <label class="required headinglabel">Location</label>
-                         @Html.DropDownListFor(model => model.LocationID, (IEnumerable<SelectListItem>)ViewBag.Location, "select", new { @class = "form-control" })
-                         @Html.ValidationMessageFor(model => model.LocationID)
+                          <div class="col-md-4">
+                              <label class="headinglabel">Address 3</label>
+                              @Html.TextBoxFor(model => model.Address3, new { @class = "form-control txttarget" })
+                              @Html.ValidationMessageFor(model => model.Address3)
 
-            
-             </div>
-               <div class="col-md-3">
-                           <label class="headinglabel">Nationality</label>
-                       @Html.TextBoxFor(model => model.Nationality, new { @class = "form-control txttarget" })
-                         @Html.ValidationMessageFor(model => model.Nationality)
-                     
-              </div>
-         </div>
+                          </div>
+                          <div class="col-md-4">
+                              <label class="required headinglabel">Contact No</label>
+                              @Html.TextBoxFor(model => model.ContactNo, new { @class = "form-control textright txttarget" })
+                              @Html.ValidationMessageFor(model => model.ContactNo)
+                          </div>
 
-        <div class="row no-margin" style="padding-top:10px"> 
-              
-             <div class="col-md-3">
-                          <label class="headinglabel">DOJ</label>  
-                       @Html.TextBoxFor(model => model.DOJ, new { @class = "form-control" })
-                     @Html.ValidationMessageFor(model => model.DOJ)
-                           
-             </div>
-             <div class="col-md-3 dolclass" >
-                  <label class="headinglabel">DOL</label>
-                       @Html.TextBoxFor(model => model.DOL, new { @class = "form-control" })
-                         @Html.ValidationMessageFor(model => model.DOL)
-            
-            </div>
-              <div class="col-md-3 chkclass" style="padding-top:30px">
-                         
-                             @Html.CheckBox("StatusActive", new { @name = "StatusActive" }) &nbsp <label class="headinglabel">Status Active</label>
-                    @Html.ValidationMessageFor(model => model.StatusActive)
-    
-              </div>
-            </div>
-       
 
-          @* <div class="row no-margin" style="padding-top:10px"> 
-             
-             <div class="col-md-3">
-                         <label class="headinglabel">Basic</label>
-                       @Html.TextBoxFor(model => model.Basic,new { @class = "form-control" })
-                         @Html.ValidationMessageFor(model => model.Basic)
-                         
-            </div>
 
-             <div class="col-md-3">
-                          <label class="headinglabel">Housing</label>
-                        @Html.TextBoxFor(model => model.Housing,new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.Housing)
-            </div>
+                          <div class="col-md-3">
 
-            
-                
-                <div class="col-md-3">
-                           <label class="headinglabel">TA</label>
-                       @Html.TextBoxFor(model => model.TA,new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.TA)
-                           
-                </div>
+                              <label class="required headinglabel">Designation</label>
+                              @Html.DropDownListFor(model => model.DesignationID, (IEnumerable<SelectListItem>)ViewBag.Designation, "Select", new { @class = "form-control" })
+                              @Html.ValidationMessageFor(model => model.DesignationID)
+
+                          </div>
+                      </div>
+
+
+
+                      <div class="row no-margin" style="padding-top:10px">
+
+                          <div class="col-md-4">
+                              <label class="required headinglabel">Department</label>
+                              @Html.DropDownListFor(model => model.DepartmentID, (IEnumerable<SelectListItem>)ViewBag.Department, "Select", new { @class = "form-control" })
+                              @Html.ValidationMessageFor(model => model.DepartmentID)
+                          </div>
+
+                          <div class="col-md-4">
+                              <label class="required headinglabel">Location</label>
+                              @Html.DropDownListFor(model => model.LocationID, (IEnumerable<SelectListItem>)ViewBag.Location, "select", new { @class = "form-control" })
+                              @Html.ValidationMessageFor(model => model.LocationID)
+
+
+                          </div>
+                          <div class="col-md-4">
+                              <label class="headinglabel">Nationality</label>
+                              @Html.TextBoxFor(model => model.Nationality, new { @class = "form-control txttarget" })
+                              @Html.ValidationMessageFor(model => model.Nationality)
+
+                          </div>
+                      </div>
+
+                      <div class="row no-margin" style="padding-top:10px">
+
+                          <div class="col-md-4">
+                              <label class="headinglabel">DOJ</label>
+                              @Html.TextBoxFor(model => model.DOJ, new { @class = "form-control" })
+                              @Html.ValidationMessageFor(model => model.DOJ)
+
+                          </div>
+                          <div class="col-md-4 dolclass">
+                              <label class="headinglabel">DOL</label>
+                              @Html.TextBoxFor(model => model.DOL, new { @class = "form-control" })
+                              @Html.ValidationMessageFor(model => model.DOL)
+
+                          </div>
+                          <div class="col-md-4 chkclass" style="padding-top:30px">
+
+                              @Html.CheckBox("StatusActive", new { @name = "StatusActive" }) &nbsp <label class="headinglabel">Status Active</label>
+                              @Html.ValidationMessageFor(model => model.StatusActive)
+
+                          </div>
+                      </div>
+
+
+                      @* <div class="row no-margin" style="padding-top:10px">
+
+           <div class="col-md-3">
+                       <label class="headinglabel">Basic</label>
+                     @Html.TextBoxFor(model => model.Basic,new { @class = "form-control" })
+                       @Html.ValidationMessageFor(model => model.Basic)
+
           </div>
-        *@
 
-         <div id="date" style="color:red;display:none;margin-left:10px;">*Please select valid date</div>
-        <div class="row no-margin" style="padding-top:10px">
-                        <div class="col-md-12">
-                           
-                                <input type="submit"  value="Save"  class="btn btn-primary btnwidth" id="btnsave" />
-                               
-                            &nbsp; 
-                                           <a href='@Url.Action("Index", "Employee", new { id = 0 })' class="btn btn-primary btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
-                           
-                        </div>
-                    </div>
-    </fieldset>
-}
+           <div class="col-md-3">
+                        <label class="headinglabel">Housing</label>
+                      @Html.TextBoxFor(model => model.Housing,new { @class = "form-control" })
+                      @Html.ValidationMessageFor(model => model.Housing)
+          </div>
 
-</section>
+
+
+              <div class="col-md-3">
+                         <label class="headinglabel">TA</label>
+                     @Html.TextBoxFor(model => model.TA,new { @class = "form-control" })
+                      @Html.ValidationMessageFor(model => model.TA)
+
+              </div>
+        </div>
+                      *@
+
+                      <div id="date" style="color:red;display:none;margin-left:10px;">*Please select valid date</div>
+                      <div class="row no-margin" style="padding-top:10px">
+                          <div class="col-md-12 butdivs">
+
+                              <input type="submit" value="Save" class="btn btn-primary btnwid" id="btnsave" />
+
+                              &nbsp;
+                              <a href='@Url.Action("Index", "Employee", new { id = 0 })' class="btn btn-danger btnwid" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+
+                          </div>
+                      </div>
+                  </fieldset>
+                  </div>
+                  }
+
+          </section>
 
 @*@section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

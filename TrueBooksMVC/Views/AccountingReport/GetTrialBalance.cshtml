@@ -3,6 +3,24 @@
     ViewBag.Title = "GetTrialBalance";
     Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
 }
+<style>
+    .searchdiv {
+        background-color: #fff;
+        width: 100%;
+        margin: 0 auto;
+        max-width: 500px;
+        padding: 20px;
+        margin-top: 50px;
+        border-radius: 10px;
+        box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
+    }
+
+    .headinglabel {
+        font-family: Calibri;
+        font-size: 16px;
+        color: #2b2929 !important;
+    }
+</style>
 
  <script src="@Url.Content("~/MyJsFiles/PrintReportInvoices.js")"></script>
    <script type="text/javascript">
@@ -145,24 +163,26 @@
         </section>
    
         <section class="content">
+            <div class="searchdiv">
         <div id="date" style="color:red;display:none;margin-left:10px;">*Please select valid date</div>
                   <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
              <div class="row no-margin">
                  
 
-                  <div class="col-md-3">
+                  <div class="col-md-4">
                             <label class="headinglabel required"> From Date</label>
                              <input type="text" id="frmdate" class="form-control"  />
                  </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                             <label class="headinglabel required"> To Date</label>
                              <input type="text" id="todate"  class="form-control"  />
                  </div>
-                     <div class="col-md-5" style="padding-top:25px">
+                     <div class="col-md-4" style="padding-top:28px">
                            <button id="btnsearch" class="btn btn-primary sidebar-toggle" data-toggle="offcanvas">Generate</button>
                  </div>         
          
              </div>
+                </div>
             <hr />
          <div class="row" style="padding-top:20px">
              <div class="col-md-12" id="result">

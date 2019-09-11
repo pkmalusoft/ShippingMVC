@@ -250,9 +250,9 @@ a:focus {
 .main-header .sidebar-toggle:before {
   content: "\f0c9";
 }
-.main-header .sidebar-toggle:hover {
-  color: #fff;
-}
+    .main-header .sidebar-toggle:hover {
+        color: #30465d;
+    }
 .main-header .sidebar-toggle:focus,
 .main-header .sidebar-toggle:active {
   background: transparent;

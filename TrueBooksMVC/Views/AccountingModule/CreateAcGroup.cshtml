@@ -3,6 +3,23 @@
     ViewBag.Title = "AcGroup";
     Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
 }
+<style>
+    .searchdiv {
+        background-color: #fff;
+        width: 100%;
+        margin: 0 auto;
+        max-width: 500px;
+        padding: 20px;
+        margin-top: 50px;
+        border-radius: 10px;
+        box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
+    }
+    .headinglabel {
+        font-family: Calibri;
+        font-size: 16px;
+        color: #2b2929 !important;
+    }
+</style>
 
 <script type="text/javascript">
         $(document).ready(function () {
@@ -95,62 +112,65 @@
       
     *@
 
-     <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
-    <fieldset>
-       
-         <div class="row no-margin"> 
-             
-             <div class="col-md-3">
-                          <label class="required headinglabel">Category</label>
-                       @Html.DropDownListFor(model => model.AcCategoryID, new SelectList(ViewBag.Category,"AcCategoryID","AcCategory"),"Select", new { @class = "form-control txttarget" })
-                        @Html.ValidationMessageFor(model => model.AcCategoryID)
-                            
-             </div>
-             <div class="col-md-3">
-                       <label class="headinglabel">Group</label>
-                         @Html.DropDownListFor(model => model.AcGroup,new SelectList(ViewBag.groups, "AcGroupID", "AcGroup"),"Select",new { @class = "form-control" })
-                       @*  @Html.ValidationMessageFor(model => model.AcGroup)*@
-                         
-                          
-             </div>
-              <div class="col-md-3">
-                       <label class="required headinglabel">Sub Group</label>
-                         @Html.TextBoxFor(model => model.subgroup, new {@class="form-control" })
-                         @Html.ValidationMessageFor(model => model.subgroup)
-                         
-                          
-             </div>
+   
+    <div class="searchdiv">
+        <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
+        <fieldset>
 
-             @if (Convert.ToInt32(ViewBag.IsAuto) == 1)
-             {
-                   <div class="col-md-3">
-                       <label class="required headinglabel">Group Code</label>
-                         @Html.TextBoxFor(model => model.GroupCode, new {@class="form-control" })
-                         @Html.ValidationMessageFor(model => model.GroupCode)
-                         
-                          
-             </div>
+            <div class="row no-margin">
 
-             }
-              
-            
-       </div>
+                <div class="col-md-6">
+                    <label class="required headinglabel">Category</label>
+                    @Html.DropDownListFor(model => model.AcCategoryID, new SelectList(ViewBag.Category, "AcCategoryID", "AcCategory"), "Select", new { @class = "form-control txttarget" })
+                    @Html.ValidationMessageFor(model => model.AcCategoryID)
+
+                </div>
+                <div class="col-md-6">
+                    <label class="headinglabel">Group</label>
+                    @Html.DropDownListFor(model => model.AcGroup, new SelectList(ViewBag.groups, "AcGroupID", "AcGroup"), "Select", new { @class = "form-control" })
+                    @*  @Html.ValidationMessageFor(model => model.AcGroup)*@
 
 
+                </div>
+                <div class="col-md-6">
+                    <label class="required headinglabel">Sub Group</label>
+                    @Html.TextBoxFor(model => model.subgroup, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.subgroup)
 
-       
-        <div class="row no-margin" style="padding-top:10px">
-                        <div class="col-md-12">
-                           
-                                <input type="submit"  value="Save"  class="btn btn-primary btnwidth" id="btnsave" />
-                               
-                            &nbsp; 
-                                           <a href='@Url.Action("IndexAcGroup", "AccountingModule", new { id = 0 })' class="btn btn-primary btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
-                           
-                        </div>
+
+                </div>
+
+                @if (Convert.ToInt32(ViewBag.IsAuto) == 1)
+                {
+                    <div class="col-md-6">
+                        <label class="required headinglabel">Group Code</label>
+                        @Html.TextBoxFor(model => model.GroupCode, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.GroupCode)
+
+
                     </div>
 
-       
-    </fieldset>
+                }
+
+
+            </div>
+
+
+
+
+            <div class="row no-margin" style="padding-top:10px">
+                <div class="col-md-12" style="text-align:center;padding:10px;">
+
+                    <input type="submit" value="Save" class="btn btn-primary btnwid" id="btnsave" />
+
+                    &nbsp;
+                    <a href='@Url.Action("IndexAcGroup", "AccountingModule", new { id = 0 })' class="btn btn-danger btnwid" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+
+                </div>
+            </div>
+
+
+        </fieldset>
+    </div>
 }
     </section>

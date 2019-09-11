@@ -13,8 +13,43 @@
     #tbl1 tr {
         height: 35px;
     }
+    .panel-body {
+        padding: 0px;
+        border: unset;
+    }
+    .panel.panel-danger {
+        border: unset;
+        box-shadow: unset;
+    }
+    /* job close*/
+    a#closejob, a#openjob {
+        background-color: #337ab7;
+        color: #fff;
+        font-size: 14px;
+        font-weight: 600;
+        border-radius: 12px;
+    }
 
-   
+    .form-group {
+        /* margin-bottom: 15px; */
+        margin: 0 auto;
+        width: 100%;
+        max-width: 700px;
+        background-color: #fff;
+        box-shadow: rgba(0, 0, 0, 0.09) 0px 9px 23px, rgba(0, 0, 0, 0.06) 0px 5px 5px !important;
+        padding: 4px;
+        border-radius: 19px;
+    }
+    .nav-tabs {
+        border-bottom:unset;
+    }
+    .searlabe {
+        font-size: 16px;
+        padding: 7px;
+    }
+    .searinpu {
+        padding: 9px;
+    }
 </style>
 
 @*<script src="@Url.Content("~/Scripts/angular.js")"></script>
@@ -224,9 +259,9 @@
                                 @using (@Html.BeginForm())
                                 { 
                                     <ul class="nav nav-tabs">
-                                        <li><a href="#tabs-1" style="background-color: white" id="openjob">Open Job</a></li>
+                                        <li><a href="#tabs-1"  id="openjob">Open Job</a></li>
                                            
-                                         <li><a href="#tabs-2" style="background-color: white" id="closejob">Close Job</a></li>
+                                         <li><a href="#tabs-2" id="closejob">Close Job</a></li>
                                     </ul>@*
                                   @*  <div class="row" id="tabs-1">
                                         <div class="tab-content">
@@ -311,24 +346,24 @@
                                         </div>
                                     </div>*@
                               
-                                         <div class="row" id="tabs-2">
+                                         <div class="rows" id="tabs-2">
                                         <div class="tab-content">
                      <div class="panel panel-danger" style="padding-top:20px;">
                   
-                <table border="0" style="margin-left: 40px;" id="tbl1">
+                <table class="searchtab"  id="tbl1">
                     <tr id="openejobdate">
-                        <td style="color: black; padding-right: 10px"><b>From Date</b>
+                        <td class="searlabe"><b>From Date</b>
                         </td>
-                        <td style="padding-right: 10px">
+                        <td class="searinpu">
                             <input type="text" id="frmdate" class="form-control" />
                         </td>
-                        <td style="color: black; padding-right: 10px"><b>To Date</b>
+                        <td class="searlabe"><b>To Date</b>
                         </td>
-                        <td style="padding-right: 10px">
+                        <td class="searinpu">
                             <input type="text" id="todate" class="form-control" />
                         </td>
                         <td>
-                            <input type="button" value="Search" id="btnsearch" class="btn btn-primary btnwidth" />
+                            <input type="button" value="Search" id="btnsearch" class="btn btn-primary btnwidt" />
                         </td>
                     </tr>
                 </table>
@@ -341,23 +376,23 @@
               </div>
                                     
                                     
-                 <div class="row" id="tabs-3">
+                 <div class="rows" id="tabs-3">
                            <div class="tab-content">
                      <div class="panel panel-danger" style="padding-top:20px;">
-              <table border="0" style="margin-left: 40px;" id="tbl2">
+              <table class="searchtab" id="tbl2">
                     <tr id="clousejobdate">
-                        <td style="color: black; padding-right: 10px"><b>From Date</b>
+                        <td class="searlabe"><b>From Date</b>
                         </td>
-                        <td style="padding-right: 10px">
+                        <td class="searinpu">
                             <input type="text" id="frmdate1" class="form-control" />
                         </td>
-                        <td style="color: black; padding-right: 10px"><b>To Date</b>
+                        <td class="searlabe"><b>To Date</b>
                         </td>
-                        <td style="padding-right: 10px">
+                        <td class="searinpu">
                             <input type="text" id="todate1" class="form-control" />
                         </td>
                         <td>
-                            <input type="button" value="Search" id="btnsearch1" class="btn btn-primary btnwidth" />
+                            <input type="button" value="Search" id="btnsearch1" class="btn btn-primary btnwidt" />
                         </td>
                     </tr>
                 </table>

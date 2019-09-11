@@ -22,7 +22,5 @@ namespace DAL
         public Nullable<bool> IsActive { get; set; }
         public Nullable<int> RoleID { get; set; }
         public int EmployeeID { get; set; }
-        public Nullable<int> BranchID { get; set; }
-        public Nullable<int> AcFinancialYearID { get; set; }
     }
 }

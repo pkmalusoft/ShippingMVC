@@ -638,6 +638,7 @@
     <Content Include="Content\img\logo.ico" />
     <Content Include="Content\img\logo.png" />
     <Content Include="Content\img\logo2.jpg" />
+    <Content Include="Content\img\logotri.png" />
     <Content Include="Content\img\per.png" />
     <Content Include="Content\img\photo1.png" />
     <Content Include="Content\img\photo2.png" />
@@ -2896,6 +2897,7 @@
     <Content Include="Views\ContainerReport\ucReport.cshtml" />
     <Content Include="Views\AirShipmentReport\Index.cshtml" />
     <Content Include="Views\AirShipmentReport\ucReport.cshtml" />
+    <Content Include="Views\Shared\index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\script\" />

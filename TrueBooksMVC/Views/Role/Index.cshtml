@@ -3,7 +3,23 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
 }
-
+<style>
+    .searchdiv {
+        background-color: #fff;
+        width: 100%;
+        margin: 0 auto;
+        max-width: 500px;
+        padding: 20px;
+        margin-top: 50px;
+        border-radius: 10px;
+        box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
+    }
+    .headinglabel {
+        font-family: Calibri;
+        font-size: 16px;
+        color: #2b2929 !important;
+    }
+</style>
 <script type="text/javascript">
     $(document).ready(function () {
         $(":text").css({ "border-radius": "5px" });
@@ -46,16 +62,17 @@
 @using (Html.BeginForm())
 {
        <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
+        <div class="searchdiv">
     <fieldset>
         
 <div class="row no-margin">
-    <div class="col-md-3">
+    <div class="col-md-6">
             <label class="required headinglabel">Menu</label>
             @Html.DropDownListFor(p => p.MenuID, new SelectList(ViewBag.Menu, "MenuID", "Title"),"Select", new { @class = "form-control" })
         @Html.ValidationMessageFor(p=>p.MenuID)
     </div>
     
-    <div class="col-md-3">
+    <div class="col-md-6">
             <label class="required headinglabel">Roles</label>
             @Html.DropDownListFor(p => p.RoleId, new SelectList(ViewBag.Role, "RoleID", "RoleName"), "Select",new { @class = "form-control" })
         @Html.ValidationMessageFor(p=>p.RoleId)
@@ -64,12 +81,13 @@
 
 
 <div class="row no-margin" style="padding-top:10px">
-    <div class="col-md-12">
+    <div class="col-md-12 "style="text-align:center;padding:20px;">
 
-        <input type="submit" value="Save" class="btn btn-primary btnwidth" id="btnsave" />&nbsp;
-        <a href='@Url.Action("List", "Role", new { id = 0 })' class="btn btn-primary btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+        <input type="submit" value="Save" class="btn btn-primary btnwid" id="btnsave" />&nbsp;
+        <a href='@Url.Action("List", "Role", new { id = 0 })' class="btn btn-danger btnwid" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
     </div>
 </div>
         </fieldset>
+            </div>
 }
 </section>

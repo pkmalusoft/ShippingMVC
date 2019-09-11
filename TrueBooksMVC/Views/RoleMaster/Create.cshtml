@@ -4,6 +4,22 @@
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
 }
+<style>
+    .headinglabel {
+         font-size: 16px;
+        color: #2b2929 !important;
+    }
+    .searchdiv {
+        background-color: #fff;
+        width: 100%;
+        margin: 0 auto;
+        max-width: 500px;
+        padding: 20px;
+        margin-top: 50px;
+        border-radius: 10px;
+        box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
+    }
+</style>
 
 <script type="text/javascript">
     $(document).ready(function () {
@@ -42,42 +58,45 @@
 @using (Html.BeginForm()) {
     @Html.ValidationSummary(true)
       <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
-    <fieldset>
-        
+      <div class="searchdiv">
+          <fieldset>
 
-       @* <div class="editor-label">
-            @Html.LabelFor(model => model.RoleID)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.RoleID)
-            @Html.ValidationMessageFor(model => model.RoleID)
-        </div>*@
 
-        <div class="row no-margin">
-             <div class="col-md-3">
-            <label class="required headinglabel">Role Name</label>
-       
-            @Html.TextBoxFor(model => model.RoleName, new { @class = "form-control txttarget" })
-            @Html.ValidationMessageFor(model => model.RoleName)
-             </div>
+              @* <div class="editor-label">
+                @Html.LabelFor(model => model.RoleID)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.RoleID)
+                @Html.ValidationMessageFor(model => model.RoleID)
+            </div>*@
 
-        </div>
-     
-       <div class="row no-margin" style="padding-top:10px">
-           <div class="col-md-3">
-            <input type="submit" value="Save" class="btn btn-primary btnwidth" id="btnsave" />
-            
-    
+              <div class="row no-margin">
+                  <div class="col-md-12">
+                      <label class="required headinglabel">Role Name</label>
 
-        &nbsp; 
-                   
-                                    <a href='@Url.Action("Index", "RoleMaster", new { id = 0 })' class="btn btn-primary btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
-               </div>
-        </div>
-    </fieldset>
-}
+                      @Html.TextBoxFor(model => model.RoleName, new { @class = "form-control txttarget" })
+                      @Html.ValidationMessageFor(model => model.RoleName)
+                  </div>
 
-    </section>
+              </div>
+
+              <div class="row no-margin" style="padding-top:10px">
+                  <div class="col-md-12" style="text-align: center;
+    padding: 10px;">
+                      <input type="submit" value="Save" class="btn btn-primary btnwidth" id="btnsave" />
+
+
+
+                      &nbsp;
+
+                      <a href='@Url.Action("Index", "RoleMaster", new { id = 0 })' class="btn btn-danger btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+                  </div>
+              </div>
+          </fieldset>
+          </div>
+          }
+
+</section>
 
 
 @*@section Scripts {

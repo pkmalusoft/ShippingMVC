@@ -6,7 +6,24 @@
     Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
     }
 
+<style>
+    .headinglabel {
+        font-size: 16px;
+        color: #2b2929 !important;
+        display: inline;
+    }
 
+    .searchdiv {
+        background-color: #fff;
+        width: 100%;
+        margin: 0 auto;
+        max-width: 800px;
+        padding: 20px;
+        margin-top: 50px;
+        border-radius: 10px;
+        box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
+    }
+</style>
 <script type="text/javascript">
         $(document).ready(function () {
            
@@ -54,88 +71,90 @@
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
-       <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
-  <div id="error" style="color:red;display:none;margin-left:10px;">Equalent quantity field must be numeric</div>
-    <fieldset>
-        
-          <div class="row no-margin"> 
-              
-             <div class="col-md-3">
-                     <label class="required headinglabel">Item Unit</label>
-                       @Html.TextBoxFor(model => model.ItemUnit1,new { @class = "form-control txttarget" })
-                          @Html.ValidationMessageFor(model => model.ItemUnit1)
-                        
-             </div>
-
-             <div class="col-md-3">
-                        
-                          <label class="headinglabel">Equalent Qty</label>
-                        @Html.TextBoxFor(model => model.EqualentQty,new { @class = "form-control txttarget" })
-                        @Html.ValidationMessageFor(model => model.EqualentQty)
-            </div>
-
-            
-               
-                 <div class="col-md-3">
-                            <label class="headinglabel">Remark</label>
-                       @Html.TextBoxFor(model => model.Remarks,new { @class = "form-control txttarget" })
-                         @Html.ValidationMessageFor(model => model.Remarks)
-                           
-                 </div>
-
-                 <div class="col-md-3" style="padding-top:30px">
-                         
-                             @Html.CheckBox("StatusActive", new { @name = "StatusActive"}) &nbsp <label class="headinglabel">Status Active</label>
-                    @Html.ValidationMessageFor(model => model.StatusActive)
-    
-              </div>
-              </div>
-
-
-           
-
-
-      
+    <div class="searchdiv">
        
+        <fieldset>
+            <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
+            <div id="error" style="color:red;display:none;margin-left:10px;">Equalent quantity field must be numeric</div>
+            <div class="row no-margin">
 
-          @* <div class="row no-margin" style="padding-top:10px"> 
-             
-             <div class="col-md-3">
-                         <label class="headinglabel">Basic</label>
-                       @Html.TextBoxFor(model => model.Basic,new { @class = "form-control" })
-                         @Html.ValidationMessageFor(model => model.Basic)
-                         
-            </div>
-
-             <div class="col-md-3">
-                          <label class="headinglabel">Housing</label>
-                        @Html.TextBoxFor(model => model.Housing,new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.Housing)
-            </div>
-
-            
-                
                 <div class="col-md-3">
-                           <label class="headinglabel">TA</label>
-                       @Html.TextBoxFor(model => model.TA,new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.TA)
-                           
-                </div>
-          </div>
-        *@
+                    <label class="required headinglabel">Item Unit</label>
+                    @Html.TextBoxFor(model => model.ItemUnit1, new { @class = "form-control txttarget" })
+                    @Html.ValidationMessageFor(model => model.ItemUnit1)
 
-         
-        <div class="row no-margin" style="padding-top:10px">
-                        <div class="col-md-12">
-                           
-                                <input type="submit"  value="Save"  class="btn btn-primary btnwidth" id="btnsave" />
-                               
-                            &nbsp; 
-                                           <a href='@Url.Action("Index", "Unit", new { id = 0 })' class="btn btn-primary btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
-                           
-                        </div>
-                    </div>
-    </fieldset>
+                </div>
+
+                <div class="col-md-3">
+
+                    <label class="headinglabel">Equalent Qty</label>
+                    @Html.TextBoxFor(model => model.EqualentQty, new { @class = "form-control txttarget" })
+                    @Html.ValidationMessageFor(model => model.EqualentQty)
+                </div>
+
+
+
+                <div class="col-md-3">
+                    <label class="headinglabel">Remark</label>
+                    @Html.TextBoxFor(model => model.Remarks, new { @class = "form-control txttarget" })
+                    @Html.ValidationMessageFor(model => model.Remarks)
+
+                </div>
+
+                <div class="col-md-3" style="padding-top:30px">
+
+                    @Html.CheckBox("StatusActive", new { @name = "StatusActive" }) &nbsp <label class="headinglabel">Status Active</label>
+                    @Html.ValidationMessageFor(model => model.StatusActive)
+
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+            @* <div class="row no-margin" style="padding-top:10px">
+
+           <div class="col-md-3">
+                       <label class="headinglabel">Basic</label>
+                     @Html.TextBoxFor(model => model.Basic,new { @class = "form-control" })
+                       @Html.ValidationMessageFor(model => model.Basic)
+
+          </div>
+
+           <div class="col-md-3">
+                        <label class="headinglabel">Housing</label>
+                      @Html.TextBoxFor(model => model.Housing,new { @class = "form-control" })
+                      @Html.ValidationMessageFor(model => model.Housing)
+          </div>
+
+
+
+              <div class="col-md-3">
+                         <label class="headinglabel">TA</label>
+                     @Html.TextBoxFor(model => model.TA,new { @class = "form-control" })
+                      @Html.ValidationMessageFor(model => model.TA)
+
+              </div>
+        </div>
+            *@
+
+
+            <div class="row no-margin" style="padding-top:10px">
+                <div class="col-md-12 butdivs">
+
+                    <input type="submit" value="Save" class="btn btn-primary btnwid" id="btnsave" />
+
+                    &nbsp;
+                    <a href='@Url.Action("Index", "Unit", new { id = 0 })' class="btn btn-danger btnwid" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+
+                </div>
+            </div>
+        </fieldset>
+        </div>
 }
 
 </section>
