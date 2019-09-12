@@ -7,6 +7,53 @@
 
 }
 <style>
+    .ico_cla {
+        text-align: right;
+    }
+    .ui-widget
+    {
+        font-size:12px!important;
+    }
+    .overlay {
+        height: 100%;
+        width: 100%;
+        display: none;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        background-color: rgb(0,0,0);
+        background-color: rgba(0,0,0, 0.9);
+    }
+
+.overlay-content {
+  position: relative;
+  top: 25%;
+  width: 100%;
+  text-align: center;
+  margin-top: 30px;
+}
+
+.overlay a {
+  padding: 8px;
+  text-decoration: none;
+  font-size: 36px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+.overlay a:hover, .overlay a:focus {
+  color: #f1f1f1;
+}
+
+.overlay .closebtn {
+  position: absolute;
+  top: 20px;
+  right: 45px;
+  font-size: 60px;
+}
+
 
     .modal-footer {
         text-align: left;
@@ -19,30 +66,31 @@
         width: 100% !important;
     }
     div#tabs-1 {
-        width: 81%;
+        width: 83%;
+        padding-left:1px;
     }
     div#tabs-2 {
-        width: 81% !important;
+        width: 83% !important;
     }
 
     div#tabs-3 {
-        width: 81% !important;
+        width: 83% !important;
     }
 
     div#tabs-4 {
-        width: 81% !important;
+        width: 83% !important;
     }
 
     div#tabs-5 {
-        width: 81% !important;
+        width: 83% !important;
     }
 
     div#tabs-6 {
-        width: 81% !important;
+        width: 83% !important;
     }
 
     div#tabs-7 {
-        width: 81% !important;
+        width: 83% !important;
     }
 
     .no-padding {
@@ -61,7 +109,7 @@
         color:#000 !important;
     }
     .ui-tabs .ui-tabs-nav li {
-      
+
         list-style: none;
         float: left;
         position: relative;
@@ -84,19 +132,19 @@
     }
     .ui-widget-header {
         background: unset !important;
-      
+
     }
     .ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited {
         color: #ffffff !important;
         text-decoration: none;
-        
+
     }
     .ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus {
         background: unset !important;
         color: #fff !important;
         background: linear-gradient(135deg, #07a7e3 0%, #32dac3 100%) !important;
     }
-   
+
     .ui-tabs .ui-tabs-nav li {
         list-style: none;
         float: left;
@@ -514,7 +562,7 @@
 <script src="@Url.Content("~/Scripts/angular.js")"></script>
 <script src="@Url.Content("~/MyJsFiles/CargoDescription.js")"></script>
 
-<div ng-app="CargoApp" ng-controller="cargoController" class="container">
+<div ng-app="CargoApp" ng-controller="cargoController" class="container-fluid">
 
     <div class="" dir="ltr" id="main" runat="server" style="width: 100%;">
         <section class="content-header">
@@ -710,6 +758,9 @@
                                         <label class="headinglabel">Provision Rate</label>
                                         <input type="number" class="form-control textright" id="ProRate" placeholder="Rate" ng_model="ProvisionRate" ng_change="CalcProvForeign()" />
                                     </div>
+
+                                </div>
+                                <div class="row no-margin" style="padding-top: 10px">
                                     <div class="col-xs-6 col-sm-3 col-md-3 no-padding">
                                         <label class="headinglabel">Provision Currency</label>
                                         @* @Html.DropDownList("ProvisionCurrency", (SelectList)ViewBag.Curency, "Select", new {ng_selected="ProvisionCurrencyID1", ng_model = "ProvisionExR", ng_change = "getProvisionCurEx()", @class = "form-control" })*@
@@ -718,8 +769,6 @@
                                             <option ng-repeat="b in CurrencyList" ng-selected="ProvisionExR==b.CurrencyID" value='{{b.CurrencyID}}'>{{b.CurrencyName}}</option>
                                         </select>
                                     </div>
-                                </div>
-                                <div class="row no-margin" style="padding-top: 10px">
                                     <div class="col-xs-6 col-sm-3 col-md-3 no-padding">
                                         <label class="headinglabel">Provision Ex. Rate</label>
                                         <input type="text" ng_model="ProexChangeRate" class="form-control textright" id="ProvisionExRate" placeholder="Provision Ex Rate" />
@@ -733,6 +782,11 @@
                                         <input type="text" ng-model="ProvisionForeign" class="form-control textright" id="ProvisionForeign" placeholder="Provision Foreign" />
                                     </div>
 
+
+
+
+                                </div>
+                                <div class="row no-margin" style="padding-top: 10px">
                                     <div class="col-xs-6 col-sm-3 col-md-3 no-padding">
                                         <label class="headinglabel">Sales Rate</label>
                                         <input type="number" class="form-control textright" id="SalRate" ng_model="SaleRate" placeholder="Rate" ng_change="CalcSaleForeign()" />
@@ -751,14 +805,16 @@
                                         <label class="headinglabel">Sales Ex. Rate</label>
                                         <input type="text" ng-model="SaleexChangeRate" class="form-control textright" id="SalesExRate" placeholder="Sales Ex Rate" />
                                     </div>
-
-                                </div>
-                                <div class="row no-margin" style="padding-top: 10px">
-
                                     <div class="col-xs-6 col-sm-3 col-md-3 no-padding">
                                         <label class="headinglabel">Sales Domestic</label>
                                         <input type="text" ng-model="SalesDomestic" class="form-control textright" id="SalesDomestic" placeholder="Sales Domestic" />
                                     </div>
+
+
+
+
+                                </div>
+                                <div class="row no-margin border1px" style="padding-top: 10px">
                                     <div class="col-xs-6 col-sm-3 col-md-3 no-padding">
                                         <label class="headinglabel">Sales Foreign</label>
                                         <input type="text" ng-model="SalesForeign" class="form-control textright" id="SalesForeign" placeholder="Sales Foreign" />
@@ -767,40 +823,59 @@
                                         <label class="headinglabel">Local Currency</label>
                                         <input type="text" ng-model="LocalCur" class="form-control textright" id="LocalCurrency" placeholder="Local Currency" />
                                     </div>
-
-
-
-                                </div>
-                                <div class="row no-margin border1px" style="padding-top: 10px">
                                     <div class="col-xs-12 no-padding" style="text-align: right">
                                         <input type="button" id="add_charges" ng-click="addCharges()" value="Add" class="btn btn-primary btnwidth" />
-
-
                                     </div>
                                 </div>
+                                <script>
+                                    function openNav() {
+                                        $("#myNav").css("display","block");
+                                        $("#charges_table").css("position", "fixed");
+                                        $("#charges_table").css("top", "200px");
+                                        $("#charges_table").css("left", "0px");
+                                        $("#charges_table").css("z-index", "11");
+                                        $("#charges_table").css("background-color", "white");
+                                    }
+
+                                    function closeNav() {
+                                        $("#myNav").css("display", "none");
+                                        $("#charges_table").css("position", "relative");
+                                        $("#charges_table").css("top", "unset");
+                                        $("#charges_table").css("left", "unset");
+                                        $("#charges_table").css("z-index", "1");
+                                    }
+                                </script>
+
+                                <div id="myNav" class="overlay">
+                                    <a href="javascript:void(0)" class="closebtn" style="color:white;z-index:10;" onclick="closeNav()">&times;</a>
+                                 </div>
+
+
                                 <div class="row no-margin" id="AddCharges" style="padding-top: 10px">
                                     <div class="col-xs-12 no-padding for-device">
                                         <div class="data-table tblbackground" style="width:100%; padding: 27px;">
 
                                             @*  <div class="heading">
 
-                                    <div class="title1">Revenue Type</div>
-                                    <div class="title2">Supplier Name</div>
-                                    <div class="title3">Quantity</div>
-                                    <div class="title4">Provision Currency</div>
-                                    <div class="title5">Provision Ex. Rate</div>
-                                    <div class="title6">Provision Domestic</div>
-                                    <div class="title7">Provision Foreign</div>
-                                    <div class="title8">Sales Currency</div>
-                                    <div class="title9">Sales Ex. Rate</div>
-                                    <div class="title10">Sales Domestic</div>
-                                    <div class="title11">Sales Foreign</div>
-                                    <div class="title12">Local Currency</div>
+                        <div class="title1">Revenue Type</div>
+                        <div class="title2">Supplier Name</div>
+                        <div class="title3">Quantity</div>
+                        <div class="title4">Provision Currency</div>
+                        <div class="title5">Provision Ex. Rate</div>
+                        <div class="title6">Provision Domestic</div>
+                        <div class="title7">Provision Foreign</div>
+                        <div class="title8">Sales Currency</div>
+                        <div class="title9">Sales Ex. Rate</div>
+                        <div class="title10">Sales Domestic</div>
+                        <div class="title11">Sales Foreign</div>
+                        <div class="title12">Local Currency</div>
 
-                                </div>*@
+                    </div>*@
 
-                                            <div class="data" style="max-width:800px;overflow:auto;">
-                                                <table border="1" class="table table-responsive table-bordered "  id="charges_table">
+                                            <div class="ico_cla"><span style="font-size:15px;cursor:pointer" onclick="openNav()"><i class="fa fa-expand" aria-hidden="true"></i></span></div>
+
+                                            <div class="data" style="overflow:auto;">
+                                                <table border="1" class="table table-responsive table-bordered " id="charges_table">
                                                     <tr>
                                                         <td>
                                                             Revenue Type
@@ -845,7 +920,7 @@
                                                         <td>Delete</td>
 
                                                     </tr>
-                                                  
+
                                                 </table>
                                             </div>
 

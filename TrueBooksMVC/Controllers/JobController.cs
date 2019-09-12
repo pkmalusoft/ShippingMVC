@@ -1007,7 +1007,7 @@ namespace TrueBooksMVC.Controllers
                 }
             }
 
-            for (int c = 1; c <= ChargesCount; c++)
+            for (int c = 0; c < ChargesCount; c++)
             {
                 string[] strArray;
                 JInvoice Charges = new JInvoice();
@@ -1134,7 +1134,7 @@ namespace TrueBooksMVC.Controllers
                     CargoArray.Add(formCollection.Keys[j].Replace("Mark_", "").Trim());
                 }
             }
-            for (int c = 1; c <= CargoCount; c++)
+            for (int c = 0; c < CargoCount; c++)
             {
                 string[] strArray;
                 JCargoDescription Cargo = new JCargoDescription();
@@ -1196,7 +1196,7 @@ namespace TrueBooksMVC.Controllers
                     ContainerArray.Add(formCollection.Keys[j].Replace("ContainerType_", "").Trim());
                 }
             }
-            for (int c = 1; c <= ContainerCount; c++)
+            for (int c = 0; c < ContainerCount; c++)
             {
                 string[] strArray;
                 JContainerDetail ContainerObj = new JContainerDetail();
@@ -1242,7 +1242,7 @@ namespace TrueBooksMVC.Controllers
                     BillOfEntryArray.Add(formCollection.Keys[j].Replace("BIllOfEntry_", "").Trim());
                 }
             }
-            for (int c = 1; c <= BillOfEntryCount; c++)
+            for (int c = 0; c < BillOfEntryCount; c++)
             {
                 string[] strArray;
                 JBIllOfEntry objBillOfEntry = new JBIllOfEntry();
@@ -1280,7 +1280,7 @@ namespace TrueBooksMVC.Controllers
                     NotificationArray.Add(formCollection.Keys[j].Replace("AuditTransDate_", "").Trim());
                 }
             }
-            for (int c = 1; c <= ContainerCount; c++)
+            for (int c = 0; c < ContainerCount; c++)
             {
                 JAuditLog objAudit = new JAuditLog();
                 objAudit.JobID = JobId;

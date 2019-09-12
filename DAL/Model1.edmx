@@ -1547,6 +1547,9 @@ warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.qrySupplierOutstanding'
         <Function Name="SP_DeleteContainerbyJobIDandUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="JContainerDetailID" Type="int" Mode="In" />
         </Function>
+      <Function Name="SP_DeleteJobDetailsByJobID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+        <Parameter Name="JobID" Type="int" Mode="In" />
+      </Function>
         <Function Name="SP_DeleteCostUpdationDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="CostUpdationID" Type="int" Mode="In" />
         </Function>
@@ -2354,6 +2357,9 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           </FunctionImport>
           <FunctionImport Name="SP_DeleteContainerbyJobIDandUser">
           <Parameter Name="JContainerDetailID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_DeleteJobDetailsByJobID">
+            <Parameter Name="JobID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_GetAuditbyJobIDandUser" ReturnType="Collection(SHIPPING_FinalModel.SP_GetAuditbyJobIDandUser_Result)">
             <Parameter Name="JobId" Mode="In" Type="Int32" />
@@ -6918,6 +6924,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="SP_DeleteContainerbyJobIDandUser" FunctionName="SHIPPING_FinalModel.Store.SP_DeleteContainerbyJobIDandUser" />
+          <FunctionImportMapping FunctionImportName="SP_DeleteJobDetailsByJobID" FunctionName="SHIPPING_FinalModel.Store.SP_DeleteJobDetailsByJobID" />
           <FunctionImportMapping FunctionImportName="SP_GetAuditbyJobIDandUser" FunctionName="SHIPPING_FinalModel.Store.SP_GetAuditbyJobIDandUser">
             <ResultMapping>
               <ComplexTypeMapping TypeName="SHIPPING_FinalModel.SP_GetAuditbyJobIDandUser_Result">
