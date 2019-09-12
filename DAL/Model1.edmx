@@ -1881,6 +1881,8 @@ warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.qrySupplierOutstanding'
           <Parameter Name="Flight" Type="nvarchar" Mode="In" />
           <Parameter Name="MAWB" Type="nvarchar" Mode="In" />
           <Parameter Name="HAWB" Type="nvarchar" Mode="In" />
+          <Parameter Name="MRN" Type="nvarchar" Mode="In" />
+          <Parameter Name="DeliveryOrderDate" Type="datetime" Mode="In" />
           <Parameter Name="MaxJObID" Type="int" Mode="InOut" />
         </Function>
         <Function Name="SP_InsertJournalEntryForCostUpdation" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -3003,6 +3005,8 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
             <Parameter Name="Flight" Mode="In" Type="String" />
             <Parameter Name="MAWB" Mode="In" Type="String" />
             <Parameter Name="HAWB" Mode="In" Type="String" />
+            <Parameter Name="MRN" Mode="In"  Type="String" />
+            <Parameter Name="DeliveryOrderDate" Mode="In" Type="DateTime"  />
             <Parameter Name="MaxJObID" Mode="InOut" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="proJobCostFull" ReturnType="Collection(SHIPPING_FinalModel.proJobCostFull_Result)">

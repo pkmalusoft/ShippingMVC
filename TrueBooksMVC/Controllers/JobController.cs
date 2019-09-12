@@ -1033,14 +1033,14 @@ namespace TrueBooksMVC.Controllers
                     Charges.Description = strArray[0].Trim();
                 }
                 double Qty = 0;
-                if (formCollection.GetValue("Quantity_" + c.ToString()) != null)
+                if (formCollection.GetValue("Quantity_" + ChargesArray[c]) != null)
                 {
                     strArray = (string[])formCollection.GetValue("Quantity_" + ChargesArray[c]).RawValue;
                     double.TryParse(strArray[0], out Qty);
                 }
                 Charges.Quantity = Qty;
                 decimal ProvRate = 0;
-                if (formCollection.GetValue("ProvisionRate_" + c.ToString()) != null)
+                if (formCollection.GetValue("ProvisionRate_" + ChargesArray[c]) != null)
                 {
                     strArray = (string[])formCollection.GetValue("ProvisionRate_" + ChargesArray[c]).RawValue;
                     decimal.TryParse(strArray[0], out ProvRate);
@@ -1140,46 +1140,46 @@ namespace TrueBooksMVC.Controllers
                 JCargoDescription Cargo = new JCargoDescription();
                 Cargo.UserID = Session["UserID"].ToString();
                 Cargo.JobID = JobId;
-                string MarkId = "";
+               // string MarkId = "";
                 if (formCollection.GetValue("Mark_" + CargoArray[c]) != null)
                 {
                     strArray = (string[])formCollection.GetValue("Mark_" + CargoArray[c]).RawValue;
-                    MarkId = strArray[0];
+                    Cargo.Mark = strArray[0];
                 }
-                string Description = "";
-                if (formCollection.GetValue("CarDescription_" + c.ToString()) != null)
+               // string Description = "";
+                if (formCollection.GetValue("CarDescription_" + CargoArray[c]) != null)
                 {
                     strArray = (string[])formCollection.GetValue("CarDescription_" + CargoArray[c]).RawValue;
-                    Description = strArray[0];
+                    Cargo.Description = strArray[0];
                 }
-                Cargo.Description = Description;
+               // Cargo.Description = Description;
                 decimal Weight = 0;
-                if (formCollection.GetValue("weight_" + ChargesArray[c]) != null)
+                if (formCollection.GetValue("weight_" + CargoArray[c]) != null)
                 {
-                    strArray = (string[])formCollection.GetValue("weight_" + ChargesArray[c]).RawValue;
+                    strArray = (string[])formCollection.GetValue("weight_" + CargoArray[c]).RawValue;
                     decimal.TryParse(strArray[0].Trim(), out Weight);
                 }
                 Cargo.weight = Weight;
                 decimal Volume = 0;
-                if (formCollection.GetValue("volume_" + ChargesArray[c]) != null)
+                if (formCollection.GetValue("volume_" + CargoArray[c]) != null)
                 {
-                    strArray = (string[])formCollection.GetValue("volume_" + ChargesArray[c]).RawValue;
+                    strArray = (string[])formCollection.GetValue("volume_" + CargoArray[c]).RawValue;
                     decimal.TryParse(strArray[0].Trim(), out Volume);
                 }
                 Cargo.volume = Volume;
 
                 decimal Packages = 0;
-                if (formCollection.GetValue("Packages_" + ChargesArray[c]) != null)
+                if (formCollection.GetValue("Packages_" + CargoArray[c]) != null)
                 {
-                    strArray = (string[])formCollection.GetValue("Packages_" + ChargesArray[c]).RawValue;
+                    strArray = (string[])formCollection.GetValue("Packages_" + CargoArray[c]).RawValue;
                     decimal.TryParse(strArray[0].Trim(), out Packages);
                 }
                 Cargo.Packages = Packages;
 
                 decimal GrossWeight = 0;
-                if (formCollection.GetValue("GrossWeight_" + ChargesArray[c]) != null)
+                if (formCollection.GetValue("GrossWeight_" + CargoArray[c]) != null)
                 {
-                    strArray = (string[])formCollection.GetValue("GrossWeight_" + ChargesArray[c]).RawValue;
+                    strArray = (string[])formCollection.GetValue("GrossWeight_" + CargoArray[c]).RawValue;
                     decimal.TryParse(strArray[0].Trim(), out GrossWeight);
                 }
                 Cargo.GrossWeight = GrossWeight;
@@ -1238,7 +1238,7 @@ namespace TrueBooksMVC.Controllers
             {
                 if (formCollection.Keys[j].StartsWith("BIllOfEntry_"))
                 {
-                    BillOfEntryCount = ContainerCount + 1;
+                    BillOfEntryCount = BillOfEntryCount + 1;
                     BillOfEntryArray.Add(formCollection.Keys[j].Replace("BIllOfEntry_", "").Trim());
                 }
             }
@@ -1425,24 +1425,7 @@ namespace TrueBooksMVC.Controllers
             int i = 0;
             if (Session["UserID"] != null)
             {
-                if (Session["JobID"] != null)
-                {
-                    if (Convert.ToInt32(Session["JobID"]) > 0)
-                    {
-                        Bill.JobID = Convert.ToInt32(Session["JobID"]);
-                    }
-                    else
-                    {
-                        Bill.JobID = 0;
-                    }
-                }
-                else
-                {
-                    Bill.JobID = 0;
-                }
-
-
-
+              
                 i = J.AddBillOfEntry(Bill, Session["UserID"].ToString());
                 var billEntry = (from t in entity.JBIllOfEntries orderby t.BIllOfEntryID descending select t).FirstOrDefault();
 

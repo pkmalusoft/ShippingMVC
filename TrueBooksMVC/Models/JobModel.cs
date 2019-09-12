@@ -19,7 +19,7 @@ namespace TrueBooksMVC.Models
         public int AddJob(JobGeneration JG)
         {
             ObjectParameter objMaxJobId = new ObjectParameter("MaxJObID",0);
-            int query = Convert.ToInt32(Context1.SP_InsertJob(JG.JobCode, JG.JobTypeID, JG.JobDate, JG.ConsignerID, JG.ConsigneeID, JG.InvoiceToID, JG.EmployeeID, JG.ShipperID, JG.IPTNo, JG.RefNo, JG.BillOfEnquiry, JG.BLDate, JG.DeliveryOrderNo, JG.BLStatus, JG.CLFValue, JG.DepositAmount, JG.DepositDate, JG.ReceiptNo, JG.RefundDate, JG.RefundAmount, JG.VesselID, JG.VoyageNo, JG.Freight, JG.SailingDate, JG.ArrivalDate, JG.MBL, JG.HBL, JG.LoadPortID, JG.DestinationPortID, JG.DeliveryPlaceID, JG.ReceiptPlaceID, JG.CountryofOriginID, JG.TransporterID, JG.CollectionDate, JG.DeliveryInstructions, JG.TruckRegNo, JG.DriverDetails, JG.Remarks, JG.RotationNo, JG.CarrierID, JG.CollectionPoint, JG.DeliveryNote, JG.DeliveryPoint, JG.CollectionInstructions, Convert.ToInt32(JG.InvoiceNo.Value), Convert.ToDateTime(JG.InvoiceDate), JG.MainJobID.HasValue ? JG.MainJobID.Value : 0,JG.DeliveryDate,JG.DepartingDate,JG.Flight,JG.MAWB,JG.HAWB, objMaxJobId));
+            int query = Convert.ToInt32(Context1.SP_InsertJob(JG.JobCode, JG.JobTypeID, JG.JobDate, JG.ConsignerID, JG.ConsigneeID, JG.InvoiceToID, JG.EmployeeID, JG.ShipperID, JG.IPTNo, JG.RefNo, JG.BillOfEnquiry, JG.BLDate, JG.DeliveryOrderNo, JG.BLStatus, JG.CLFValue, JG.DepositAmount, JG.DepositDate, JG.ReceiptNo, JG.RefundDate, JG.RefundAmount, JG.VesselID, JG.VoyageNo, JG.Freight, JG.SailingDate, JG.ArrivalDate, JG.MBL, JG.HBL, JG.LoadPortID, JG.DestinationPortID, JG.DeliveryPlaceID, JG.ReceiptPlaceID, JG.CountryofOriginID, JG.TransporterID, JG.CollectionDate, JG.DeliveryInstructions, JG.TruckRegNo, JG.DriverDetails, JG.Remarks, JG.RotationNo, JG.CarrierID, JG.CollectionPoint, JG.DeliveryNote, JG.DeliveryPoint, JG.CollectionInstructions, Convert.ToInt32(JG.InvoiceNo.Value), Convert.ToDateTime(JG.InvoiceDate), JG.MainJobID.HasValue ? JG.MainJobID.Value : 0,JG.DeliveryDate,JG.DepartingDate,JG.Flight,JG.MAWB,JG.HAWB, JG.MRN,JG.DeliveryOrderDate, objMaxJobId));
 
             return Convert.ToInt32(objMaxJobId.Value);
         }
@@ -121,6 +121,7 @@ namespace TrueBooksMVC.Models
                 JG1.DriverDetails = item.DriverDetails;
                 JG1.HBL = item.HBL;
                 JG1.IPTNo = item.IPTNo;
+                JG1.RefNo = item.RefNo;
                 JG1.MBL = item.MBL;
                 JG1.RefundAmount = item.RefundAmount;
                 JG1.RefundDate = item.RefundDate;
