@@ -6021,7 +6021,7 @@ li.treeli > a {
         width: 78%;
         max-width: 772px;
     }
-    table-responsive {
+   .table-responsive {
         width: 100%;
         margin-bottom: 15px;
         overflow-y: scroll;

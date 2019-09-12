@@ -11,7 +11,9 @@
     .modal-footer {
         text-align: left;
     }
-
+    div#tabs-8 {
+        width: 83% !important;
+    }
     .ui-widget.ui-widget-content {
         border: 1px solid #c5c5c5;
         width: 100% !important;
@@ -51,6 +53,60 @@
     }
     div#ui-datepicker-div {
         width: 300px !important;
+    }
+
+    .headinglabel {
+        font-family: 'Montserrat', sans-serif !important;
+        display:inline;
+        color:#000 !important;
+    }
+    .ui-tabs .ui-tabs-nav li {
+      
+        list-style: none;
+        float: left;
+        position: relative;
+        top: 1px;
+        margin: 7px auto;
+        border-bottom: 0 !important;
+        padding: 0;
+        white-space: nowrap;
+    }
+    .shadowbr {
+        background-color: #fff;
+        box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
+        border-radius: 25px;
+        margin-bottom: 27px;
+        padding: 20px;
+    }
+    .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
+        background: unset !important;
+        background: linear-gradient(135deg, #07a7e3 0%, #32dac3 100%) !important;
+    }
+    .ui-widget-header {
+        background: unset !important;
+      
+    }
+    .ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited {
+        color: #ffffff !important;
+        text-decoration: none;
+        
+    }
+    .ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus {
+        background: unset !important;
+        color: #fff !important;
+        background: linear-gradient(135deg, #07a7e3 0%, #32dac3 100%) !important;
+    }
+   
+    .ui-tabs .ui-tabs-nav li {
+        list-style: none;
+        float: left;
+        position: relative;
+        top: 1px;
+        margin: 5px auto !important;
+        border-bottom: 0 !important;
+        padding: 0;
+        white-space: nowrap;
+        color: #fff !important;
     }
 </style>
 
@@ -460,7 +516,7 @@
 
 <div ng-app="CargoApp" ng-controller="cargoController" class="container">
 
-    <div class="" dir="ltr" id="main" runat="server" style="width: 1000px;">
+    <div class="" dir="ltr" id="main" runat="server" style="width: 100%;">
         <section class="content-header">
             <h1 class="headingfont">Job<small></small></h1>
 
@@ -474,7 +530,7 @@
         {
             @Html.ValidationSummary(true)
 
-            <section class="content">
+            <section class="content jobform">
                 <div class="row no-margin">
                     <div class="col-md-4">
                         <label class="required headinglabel">Job Type</label>
@@ -616,21 +672,21 @@
                 <br />
 
                 <div id="tabs">
-                    <ul>
-                        <li><a href="#tabs-1">Revenue Details</a></li>
-                        <li><a href="#tabs-2">Cargo</a></li>
-                        <li><a href="#tabs-3">Container</a></li>
-                        <li><a href="#tabs-4">Customs</a></li>
-                        <li><a href="#tabs-5">Bill Of Loading</a></li>
-                        <li><a href="#tabs-6">Bill Of Entry</a></li>
-                        <li><a href="#tabs-7">Delivery Advice</a></li>
-                        <li><a href="#tabs-8">Notifications</a></li>
+                    <ul class="item_list">
+                        <li class="menulist"><a href="#tabs-1">Revenue Details</a></li>
+                        <li class="menulist"><a href="#tabs-2">Cargo</a></li>
+                        <li class="menulist"><a href="#tabs-3">Container</a></li>
+                        <li class="menulist"><a href="#tabs-4">Customs</a></li>
+                        <li class="menulist"><a href="#tabs-5">Bill Of Loading</a></li>
+                        <li class="menulist"><a href="#tabs-6">Bill Of Entry</a></li>
+                        <li class="menulist"><a href="#tabs-7">Delivery Advice</a></li>
+                        <li class="menulist"><a href="#tabs-8">Notifications</a></li>
                     </ul>
                     <div id="tabs-1">
-                        <div class="panel-body" style="background-color: #30465D">
+                        <div class="panel-body shadowbr">
                             <div class="inner-tab-content">
                                 <div class="row no-margin">
-                                    <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                    <div class="col-xs-6 col-sm-3 col-md-3 no-padding">
                                         <label class="headinglabel">Revenue Type</label>
                                         @*    @Html.DropDownList("RevenueType", (SelectList)ViewBag.RevenueT, "Select", new {ng_model = "RevenueTypeID", ng_change = "getSuppliers()", @class = "form-control" })*@
                                         <input type="hidden" class="form-control textright" ng-model="InvoiceID" />
@@ -639,22 +695,22 @@
                                             <option ng-repeat="b in RevenueTypeList" ng-selected="RevenueTypeID==b.RevenueTypeID" value='{{b.RevenueTypeID}}'>{{b.RevenueType}}</option>
                                         </select>
                                     </div>
-                                    <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                    <div class="col-xs-6 col-sm-3 col-md-3 no-padding">
                                         <label class="headinglabel">Supplier</label>
                                         <select ng-model="Supplier2" id="Supplier2" class="form-control" ng-change="getSupplierID()">
                                             <option value='0'>Select</option>
                                             <option ng-repeat="b in Sup" ng-selected="Supplier2==b.SupplierID" value='{{b.SupplierID}}'>{{b.SupplierName}}</option>
                                         </select>
                                     </div>
-                                    <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                    <div class="col-xs-6 col-sm-3 col-md-3 no-padding">
                                         <label class="headinglabel">QTY</label>
                                         <input type="number" class="form-control textright" ng-model="Quantity" id="QTY" placeholder="QTY" />
                                     </div>
-                                    <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                    <div class="col-xs-6 col-sm-3 col-md-3 no-padding">
                                         <label class="headinglabel">Provision Rate</label>
                                         <input type="number" class="form-control textright" id="ProRate" placeholder="Rate" ng_model="ProvisionRate" ng_change="CalcProvForeign()" />
                                     </div>
-                                    <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                    <div class="col-xs-6 col-sm-3 col-md-3 no-padding">
                                         <label class="headinglabel">Provision Currency</label>
                                         @* @Html.DropDownList("ProvisionCurrency", (SelectList)ViewBag.Curency, "Select", new {ng_selected="ProvisionCurrencyID1", ng_model = "ProvisionExR", ng_change = "getProvisionCurEx()", @class = "form-control" })*@
                                         <select ng-model="ProvisionExR" id="ProvisionExR" class="form-control" ng_change="getProvisionCurEx()">
@@ -664,24 +720,24 @@
                                     </div>
                                 </div>
                                 <div class="row no-margin" style="padding-top: 10px">
-                                    <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                    <div class="col-xs-6 col-sm-3 col-md-3 no-padding">
                                         <label class="headinglabel">Provision Ex. Rate</label>
                                         <input type="text" ng_model="ProexChangeRate" class="form-control textright" id="ProvisionExRate" placeholder="Provision Ex Rate" />
                                     </div>
-                                    <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                    <div class="col-xs-6 col-sm-3 col-md-3 no-padding">
                                         <label class="headinglabel">Provision Domestic</label>
                                         <input type="text" ng-model="ProvisionDomestic" class="form-control textright" id="ProvisiDomestic" placeholder="Provision Domestic" />
                                     </div>
-                                    <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                    <div class="col-xs-6 col-sm-3 col-md-3 no-padding">
                                         <label class="headinglabel">Provision Foreign</label>
                                         <input type="text" ng-model="ProvisionForeign" class="form-control textright" id="ProvisionForeign" placeholder="Provision Foreign" />
                                     </div>
 
-                                    <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                    <div class="col-xs-6 col-sm-3 col-md-3 no-padding">
                                         <label class="headinglabel">Sales Rate</label>
                                         <input type="number" class="form-control textright" id="SalRate" ng_model="SaleRate" placeholder="Rate" ng_change="CalcSaleForeign()" />
                                     </div>
-                                    <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                    <div class="col-xs-6 col-sm-3 col-md-3 no-padding">
                                         <label class="headinglabel">Sales Currency</label>
                                         @*     @Html.DropDownList("SalesCurrency", (SelectList)ViewBag.Curency, "", new { ng_selected = "SalesCurrencyID1", ng_model = "SalesExR", ng_change = "getSalesCurEx()", @class = "form-control" })*@
                                         <select ng-model="SalesExR" id="SalesExR" class="form-control" ng_change="getSalesCurEx()">
@@ -691,7 +747,7 @@
                                         </select>
 
                                     </div>
-                                    <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                    <div class="col-xs-6 col-sm-3 col-md-3 no-padding">
                                         <label class="headinglabel">Sales Ex. Rate</label>
                                         <input type="text" ng-model="SaleexChangeRate" class="form-control textright" id="SalesExRate" placeholder="Sales Ex Rate" />
                                     </div>
@@ -699,15 +755,15 @@
                                 </div>
                                 <div class="row no-margin" style="padding-top: 10px">
 
-                                    <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                    <div class="col-xs-6 col-sm-3 col-md-3 no-padding">
                                         <label class="headinglabel">Sales Domestic</label>
                                         <input type="text" ng-model="SalesDomestic" class="form-control textright" id="SalesDomestic" placeholder="Sales Domestic" />
                                     </div>
-                                    <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                    <div class="col-xs-6 col-sm-3 col-md-3 no-padding">
                                         <label class="headinglabel">Sales Foreign</label>
                                         <input type="text" ng-model="SalesForeign" class="form-control textright" id="SalesForeign" placeholder="Sales Foreign" />
                                     </div>
-                                    <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                    <div class="col-xs-6 col-sm-3 col-md-3 no-padding">
                                         <label class="headinglabel">Local Currency</label>
                                         <input type="text" ng-model="LocalCur" class="form-control textright" id="LocalCurrency" placeholder="Local Currency" />
                                     </div>
@@ -724,7 +780,7 @@
                                 </div>
                                 <div class="row no-margin" id="AddCharges" style="padding-top: 10px">
                                     <div class="col-xs-12 no-padding for-device">
-                                        <div class="data-table" style="width: 905px;">
+                                        <div class="data-table tblbackground" style="width:100%; padding: 27px;">
 
                                             @*  <div class="heading">
 
@@ -743,8 +799,8 @@
 
                                 </div>*@
 
-                                            <div class="data" style="max-width:708px;overflow:auto;">
-                                                <table border="1" class="table table-responsive table-bordered tblbackground" style="width: 100%;" id="charges_table">
+                                            <div class="data" style="max-width:800px;overflow:auto;">
+                                                <table border="1" class="table table-responsive table-bordered "  id="charges_table">
                                                     <tr>
                                                         <td>
                                                             Revenue Type
@@ -800,7 +856,7 @@
                         </div>
                     </div>
                     <div id="tabs-2">
-                        <div class="panel-body" style="background-color: #30465D">
+                        <div class="panel-body shadowbr">
                             <div class="inner-tab-content">
                                 <div class="row no-margin">
                                     <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
@@ -838,10 +894,10 @@
 
                             <div class="row no-margin" id="AddCargo" style="padding-top: 10px">
                                 <div class="col-xs-12 no-padding for-device">
-                                    <div class="data-table">
+                                    <div class="data-table tblbackground" style="padding: 27px;">
 
-                                        <div class="data" style="max-width:708px;overflow:auto;">
-                                            <table border="1" class="table table-responsive table-bordered tblbackground" style="width: 100%" id="cargo_table">
+                                        <div class="data" style="max-width:800px;overflow:auto;">
+                                            <table border="1" class="table table-responsive table-bordered " style="width: 100%" id="cargo_table">
                                                 <tr>
                                                     <td>Mark</td>
                                                     <td>Description</td>
@@ -898,9 +954,9 @@
 
                     </div>
                     <div id="tabs-3">
-                        <div class="panel-body" style="background-color: #30465D">
+                        <div class="panel-body shadowbr">
                             <div class="row no-margin">
-                                <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                <div class="col-xs-6 col-sm-3 col-md-3 no-padding">
                                     <label class="headinglabel">Container Type</label>
                                     <select ng-model="ContainerTypeID" id="ContainerTypeID" class="form-control" ng-change="getContainers()">
                                         <option value='0'>Select</option>
@@ -909,16 +965,16 @@
 
                                 </div>
 
-                                <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                <div class="col-xs-6 col-sm-3 col-md-3 no-padding">
                                     <label class="headinglabel">Container No</label>
                                     <input type="text" class="form-control txttarget" ng-model="ContainerNo" id="ContainerNo" placeholder="Container No" />
 
                                 </div>
-                                <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                <div class="col-xs-6 col-sm-3 col-md-3 no-padding">
                                     <label class="headinglabel">Seal No</label>
                                     <input type="text" class="form-control textright" ng-model="SealNo" id="SealNo" placeholder="Seal No" />
                                 </div>
-                                <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                <div class="col-xs-6 col-sm-3 col-md-3 no-padding">
                                     <label class="headinglabel">Description</label>
                                     <input type="text" class="form-control textright" ng-model="ContainerDescription" id="ContainerDescription" placeholder="Description" />
                                 </div>
@@ -930,10 +986,10 @@
                             </div>
                             <div class="row no-margin" id="AddContainer" style="padding-top: 10px">
                                 <div class="col-xs-12 no-padding for-device">
-                                    <div class="data-table">
+                                    <div class="data-table tblbackground" style="padding:27px">
 
-                                        <div class="data" style="max-width:708px;overflow:auto;">
-                                            <table border="1" class="table table-responsive table-bordered tblbackground" style="width: 100%" id="container_table">
+                                        <div class="data" style="max-width:800px;overflow:auto;">
+                                            <table border="1" class="table table-responsive table-bordered " style="width: 100%" id="container_table">
                                                 <tr>
                                                     <td>Container Type</td>
                                                     <td>Container No</td>
@@ -975,7 +1031,7 @@
                         </div>
                     </div>
                     <div id="tabs-4">
-                        <div class="panel-body" style="background-color: #30465D">
+                        <div class="panel-body shadowbr">
                             <div class="row no-margin" id="AddCustoms" style="padding-top: 10px">
                                 <div class="col-xs-12 col-sm-6 col-md-6 no-padding">
                                     <label class="headinglabel">IPT No.</label>
@@ -1076,7 +1132,7 @@
                     </div>
                  
                     <div id="tabs-6">
-                        <div class="panel-body" style="background-color: #30465D">
+                        <div class="panel-body shadowbr" >
                             <div class="inner-tab-content">
                                 <div class="row no-margin">
                                     <div class="col-xs-6 col-sm-4 no-padding">
@@ -1102,7 +1158,7 @@
                                 </div>
                                 <div class="row no-margin" id="AddBill" style="padding-top: 10px">
                                     <div class="col-xs-12 no-padding for-device">
-                                        <div class="data-table">
+                                        <div class="data-table tblbackground" style="padding:27px;">
                                             @*<div class="heading">
                                     <div class="title1">Bill Of Entry</div>
                                     <div class="title2">Bill Of Entry Date</div>
@@ -1110,7 +1166,7 @@
                                 </div>*@
                                             <div class="data">
 
-                                                <table border="1" class="table table-responsive table-bordered tblbackground" style="width: 100%" id="bill_of_entry_table">
+                                                <table border="1" class="table table-responsive table-bordered " style="width: 100%" id="bill_of_entry_table">
                                                     <tr>
                                                         <td>
                                                             Bill Of Entry
@@ -1148,7 +1204,7 @@
                         </div>
                     </div>
                     <div id="tabs-5">
-                        <div class="panel-body" style="background-color: #30465D">
+                        <div class="panel-body shadowbr">
                             <div class="inner-tab-content">
                                 <div class="row no-margin">
                                     <div class="col-xs-6 col-sm-4 no-padding">
@@ -1220,7 +1276,7 @@
                             </div>
 
                             <div id="tabs-7">
-                                <div class="panel-body" style="background-color: #30465D">
+                                <div class="panel-body shadowbr">
                                     <div class="inner-tab-content">
                                         <div class="row no-margin">
                                             <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
@@ -1304,7 +1360,7 @@
                                 </div>
                             </div>
                             <div id="tabs-8" style="float:left;">
-                                <div class="panel-body" style="background-color: #30465D">
+                                <div class="panel-body shadowbr">
                                     <div class="row no-margin">
                                         <div class="col-xs-6 col-sm-6 col-md-6 no-padding">
                                             <label class="headinglabel">Date</label>
@@ -1324,10 +1380,10 @@
                                     </div>
                                     <div class="row no-margin" id="AddNotification" style="padding-top: 10px">
                                         <div class="col-xs-12 no-padding for-device">
-                                            <div class="data-table">
+                                            <div class="data-table tblbackground" style="padding:27px;">
 
                                                 <div class="data">
-                                                    <table border="1" class="table table-responsive table-bordered tblbackground" style="width: 100%" id="audit_table">
+                                                    <table border="1" class="table table-responsive table-bordered " style="width: 100%" id="audit_table">
                                                         <tr>
                                                             <td>Date</td>
                                                             <td>Remarks</td>
