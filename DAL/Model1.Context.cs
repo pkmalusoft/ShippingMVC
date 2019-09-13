@@ -790,7 +790,7 @@ namespace DAL
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GetCustomerByID_Result>("SP_GetCustomerByID", customerIDParameter);
         }
     
-        public virtual int SP_UpdateJob(string jobCode, Nullable<int> jobTypeID, Nullable<System.DateTime> jobDate, Nullable<int> consignerID, Nullable<int> consigneeID, Nullable<int> invoiceToID, Nullable<int> employeeID, Nullable<int> shipperID, string iPTNo, string refNo, string billOfEnquiry, Nullable<System.DateTime> bLDate, string deliveryOrderNo, string bLStatus1, string cLFValue, Nullable<decimal> depositAmount, Nullable<System.DateTime> depositDate, string receiptNo, Nullable<System.DateTime> refundDate, Nullable<decimal> refundAmount, Nullable<int> vesselID, string voyageNo, string freight, Nullable<System.DateTime> sailingDate, Nullable<System.DateTime> arrivalDate, string mBL, string hBL, Nullable<int> loadPortID, Nullable<int> destinationPortID, Nullable<int> deliveryPlaceID, Nullable<int> receiptPlaceID, Nullable<int> countryofOriginID, Nullable<int> transporterID, Nullable<System.DateTime> collectionDate, string deliveryInstructions, string truckRegNo, string driverDetails, string remarks, string rotationNo, Nullable<int> carrierID, string collectionPoint, string deliveryNote, string deliveryPoint, string collectionInstructions, Nullable<int> invoiceNo, Nullable<System.DateTime> invoiceDate, Nullable<int> jobID, Nullable<int> mainJobID)
+        public virtual int SP_UpdateJob(string jobCode, Nullable<int> jobTypeID, Nullable<System.DateTime> jobDate, Nullable<int> consignerID, Nullable<int> consigneeID, Nullable<int> invoiceToID, Nullable<int> employeeID, Nullable<int> shipperID, string iPTNo, string refNo, string billOfEnquiry, Nullable<System.DateTime> bLDate, string deliveryOrderNo, string bLStatus1, string cLFValue, Nullable<decimal> depositAmount, Nullable<System.DateTime> depositDate, string receiptNo, Nullable<System.DateTime> refundDate, Nullable<decimal> refundAmount, Nullable<int> vesselID, string voyageNo, string freight, Nullable<System.DateTime> sailingDate, Nullable<System.DateTime> arrivalDate, string mBL, string hBL, Nullable<int> loadPortID, Nullable<int> destinationPortID, Nullable<int> deliveryPlaceID, Nullable<int> receiptPlaceID, Nullable<int> countryofOriginID, Nullable<int> transporterID, Nullable<System.DateTime> collectionDate, string deliveryInstructions, string truckRegNo, string driverDetails, string remarks, string rotationNo, Nullable<int> carrierID, string collectionPoint, string deliveryNote, string deliveryPoint, string collectionInstructions, Nullable<int> invoiceNo, Nullable<System.DateTime> invoiceDate, Nullable<int> jobID, Nullable<int> mainJobID, string shippingInstruction, Nullable<System.DateTime> deliveryDate, Nullable<System.DateTime> departingDate, string flight, string mAWB, string hAWB, string mRN, Nullable<System.DateTime> deliveryOrderDate)
         {
             var jobCodeParameter = jobCode != null ?
                 new ObjectParameter("JobCode", jobCode) :
@@ -983,8 +983,40 @@ namespace DAL
             var mainJobIDParameter = mainJobID.HasValue ?
                 new ObjectParameter("MainJobID", mainJobID) :
                 new ObjectParameter("MainJobID", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_UpdateJob", jobCodeParameter, jobTypeIDParameter, jobDateParameter, consignerIDParameter, consigneeIDParameter, invoiceToIDParameter, employeeIDParameter, shipperIDParameter, iPTNoParameter, refNoParameter, billOfEnquiryParameter, bLDateParameter, deliveryOrderNoParameter, bLStatus1Parameter, cLFValueParameter, depositAmountParameter, depositDateParameter, receiptNoParameter, refundDateParameter, refundAmountParameter, vesselIDParameter, voyageNoParameter, freightParameter, sailingDateParameter, arrivalDateParameter, mBLParameter, hBLParameter, loadPortIDParameter, destinationPortIDParameter, deliveryPlaceIDParameter, receiptPlaceIDParameter, countryofOriginIDParameter, transporterIDParameter, collectionDateParameter, deliveryInstructionsParameter, truckRegNoParameter, driverDetailsParameter, remarksParameter, rotationNoParameter, carrierIDParameter, collectionPointParameter, deliveryNoteParameter, deliveryPointParameter, collectionInstructionsParameter, invoiceNoParameter, invoiceDateParameter, jobIDParameter, mainJobIDParameter);
+
+            var shippingInstructionParameter = shippingInstruction != null ?
+             new ObjectParameter("ShippingInstruction", shippingInstruction) :
+             new ObjectParameter("ShippingInstruction", typeof(string));
+
+            var deliveryDateParameter = deliveryDate.HasValue ?
+               new ObjectParameter("DeliveryDate", deliveryDate) :
+               new ObjectParameter("DeliveryDate", typeof(System.DateTime));
+
+            var departingDateParameter = departingDate.HasValue ?
+                new ObjectParameter("DepartingDate", departingDate) :
+                new ObjectParameter("DepartingDate", typeof(System.DateTime));
+
+            var flightParameter = flight != null ?
+                new ObjectParameter("Flight", flight) :
+                new ObjectParameter("Flight", typeof(string));
+
+            var mAWBParameter = mAWB != null ?
+                new ObjectParameter("MAWB", mAWB) :
+                new ObjectParameter("MAWB", typeof(string));
+
+            var hAWBParameter = hAWB != null ?
+                new ObjectParameter("HAWB", hAWB) :
+                new ObjectParameter("HAWB", typeof(string));
+
+            var mRNParameter = mRN != null ?
+               new ObjectParameter("MRN", mRN) :
+               new ObjectParameter("MRN", typeof(string));
+
+            var deliveryOrderDateParameter = deliveryOrderDate != null ?
+               new ObjectParameter("DeliveryOrderDate", deliveryOrderDate) :
+               new ObjectParameter("DeliveryOrderDate", typeof(string));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_UpdateJob", jobCodeParameter, jobTypeIDParameter, jobDateParameter, consignerIDParameter, consigneeIDParameter, invoiceToIDParameter, employeeIDParameter, shipperIDParameter, iPTNoParameter, refNoParameter, billOfEnquiryParameter, bLDateParameter, deliveryOrderNoParameter, bLStatus1Parameter, cLFValueParameter, depositAmountParameter, depositDateParameter, receiptNoParameter, refundDateParameter, refundAmountParameter, vesselIDParameter, voyageNoParameter, freightParameter, sailingDateParameter, arrivalDateParameter, mBLParameter, hBLParameter, loadPortIDParameter, destinationPortIDParameter, deliveryPlaceIDParameter, receiptPlaceIDParameter, countryofOriginIDParameter, transporterIDParameter, collectionDateParameter, deliveryInstructionsParameter, truckRegNoParameter, driverDetailsParameter, remarksParameter, rotationNoParameter, carrierIDParameter, collectionPointParameter, deliveryNoteParameter, deliveryPointParameter, collectionInstructionsParameter, invoiceNoParameter, invoiceDateParameter, jobIDParameter, mainJobIDParameter, shippingInstructionParameter, deliveryDateParameter, departingDateParameter, flightParameter, mAWBParameter, hAWBParameter, mRNParameter, deliveryOrderDateParameter);
         }
     
         public virtual ObjectResult<SP_GetCostUpdationByCostID_Result> SP_GetCostUpdationByCostID(Nullable<int> costUpdationID)
@@ -2287,7 +2319,7 @@ namespace DAL
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Report_Ledger_Result>("Report_Ledger", acHeadIDParameter, acCompanyIDParameter, fromDateParameter, toDateParameter, fYearIDParameter);
         }
 
-        public virtual int SP_InsertJob(string jobCode, Nullable<int> jobTypeID, Nullable<System.DateTime> jobDate, Nullable<int> consignerID, Nullable<int> consigneeID, Nullable<int> invoiceToID, Nullable<int> employeeID, Nullable<int> shipperID, string iPTNo, string refNo, string billOfEnquiry, Nullable<System.DateTime> bLDate, string deliveryOrderNo, string bLStatus1, string cLFValue, Nullable<decimal> depositAmount, Nullable<System.DateTime> depositDate, string receiptNo, Nullable<System.DateTime> refundDate, Nullable<decimal> refundAmount, Nullable<int> vesselID, string voyageNo, string freight, Nullable<System.DateTime> sailingDate, Nullable<System.DateTime> arrivalDate, string mBL, string hBL, Nullable<int> loadPortID, Nullable<int> destinationPortID, Nullable<int> deliveryPlaceID, Nullable<int> receiptPlaceID, Nullable<int> countryofOriginID, Nullable<int> transporterID, Nullable<System.DateTime> collectionDate, string deliveryInstructions, string truckRegNo, string driverDetails, string remarks, string rotationNo, Nullable<int> carrierID, string collectionPoint, string deliveryNote, string deliveryPoint, string collectionInstructions, Nullable<int> invoiceNo, Nullable<System.DateTime> invoiceDate, Nullable<int> mainJObID, Nullable<System.DateTime> deliveryDate, Nullable<System.DateTime> departingDate, string flight, string mAWB, string hAWB, string mRN, Nullable<System.DateTime> deliveryOrderDate, ObjectParameter maxJObID)
+        public virtual int SP_InsertJob(string jobCode, Nullable<int> jobTypeID, Nullable<System.DateTime> jobDate, Nullable<int> consignerID, Nullable<int> consigneeID, Nullable<int> invoiceToID, Nullable<int> employeeID, Nullable<int> shipperID, string iPTNo, string refNo, string billOfEnquiry, Nullable<System.DateTime> bLDate, string deliveryOrderNo, string bLStatus1, string cLFValue, Nullable<decimal> depositAmount, Nullable<System.DateTime> depositDate, string receiptNo, Nullable<System.DateTime> refundDate, Nullable<decimal> refundAmount, Nullable<int> vesselID, string voyageNo, string freight, Nullable<System.DateTime> sailingDate, Nullable<System.DateTime> arrivalDate, string mBL, string hBL, Nullable<int> loadPortID, Nullable<int> destinationPortID, Nullable<int> deliveryPlaceID, Nullable<int> receiptPlaceID, Nullable<int> countryofOriginID, Nullable<int> transporterID, Nullable<System.DateTime> collectionDate, string deliveryInstructions, string truckRegNo, string driverDetails, string remarks, string rotationNo, Nullable<int> carrierID, string collectionPoint, string deliveryNote, string deliveryPoint, string collectionInstructions, Nullable<int> invoiceNo, Nullable<System.DateTime> invoiceDate, Nullable<int> mainJObID, Nullable<System.DateTime> deliveryDate, Nullable<System.DateTime> departingDate, string flight, string mAWB, string hAWB, string mRN, Nullable<System.DateTime> deliveryOrderDate,string shippingInstruction, ObjectParameter maxJObID)
         {
             var jobCodeParameter = jobCode != null ?
                 new ObjectParameter("JobCode", jobCode) :
@@ -2505,9 +2537,11 @@ namespace DAL
                new ObjectParameter("DeliveryOrderDate", deliveryOrderDate) :
                new ObjectParameter("DeliveryOrderDate", typeof(string));
 
-            
+            var shippingInstructionParameter = shippingInstruction != null ?
+              new ObjectParameter("ShippingInstruction", shippingInstruction) :
+              new ObjectParameter("ShippingInstruction", typeof(string));
 
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_InsertJob", jobCodeParameter, jobTypeIDParameter, jobDateParameter, consignerIDParameter, consigneeIDParameter, invoiceToIDParameter, employeeIDParameter, shipperIDParameter, iPTNoParameter, refNoParameter, billOfEnquiryParameter, bLDateParameter, deliveryOrderNoParameter, bLStatus1Parameter, cLFValueParameter, depositAmountParameter, depositDateParameter, receiptNoParameter, refundDateParameter, refundAmountParameter, vesselIDParameter, voyageNoParameter, freightParameter, sailingDateParameter, arrivalDateParameter, mBLParameter, hBLParameter, loadPortIDParameter, destinationPortIDParameter, deliveryPlaceIDParameter, receiptPlaceIDParameter, countryofOriginIDParameter, transporterIDParameter, collectionDateParameter, deliveryInstructionsParameter, truckRegNoParameter, driverDetailsParameter, remarksParameter, rotationNoParameter, carrierIDParameter, collectionPointParameter, deliveryNoteParameter, deliveryPointParameter, collectionInstructionsParameter, invoiceNoParameter, invoiceDateParameter, mainJObIDParameter, deliveryDateParameter, departingDateParameter, flightParameter, mAWBParameter, hAWBParameter, mRNParameter, deliveryOrderDateParameter, maxJObID);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_InsertJob", jobCodeParameter, jobTypeIDParameter, jobDateParameter, consignerIDParameter, consigneeIDParameter, invoiceToIDParameter, employeeIDParameter, shipperIDParameter, iPTNoParameter, refNoParameter, billOfEnquiryParameter, bLDateParameter, deliveryOrderNoParameter, bLStatus1Parameter, cLFValueParameter, depositAmountParameter, depositDateParameter, receiptNoParameter, refundDateParameter, refundAmountParameter, vesselIDParameter, voyageNoParameter, freightParameter, sailingDateParameter, arrivalDateParameter, mBLParameter, hBLParameter, loadPortIDParameter, destinationPortIDParameter, deliveryPlaceIDParameter, receiptPlaceIDParameter, countryofOriginIDParameter, transporterIDParameter, collectionDateParameter, deliveryInstructionsParameter, truckRegNoParameter, driverDetailsParameter, remarksParameter, rotationNoParameter, carrierIDParameter, collectionPointParameter, deliveryNoteParameter, deliveryPointParameter, collectionInstructionsParameter, invoiceNoParameter, invoiceDateParameter, mainJObIDParameter, deliveryDateParameter, departingDateParameter, flightParameter, mAWBParameter, hAWBParameter, mRNParameter, deliveryOrderDateParameter, shippingInstructionParameter, maxJObID);
         }
 
         public virtual ObjectResult<proJobCostFull_Result> proJobCostFull(string fromdate, string todate, string fYearFrom)

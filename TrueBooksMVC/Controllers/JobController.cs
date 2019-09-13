@@ -632,28 +632,37 @@ namespace TrueBooksMVC.Controllers
 
                                 var data1 = (from x in entity.AcJournalDetails where x.AcJournalDetailID == acjdetail1 select x).FirstOrDefault();
                                 data1.Amount = shome;
-                                entity.Entry(data1).State = EntityState.Modified;
-                                entity.SaveChanges();
-
+                                if (data1 != null)
+                                {
+                                    entity.Entry(data1).State = EntityState.Modified;
+                                    entity.SaveChanges();
+                                }
                                 acjdetail1 = (from x in entity.AcJournalDetails where x.AcJournalID == acjid && x.AcHeadID == freightacheadid select x.AcJournalDetailID).FirstOrDefault();
                                 data1 = (from x in entity.AcJournalDetails where x.AcJournalDetailID == acjdetail1 select x).FirstOrDefault();
-                                data1.Amount = -shome;
-                                entity.Entry(data1).State = EntityState.Modified;
-                                entity.SaveChanges();
-
+                                if (data1 != null)
+                                {
+                                    data1.Amount = -shome;
+                                    entity.Entry(data1).State = EntityState.Modified;
+                                    entity.SaveChanges();
+                                }
 
                                 acjdetail1 = (from x in entity.AcJournalDetails where x.AcJournalID == acprovjid && x.AcHeadID == provcontrolacid select x.AcJournalDetailID).FirstOrDefault();
                                 data1 = (from x in entity.AcJournalDetails where x.AcJournalDetailID == acjdetail1 select x).FirstOrDefault();
-                                data1.Amount = phome;
-                                entity.Entry(data1).State = EntityState.Modified;
-                                entity.SaveChanges();
-
+                                if (data1 != null)
+                                {
+                                    data1.Amount = phome;
+                                    entity.Entry(data1).State = EntityState.Modified;
+                                    entity.SaveChanges();
+                                }
 
                                 acjdetail1 = (from x in entity.AcJournalDetails where x.AcJournalID == acprovjid && x.AcHeadID == accruedcontrolacid select x.AcJournalDetailID).FirstOrDefault();
                                 data1 = (from x in entity.AcJournalDetails where x.AcJournalDetailID == acjdetail1 select x).FirstOrDefault();
-                                data1.Amount = -phome;
-                                entity.Entry(data1).State = EntityState.Modified;
-                                entity.SaveChanges();
+                                if (data1 != null)
+                                {
+                                    data1.Amount = -phome;
+                                    entity.Entry(data1).State = EntityState.Modified;
+                                    entity.SaveChanges();
+                                }
 
                                 DeleteAndInsertRecords(formCollection, JobId);
 
