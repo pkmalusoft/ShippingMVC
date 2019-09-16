@@ -7,12 +7,24 @@
 
 }
 <style>
+    .btnwidth {
+        width: 70px;
+    }
+    .reve_wid {
+        width: 11.6% !important;
+    }
+    .reve_rate {
+        width: 10.9% !important;
+    }
+    .rev_uni {
+        width: 5% !important;
+    }
     .ico_cla {
         text-align: right;
     }
     .ui-widget
     {
-        font-size:12px!important;
+        font-size:10px!important;
     }
     .overlay {
         height: 100%;
@@ -25,14 +37,19 @@
         background-color: rgb(0,0,0);
         background-color: rgba(0,0,0, 0.9);
     }
-
-.overlay-content {
-  position: relative;
-  top: 25%;
-  width: 100%;
-  text-align: center;
-  margin-top: 30px;
-}
+    .data10, .data11, .data12, data13, data14 {
+    display:none;
+    }
+    #provin_rate, #provin_curr, #provinex_rate, #provin_forgin, #sale_rate, #sale_curr, #sale_exrate, #sale_for {
+        display: none;
+    }
+          .overlay-content {
+        position: relative;
+        top: 25%;
+        width: 100%;
+        text-align: center;
+        margin-top: 30px;
+    }
 
 .overlay a {
   padding: 8px;
@@ -66,7 +83,7 @@
         width: 100% !important;
     }
     div#tabs-1 {
-        width: 83%;
+        width: 90%;
         padding-left:1px;
     }
     div#tabs-2 {
@@ -104,7 +121,7 @@
     }
 
     .headinglabel {
-        font-family: 'Montserrat', sans-serif !important;
+        font-family: Calibri !important;
         display:inline;
         color:#000 !important;
     }
@@ -578,138 +595,139 @@
         {
             @Html.ValidationSummary(true)
 
-            <section class="content jobform">
-                <div class="row no-margin">
-                    <div class="col-md-4">
-                        <label class="required headinglabel">Job Type</label>
-                        @{
-                            if (Model.JobID > 0)
-                            {
-                                @Html.DropDownListFor(model => model.JobTypeID, (SelectList)ViewBag.JobType, "Select", new { @class = "form-control", required = "required" })
-                            }
-                            else
-                            {
-                                @Html.DropDownListFor(model => model.JobTypeID, (SelectList)ViewBag.JobType, "Select", new { ng_model = "JobTypeID", ng_change = "getJobPrefix()", @class = "form-control", required = "required" })
-                            }
-                            @Html.HiddenFor(model => model.JobID, new { id = "JobID" })
+        <section class="content jobform">
+            <div class="row no-margin">
+                <div class="col-md-3">
+                    <label class="required headinglabel">Job Type</label>
+                    @{
+                        if (Model.JobID > 0)
+                        {
+                            @Html.DropDownListFor(model => model.JobTypeID, (SelectList)ViewBag.JobType, "Select", new { @class = "form-control", required = "required" })
                         }
-
-
-
-                        @Html.ValidationMessageFor(model => model.JobTypeID)
-
-                    </div>
-
-                    <div class="col-md-4">
-                        <label class="required headinglabel">Job Code</label>
-
-
-
-                        @{
-                            if (Model.JobID > 0)
-                            {
-                                @Html.TextBoxFor(model => model.JobCode, new { @class = "form-control", @id = "txtJobCode", required = "required" })
-                            }
-                            else
-                            {
-                                @Html.TextBoxFor(model => model.JobCode, new { ng_model = "JobCode", @class = "form-control", required = "required" })
-                            }
+                        else
+                        {
+                            @Html.DropDownListFor(model => model.JobTypeID, (SelectList)ViewBag.JobType, "Select", new { ng_model = "JobTypeID", ng_change = "getJobPrefix()", @class = "form-control", required = "required" })
                         }
-                        @Html.ValidationMessageFor(model => model.JobCode)
+                        @Html.HiddenFor(model => model.JobID, new { id = "JobID" })
+                    }
 
-                    </div>
 
-                    <div class="col-md-4">
-                        <input type="checkbox" id="SubJob" name="SubJob" style="height: 12px; width: 12px; margin-bottom: 0px" />
-                        <label class="headinglabel" style="margin-bottom: 3px">SubJob</label>
-                        <div id="drop">
-                            @Html.DropDownListFor(model => model.MainJobID, new SelectList(ViewBag.MainJobId, "JobID", "JobCode"), "Select Main Job", new { @class = "form-control" })
-                        </div>
-                    </div>
+
+                    @Html.ValidationMessageFor(model => model.JobTypeID)
 
                 </div>
+                <div class="col-md-3">
+                    <input type="checkbox" id="SubJob" name="SubJob" style="height: 12px; width: 12px; margin-bottom: 0px" />
+                    <label class="headinglabel" style="margin-bottom: 3px">SubJob</label>
+                    <div id="drop">
+                        @Html.DropDownListFor(model => model.MainJobID, new SelectList(ViewBag.MainJobId, "JobID", "JobCode"), "Select Main Job", new { @class = "form-control" })
+                    </div>
+                </div>
+
+
+                <div class="col-md-3">
+                    <label class="required headinglabel">Job Code</label>
+
+
+
+                    @{
+                        if (Model.JobID > 0)
+                        {
+                            @Html.TextBoxFor(model => model.JobCode, new { @class = "form-control", @id = "txtJobCode", required = "required" })
+                        }
+                        else
+                        {
+                            @Html.TextBoxFor(model => model.JobCode, new { ng_model = "JobCode", @class = "form-control", required = "required" })
+                        }
+                    }
+                    @Html.ValidationMessageFor(model => model.JobCode)
+
+                </div>
+
+                <div class="col-md-3 form-group">
+                    <label class="headinglabel">Job Date</label>
+                    @Html.TextBoxFor(m => m.JobDate, new { Value = Model.JobDate.Value.ToString("dd-MMM-yyyy"), id = "", @class = "form-control", @readonly = "readonly", @style = "background-color: lightgrey;" })
+
+                    @Html.HiddenFor(model => model.JobDate)
+                    @Html.HiddenFor(model => model.AcJournalID)
+
+                </div>
+
+            </div>
+            <div class="row no-margin" style="padding-top: 10px">
+
+
+                <div class="col-md-3 form-group">
+                    <label class=" headinglabel">Shipper</label>
+                    @Html.DropDownListFor(model => model.ConsignerID, (SelectList)ViewBag.Customer, "Select", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.ConsignerID)
+
+
+
+                </div>
+
+                <div class="col-md-3 form-group">
+                    <label class="headinglabel">Consignee</label>
+                    @Html.DropDownListFor(model => model.ConsigneeID, (SelectList)ViewBag.Customer, "Select", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.ConsigneeID)
+
+                </div>
+
+
+                <div class="col-md-3">
+                    <label class=" headinglabel">Invoice To</label>
+                    @Html.DropDownListFor(model => model.InvoiceToID, (SelectList)ViewBag.Customer, "Select", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.InvoiceToID)
+
+                </div>
+
+                <div class="col-md-3">
+                    <label class=" headinglabel">Notify To</label>
+                    @Html.DropDownListFor(model => model.ShipperID, (SelectList)ViewBag.Customer, "Select", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.ShipperID)
+
+
+
+                </div>
+            </div>
+
+            <div class="row no-margin" style="padding-top: 10px">
+                <div class="col-md-3">
+                    <label class="headinglabel">Load Port</label>
+                    @Html.DropDownListFor(model => model.LoadPortID, (SelectList)ViewBag.Ports, "Select", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.LoadPortID)
+
+                </div>
+
+            <div class="col-md-3">
+                <label class=" headinglabel">Destination Port</label>
+                @Html.DropDownListFor(model => model.DestinationPortID, (SelectList)ViewBag.Ports, "Select", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.DestinationPortID)
+
+            </div>
+
+            <div class="col-md-3">
+                <label class="headinglabel">Place of Receipt</label>
+                @Html.DropDownListFor(model => model.ReceiptPlaceID, (SelectList)ViewBag.Ports, "Select", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ReceiptPlaceID)
+            </div>
+
+            <div class="col-md-3">
+                <label class="headinglabel">Place of Delivery</label>
+                @Html.DropDownListFor(model => model.DeliveryPlaceID, (SelectList)ViewBag.Ports, "Select", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.DeliveryPlaceID)
+
+            </div>
+
+</div>
                 <div class="row no-margin" style="padding-top: 10px">
-                    <div class="col-md-4 form-group">
-                        <label class="headinglabel">Job Date</label>
-                        @Html.TextBoxFor(m => m.JobDate, new { Value = Model.JobDate.Value.ToString("dd-MMM-yyyy"), id = "", @class = "form-control", @readonly = "readonly", @style = "background-color: lightgrey;" })
-
-                        @Html.HiddenFor(model => model.JobDate)
-                        @Html.HiddenFor(model => model.AcJournalID)
-
-                    </div>
-
-                    <div class="col-md-4 form-group">
-                        <label class=" headinglabel">Shipper</label>
-                        @Html.DropDownListFor(model => model.ConsignerID, (SelectList)ViewBag.Customer, "Select", new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.ConsignerID)
-
-
-
-                    </div>
-
-                    <div class="col-md-4 form-group">
-                        <label class="headinglabel">Consignee</label>
-                        @Html.DropDownListFor(model => model.ConsigneeID, (SelectList)ViewBag.Customer, "Select", new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.ConsigneeID)
-
-                    </div>
-
-                </div>
-                <div class="row no-margin">
-                    <div class="col-md-4">
-                        <label class=" headinglabel">Invoice To</label>
-                        @Html.DropDownListFor(model => model.InvoiceToID, (SelectList)ViewBag.Customer, "Select", new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.InvoiceToID)
-
-                    </div>
-
-                    <div class="col-md-4">
-                        <label class=" headinglabel">Notify To</label>
-                        @Html.DropDownListFor(model => model.ShipperID, (SelectList)ViewBag.Customer, "Select", new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.ShipperID)
-
-
-
-                    </div>
-
-                    <div class="col-md-4">
-                        <label class="headinglabel">Load Port</label>
-                        @Html.DropDownListFor(model => model.LoadPortID, (SelectList)ViewBag.Ports, "Select", new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.LoadPortID)
-
-                    </div>
-
-                </div>
-                <div class="row no-margin" style="padding-top: 10px">
-                    <div class="col-md-4">
-                        <label class=" headinglabel">Destination Port</label>
-                        @Html.DropDownListFor(model => model.DestinationPortID, (SelectList)ViewBag.Ports, "Select", new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.DestinationPortID)
-
-                    </div>
-
-                    <div class="col-md-4">
-                        <label class="headinglabel">Place of Receipt</label>
-                        @Html.DropDownListFor(model => model.ReceiptPlaceID, (SelectList)ViewBag.Ports, "Select", new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.ReceiptPlaceID)
-                    </div>
-
-                    <div class="col-md-4">
-                        <label class="headinglabel">Place of Delivery</label>
-                        @Html.DropDownListFor(model => model.DeliveryPlaceID, (SelectList)ViewBag.Ports, "Select", new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.DeliveryPlaceID)
-
-                    </div>
-
-                </div>
-                <div class="row no-margin" style="padding-top: 10px">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <label class=" headinglabel">Staff</label>
                         @Html.DropDownListFor(model => model.EmployeeID, (SelectList)ViewBag.Employees, "Select", new { @class = "form-control", @readonly = "readonly" })
                         @Html.ValidationMessageFor(model => model.EmployeeID)
 
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <label class=" headinglabel">Created By</label>
                         @Html.TextBox("User", Session["UserName"], new { @class = "form-control", @readonly = "readonly" })
 
@@ -734,7 +752,7 @@
                         <div class="panel-body shadowbr">
                             <div class="inner-tab-content">
                                 <div class="row no-margin">
-                                    <div class="col-xs-6 col-sm-3 col-md-3 no-padding">
+                                    <div class="col-xs-6 col-sm-2 col-md-2  reve_wid no-padding">
                                         <label class="headinglabel">Revenue Type</label>
                                         @*    @Html.DropDownList("RevenueType", (SelectList)ViewBag.RevenueT, "Select", new {ng_model = "RevenueTypeID", ng_change = "getSuppliers()", @class = "form-control" })*@
                                         <input type="hidden" class="form-control textright" ng-model="InvoiceID" />
@@ -743,25 +761,26 @@
                                             <option ng-repeat="b in RevenueTypeList" ng-selected="RevenueTypeID==b.RevenueTypeID" value='{{b.RevenueTypeID}}'>{{b.RevenueType}}</option>
                                         </select>
                                     </div>
-                                    <div class="col-xs-6 col-sm-3 col-md-3 no-padding">
+                                    <div class="col-xs-6 col-sm-2 col-md-2 reve_wid no-padding">
                                         <label class="headinglabel">Supplier</label>
                                         <select ng-model="Supplier2" id="Supplier2" class="form-control" ng-change="getSupplierID()">
                                             <option value='0'>Select</option>
                                             <option ng-repeat="b in Sup" ng-selected="Supplier2==b.SupplierID" value='{{b.SupplierID}}'>{{b.SupplierName}}</option>
                                         </select>
                                     </div>
-                                    <div class="col-xs-6 col-sm-3 col-md-3 no-padding">
+                                    <div class="col-xs-6 col-sm-1 col-md-1 rev_uni no-padding">
                                         <label class="headinglabel">QTY</label>
                                         <input type="number" class="form-control textright" ng-model="Quantity" id="QTY" placeholder="QTY" />
                                     </div>
-                                    <div class="col-xs-6 col-sm-3 col-md-3 no-padding">
+                                    <div class="col-xs-6 col-sm-1 col-md-1 rev_uni no-padding">
+                                        <label class="headinglabel">Unit</label>
+                                        <input type="number" class="form-control textright" ng-model="unit" id="unit" placeholder="Unit" />
+                                    </div>
+                                    <div class="col-xs-6 col-sm-2 col-md-2 reve_rate no-padding">
                                         <label class="headinglabel">Provision Rate</label>
                                         <input type="number" class="form-control textright" id="ProRate" placeholder="Rate" ng_model="ProvisionRate" ng_change="CalcProvForeign()" />
                                     </div>
-
-                                </div>
-                                <div class="row no-margin" style="padding-top: 10px">
-                                    <div class="col-xs-6 col-sm-3 col-md-3 no-padding">
+                                    <div class="col-xs-6 col-sm-2 col-md-2 reve_rate no-padding">
                                         <label class="headinglabel">Provision Currency</label>
                                         @* @Html.DropDownList("ProvisionCurrency", (SelectList)ViewBag.Curency, "Select", new {ng_selected="ProvisionCurrencyID1", ng_model = "ProvisionExR", ng_change = "getProvisionCurEx()", @class = "form-control" })*@
                                         <select ng-model="ProvisionExR" id="ProvisionExR" class="form-control" ng_change="getProvisionCurEx()">
@@ -769,29 +788,44 @@
                                             <option ng-repeat="b in CurrencyList" ng-selected="ProvisionExR==b.CurrencyID" value='{{b.CurrencyID}}'>{{b.CurrencyName}}</option>
                                         </select>
                                     </div>
-                                    <div class="col-xs-6 col-sm-3 col-md-3 no-padding">
+                                    <div class="col-xs-6 col-sm-2 col-md-2  reve_rate no-padding">
                                         <label class="headinglabel">Provision Ex. Rate</label>
                                         <input type="text" ng_model="ProexChangeRate" class="form-control textright" id="ProvisionExRate" placeholder="Provision Ex Rate" />
                                     </div>
-                                    <div class="col-xs-6 col-sm-3 col-md-3 no-padding">
-                                        <label class="headinglabel">Provision Domestic</label>
-                                        <input type="text" ng-model="ProvisionDomestic" class="form-control textright" id="ProvisiDomestic" placeholder="Provision Domestic" />
-                                    </div>
-                                    <div class="col-xs-6 col-sm-3 col-md-3 no-padding">
+                                    <div class="col-xs-6 col-sm-2 col-md-2  reve_rate no-padding">
                                         <label class="headinglabel">Provision Foreign</label>
                                         <input type="text" ng-model="ProvisionForeign" class="form-control textright" id="ProvisionForeign" placeholder="Provision Foreign" />
                                     </div>
-
-
-
-
+                                    <div class="col-xs-6 col-sm-2 col-md-2 reve_rate no-padding">
+                                        <label class="headinglabel">Provision Domestic</label>
+                                        <input type="text" ng-model="ProvisionDomestic" class="form-control textright" id="ProvisiDomestic" placeholder="Provision Domestic" />
+                                    </div>
+                                    <div class="col-xs-6 col-sm-2 col-md-2 reve_wid no-padding">
+                                        <label class="headinglabel">Margin</label>
+                                        <input type="number" class="form-control textright" ng-model="Quantity" id="margin" placeholder="Margin" />
+                                    </div>
                                 </div>
+                               
                                 <div class="row no-margin" style="padding-top: 10px">
-                                    <div class="col-xs-6 col-sm-3 col-md-3 no-padding">
+                                    <div class="col-xs-6 col-sm-2 col-md-2 reve_wid no-padding">
+                                    </div>
+                                    <div class="col-xs-6 col-sm-2 col-md-2 reve_wid no-padding">
+                                    </div>
+                                    <div class="col-xs-6 col-sm-1 col-md-1 rev_uni no-padding">
+                                        <label class="headinglabel">Tax%</label>
+                                        <input type="number" class="form-control textright" ng-model="Quantity" id="tax" placeholder="TAX" />
+                                    </div>
+                                    <div class="col-xs-6 col-sm-1 col-md-1 rev_uni no-padding">
+                                        <label class="headinglabel">Tax Amt.</label>
+                                        <input type="number" class="form-control textright" ng-model="unit" id="taxamt" placeholder="Tax Amount" />
+                                    </div>
+
+                                    <div class="col-xs-6 col-sm-2 col-md-2 reve_rate no-padding">
                                         <label class="headinglabel">Sales Rate</label>
                                         <input type="number" class="form-control textright" id="SalRate" ng_model="SaleRate" placeholder="Rate" ng_change="CalcSaleForeign()" />
                                     </div>
-                                    <div class="col-xs-6 col-sm-3 col-md-3 no-padding">
+
+                                    <div class="col-xs-6 col-sm-2 col-md-2 reve_rate  no-padding">
                                         <label class="headinglabel">Sales Currency</label>
                                         @*     @Html.DropDownList("SalesCurrency", (SelectList)ViewBag.Curency, "", new { ng_selected = "SalesCurrencyID1", ng_model = "SalesExR", ng_change = "getSalesCurEx()", @class = "form-control" })*@
                                         <select ng-model="SalesExR" id="SalesExR" class="form-control" ng_change="getSalesCurEx()">
@@ -801,61 +835,81 @@
                                         </select>
 
                                     </div>
-                                    <div class="col-xs-6 col-sm-3 col-md-3 no-padding">
+
+                                    <div class="col-xs-6 col-sm-2 col-md-2 reve_rate no-padding">
                                         <label class="headinglabel">Sales Ex. Rate</label>
                                         <input type="text" ng-model="SaleexChangeRate" class="form-control textright" id="SalesExRate" placeholder="Sales Ex Rate" />
                                     </div>
-                                    <div class="col-xs-6 col-sm-3 col-md-3 no-padding">
+
+                                    <div class="col-xs-6 col-sm-2 col-md-2 reve_rate no-padding">
                                         <label class="headinglabel">Sales Domestic</label>
                                         <input type="text" ng-model="SalesDomestic" class="form-control textright" id="SalesDomestic" placeholder="Sales Domestic" />
                                     </div>
 
 
-
-
-                                </div>
-                                <div class="row no-margin border1px" style="padding-top: 10px">
-                                    <div class="col-xs-6 col-sm-3 col-md-3 no-padding">
+                                    <div class="col-xs-6 col-sm-2 col-md-2 reve_rate no-padding">
                                         <label class="headinglabel">Sales Foreign</label>
                                         <input type="text" ng-model="SalesForeign" class="form-control textright" id="SalesForeign" placeholder="Sales Foreign" />
                                     </div>
-                                    <div class="col-xs-6 col-sm-3 col-md-3 no-padding">
-                                        <label class="headinglabel">Local Currency</label>
-                                        <input type="text" ng-model="LocalCur" class="form-control textright" id="LocalCurrency" placeholder="Local Currency" />
-                                    </div>
-                                    <div class="col-xs-12 no-padding" style="text-align: right">
+
+                                    <div class="col-xs-6 col-sm-1 col-md-1 reve_uni no-padding" style="text-align: right; margin-top: 21px;">
                                         <input type="button" id="add_charges" ng-click="addCharges()" value="Add" class="btn btn-primary btnwidth" />
                                     </div>
                                 </div>
-                                <script>
-                                    function openNav() {
-                                        $("#myNav").css("display","block");
-                                        $("#charges_table").css("position", "fixed");
-                                        $("#charges_table").css("top", "200px");
-                                        $("#charges_table").css("left", "0px");
-                                        $("#charges_table").css("z-index", "11");
-                                        $("#charges_table").css("background-color", "white");
-                                    }
+                                    <script>
+                                        function openNav() {
+                                            $("#myNav").css("display", "block");
+                                            $("#charges_table").css("position", "fixed");
+                                            $("#charges_table").css("top", "200px");
+                                            $("#charges_table").css("left", "0px");
+                                            $("#charges_table").css("z-index", "11");
+                                            $("#charges_table").css("background-color", "white");
+                                            $("#provin_rate").css("display", "block");
+                                            $("#provin_curr").css("display", "block");
+                                            $("#provinex_rate").css("display", "block");
+                                            $("#provin_forgin").css("display", "block");
+                                            $("#sale_rate").css("display", "block");
+                                            $("#sale_curr").css("display", "block");
+                                            $("#sale_exrate").css("display", "block");
+                                            $("#sale_for").css("display", "block");
+                                            $(".data13").csss("display", "block");
+                                            $(".data12").csss("display", "block");
+                                            $(".data11").csss("display", "block");
+                                            $(".data10").csss("display", "block");
+                                           
+                                        }
 
-                                    function closeNav() {
-                                        $("#myNav").css("display", "none");
-                                        $("#charges_table").css("position", "relative");
-                                        $("#charges_table").css("top", "unset");
-                                        $("#charges_table").css("left", "unset");
-                                        $("#charges_table").css("z-index", "1");
-                                    }
-                                </script>
+                                        function closeNav() {
+                                            $("#myNav").css("display", "none");
+                                            $("#charges_table").css("position", "relative");
+                                            $("#charges_table").css("top", "unset");
+                                            $("#charges_table").css("left", "unset");
+                                            $("#charges_table").css("z-index", "1");
+                                            $("#provin_rate").css("display", "none");
+                                            $("#provin_curr").css("display", "none");
+                                            $("#provinex_rate").css("display", "none");
+                                            $("#provin_forgin").css("display", "none");
+                                            $("#sale_rate").css("display", "none");
+                                            $("#sale_curr").css("display", "none");
+                                            $("#sale_exrate").css("display", "none");
+                                            $("#sale_for").css("display", "none");
+                                            $(".data13").csss("display", "none");
+                                            $(".data12").csss("display", "none");
+                                            $(".data11").csss("display", "none");
+                                            $(".data10").csss("display", "none");
+                                        }
+                                    </script>
 
-                                <div id="myNav" class="overlay">
-                                    <a href="javascript:void(0)" class="closebtn" style="color:white;z-index:10;" onclick="closeNav()">&times;</a>
-                                 </div>
+                                    <div id="myNav" class="overlay">
+                                        <a href="javascript:void(0)" class="closebtn" style="color:white;z-index:10;" onclick="closeNav()">&times;</a>
+                                    </div>
 
 
-                                <div class="row no-margin" id="AddCharges" style="padding-top: 10px">
-                                    <div class="col-xs-12 no-padding for-device">
-                                        <div class="data-table tblbackground" style="width:100%; padding: 27px;">
+                                    <div class="row no-margin" id="AddCharges" style="padding-top: 10px">
+                                        <div class="col-xs-12 no-padding for-device">
+                                            <div class="data-table tblbackground" style="width:100%; padding: 27px;">
 
-                                            @*  <div class="heading">
+                                                @*  <div class="heading">
 
                         <div class="title1">Revenue Type</div>
                         <div class="title2">Supplier Name</div>
@@ -872,62 +926,71 @@
 
                     </div>*@
 
-                                            <div class="ico_cla"><span style="font-size:15px;cursor:pointer" onclick="openNav()"><i class="fa fa-expand" aria-hidden="true"></i></span></div>
+                                                <div class="ico_cla"><span style="font-size:15px;cursor:pointer" onclick="openNav()"><i class="fa fa-expand" aria-hidden="true"></i></span></div>
 
-                                            <div class="data" style="overflow:auto;">
-                                                <table border="1" class="table table-responsive table-bordered " id="charges_table">
-                                                    <tr>
-                                                        <td>
-                                                            Revenue Type
-                                                        </td>
-                                                        <td>Supplier Name</td>
-                                                        <td>
-                                                            Quantity
-                                                        </td>
-                                                        <td>
-                                                            Provision Rate
-                                                        </td>
-                                                        <td>
-                                                            Provision Currency
-                                                        </td>
-                                                        <td>
-                                                            Provision Ex. Rate
-                                                        </td>
-                                                        <td>
-                                                            Provision Domestic
-                                                        </td>
-                                                        <td>
-                                                            Provision Foreign
-                                                        </td>
-                                                        <td>
-                                                            Sales Rate
-                                                        </td>
-                                                        <td>
-                                                            Sales Currency
-                                                        </td>
-                                                        <td>
-                                                            Sales Ex. Rate
-                                                        </td>
-                                                        <td>
-                                                            Sales Domestic
-                                                        </td>
-                                                        <td>
-                                                            Sales Foreign
-                                                        </td>
-                                                        <td>
-                                                            Local Currency
-                                                        </td>
-                                                        <td>Delete</td>
+                                                <div class="data" style="overflow:auto;">
+                                                    <table border="1" class="table table-responsive table-bordered " id="charges_table">
+                                                        <tr>
+                                                            <td>
+                                                                Revenue Type
+                                                            </td>
+                                                            <td>Supplier Name</td>
+                                                            <td>
+                                                                Quantity
+                                                            </td>
+                                                            <td>
+                                                                Unit
+                                                            </td>
+                                                            <td id="provin_rate">
+                                                                Provision Rate
+                                                            </td>
+                                                            <td id="provin_curr">
+                                                                Provision Currency
+                                                            </td>
+                                                            <td id="provinex_rate">
+                                                                Provision Ex. Rate
+                                                            </td>
+                                                            <td>
+                                                                Provision Domestic
+                                                            </td>
+                                                            <td id="provin_forgin">
+                                                                Provision Foreign
+                                                            </td>
+                                                            <td id="sale_rate">
+                                                                Sales Rate
+                                                            </td>
+                                                            <td id="sale_curr">
+                                                                Sales Currency
+                                                            </td>
+                                                            <td id="sale_exrate">
+                                                                Sales Ex. Rate
+                                                            </td>
+                                                            <td>
+                                                                Sales Domestic
+                                                            </td>
+                                                            <td id="sale_for">
+                                                                Sales Foreign
+                                                            </td>
+                                                            <td>
+                                                                Tax %
+                                                            </td>
+                                                            <td>
+                                                                Tax Amt
+                                                            </td>
+                                                            <td>
+                                                                Margin
+                                                            </td>
+                                                            <td> Action</td>
 
-                                                    </tr>
+                                                        </tr>
 
-                                                </table>
+                                                    </table>
+                                                </div>
+
                                             </div>
-
                                         </div>
                                     </div>
                                 </div>
-                            </div>
                         </div>
                     </div>
                     <div id="tabs-2">

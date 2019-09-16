@@ -14,12 +14,16 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     /*font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;*/
-    font-family: 'Montserrat', sans-serif !important;
+    font-family: Calibri !important;
     font-weight: 400;
     overflow-x: hidden;
     overflow-y: auto;
+    font-size: 10px !important;
 }
-
+.btn {
+    font-size: 10px !important;
+    font-family: Calibri !important;
+}
 .wrapper {
     min-height: 100%;
     position: relative;
@@ -2926,17 +2930,23 @@ a {
     border: 1px solid #f4f4f4;
 }
 .searlabe {
-    font-size: 13px !important;
+    font-size: 10px !important;
     padding: 6px !important;
 }
-    .headinglabel
-    {font-size:13px !important;}
 
-    .table-bordered > thead > tr > th, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td, .table-bordered > tbody > tr > td, .table-bordered > tfoot > tr > td {
-        border: 1px solid #f4f4f4;
-        color: #72848c;
-        font-family: 'Montserrat', sans-serif !important;
-    }
+.ui-widget {
+    font-size: 10px !important;
+    font-family: Calibri !important;
+}
+.headinglabel {
+    font-size: 10px !important;
+}
+
+.table-bordered > thead > tr > th, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td, .table-bordered > tbody > tr > td, .table-bordered > tfoot > tr > td {
+    border: 1px solid #f4f4f4;
+    color: #72848c;
+    font-family: Calibri !important;
+}
 
     .table-bordered > thead > tr > th, .table-bordered > thead > tr > td {
         border-bottom-width: 2px;
@@ -5339,7 +5349,7 @@ table.text-center, table.text-center td, table.text-center th {
 }
 
 .btn-download {
-    font-size: 17px;
+    font-size: 10px;
     margin: 30px 0 10px;
     margin-right: 10px;
     line-height: 20px;
@@ -5359,7 +5369,7 @@ table.text-center, table.text-center td, table.text-center th {
     }
 
 .btn-feature {
-    font-size: 17px;
+    font-size: 10px;
     margin: 30px 0 10px;
     margin-right: 10px;
     line-height: 20px;
@@ -5379,7 +5389,7 @@ table.text-center, table.text-center td, table.text-center th {
     }
 
 .btn-secondary {
-    font-size: 20px;
+    font-size: 10px;
     font-weight: 300;
     line-height: 20px;
     padding: 20px 50px;
@@ -5411,7 +5421,7 @@ table.text-center, table.text-center td, table.text-center th {
     }
 
 .landing h1 {
-    font-size: 56px;
+    font-size: 10px;
     font-weight: 300;
     color: #fff;
     margin: 30px 0 30px 0;
@@ -5427,7 +5437,7 @@ table.text-center, table.text-center td, table.text-center th {
 }
 
     .landing-text p {
-        font-size: 17px !important;
+        font-size: 10px !important;
     }
 
 .head-btn {
@@ -5467,7 +5477,7 @@ table.text-center, table.text-center td, table.text-center th {
     width: 100%;
     background-color: #3eb0f7;
     color: white;
-    font-size: 17px !important;
+    font-size: 10px !important;
     padding: 0 33px;
     border: none;
     margin: 0;
@@ -5482,7 +5492,7 @@ table.text-center, table.text-center td, table.text-center th {
     }
 
 .privacy {
-    font-size: 13px;
+    font-size: 10px;
     margin-bottom: 10px;
     padding-bottom: 15px;
     padding-top: 0;
@@ -5560,7 +5570,7 @@ table.text-center, table.text-center td, table.text-center th {
     }
 
     .landing h1 {
-        font-size: 50px;
+        font-size: 10px;
         margin: 10px 0 25px 0;
     }
 
@@ -5592,12 +5602,12 @@ table.text-center, table.text-center td, table.text-center th {
     }
 
     .landing h1 {
-        font-size: 40px;
+        font-size: 10px;
         margin: 20px 0 10px 0;
     }
 
     .landing-text p {
-        font-size: 16px !important;
+        font-size: 10px !important;
     }
 
     .col-6 {
@@ -5626,7 +5636,7 @@ table.text-center, table.text-center td, table.text-center th {
     }
 
     .btn-download {
-        font-size: 16px;
+        font-size: 10px;
         margin: 30px 0 10px;
         padding: 15px 30px;
         height: 35px;
@@ -5634,7 +5644,7 @@ table.text-center, table.text-center td, table.text-center th {
     }
 
     .btn-feature {
-        font-size: 16px;
+        font-size: 10px;
         margin: 30px 0 10px;
         margin-right: 15px;
         padding: 15px 30px;
@@ -5674,8 +5684,8 @@ table.text-center, table.text-center td, table.text-center th {
 .head {
     color: #07a7e3;
     text-transform: uppercase;
-     font-weight: 500;
-    font-family: 'Montserrat', sans-serif !important;
+    font-weight: 500;
+    font-family: Calibri !important;
     letter-spacing: 0.03em;
     font-size: 1.333rem;
 }
@@ -5703,7 +5713,7 @@ td.tab_class {
     background-color: #85dff8;
     color: #fff;
     text-align: center;
-    font-size: 14px;
+    font-size: 10px;
     font-weight: 500;
     border-radius: 10px;
     padding: 0px;
@@ -5716,7 +5726,7 @@ td.tabs_class {
     background-color: #f43a59;
     color: #fff;
     text-align: center;
-    font-size: 14px;
+    font-size: 10px;
     font-weight: 500;
     border-radius: 10px;
     padding: 0px;
@@ -5761,14 +5771,14 @@ input[type=text]:focus, textarea:focus {
 .searlabel {
     color: #1b1a1a;
     padding: 23px;
-    font-size: 14px;
+    font-size: 10px;
     font-weight: 600;
 }
 .btnwidt {
     width: 100px;
     float: right;
     margin-right: 15px;
-    font-size: 18px;
+    font-size: 10px;
     border-radius: 5px;
 }
 .btn-primary.active.focus, .btn-primary.active:focus, .btn-primary.active:hover, .btn-primary:active.focus, .btn-primary:active:focus, .btn-primary:active:hover, .open > .dropdown-toggle.btn-primary.focus, .open > .dropdown-toggle.btn-primary:focus, .open > .dropdown-toggle.btn-primary:hover {
@@ -5785,11 +5795,11 @@ label > select {
 }
 label {
     width: 100%;
-    font-size: 15px;
+    font-size: 10px;
     padding: 2px;
 }
 div#dataTables-example_info {
-    font-size: 18px;
+    font-size: 10px;
     display: inline;
 }
 div#dataTables-example_paginate {
@@ -5820,6 +5830,11 @@ div#dataTables-example_paginate {
     border-radius: 10px;
     box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
 }
+.form-control {
+    height: 27px !important;
+    padding: 0px 1px !important;
+    font-size: 10px !important;
+}
 .searcfied {
     width: 27%;
     margin-right: 5px;
@@ -5827,7 +5842,7 @@ div#dataTables-example_paginate {
 .btnwid {
     width: 100px;
     margin-right: 15px;
-    font-size: 18px;
+    font-size: 10px;
     border-radius: 5px;
 }
 .butdivs {
@@ -5836,7 +5851,7 @@ div#dataTables-example_paginate {
 .dataTables_wrapper .dataTables_paginate .paginate_button{border-raduis:5px;}
 
 .headinglabel {
-    font-family: 'Montserrat', sans-serif !important;
+    font-family: Calibri !important;
 }
 .tblbackground {
     background-color: #fff;
@@ -5907,13 +5922,15 @@ padding:20px;
 }
 
 .subhead {
-margin:0px!important;}
+    margin: 0px !important;
+}
  tr.rows{margin-bottom:20px;}
 li.treeli {
     list-style-type: none;
 }
 ul.treemenus > li.treeli:hover {
     background: linear-gradient(135deg, #07a7e3 0%, #32dac3 100%);
+    padding: 7px 5px 5px 12px;
 }
 ul.treemenus {
     padding: 0;
@@ -5922,12 +5939,12 @@ ul.treemenus {
     /* text-align: center; */
     width: 100%;
     max-width: 216px;
-    font-size: 20px;
+    font-size: 10px;
    
 }
 li.treeli > a > span {
-    font-size: 13px;
-    font-family: 'Montserrat', sans-serif !important;
+    font-size: 12px;
+    font-family: Calibri !important;
 }
 
 li.treeli > a {
@@ -5937,7 +5954,7 @@ li.treeli > a {
         background: linear-gradient(135deg, #07a7e3 0%, #32dac3 100%);
     }*/
 #dataTables-example_filter {
-    font-family: 'Montserrat', sans-serif !important;
+    font-family: Calibri !important;
 }
 
 @media (min-width: 481px) and (max-width: 767px) {
