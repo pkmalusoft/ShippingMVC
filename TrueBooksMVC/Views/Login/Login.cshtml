@@ -22,6 +22,138 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito|Roboto:400,700" rel="stylesheet">
     <link href="css/owl.carousel.css" rel="stylesheet" />
 
+    <style>
+        .bg-dark {
+            background-color: #122f3b !important;
+        }
+        .right-column {
+            width: 100%;
+            -webkit-transition: margin-left 0.225s ease-in-out !important;
+            -moz-transition: margin-left 0.225s ease-in-out !important;
+            -o-transition: margin-left 0.225s ease-in-out !important;
+            transition: margin-left 0.225s ease-in-out !important;
+        }
+        .tex_field {
+            /* padding: 50px; */
+            float: right;
+            padding-top: 24rem;
+            padding-right: 10rem !important;
+            padding-left: 10rem !important;
+            min-height: 663px;
+            text-align: left;
+        }
+
+
+
+        .display-4 {
+            font-size: 3.5rem;
+            text-transform: uppercase;
+            font-weight: 400 !important;
+            line-height: 1.2;
+            color: #fff;
+            letter-spacing: 0.03em;
+        }
+        .lead {
+            font-size: 1.25rem;
+            font-weight: 300;
+            color: #fff;
+            letter-spacing: 0.03em;
+        }
+        .signin-left-column {
+            padding-top: 4rem;
+            padding-right: 10rem !important;
+            padding-left: 10rem !important;
+            min-height: 663px;
+        }
+        .text-center {
+            text-align: center !important;
+        }
+        .profile-picture.profile-picture-lg {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto;
+        }
+        .profile-picture {
+            width: 48px;
+            height: 48px;
+            padding-top: 2px;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            -ms-border-radius: 50%;
+            -o-border-radius: 50%;
+            border-radius: 50%;
+            position: relative;
+        }
+        .bg-gradient {
+            color: #FFFFFF !important;
+            background: #07a7e3;
+            background: -moz-linear-gradient(-45deg, #07a7e3 0%, #32dac3 100%);
+            background: -webkit-linear-gradient(-45deg, #07a7e3 0%, #32dac3 100%);
+            background: linear-gradient(135deg, #07a7e3 0%, #32dac3 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr=$qp-color-1, endColorstr=$qp-color-2,GradientType=1 );
+            -webkit-transition: opacity 0.2s ease-out;
+            -moz-transition: opacity 0.2s ease-out;
+            -o-transition: opacity 0.2s ease-out;
+            transition: opacity 0.2s ease-out;
+        }
+
+        .bg-primary {
+            color: #FFFFFF;
+            background-color: #07a7e3 !important;
+        }
+        .image_user {
+            border-radius: 50%;
+            /* margin: 0 auto; */
+            text-align: center;
+            margin-left: 2px;
+            margin-top: 1px;
+        }
+        a:not(.btn) {
+            color: #07a7e3;
+            -webkit-transition: color 0.225s ease-in-out, background-color 0.225s ease-in-out;
+            -moz-transition: color 0.225s ease-in-out, background-color 0.225s ease-in-out;
+            -o-transition: color 0.225s ease-in-out, background-color 0.225s ease-in-out;
+            transition: color 0.225s ease-in-out, background-color 0.225s ease-in-out;
+        }
+        .loginbox {
+            padding: 21px;
+        }
+        .form-control {
+            display: block;
+            width: 100%;
+            height: 40px;
+            border: 1px solid #d2d2d2;
+            box-shadow: 0 2px 0 0 #d2d2d2;
+        }
+        .from-group {
+            margin-bottom: 20px;
+        }
+        .btn-primary.btn-gradient:after {
+            background: #32dac3;
+            background: -moz-linear-gradient(-45deg, #32dac3 0%, #32dac3 100%);
+            background: -webkit-linear-gradient(-45deg, #32dac3 0%, #32dac3 100%);
+            background: linear-gradient(135deg, #32dac3 0%, #32dac3 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr=$qp-color-1, endColorstr=$qp-color-2,GradientType=1 );
+            -webkit-transition: opacity 0.2s ease-out;
+            -moz-transition: opacity 0.2s ease-out;
+            -o-transition: opacity 0.2s ease-out;
+            transition: opacity 0.2s ease-out;
+        }
+        .btn-primary, .btn-primary.dropdown-toggle {
+            background-color: #07a7e3 !important;
+        }
+        .no_row {        
+        margin:0;}
+        .padding_none {
+        padding:0;}
+
+
+
+
+    </style>
+
+
+
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -30,6 +162,7 @@
     <![endif]-->
     <script src="/Content/NewCSS/plugins/jQuery/jQuery-2.2.0.min.js"></script>
     <script src="/Content/login/owl.carousel.min.js"></script>
+
 
 
 
@@ -57,107 +190,73 @@
 
 </head>
 <body>
-
-    <div class="header clearfix">
-
-        <div class="container">
-            <a href="index.html" class="logo"></a>
-            <div class="rightlogoarea">
-                <p>Licenced to:</p>
-                <a href="#" class="rightlogo"></a>
-            </div>
-
-        </div>
-
-    </div>
-
-    <div class="bgarea">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-md-7">
-
-                    <div>
-                        <h3 style="color: white; text-align: center">Shipping and Freight Forwading System</h3>
-                        <img src="/img/img.jpg" class="img-responsive" />
+    <div class="container-fluid padding_none">
+        <div class="row no_row">
+            <div class="right-column sisu">
+                <div class="row no_row">
+                    <div class="col-md-7 col-sm-7 tex_field bg-dark">
+                       <!-- <a class="signin-logo d-sm-block d-md-none" href="#">
+                            <img src="~/Content/img/logo.png" width="145" height="32.3" alt="Truelogo">
+                        </a>-->
+                        <h1 class="display-4">Locked</h1>
+                        <p class="lead mb-5">
+                            Workflow entrepreneur big data workflow ship it ship it quantitative.
+                        </p>
                     </div>
+                    <div class="col-md-5 signin-left-column bg-white px-5" style="height: 663px;">
+                        <a class="signin-logo d-sm-none d-md-block text-center" href="#">
+                            <img src="/Content/img/logo.png" width="280" height="59.3" alt="QuillPro" style="
+     margin-left: 48px;
+    margin-bottom: 24px;
+">
+                        </a>
+                        <div class="profile-picture profile-picture-lg bg-gradient bg-primary">
+                            <img src="~/Content/NewCSS/img/user2-160x160.jpg" class="image_user" width="97%" height="97%">
+                        </div>
+                        <div class="loginbox">
+                            @using (@Html.BeginForm("", "", FormMethod.Post, new { @class = "login clearfix", @role = "form" }))
+                            {
+                                <div class="input-group">
+
+                                    @Html.TextBoxFor(model => model.UserName, new { @class = "form-control login", @placeholder = "User Name:" })
+                                </div>
+
+                                <div class="input-group">
+                                    @Html.PasswordFor(model => model.Password, new { @class = "form-control pwd", @placeholder = "Password:" })
+                                </div>
+                                <div class="input-group">
 
 
-                </div>
-                <div class="col-lg-4 col-md-5">
+                                    @Html.DropDownListFor(model => model.BranchID, new SelectList(ViewBag.Branch, "BranchID", "BranchName"), "Select Branch", new { @class = "form-control" })
 
-                    <div class="loginbox">
-                        <h6>Log in </h6>
-                        @using (@Html.BeginForm("", "", FormMethod.Post, new { @class = "login clearfix", @role = "form" }))
-                        {
-                            <div class="input-group">
+                                </div>
 
-                                @Html.TextBoxFor(model => model.UserName, new { @class = "form-control login", @placeholder = "User Name:" })
-                            </div>
-             
-                            <div class="input-group">
-                                @Html.PasswordFor(model => model.Password, new { @class = "form-control pwd", @placeholder = "Password:" })
-                            </div>
-                            <div class="input-group">
+                                <div class="input-group">
+                                    @Html.DropDownListFor(model => model.AcFinancialYearID, new SelectList(ViewBag.fyears, "AcFinancialYearID", "FYearName"), "Select Year", new { @class = "form-control" })
+                                </div>
+
+                                <span class="submit">
+                                    <input class="loginbtn" type="submit" value="Log in">
+                                </span>
+                                <span id="errormessage">
+                                    @if (ViewBag.ErrorMessage != null)
+                                    {
+                                        <span style="color: red; font-family: Calibri;">
+                                            * @ViewBag.ErrorMessage
+                                        </span>
+                                    }
+                                </span>
 
 
-                                @Html.DropDownListFor(model => model.BranchID, new SelectList(ViewBag.Branch, "BranchID", "BranchName"), "Select Branch", new { @class = "form-control" })
 
-                            </div>
-          
-                            <div class="input-group">
-                                @Html.DropDownListFor(model => model.AcFinancialYearID, new SelectList(ViewBag.fyears, "AcFinancialYearID", "FYearName"), "Select Year", new { @class = "form-control" })
-                            </div> 
-          
-                            <span class="submit">
-                                <input class="loginbtn" type="submit" value="Log in">
-                            </span>
-                            <span id="errormessage">
-                                @if (ViewBag.ErrorMessage != null)
-                                {
-                                    <span style="color: red; font-family: Calibri;">* @ViewBag.ErrorMessage
-                                    </span>
-                                }
-                            </span>
-        
-            
-         
-                        }
-
+                            }
+                        </div>
                     </div>
-
-
-
-                </div>
-
-            </div>
-
-            <div class="row bottommarea">
-                <div class="col-sm-12">
-
-                    <h4>Work Smarter</h4>
-                    <p>
-                        Triangle Soft Is a "software products and services" company specialised in developing and supporting industry
-specific commercial applications. Shipping and Freight Forwarding System is one of our flagship products for freight forwarding industry. The system is
-bundled with Operations, Finance and Electronic Data Interchange (EDI) modules along with various MIS reports.
-                    </p>
                 </div>
             </div>
-
-
-
         </div>
-
-
     </div>
 
-    <div class="footer">
-        <div class="container">Copyright &copy; 2016 Trianglesoft. All rights reserved.</div>
-    </div>
-
-
-
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
     @*<script src="js/bootstrap.min.js"></script>*@
 
 
@@ -191,6 +290,5 @@ bundled with Operations, Finance and Electronic Data Interchange (EDI) modules a
             }
         })
     </script>
-
 </body>
 </html>
