@@ -474,6 +474,22 @@
             float: right;
             width: 40em;
         }
+    .fc_sal {
+        color: #f72323 !important;
+    }
+   .lc_sal {
+        color: #1e60d8 !important;
+    }
+    .note_ls
+    {
+        width:23%!important;
+    }
+    .lc_pro {
+        color: #0b1be2;
+    }
+    .fc_pro {
+        color: #e60928;
+    }
 </style>
 <script type="text/javascript">
     $(document).ready(function () {
@@ -792,25 +808,36 @@
                                         <label class="headinglabel">Provision Ex. Rate</label>
                                         <input type="text" ng_model="ProexChangeRate" class="form-control textright" id="ProvisionExRate" placeholder="Provision Ex Rate" />
                                     </div>
-                                    <div class="col-xs-6 col-sm-2 col-md-2  reve_rate no-padding">
-                                        <label class="headinglabel">Provision Foreign</label>
-                                        <input type="text" ng-model="ProvisionForeign" class="form-control textright" id="ProvisionForeign" placeholder="Provision Foreign" />
-                                    </div>
                                     <div class="col-xs-6 col-sm-2 col-md-2 reve_rate no-padding">
-                                        <label class="headinglabel">Provision Domestic</label>
+                                        <label class="headinglabel lc_sal">Provision (LC)</label>
                                         <input type="text" ng-model="ProvisionDomestic" class="form-control textright" id="ProvisiDomestic" placeholder="Provision Domestic" />
                                     </div>
+                                    <div class="col-xs-6 col-sm-2 col-md-2  reve_rate no-padding">
+                                        <label class="headinglabel fc_sal">Provision (FC)</label>
+                                        <input type="text" ng-model="ProvisionForeign" class="form-control textright" id="ProvisionForeign" placeholder="Provision Foreign" />
+                                    </div>
+
                                     <div class="col-xs-6 col-sm-2 col-md-2 reve_wid no-padding">
                                         <label class="headinglabel">Margin</label>
-                                        <input type="number" class="form-control textright" ng-model="Quantity" id="margin" placeholder="Margin" />
+                                        <input type="number" class="form-control textright bg-gray" ng-model="Quantity" id="margin" placeholder="Margin" readonly />
                                     </div>
                                 </div>
                                
                                 <div class="row no-margin" style="padding-top: 10px">
-                                    <div class="col-xs-6 col-sm-2 col-md-2 reve_wid no-padding">
+                                    <div class="col-xs-6 col-sm-4 col-md-4 note_ls no-padding">
+                                        <div class="notice">
+                                            <ul>
+                                                <li>
+                                                    <p class="lc_pro"> (LC) - Local Currency</p>
+                                                </li>
+                                                <li>
+                                                    <p class="fc_pro"> (FC) - Foreign Currency</p>
+                                                </li>
+                                            </ul>
+
+                                        </div>
                                     </div>
-                                    <div class="col-xs-6 col-sm-2 col-md-2 reve_wid no-padding">
-                                    </div>
+
                                     <div class="col-xs-6 col-sm-1 col-md-1 rev_uni no-padding">
                                         <label class="headinglabel">Tax%</label>
                                         <input type="number" class="form-control textright" ng-model="Quantity" id="tax" placeholder="TAX" />
@@ -840,17 +867,18 @@
                                         <label class="headinglabel">Sales Ex. Rate</label>
                                         <input type="text" ng-model="SaleexChangeRate" class="form-control textright" id="SalesExRate" placeholder="Sales Ex Rate" />
                                     </div>
-
                                     <div class="col-xs-6 col-sm-2 col-md-2 reve_rate no-padding">
-                                        <label class="headinglabel">Sales Domestic</label>
+                                        <label class="headinglabel lc_sal">Sales (LC)</label>
                                         <input type="text" ng-model="SalesDomestic" class="form-control textright" id="SalesDomestic" placeholder="Sales Domestic" />
                                     </div>
-
-
                                     <div class="col-xs-6 col-sm-2 col-md-2 reve_rate no-padding">
-                                        <label class="headinglabel">Sales Foreign</label>
+                                        <label class="headinglabel fc_sal">Sales (FC)</label>
                                         <input type="text" ng-model="SalesForeign" class="form-control textright" id="SalesForeign" placeholder="Sales Foreign" />
                                     </div>
+
+
+
+
 
                                     <div class="col-xs-6 col-sm-1 col-md-1 reve_uni no-padding" style="text-align: right; margin-top: 21px;">
                                         <input type="button" id="add_charges" ng-click="addCharges()" value="Add" class="btn btn-primary btnwidth" />
@@ -924,59 +952,62 @@
 
                                                 <div class="data" style="overflow:auto;">
                                                     <table border="1" class="table table-responsive table-bordered " id="charges_table">
-                                                        <tr>
-                                                            <td>
-                                                                Revenue Type
-                                                            </td>
-                                                            <td width="40%">Supplier Name</td>
-                                                            <td>
-                                                                Quantity
-                                                            </td>
-                                                            <td>
-                                                                Unit
-                                                            </td>
-                                                            <td id="provin_rate">
-                                                                Provision Rate
-                                                            </td>
-                                                            <td id="provin_curr">
-                                                                Provision Currency
-                                                            </td>
-                                                            <td id="provinex_rate">
-                                                                Provision Ex. Rate
-                                                            </td>
-                                                            <td width="10%">
-                                                                Provision Domestic
-                                                            </td>
-                                                            <td id="provin_forgin">
-                                                                Provision Foreign
-                                                            </td>
-                                                            <td id="sale_rate">
-                                                                Sales Rate
-                                                            </td>
-                                                            <td id="sale_curr">
-                                                                Sales Currency
-                                                            </td>
-                                                            <td id="sale_exrate">
-                                                                Sales Ex. Rate
-                                                            </td>
-                                                            <td width="10%">
-                                                                Sales Domestic
-                                                            </td>
-                                                            <td id="sale_for">
-                                                                Sales Foreign
-                                                            </td>
-                                                            <td>
-                                                                Tax %
-                                                            </td>
-                                                            <td>
-                                                                Tax Amt
-                                                            </td>
-                                                            <td>
-                                                                Margin
-                                                            </td>
-                                                            <td> Action</td>
+                                                       
+                                                            <tr>
+                                                                <td width="20%">
+                                                                    Revenue Type
+                                                                </td>
+                                                                <td width="30%">Supplier Name</td>
+                                                                <td width="1%">
+                                                                    Quantity
+                                                                </td>
+                                                                <td width="5%">
+                                                                    Unit
+                                                                </td>
+                                                                <td id="provin_rate">
+                                                                    Provision Rate
+                                                                </td>
+                                                                <td id="provin_curr">
+                                                                    Provision Currency
+                                                                </td>
+                                                                <td id="provinex_rate">
+                                                                    Provision Ex. Rate
+                                                                </td>
+                                                                <td width="10%" class="lc_pro">
+                                                                    <p class="lc_pro"> Provision LC</p>
+                                                                </td>
+                                                                <td id="provin_forgin">
+                                                                    Provision FC
+                                                                </td>
+                                                                <td id="sale_rate">
+                                                                    Sales Rate
+                                                                </td>
+                                                                <td id="sale_curr">
+                                                                    Sales Currency
+                                                                </td>
+                                                                <td id="sale_exrate">
+                                                                    Sales Ex. Rate
+                                                                </td>
+                                                                <td width="10%" class="lc_pro">
+                                                                    <p class="lc_pro">   Sales LC</p>
+</td>
+                                                                <td width="10%" class="fc_pro">
+                                                                    <p class="fc_pro">Sales FC</p>
+                                                                </td>
+                                                                <td width="5%">
+                                                                    Tax %
+                                                                </td>
+                                                                <td width="6%">
+                                                                    Tax Amt
+                                                                </td>
+                                                                <td width="12%">
+                                                                    Margin
+                                                                </td>
+                                                                <td> Action</td>
 
-                                                        </tr>
+                                                            </tr>
+
+                                                        
 
                                                     </table>
                                                 </div>

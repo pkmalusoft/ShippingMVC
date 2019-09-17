@@ -5707,7 +5707,7 @@ table.text-center, table.text-center td, table.text-center th {
 .logonav {
     width: 15%;
     float: left;
-    margin-top: 8px;
+    margin-top: -4px;
 }
 td.tab_class {
     background-color: #85dff8;
