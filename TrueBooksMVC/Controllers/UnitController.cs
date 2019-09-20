@@ -28,6 +28,7 @@ namespace TrueBooksMVC.Controllers
         [HttpPost]
         public ActionResult Create(ItemUnit u)
         {
+            u.StatusActive = true;
             context.ItemUnits.Add(u);
             context.SaveChanges();
 

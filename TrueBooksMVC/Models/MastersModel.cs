@@ -103,6 +103,11 @@ namespace TrueBooksMVC.Models
             return Context1.SP_GetAllRevenueType().OrderBy(x => x.RevenueType).ToList();
         }
 
+        public List<SP_GetAllItemUnit_Result> GetItemUnit()
+        {
+            return Context1.SP_GetAllItemUnit().OrderBy(x => x.ItemUnit).ToList();
+        }
+
         public List<SP_GetShippingAgents_Result> GetShippingAgents()
         {
             return Context1.SP_GetShippingAgents().OrderBy(x => x.AgentName).ToList();

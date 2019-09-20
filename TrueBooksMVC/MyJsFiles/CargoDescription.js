@@ -43,6 +43,7 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
     BindRevenueType();
     BindProvisionCurrency();
     BindContainerType();
+    BindUnit();
 
     $scope.getJobPrefix = function () {
         //alert($scope.JobTypeID);
@@ -168,6 +169,8 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
             SupplierID: ($scope.Supplier2 == undefined) ? "" : $scope.Supplier2,
             SupplierName: $('#Supplier2 option:selected').text() + "",
             Quantity: ($scope.Quantity == undefined) ? "" : $scope.Quantity,
+            ItemUnit: $('#UnitID option:selected').text(),
+            ItemUnitID: $('#UnitID').val(),
             Description: ($scope.Description == undefined) ? "" : $scope.Description,
             ProvisionCurrency: $('#ProvisionExR option:selected').text(),
             ProvisionCurrencyId: ($scope.ProvisionExR == undefined) ? "" : $scope.ProvisionExR,
@@ -192,8 +195,9 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
         vCharges.push(ChargeStr);
         var tdString = '<tr><td width="200"><div class= "data1" ><input type="text" value="' + ChargeObj.RevenueTypeName + '" title="' + ChargeObj.RevenueTypeName + '" name="RevenueTypeName_' + vCharges.length + '" id="RevenueTypeName_' + vCharges.length + '" style="width:150px;" /><input type="hidden" value="' + ChargeObj.RevenueTypeID + '" name="RevenueTypeID_' + vCharges.length + '" id="RevenueTypeID_' + vCharges.length + '" /></div ></td>';
         tdString = tdString + '<td style="width:25%;><div class="data2" ><input type="text" value="' + ChargeObj.SupplierName + '" title="' + ChargeObj.SupplierName+'" name="SupplierName_' + vCharges.length + '" id="SupplierName_' + vCharges.length + '" style="width:150px;" /><input type="hidden" value="' + ChargeObj.SupplierID + '" name="SupplierID_' + vCharges.length + '" id="SupplierID_' + vCharges.length + '" /></div></td>';
-        tdString = tdString + '<td><div class="data4" ><input type="text" value="' + ChargeObj.Quantity + '" title="' + ChargeObj.Quantity +'" name="Quantity_' + vCharges.length + '" id="Quantity_' + vCharges.length + '" style="width:70px;" /></div></td>';
-        tdString = tdString + '<td id="provin_rate"><div class="data5" ><input type="text" value="' + ChargeObj.ProvisionRate + '" title="' + ChargeObj.ProvisionRate +'" name="ProvisionRate_' + vCharges.length + '" id="ProvisionRate_' + vCharges.length + '" style="width:70px;" /></div></td>';
+        tdString = tdString + '<td><div class="data4" ><input type="text" value="' + ChargeObj.Quantity + '" title="' + ChargeObj.Quantity + '" name="Quantity_' + vCharges.length + '" id="Quantity_' + vCharges.length + '" style="width:70px;" /></div></td>';
+        tdString = tdString + '<td><div class="data2" ><input type="text" value="' + ChargeObj.ItemUnit + '" title="' + ChargeObj.ItemUnit + '" name="ItemUnit_' + vCharges.length + '" id="ItemUnit_' + vCharges.length + '" style="width:100px;" /><input type="hidden" value="' + ChargeObj.ItemUnitID + '" name="ItemUnitID_' + vCharges.length + '" id="ItemUnitID_' + vCharges.length + '" /></div></td>';
+        tdString = tdString + '<td id="provin_rate"><div class="data5" ><input type="text" value="' + (ChargeObj.ProvisionRate | number:2) + '" title="' + ChargeObj.ProvisionRate +'" name="ProvisionRate_' + vCharges.length + '" id="ProvisionRate_' + vCharges.length + '" style="width:70px;" /></div></td>';
         tdString = tdString + '<td id="provin_curr"><div class="data5"><input type="text" value="' + ChargeObj.ProvisionCurrency + '" title="' + ChargeObj.ProvisionCurrency +'" name="ProvisionCurrency_' + vCharges.length + '" id="ProvisionCurrency_' + vCharges.length + '" style="width:50px;" /><input type="hidden" value="' + ChargeObj.ProvisionCurrencyId + '" name="ProvisionCurrencyId_' + vCharges.length + '" id="ProvisionCurrencyId_' + vCharges.length + '" /></div></td>';
         tdString = tdString + '<td id="provinex_rate"><div class="data6"><input type="text" value="' + ChargeObj.ProvisionExchangeRate + '" title="' + ChargeObj.ProvisionExchangeRate +'" name="ProvisionExchangeRate_' + vCharges.length + '" id="ProvisionExchangeRate_' + vCharges.length + '" style="width:70px;" /></div></td>';
         tdString = tdString + '<td><div class="data7"><input type="text" value="' + ChargeObj.ProvisionHome + '" title="' + ChargeObj.ProvisionHome +'" name="ProvisionHome_' + vCharges.length + '" id="ProvisionHome_' + vCharges.length + '" style="width:50px;" /></div></td>';
@@ -258,6 +262,7 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
                 var tdString = '<tr><td><div class= "data1" ><input type="text" value="' + ChargeObj.RevenueTypeName + '" title="' + ChargeObj.RevenueTypeName + '" name="RevenueTypeName_' + vCharges.length + '" id="RevenueTypeName_' + vCharges.length + '" style="width:100px;" /><input type="hidden" value="' + ChargeObj.RevenueTypeID + '" name="RevenueTypeID_' + vCharges.length + '" id="RevenueTypeID_' + vCharges.length + '" /></div ></td>';
                 tdString = tdString + '<td><div class="data2" ><input type="text" value="' + ChargeObj.SupplierName + '" title="' + ChargeObj.SupplierName + '" name="SupplierName_' + vCharges.length + '" id="SupplierName_' + vCharges.length + '" style="width:100px;" /><input type="hidden" value="' + ChargeObj.SupplierID + '" name="SupplierID_' + vCharges.length + '" id="SupplierID_' + vCharges.length + '" /></div></td>';
                 tdString = tdString + '<td><div class="data4" ><input type="text" value="' + ChargeObj.Quantity + '" title="' + ChargeObj.Quantity + '" name="Quantity_' + vCharges.length + '" id="Quantity_' + vCharges.length + '" style="width:70px;" /></div></td>';
+                tdString = tdString + '<td><div class="data2" ><input type="text" value="' + ChargeObj.ItemUnit + '" title="' + ChargeObj.ItemUnit + '" name="ItemUnit_' + vCharges.length + '" id="ItemUnit_' + vCharges.length + '" style="width:100px;" /><input type="hidden" value="' + ChargeObj.ItemUnitID + '" name="ItemUnitID_' + vCharges.length + '" id="ItemUnitID_' + vCharges.length + '" /></div></td>';
                 tdString = tdString + '<td><div class="data5" ><input type="text" value="' + ChargeObj.ProvisionRate + '" title="' + ChargeObj.ProvisionRate + '" name="ProvisionRate_' + vCharges.length + '" id="ProvisionRate_' + vCharges.length + '" style="width:70px;" /></div></td>';
                 tdString = tdString + '<td><div class="data5"><input type="text" value="' + ChargeObj.ProvisionCurrency + '" title="' + ChargeObj.ProvisionCurrency + '" name="ProvisionCurrency_' + vCharges.length + '" id="ProvisionCurrency_' + vCharges.length + '" style="width:90px;" /><input type="hidden" value="' + ChargeObj.ProvisionCurrencyId + '" name="ProvisionCurrencyId_' + vCharges.length + '" id="ProvisionCurrencyId_' + vCharges.length + '" /></div></td>';
                 tdString = tdString + '<td><div class="data6"><input type="text" value="' + ChargeObj.ProvisionExchangeRate + '" title="' + ChargeObj.ProvisionExchangeRate + '" name="ProvisionExchangeRate_' + vCharges.length + '" id="ProvisionExchangeRate_' + vCharges.length + '" style="width:70px;" /></div></td>';
@@ -458,6 +463,19 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
         }).success(function (data, status, headers, config) {
 
             $scope.RevenueTypeList = data;
+
+        });
+    }
+
+   function BindUnit() {
+
+
+        $http({
+            url: '/Job/GetUnitList/',
+            method: 'GET'
+        }).success(function (data, status, headers, config) {
+            debugger;
+            $scope.UnitList = data;
 
         });
     }

@@ -45,5 +45,7 @@ namespace DAL
         public string ProvisionCurrency { get; set; }
         public string SalesCurrency { get; set; }
         public string SupplierName { get; set; }
+        public string ItemUnit { get; set; }
+        public Nullable<int> ItemUnitID { get; set; }
     }
 }

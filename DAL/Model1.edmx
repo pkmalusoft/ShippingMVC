@@ -904,6 +904,8 @@ warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.AcHeadAssign' does not 
           <Property Name="IsActive" Type="bit" />
           <Property Name="RoleID" Type="int" />
           <Property Name="EmployeeID" Type="int" Nullable="false" />
+          <Property Name="BranchID" Type="int" />
+          <Property Name="AcFinancialYearID" Type="int" />
         </EntityType>
         <EntityType Name="Validity">
           <Key>
@@ -1547,9 +1549,6 @@ warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.qrySupplierOutstanding'
         <Function Name="SP_DeleteContainerbyJobIDandUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="JContainerDetailID" Type="int" Mode="In" />
         </Function>
-      <Function Name="SP_DeleteJobDetailsByJobID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-        <Parameter Name="JobID" Type="int" Mode="In" />
-      </Function>
         <Function Name="SP_DeleteCostUpdationDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="CostUpdationID" Type="int" Mode="In" />
         </Function>
@@ -1566,6 +1565,9 @@ warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.qrySupplierOutstanding'
           <Parameter Name="InvoiceID" Type="int" Mode="In" />
         </Function>
         <Function Name="SP_DeleteJobByJobID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="JobID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_DeleteJobDetailsByJobID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="JobID" Type="int" Mode="In" />
         </Function>
         <Function Name="SP_DeleteSupplierPayment" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -1593,6 +1595,7 @@ warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.qrySupplierOutstanding'
           <Parameter Name="SupplierID" Type="int" Mode="In" />
           <Parameter Name="JobID" Type="nvarchar" Mode="In" />
         </Function>
+        <Function Name="SP_GetAllItemUnit" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_GetAllJobsDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_GetAllJobsDetailsByDate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="fdate" Type="datetime" Mode="In" />
@@ -2370,7 +2373,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Parameter Name="JContainerDetailID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_DeleteJobDetailsByJobID">
-            <Parameter Name="JobID" Mode="In" Type="Int32" />
+          <Parameter Name="JobID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_GetAuditbyJobIDandUser" ReturnType="Collection(SHIPPING_FinalModel.SP_GetAuditbyJobIDandUser_Result)">
             <Parameter Name="JobId" Mode="In" Type="Int32" />
@@ -2485,14 +2488,14 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
             <Parameter Name="InvoiceDate" Mode="In" Type="DateTime" />
             <Parameter Name="JobID" Mode="In" Type="Int32" />
             <Parameter Name="MainJobID" Mode="In" Type="Int32" />
-            <Parameter Name="ShippingInstruction" Mode="In" Type="String"  />
+            <Parameter Name="ShippingInstruction" Mode="In" Type="String" />
             <Parameter Name="DeliveryDate" Mode="In" Type="DateTime" />
             <Parameter Name="DepartingDate" Mode="In" Type="DateTime" />
             <Parameter Name="Flight" Mode="In" Type="String" />
             <Parameter Name="MAWB" Mode="In" Type="String" />
             <Parameter Name="HAWB" Mode="In" Type="String" />
-            <Parameter Name="MRN" Mode="In"  Type="String" />
-            <Parameter Name="DeliveryOrderDate" Mode="In" Type="DateTime"  />
+            <Parameter Name="MRN" Mode="In" Type="String" />
+            <Parameter Name="DeliveryOrderDate" Mode="In" Type="DateTime" />
           </FunctionImport>
           <EntitySet Name="Carriers" EntityType="SHIPPING_FinalModel.Carrier" />
           <EntitySet Name="CountryMasters" EntityType="SHIPPING_FinalModel.CountryMaster" />
@@ -3022,9 +3025,9 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
             <Parameter Name="Flight" Mode="In" Type="String" />
             <Parameter Name="MAWB" Mode="In" Type="String" />
             <Parameter Name="HAWB" Mode="In" Type="String" />
-            <Parameter Name="MRN" Mode="In"  Type="String" />
-            <Parameter Name="DeliveryOrderDate" Mode="In" Type="DateTime"  />
-            <Parameter Name="ShippingInstruction" Mode="In" Type="String"  />
+            <Parameter Name="MRN" Mode="In" Type="String" />
+            <Parameter Name="DeliveryOrderDate" Mode="In" Type="DateTime" />
+            <Parameter Name="ShippingInstruction" Mode="In" Type="String" />
             <Parameter Name="MaxJObID" Mode="InOut" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="proJobCostFull" ReturnType="Collection(SHIPPING_FinalModel.proJobCostFull_Result)">
@@ -3433,6 +3436,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
             <Parameter Name="FromDate" Mode="In" Type="DateTime" />
             <Parameter Name="ToDate" Mode="In" Type="DateTime" />
           </FunctionImport>
+          <FunctionImport Name="SP_GetAllItemUnit" ReturnType="Collection(SHIPPING_FinalModel.SP_GetAllItemUnit_Result)" />
         </EntityContainer>
         <ComplexType Name="SP_GetUserDetailForEdit_Result">
           <Property Type="Int32" Name="UserID" Nullable="false" />
@@ -5105,6 +5109,8 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Type="Boolean" Name="IsActive" />
           <Property Type="Int32" Name="RoleID" />
           <Property Type="Int32" Name="EmployeeID" Nullable="false" />
+          <Property Name="BranchID" Type="Int32" />
+          <Property Name="AcFinancialYearID" Type="Int32" />
         </EntityType>
         <EntityType Name="Airline">
           <Key>
@@ -6410,6 +6416,13 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Type="String" Name="HAWB" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="MAWB" Nullable="true" MaxLength="50" />
           <Property Type="Decimal" Name="Volume" Nullable="true" Precision="19" />
+        </ComplexType>
+        <ComplexType Name="SP_GetAllItemUnit_Result">
+          <Property Type="Int32" Name="ItemUnitID" Nullable="false" />
+          <Property Type="String" Name="ItemUnit" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="EqualentQty" Nullable="true" />
+          <Property Type="Boolean" Name="StatusActive" Nullable="true" />
+          <Property Type="String" Name="Remarks" Nullable="true" MaxLength="50" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -8239,6 +8252,8 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <EntitySetMapping Name="UserRegistrations">
             <EntityTypeMapping TypeName="SHIPPING_FinalModel.UserRegistration">
               <MappingFragment StoreEntitySet="UserRegistration">
+                <ScalarProperty Name="AcFinancialYearID" ColumnName="AcFinancialYearID" />
+                <ScalarProperty Name="BranchID" ColumnName="BranchID" />
                 <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
                 <ScalarProperty Name="RoleID" ColumnName="RoleID" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
@@ -9598,6 +9613,17 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
                 <ScalarProperty Name="Customer" ColumnName="Customer" />
                 <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
                 <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_GetAllItemUnit" FunctionName="SHIPPING_FinalModel.Store.SP_GetAllItemUnit">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SHIPPING_FinalModel.SP_GetAllItemUnit_Result">
+                <ScalarProperty Name="ItemUnitID" ColumnName="ItemUnitID" />
+                <ScalarProperty Name="ItemUnit" ColumnName="ItemUnit" />
+                <ScalarProperty Name="EqualentQty" ColumnName="EqualentQty" />
+                <ScalarProperty Name="StatusActive" ColumnName="StatusActive" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

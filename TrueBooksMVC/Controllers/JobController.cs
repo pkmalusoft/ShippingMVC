@@ -198,7 +198,7 @@ namespace TrueBooksMVC.Controllers
         {
             JobGeneration JM = new JobGeneration();
             UpdateModel<JobGeneration>(JM);
-
+            
             int i;
             int JobId = 0;
             BindAllMasters();
@@ -1022,6 +1022,7 @@ namespace TrueBooksMVC.Controllers
                 JInvoice Charges = new JInvoice();
                 Charges.UserID = Convert.ToInt32(Session["UserID"].ToString());
                 Charges.JobID = JobId;
+                
                 int RevenueTypeID = 0;
                 if (formCollection.GetValue("RevenueTypeID_" + ChargesArray[c]) != null)
                 {
@@ -1048,6 +1049,13 @@ namespace TrueBooksMVC.Controllers
                     double.TryParse(strArray[0], out Qty);
                 }
                 Charges.Quantity = Qty;
+                int UnitItemId = 0;
+                if (formCollection.GetValue("ItemUnitID_" + ChargesArray[c]) != null)
+                {
+                    strArray = (string[])formCollection.GetValue("ItemUnitID_" + ChargesArray[c]).RawValue;
+                    int.TryParse(strArray[0], out UnitItemId);
+                }
+                Charges.UnitID = UnitItemId;
                 decimal ProvRate = 0;
                 if (formCollection.GetValue("ProvisionRate_" + ChargesArray[c]) != null)
                 {
@@ -1880,6 +1888,7 @@ namespace TrueBooksMVC.Controllers
                 //   List<SP_GetCurrency_Result> Currency = new List<SP_GetCurrency_Result>();
                 List<SP_GetAllSupplier_Result> Supplier = new List<SP_GetAllSupplier_Result>();
                 List<SP_GetShippingAgents_Result> ShippingAgent = new List<SP_GetShippingAgents_Result>();
+                List<SP_GetAllItemUnit_Result> Unit = new List<SP_GetAllItemUnit_Result>();
 
                 Ports = MM.GetAllPort();
                 Vessels = MM.GetAllVessels();
@@ -1894,6 +1903,7 @@ namespace TrueBooksMVC.Controllers
                 //   Currency = MM.GetCurrency();
                 // Supplier = MM.GetAllSupplier();
                 ShippingAgent = MM.GetShippingAgents();
+                Unit = MM.GetItemUnit();
 
                 ViewBag.Ports = new SelectList(Ports, "PortID", "Port");
                 ViewBag.Customer = new SelectList(Customers, "CustomerID", "Customer");
@@ -1904,6 +1914,7 @@ namespace TrueBooksMVC.Controllers
                 ViewBag.Carriers = new SelectList(Carriers, "CarrierID", "Carrier");
                 ViewBag.Transporters = new SelectList(Transporters, "TransPorterID", "TransPorter");
                 ViewBag.ContainerTypes = new SelectList(ContainerTypes, "ContainerTypeID", "ContainerType");
+                ViewBag.Unit = new SelectList(Unit, "ItemUnitID", "ItemUnit");
                 // ViewBag.RevenueT = new SelectList(RevenueType, "RevenueTypeID", "RevenueType");
                 // ViewBag.Curency = new SelectList(Currency, "CurrencyID", "CurrencyName");
                 //  ViewBag.Suplier = new SelectList(Supplier, "SupplierID", "SupplierName");
@@ -1951,6 +1962,13 @@ namespace TrueBooksMVC.Controllers
             var RevenueType = MM.GetRevenueType();
 
             return Json(RevenueType, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetUnitList()
+        {
+            var ItemUnit = MM.GetItemUnit();
+
+            return Json(ItemUnit, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult GetContainerTypeList()

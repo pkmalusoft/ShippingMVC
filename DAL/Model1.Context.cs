@@ -495,7 +495,7 @@ namespace DAL
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GetAllRevenueType_Result>("SP_GetAllRevenueType");
         }
-    
+
         public virtual ObjectResult<Nullable<int>> SP_GetMaxRecPayID()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("SP_GetMaxRecPayID");
@@ -3821,5 +3821,11 @@ namespace DAL
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<AirshipmentReport_Result>("AirshipmentReport", fromDateParameter, toDateParameter);
         }
+
+        public virtual ObjectResult<SP_GetAllItemUnit_Result> SP_GetAllItemUnit()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GetAllItemUnit_Result>("SP_GetAllItemUnit");
+        }
+
     }
 }

@@ -790,11 +790,11 @@
                                     </div>
                                     <div class="col-xs-6 col-sm-1 col-md-1 rev_uni no-padding">
                                         <label class="headinglabel">Unit</label>
-                                        <input type="number" class="form-control textright" ng-model="unit" id="unit" placeholder="Unit" />
+                                        @Html.DropDownList("UnitID", (SelectList)ViewBag.Unit, "Select", new { @class = "form-control", id = "UnitID" })
                                     </div>
                                     <div class="col-xs-6 col-sm-2 col-md-2 reve_rate no-padding">
                                         <label class="headinglabel">Provision Rate</label>
-                                        <input type="number" class="form-control textright" id="ProRate" placeholder="Rate" ng_model="ProvisionRate" ng_change="CalcProvForeign()" />
+                                        <input type="number" class="form-control textright" id="ProRate" placeholder="Rate" ng-model="ProvisionRate | number:2" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" ng_change="CalcProvForeign()" />
                                     </div>
                                     <div class="col-xs-6 col-sm-2 col-md-2 reve_rate no-padding">
                                         <label class="headinglabel">Provision Currency</label>
