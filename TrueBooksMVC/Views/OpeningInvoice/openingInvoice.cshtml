@@ -7,7 +7,22 @@
 
 
 
-
+<style>
+    .jobform {
+        background-color: #fff;
+        box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
+        border-radius: 25px;
+        margin-bottom: 27px;
+        padding: 20px;
+        width:100%;
+        max-width:1200px;
+        margin: 0 auto;
+    }
+    .headinglabel {
+        color: #000 !important;
+        display: inline;
+    }
+</style>
 <section class="content-header">
     <h1 class="headingfont">Opening Invoice</h1>
 
@@ -230,26 +245,29 @@
 </script>
 
 
-<section class="content">
+<section class="conten">
     @using (Ajax.BeginForm("GetGridData", "OpeningInvoice", new AjaxOptions { HttpMethod = "Post", OnBegin = "return CheckValidation()", OnSuccess = "SaveDetails" }))
     {
 @*  @Html.AntiForgeryToken()
         @Html.ValidationSummary(true)
-         *@<div id="alert" style="color: red; display: none; margin-left: 10px;">*Please fill mandatory fields</div>
+    
+         *@
+    <div class="jobform">
+        <div id="alert" style="color: red; display: none; margin-left: 10px;">*Please fill mandatory fields</div>
         <fieldset>
 
             <div class="row no-margin">
-                <div class="col-md-3">
+                <div class="col-md-12">
 
                     @Html.RadioButtonFor(model => model.IsCustomerSelected, true, new { @class = "rdCustomer", name = "cust" })<label class="headinglabel">Customer</label>&nbsp;
-                       @Html.RadioButtonFor(model => model.IsCustomerSelected, false, new { @class = "rdSupplier", name = "sup" })<label class="headinglabel">Supplier</label>
+                    @Html.RadioButtonFor(model => model.IsCustomerSelected, false, new { @class = "rdSupplier", name = "sup" })<label class="headinglabel">Supplier</label>
 
 
                 </div>
 
             </div>
             <div class="row no-margin">
-                <div class="col-md-3">
+                <div class="col-md-3 col-xs-12">
                     <label class="required headinglabel" id="lblCustomer">Customer</label>
                     @Html.DropDownListFor(model => model.CustomerHeadId, new SelectList(ViewBag.customers, "CustomerID", "Customer1"), "Select", new { @class = "form-control" })
 
@@ -260,7 +278,7 @@
 
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-md-3 col-xs-12">
                     <label class=" required headinglabel">OP. Date</label>
                     @Html.TextBox("OPDate", "", new { @class = "form-control" })
                 </div>
@@ -276,8 +294,8 @@
                     @Html.RadioButtonFor(model => model.DebitCreditID, false, "Credit")<label class="headinglabel">cr</label>*@
                     @Html.DropDownListFor(model => model.DebitCreditID, new List<SelectListItem> { new SelectListItem { Text = "Debit", Value = "true" }, new SelectListItem { Text = "Credit", Value = "false" } }, "Select", new { @class = "form-control" })
                 </div>
-            </div>
-            <div class="row no-margin">
+          
+         
                 <div class="col-md-3">
                     <label class="headinglabel">Remark</label>
                     @Html.TextArea("Remark", "", new { @class = "form-control" })
@@ -294,9 +312,11 @@
                                 <th>Invoice NO</th>
                                 <th>Job Code</th>
                                 <th>Invoice Date</th>
-                                <th>Last Trans. Date
+                                <th>
+                                    Last Trans. Date
                                 </th>
-                                <th>Amount
+                                <th>
+                                    Amount
                                 </th>
                                 <th>Action</th>
 
@@ -307,14 +327,17 @@
                                     <input type="text" id="txtInoiceNo">
                                 </td>
                                 <td>
-                                    <input type="text" id="txtJobCode"></td>
+                                    <input type="text" id="txtJobCode">
+                                </td>
                                 <td>
                                     <input type="text" id="txtInvoiceDate" />
                                 </td>
                                 <td>
-                                    <input type="text" id="txtLastTransDate" /></td>
+                                    <input type="text" id="txtLastTransDate" />
+                                </td>
                                 <td colspan="2">
-                                    <input type="text" id="txtAmount" style="text-align:right" />&nbsp;<a href="" class="glyphicon glyphicon-plus btnadd"></a></td>
+                                    <input type="text" id="txtAmount" style="text-align:right" />&nbsp;<a href="" class="glyphicon glyphicon-plus btnadd"></a>
+                                </td>
 
                             </tr>
                         </table>
@@ -327,16 +350,17 @@
 
                     <input type="submit" value="Save" class="btn btn-primary btnwidth" id="btnsave" />
 
-                    &nbsp; 
-               <a href='@Url.Action("Index", "OpeningInvoice", new { id = 0 })' class="btn btn-primary btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Back To List</a>
+                    &nbsp;
+                    <a href='@Url.Action("Index", "OpeningInvoice", new { id = 0 })' class="btn btn-primary btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Back To List</a>
 
                 </div>
 
-                <div id="tmpdata" style="width: 500px; height: 400px; color: white">
+                <div id="tmpdata" style="width: 500px; height: 100px; color: white">
                 </div>
             </div>
 
-        </fieldset> 
+        </fieldset>
+    </div>
     }
 
 </section>

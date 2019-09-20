@@ -5763,7 +5763,7 @@ input[type=text]:focus, textarea:focus {
     margin: 0 auto;
     background-color: #fff;
     width: 100%;
-    max-width: 900px;
+    max-width: 627px;
     height: 100%;
     box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
     border-radius: 10px;
@@ -5849,9 +5849,14 @@ div#dataTables-example_paginate {
     text-align:center;padding:10px;
 }
 .dataTables_wrapper .dataTables_paginate .paginate_button{border-raduis:5px;}
-
+.tblfont {
+    font-family: Calibri;
+    font-size: 10px !important;
+    
+}
 .headinglabel {
     font-family: Calibri !important;
+    color: #232121 !important;
 }
 .tblbackground {
     background-color: #fff;
