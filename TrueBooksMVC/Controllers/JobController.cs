@@ -1885,7 +1885,7 @@ namespace TrueBooksMVC.Controllers
                 List<SP_GetAllCountries_Result> Countries = new List<SP_GetAllCountries_Result>();
                 List<SP_GetAllContainerTypes_Result> ContainerTypes = new List<SP_GetAllContainerTypes_Result>();
                 List<SP_GetAllRevenueType_Result> RevenueType = new List<SP_GetAllRevenueType_Result>();
-                //   List<SP_GetCurrency_Result> Currency = new List<SP_GetCurrency_Result>();
+                List<SP_GetCurrency_Result> Currency = new List<SP_GetCurrency_Result>();
                 List<SP_GetAllSupplier_Result> Supplier = new List<SP_GetAllSupplier_Result>();
                 List<SP_GetShippingAgents_Result> ShippingAgent = new List<SP_GetShippingAgents_Result>();
                 List<SP_GetAllItemUnit_Result> Unit = new List<SP_GetAllItemUnit_Result>();
@@ -1900,8 +1900,8 @@ namespace TrueBooksMVC.Controllers
                 Countries = MM.GetAllCountries();
                 ContainerTypes = MM.GetAllContainerTypes();
                 //    RevenueType = MM.GetRevenueType();
-                //   Currency = MM.GetCurrency();
-                // Supplier = MM.GetAllSupplier();
+                 Currency = MM.GetCurrency();
+                Supplier = MM.GetAllSupplier();
                 ShippingAgent = MM.GetShippingAgents();
                 Unit = MM.GetItemUnit();
 
@@ -1916,8 +1916,8 @@ namespace TrueBooksMVC.Controllers
                 ViewBag.ContainerTypes = new SelectList(ContainerTypes, "ContainerTypeID", "ContainerType");
                 ViewBag.Unit = new SelectList(Unit, "ItemUnitID", "ItemUnit");
                 // ViewBag.RevenueT = new SelectList(RevenueType, "RevenueTypeID", "RevenueType");
-                // ViewBag.Curency = new SelectList(Currency, "CurrencyID", "CurrencyName");
-                //  ViewBag.Suplier = new SelectList(Supplier, "SupplierID", "SupplierName");
+                ViewBag.Curency = new SelectList(Currency, "CurrencyID", "CurrencyName");
+                ViewBag.Suplier = new SelectList(Supplier, "SupplierID", "SupplierName");
                 ViewBag.ShippingA = new SelectList(ShippingAgent.OrderBy(x => x.AgentName).ToList(), "ShippingAgentID", "AgentName");
                 ViewBag.MaxInvoiceNumber = J.GetMaxInvoiceNumber();
                 ViewBag.voyages = (from c in entity.Voyages select c).ToList();

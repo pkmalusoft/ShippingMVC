@@ -542,6 +542,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\CargoDescription.xml" />
+    <Content Include="App_Data\NewQueries.sql" />
     <Content Include="Content\bootstrap-multiselect.css" />
     <Content Include="Content\bootstrap-multiselect.js" />
     <Content Include="Content\css\bootstrap-inputs.css" />

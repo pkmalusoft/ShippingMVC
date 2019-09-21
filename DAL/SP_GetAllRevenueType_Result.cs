@@ -19,5 +19,6 @@ namespace DAL
         public string RevenueCode { get; set; }
         public Nullable<decimal> RevenueCost { get; set; }
         public Nullable<decimal> MinimumValue { get; set; }
+        public Nullable<decimal> TaxPercentage { get; set; }
     }
 }

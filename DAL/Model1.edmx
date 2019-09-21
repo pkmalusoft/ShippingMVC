@@ -3801,6 +3801,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Type="String" Name="RevenueCode" Nullable="true" MaxLength="20" />
           <Property Type="Decimal" Name="RevenueCost" Nullable="true" Precision="19" />
           <Property Type="Decimal" Name="MinimumValue" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="TaxPercentage" Nullable="true" Precision="19" />
         </ComplexType>
         <ComplexType Name="SP_GetSupplierByRevenueTypeID_Result">
           <Property Type="Int32" Name="SupplierID" Nullable="false" />
@@ -6900,6 +6901,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
                 <ScalarProperty Name="RevenueCode" ColumnName="RevenueCode" />
                 <ScalarProperty Name="RevenueCost" ColumnName="RevenueCost" />
                 <ScalarProperty Name="MinimumValue" ColumnName="MinimumValue" />
+                <ScalarProperty Name="TaxPercentage" ColumnName="TaxPercentage" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
