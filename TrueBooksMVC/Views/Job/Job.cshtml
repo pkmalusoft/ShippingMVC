@@ -43,13 +43,13 @@
         background-color: rgba(0,0,0, 0.9);
     }
 
-    .data10, .data11, .data12, data13, data14 {
+    /* .data10, data13, data14 {
         display: none;
-    }
+    }*/
 
-    #provin_rate, #provin_curr, #provinex_rate, #provin_forgin, #sale_rate, #sale_curr, #sale_exrate, #sale_for {
+    /*  #provin_rate, #provin_curr, #provinex_rate, #provin_forgin, #sale_rate, #sale_curr, #sale_exrate {
         display: none;
-    }
+    }*/
 
     .overlay-content {
         position: relative;
@@ -190,44 +190,48 @@
         white-space: nowrap;
         color: #fff !important;
     }
+    .hideinsummary{
+        display:none;
+    }
+    .showinfullview{
+        display:table-cell;
+    }
 </style>
 <script type="text/javascript">
     // When the document is ready
     $(document).ready(function () {
 
         $('.txtNum').blur(function () {
-            var amt = parseFloat(this.value);
+            var amt = parseFloat($(this).val());
             $(this).val(amt.toFixed(2));
         });
 
         function salrat() {
-
-            var rate = document.getElementById("SalRate").value;
-            debugger;
-            document.getElementById("SalesDomestic").value = rate;
-            debugger;
+            $("#SalesDomestic").val(parseFloat($("#SalRate").val()).toFixed(2));
         }
-        $(function () {
-            $('#SalRate').blur(salrat);
-        });
-
+      
         function taxamts() {
-            var textValue1 = document.getElementById('taxs').value;
-            var textValue2 = document.getElementById('SalRate').value;
-
-            document.getElementById('taxamt').value = textValue1 * textValue2;
+            debugger;
+            var textValue1 = $('#tax').val();
+            var textValue2 = $('#SalesDomestic').val();
+            var res = (textValue1 / 100) * textValue2;
+            res = parseFloat(res).toFixed(2);
+           $('#taxamt').val(res);
         }
 
         $(function () {
-            $('#taxs').blur(taxamts);
+            $('#tax').blur(taxamts);
+            $('#SalRate').blur(salrat);
             $('#SalRate').blur(taxamts);
+            $('#SalesDomestic').blur(taxamts);
         });
 
         function salefc() {
-            var textValue1 = document.getElementById('SalesExRate').value;
-            var textValue2 = document.getElementById('SalesDomestic').value;
-
-            document.getElementById('SalesForeign').value = textValue1 * textValue2;
+            var textValue1 = $('#SalesExRate').val();
+            var textValue2 = $('#SalesDomestic').val();
+            var res = textValue1 * textValue2;
+            res = parseFloat(res).toFixed(2)
+            $('#SalesForeign').val(res);
         }
 
         $(function () {
@@ -236,10 +240,10 @@
         });
 
         function marin() {
-            var textValue1 = document.getElementById('ProvisiDomestic').value;
-            var textValue2 = document.getElementById('SalesDomestic').value;
+            var textValue1 = $('#ProvisiDomestic').val();
+            var textValue2 = $('#SalesDomestic').val();
 
-            document.getElementById('margin').value = textValue1 - textValue2;
+            $('#margin').val(textValue1 - textValue2);
         }
 
         $(function () {
@@ -277,7 +281,7 @@
             
             var taxpre = $('#RevenueTypeID option:selected').attr('tp');
             debugger;
-            $("#taxs").val(taxpre);
+            $("#tax").val(taxpre);
            
         });
 
@@ -903,7 +907,7 @@
 
                                     <div class="col-xs-6 col-sm-2 col-md-2 reve_wid no-padding">
                                         <label class="headinglabel">Margin</label>
-                                        <input type="number" class="form-control textright bg-gray" ng-model="Quantity" id="margin" placeholder="Margin" readonly />
+                                        <input type="number" class="form-control textright bg-gray" ng-model="margin" id="margin" placeholder="Margin" readonly />
                                     </div>
                                 </div>
 
@@ -924,7 +928,7 @@
 
                                     <div class="col-xs-6 col-sm-1 col-md-1 rev_uni no-padding">
                                         <label class="headinglabel">Tax%</label>
-                                        <input type="number" class="form-control textright"  ng-model="tax" id="taxs" placeholder="TAX" />
+                                        <input type="number" class="form-control textright"  ng-model="tax" id="tax" placeholder="TAX" />
                                     </div>
                                     <div class="col-xs-6 col-sm-1 col-md-1 rev_uni no-padding">
                                         <label class="headinglabel">Tax Amt.</label>
@@ -976,16 +980,19 @@
                                         $("#charges_table").css("left", "0px");
                                         $("#charges_table").css("z-index", "11");
                                         $("#charges_table").css("background-color", "white");
-                                        $("#provin_rate").css("display", "block");
-                                        $("#provin_curr").css("display", "block");
-                                        $("#provinex_rate").css("display", "block");
-                                        $("#provin_forgin").css("display", "block");
-                                        $("#sale_rate").css("display", "block");
-                                        $("#sale_curr").css("display", "block");
-                                        $("#sale_exrate").css("display", "block");
-                                        $("#sale_for").css("display", "block");
-
-
+                                      //  $("#provin_rate").css("display", "block");
+                                     //   $("#provin_curr").css("display", "block");
+                                     //   $("#provinex_rate").css("display", "block");
+                                     //   $("#provin_forgin").css("display", "block");
+                                     //   $("#sale_rate").css("display", "block");
+                                     //   $("#sale_curr").css("display", "block");
+                                     //   $("#sale_exrate").css("display", "block");
+                                      //  $("#sale_for").css("display", "block");
+                                        $('#charges_table').find('td').each(function (index) {
+                                            if ($(this).hasClass('hideinsummary')) {
+                                                $(this).removeClass('hideinsummary').addClass('showinfullview');
+                                            }
+                                        });
                                     }
 
                                     function closeNav() {
@@ -994,15 +1001,20 @@
                                         $("#charges_table").css("top", "unset");
                                         $("#charges_table").css("left", "unset");
                                         $("#charges_table").css("z-index", "1");
-                                        $("#provin_rate").css("display", "none");
-                                        $("#provin_curr").css("display", "none");
-                                        $("#provinex_rate").css("display", "none");
-                                        $("#provin_forgin").css("display", "none");
-                                        $("#sale_rate").css("display", "none");
-                                        $("#sale_curr").css("display", "none");
-                                        $("#sale_exrate").css("display", "none");
-                                        $("#sale_for").css("display", "none");
-
+                                      //  $("#provin_rate").css("display", "none");
+                                      //  $("#provin_curr").css("display", "none");
+                                     //   $("#provinex_rate").css("display", "none");
+                                     //   $("#provin_forgin").css("display", "none");
+                                     //   $("#sale_rate").css("display", "none");
+                                      //  $("#sale_curr").css("display", "none");
+                                      //  $("#sale_exrate").css("display", "none");
+                                      //  $("#sale_for").css("display", "none");
+                                        $('#charges_table').find('td').each(function (index) {
+                                            if ($(this).hasClass('showinfullview')) {
+                                                $(this).removeClass('showinfullview').addClass('hideinsummary');
+                                            }
+                                        });
+                                       
                                     }
                                 </script>
 
@@ -1048,28 +1060,28 @@
                                                         <td width="5%">
                                                             Unit
                                                         </td>
-                                                        <td id="provin_rate">
+                                                        <td id="provin_rate" class="hideinsummary">
                                                             Provision Rate
                                                         </td>
-                                                        <td id="provin_curr">
+                                                        <td id="provin_curr" class="hideinsummary">
                                                             Provision Currency
                                                         </td>
-                                                        <td id="provinex_rate">
+                                                        <td id="provinex_rate" class="hideinsummary">
                                                             Provision Ex. Rate
                                                         </td>
-                                                        <td width="10%" class="lc_pro">
+                                                        <td width="10%" class="lc_pro hideinsummary">
                                                             <p class="lc_pro"> Provision LC</p>
                                                         </td>
-                                                        <td id="provin_forgin">
+                                                        <td id="provin_forgin" class="hideinsummary">
                                                             Provision FC
                                                         </td>
-                                                        <td id="sale_rate">
+                                                        <td id="sale_rate" class="hideinsummary">
                                                             Sales Rate
                                                         </td>
-                                                        <td id="sale_curr">
+                                                        <td id="sale_curr" class="hideinsummary">
                                                             Sales Currency
                                                         </td>
-                                                        <td id="sale_exrate">
+                                                        <td id="sale_exrate" class="hideinsummary">
                                                             Sales Ex. Rate
                                                         </td>
                                                         <td width="10%" class="lc_pro">
