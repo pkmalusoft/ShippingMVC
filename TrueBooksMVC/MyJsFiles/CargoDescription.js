@@ -111,7 +111,7 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
 
             if ($scope.SaleexChangeRate !== '') {
 
-              //  $scope.SalesDomestic = parseFloat($scope.SaleexChangeRate * $scope.SalesForeign).toFixed(2);
+                $scope.SalesForeign = parseFloat($scope.SaleexChangeRate * $scope.SalesDomestic).toFixed(2);
 
             //    $scope.LocalCur = $scope.SalesDomestic - $scope.ProvisionDomestic;
             }
@@ -182,12 +182,12 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
             ProvisionRate: $('#ProRate').val(),
             //ProvisionCurrencyID: $scope.ProvisionExR,
             ProvisionExchangeRate: ($scope.ProexChangeRate === undefined) ? "" : $scope.ProexChangeRate,
-            ProvisionHome: ($scope.ProvisionDomestic === undefined) ? "" : $scope.ProvisionDomestic,
-            ProvisionForeign: ($scope.ProvisionForeign === undefined) ? "" : $scope.ProvisionForeign,
+            ProvisionHome: $('#ProvisiDomestic').val(),
+            ProvisionForeign: $('#ProvisionForeign').val(),
             Margin: $('#margin').val(),
-            TaxPercentage: ($scope.tax === undefined) ? "" : $scope.tax,
+            TaxPercentage: $('#tax').val(),
             TaxAmount: $('#taxamt').val(),
-            SalesRate: ($scope.SaleRate === undefined) ? "" : $scope.SaleRate,
+            SalesRate: $('#SaleRate').val(),
             SalesCurrencyId: ($scope.SalesExR === undefined) ? "" : $scope.SalesExR,
             SalesCurrencyName: $('#SalesExR option:selected').text(),
             Currency: ($scope.Currency === undefined) ? "" : $scope.Currency,
@@ -204,10 +204,10 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
         tdString = tdString + '<td style="width:25%;><div class="data2" ><input type="text" value="' + ChargeObj.SupplierName + '" title="' + ChargeObj.SupplierName+'" name="SupplierName_' + vCharges.length + '" id="SupplierName_' + vCharges.length + '" style="width:150px;" /><input type="hidden" value="' + ChargeObj.SupplierID + '" name="SupplierID_' + vCharges.length + '" id="SupplierID_' + vCharges.length + '" /></div></td>';
         tdString = tdString + '<td><div class="data4" ><input type="text" value="' + ChargeObj.Quantity + '" title="' + ChargeObj.Quantity + '" name="Quantity_' + vCharges.length + '" id="Quantity_' + vCharges.length + '" style="width:70px;" /></div></td>';
         tdString = tdString + '<td><div class="data2" ><input type="text" value="' + ChargeObj.ItemUnit + '" title="' + ChargeObj.ItemUnit + '" name="ItemUnit_' + vCharges.length + '" id="ItemUnit_' + vCharges.length + '" style="width:100px;" /><input type="hidden" value="' + ChargeObj.ItemUnitID + '" name="ItemUnitID_' + vCharges.length + '" id="ItemUnitID_' + vCharges.length + '" /></div></td>';
-        tdString = tdString + '<td class="hideinsummary" id="provin_rate"><div class="data5" ><input type="text" value="' + ChargeObj.ProvisionRate + '" title="' + ChargeObj.ProvisionRate +'" name="ProvisionRate_' + vCharges.length + '" id="ProvisionRate_' + vCharges.length + '" style="width:70px;" /></div></td>';
+        tdString = tdString + '<td class="hideinsummary smallwindowwidth" id="provin_rate"><div class="data5" ><input type="text" value="' + ChargeObj.ProvisionRate + '" title="' + ChargeObj.ProvisionRate +'" name="ProvisionRate_' + vCharges.length + '" id="ProvisionRate_' + vCharges.length + '" style="width:70px;" /></div></td>';
         tdString = tdString + '<td class="hideinsummary" id="provin_curr"><div class="data5"><input type="text" value="' + ChargeObj.ProvisionCurrency + '" title="' + ChargeObj.ProvisionCurrency +'" name="ProvisionCurrency_' + vCharges.length + '" id="ProvisionCurrency_' + vCharges.length + '" style="width:50px;" /><input type="hidden" value="' + ChargeObj.ProvisionCurrencyId + '" name="ProvisionCurrencyId_' + vCharges.length + '" id="ProvisionCurrencyId_' + vCharges.length + '" /></div></td>';
         tdString = tdString + '<td class="hideinsummary" id="provinex_rate"><div class="data6"><input type="text" value="' + ChargeObj.ProvisionExchangeRate + '" title="' + ChargeObj.ProvisionExchangeRate +'" name="ProvisionExchangeRate_' + vCharges.length + '" id="ProvisionExchangeRate_' + vCharges.length + '" style="width:70px;" /></div></td>';
-        tdString = tdString + '<td class="hideinsummary"><div class="data7"><input type="text" value="' + ChargeObj.ProvisionHome + '" title="' + ChargeObj.ProvisionHome +'" name="ProvisionHome_' + vCharges.length + '" id="ProvisionHome_' + vCharges.length + '" style="width:50px;" /></div></td>';
+        tdString = tdString + '<td class="data3"><div class="data7"><input type="text" value="' + ChargeObj.ProvisionHome + '" title="' + ChargeObj.ProvisionHome +'" name="ProvisionHome_' + vCharges.length + '" id="ProvisionHome_' + vCharges.length + '" style="width:50px;" /></div></td>';
         tdString = tdString + '<td id="provin_forgin" class="hideinsummary"><div class="data8"><input type="text" value="' + ChargeObj.ProvisionForeign + '" title="' + ChargeObj.ProvisionForeign +'" name="ProvisionForeign_' + vCharges.length + '" id="ProvisionForeign_' + vCharges.length + '" style="width:50px;" /></div></td>';
         tdString = tdString + '<td id="sale_rate" class="hideinsummary"><div class="data8"><input type="text" value="' + ChargeObj.SalesRate + '" title="' + ChargeObj.SalesRate +'" name="SalesRate_' + vCharges.length + '" id="SalesRate_' + vCharges.length + '" style="width:50px;" /></div></td>';
         tdString = tdString + '<td id="sale_curr" class="hideinsummary"><div class="data9"><input type="text" value="' + ChargeObj.SalesCurrencyName + '" title="' + ChargeObj.SalesCurrencyName +'" name="SalesCurrencyName_' + vCharges.length + '" id="SalesCurrencyName_' + vCharges.length + '" style="width:50px;" /><input type="hidden" value="' + ChargeObj.SalesCurrencyId + '" name="SalesCurrencyId_' + vCharges.length + '" id="SalesCurrencyId_' + vCharges.length + '" /></div></td>';
@@ -273,7 +273,7 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
                 tdString = tdString + '<td><div class="data2" ><input type="text" value="' + ChargeObj.SupplierName + '" title="' + ChargeObj.SupplierName + '" name="SupplierName_' + vCharges.length + '" id="SupplierName_' + vCharges.length + '" style="width:100px;" /><input type="hidden" value="' + ChargeObj.SupplierID + '" name="SupplierID_' + vCharges.length + '" id="SupplierID_' + vCharges.length + '" /></div></td>';
                 tdString = tdString + '<td><div class="data4" ><input type="text" value="' + ChargeObj.Quantity + '" title="' + ChargeObj.Quantity + '" name="Quantity_' + vCharges.length + '" id="Quantity_' + vCharges.length + '" style="width:70px;" /></div></td>';
                 tdString = tdString + '<td><div class="data2" ><input type="text" value="' + ChargeObj.ItemUnit + '" title="' + ChargeObj.ItemUnit + '" name="ItemUnit_' + vCharges.length + '" id="ItemUnit_' + vCharges.length + '" style="width:100px;" /><input type="hidden" value="' + ChargeObj.ItemUnitID + '" name="ItemUnitID_' + vCharges.length + '" id="ItemUnitID_' + vCharges.length + '" /></div></td>';
-                tdString = tdString + '<td><div class="data5" ><input type="text" value="' + ChargeObj.ProvisionRate + '" title="' + ChargeObj.ProvisionRate + '" name="ProvisionRate_' + vCharges.length + '" id="ProvisionRate_' + vCharges.length + '" style="width:70px;" /></div></td>';
+                tdString = tdString + '<td><div class="hideinsummary smallwindowwidth" ><input type="text" value="' + ChargeObj.ProvisionRate + '" title="' + ChargeObj.ProvisionRate + '" name="ProvisionRate_' + vCharges.length + '" id="ProvisionRate_' + vCharges.length + '" style="width:70px;" /></div></td>';
                 tdString = tdString + '<td><div class="data5"><input type="text" value="' + ChargeObj.ProvisionCurrency + '" title="' + ChargeObj.ProvisionCurrency + '" name="ProvisionCurrency_' + vCharges.length + '" id="ProvisionCurrency_' + vCharges.length + '" style="width:90px;" /><input type="hidden" value="' + ChargeObj.ProvisionCurrencyId + '" name="ProvisionCurrencyId_' + vCharges.length + '" id="ProvisionCurrencyId_' + vCharges.length + '" /></div></td>';
                 tdString = tdString + '<td><div class="data6"><input type="text" value="' + ChargeObj.ProvisionExchangeRate + '" title="' + ChargeObj.ProvisionExchangeRate + '" name="ProvisionExchangeRate_' + vCharges.length + '" id="ProvisionExchangeRate_' + vCharges.length + '" style="width:70px;" /></div></td>';
                 tdString = tdString + '<td><div class="data7"><input type="text" value="' + ChargeObj.ProvisionHome + '" title="' + ChargeObj.ProvisionHome + '" name="ProvisionHome_' + vCharges.length + '" id="ProvisionHome_' + vCharges.length + '" style="width:70px;" /></div></td>';
@@ -283,7 +283,10 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
                 tdString = tdString + '<td><div class="data10"><input type="text" value="' + ChargeObj.SalesExchangeRate + '" title="' + ChargeObj.SalesExchangeRate + '" name="SalesExchangeRate_' + vCharges.length + '" id="SalesExchangeRate_' + vCharges.length + '" style="width:60px;" /></div></td>';
                 tdString = tdString + '<td><div class="data11"><input type="text" value="' + ChargeObj.SalesHome + '" title="' + ChargeObj.SalesHome + '" name="SalesHome_' + vCharges.length + '" id="SalesHome_' + vCharges.length + '" style="width:60px;" /></div></td>';
                 tdString = tdString + '<td><div class="data12"><input type="text" value="' + ChargeObj.SalesForeign + '" title="' + ChargeObj.SalesForeign + '" name="SalesForeign_' + vCharges.length + '" id="SalesHome_' + vCharges.length + '" style="width:60px;" /></div></td>';
-                tdString = tdString + '<td><div class="data13"><input type="text" value="' + ChargeObj.Cost + '" title="' + ChargeObj.Cost + '" name="Cost_' + vCharges.length + '" id="Cost_' + vCharges.length + '" style="width:70px;" /></div></td>';
+              //  tdString = tdString + '<td><div class="data13"><input type="text" value="' + ChargeObj.Cost + '" title="' + ChargeObj.Cost + '" name="Cost_' + vCharges.length + '" id="Cost_' + vCharges.length + '" style="width:70px;" /></div></td>';
+                tdString = tdString + '<td><div class="data13"><input type="text" value="' + ChargeObj.TaxPercentage + '" title="' + ChargeObj.TaxPercentage + '" name="tax_' + vCharges.length + '" id="tax_' + vCharges.length + '" style="width:50px;" /></div></td>';
+                tdString = tdString + '<td><div class="data14"><input type="text" value="' + ChargeObj.TaxAmount + '" title="' + ChargeObj.TaxAmount + '" name="taxamt_' + vCharges.length + '" id="taxamt_' + vCharges.length + '" style="width:50px;" /></div></td>';
+                tdString = tdString + '<td><div class="data15"><input type="text" value="' + ChargeObj.Margin + '" title="' + ChargeObj.Margin + '" name="margin_' + vCharges.length + '" id="margin_' + vCharges.length + '" style="width:50px;" /></div></td>';
                 tdString = tdString + '<td><a href="javascript:void(0)" onclick="deleteCharge(this)"><i class="fa fa-times-circle"></i></a></td>';
                 tdString = tdString + '</tr>';
                 $("#charges_table").append(tdString);

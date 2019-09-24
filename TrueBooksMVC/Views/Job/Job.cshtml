@@ -247,6 +247,7 @@
         }
 
         $(function () {
+            $('#ProvisiDomestic').blur(marin);
             $('#SalesDomestic').blur(marin);
             $('#ProvisiDomestic').blur(marin);
         });
@@ -992,6 +993,7 @@
                                             if ($(this).hasClass('hideinsummary')) {
                                                 $(this).removeClass('hideinsummary').addClass('showinfullview');
                                             }
+                                            $(this).removeClass('smallwindowwidth').addClass('fullwindowwidth');
                                         });
                                     }
 
@@ -1009,10 +1011,12 @@
                                       //  $("#sale_curr").css("display", "none");
                                       //  $("#sale_exrate").css("display", "none");
                                       //  $("#sale_for").css("display", "none");
+
                                         $('#charges_table').find('td').each(function (index) {
                                             if ($(this).hasClass('showinfullview')) {
                                                 $(this).removeClass('showinfullview').addClass('hideinsummary');
                                             }
+                                            $(this).removeClass('fullwindowwidth').addClass('smallwindowwidth');
                                         });
                                        
                                     }
@@ -1069,7 +1073,7 @@
                                                         <td id="provinex_rate" class="hideinsummary">
                                                             Provision Ex. Rate
                                                         </td>
-                                                        <td width="10%" class="lc_pro hideinsummary">
+                                                        <td width="10%" class="lc_pro">
                                                             <p class="lc_pro"> Provision LC</p>
                                                         </td>
                                                         <td id="provin_forgin" class="hideinsummary">
