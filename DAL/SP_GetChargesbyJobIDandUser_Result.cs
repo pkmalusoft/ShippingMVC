@@ -41,6 +41,9 @@ namespace DAL
         public Nullable<int> UserID { get; set; }
         public string Description { get; set; }
         public Nullable<bool> Lock { get; set; }
+        public Nullable<decimal> Tax { get; set; }
+        public Nullable<decimal> TaxAmount { get; set; }
+        public Nullable<decimal> Margin { get; set; }
         public string RevenueType { get; set; }
         public string ProvisionCurrency { get; set; }
         public string SalesCurrency { get; set; }

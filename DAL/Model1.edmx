@@ -1773,6 +1773,9 @@ warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.qrySupplierOutstanding'
           <Parameter Name="CostUpdationStatus" Type="char" Mode="In" />
           <Parameter Name="UserID" Type="int" Mode="In" />
           <Parameter Name="Description" Type="nvarchar" Mode="In" />
+          <Parameter Name="Tax" Type="numeric" Mode="In" />
+          <Parameter Name="TaxAmount" Type="numeric" Mode="In" />
+          <Parameter Name="Margin" Type="numeric" Mode="In" />
         </Function>
         <Function Name="SP_InsertContainerDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="JobID" Type="int" Mode="In" />
@@ -3063,6 +3066,9 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
             <Parameter Name="CostUpdationStatus" Mode="In" Type="String" />
             <Parameter Name="UserID" Mode="In" Type="Int32" />
             <Parameter Name="Description" Mode="In" Type="String" />
+            <Parameter Name="Tax" Mode="In" Type="Decimal" />
+            <Parameter Name="TaxAmount" Mode="In" Type="Decimal" />
+            <Parameter Name="Margin" Mode="In" Type="Decimal" />
           </FunctionImport>
           <FunctionImport Name="Report_TradingProfitAndLoss" ReturnType="Collection(SHIPPING_FinalModel.Report_TradingProfitAndLoss_Result)">
             <Parameter Name="FromDate" Mode="In" Type="DateTime" />
@@ -5860,10 +5866,15 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Type="Int32" Name="UserID" Nullable="true" />
           <Property Type="String" Name="Description" Nullable="true" MaxLength="200" />
           <Property Type="Boolean" Name="Lock" Nullable="true" />
+          <Property Type="Decimal" Name="Tax" Nullable="true" />
+          <Property Type="Decimal" Name="TaxAmount" Nullable="true" />
+          <Property Type="Decimal" Name="Margin" Nullable="true" />
           <Property Type="String" Name="RevenueType" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="ProvisionCurrency" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="SalesCurrency" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="SupplierName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="ItemUnit" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="ItemUnitID" Nullable="true" />
         </ComplexType>
         <ComplexType Name="SupStatement_Result">
           <Property Type="Int32" Name="InvoiceID" Nullable="false" />
@@ -8986,10 +8997,14 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Lock" ColumnName="Lock" />
+                <ScalarProperty Name="Tax" ColumnName="Tax" />
+                <ScalarProperty Name="TaxAmount" ColumnName="TaxAmount" />
+                <ScalarProperty Name="Margin" ColumnName="Margin" />
                 <ScalarProperty Name="RevenueType" ColumnName="RevenueType" />
                 <ScalarProperty Name="ProvisionCurrency" ColumnName="ProvisionCurrency" />
                 <ScalarProperty Name="SalesCurrency" ColumnName="SalesCurrency" />
                 <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
+                <ScalarProperty Name="ItemUnit" ColumnName="ItemUnit" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

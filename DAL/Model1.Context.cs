@@ -2578,7 +2578,7 @@ namespace DAL
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SalesAndCollectionRpt_Result>("SalesAndCollectionRpt", customerIDParameter, yearFromParameter, yearToParameter);
         }
     
-        public virtual int SP_InsertCharges(Nullable<int> jobID, Nullable<int> revenueTypeID, Nullable<int> provisionCurrencyID, Nullable<decimal> provisionExchangeRate, Nullable<decimal> provisionForeign, Nullable<decimal> provisionHome, Nullable<int> salesCurrencyID, Nullable<decimal> salesExchangeRate, Nullable<decimal> salesForeign, Nullable<decimal> salesHome, Nullable<decimal> cost, Nullable<int> supplierID, string revenueCode, Nullable<double> quantity, Nullable<int> unitID, Nullable<decimal> provisionRate, Nullable<decimal> salesRate, string amtInWords, string invoiceStatus, string costUpdationStatus, Nullable<int> userID, string description)
+        public virtual int SP_InsertCharges(Nullable<int> jobID, Nullable<int> revenueTypeID, Nullable<int> provisionCurrencyID, Nullable<decimal> provisionExchangeRate, Nullable<decimal> provisionForeign, Nullable<decimal> provisionHome, Nullable<int> salesCurrencyID, Nullable<decimal> salesExchangeRate, Nullable<decimal> salesForeign, Nullable<decimal> salesHome, Nullable<decimal> cost, Nullable<int> supplierID, string revenueCode, Nullable<double> quantity, Nullable<int> unitID, Nullable<decimal> provisionRate, Nullable<decimal> salesRate, string amtInWords, string invoiceStatus, string costUpdationStatus, Nullable<int> userID, string description, Nullable<decimal> tax, Nullable<decimal> taxamount, Nullable<decimal> margin)
         {
             var jobIDParameter = jobID.HasValue ?
                 new ObjectParameter("JobID", jobID) :
@@ -2667,8 +2667,21 @@ namespace DAL
             var descriptionParameter = description != null ?
                 new ObjectParameter("Description", description) :
                 new ObjectParameter("Description", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_InsertCharges", jobIDParameter, revenueTypeIDParameter, provisionCurrencyIDParameter, provisionExchangeRateParameter, provisionForeignParameter, provisionHomeParameter, salesCurrencyIDParameter, salesExchangeRateParameter, salesForeignParameter, salesHomeParameter, costParameter, supplierIDParameter, revenueCodeParameter, quantityParameter, unitIDParameter, provisionRateParameter, salesRateParameter, amtInWordsParameter, invoiceStatusParameter, costUpdationStatusParameter, userIDParameter, descriptionParameter);
+
+            var taxParameter = tax.HasValue ?
+              new ObjectParameter("Tax", tax) :
+              new ObjectParameter("Tax", typeof(decimal));
+
+            var taxamountParameter = taxamount.HasValue ?
+             new ObjectParameter("TaxAmount", taxamount) :
+             new ObjectParameter("TaxAmount", typeof(decimal));
+
+            var marginParameter = margin.HasValue ?
+            new ObjectParameter("Margin", margin) :
+            new ObjectParameter("Margin", typeof(decimal));
+
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_InsertCharges", jobIDParameter, revenueTypeIDParameter, provisionCurrencyIDParameter, provisionExchangeRateParameter, provisionForeignParameter, provisionHomeParameter, salesCurrencyIDParameter, salesExchangeRateParameter, salesForeignParameter, salesHomeParameter, costParameter, supplierIDParameter, revenueCodeParameter, quantityParameter, unitIDParameter, provisionRateParameter, salesRateParameter, amtInWordsParameter, invoiceStatusParameter, costUpdationStatusParameter, userIDParameter, descriptionParameter, taxParameter, taxamountParameter, marginParameter);
         }
     
         public virtual ObjectResult<Report_TradingProfitAndLoss_Result> Report_TradingProfitAndLoss(Nullable<System.DateTime> fromDate, Nullable<System.DateTime> toDate)

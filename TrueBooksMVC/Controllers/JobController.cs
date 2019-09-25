@@ -617,8 +617,16 @@ namespace TrueBooksMVC.Controllers
                             {
                                 JobId = JM.JobID;
                                 var data = (from c in entity.JobGenerations where c.JobID == JobId select c).FirstOrDefault();
-                                int acjid = data.AcJournalID.Value;
-                                int acprovjid = data.AcProvisionCostJournalID.Value;
+                                int acjid = 0;
+                                if(data.AcJournalID != null)
+                                {
+                                    acjid = data.AcJournalID.Value;
+                                }
+                                int acprovjid = 0;
+                                if (data.AcProvisionCostJournalID != null)
+                                {
+                                    acprovjid = data.AcProvisionCostJournalID.Value;
+                                }
 
                                 decimal shome = entity.JInvoices.Where(x => x.JobID == JobId).Sum(x => x.SalesHome).Value;
                                 decimal phome = entity.JInvoices.Where(x => x.JobID == JobId).Sum(x => x.ProvisionHome).Value;
@@ -631,7 +639,10 @@ namespace TrueBooksMVC.Controllers
                                 int acjdetail1 = (from x in entity.AcJournalDetails where x.AcJournalID == acjid && x.AcHeadID == custcontrolacid select x.AcJournalDetailID).FirstOrDefault();
 
                                 var data1 = (from x in entity.AcJournalDetails where x.AcJournalDetailID == acjdetail1 select x).FirstOrDefault();
-                                data1.Amount = shome;
+                                if (data1 != null)
+                                {
+                                    data1.Amount = shome;
+                                }
                                 if (data1 != null)
                                 {
                                     entity.Entry(data1).State = EntityState.Modified;
@@ -1138,6 +1149,27 @@ namespace TrueBooksMVC.Controllers
                     decimal.TryParse(strArray[0].Trim(), out Cost);
                 }
                 Charges.Cost = Cost;
+                decimal Tax = 0;
+                if (formCollection.GetValue("tax_" + ChargesArray[c]) != null)
+                {
+                    strArray = (string[])formCollection.GetValue("tax_" + ChargesArray[c]).RawValue;
+                    decimal.TryParse(strArray[0].Trim(), out Tax);
+                }
+                Charges.Tax = Tax;
+                decimal TaxAmount = 0;
+                if (formCollection.GetValue("taxamt_" + ChargesArray[c]) != null)
+                {
+                    strArray = (string[])formCollection.GetValue("taxamt_" + ChargesArray[c]).RawValue;
+                    decimal.TryParse(strArray[0].Trim(), out TaxAmount);
+                }
+                Charges.TaxAmount = TaxAmount;
+                decimal Margin = 0;
+                if (formCollection.GetValue("margin_" + ChargesArray[c]) != null)
+                {
+                    strArray = (string[])formCollection.GetValue("margin_" + ChargesArray[c]).RawValue;
+                    decimal.TryParse(strArray[0].Trim(), out Margin);
+                }
+                Charges.Margin = Margin;
 
                 int iCharge = J.AddCharges(Charges, Session["UserID"].ToString());
             }
