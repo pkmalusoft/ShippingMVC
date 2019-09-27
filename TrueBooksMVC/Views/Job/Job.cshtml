@@ -54,6 +54,7 @@
         max-width: 1371px;
     }
     .smalltablewidth {
+
         width: 100%;
         margin: 0px !important;
        
@@ -265,7 +266,9 @@
             $('#SalesDomestic').blur(marin);
             $('#ProvisiDomestic').blur(marin);
         });
-
+        $(".two-decimals").change(function () {
+            this.value = parseFloat(this.value).toFixed(2);
+        });
 
 
         $("#tabs").tabs().addClass("ui-tabs-vertical ui-helper-clearfix");
@@ -863,7 +866,7 @@
                         <li class="menulist"><a href="#tabs-5">Bill Of Lading</a></li>
                         <li class="menulist"><a href="#tabs-6">Bill Of Entry</a></li>
                         <li class="menulist"><a href="#tabs-7">Delivery Advice</a></li>
-                        <li class="menulist"><a href="#tabs-8">Notifications</a></li>
+                        <li class="menulist"><a href="#tabs-8">User Comments</a></li>
                     </ul>
                     <div id="tabs-1">
                         <div class="panel-body shadowbr">
@@ -1266,7 +1269,7 @@
                                 <div class="col-xs-12 no-padding for-device">
                                     <div class="data-table tblbackground" style="padding:27px">
 
-                                        <div class="data" style="max-width:800px;overflow:auto;">
+                                        <div class="data" style="overflow:auto;">
                                             <table border="1" class="table table-responsive table-bordered " style="width: 100%" id="container_table">
                                                 <tr>
                                                     <td>Container Type</td>
@@ -1371,7 +1374,7 @@
 
                                     <br />
                                     <label class="headinglabel">Deposit Amount</label>
-                                    @Html.TextBoxFor(m => m.DepositAmount, new { id = "DepositAmount",  tabindex = "9", @class = "form-control textright", autocomplete = "off" })
+                                    @Html.TextBoxFor(m => m.DepositAmount, new { id = "DepositAmount",  tabindex = "9", @class = "form-control textright two-decimals", autocomplete = "off" })
 
                                     <br />
                                     <label class="headinglabel">Deposit Date</label>
@@ -1403,7 +1406,7 @@
                                     }
                                     <br />
                                     <label class="headinglabel">Refund Amount</label>
-                                    @Html.TextBoxFor(m => m.RefundAmount, new { id = "RefundAmount", @class = "form-control textright", tabindex = "15", autocomplete = "off" })
+                                    @Html.TextBoxFor(m => m.RefundAmount, new { id = "RefundAmount", @class = "form-control textright two-decimals", tabindex = "15", autocomplete = "off" })
 
                                 </div>
                             </div>
@@ -1623,9 +1626,9 @@
                                         @Html.TextBoxFor(model => model.CollectionPoint, new { @class = "form-control txttarget" })
                                         @Html.ValidationMessageFor(model => model.CollectionPoint)
                                     </div>
-                                    <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
+                                    <div class="col-xs-6 col-sm-4 col-md-4 no-padding">
                                         <label class="headinglabel">Collection Instructions</label>
-                                        @Html.TextBoxFor(model => model.CollectionInstructions, new { @class = "form-control txttarget" })
+                                        @Html.TextAreaFor(model => model.CollectionInstructions, new { @class = "form-control txttarget", rows = "30", cols = "30" })
                                         @Html.ValidationMessageFor(model => model.CollectionInstructions)
                                     </div>
                                     <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
@@ -1641,12 +1644,12 @@
                     <div id="tabs-8" style="float:left;">
                         <div class="panel-body shadowbr">
                             <div class="row no-margin">
-                                <div class="col-xs-6 col-sm-6 col-md-6 no-padding">
+                                <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
                                     <label class="headinglabel">Date</label>
                                     <input ng-model="TransDate" class="form-control" id="TransDate" autocomplete="off" placeholder="Date" />
                                 </div>
 
-                                <div class="col-xs-6 col-sm-6 col-md-6 no-padding">
+                                <div class="col-xs-10 col-sm-10 col-md-10 no-padding">
                                     <label class="headinglabel">Remarks</label>
                                     <input type="text" class="form-control txttarget" ng-model="Remarks" id="NotificationRemarks" placeholder="Remarks" />
 
@@ -1664,9 +1667,9 @@
                                         <div class="data">
                                             <table border="1" class="table table-responsive table-bordered " style="width: 100%" id="audit_table">
                                                 <tr>
-                                                    <td>Date</td>
-                                                    <td>Remarks</td>
-                                                    <td>Delete</td>
+                                                    <td style="width:20%">Date</td>
+                                                    <td style="width:70%">Remarks</td>
+                                                    <td style="width:10%">Delete</td>
                                                 </tr>
                                                 <tr ng-repeat="a in Auditing">
                                                     <td>

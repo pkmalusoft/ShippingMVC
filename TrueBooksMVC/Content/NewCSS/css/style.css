@@ -5786,7 +5786,7 @@ input[type=text]:focus, textarea:focus {
     background: linear-gradient(135deg, #07a7e3 0%, #32dac3 100%);
 }
 label > select {
-    width: 15%;
+    width: 4%;
     height: 29px;
     padding: 3px;
     margin-left: 10px;

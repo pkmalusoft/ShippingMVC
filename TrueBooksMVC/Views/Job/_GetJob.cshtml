@@ -153,9 +153,10 @@
                                                                                       {@Html.DisplayFor(modelItem => item.InvoiceNo)  }
                                                                 </td>
                                                                 <td>@TrueBooksMVC.Models.CommanFunctions.GetShortDateFormat(item.InvoiceDate) </td>
-                                                                <td style="width: 10%"><a href='@Url.Action("Job", "Job", new { id = item.JobID })' data-toggle="tooltip" data-placement="right" title="Edit"><i class="fa fa-pencil"></i></a>|
-                                                                                 @*<a href='@Url.Action("DeleteJob", "Job", new { id = item.JobID })' data-toggle="tooltip" data-placement="right" title="Delete"><i class="fa fa-times-circle"></i></a>| *@
-                                                                    <a href="#" onclick="DeleteBranch(branchID=@item.JobID)"><i class="fa fa-times"></i></a>
+                                                                <td style="width: 10%">
+                                                                    <a href='@Url.Action("Job", "Job", new { id = item.JobID })' data-toggle="tooltip" data-placement="right" title="Edit"><i class="fa fa-pencil"></i></a> &vert;&nbsp;&nbsp;&nbsp;
+                                                                    @*<a href='@Url.Action("DeleteJob", "Job", new { id = item.JobID })' data-toggle="tooltip" data-placement="right" title="Delete"><i class="fa fa-times-circle"></i></a>| *@
+                                                                    <a href="#" onclick="DeleteBranch(branchID=@item.JobID)"><i class="fa fa-times"></i></a>&vert;&nbsp;&nbsp;&nbsp;
                                                                     @if (item.InvoiceNo > 0)
                                                                     {
                                                                         <a href='@Url.Action("ReportInvoice", "ReportInvoice", new { id = item.JobID })' data-toggle="tooltip" data-placement="right" title="Print"><i class="fa fa-print"></i></a>
