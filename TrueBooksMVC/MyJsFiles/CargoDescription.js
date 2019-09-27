@@ -4,6 +4,7 @@ function deleteCharge(obj) {
     $(obj).closest('tr').remove();
 }
 
+
 function deleteRow(obj) {
     debugger;
     $(obj).closest('tr').remove();
@@ -159,6 +160,14 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
 
     var vCharges = JSON.parse('[]');
 
+    $scope.editCharges = function (index) {
+        alert(index);
+        debugger;
+        var trObj = $(this);
+        var obj = $('#RevenueTypeID_' + index).val();
+        $('#RevenueTypeID').val(obj);
+    };
+
     $scope.addCharges = function () {
         debugger;
         if ($.isNumeric($('#RevenueTypeID').val()) === false || $('#RevenueTypeID').val() <= 0) {
@@ -218,7 +227,7 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
         tdString = tdString + '<td><div class="data13"><input type="text" value="' + ChargeObj.Tax + '" title="' + ChargeObj.Tax + '" name="tax_' + vCharges.length + '" id="tax_' + vCharges.length + '" style="width:30px; text-align:right" readonly /></div></td>';
         tdString = tdString + '<td><div class="data14"><input type="text" value="' + ChargeObj.TaxAmount + '" title="' + ChargeObj.TaxAmount + '" name="taxamt_' + vCharges.length + '" id="taxamt_' + vCharges.length + '" style="width:50px; text-align:right" readonly /></div></td>';
         tdString = tdString + '<td><div class="data15"><input type="text" value="' + ChargeObj.Margin + '" title="' + ChargeObj.Margin + '" name="margin_' + vCharges.length + '" id="margin_' + vCharges.length + '" style="width:50px; text-align:right" readonly /></div></td>';
-        tdString = tdString + '<td><a href="javascript:void(0)" onclick="deleteCharge(this)"><i class="fa fa-times-circle"></i></a></td>';
+        tdString = tdString + '<td><a href="javascript:void(0)" onclick="angular.element(this).scope().editCharges(' + vCharges.length + ')"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="javascript:void(0)" onclick="deleteCharge(this)"><i class="fa fa-times-circle"></i></a></td>';
         tdString = tdString + '</tr>';
         $("#charges_table").append(tdString);
         $("#AddCharges").show();
