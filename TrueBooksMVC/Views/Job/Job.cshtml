@@ -50,9 +50,8 @@
     }
     .fulltablewidth {
         width: 100%;
-        margin: 10px 20px !important;
-        
-        max-width: 1246px;
+        margin: 10px 13px !important;
+        max-width: 1371px;
     }
     .smalltablewidth {
         width: 100%;
@@ -475,17 +474,17 @@
                     if (data == true) {
 
                         if ($("#VesselID option:selected").val() == "") {
-                            alert("Please fill Vessel,It is mandatory fields");
+                            alert("Please fill Vessel,It is mandatory fields in (Bill Of Lading) tab");
                             flg = false;
 
                         }
                         else if ($("#VoyageNo option:selected").val() == "") {
-                            alert("Please fill Voyage,It s mandatory fields");
+                            alert("Please fill Voyage,It s mandatory fields in (Bill Of Lading) tab");
                             flg = false;
 
                         }
                         else if ($("#ContainerNo").val() == "") {
-                            alert("Please fill ContainerNo,It is mandatory fields");
+                            alert("Please fill ContainerNo,It is mandatory fields in (Container) tab ");
                             flg = false;
 
                         }
@@ -861,7 +860,7 @@
                         <li class="menulist"><a href="#tabs-2">Cargo</a></li>
                         <li class="menulist"><a href="#tabs-3">Container</a></li>
                         <li class="menulist"><a href="#tabs-4">Customs</a></li>
-                        <li class="menulist"><a href="#tabs-5">Bill Of Loading</a></li>
+                        <li class="menulist"><a href="#tabs-5">Bill Of Lading</a></li>
                         <li class="menulist"><a href="#tabs-6">Bill Of Entry</a></li>
                         <li class="menulist"><a href="#tabs-7">Delivery Advice</a></li>
                         <li class="menulist"><a href="#tabs-8">Notifications</a></li>
@@ -903,7 +902,7 @@
                                     <div class="col-xs-6 col-sm-2 col-md-2 reve_rate no-padding">
                                         <label class="headinglabel">Provision Currency</label>
                                         @*Html.DropDownList("ProvisionCurrency", (SelectList)ViewBag.Curency, "Select", new { id = "ProvisionExR", tabindex = "6", ng_selected = "ProvisionCurrencyID1", @ng_model = "ProvisionExR", @ng_change = "getProvisionCurEx()", @class = "form-control" })*@
-                                        <select ng-model="ProvisionExR" id="ProvisionExR" class="form-control" tabindex="2" ng_change="getProvisionCurEx()">
+                                        <select ng-model="ProvisionExR" id="ProvisionExR" class="form-control" tabindex="6" ng_change="getProvisionCurEx()">
                                             <option value='0'>Select</option>
                                             <option ng-repeat="b in CurrencyList" ng-selected="ProvisionExR==b.CurrencyID" value='{{b.CurrencyID}}'>{{b.CurrencyName}}</option>
                                         </select>
@@ -993,7 +992,7 @@
                                         $("#myNav").css("display", "block");
                                         $("#charges_table").css("position", "fixed");
                                         $("#charges_table").css("top", "200px");
-                                        $("#charges_table").css("left", "23px");
+                                        $("#charges_table").css("left", "10px");
                                         $("#charges_table").css("z-index", "11");
                                         $("#charges_table").css("background-color", "white");
                                       //  $("#provin_rate").css("display", "block");
@@ -1140,28 +1139,28 @@
                                 <div class="row no-margin">
                                     <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
                                         <label class="headinglabel">Mark</label>
-                                        <input type="text" ng-model="Mark" class="form-control txttarget" id="Mark" placeholder="Mark" style="text-align: left" />
+                                        <input type="text" tabindex = "1" ng-model="Mark" class="form-control txttarget" id="Mark" placeholder="Mark" style="text-align: left" />
                                     </div>
                                     <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
                                         <label class="headinglabel">Description</label>
-                                        <input type="text" ng-model="CarDescription" class="form-control txttarget" id="Description" placeholder="Description" style="text-align: left" />
+                                        <input type="text" tabindex = "2" ng-model="CarDescription" class="form-control txttarget" id="Description" placeholder="Description" style="text-align: left" />
                                     </div>
 
                                     <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
                                         <label class="headinglabel">Weight</label>
-                                        <input type="number" ng-model="weight" class="form-control textright" id="weight" placeholder="weight" />
+                                        <input type="number" tabindex = "3" ng-model="weight" class="form-control textright" id="weight" placeholder="weight" />
                                     </div>
                                     <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
                                         <label class="headinglabel">Volume</label>
-                                        <input type="number" ng-model="volume" class="form-control textright" id="volume" placeholder="volume" />
+                                        <input type="number" tabindex = "4" ng-model="volume" class="form-control textright" id="volume" placeholder="volume" />
                                     </div>
                                     <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
                                         <label class="headinglabel">Packages</label>
-                                        <input type="number" ng-model="Packages" class="form-control textright" id="Packages" placeholder="Packages" />
+                                        <input type="number" tabindex = "5" ng-model="Packages" class="form-control textright" id="Packages" placeholder="Packages" />
                                     </div>
                                     <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
                                         <label class="headinglabel">Gross Weight</label>
-                                        <input type="number" ng-model="GrossWeight" class="form-control textright" id="GrossWeight" placeholder="GrossWeight" />
+                                        <input type="number" tabindex = "6" ng-model="GrossWeight" class="form-control textright" id="GrossWeight" placeholder="GrossWeight" />
                                     </div>
                                 </div>
                             </div>
@@ -1190,32 +1189,32 @@
 
                                                     <td>
                                                         <div class="data1">
-                                                            <input type="text" title="{{CD.Mark}}" value="{{CD.Mark}}" name="Mark_{{$index}}" id="Mark_{{$index}}" />
+                                                            <input type="text" tabindex = "1" title="{{CD.Mark}}" value="{{CD.Mark}}" name="Mark_{{$index}}" id="Mark_{{$index}}" />
                                                         </div>
                                                     </td>
                                                     <td>
                                                         <div class="data2">
-                                                            <input type="text" title="{{CD.Description}}" value="{{CD.Description}}" name="CarDescription_{{$index}}" id="CarDescription_{{$index}}" />
+                                                            <input type="text" tabindex = "2" title="{{CD.Description}}" value="{{CD.Description}}" name="CarDescription_{{$index}}" id="CarDescription_{{$index}}" />
                                                         </div>
                                                     </td>
                                                     <td>
                                                         <div class="data3 textright">
-                                                            <input type="text" style="width:80px;" title="{{CD.weight}}" value="{{CD.weight}}" name="weight_{{$index}}" id="weight_{{$index}}" />
+                                                            <input type="text" style="width:80px;" tabindex = "3" title="{{CD.weight}}" value="{{CD.weight}}" name="weight_{{$index}}" id="weight_{{$index}}" />
                                                         </div>
                                                     </td>
                                                     <td>
                                                         <div class="data4 textright">
-                                                            <input type="text" style="width:80px;" title="{{CD.volume}}" value="{{CD.volume}}" name="volume_{{$index}}" id="volume_{{$index}}" />
+                                                            <input type="text" style="width:80px;" tabindex = "4" title="{{CD.volume}}" value="{{CD.volume}}" name="volume_{{$index}}" id="volume_{{$index}}" />
                                                         </div>
                                                     </td>
                                                     <td>
                                                         <div class="data5 textright">
-                                                            <input type="text" style="width:80px;" title="{{CD.Packages}}" value="{{CD.Packages}}" name="Packages_{{$index}}" id="Packages_{{$index}}" />
+                                                            <input type="text" style="width:80px;" tabindex = "5" title="{{CD.Packages}}" value="{{CD.Packages}}" name="Packages_{{$index}}" id="Packages_{{$index}}" />
                                                         </div>
                                                     </td>
                                                     <td>
                                                         <div class="data6 textright">
-                                                            <input type="text" style="width:80px;" title="{{CD.GrossWeight}}" value="{{CD.GrossWeight}}" name="GrossWeight_{{$index}}" id="GrossWeight_{{$index}}" />
+                                                            <input type="text" style="width:80px;" tabindex = "6" title="{{CD.GrossWeight}}" value="{{CD.GrossWeight}}" name="GrossWeight_{{$index}}" id="GrossWeight_{{$index}}" />
                                                         </div>
                                                     </td>
                                                     <td><a href="javascript:void(0)" onclick="deleteRow(this)"><i class="fa fa-times-circle"></i></a></td>
@@ -1246,16 +1245,16 @@
 
                                 <div class="col-xs-6 col-sm-3 col-md-3 no-padding">
                                     <label class="headinglabel">Container No</label>
-                                    <input type="text" class="form-control txttarget" ng-model="ContainerNo" id="ContainerNo" placeholder="Container No" />
+                                    <input type="text" tabindex = "1" class="form-control txttarget" ng-model="ContainerNo" id="ContainerNo" placeholder="Container No" />
 
                                 </div>
                                 <div class="col-xs-6 col-sm-3 col-md-3 no-padding">
                                     <label class="headinglabel">Seal No</label>
-                                    <input type="text" class="form-control textright" ng-model="SealNo" id="SealNo" placeholder="Seal No" />
+                                    <input type="text" tabindex = "2" class="form-control textright" ng-model="SealNo" id="SealNo" placeholder="Seal No" />
                                 </div>
                                 <div class="col-xs-6 col-sm-3 col-md-3 no-padding">
                                     <label class="headinglabel">Description</label>
-                                    <input type="text" class="form-control textright" ng-model="ContainerDescription" id="ContainerDescription" placeholder="Description" />
+                                    <input type="text" tabindex = "3" class="form-control textright" ng-model="ContainerDescription" id="ContainerDescription" placeholder="Description" />
                                 </div>
                             </div>
                             <div class="row no-margin border1px" style="padding-top: 10px">
@@ -1279,23 +1278,23 @@
                                                 <tr ng-repeat="C in Containers">
                                                     <td>
                                                         <div class="data1">
-                                                            <input type="text" value="{{C.ContainerType}}" name="ContainerType_{{$index}}" id="ContainerType_{{$index}}" />
+                                                            <input type="text" tabindex = "1" value="{{C.ContainerType}}" name="ContainerType_{{$index}}" id="ContainerType_{{$index}}" />
                                                             <input type="hidden" value="{{C.ContainerTypeID}}" name="ContainerTypeID_{{$index}}" id="ContainerTypeID_{{$index}}" />
                                                         </div>
                                                     </td>
                                                     <td>
                                                         <div class="data2">
-                                                            <input type="text" value="{{C.ContainerNo}}" name="ContainerNo_{{$index}}" id="ContainerNo_{{$index}}" />
+                                                            <input type="text" tabindex = "2" value="{{C.ContainerNo}}" name="ContainerNo_{{$index}}" id="ContainerNo_{{$index}}" />
                                                         </div>
                                                     </td>
                                                     <td>
                                                         <div class="data3 textright">
-                                                            <input type="text" value="{{C.SealNo}}" name="SealNo_{{$index}}" id="SealNo_{{$index}}" />
+                                                            <input type="text"  tabindex = "3" value="{{C.SealNo}}" name="SealNo_{{$index}}" id="SealNo_{{$index}}" />
                                                         </div>
                                                     </td>
                                                     <td>
                                                         <div class="data4 textright">
-                                                            <input type="text" value="{{C.Description}}" name="ContainerDescription_{{$index}}" id="ContainerDescription_{{$index}}" />
+                                                            <input type="text" tabindex = "4" value="{{C.Description}}" name="ContainerDescription_{{$index}}" id="ContainerDescription_{{$index}}" />
                                                         </div>
                                                     </td>
                                                     <td><a href="javascript:void(0)" onclick="deleteRow(this)"><i class="fa fa-times-circle"></i></a></td>
@@ -1315,27 +1314,27 @@
                             <div class="row no-margin" id="AddCustoms" style="padding-top: 10px">
                                 <div class="col-xs-12 col-sm-6 col-md-6 no-padding">
                                     <label class="headinglabel">IPT No.</label>
-                                    @Html.TextBoxFor(m => m.IPTNo, new { id = "IPTNo", @class = "form-control", autocomplete = "off" })
+                                    @Html.TextBoxFor(m => m.IPTNo, new { id = "IPTNo", @class = "form-control", tabindex = "1", autocomplete = "off" })
 
                                     <br />
                                     <label class="headinglabel">Customer Ref. No.</label>
-                                    @Html.TextBoxFor(m => m.RefNo, new { id = "RefNo", @class = "form-control", autocomplete = "off" })
+                                    @Html.TextBoxFor(m => m.RefNo, new { id = "RefNo", @class = "form-control", tabindex = "2", autocomplete = "off" })
 
                                     <br />
                                     <label class="headinglabel">Rotation No.</label>
-                                    @Html.TextBoxFor(m => m.RotationNo, new { id = "RotationNo", @class = "form-control", autocomplete = "off" })
+                                    @Html.TextBoxFor(m => m.RotationNo, new { id = "RotationNo", @class = "form-control", tabindex = "3", autocomplete = "off" })
 
                                     <br />
                                     <label class="headinglabel">BL Date</label>
                                     @if (Model.BLDate != null)
                                     {
 
-                                        @Html.TextBoxFor(m => m.BLDate, "{0:dd-MMM-yyyy}", new { id = "BLDate", @class = "form-control", autocomplete = "off" })
+                                        @Html.TextBoxFor(m => m.BLDate, "{0:dd-MMM-yyyy}", new { id = "BLDate", @class = "form-control",tabindex = "4", autocomplete = "off" })
                                         @Html.ValidationMessageFor(model => model.BLDate)
                                     }
                                     else
                                     {
-                                        @Html.TextBoxFor(m => m.BLDate, new { id = "BLDate", @class = "form-control", autocomplete = "off" })
+                                        @Html.TextBoxFor(m => m.BLDate, new { id = "BLDate", @class = "form-control", tabindex = "4", autocomplete = "off" })
                                         @Html.ValidationMessageFor(model => model.BLDate)
                                     }
 
@@ -1344,67 +1343,67 @@
                                     <label class="headinglabel">DO Date</label>
                                     @if (Model.DeliveryOrderDate != null)
                                     {
-                                        @Html.TextBoxFor(m => m.DeliveryOrderDate, "{0:dd-MMM-yyyy}", new { id = "DeliveryOrderDate", @class = "form-control", autocomplete = "off" })
+                                        @Html.TextBoxFor(m => m.DeliveryOrderDate, "{0:dd-MMM-yyyy}", new { id = "DeliveryOrderDate", @class = "form-control", tabindex = "5", autocomplete = "off" })
                                         @Html.ValidationMessageFor(model => model.DeliveryOrderDate)
                                     }
                                     else
                                     {
-                                        @Html.TextBoxFor(m => m.DeliveryOrderDate, new { id = "DeliveryOrderDate", @class = "form-control", autocomplete = "off" })
+                                        @Html.TextBoxFor(m => m.DeliveryOrderDate, new { id = "DeliveryOrderDate", @class = "form-control", tabindex = "5", autocomplete = "off" })
                                         @Html.ValidationMessageFor(model => model.DeliveryOrderDate)
                                     }
                                     <br />
                                     <label class="headinglabel">Delivery Order No.</label>
-                                    @Html.TextBoxFor(m => m.DeliveryOrderNo, new { value = Model.DeliveryOrderNo, id = "DeliveryOrderNo", @class = "form-control", autocomplete = "off" })
+                                    @Html.TextBoxFor(m => m.DeliveryOrderNo, new { value = Model.DeliveryOrderNo, id = "DeliveryOrderNo", @class = "form-control", tabindex = "6", autocomplete = "off" })
 
                                     <br />
                                     <label class="headinglabel">Country Of Orgin</label>
-                                    @Html.DropDownListFor(model => model.CountryofOriginID, (SelectList)ViewBag.Countries, "Select", new { @class = "form-control", @readonly = "readonly" })
+                                    @Html.DropDownListFor(model => model.CountryofOriginID, (SelectList)ViewBag.Countries, "Select", new { @class = "form-control", tabindex = "7", @readonly = "readonly" })
 
                                     <br />
                                 </div>
                                 <div class="col-xs-12 col-sm-6 col-md-6 no-padding">
                                     <label class="headinglabel">MRN</label>
-                                    @Html.TextBoxFor(m => m.MRN, new { id = "MRN", @class = "form-control", autocomplete = "off" })
+                                    @Html.TextBoxFor(m => m.MRN, new { id = "MRN", @class = "form-control", tabindex = "7", autocomplete = "off" })
 
                                     <br />
                                     <label class="headinglabel">CLF Value</label>
-                                    @Html.TextBoxFor(m => m.CLFValue, new { id = "CLFValue", @class = "form-control", autocomplete = "off" })
+                                    @Html.TextBoxFor(m => m.CLFValue, new { id = "CLFValue", @class = "form-control", tabindex = "8", autocomplete = "off" })
 
                                     <br />
                                     <label class="headinglabel">Deposit Amount</label>
-                                    @Html.TextBoxFor(m => m.DepositAmount, new { id = "DepositAmount", @class = "form-control textright", autocomplete = "off" })
+                                    @Html.TextBoxFor(m => m.DepositAmount, new { id = "DepositAmount",  tabindex = "9", @class = "form-control textright", autocomplete = "off" })
 
                                     <br />
                                     <label class="headinglabel">Deposit Date</label>
                                     @if (Model.DepositDate != null)
                                     {
-                                        @Html.TextBoxFor(m => m.DepositDate, "{0:dd-MMM-yyyy}", new { id = "DepositDate", @class = "form-control", autocomplete = "off" })
+                                        @Html.TextBoxFor(m => m.DepositDate, "{0:dd-MMM-yyyy}", new { id = "DepositDate", tabindex = "10", @class = "form-control", autocomplete = "off" })
                                         @Html.ValidationMessageFor(model => model.DepositDate)
                                     }
                                     else
                                     {
-                                        @Html.TextBoxFor(m => m.DepositDate, new { id = "DepositDate", @class = "form-control", autocomplete = "off" })
+                                        @Html.TextBoxFor(m => m.DepositDate, new { id = "DepositDate", @class = "form-control", tabindex = "11", autocomplete = "off" })
                                         @Html.ValidationMessageFor(model => model.DepositDate)
                                     }
                                     <br />
                                     <label class="headinglabel">Receipt No</label>
-                                    @Html.TextBoxFor(m => m.ReceiptNo, new { id = "ReceiptNo", @class = "form-control", autocomplete = "off" })
+                                    @Html.TextBoxFor(m => m.ReceiptNo, new { id = "ReceiptNo", @class = "form-control", tabindex = "12", autocomplete = "off" })
 
                                     <br />
                                     <label class="headinglabel">Refund Date</label>
                                     @if (Model.RefundDate != null)
                                     {
-                                        @Html.TextBoxFor(m => m.RefundDate, "{0:dd-MMM-yyyy}", new { id = "RefundDate", @class = "form-control", autocomplete = "off" })
+                                        @Html.TextBoxFor(m => m.RefundDate, "{0:dd-MMM-yyyy}", new { id = "RefundDate", tabindex = "13", @class = "form-control", autocomplete = "off" })
                                         @Html.ValidationMessageFor(model => model.RefundDate)
                                     }
                                     else
                                     {
-                                        @Html.TextBoxFor(m => m.RefundDate, new { id = "RefundDate", @class = "form-control", autocomplete = "off" })
+                                        @Html.TextBoxFor(m => m.RefundDate, new { id = "RefundDate", @class = "form-control", tabindex = "14", autocomplete = "off" })
                                         @Html.ValidationMessageFor(model => model.RefundDate)
                                     }
                                     <br />
                                     <label class="headinglabel">Refund Amount</label>
-                                    @Html.TextBoxFor(m => m.RefundAmount, new { id = "RefundAmount", @class = "form-control textright", autocomplete = "off" })
+                                    @Html.TextBoxFor(m => m.RefundAmount, new { id = "RefundAmount", @class = "form-control textright", tabindex = "15", autocomplete = "off" })
 
                                 </div>
                             </div>
