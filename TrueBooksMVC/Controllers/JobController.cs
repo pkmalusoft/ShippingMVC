@@ -1329,7 +1329,7 @@ namespace TrueBooksMVC.Controllers
                     NotificationArray.Add(formCollection.Keys[j].Replace("AuditTransDate_", "").Trim());
                 }
             }
-            for (int c = 0; c < ContainerCount; c++)
+            for (int c = 0; c < NotificationCount; c++)
             {
                 JAuditLog objAudit = new JAuditLog();
                 objAudit.JobID = JobId;
@@ -1953,6 +1953,14 @@ namespace TrueBooksMVC.Controllers
                 ViewBag.ShippingA = new SelectList(ShippingAgent.OrderBy(x => x.AgentName).ToList(), "ShippingAgentID", "AgentName");
                 ViewBag.MaxInvoiceNumber = J.GetMaxInvoiceNumber();
                 ViewBag.voyages = (from c in entity.Voyages select c).ToList();
+               
+                List< SelectListItem > objBLStatusList = new List<SelectListItem>
+                    { new SelectListItem() { Text = "SURRENDERED", Selected = false, Value = "SURRENDERED"}
+                     , new SelectListItem() { Text = "WAY BILL", Selected = false, Value = "WAY BILL"}
+                     , new SelectListItem() { Text = "OBL REQUIRED", Selected = false, Value = "OBL REQUIRED"}};
+
+         
+                ViewBag.BLStatusList = new SelectList(objBLStatusList,"Value","Text");
 
                 var query = from t in entity.JobGenerations
                             where t.MainJobID == null
