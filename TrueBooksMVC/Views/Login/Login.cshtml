@@ -115,17 +115,51 @@
             transition: color 0.225s ease-in-out, background-color 0.225s ease-in-out;
         }
         .loginbox {
-            padding: 21px;
+            padding: 10px;
         }
         .form-control {
             display: block;
             width: 100%;
             height: 40px;
             border: 1px solid #d2d2d2;
-            box-shadow: 0 2px 0 0 #d2d2d2;
+            box-shadow:unset;
         }
+        input:focus {
+            background-color: unset !important;
+        }
+        .input-group .form-control:first-child, .input-group-addon:first-child, .input-group-btn:first-child > .btn, .input-group-btn:first-child > .btn-group > .btn, .input-group-btn:first-child > .dropdown-toggle, .input-group-btn:last-child > .btn-group:not(:last-child) > .btn, .input-group-btn:last-child > .btn:not(:last-child):not(.dropdown-toggle) {
+            border-top-right-radius: unset !important;
+            border-bottom-right-radius: unset !important;
+        }
+            .input-group .form-control:last-child, .input-group-addon:last-child, .input-group-btn:first-child > .btn-group:not(:first-child) > .btn, .input-group-btn:first-child > .btn:not(:first-child), .input-group-btn:last-child > .btn, .input-group-btn:last-child > .btn-group > .btn, .input-group-btn:last-child > .dropdown-toggle {
+                border-top-left-radius: unset !important;
+                border-bottom-left-radius: unset !important;
+            }
+            .login .form-control {
+            border: unset !important;
+            border-bottom: 1px solid !important;
+        }
+                .login .form-control.login, .login .form-control.pwd, .login .form-control.branch, .login .form-control.year {
+                    background: unset !important;
+                }
         .from-group {
             margin-bottom: 20px;
+        }
+        .login .form-control {
+            height: 25px;
+            width: 100%;
+            display: block;
+            border-radius: 4px !important;
+            padding: 0px 0px;
+            font-size: 10px;
+            color: #2f4357;                
+            padding-left: 4px;
+            margin-bottom: 0;
+           
+        }
+        .login .input-group {
+            margin-bottom: 12px;
+            width: 100%;
         }
         .btn-primary.btn-gradient:after {
             background: #32dac3;
@@ -169,12 +203,22 @@
             padding-bottom:14%;
         }
         h3.frie_forw {
-            color: #fff;
+            color: #07a7e3;
             text-align: center;
             text-transform: uppercase;
-            font-size: 56px;
+            font-size: 25px;
             font-weight: 700;
             font-family: Calibri;
+        }
+        p.fries_forw {
+            text-align: center;
+            color: #6d6969;
+            margin-bottom: 0;
+        }
+            .lice_con {
+            text-align: center;
+            /* margin: 13px; */
+            margin-top: 21px;
         }
         p.fries_forw {
             text-align: center;
@@ -186,18 +230,65 @@
         p.fries_forw {
             text-align: center;
             color: #6d6969;
+            font-size: 10px;
         }
         /*.bg_images {
             background-image: url(../Content/img/rightbg.png);
             background-position:center;
             background-size:cover;
             background-repeat:no-repeat;
-        }*/ 
-        .fulbg_images {
-            background-image: url(../Content/img/rightbackground.jpg);
+        }*/
+        .login .loginbtn {
+            width: 26%;
+            text-align: center;
+            padding: 0px 0px;
+            height: 36px;
+            background: #2472c5;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 13px;
+            color: #FFF;
+            border: none;
+            border-radius: 4px;
+            -moz-transition-duration: 0.5s;
+            -o-transition-duration: 0.5s;
+            -webkit-transition-duration: 0.5s;
+            transition-duration: 0.5s;
+            cursor: pointer;
+        }
+        h4.log_head {
+            font-size: 11px;
+            font-weight: 700;
+        }
+        .login_template {
+            background-image: url(../Content/img/ship_logo.png);
             background-position: center;
             background-size: cover;
             background-repeat: no-repeat;
+            overflow:hidden;
+        }
+        form.login.clearfix {
+           
+            padding-left: 20px;
+        }
+        .login_screen {
+            background-color: #fff;
+            margin: 60px 16px 201px 45px;
+            width: 30%;
+            /* padding: 32px; */
+            padding: 19px 23px 19px 23px;
+        }
+        .logo_pag {
+            text-align: center;
+        }
+        .form-control:focus {
+            box-shadow:unset!important;
+        }
+        p.head_secti {
+            font-size: 10px;
+        }
+        p.lice_forw {
+            font-size: 10px;
         }
     </style>
 
@@ -238,63 +329,33 @@
     </script>
 
 </head>
-<body>
+<body class="login_template">
     <div class="container-fluid padding_none fulbg_images">
         <div class="row no_row">
             <div class="right-column sisu">
                 <div class="row no_row">
-                    <div class="col-md-7 col-sm-7 tex_field bg_images">
-                        <!-- <a class="signin-logo d-sm-block d-md-none" href="#">
-         <img src="~/Content/img/logo.png" width="145" height="32.3" alt="Truelogo">
-     </a>-->
-                        <div class="col-lg-12 col-sm-12 top_log">
-                            <div class="col-lg-4  col-md-4 col-sm-4 col-xs-12 col-md-4 lincens_tags padding_none">
-                                <p class="">Licenced to:</p>
-                                <ul class="list_lics">
-                                    <li class="itenm_lice">
-                                        <p class="cont_line">Opal Shipping LLc:</p>
-                                    </li>
-                                    <li class="itenm_lice">
-                                        <p class="cont_line">Dubai</p>
-                                    </li>
-                                    <li class="itenm_lice">
-                                        <p class="cont_line">U.A.E</p>
-                                    </li>
-                                    <li class="itenm_lice">
-                                        <p class="cont_line">Valid Till: 31 Dec 2019</p>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class=" col-lg-8 col-md-8 col-sm-8 ">
-                                <div class="lo_images">
+                   
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 login_screen">
 
-                                    <img src="~/Content/img/logo3.png" class="log_optc" alt="Truelogo">
-                                </div>
-                            </div>
+                        <div class="logo_pag">
+
+                            <a class="signin-logo d-sm-none d-md-block text-center" href="#">
+                                <img src="/Content/img/logo_truebook.png"  alt="TrueBook" style="
+    width: 50%;
+" />
+                                
+                            </a>
 
                         </div>
-                        <div class="col-md-12 col-lg-12 frt_syst">
-                            <div class="forwad_sys">
-                                <h3 class="frie_forw"> Freight Forwading System</h3>
-                            </div>
-                        </div>
-                        <div class="col-md-12 col-lg-12 right_cpy">
-                            <div class="copy_sys">
-                                <p class="fries_forw"> all rights reserved: Malusoft India &vert; Bangalore &vert; Support: +91 8089501000 &vert; Skype: malusoftindia</p>
-                            </div>
+
+                        <div class="comp_name">
+                            <h3 class="frie_forw"> Freight Forwading System</h3>
                         </div>
 
-                    </div>
-                    <div class="col-md-5 signin-left-column bg-white px-5" style="height: 100%;">
-                        <a class="signin-logo d-sm-none d-md-block text-center" href="#">
-                            <img src="/Content/img/Logo_TrueBooks.png" width="100%" height="16%" alt="QuillPro" style="
-     margin-left: 0px;
-  margin-bottom: 10px;">
-                        </a>
-                        <div class="profile-picture profile-picture-lg bg-gradient bg-primary">
-                            <img src="~/Content/NewCSS/img/user2-160x160.jpg" class="image_user" width="97%" height="97%">
-                        </div>
+                        
                         <div class="loginbox">
+                            <h4 class="log_head">Sign In</h4>
+
                             @using (@Html.BeginForm("", "", FormMethod.Post, new { @class = "login clearfix", @role = "form" }))
                             {
                                 <div class="input-group">
@@ -316,7 +377,8 @@
                                     @Html.DropDownListFor(model => model.AcFinancialYearID, new SelectList(ViewBag.fyears, "AcFinancialYearID", "FYearName"), "Select Year", new { @class = "form-control" })
                                 </div>
 
-                                <span class="submit">
+                                <span class="submit" style="display: block;
+    text-align: right;">
                                     <input class="loginbtn" type="submit" value="Log in">
                                 </span>
                                 <span id="errormessage">
@@ -332,7 +394,26 @@
 
                             }
                         </div>
+
+
+
+
+                        <div class="lice_con">
+                            <p class="head_secti">Licenced</p>
+                            <p class="lice_forw"> Opal Shipping LLc &vert; Dubai &vert; U.A.E &vert; </p>
+                        </div>
+
+                        <div class="copy_sys">
+                            <p class="fries_forw"> All rights reserved: Malusoft &vert; Bangalore &vert; India &vert;</p>
+                        </div>
+
+
+
                     </div>
+
+
+
+
                 </div>
             </div>
         </div>
