@@ -87,7 +87,9 @@ namespace TrueBooksMVC.Controllers
                     foreach (var item in Log)
                     {
                         FormsAuthentication.SetAuthCookie(item.Username, false);
-                        string basecurrency = (from t in entity.CurrencyMasters where t.StatusBaseCurrency == true select t.CurrencyName).FirstOrDefault();
+                        int? BranchCurrencyId = (from e in entity.BranchMasters where e.BranchID == UR.BranchID select e.CurrencyID).FirstOrDefault();
+                        string basecurrency = (from t in entity.CurrencyMasters where t.CurrencyID == BranchCurrencyId select t.CurrencyName).FirstOrDefault();
+                        Session["BaseCurrencyId"] = BranchCurrencyId;
                         Session["BaseCurrency"] = basecurrency;
                         Session["UserID"] = item.UserID;
                         Session["UserName"] = item.Username;

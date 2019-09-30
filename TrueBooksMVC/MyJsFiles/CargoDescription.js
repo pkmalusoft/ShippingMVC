@@ -56,15 +56,12 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
     $scope.getJobPrefix = function () {
         //alert($scope.JobTypeID);
         //LoadJobPrefix($scope.JobTypeID);
-
         $http({
             url: '/Job/GetJobPrefix/' + $scope.JobTypeID,
             method: 'GET'
         }).success(function (data, status, headers, config) {
-
             $scope.JobCode = data;
             vactualJObcode = data;
-
         });
     };
 
@@ -74,9 +71,7 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
             url: '/Job/GetSupplierOfRevID/' + $scope.RevenueTypeID,
             method: 'GET'
         }).success(function (data, status, headers, config) {
-
             $scope.Sup = data;
-
         });
     };
 
@@ -84,84 +79,117 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
         //alert($scope.Supplier2);
     };
 
+    function CalculateProvisionValue() {
+        debugger;
+        if (isNaN($scope.Quantity)) {
+            $scope.Quantity = 0;
+        }
+        if (isNaN($scope.ProRate)) {
+            $scope.ProRate = 0;
+        }
+        if (isNaN($scope.ProexChangeRate)) {
+            $scope.ProexChangeRate = 0;
+        }
+        var BranchLocalCurrencyId = $('#BranchLocalCurrencyId').val();
+        if ($scope.ProRate != 0 && $scope.ProexChangeRate != 0 && $scope.Quantity != 0) {
+            if (BranchLocalCurrencyId == $scope.ProvisionExR) {
+              //  $scope.ProvisionDomestic = parseFloat(parseFloat($scope.Quantity * $scope.ProRate * 1).toFixed(2));
+                $('#ProvisiDomestic').val(parseFloat($scope.Quantity * $scope.ProRate * 1).toFixed(2));
+                $('#ProvisionForeign').val('0.00');
+                $('#ProvisionExRate').val('1.0000');
+            } else {
+                $('#ProvisionForeign').val(parseFloat($scope.Quantity * $scope.ProRate * $scope.ProexChangeRate).toFixed(2));
+                $('#ProvisiDomestic').val('0.00');
+            }
+        } else {
+            $('#ProvisiDomestic').val('0.00');
+            $('#ProvisionForeign').val('0.00');
+        }
+    }
+
+    function CalculateSalesValue() {
+        debugger;
+        var BranchLocalCurrencyId = $('#BranchLocalCurrencyId').val();
+        var res = 0;
+        var taxValue1 = $('#tax').val();
+        if (isNaN($scope.Quantity)) {
+            $scope.Quantity = 0;
+        }
+        if (isNaN($scope.SaleRate)) {
+            $scope.SaleRate = 0;
+        }
+        if (isNaN($scope.SaleexChangeRate)) {
+            $scope.SaleexChangeRate = 0;
+        }
+        if ($scope.SaleRate != 0 && $scope.SaleexChangeRate != 0 && $scope.Quantity != 0) {
+            if (BranchLocalCurrencyId == $scope.SalesExR) {
+              //  $scope.SalesDomestic = parseFloat(parseFloat($scope.Quantity * $scope.SaleRate * 1).toFixed(2));
+                $('#SalesDomestic').val(parseFloat($scope.Quantity * $scope.SaleRate * 1).toFixed(2));
+                $('#SalesForeign').val('0.00');
+                $('#SalesExRate').val('1.0000');
+                res = (taxValue1 / 100) * $scope.SalesDomestic;
+                $scope.taxamt = parseFloat(parseFloat(res).toFixed(2));
+                $scope.margin = parseFloat(parseFloat($scope.SalesDomestic - $scope.ProvisionDomestic).toFixed(2));
+            } else {
+                $scope.SalesForeign = parseFloat(parseFloat($scope.Quantity * $scope.SaleRate * $scope.SaleexChangeRate).toFixed(2));
+                $scope.SalesDomestic = parseFloat(parseFloat('0.00').toFixed(2));
+                res = (taxValue1 / 100) * $scope.SalesForeign;
+                $('#taxamt').val(parseFloat(res).toFixed(2));
+                $('#margin').val(parseFloat($scope.SalesForeign - $scope.ProvisionForeign).toFixed(2));
+            }
+        } else {
+            $('#SalesDomestic').val('0.00');
+            $('#SalesForeign').val('0.00');
+        }
+    }
+
+    $scope.qtyChanged = function () {
+        CalculateProvisionValue();
+        CalculateSalesValue();
+    };
+
+    $scope.changeTax = function () {
+        CalculateSalesValue();
+    }
+
     $scope.getProvisionCurEx = function () {
         debugger;
         $http({
             url: '/Job/GetExchangeRte/' + $scope.ProvisionExR,
             method: 'GET'
         }).success(function (data, status, headers, config) {
-
             $scope.ProexChangeRate = data;
-
-            if ($scope.ProexChangeRate !== '') {
-
-                $scope.ProvisionDomestic = $scope.ProexChangeRate * $scope.ProvisionForeign;
-
-               // $scope.LocalCur = $scope.SalesDomestic - $scope.ProvisionDomestic;
+            if (isNaN($scope.ProexChangeRate)) {
+                $('#ProvisionExRate').val('0.00');
+                CalculateProvisionValue();
+            } else {
+                CalculateProvisionValue();
             }
-            else {
-                $scope.ProexChangeRate = '0.00';
-            }
-
         });
-
     };
 
     $scope.getSalesCurEx = function () {
-
         $http({
             url: '/Job/GetExchangeRte/' + $scope.SalesExR,
             method: 'GET'
         }).success(function (data, status, headers, config) {
-
             $scope.SaleexChangeRate = data;
-
-            if ($scope.SaleexChangeRate !== '') {
-
-                $scope.SalesForeign = parseFloat($scope.SaleexChangeRate * $scope.SalesDomestic).toFixed(2);
-
-            //    $scope.LocalCur = $scope.SalesDomestic - $scope.ProvisionDomestic;
+            if (isNaN($scope.SaleexChangeRate)) {
+                $('#SalesExRate').val('0.00');
+                CalculateSalesValue();
             }
             else {
-                $scope.SaleexChangeRate = '0.00';
+                CalculateSalesValue();
             }
-
         });
     };
 
     $scope.CalcProvForeign = function () {
-        // alert($scope.ExR);
-        if ($scope.ProvisionRate !== '') {
-            $scope.ProvisionForeign = $scope.Quantity * $scope.ProvisionRate;
-
-            if ($scope.ProexChangeRate != '' && $scope.ProvisionForeign != '') {
-                $scope.ProvisionDomestic = $scope.ProexChangeRate * $scope.ProvisionForeign;
-
-            //    $scope.LocalCur = $scope.SalesDomestic - $scope.ProvisionDomestic;
-            }
-        }
-        else {
-            $scope.ProvisionForeign = '0.00';
-        }
+        CalculateProvisionValue();
     };
 
     $scope.CalcSaleForeign = function () {
-        // alert($scope.ExR);
-
-        $scope.SalesDomestic = parseFloat($scope.SaleRate).toFixed(2);
-        if ($scope.SaleRate !== '') {
-            var res = $scope.Quantity * $scope.SaleRate;
-            res = parseFloat(res).toFixed(2);
-            $scope.SalesForeign = res;
-          //  if ($scope.SaleexChangeRate != '' && $scope.SalesForeign !== '') {
-         //       var res1 = $scope.SaleexChangeRate * $scope.SalesForeign;
-         //       res1 = parseFloat(res1).toFixed(2);
-          //     $scope.SalesForeign = res1;
-         //   }
-        }
-        else {
-            $scope.SalesForeign = '0.00';
-        }
+        CalculateSalesValue();
     };
 
     var vCharges = JSON.parse('[]');

@@ -253,11 +253,14 @@
         }
         function prorat() {
             $("#ProvisiDomestic").val(parseFloat($("#ProRate").val()).toFixed(2));
-        } $(function () {
+        }
 
-            $('#ProRate').blur(prorat);
+        $(function () {
+
+         //   $('#ProRate').blur(prorat);
 
         });
+
         function profc() {
             var textValue1 = $('#ProvisionExRate').val();
             var textValue2 = $('#ProvisiDomestic').val();
@@ -267,8 +270,8 @@
         }
 
         $(function () {
-            $('#ProvisionExRate').blur(profc);
-            $('#ProvisiDomestic').blur(profc);
+          //  $('#ProvisionExRate').blur(profc);
+          //  $('#ProvisiDomestic').blur(profc);
         });
 
 
@@ -283,10 +286,10 @@
         }
 
         $(function () {
-            $('#tax').blur(taxamts);
-            $('#SaleRate').blur(salrat);
-            $('#SaleRate').blur(taxamts);
-            $('#SalesDomestic').blur(taxamts);
+         //   $('#tax').blur(taxamts);
+          //  $('#SaleRate').blur(salrat);
+          //  $('#SaleRate').blur(taxamts);
+           // $('#SalesDomestic').blur(taxamts);
         });
 
         function salefc() {
@@ -298,8 +301,8 @@
         }
 
         $(function () {
-            $('#SalesExRate').blur(salefc);
-            $('#SalesDomestic').blur(salefc);
+         //   $('#SalesExRate').blur(salefc);
+          //  $('#SalesDomestic').blur(salefc);
         });
 
         function marin() {
@@ -310,9 +313,9 @@
         }
 
         $(function () {
-            $('#ProvisiDomestic').blur(marin);
-            $('#SalesDomestic').blur(marin);
-            $('#ProvisiDomestic').blur(marin);
+          //  $('#ProvisiDomestic').blur(marin);
+          //  $('#SalesDomestic').blur(marin);
+          //  $('#ProvisiDomestic').blur(marin);
         });
         $(".two-decimals").change(function () {
             this.value = parseFloat(this.value).toFixed(2);
@@ -762,7 +765,7 @@
         @using (Html.BeginForm())
         {
             @Html.ValidationSummary(true)
-
+            <input type="hidden" id="BranchLocalCurrencyId" name="BranchLocalCurrencyId" value="@Session["BaseCurrencyId"]" />
             <section class="content jobform">
                 <div class="row no-margin">
                     <div class="col-md-3">
@@ -938,13 +941,11 @@
                                     </div>
                                     <div class="col-xs-6 col-sm-1 col-md-1 rev_uni no-padding">
                                         <label class="headinglabel">QTY</label>
-                                        <input type="number" class="form-control textright" min="1" ng-model="Quantity" tabindex="3" id="QTY" placeholder="QTY" />
+                                        <input type="number" class="form-control textright" min="1" ng-model="Quantity" tabindex="3" id="QTY" placeholder="QTY" ng_change="qtyChanged()" />
                                     </div>
                                     <div class="col-xs-6 col-sm-1 col-md-1 rev_uni no-padding">
                                         <label class="headinglabel">Unit</label>
                                         @Html.DropDownList("UnitID", (SelectList)ViewBag.Unit, "Select", new { @class = "form-control", tabindex="4", id = "UnitID" })
-
-
                                     </div>
                                     <div class="col-xs-6 col-sm-2 col-md-2 reve_rate no-padding">
                                         <label class="headinglabel">Provision Rate</label>
@@ -960,7 +961,7 @@
                                     </div>
                                     <div class="col-xs-6 col-sm-2 col-md-2  reve_rate no-padding">
                                         <label class="headinglabel">Provision Ex. Rate</label>
-                                        <input type="text" ng_model="ProexChangeRate" class="form-control textright" tabindex="7" id="ProvisionExRate" placeholder="Provision Ex Rate" />
+                                        <input type="text" ng_model="ProexChangeRate" class="form-control textright" tabindex="7" id="ProvisionExRate" placeholder="Provision Ex Rate" ng_change="CalcProvForeign()" />
                                     </div>
                                     <div class="col-xs-6 col-sm-2 col-md-2 reve_rate no-padding">
                                         <label class="headinglabel lc_sal">Provision (LC)</label>
@@ -994,16 +995,16 @@
 
                                     <div class="col-xs-6 col-sm-1 col-md-1 rev_uni no-padding">
                                         <label class="headinglabel">Tax%</label>
-                                        <input type="number" class="form-control textright"  ng-model="tax" id="tax" placeholder="TAX" />
+                                        <input type="number" class="form-control textright"  ng-model="tax" id="tax" placeholder="TAX" ng_change="changeTax()" />
                                     </div>
                                     <div class="col-xs-6 col-sm-1 col-md-1 rev_uni no-padding">
                                         <label class="headinglabel">Tax Amt.</label>
-                                        <input type="number" class="form-control textright" ng-model="taxamt" id="taxamt" placeholder="Tax Amount" />
+                                        <input type="text" class="form-control textright" ng-model="taxamt" id="taxamt" placeholder="Tax Amount" value="0.00" />
                                     </div>
 
                                     <div class="col-xs-6 col-sm-2 col-md-2 reve_rate no-padding">
                                         <label class="headinglabel">Sales Rate</label>
-                                        <input type="number" class="form-control textright txtNum salrate" tabindex="10"  id="SaleRate" ng-model="SaleRate" placeholder="Rate" ng_change="CalcSaleForeign()" />
+                                        <input type="text" class="form-control textright txtNum salrate" tabindex="10"  id="SaleRate" value="0.00" ng-model="SaleRate" placeholder="Rate" ng_change="CalcSaleForeign()" />
                                     </div>
 
                                     <div class="col-xs-6 col-sm-2 col-md-2 reve_rate  no-padding">
@@ -1019,7 +1020,7 @@
 
                                     <div class="col-xs-6 col-sm-2 col-md-2 reve_rate no-padding">
                                         <label class="headinglabel">Sales Ex. Rate</label>
-                                        <input type="text" ng-model="SaleexChangeRate" class="form-control textright" tabindex="12" id="SalesExRate" placeholder="Sales Ex Rate" />
+                                        <input type="text" ng-model="SaleexChangeRate" class="form-control textright" tabindex="12" id="SalesExRate" placeholder="Sales Ex Rate" ng_change="CalcSaleForeign()" />
                                     </div>
                                     <div class="col-xs-6 col-sm-2 col-md-2 reve_rate no-padding">
                                         <label class="headinglabel lc_sal">Sales (LC)</label>
