@@ -4,7 +4,18 @@
     ViewBag.Title = "Edit";
      Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
      }
-
+<style>
+    .searchdiv {
+        background-color: #fff;
+        width: 100%;
+        margin: 0 auto;
+        max-width: 700px;
+        padding: 20px;
+        margin-top: 50px;
+        border-radius: 10px;
+        box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
+    }
+</style>
 <script type="text/javascript">
         $(document).ready(function () {
             $("#CountryName").focus();
@@ -44,19 +55,19 @@
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
+        
+    <fieldset class="searchdiv">
         <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
-    <fieldset>
-     
 
            <div class="row no-margin"> 
                @Html.HiddenFor(model=>model.CountryID)
-             <div class="col-md-3">
+             <div class="col-md-6">
                           <label class="required headinglabel">Country Name</label>
                        @Html.TextBoxFor(model => model.CountryName,new { @class = "form-control txttarget" })
                         @Html.ValidationMessageFor(model => model.CountryName)
                             
              </div>
-             <div class="col-md-3">
+             <div class="col-md-6">
                              <label class="required headinglabel">Country Code</label>
                          @Html.TextBoxFor(model => model.CountryCode,new { @class = "form-control" })
                          @Html.ValidationMessageFor(model => model.CountryCode)
@@ -66,7 +77,7 @@
       </div>
       
         <div class="row no-margin" style="padding-top:10px">
-                        <div class="col-md-3">
+                        <div class="col-md-6">
                            
                                 <input type="submit"  value="Update"  class="btn btn-primary btnwidth" id="btnsave" />
                                

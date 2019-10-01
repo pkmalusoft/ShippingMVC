@@ -4,6 +4,18 @@
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
 }
+<style>
+    .searchdiv {
+        background-color: #fff;
+        width: 100%;
+        margin: 0 auto;
+        max-width: 500px;
+        padding: 20px;
+        margin-top: 50px;
+        border-radius: 10px;
+        box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
+    }
+</style>
 
 
 <script type="text/javascript">
@@ -45,59 +57,59 @@
 
 
 <section class="content-header">
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true)
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
 
-    <fieldset>
-       
+        <fieldset class="searchdiv">
 
 
-        <div class="row no-margin">
-            <div class="col-xs-12 col-sm-3">
-                @Html.HiddenFor(p => p.MenuAccessID)
-                
-                   <label class="headinglabel required">Menu</label>
+
+            <div class="row no-margin">
+                <div class="col-xs-12 col-sm-6">
+                    @Html.HiddenFor(p => p.MenuAccessID)
+
+                    <label class="headinglabel required">Menu</label>
                     @* @Html.DropDownListFor(p => p.MenuID, new SelectList(ViewBag.Menu, "MenuID", "Title"),"Select", new { @class = "form-control" })*@
                     @Html.DropDownListFor(p => p.MenuID, (IEnumerable<SelectListItem>)ViewBag.Menu, new { @class = "form-control" })
 
 
                 </div>
-           
-       
-            <div class="col-xs-12 col-sm-3">
-               
-                   <label class="headinglabel required">Role</label>
-        
+
+
+                <div class="col-xs-12 col-sm-6">
+
+                    <label class="headinglabel required">Role</label>
+
                     @Html.DropDownListFor(p => p.RoleId, (IEnumerable<SelectListItem>)ViewBag.Role, new { @class = "form-control" })
 
                     @*  @Html.DropDownListFor(p => p.Id, new SelectList(ViewBag.Role, "RoleID", "RoleName"),new { @class = "form-control" })*@
-            </div>
-          
-        </div>
-        <br />
-        <br />
-
-        <div class="row no-margin" style="padding-top:10px">
-            <div class="col-md-12">
-
-                <input type="submit" value="Update" class="btn btn-primary btnwidth" id="btnsave" />
-
-                &nbsp; 
-                                           <a href='@Url.Action("List", "Role", new { id = 0 })' class="btn btn-primary btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+                </div>
 
             </div>
-        </div>
+            <br />
+            <br />
+
+            <div class="row no-margin" style="padding-top:10px">
+                <div class="col-md-12">
+
+                    <input type="submit" value="Update" class="btn btn-primary btnwidth" id="btnsave" />
+
+                    &nbsp;
+                    <a href='@Url.Action("List", "Role", new { id = 0 })' class="btn btn-primary btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+
+                </div>
+            </div>
 
 
 
-    </fieldset>
-}
-    </section>
+        </fieldset>
+    }
+</section>
 
 
 
 @*@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}*@
+        @Scripts.Render("~/bundles/jqueryval")
+    }*@

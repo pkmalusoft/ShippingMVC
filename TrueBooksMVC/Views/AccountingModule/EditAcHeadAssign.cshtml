@@ -3,7 +3,18 @@
     ViewBag.Title = "AcHeadAssign";
     Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
 }
-
+<style>
+    .searchdiv {
+        background-color: #fff;
+        width: 100%;
+        margin: 0 auto;
+        max-width: 500px;
+        padding: 20px;
+        margin-top: 50px;
+        border-radius: 10px;
+        box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
+    }
+</style>
 <script type="text/javascript">
         $(document).ready(function () {
         
@@ -63,68 +74,68 @@
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
+      
+    <fieldset class="searchdiv">
         <div id="alert" style="color:red;display:none;margin-left:10px;">*Please select mandatory fields</div>
-    <fieldset>
-     
 
-         <div class="row no-margin"> 
-             
-             <div class="col-md-3">
-                          <label class="required headinglabel">Provision Cost Control Head</label>
-                 @Html.HiddenFor(model=>model.ID)
-                       @Html.DropDownListFor(model => model.ProvisionCostControlAcID, new SelectList(ViewBag.provisionheads,"AcHeadID","AcHead"),"Select", new { @class = "form-control txttarget" })
-                        @Html.ValidationMessageFor(model => model.ProvisionCostControlAcID)
-                            
-             </div>
-             <div class="col-md-3">
-                          <label class="required headinglabel">Accrued Cost Control</label>
-                            @Html.DropDownListFor(model => model.AccruedCostControlAcID, new SelectList(ViewBag.accruedcost,"AcHeadID","AcHead"),"Select", new { @class = "form-control txttarget" })
-                        @Html.ValidationMessageFor(model => model.AccruedCostControlAcID)
-                          
-             </div>
-               <div class="col-md-3">
-                          <label class="required headinglabel">Open Job Revenue</label>
-                       @Html.DropDownListFor(model => model.OpenJobRevenueAcID, new SelectList(ViewBag.openjobrevenue,"AcHeadID","AcHead"),"Select", new { @class = "form-control txttarget" })
-                        @Html.ValidationMessageFor(model => model.OpenJobRevenueAcID)
-             </div>
-            
-       </div>
+        <div class="row no-margin">
 
-          <div class="row no-margin" style="padding-top:10px"> 
-              <div class="col-md-3">
-                          <label class="required headinglabel">Customer Control</label>
-                       @Html.DropDownListFor(model => model.CustomerControlAcID, new SelectList(ViewBag.custmorcontrol,"AcHeadID","AcHead"),"Select", new { @class = "form-control txttarget" })
-                        @Html.ValidationMessageFor(model => model.CustomerControlAcID)
-                          
-             </div>
+            <div class="col-md-4">
+                <label class="required headinglabel">Provision Cost Control Head</label>
+                @Html.HiddenFor(model => model.ID)
+                @Html.DropDownListFor(model => model.ProvisionCostControlAcID, new SelectList(ViewBag.provisionheads, "AcHeadID", "AcHead"), "Select", new { @class = "form-control txttarget" })
+                @Html.ValidationMessageFor(model => model.ProvisionCostControlAcID)
 
-                 <div class="col-md-3">
-                          <label class="required headinglabel">Cash Control</label>
-                       @Html.DropDownListFor(model => model.CashControlAcID, new SelectList(ViewBag.cashcontrol,"AcHeadID","AcHead"),"Select", new { @class = "form-control txttarget" })
-                        @Html.ValidationMessageFor(model => model.CashControlAcID)
-                          
-             </div>
+            </div>
+            <div class="col-md-4">
+                <label class="required headinglabel">Accrued Cost Control</label>
+                @Html.DropDownListFor(model => model.AccruedCostControlAcID, new SelectList(ViewBag.accruedcost, "AcHeadID", "AcHead"), "Select", new { @class = "form-control txttarget" })
+                @Html.ValidationMessageFor(model => model.AccruedCostControlAcID)
 
-                 <div class="col-md-3">
-                          <label class="required headinglabel">Supplier Control</label>
-                       @Html.DropDownListFor(model => model.SupplierControlAcID, new SelectList(ViewBag.controlacid,"AcHeadID","AcHead"),"Select", new { @class = "form-control txttarget" })
-                        @Html.ValidationMessageFor(model => model.SupplierControlAcID)
-                          
-             </div>
-          </div>
+            </div>
+            <div class="col-md-4">
+                <label class="required headinglabel">Open Job Revenue</label>
+                @Html.DropDownListFor(model => model.OpenJobRevenueAcID, new SelectList(ViewBag.openjobrevenue, "AcHeadID", "AcHead"), "Select", new { @class = "form-control txttarget" })
+                @Html.ValidationMessageFor(model => model.OpenJobRevenueAcID)
+            </div>
 
-         <div class="row no-margin" style="padding-top:10px">
-                        <div class="col-md-3">
-                           
-                                <input type="submit"  value="Update"  class="btn btn-primary btnwidth" id="btnsave" />
-                               
-                            &nbsp; 
-                                           <a href='@Url.Action("IndexAcHeadAssign", "AccountingModule", new { id = 0 })' class="btn btn-primary btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
-                           
-                        </div>
-                    </div>
+        </div>
 
-       
+        <div class="row no-margin" style="padding-top:10px">
+            <div class="col-md-4">
+                <label class="required headinglabel">Customer Control</label>
+                @Html.DropDownListFor(model => model.CustomerControlAcID, new SelectList(ViewBag.custmorcontrol, "AcHeadID", "AcHead"), "Select", new { @class = "form-control txttarget" })
+                @Html.ValidationMessageFor(model => model.CustomerControlAcID)
+
+            </div>
+
+            <div class="col-md-4">
+                <label class="required headinglabel">Cash Control</label>
+                @Html.DropDownListFor(model => model.CashControlAcID, new SelectList(ViewBag.cashcontrol, "AcHeadID", "AcHead"), "Select", new { @class = "form-control txttarget" })
+                @Html.ValidationMessageFor(model => model.CashControlAcID)
+
+            </div>
+
+            <div class="col-md-4">
+                <label class="required headinglabel">Supplier Control</label>
+                @Html.DropDownListFor(model => model.SupplierControlAcID, new SelectList(ViewBag.controlacid, "AcHeadID", "AcHead"), "Select", new { @class = "form-control txttarget" })
+                @Html.ValidationMessageFor(model => model.SupplierControlAcID)
+
+            </div>
+        </div>
+
+        <div class="row no-margin" style="padding-top:10px">
+            <div class="col-md-12">
+
+                <input type="submit" value="Update" class="btn btn-primary btnwidth" id="btnsave" />
+
+                &nbsp;
+                <a href='@Url.Action("IndexAcHeadAssign", "AccountingModule", new { id = 0 })' class="btn btn-primary btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+
+            </div>
+        </div>
+
+
     </fieldset>
 }
 

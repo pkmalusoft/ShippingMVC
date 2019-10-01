@@ -4,7 +4,18 @@
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
 }
-
+<style>
+    .searchdiv {
+        background-color: #fff;
+        width: 100%;
+        margin: 0 auto;
+        max-width: 700px;
+        padding: 20px;
+        margin-top: 50px;
+        border-radius: 10px;
+        box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
+    }
+</style>
 <script type="text/javascript">
         $(document).ready(function () {
             $("#AcCompany1").focus();
@@ -64,9 +75,9 @@
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
-    <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
-    <fieldset>
-        
+    
+    <fieldset class="searchdiv">
+        <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
 
           <div class="row no-margin"> 
               @* <div class="col-md-3">

@@ -4,7 +4,18 @@
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
     }
-
+<style>
+    .searchdiv {
+        background-color: #fff;
+        width: 100%;
+        margin: 0 auto;
+        max-width: 500px;
+        padding: 20px;
+        margin-top: 50px;
+        border-radius: 10px;
+        box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
+    }
+</style>
 <script type="text/javascript">
     $(document).ready(function () {
         $("#AcCompanyID").focus();
@@ -22,7 +33,7 @@
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
-    <fieldset>
+    <fieldset class="searchdiv">
        
 
           <div class="row no-margin">
@@ -35,19 +46,19 @@
                     @Html.ValidationMessageFor(model => model.AcGroupID)
                 </div>
             </div>*@
-            <div class="col-md-3">
+            <div class="col-md-4">
                 @Html.HiddenFor(model=>model.AcGroupID)
                     <label class="headinglabel">Company</label>
                     @Html.DropDownListFor(model => model.AcCompanyID, (IEnumerable<SelectListItem>)ViewBag.Company, new { @class = "form-control" })
                
             </div>
-            <div class="col-md-3">
+            <div class="col-md-4">
                     <label class="headinglabel">Account Group</label>
                     @Html.TextBoxFor(model => model.AcGroup1, new { @class = "form-control txttarget" })
                     @Html.ValidationMessageFor(model => model.AcGroup1)
                 
             </div>
-             <div class="col-md-3">
+             <div class="col-md-4">
                       <label class="headinglabel">Account Type</label>
                     @Html.TextBoxFor(model => model.AcType, new { @class = "form-control txttarget" })
                     @Html.ValidationMessageFor(model => model.AcType)
@@ -57,20 +68,20 @@
         </div>
         <div class="row no-margin" style="padding-top:10px">
            
-            <div class="col-md-3">
+            <div class="col-md-4">
                       <label class="headinglabel">Account Class</label>
                     @Html.TextBoxFor(model => model.AcClass, new { @class = "form-control txttarget" })
                     @Html.ValidationMessageFor(model => model.AcClass)
                
             </div>
 
-            <div class="col-md-3">
+            <div class="col-md-4">
                   <label class="headinglabel">Parent ID</label>
                     @Html.TextBoxFor(model => model.ParentID, new { @class = "form-control textright" })
                     @Html.ValidationMessageFor(model => model.ParentID)
                 
             </div>
-             <div class="col-md-3">
+             <div class="col-md-4">
                       <label class="headinglabel">Group Order</label>
                     @Html.TextBoxFor(model => model.GroupOrder, new { @class = "form-control textright" })
                     @Html.ValidationMessageFor(model => model.GroupOrder)
@@ -80,20 +91,20 @@
 
         <div class="row no-margin" style="padding-top:10px">
            
-            <div class="col-md-3">
+            <div class="col-md-4">
                       <label class="headinglabel">StaticEdit</label>
                     @Html.TextBoxFor(model => model.StaticEdit, new { @class = "form-control textright" })
                     @Html.ValidationMessageFor(model => model.StaticEdit)
                
             </div>
-            <div class="col-md-3" style="padding-top:15px">
+            <div class="col-md-4" style="padding-top:15px">
                      
                      @Html.CheckBox("StatusHide", new { @name = "StatusHide"}) &nbsp <label class="required headinglabel">Status Hide</label>
                     @Html.ValidationMessageFor(model => model.StatusHide)
                
             </div>
 
-             <div class="col-md-3">
+             <div class="col-md-4">
                      <label class="headinglabel">User</label>
                     @Html.TextBoxFor(model => model.UserID, new { @class = "form-control textright" })
                     @Html.ValidationMessageFor(model => model.UserID)

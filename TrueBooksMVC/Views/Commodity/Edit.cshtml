@@ -6,7 +6,19 @@
     Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
 }
 
+<style>
+    .searchdiv {
+        background-color: #fff;
+        width: 100%;
+        margin: 0 auto;
+        max-width: 500px;
+        padding: 20px;
+        margin-top: 50px;
+        border-radius: 10px;
+        box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
+    }
 
+</style>
 <script type="text/javascript">
     $(document).ready(function () {
 
@@ -30,7 +42,7 @@
     });
 </script>
 
-<section class="content-header">
+<section class="content-header ">
     <h1 class="headingfont">Commodity</h1>
 
 </section>
@@ -43,41 +55,41 @@
         });
     </script>
 }
-<section class="content">
+<section class="content ">
     @using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()
         @Html.ValidationSummary(true)
+       
+    <fieldset class="searchdiv">
         <div id="alert" style="color: red; display: none; margin-left: 10px;">*Please fill mandatory fields</div>
-  
-        <fieldset>
 
-            <div class="row no-margin">
+        <div class="row no-margin">
 
-                <div class="col-md-3">
+            <div class="col-md-12">
 
-                    @Html.HiddenFor(model => model.CommodityID)
-                    <label class="required headinglabel">Commodity</label>
-                    @Html.TextBoxFor(model => model.Commodity1, new { @class = "form-control txttarget" })
-                    @Html.ValidationMessageFor(model => model.Commodity1)
-
-                </div>
-
-
+                @Html.HiddenFor(model => model.CommodityID)
+                <label class="required headinglabel">Commodity</label>
+                @Html.TextBoxFor(model => model.Commodity1, new { @class = "form-control txttarget" })
+                @Html.ValidationMessageFor(model => model.Commodity1)
 
             </div>
 
-            <div class="row no-margin" style="padding-top: 10px">
-                <div class="col-md-12">
 
-                    <input type="submit" value="Save" class="btn btn-primary btnwidth" id="btnsave" />
 
-                    &nbsp; 
-                                           <a href='@Url.Action("Index", "Commodity", new { id = 0 })' class="btn btn-primary btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+        </div>
 
-                </div>
+        <div class="row no-margin" style="padding-top: 10px">
+            <div class="col-md-12">
+
+                <input type="submit" value="Save" class="btn btn-primary btnwidth" id="btnsave" />
+
+                &nbsp;
+                <a href='@Url.Action("Index", "Commodity", new { id = 0 })' class="btn btn-primary btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+
             </div>
-        </fieldset>
+        </div>
+    </fieldset>
     }
 
 </section>

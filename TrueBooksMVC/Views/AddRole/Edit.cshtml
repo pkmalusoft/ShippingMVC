@@ -4,14 +4,25 @@
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
 }
-
+<style>
+    .searchdiv {
+        background-color: #fff;
+        width: 100%;
+        margin: 0 auto;
+        max-width: 500px;
+        padding: 20px;
+        margin-top: 50px;
+        border-radius: 10px;
+        box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
+    }
+</style>
 <h2>Role</h2>
 
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
-    <fieldset>
+    <fieldset class="searchdiv">
         <legend></legend>
 
 
@@ -19,7 +30,7 @@
 
           <div class="row no-margin form-layout"> 
              
-             <div class="col-xs-12 col-sm-4">
+             <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="form-title">
                                   @Html.LabelFor(model => model.Name)
                                   </div>

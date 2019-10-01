@@ -5,7 +5,18 @@
     Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
 }
 
-
+<style>
+    .searchdiv {
+        background-color: #fff;
+        width: 100%;
+        margin: 0 auto;
+        max-width: 700px;
+        padding: 20px;
+        margin-top: 50px;
+        border-radius: 10px;
+        box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
+    }
+</style>
 <script type="text/javascript">
         $(document).ready(function () {
             $("#EmployeeName").focus();
@@ -105,14 +116,14 @@
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
-        <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
+        
    
-    <fieldset>
-       
+    <fieldset class="searchdiv">
+        <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
 
            <div class="row no-margin"> 
               
-             <div class="col-md-3">
+             <div class="col-md-4">
                  @Html.HiddenFor(model=>model.EmployeeID)
                      <label class="required headinglabel">Employee Name</label>
                        @Html.TextBoxFor(model => model.EmployeeName,new { @class = "form-control txttarget" })
@@ -120,7 +131,7 @@
                         
              </div>
 
-             <div class="col-md-3">
+             <div class="col-md-4">
                         
                           <label class="required headinglabel">Address 1</label>
                         @Html.TextBoxFor(model => model.Address1,new { @class = "form-control txttarget" })
@@ -129,7 +140,7 @@
 
             
                
-                 <div class="col-md-3">
+                 <div class="col-md-4">
                             <label class="headinglabel">Address 2</label>
                        @Html.TextBoxFor(model => model.Address2,new { @class = "form-control txttarget" })
                          @Html.ValidationMessageFor(model => model.Address2)
@@ -140,13 +151,13 @@
 
             <div class="row no-margin" style="padding-top:10px"> 
              
-             <div class="col-md-3">
+             <div class="col-md-4">
                            <label class="headinglabel">Address 3</label>
                        @Html.TextBoxFor(model => model.Address3,new { @class = "form-control txttarget" })
                         @Html.ValidationMessageFor(model => model.Address3)
                          
              </div>
-             <div class="col-md-3">
+             <div class="col-md-4">
                           <label class="required headinglabel">Contact No</label>
                         @Html.TextBoxFor(model => model.ContactNo,new { @class = "form-control textright txttarget" })
                         @Html.ValidationMessageFor(model => model.ContactNo)
@@ -154,7 +165,7 @@
 
             
                 
-                 <div class="col-md-3">
+                 <div class="col-md-4">
                           
                           <label class="required headinglabel">Designation</label>
                         @Html.DropDownListFor(model => model.DesignationID, (IEnumerable<SelectListItem>)ViewBag.Designation,new{@class="form-control"})
@@ -167,20 +178,20 @@
 
           <div class="row no-margin" style="padding-top:10px"> 
               
-             <div class="col-md-3">
+             <div class="col-md-4">
                        <label class="required headinglabel">Department</label>
                        @Html.DropDownListFor(model => model.DepartmentID, (IEnumerable<SelectListItem>)ViewBag.Department,new{@class="form-control"})
                           @Html.ValidationMessageFor(model => model.DepartmentID) 
              </div>
 
-             <div class="col-md-3">
+             <div class="col-md-4">
                          <label class="required headinglabel">Location</label>
                          @Html.DropDownListFor(model => model.LocationID,(IEnumerable<SelectListItem>)ViewBag.Location,new{@class="form-control"})
                          @Html.ValidationMessageFor(model => model.LocationID)
 
             
              </div>
-               <div class="col-md-3">
+               <div class="col-md-4">
                            <label class="headinglabel">Nationality</label>
                        @Html.TextBoxFor(model => model.Nationality,new { @class = "form-control txttarget" })
                          @Html.ValidationMessageFor(model => model.Nationality)
@@ -190,19 +201,19 @@
 
        <div class="row no-margin" style="padding-top:10px"> 
               
-             <div class="col-md-3">
+             <div class="col-md-4">
                           <label class="headinglabel">DOJ</label>  
                        @Html.TextBoxFor(model => model.DOJ,  String.Format("{0:dd-MMM-yyyy}", Model.DOJ),new { @class = "form-control" })
                      @Html.ValidationMessageFor(model => model.DOJ)
                            
              </div>
-             <div class="col-md-3 dolclass" >
+             <div class="col-md-4 dolclass" >
                   <label class="headinglabel">DOL</label>
                        @Html.TextBoxFor(model => model.DOL,String.Format("{0:dd-MMM-yyyy}", Model.DOL),new { @class = "form-control" })
                          @Html.ValidationMessageFor(model => model.DOL)
             
             </div>
-              <div class="col-md-3 chkclass" style="padding-top:30px">
+              <div class="col-md-4 chkclass" style="padding-top:30px">
                          
                              @Html.CheckBox("StatusActive", new { @name = "StatusActive"}) &nbsp <label class="headinglabel">Status Active</label>
                     @Html.ValidationMessageFor(model => model.StatusActive)

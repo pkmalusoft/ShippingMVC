@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace TrueBooksMVC.Controllers
 {
-    public class SaleInvoiceController : Controller
+    public class SalesInvoiceController : Controller
     {
         //
         // GET: /SaleInvoice/
