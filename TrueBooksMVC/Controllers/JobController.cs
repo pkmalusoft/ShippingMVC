@@ -616,6 +616,7 @@ namespace TrueBooksMVC.Controllers
                             if (k > 0)
                             {
                                 JobId = JM.JobID;
+                                DeleteAndInsertRecords(formCollection, JobId);
                                 var data = (from c in entity.JobGenerations where c.JobID == JobId select c).FirstOrDefault();
                                 int acjid = 0;
                                 if(data.AcJournalID != null)
@@ -628,8 +629,13 @@ namespace TrueBooksMVC.Controllers
                                     acprovjid = data.AcProvisionCostJournalID.Value;
                                 }
 
-                                decimal shome = entity.JInvoices.Where(x => x.JobID == JobId).Sum(x => x.SalesHome).Value;
-                                decimal phome = entity.JInvoices.Where(x => x.JobID == JobId).Sum(x => x.ProvisionHome).Value;
+                                decimal shome = 0;
+                                decimal phome = 0;
+                                if (entity.JInvoices.Where(x => x.JobID == JobId).Count() > 0)
+                                {
+                                    shome = entity.JInvoices.Where(x => x.JobID == JobId).Sum(x => x.SalesHome ?? 0);
+                                    phome = entity.JInvoices.Where(x => x.JobID == JobId).Sum(x => x.ProvisionHome ?? 0);
+                                }
 
                                 int custcontrolacid = (from c in entity.AcHeadAssigns select c.CustomerControlAcID.Value).FirstOrDefault();
                                 int freightacheadid = 158;
@@ -675,7 +681,7 @@ namespace TrueBooksMVC.Controllers
                                     entity.SaveChanges();
                                 }
 
-                                DeleteAndInsertRecords(formCollection, JobId);
+                               
 
                                 //var acjournalid = (from m in entity.JobGenerations where m.JobID == JobId select m.AcJournalID).FirstOrDefault();
                                 //if (acjournalid > 0)
@@ -1307,7 +1313,7 @@ namespace TrueBooksMVC.Controllers
                 if (formCollection.GetValue("BillofEntryDate_" + BillOfEntryArray[c]) != null)
                 {
                     strArray = (string[])formCollection.GetValue("BillofEntryDate_" + BillOfEntryArray[c]).RawValue;
-                    DateTime.TryParseExact(strArray[0].Trim(), "dd-MMM-yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out BIllOfEntryDate);
+                    DateTime.TryParseExact(strArray[0].Trim(), new string[] { "dd-MMM-yyyy", "d-MMM-yyyy" }, CultureInfo.InvariantCulture, DateTimeStyles.None, out BIllOfEntryDate);
                     objBillOfEntry.BillofEntryDate = BIllOfEntryDate;
                 }
                 int ShippingAgentId = 0;
@@ -1338,7 +1344,7 @@ namespace TrueBooksMVC.Controllers
                 if (formCollection.GetValue("AuditTransDate_" + NotificationArray[c]) != null)
                 {
                     strArray = (string[])formCollection.GetValue("AuditTransDate_" + NotificationArray[c]).RawValue;
-                    DateTime.TryParseExact(strArray[0].Trim(), "dd-MMM-yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out NotificationDate);
+                    DateTime.TryParseExact(strArray[0].Trim(), new string[] { "dd-MMM-yyyy", "d-MMM-yyyy" }, CultureInfo.InvariantCulture, DateTimeStyles.None, out NotificationDate);
                     objAudit.TransDate = NotificationDate;
                 }
 

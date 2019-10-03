@@ -248,79 +248,13 @@
             $(this).val(amt.toFixed(2));
         });
 
-        function salrat() {
-            $("#SalesDomestic").val(parseFloat($("#SaleRate").val()).toFixed(2));
-        }
-        function prorat() {
-            $("#ProvisiDomestic").val(parseFloat($("#ProRate").val()).toFixed(2));
-        }
-
-        $(function () {
-
-         //   $('#ProRate').blur(prorat);
-
-        });
-
-        function profc() {
-            var textValue1 = $('#ProvisionExRate').val();
-            var textValue2 = $('#ProvisiDomestic').val();
-            var res = textValue1 * textValue2;
-            res = parseFloat(res).toFixed(2)
-            $('#ProvisionForeign').val(res);
-        }
-
-        $(function () {
-          //  $('#ProvisionExRate').blur(profc);
-          //  $('#ProvisiDomestic').blur(profc);
-        });
-
-
-
-        function taxamts() {
-            debugger;
-            var textValue1 = $('#tax').val();
-            var textValue2 = $('#SalesDomestic').val();
-            var res = (textValue1 / 100) * textValue2;
-            res = parseFloat(res).toFixed(2);
-           $('#taxamt').val(res);
-        }
-
-        $(function () {
-         //   $('#tax').blur(taxamts);
-          //  $('#SaleRate').blur(salrat);
-          //  $('#SaleRate').blur(taxamts);
-           // $('#SalesDomestic').blur(taxamts);
-        });
-
-        function salefc() {
-            var textValue1 = $('#SalesExRate').val();
-            var textValue2 = $('#SalesDomestic').val();
-            var res = textValue1 * textValue2;
-            res = parseFloat(res).toFixed(2)
-            $('#SalesForeign').val(res);
-        }
-
-        $(function () {
-         //   $('#SalesExRate').blur(salefc);
-          //  $('#SalesDomestic').blur(salefc);
-        });
-
-        function marin() {
-            var textValue1 = $('#SalesDomestic').val();
-            var textValue2 = $('#ProvisiDomestic').val();
-
-            $('#margin').val(textValue1 - textValue2);
-        }
-
-        $(function () {
-          //  $('#ProvisiDomestic').blur(marin);
-          //  $('#SalesDomestic').blur(marin);
-          //  $('#ProvisiDomestic').blur(marin);
-        });
         $(".two-decimals").change(function () {
             this.value = parseFloat(this.value).toFixed(2);
         });
 
+        $(".four-decimals").change(function () {
+            this.value = parseFloat(this.value).toFixed(4);
+        });
 
         $("#tabs").tabs().addClass("ui-tabs-vertical ui-helper-clearfix");
         $("#tabs li").removeClass("ui-corner-top").addClass("ui-corner-left");
@@ -335,8 +269,6 @@
         var sd = new Date(startdate);
         var ed = new Date(enddate);
 
-
-        var status = "";
         $(function () {
             $("#TranDate").datepicker({
                 dateFormat: 'dd-M-yy',
@@ -961,7 +893,7 @@
                                     </div>
                                     <div class="col-xs-6 col-sm-2 col-md-2  reve_rate no-padding">
                                         <label class="headinglabel">Provision Ex. Rate</label>
-                                        <input type="text" ng_model="ProexChangeRate" class="form-control textright" tabindex="7" id="ProvisionExRate" placeholder="Provision Ex Rate" ng_change="CalcProvForeign()" />
+                                        <input type="text" ng_model="ProexChangeRate" class="form-control textright four-decimals" tabindex="7" id="ProvisionExRate" placeholder="Provision Ex Rate" ng_change="CalcProvForeign()" />
                                     </div>
                                     <div class="col-xs-6 col-sm-2 col-md-2 reve_rate no-padding">
                                         <label class="headinglabel lc_sal">Provision (LC)</label>
@@ -999,7 +931,7 @@
                                     </div>
                                     <div class="col-xs-6 col-sm-1 col-md-1 rev_uni no-padding">
                                         <label class="headinglabel">Tax Amt.</label>
-                                        <input type="text" class="form-control textright" ng-model="taxamt" id="taxamt" placeholder="Tax Amount" value="0.00" />
+                                        <input type="text" class="form-control textright bg-gray" ng-model="taxamt" id="taxamt" placeholder="Tax Amount" value="0.00" readonly />
                                     </div>
 
                                     <div class="col-xs-6 col-sm-2 col-md-2 reve_rate no-padding">
@@ -1020,7 +952,7 @@
 
                                     <div class="col-xs-6 col-sm-2 col-md-2 reve_rate no-padding">
                                         <label class="headinglabel">Sales Ex. Rate</label>
-                                        <input type="text" ng-model="SaleexChangeRate" class="form-control textright" tabindex="12" id="SalesExRate" placeholder="Sales Ex Rate" ng_change="CalcSaleForeign()" />
+                                        <input type="text" ng-model="SaleexChangeRate" class="form-control textright four-decimals" tabindex="12" id="SalesExRate" placeholder="Sales Ex Rate" ng_change="CalcSaleForeign()" />
                                     </div>
                                     <div class="col-xs-6 col-sm-2 col-md-2 reve_rate no-padding">
                                         <label class="headinglabel lc_sal">Sales (LC)</label>
@@ -1032,8 +964,8 @@
                                     </div>
                                     <div class="col-xs-6 col-sm-2 col-md-2 rev_uni  no-padding" style="text-align: right; margin-top: 21px;">
                                         <input type="hidden" id="charges_update_index" value="0" />
-                                        <input type="button" id="update_charges" ng-click="updateCharges()" value="Update" style="display:none;" class="btn btn-primary btnwidth" />
-                                        <input type="button" id="cancel_edit_charges" ng-click="cancelEditCharges()" value="Cancel" style="display:none;" class="btn btn-primary btnwidth" />
+                                        <input type="button" id="update_charges" ng-click="updateCharges()" value="Update" style="display:none;margin-top:2px;" class="btn btn-primary btnwidth" />
+                                        <input type="button" id="cancel_edit_charges" ng-click="cancelEditCharges()" value="Cancel" style="display:none;margin-top:2px;" class="btn btn-primary btnwidth" />
                                         <input type="button" id="add_charges" ng-click="addCharges()" value="Add" class="btn btn-primary btnwidth" />
                                     </div>
                                 </div>

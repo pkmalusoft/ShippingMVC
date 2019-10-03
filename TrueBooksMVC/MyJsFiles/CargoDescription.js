@@ -81,30 +81,31 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
 
     function CalculateProvisionValue() {
         debugger;
-        if (isNaN($scope.Quantity)) {
-            $scope.Quantity = 0;
+        if (isNaN(parseInt($('#QTY').val()))) {
+            $('#QTY').val('0');
         }
-        if (isNaN($scope.ProRate)) {
-            $scope.ProRate = 0;
+        if (isNaN(parseInt($('#ProRate').val()))) {
+            $('#ProRate').val('0.00');
         }
-        if (isNaN($scope.ProexChangeRate)) {
-            $scope.ProexChangeRate = 0;
+        if (isNaN(parseInt($('#ProvisionExRate').val()))) {
+            $('#ProvisionExRate').val('0.0000');
         }
         var BranchLocalCurrencyId = $('#BranchLocalCurrencyId').val();
-        if ($scope.ProRate != 0 && $scope.ProexChangeRate != 0 && $scope.Quantity != 0) {
+        if ($('#ProRate').val() != '0.00' && $('#ProvisionExRate').val() != '0.00' && $('#QTY').val() != '0') {
             if (BranchLocalCurrencyId == $scope.ProvisionExR) {
               //  $scope.ProvisionDomestic = parseFloat(parseFloat($scope.Quantity * $scope.ProRate * 1).toFixed(2));
-                $('#ProvisiDomestic').val(parseFloat($scope.Quantity * $scope.ProRate * 1).toFixed(2));
-                $('#ProvisionForeign').val('0.00');
+                $('#ProvisiDomestic').val(parseFloat($('#QTY').val() * $('#ProRate').val() * 1).toFixed(2));
                 $('#ProvisionExRate').val('1.0000');
+                $('#ProvisionForeign').val(parseFloat($('#QTY').val() * $('#ProRate').val() * $('#ProvisionExRate').val()).toFixed(2));
             } else {
-                $('#ProvisionForeign').val(parseFloat($scope.Quantity * $scope.ProRate * $scope.ProexChangeRate).toFixed(2));
-                $('#ProvisiDomestic').val('0.00');
+                $('#ProvisionForeign').val(parseFloat($('#QTY').val() * $('#ProRate').val()).toFixed(2));
+                $('#ProvisiDomestic').val(parseFloat($('#QTY').val() * $('#ProRate').val() * $('#ProvisionExRate').val()).toFixed(2));
             }
         } else {
             $('#ProvisiDomestic').val('0.00');
             $('#ProvisionForeign').val('0.00');
         }
+        CalculateSalesValue();
     }
 
     function CalculateSalesValue() {
@@ -112,30 +113,31 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
         var BranchLocalCurrencyId = $('#BranchLocalCurrencyId').val();
         var res = 0;
         var taxValue1 = $('#tax').val();
-        if (isNaN($scope.Quantity)) {
-            $scope.Quantity = 0;
+        if (isNaN(parseInt($('#QTY').val()))) {
+            $('#QTY').val('0');
         }
-        if (isNaN($scope.SaleRate)) {
-            $scope.SaleRate = 0;
+        if (isNaN(parseInt($('#SaleRate').val()))) {
+            $('#SaleRate').val('0.00');
         }
-        if (isNaN($scope.SaleexChangeRate)) {
-            $scope.SaleexChangeRate = 0;
+        if (isNaN(parseInt($('#SalesExRate').val()))) {
+            $('#SalesExRate').val('0.0000');
         }
-        if ($scope.SaleRate != 0 && $scope.SaleexChangeRate != 0 && $scope.Quantity != 0) {
+        if ($('#SaleRate').val() != '0.00' && $('#SalesExRate').val() != '0.00' && $('#QTY').val() != '0') {
             if (BranchLocalCurrencyId == $scope.SalesExR) {
               //  $scope.SalesDomestic = parseFloat(parseFloat($scope.Quantity * $scope.SaleRate * 1).toFixed(2));
-                $('#SalesDomestic').val(parseFloat($scope.Quantity * $scope.SaleRate * 1).toFixed(2));
-                $('#SalesForeign').val('0.00');
-                $('#SalesExRate').val('1.0000');
-                res = (taxValue1 / 100) * $scope.SalesDomestic;
-                $scope.taxamt = parseFloat(parseFloat(res).toFixed(2));
-                $scope.margin = parseFloat(parseFloat($scope.SalesDomestic - $scope.ProvisionDomestic).toFixed(2));
-            } else {
-                $scope.SalesForeign = parseFloat(parseFloat($scope.Quantity * $scope.SaleRate * $scope.SaleexChangeRate).toFixed(2));
-                $scope.SalesDomestic = parseFloat(parseFloat('0.00').toFixed(2));
-                res = (taxValue1 / 100) * $scope.SalesForeign;
+                $('#SalesDomestic').val(parseFloat($('#QTY').val() * $('#SaleRate').val() * 1).toFixed(2));
+                $('#SalesExRate').val('1.000');
+                $('#SalesForeign').val(parseFloat($('#QTY').val() * $('#SaleRate').val()).toFixed(2));
+               
+                res = (taxValue1 / 100) * $('#SalesDomestic').val();
                 $('#taxamt').val(parseFloat(res).toFixed(2));
-                $('#margin').val(parseFloat($scope.SalesForeign - $scope.ProvisionForeign).toFixed(2));
+                $('#margin').val(parseFloat($('#SalesDomestic').val() - $('#ProvisiDomestic').val()).toFixed(2));
+            } else {
+                $('#SalesForeign').val(parseFloat($('#QTY').val() * $('#SaleRate').val()).toFixed(2));
+                $('#SalesDomestic').val(parseFloat($('#QTY').val() * $('#SaleRate').val() * $('#SalesExRate').val()).toFixed(2));
+                res = (taxValue1 / 100) * $('#SalesForeign').val();
+                $('#taxamt').val(parseFloat(res).toFixed(2));
+                $('#margin').val(parseFloat($('#SalesDomestic').val() - $('#ProvisiDomestic').val()).toFixed(2));
             }
         } else {
             $('#SalesDomestic').val('0.00');
@@ -145,11 +147,11 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
 
     $scope.qtyChanged = function () {
         CalculateProvisionValue();
-        CalculateSalesValue();
+     //   CalculateSalesValue();
     };
 
     $scope.changeTax = function () {
-        CalculateSalesValue();
+        CalculateProvisionValue();
     }
 
     $scope.getProvisionCurEx = function () {
@@ -159,10 +161,12 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
             method: 'GET'
         }).success(function (data, status, headers, config) {
             $scope.ProexChangeRate = data;
-            if (isNaN($scope.ProexChangeRate)) {
-                $('#ProvisionExRate').val('0.00');
+            debugger;
+            if (isNaN(parseInt($scope.ProexChangeRate))) {
+                $('#ProvisionExRate').val('0.0000');
                 CalculateProvisionValue();
             } else {
+                $('#ProvisionExRate').val(parseFloat($scope.ProexChangeRate).toFixed(4));
                 CalculateProvisionValue();
             }
         });
@@ -174,12 +178,13 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
             method: 'GET'
         }).success(function (data, status, headers, config) {
             $scope.SaleexChangeRate = data;
-            if (isNaN($scope.SaleexChangeRate)) {
-                $('#SalesExRate').val('0.00');
-                CalculateSalesValue();
+            if (isNaN(parseInt($scope.SaleexChangeRate))) {
+                $('#SalesExRate').val('0.0000');
+                CalculateProvisionValue();
             }
             else {
-                CalculateSalesValue();
+                $('#SalesExRate').val(parseFloat($scope.SaleexChangeRate).toFixed(4));
+                CalculateProvisionValue();
             }
         });
     };
@@ -189,7 +194,7 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
     };
 
     $scope.CalcSaleForeign = function () {
-        CalculateSalesValue();
+        CalculateProvisionValue();
     };
 
     var vCharges = JSON.parse('[]');
@@ -199,22 +204,22 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
         var objRevenueTypeID = $('#RevenueTypeID_' + index).val();
         $('#RevenueTypeID').val(objRevenueTypeID);
         $('#RevenueTypeID').trigger("change");
-       
+       // $scope.getSuppliers();
         $('#QTY').val($('#Quantity_' + index).val());
         $('#UnitID').val($('#ItemUnitID_' + index).val());
-        $('#ProRate').val($('#ProvisionRate_' + index).val());
+        $('#ProRate').val(parseFloat($('#ProvisionRate_' + index).val()).toFixed(2));
         $('#ProvisionExR').val($('#ProvisionCurrencyId_' + index).val());
-        $('#ProvisionExRate').val($('#ProvisionExchangeRate_' + index).val());
-        $('#ProvisiDomestic').val($('#ProvisionHome_' + index).val());
-        $('#ProvisionForeign').val($('#ProvisionForeign_' + index).val());
-        $('#margin').val($('#margin_' + index).val());
+        $('#ProvisionExRate').val(parseFloat($('#ProvisionExchangeRate_' + index).val()).toFixed(4));
+        $('#ProvisiDomestic').val(parseFloat($('#ProvisionHome_' + index).val()).toFixed(2));
+        $('#ProvisionForeign').val(parseFloat($('#ProvisionForeign_' + index).val()).toFixed(2));
+        $('#margin').val(parseFloat($('#margin_' + index).val()).toFixed(2));
         $('#tax').val($('#tax_' + index).val());
-        $('#taxamt').val($('#taxamt_' + index).val());
-        $('#SaleRate').val($('#SalesRate_' + index).val());
+        $('#taxamt').val(parseFloat($('#taxamt_' + index).val()).toFixed(2));
+        $('#SaleRate').val(parseFloat($('#SalesRate_' + index).val()).toFixed(2));
         $('#SalesExR').val($('#SalesCurrencyId_' + index).val());
-        $('#SalesExRate').val($('#SalesExchangeRate_' + index).val());
-        $('#SalesDomestic').val($('#SalesHome_' + index).val());
-        $('#SalesForeign').val($('#SalesForeign_' + index).val());
+        $('#SalesExRate').val(parseFloat($('#SalesExchangeRate_' + index).val()).toFixed(4));
+        $('#SalesDomestic').val(parseFloat($('#SalesHome_' + index).val()).toFixed(2));
+        $('#SalesForeign').val(parseFloat($('#SalesForeign_' + index).val()).toFixed(2));
         $('#charges_update_index').val(index);
         $('#update_charges').show();
         $('#add_charges').hide();
@@ -329,12 +334,12 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
             Tax: $('#tax').val(),
             TaxAmount: $('#taxamt').val(),
             SalesRate: $('#SaleRate').val(),
-            SalesCurrencyID: ($scope.SalesExR === undefined) ? "" : $scope.SalesExR,
+            SalesCurrencyID: $('#SalesExR').val(),
             SalesCurrency: $('#SalesExR option:selected').text(),
             Currency: ($scope.Currency === undefined) ? "" : $scope.Currency,
             // SalesCurrencyID: $scope.SalesCurrency,
-            SalesExchangeRate: ($scope.SaleexChangeRate === undefined) ? "" : $scope.SaleexChangeRate,
-            SalesHome: ($scope.SalesDomestic === undefined) ? "" : $scope.SalesDomestic,
+            SalesExchangeRate: $('#SalesExRate').val(),
+            SalesHome: $('#SalesDomestic').val(),
             SalesForeign: $('#SalesForeign').val(),
             InvoiceStatus: "1",
             CostUpdationStatus: "1"
@@ -438,9 +443,9 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
                 var tdString = '<tr><td style="width:20%"><div class= "data1" ><input type="text" value="' + ChargeObj.RevenueType + '" title="' + ChargeObj.RevenueType + '" name="RevenueTypeName_' + vCharges.length + '" id="RevenueTypeName_' + vCharges.length + '" style="width:90%;"readonly /><input type="hidden" value="' + ChargeObj.RevenueTypeID + '" name="RevenueTypeID_' + vCharges.length + '" id="RevenueTypeID_' + vCharges.length + '" /></div ></td>';
                 tdString = tdString + '<td style="width:20%"><div class="data2" ><input type="text" value="' + ChargeObj.SupplierName + '" title="' + ChargeObj.SupplierName + '" name="SupplierName_' + vCharges.length + '" id="SupplierName_' + vCharges.length + '" style="width:90%;" readonly/><input type="hidden" value="' + ChargeObj.SupplierID + '" name="SupplierID_' + vCharges.length + '" id="SupplierID_' + vCharges.length + '" /></div></td>';
                 tdString = tdString + '<td><div class="data4" ><input type="text" value="' + ChargeObj.Quantity + '" title="' + ChargeObj.Quantity + '" name="Quantity_' + vCharges.length + '" id="Quantity_' + vCharges.length + '" style="width:30px;" readonly /></div></td>';
-                tdString = tdString + '<td><div class="data2" ><input type="text" value="' + (ChargeObj.ItemUnit == null ? '' : ChargeObj.ItemUnit) + '" title="' + (ChargeObj.ItemUnit == null ? '' : ChargeObj.ItemUnit) + '" name="ItemUnit_' + vCharges.length + '" id="ItemUnit_' + vCharges.length + '" style="width:30px;" readonly /><input type="hidden" value="' + ChargeObj.ItemUnitID + '" name="ItemUnitID_' + vCharges.length + '" id="ItemUnitID_' + vCharges.length + '" /></div></td>';
+                tdString = tdString + '<td><div class="data2" ><input type="text" value="' + (ChargeObj.ItemUnit == null ? '' : ChargeObj.ItemUnit) + '" title="' + (ChargeObj.ItemUnit == null ? '' : ChargeObj.ItemUnit) + '" name="ItemUnit_' + vCharges.length + '" id="ItemUnit_' + vCharges.length + '" style="width:30px;" readonly /><input type="hidden" value="' + (ChargeObj.ItemUnitID == null ? 0 : ChargeObj.ItemUnitID) + '" name="ItemUnitID_' + vCharges.length + '" id="ItemUnitID_' + vCharges.length + '" /></div></td>';
                 tdString = tdString + '<td class="hideinsummary smallwindowwidth" id="provin_rate"><div class="data5" ><input type="text" value="' + ChargeObj.ProvisionRate + '" title="' + ChargeObj.ProvisionRate + '" name="ProvisionRate_' + vCharges.length + '" id="ProvisionRate_' + vCharges.length + '" style="width:50px; text-align:right"readonly /></div></td>';
-                tdString = tdString + '<td class="hideinsummary smallwindowwidth" id="provin_curr"><div class="data5"><input type="text" value="' + ChargeObj.ProvisionCurrency + '" title="' + ChargeObj.ProvisionCurrency + '" name="ProvisionCurrency_' + vCharges.length + '" id="ProvisionCurrency_' + vCharges.length + '" style="width:50px; text-align:right" readonly /><input type="hidden" value="' + ChargeObj.ProvisionCurrencyId + '" name="ProvisionCurrencyId_' + vCharges.length + '" id="ProvisionCurrencyId_' + vCharges.length + '" /></div></td>';
+                tdString = tdString + '<td class="hideinsummary smallwindowwidth" id="provin_curr"><div class="data5"><input type="text" value="' + ChargeObj.ProvisionCurrency + '" title="' + ChargeObj.ProvisionCurrency + '" name="ProvisionCurrency_' + vCharges.length + '" id="ProvisionCurrency_' + vCharges.length + '" style="width:50px; text-align:right" readonly /><input type="hidden" value="' + ChargeObj.ProvisionCurrencyID + '" name="ProvisionCurrencyId_' + vCharges.length + '" id="ProvisionCurrencyId_' + vCharges.length + '" /></div></td>';
                 tdString = tdString + '<td class="hideinsummary smallwindowwidth" id="provinex_rate"><div class="data6"><input type="text" value="' + ChargeObj.ProvisionExchangeRate + '" title="' + ChargeObj.ProvisionExchangeRate + '" name="ProvisionExchangeRate_' + vCharges.length + '" id="ProvisionExchangeRate_' + vCharges.length + '" style="width:50px; text-align:right" readonly/></div></td>';
                 tdString = tdString + '<td  class="data3"><div class="data7"><input type="text" value="' + ChargeObj.ProvisionHome + '" title="' + ChargeObj.ProvisionHome + '" name="ProvisionHome_' + vCharges.length + '" id="ProvisionHome_' + vCharges.length + '" style="width:70px; text-align:right" readonly /></div></td>';
                 tdString = tdString + '<td id="provin_forgin" class="hideinsummary smallwindowwidth"><div class="data8"><input type="text" value="' + ChargeObj.ProvisionForeign + '" title="' + ChargeObj.ProvisionForeign + '" name="ProvisionForeign_' + vCharges.length + '" id="ProvisionForeign_' + vCharges.length + '" style="width:50px; text-align:right" readonly/></div></td>';
@@ -448,11 +453,11 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
                 tdString = tdString + '<td id="sale_curr" class="hideinsummary smallwindowwidth"><div class="data9"><input type="text" value="' + ChargeObj.SalesCurrency + '" title="' + ChargeObj.SalesCurrency + '" name="SalesCurrencyName_' + vCharges.length + '" id="SalesCurrencyName_' + vCharges.length + '" style="width:50px; text-align:right" readonly/><input type="hidden" value="' + ChargeObj.SalesCurrencyID + '" name="SalesCurrencyId_' + vCharges.length + '" id="SalesCurrencyId_' + vCharges.length + '" /></div></td>';
                 tdString = tdString + '<td id="sale_exrate" class="hideinsummary smallwindowwidth"><div class="data10"><input type="text" value="' + ChargeObj.SalesExchangeRate + '" title="' + ChargeObj.SalesExchangeRate + '" name="SalesExchangeRate_' + vCharges.length + '" id="SalesExchangeRate_' + vCharges.length + '" style="width:50px; text-align:right" readonly/></div></td>';
                 tdString = tdString + '<td><div class="data11"><input type="text" value="' + ChargeObj.SalesHome + '" title="' + ChargeObj.SalesHome + '" name="SalesHome_' + vCharges.length + '" id="SalesHome_' + vCharges.length + '" style="width:60px;text-align:right"readonly /></div></td>';
-                tdString = tdString + '<td id="sale_for"><div class="data12"><input type="text" value="' + ChargeObj.SalesForeign + '" title="' + ChargeObj.SalesForeign + '" name="SalesForeign_' + vCharges.length + '" id="SalesHome_' + vCharges.length + '" style="width:50px;text-align:right" /></div></td>';
+                tdString = tdString + '<td id="sale_for"><div class="data12"><input type="text" value="' + ChargeObj.SalesForeign + '" title="' + ChargeObj.SalesForeign + '" name="SalesForeign_' + vCharges.length + '" id="SalesForeign_' + vCharges.length + '" style="width:50px;text-align:right" /></div></td>';
               //  tdString = tdString + '<td><div class="data13"><input type="text" value="' + ChargeObj.Cost + '" title="' + ChargeObj.Cost + '" name="Cost_' + vCharges.length + '" id="Cost_' + vCharges.length + '" style="width:70px;" /></div></td>';
-                tdString = tdString + '<td><div class="data13"><input type="text" value="' + ChargeObj.Tax + '" title="' + ChargeObj.Tax + '" name="tax_' + vCharges.length + '" id="tax_' + vCharges.length + '" style="width:30px; text-align:right" readonly/></div></td>';
-                tdString = tdString + '<td><div class="data14"><input type="text" value="' + ChargeObj.TaxAmount + '" title="' + ChargeObj.TaxAmount + '" name="taxamt_' + vCharges.length + '" id="taxamt_' + vCharges.length + '" style="width:50px; text-align:right" readonly/></div></td>';
-                tdString = tdString + '<td><div class="data15"><input type="text" value="' + ChargeObj.Margin + '" title="' + ChargeObj.Margin + '" name="margin_' + vCharges.length + '" id="margin_' + vCharges.length + '" style="width:50px; text-align:right" readonly /></div></td>';
+                tdString = tdString + '<td><div class="data13"><input type="text" value="' + (ChargeObj.Tax ? ChargeObj.Tax : 0) + '" title="' + (ChargeObj.Tax ? ChargeObj.Tax : 0) + '" name="tax_' + vCharges.length + '" id="tax_' + vCharges.length + '" style="width:30px; text-align:right" readonly/></div></td>';
+                tdString = tdString + '<td><div class="data14"><input type="text" value="' + (ChargeObj.TaxAmount ? ChargeObj.TaxAmount : 0) + '" title="' + (ChargeObj.TaxAmount ? ChargeObj.TaxAmount : 0) + '" name="taxamt_' + vCharges.length + '" id="taxamt_' + vCharges.length + '" style="width:50px; text-align:right" readonly/></div></td>';
+                tdString = tdString + '<td><div class="data15"><input type="text" value="' + (ChargeObj.Margin ? ChargeObj.Margin : 0) + '" title="' + (ChargeObj.Margin ? ChargeObj.Margin : 0)  + '" name="margin_' + vCharges.length + '" id="margin_' + vCharges.length + '" style="width:50px; text-align:right" readonly /></div></td>';
                 tdString = tdString + '<td><a href="javascript:void(0)" onclick="angular.element(this).scope().editCharges(' + vCharges.length + ')"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="deleteCharge(this)"><i class="fa fa-times-circle"></i></a></td>';
                 tdString = tdString + '</tr>';
                 $("#charges_table").append(tdString);
