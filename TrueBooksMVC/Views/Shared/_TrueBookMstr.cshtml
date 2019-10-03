@@ -179,6 +179,21 @@
         input[type=select]:focus {
             border-color: red;
         }
+        option {
+            border: 1px solid;
+            margin-top: -2px;
+            margin-left: 5px;
+            text-align: center;
+            margin-bottom: 10px;
+            padding: 6px;
+            font-size: 12px;
+        }label.final_per {
+    text-align: center;
+    /* margin-top: 7px; */
+    padding: 9px;
+    font-size: 12px;
+}
+
     </style>
 
     <style>
@@ -396,15 +411,20 @@
                 <!-- Sidebar toggle button-->
                 <a href="index2.html" class="logoimages">
                     <!-- mini logo for sidebar mini 50x50 pixels -->
-                                  <!-- logo for regular state and mobile devices -->
+                    <!-- logo for regular state and mobile devices -->
                     <span class="logosmall">
                         <img class="img-responsive logonav" src="~/Content/img/logo_truebook.png" alt="logolarge">
                     </span>
                 </a>
                 <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button"><span class="sr-only">Toggle navigation</span> </a>
-                <div style="display: inline-block; padding-top: 15px;">
-                    @Html.DropDownList("AcFYearID", new SelectList(AcYearList, "AcFinancialYearID", "FYearName"), new { @class = "form-control" })
+                <div style="display: inline-block; padding-top: 15px;margin-top: 6px;">
+                    <div class="row">
+                        <div class="col-md-12" style="display:flex">
+                            <label class="final_per">Financial Period</label>
+                            @Html.DropDownList("AcFYearID", new SelectList(AcYearList, "AcFinancialYearID", "FYearName"), new { @class = "form-control fin_pre" })
 
+                        </div>
+                    </div>
                 </div>
                 <!-- Navbar Right Menu -->
                 <div class="navbar-custom-menu">
@@ -417,7 +437,7 @@
                             <ul class="dropdown-menu extended logout">
                                 <li><a href="#"><i class=" fa fa-suitcase"></i>Profile</a></li>
                                 <li><a href="#"><i class="fa fa-cog"></i>Settings</a></li>
-                                <li><a href="@Url.Action("Signout", "Login")"><i class="fa fa-key"></i>Log Out</a></li>
+                                <li><a href="@Url.Action(" Signout", "Login" )"><i class="fa fa-key"></i>Log Out</a></li>
                             </ul>
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <!-- The user image in the navbar-->
@@ -450,7 +470,7 @@
                 <a href="index2.html" class="logo">
                     <!-- mini logo for sidebar mini 50x50 pixels -->
                     <span class="logo-mini">
-                        <img class="img-responsive" src="~/Content/img/logo_truebook.png" alt="logosmall">
+                        <img class="img-responsive" src="~/Content/img/truebooks_logo.png" alt="logosmall">
                     </span>
                     </a>
                     <!-- Sidebar Menu -->
@@ -476,7 +496,7 @@
                                         if (obj.IsAccessibleMenu(menuid, RoleId))
                                         {
                                             <li class="treeliss">
-                                                <a id="@item.MenuID" href=@item.Link><i class="@item.imgclass"></i><span>@item.Title</span></a>
+                                                <a id="@item.MenuID" href= @item.Link ><i class="@item.imgclass" ></i><span>@item.Title</span></a>
                                                 @if (menuList.Count(p => p.ParentID == item.MenuID) > 0)
                                                 {
                                                     @:<ul class="treeview-menu">
