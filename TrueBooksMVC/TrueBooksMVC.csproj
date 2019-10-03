@@ -207,6 +207,7 @@
     <Compile Include="Controllers\MenuCreationController.cs" />
     <Compile Include="Controllers\OpeningInvoiceController.cs" />
     <Compile Include="Controllers\PaymentTermsController.cs" />
+    <Compile Include="Controllers\PurchaseInvoiceController.cs" />
     <Compile Include="Controllers\QuotationvalidityController.cs" />
     <Compile Include="Controllers\RecieptVoucherController.cs" />
     <Compile Include="Controllers\RemarksController.cs" />
@@ -298,6 +299,7 @@
     <Compile Include="Models\PDCOutstandingVM.cs" />
     <Compile Include="Models\PDCVM.cs" />
     <Compile Include="Models\PortCountryVM.cs" />
+    <Compile Include="Models\PurchaseInvoiceVM.cs" />
     <Compile Include="Models\RecieptPaymentModel.cs" />
     <Compile Include="Models\RegistrationModel.cs" />
     <Compile Include="Models\RemarksVM.cs" />
@@ -1477,6 +1479,8 @@
     <Content Include="MyJsFiles\CustomerRecieptJS.js" />
     <Content Include="MyJsFiles\JobDetails.js" />
     <Content Include="MyJsFiles\PrintReportInvoices.js" />
+    <Content Include="MyJsFiles\PurchaseInvoice.js" />
+    <Content Include="MyJsFiles\SalesInvoice.js" />
     <Content Include="MyJsFiles\SupplierPaymentDetails.js" />
     <Content Include="MyJsFiles\SupplierPaymentJS.js" />
     <Content Include="NewDesignFiles\body-bk.jpg" />
@@ -2914,6 +2918,8 @@
     <Content Include="Views\Shared\index.cshtml" />
     <Content Include="Views\SalesInvoice\index.cshtml" />
     <Content Include="Views\SalesInvoice\Invoice.cshtml" />
+    <Content Include="Views\Purchaseinvoice\index.cshtml" />
+    <Content Include="Views\Purchaseinvoice\Invoice.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\script\" />

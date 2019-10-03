@@ -27,13 +27,15 @@
         border-radius: 25px;
         margin-bottom: 27px;
         padding: 20px;
-        border: 1px solid;
         margin-top: 18px;
     }
 </style>
+<script src="~/MyJsFiles/SalesInvoice.js"></script>
 
+<section class="content-header">
+    <h1 class="headingfont">Sales Invoice<small></small></h1>
 
-
+</section>
 <div class="container">
     <section class="content jobform">
         <div class="row no-margin">
@@ -50,9 +52,9 @@
             </div>
             <div class="col-md-4">
                 <label class="headinglabel">Invoice Due Date:</label>
-                @Html.TextBoxFor(model => model.DueDate, new { Value = Model.DueDate.Value.ToString("dd-MMM-yyyy"), id = "", @class = "form-control", @readonly = "readonly", @style = "background-color: lightgrey;" })
+                @Html.TextBoxFor(model => model.DueDate, "{0:dd-MMM-yyyy}", new { id = "", @class = "form-control" })
 
-               
+
             </div>
 
 
@@ -62,7 +64,12 @@
 
             <div class="col-md-4">
                 <label class="headinglabel">Client Name:</label>
-                @Html.DropDownListFor(model => model.CustomerID, (SelectList)ViewBag.Customer, "Select", new { @class = "form-control" })
+                <select class="form-control" id="clientName">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                </select>
             </div>
             <div class="col-md-4">
                 <label class="headinglabel">Quotation Number | Date:</label>
@@ -70,7 +77,12 @@
             </div>
             <div class="col-md-4">
                 <label class="headinglabel">Currency:</label>
-                @Html.DropDownListFor(model => model.CurrencyID, (SelectList)ViewBag.Customer, "Select", new { @class = "form-control" })
+                <select class="form-control" id="Currency">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                </select>
             </div>
 
 
@@ -80,18 +92,23 @@
 
             <div class="col-md-4">
                 <label class="headinglabel">Delivery Location:</label>
-                @Html.DropDownListFor(model => model.locationID, (SelectList)ViewBag.Customer, "Select", new { @class = "form-control" })
+                <select class="form-control" id="DeliveryLocation">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                </select>
             </div>
             <div class="col-md-4">
                 <label class="headinglabel">LPO Number | Date:</label>
                 @Html.TextBoxFor(model => model.LPOReference, new { @class = "form-control" })
-                </div>
+            </div>
             <div class="col-md-4">
                 <label class="headinglabel">Exchange Rate :</label>
                 @Html.TextBoxFor(model => model.ExchangeRate, new { @class = "form-control" })
             </div>
 
-            </div>
+        </div>
         <div class="row no-margin" style="padding-top: 10px">
 
             <div class="col-md-4">
@@ -105,141 +122,162 @@
             </div>
             <div class="col-md-4">
                 <label class="headinglabel">Salesman :</label>
-                @Html.DropDownListFor(model => model.EmployeeID, (SelectList)ViewBag.Customer, "Select", new { @class = "form-control" })
+                <select class="form-control" id="Salesman">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                </select>
             </div>
 
         </div>
 
         <div class="form_invoice">
-            <div class="row no-margin">
 
-                <div class="col-md-3">
-                    <label class="headinglabel">Product & Service</label>
-                    @Html.DropDownListFor(model => model.ProductID, (SelectList)ViewBag.Customer, "Select", new { @class = "form-control" })
-                </div>
-                <div class="col-md-3">
-                    <label class="headinglabel">Description</label>
-                    @Html.TextBoxFor(model => model.Description, new { @class = "form-control" })
-                </div>
-                <div class="col-md-3">
-                    <label class="headinglabel"> Quantity</label>
-                    @Html.TextBoxFor(model => model.Quantity, new { @class = "form-control" })
-                </div>
-                <div class="col-md-3">
-                    <label class="headinglabel"> Unit</label>
-                    @Html.DropDownListFor(model => model.ItemUnitID, (SelectList)ViewBag.Customer, "Select", new { @class = "form-control" })
+            <form action="" method="post" id="myForm">
+                <div class="row no-margin">
 
-                </div>
+                    <div class="col-md-3">
+                        <label class="headinglabel">Product & Service</label>
+                        <select class="form-control" id="Service">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                        </select>
 
+                    </div>
+                    <div class="col-md-3">
+                        <label class="headinglabel">Description</label>
+                        <input type="text" class="form-control" id="Description" placeholder=" Enter Service" name="Service">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="headinglabel"> Quantity</label>
+                        <input type="text" class="form-control" id="Quantity" placeholder="Enter Quantity" name="Quantity">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="headinglabel"> Unit</label>
+                        <select class="form-control" id="Unit">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                        </select>
 
-            </div>
-            <div class="row no-margin">
-
-                <div class="col-md-3">
-                    <label class="headinglabel">  Rate Type</label>
-                    @Html.TextBoxFor(model => model.CustomerRateTypeID, new { @class = "form-control" })
-                </div>
-                <div class="col-md-3">
-                    <label class="headinglabel">Rate LC</label>
-                    @Html.TextBoxFor(model => model.Rate, new { @class = "form-control" })
-                </div>
-                <div class="col-md-3">
-                    <label class="headinglabel"> Rate FC</label>
-                    @Html.TextBoxFor(model => model.Rate, new { @class = "form-control" })
-                </div>
-                <div class="col-md-3">
-                    <label class="headinglabel"> Value LC</label>
-                    @Html.TextBoxFor(model => model.Quantity, new { @class = "form-control" })
-                </div>
-
-
-            </div>
-
-            <div class="row no-margin">
-
-                <div class="col-md-3">
-                    <label class="headinglabel">  Value FC</label>
-                    <input type="text" class="form-control" id="ValueFc" placeholder=" Enter ValueFc" name="ValueFc">
-                </div>
-                <div class="col-md-3">
-                    <label class="headinglabel">Tax</label>
-                    <input type="text" class="form-control" id="Tax" placeholder=" Enter Tax" name="Tax">
-                </div>
-                <div class="col-md-3">
-                    <label class="headinglabel"> Net Value</label>
-                    <input type="text" class="form-control" id="netvalue" placeholder="Enter netvalue" name="netvalue">
-                </div>
-                <div class="col-md-3">
-                    <label class="headinglabel"> Job</label>
-                    <select class="form-control" id="job">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                    </select>
+                    </div>
 
 
                 </div>
-                <input type="button" id="add_charges" value="Add" class="btn btn-primary btnwidth" style="float: right;
+                <div class="row no-margin">
+
+                    <div class="col-md-3">
+                        <label class="headinglabel">  Rate Type</label>
+                        <input type="text" class="form-control" id="RateType" placeholder=" Enter RateType" name="RateType">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="headinglabel">Rate LC</label>
+                        <input type="text" class="form-control" id="RateLC" placeholder=" Enter Rate LC" name="RateLC">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="headinglabel"> Rate FC</label>
+                        <input type="text" class="form-control" id="Rate FC" placeholder="Enter Rate FC" name="RateFC">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="headinglabel"> Value LC</label>
+                        <input type="text" class="form-control" id="ValueLC" placeholder="Enter ValueLC" name="ValueLC">
+                    </div>
+
+
+                </div>
+
+                <div class="row no-margin">
+
+                    <div class="col-md-3">
+                        <label class="headinglabel">  Value FC</label>
+                        <input type="text" class="form-control" id="ValueFc" placeholder=" Enter ValueFc" name="ValueFc">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="headinglabel">Tax</label>
+                        <input type="text" class="form-control" id="Tax" placeholder=" Enter Tax" name="Tax">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="headinglabel"> Net Value</label>
+                        <input type="text" class="form-control" id="netvalue" placeholder="Enter netvalue" name="netvalue">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="headinglabel"> Job</label>
+                        <select class="form-control" id="job">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                        </select>
+
+
+                    </div>
+                    <input type="button" id="add_charges" value="Add" class="btn btn-primary btnwidth" style="float: right;
     margin-right: 18px;
         margin-top: 10px;
     width: 70px;">
+</form>
+                </div>
 
-            </div>
-
-            <div class="row no-margin" id="AddCharges" style="padding-top: 10px">
-                <div class="col-xs-12 no-padding for-device">
-                    <div class="data-table tblbackground" style="width:100%; padding: 27px;">
-
-                        <div class="ico_cla"><span style="font-size:15px;cursor:pointer" onclick="openNav()"><i class="fa fa-expand" aria-hidden="true"></i></span></div>
-                        <div class="data" style="overflow:auto;">
-                            <table border="1" class="table table-responsive table-bordered smalltablewidth fulltablewidth " id="charges_table">
-                                <tr>
-                                    <td width="20%">
-                                        S.No
-                                    </td>
-                                    <td width="20%">
-                                        Product & Service
-                                    </td>
-                                    <td width="20%">Description</td>
-                                    <td width="1%">
-                                        Quantity
-                                    </td>
-                                    <td width="5%">
-                                        Unit
-                                    </td>
-                                    <td id="rate_type" class="hideinsummary">
-                                        Rate Type
-                                    </td>
-                                    <td id="rate_lc" class="hideinsummary">
-                                        Rate(LC)
-                                    </td>
-                                    <td id="rate_fc" class="hideinsummary">
-                                        Rate(FC)
-                                    </td>
-                                    <td width="8%" class="lc_pro">
-                                        <p class="valuelc"> Value LC</p>
-                                    </td>
-                                    <td id="provin_forgin" class="hideinsummary">
-                                        Value FC
-                                    </td>
-                                    <td id="tax" class="hideinsummary">
-                                        Tax
-                                    </td>
-                                    <td id="sale_curr" class="hideinsummary">
-                                        Net Value
-                                    </td>
-                                    <td id="sale_exrate" class="hideinsummary">
-                                        Job
-                                    </td>
+                <div class="row no-margin" id="AddCharges" style="padding-top: 10px">
+                    <div class="col-xs-12 no-padding for-device">
+                        <div class="data-table tblbackground" style="width:100%; padding: 27px;">
 
 
-                                </tr>
-                            </table>
+                            <div class="data" style="overflow:auto;">
+                                <table border="1" class="table table-responsive table-bordered smalltablewidth fulltablewidth " id="charges_table">
+                                    <thead>
+                                        <tr>
+                                            
+                                            <td width="20%">
+                                                Product & Service
+                                            </td>
+                                            <td width="20%">Description</td>
+                                            <td width="1%">
+                                                Quantity
+                                            </td>
+                                            <td width="5%">
+                                                Unit
+                                            </td>
+                                            <td id="rate_type" class="hideinsummary">
+                                                Rate Type
+                                            </td>
+                                            <td id="rate_lc" class="hideinsummary">
+                                                Rate(LC)
+                                            </td>
+                                            <td id="rate_fc" class="hideinsummary">
+                                                Rate(FC)
+                                            </td>
+                                            <td width="8%" class="lc_pro">
+                                                <p class="valuelc"> Value LC</p>
+                                            </td>
+                                            <td id="provin_forgin" class="hideinsummary">
+                                                Value FC
+                                            </td>
+                                            <td id="tax" class="hideinsummary">
+                                                Tax
+                                            </td>
+                                            <td id="net_curr" class="summary">
+                                                Net Value
+                                            </td>
+                                            <td id="sale_exrate" class="hideinsummary">
+                                                Job
+                                            </td>
+
+
+                                        </tr>
+                                    </thead>
+                                    <tbody id="displayArea"></tbody>
+
+
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
 
 
@@ -247,77 +285,109 @@
         </div>
 
 
-        <div class="total_value">
+        <div class="row no-margin" style="padding-top: 10px">
 
-            <div class="row">
-                <div class="col-md-8">
-                </div>
-                <div class="col-md-4">
-                    <div class="row">
-                        <label class="headinglabel" style="display: inline-block;">Tax :</label>
-                        <input type="text" class="form-control" placeholder=" Enter ExternalReference" name="ExternalReference" style="display: inline-block;
-    width: 23%;">
-                        <input type="text" class="form-control" placeholder=" Enter ExternalReference" name="ExternalReference" style="display: inline-block;
-    width: 23%;">
-                        <input type="text" class="form-control" placeholder=" Enter ExternalReference" name="ExternalReference" style="display: inline-block;
-    width: 23%;">
+            <div class="col-md-6">
+                <label class="headinglabel">Remarks:</label>
+                <textarea class="form-control" rows="5" id="Remarks"></textarea>
+            </div>
+
+
+            <div class="col-md-6">
+                <div class="col-md-12">
+                    <div class="row no-margin" style="padding-top: 10px">
+                        <div class="col-md-3" style="text-align: center;
+">
+                            <label class="headinglabel">TAX :</label>
+                        </div>
+                        <div class="col-md-3">
+
+                            <input type="text" class="form-control" placeholder=" Enter ExternalReference" name="ExternalReference" style="display: inline-block;
+    width: 100%;">
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" placeholder=" Enter ExternalReference" name="ExternalReference" style="display: inline-block;
+   width: 100%;">
+                        </div>
+
                     </div>
-                    <div class="row" style="padding-top:10px">
 
-                        <div class="col-md-10">
-                            <div class="row">
-                                <div class="discount">
-                                    <label class="headinglabel">Discount|Markup:</label>
-                                    <div class="checkbox">
-                                        <label><input type="checkbox" value="">%</label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label><input type="checkbox" value="">Amount</label>
-                                    </div>
-
+                    <div class="row no-margin" style="padding-top: 10px">
+                        <div class="col-md-3" style="text-align: center;border: 1px solid;position: relative;">
+                            <div class="lab_dis" style="
+    position: absolute;
+    top: -11px;
+    left: 3px;
+    background-color: #fff;
+    padding: 2px;
+"><label class="headinglabel">Discount :</label></div>
+                            <div class="row no-margin" style="padding-top: 10px">
+                                <div class="col-md-6">
+                                    <label>%</label>
                                 </div>
-
-
-
-                                <input type="text" class="form-control" placeholder=" Enter ExternalReference" name="ExternalReference" style="display: inline-block;
-    width: 23%;">
-                                <input type="text" class="form-control" placeholder=" Enter ExternalReference" name="ExternalReference" style="display: inline-block;
-    width: 23%;">
-
-
-
-
+                                <div class="col-md-6">
+                                    <input type="checkbox" value="">
+                                </div>
+                            </div><div class="row no-margin" style="padding-top: 10px">
+                                <div class="col-md-6">
+                                    <label>Amount</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="checkbox" value="">
+                                </div>
                             </div>
                         </div>
+                        <div class="col-md-3">
 
-
-
-                    </div>
-                    <div class="row" style="padding-top:10px">
-
-                        <div class="col-md-10">
-                            <div class="row">
-                                <label class="headinglabel" style="display: inline-block;">Net Total:</label>
-
-                                <input type="text" class="form-control" placeholder=" Enter ExternalReference" name="ExternalReference" style="display: inline-block;
-    width: 23%;">
-                                <input type="text" class="form-control" placeholder=" Enter ExternalReference" name="ExternalReference" style="display: inline-block;
-    width: 23%;">
-
-
-
-
-                            </div>
+                            <input type="text" class="form-control" placeholder=" Enter ExternalReference" name="ExternalReference" style="display: inline-block;
+    width: 100%;">
                         </div>
-
-
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" placeholder=" Enter ExternalReference" name="ExternalReference" style="display: inline-block;
+   width: 100%;">
+                        </div>
 
                     </div>
 
+
+                    <div class="row no-margin" style="padding-top: 10px">
+                        <div class="col-md-3" style="text-align: center;
+">
+                            <label class="headinglabel">VAT :</label>
+                        </div>
+                        <div class="col-md-3">
+
+                            <input type="text" class="form-control" placeholder=" Enter ExternalReference" name="ExternalReference" style="display: inline-block;
+    width: 100%;">
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="row no-margin" style="padding-top: 10px">
+                        <div class="col-md-3" style="text-align: center;
+">
+                            <label class="headinglabel">Net Total :</label>
+                        </div>
+                        <div class="col-md-3">
+
+                            <input type="text" class="form-control" placeholder=" Enter ExternalReference" name="ExternalReference" style="display: inline-block;
+    width: 100%;">
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" placeholder=" Enter ExternalReference" name="ExternalReference" style="display: inline-block;
+   width: 100%;">
+                        </div>
+
+                    </div>
 
 
 
                 </div>
+
+            </div>
+        </div>
 
 
 
