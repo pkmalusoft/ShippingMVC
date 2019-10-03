@@ -13,6 +13,7 @@ namespace TrueBooksMVC.Models
         public Nullable<System.DateTime> SalesInvoiceDate { get; set; }
         public string Reference { get; set; }
         public string LPOReference { get; set; }
+        public int LocationID { get; set; }
         public int CustomerID { get; set; }
         public int EmployeeID { get; set; }
         public int QuotationID { get; set; }

@@ -1476,6 +1476,8 @@
     <Content Include="MyJsFiles\CustomerRecieptJS.js" />
     <Content Include="MyJsFiles\JobDetails.js" />
     <Content Include="MyJsFiles\PrintReportInvoices.js" />
+    <Content Include="MyJsFiles\PurchaseInvoice.js" />
+    <Content Include="MyJsFiles\SalesInvoice.js" />
     <Content Include="MyJsFiles\SupplierPaymentDetails.js" />
     <Content Include="MyJsFiles\SupplierPaymentJS.js" />
     <Content Include="NewDesignFiles\body-bk.jpg" />
