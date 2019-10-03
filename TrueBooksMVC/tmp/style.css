@@ -12,11 +12,9 @@ html, body {
 i.fa.fa-pencil {
     color: #35b8eb;
 }
-
 i.fa.fa-times {
     color: #d8562f;
 }
-
 i.fa.fa-print {
     color: #097d58ed;
 }
@@ -593,6 +591,7 @@ a {
         position: relative;
         margin: 0;
         padding: 0;
+        
     }
 
         .sidebar-menu > li > a {
@@ -5898,8 +5897,8 @@ nav.navbar.navbar-static-top {
 display:block;
 padding:20px;
 }
-.fin_pre {
-    border: 1px solid;
+.fin_pre{
+border: 1px solid;
     margin-top: -2px;
     margin-left: 5px;
     text-align: center;
@@ -5910,6 +5909,7 @@ padding:20px;
 .tablserch {
     display: none;
 }
+
 .main-sidebar::-webkit-scrollbar {
     background-color: #4ca3d6;
     width: 16px
@@ -5917,7 +5917,7 @@ padding:20px;
 
 /* background of the scrollbar except button or resizer */
 .main-sidebar::-webkit-scrollbar-track {
-    background-color: #4ca3d6;
+    background-color: #4ca3d6
 }
 
     .main-sidebar::-webkit-scrollbar-track:hover {
@@ -6070,93 +6070,4 @@ li.treeli > a {
     }
     }
 
-.sidebar .nav {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-wrap: wrap;
-    flex-wrap: wrap;
-    padding-left: 0;
-    margin-bottom: 0;
-    list-style: none;
-}
 
-.sidebar .nav-pills .nav-link.active,
-.nav-pills .show > .nav-link {
-    background-color: #07a7e3;
-}
-
-.sidebar .nav.flex-column .nav-link,
-.nav-pills .nav-link,
-.nav-tabs .nav-link {
-    padding: .95rem 2.13rem .85rem;
-}
-
-.sidebar .flex-column {
-    -webkit-box-orient: vertical !important;
-    -webkit-box-direction: normal !important;
-    -ms-flex-direction: column !important;
-    flex-direction: column !important;
-}
-
-.sidebar .nav .nav-item .nav-link:hover, .nav .nav-item .nav-link.active {
-    background: #07a7e3;
-    background: -moz-linear-gradient(-45deg, #07a7e3 0%, #32dac3 100%);
-    background: -webkit-linear-gradient(-45deg, #07a7e3 0%, #32dac3 100%);
-    background: linear-gradient(135deg, #07a7e3 0%, #32dac3 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr=$qp-color-1, endColorstr=$qp-color-2,GradientType=1 );
-    -webkit-transition: opacity 0.2s ease-out;
-    -moz-transition: opacity 0.2s ease-out;
-    -o-transition: opacity 0.2s ease-out;
-    transition: opacity 0.2s ease-out;
-    -webkit-transition: width 0.3s ease-in-out;
-    -moz-transition: width 0.3s ease-in-out;
-    -o-transition: width 0.3s ease-in-out;
-    transition: width 0.3s ease-in-out;
-}
-
-.sidebar .nav li a {
-    color: #f3f7f9;
-    font-size: 14px;
-    /* text-align: center; */
-    font-weight: 500;
-    cursor: pointer;
-}
-
-.sidebar .nav li a:hover {
-    color: #fff;
-}
-
-.sidebar .nav .nav-item .nav-link.nav-parent + ul.nav, .sidebar .nav .nav-item .nav-link.nav-parent + ul.nav {
-    display: none;
-    border-left: 5px solid #07a7e3;
-}
-
-.sidebar li.nav-item {
-    width: 100%;
-}
-
-.sidebar .nav .open ul li {
-    margin-left: 15px;
-}
-
-.sidebar .bg-dark .nav .nav-item .nav-link.nav-parent::after, .sidebar .nav .nav-item .nav-link.nav-parent::after {
-    font-family: "Batch Icons";
-    content: "\f14A";
-    font-weight: 400;
-    font-size: 1.3rem;
-    margin-top: -0.22rem;
-    float: right;
-    opacity: 0.7;
-    -webkit-transition: all 300ms;
-    -moz-transition: all 300ms;
-    -o-transition: all 300ms;
-    transition: all 300ms;
-}
-
-.sidebar .bg-dark .nav .nav-item.open > .nav-link.nav-parent::after, .sidebar .nav .nav-item.open > .nav-link.nav-parent::after {
-    opacity: 1;
-    -ms-transform: rotate(-90deg);
-    -webkit-transform: rotate(-90deg);
-    transform: rotate(-90deg);
-}
