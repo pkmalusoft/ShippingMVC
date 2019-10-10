@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using TrueBooksMVC.Models;
 
 namespace TrueBooksMVC.Controllers
 {
@@ -18,7 +19,7 @@ namespace TrueBooksMVC.Controllers
 
         public ActionResult Invoice()
         {
-            return View();
+            return View(SalesInvoiceVM);
         }
 
 

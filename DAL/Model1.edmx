@@ -586,6 +586,9 @@ warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.AcHeadAssign' does not 
           <Property Name="UserID" Type="int" />
           <Property Name="Description" Type="nchar" MaxLength="200" />
           <Property Name="Lock" Type="bit" />
+          <Property Name="Tax" Type="decimal" Precision="5" Scale="2" />
+          <Property Name="TaxAmount" Type="decimal" Precision="15" Scale="2" />
+          <Property Name="Margin" Type="decimal" Precision="15" Scale="2" />
         </EntityType>
         <EntityType Name="JobGeneration">
           <Key>
@@ -749,6 +752,31 @@ warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.AcHeadAssign' does not 
           <Property Name="Port" Type="nvarchar" MaxLength="50" />
           <Property Name="CountryID" Type="int" />
         </EntityType>
+        <EntityType Name="PurchaseInvoice">
+          <Key>
+            <PropertyRef Name="PurchaseInvoiceID" />
+          </Key>
+          <Property Name="PurchaseInvoiceID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PurchaseInvoiceNo" Type="varchar" MaxLength="50" />
+          <Property Name="PurchaseInvoiceDate" Type="datetime" />
+          <Property Name="Reference" Type="varchar" MaxLength="100" />
+          <Property Name="LPOReference" Type="varchar" MaxLength="100" />
+          <Property Name="SupplierID" Type="int" />
+          <Property Name="EmployeeID" Type="int" />
+          <Property Name="QuotationID" Type="int" />
+          <Property Name="CurrencyID" Type="int" />
+          <Property Name="ExchangeRate" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="CreditDays" Type="int" />
+          <Property Name="DueDate" Type="datetime" />
+          <Property Name="AcJournalID" Type="int" />
+          <Property Name="BranchID" Type="int" />
+          <Property Name="Discount" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="StatusDiscountAmt" Type="bit" />
+          <Property Name="OtherCharges" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="PaymentTerm" Type="varchar(max)" />
+          <Property Name="Remarks" Type="varchar(max)" />
+          <Property Name="FYearID" Type="int" />
+        </EntityType>
         <EntityType Name="RecPay">
           <Key>
             <PropertyRef Name="RecPayID" />
@@ -807,6 +835,7 @@ warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.AcHeadAssign' does not 
           <Property Name="RevenueCode" Type="nvarchar" MaxLength="20" />
           <Property Name="RevenueCost" Type="money" />
           <Property Name="MinimumValue" Type="money" />
+          <Property Name="TaxPercentage" Type="decimal" Precision="5" Scale="2" />
         </EntityType>
         <EntityType Name="RoleMaster">
           <Key>
@@ -904,8 +933,6 @@ warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.AcHeadAssign' does not 
           <Property Name="IsActive" Type="bit" />
           <Property Name="RoleID" Type="int" />
           <Property Name="EmployeeID" Type="int" Nullable="false" />
-          <Property Name="BranchID" Type="int" />
-          <Property Name="AcFinancialYearID" Type="int" />
         </EntityType>
         <EntityType Name="Validity">
           <Key>
@@ -1570,6 +1597,9 @@ warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.qrySupplierOutstanding'
         <Function Name="SP_DeleteJobDetailsByJobID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="JobID" Type="int" Mode="In" />
         </Function>
+        <Function Name="SP_DeletePurchaseInvoice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="PurchaseInvoiceId" Type="int" Mode="In" />
+        </Function>
         <Function Name="SP_DeleteSupplierPayment" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="RecPayID" Type="int" Mode="In" />
         </Function>
@@ -1912,6 +1942,28 @@ warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.qrySupplierOutstanding'
           <Parameter Name="RecPayID" Type="int" Mode="In" />
           <Parameter Name="AcFinnancialYearId" Type="int" Mode="In" />
         </Function>
+        <Function Name="SP_InsertPurchaseInvoice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="PurchaseInvoiceId" Type="int" Mode="In" />
+          <Parameter Name="PurchaseInvoiceNo" Type="nvarchar" Mode="In" />
+          <Parameter Name="PurchaseInvoiceDate" Type="datetime" Mode="In" />
+          <Parameter Name="Reference" Type="nvarchar" Mode="In" />
+          <Parameter Name="LPOReference" Type="nvarchar" Mode="In" />
+          <Parameter Name="SupplierID" Type="int" Mode="In" />
+          <Parameter Name="EmployeeeID" Type="int" Mode="In" />
+          <Parameter Name="QuotationID" Type="int" Mode="In" />
+          <Parameter Name="CurrencyID" Type="int" Mode="In" />
+          <Parameter Name="ExchangeRate" Type="decimal" Mode="In" />
+          <Parameter Name="CreditDays" Type="int" Mode="In" />
+          <Parameter Name="DueDate" Type="datetime" Mode="In" />
+          <Parameter Name="AcJouranalID" Type="int" Mode="In" />
+          <Parameter Name="BranchID" Type="int" Mode="In" />
+          <Parameter Name="Discount" Type="decimal" Mode="In" />
+          <Parameter Name="StatusDiscountAmt" Type="bit" Mode="In" />
+          <Parameter Name="OtherCharges" Type="decimal" Mode="In" />
+          <Parameter Name="PaymentTerm" Type="nvarchar" Mode="In" />
+          <Parameter Name="Remarks" Type="nvarchar" Mode="In" />
+          <Parameter Name="FYearID" Type="int" Mode="In" />
+        </Function>
         <Function Name="SP_InsertRecPay" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="RecPayDate" Type="datetime" Mode="In" />
           <Parameter Name="DocumentNo" Type="nvarchar" Mode="In" />
@@ -2040,6 +2092,28 @@ warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.qrySupplierOutstanding'
           <Parameter Name="MRN" Type="nvarchar" Mode="In" />
           <Parameter Name="DeliveryOrderDate" Type="datetime" Mode="In" />
         </Function>
+        <Function Name="SP_UpdatePurchaseInvoice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="PurchaseInvoiceId" Type="int" Mode="In" />
+          <Parameter Name="PurchaseInvoiceNo" Type="nvarchar" Mode="In" />
+          <Parameter Name="PurchaseInvoiceDate" Type="datetime" Mode="In" />
+          <Parameter Name="Reference" Type="nvarchar" Mode="In" />
+          <Parameter Name="LPOReference" Type="nvarchar" Mode="In" />
+          <Parameter Name="SupplierID" Type="int" Mode="In" />
+          <Parameter Name="EmployeeeID" Type="int" Mode="In" />
+          <Parameter Name="QuotationID" Type="int" Mode="In" />
+          <Parameter Name="CurrencyID" Type="int" Mode="In" />
+          <Parameter Name="ExchangeRate" Type="decimal" Mode="In" />
+          <Parameter Name="CreditDays" Type="int" Mode="In" />
+          <Parameter Name="DueDate" Type="datetime" Mode="In" />
+          <Parameter Name="AcJouranalID" Type="int" Mode="In" />
+          <Parameter Name="BranchID" Type="int" Mode="In" />
+          <Parameter Name="Discount" Type="decimal" Mode="In" />
+          <Parameter Name="StatusDiscountAmt" Type="bit" Mode="In" />
+          <Parameter Name="OtherCharges" Type="decimal" Mode="In" />
+          <Parameter Name="PaymentTerm" Type="nvarchar" Mode="In" />
+          <Parameter Name="Remarks" Type="nvarchar" Mode="In" />
+          <Parameter Name="FYearID" Type="int" Mode="In" />
+        </Function>
         <Function Name="SPGetAllLocalCurrencyCostUpdation" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="AcFinancialYearID" Type="int" Mode="In" />
         </Function>
@@ -2102,6 +2176,7 @@ warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.qrySupplierOutstanding'
           <EntitySet Name="MenuAccessLevel" EntityType="Self.MenuAccessLevel" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PaymentTerms" EntityType="Self.PaymentTerms" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Port" EntityType="Self.Port" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PurchaseInvoice" EntityType="Self.PurchaseInvoice" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RecPay" EntityType="Self.RecPay" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RecPayDetails" EntityType="Self.RecPayDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Remarks" EntityType="Self.Remarks" Schema="dbo" store:Type="Tables" />
@@ -3443,6 +3518,54 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
             <Parameter Name="ToDate" Mode="In" Type="DateTime" />
           </FunctionImport>
           <FunctionImport Name="SP_GetAllItemUnit" ReturnType="Collection(SHIPPING_FinalModel.SP_GetAllItemUnit_Result)" />
+          <EntitySet Name="PurchaseInvoices" EntityType="SHIPPING_FinalModel.PurchaseInvoice" />
+          <FunctionImport Name="SP_InsertPurchaseInvoice">
+            <Parameter Name="PurchaseInvoiceId" Mode="In" Type="Int32" />
+            <Parameter Name="PurchaseInvoiceNo" Mode="In" Type="String" />
+            <Parameter Name="PurchaseInvoiceDate" Mode="In" Type="DateTime" />
+            <Parameter Name="Reference" Mode="In" Type="String" />
+            <Parameter Name="LPOReference" Mode="In" Type="String" />
+            <Parameter Name="SupplierID" Mode="In" Type="Int32" />
+            <Parameter Name="EmployeeeID" Mode="In" Type="Int32" />
+            <Parameter Name="QuotationID" Mode="In" Type="Int32" />
+            <Parameter Name="CurrencyID" Mode="In" Type="Int32" />
+            <Parameter Name="ExchangeRate" Mode="In" Type="Decimal" />
+            <Parameter Name="CreditDays" Mode="In" Type="Int32" />
+            <Parameter Name="DueDate" Mode="In" Type="DateTime" />
+            <Parameter Name="AcJouranalID" Mode="In" Type="Int32" />
+            <Parameter Name="BranchID" Mode="In" Type="Int32" />
+            <Parameter Name="Discount" Mode="In" Type="Decimal" />
+            <Parameter Name="StatusDiscountAmt" Mode="In" Type="Boolean" />
+            <Parameter Name="OtherCharges" Mode="In" Type="Decimal" />
+            <Parameter Name="PaymentTerm" Mode="In" Type="String" />
+            <Parameter Name="Remarks" Mode="In" Type="String" />
+            <Parameter Name="FYearID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_UpdatePurchaseInvoice">
+            <Parameter Name="PurchaseInvoiceId" Mode="In" Type="Int32" />
+            <Parameter Name="PurchaseInvoiceNo" Mode="In" Type="String" />
+            <Parameter Name="PurchaseInvoiceDate" Mode="In" Type="DateTime" />
+            <Parameter Name="Reference" Mode="In" Type="String" />
+            <Parameter Name="LPOReference" Mode="In" Type="String" />
+            <Parameter Name="SupplierID" Mode="In" Type="Int32" />
+            <Parameter Name="EmployeeeID" Mode="In" Type="Int32" />
+            <Parameter Name="QuotationID" Mode="In" Type="Int32" />
+            <Parameter Name="CurrencyID" Mode="In" Type="Int32" />
+            <Parameter Name="ExchangeRate" Mode="In" Type="Decimal" />
+            <Parameter Name="CreditDays" Mode="In" Type="Int32" />
+            <Parameter Name="DueDate" Mode="In" Type="DateTime" />
+            <Parameter Name="AcJouranalID" Mode="In" Type="Int32" />
+            <Parameter Name="BranchID" Mode="In" Type="Int32" />
+            <Parameter Name="Discount" Mode="In" Type="Decimal" />
+            <Parameter Name="StatusDiscountAmt" Mode="In" Type="Boolean" />
+            <Parameter Name="OtherCharges" Mode="In" Type="Decimal" />
+            <Parameter Name="PaymentTerm" Mode="In" Type="String" />
+            <Parameter Name="Remarks" Mode="In" Type="String" />
+            <Parameter Name="FYearID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_DeletePurchaseInvoice">
+            <Parameter Name="PurchaseInvoiceId" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="SP_GetUserDetailForEdit_Result">
           <Property Type="Int32" Name="UserID" Nullable="false" />
@@ -4097,6 +4220,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Type="String" Name="RevenueCode" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Type="Decimal" Name="RevenueCost" Precision="19" Scale="4" />
           <Property Type="Decimal" Name="MinimumValue" Precision="19" Scale="4" />
+          <Property Name="TaxPercentage" Type="Decimal" Precision="5" Scale="2" />
         </EntityType>
         <EntityType Name="ShippingAgent">
           <Key>
@@ -5682,6 +5806,9 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Type="Int32" Name="UserID" />
           <Property Type="String" Name="Description" MaxLength="200" FixedLength="true" Unicode="true" />
           <Property Type="Boolean" Name="Lock" />
+          <Property Name="Tax" Type="Decimal" Precision="5" Scale="2" />
+          <Property Name="TaxAmount" Type="Decimal" Precision="15" Scale="2" />
+          <Property Name="Margin" Type="Decimal" Precision="15" Scale="2" />
         </EntityType>
         <EntityType Name="JobGeneration">
           <Key>
@@ -6436,6 +6563,31 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Type="Boolean" Name="StatusActive" Nullable="true" />
           <Property Type="String" Name="Remarks" Nullable="true" MaxLength="50" />
         </ComplexType>
+        <EntityType Name="PurchaseInvoice">
+          <Key>
+            <PropertyRef Name="PurchaseInvoiceID" />
+          </Key>
+          <Property Name="PurchaseInvoiceID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PurchaseInvoiceNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PurchaseInvoiceDate" Type="DateTime" Precision="3" />
+          <Property Name="Reference" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="LPOReference" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="SupplierID" Type="Int32" />
+          <Property Name="EmployeeID" Type="Int32" />
+          <Property Name="QuotationID" Type="Int32" />
+          <Property Name="CurrencyID" Type="Int32" />
+          <Property Name="ExchangeRate" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="CreditDays" Type="Int32" />
+          <Property Name="DueDate" Type="DateTime" Precision="3" />
+          <Property Name="AcJournalID" Type="Int32" />
+          <Property Name="BranchID" Type="Int32" />
+          <Property Name="Discount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="StatusDiscountAmt" Type="Boolean" />
+          <Property Name="OtherCharges" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PaymentTerm" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="FYearID" Type="Int32" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -7228,6 +7380,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <EntitySetMapping Name="RevenueTypes">
             <EntityTypeMapping TypeName="SHIPPING_FinalModel.RevenueType">
               <MappingFragment StoreEntitySet="RevenueType">
+                <ScalarProperty Name="TaxPercentage" ColumnName="TaxPercentage" />
                 <ScalarProperty Name="MinimumValue" ColumnName="MinimumValue" />
                 <ScalarProperty Name="RevenueCost" ColumnName="RevenueCost" />
                 <ScalarProperty Name="RevenueCode" ColumnName="RevenueCode" />
@@ -8265,8 +8418,6 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <EntitySetMapping Name="UserRegistrations">
             <EntityTypeMapping TypeName="SHIPPING_FinalModel.UserRegistration">
               <MappingFragment StoreEntitySet="UserRegistration">
-                <ScalarProperty Name="AcFinancialYearID" ColumnName="AcFinancialYearID" />
-                <ScalarProperty Name="BranchID" ColumnName="BranchID" />
                 <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
                 <ScalarProperty Name="RoleID" ColumnName="RoleID" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
@@ -8794,6 +8945,9 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <EntitySetMapping Name="JInvoices">
             <EntityTypeMapping TypeName="SHIPPING_FinalModel.JInvoice">
               <MappingFragment StoreEntitySet="JInvoice">
+                <ScalarProperty Name="Margin" ColumnName="Margin" />
+                <ScalarProperty Name="TaxAmount" ColumnName="TaxAmount" />
+                <ScalarProperty Name="Tax" ColumnName="Tax" />
                 <ScalarProperty Name="Lock" ColumnName="Lock" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
@@ -9644,6 +9798,78 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="PurchaseInvoices">
+            <EntityTypeMapping TypeName="SHIPPING_FinalModel.PurchaseInvoice">
+              <MappingFragment StoreEntitySet="PurchaseInvoice">
+                <ScalarProperty Name="FYearID" ColumnName="FYearID" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="PaymentTerm" ColumnName="PaymentTerm" />
+                <ScalarProperty Name="OtherCharges" ColumnName="OtherCharges" />
+                <ScalarProperty Name="StatusDiscountAmt" ColumnName="StatusDiscountAmt" />
+                <ScalarProperty Name="Discount" ColumnName="Discount" />
+                <ScalarProperty Name="BranchID" ColumnName="BranchID" />
+                <ScalarProperty Name="AcJournalID" ColumnName="AcJournalID" />
+                <ScalarProperty Name="DueDate" ColumnName="DueDate" />
+                <ScalarProperty Name="CreditDays" ColumnName="CreditDays" />
+                <ScalarProperty Name="ExchangeRate" ColumnName="ExchangeRate" />
+                <ScalarProperty Name="CurrencyID" ColumnName="CurrencyID" />
+                <ScalarProperty Name="QuotationID" ColumnName="QuotationID" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
+                <ScalarProperty Name="LPOReference" ColumnName="LPOReference" />
+                <ScalarProperty Name="Reference" ColumnName="Reference" />
+                <ScalarProperty Name="PurchaseInvoiceDate" ColumnName="PurchaseInvoiceDate" />
+                <ScalarProperty Name="PurchaseInvoiceNo" ColumnName="PurchaseInvoiceNo" />
+                <ScalarProperty Name="PurchaseInvoiceID" ColumnName="PurchaseInvoiceID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="SHIPPING_FinalModel.PurchaseInvoice">
+              <ModificationFunctionMapping>
+                <InsertFunction FunctionName="SHIPPING_FinalModel.Store.SP_InsertPurchaseInvoice">
+                  <ScalarProperty Name="FYearID" ParameterName="FYearID" />
+                  <ScalarProperty Name="Remarks" ParameterName="Remarks" />
+                  <ScalarProperty Name="PaymentTerm" ParameterName="PaymentTerm" />
+                  <ScalarProperty Name="OtherCharges" ParameterName="OtherCharges" />
+                  <ScalarProperty Name="StatusDiscountAmt" ParameterName="StatusDiscountAmt" />
+                  <ScalarProperty Name="Discount" ParameterName="Discount" />
+                  <ScalarProperty Name="BranchID" ParameterName="BranchID" />
+                  <ScalarProperty Name="DueDate" ParameterName="DueDate" />
+                  <ScalarProperty Name="CreditDays" ParameterName="CreditDays" />
+                  <ScalarProperty Name="ExchangeRate" ParameterName="ExchangeRate" />
+                  <ScalarProperty Name="CurrencyID" ParameterName="CurrencyID" />
+                  <ScalarProperty Name="QuotationID" ParameterName="QuotationID" />
+                  <ScalarProperty Name="SupplierID" ParameterName="SupplierID" />
+                  <ScalarProperty Name="LPOReference" ParameterName="LPOReference" />
+                  <ScalarProperty Name="Reference" ParameterName="Reference" />
+                  <ScalarProperty Name="PurchaseInvoiceDate" ParameterName="PurchaseInvoiceDate" />
+                  <ScalarProperty Name="PurchaseInvoiceNo" ParameterName="PurchaseInvoiceNo" />
+                </InsertFunction>
+                <UpdateFunction FunctionName="SHIPPING_FinalModel.Store.SP_UpdatePurchaseInvoice">
+                  <ScalarProperty Name="FYearID" ParameterName="FYearID" Version="Current" />
+                  <ScalarProperty Name="Remarks" ParameterName="Remarks" Version="Current" />
+                  <ScalarProperty Name="PaymentTerm" ParameterName="PaymentTerm" Version="Current" />
+                  <ScalarProperty Name="OtherCharges" ParameterName="OtherCharges" Version="Current" />
+                  <ScalarProperty Name="StatusDiscountAmt" ParameterName="StatusDiscountAmt" Version="Current" />
+                  <ScalarProperty Name="Discount" ParameterName="Discount" Version="Current" />
+                  <ScalarProperty Name="BranchID" ParameterName="BranchID" Version="Current" />
+                  <ScalarProperty Name="DueDate" ParameterName="DueDate" Version="Current" />
+                  <ScalarProperty Name="CreditDays" ParameterName="CreditDays" Version="Current" />
+                  <ScalarProperty Name="ExchangeRate" ParameterName="ExchangeRate" Version="Current" />
+                  <ScalarProperty Name="CurrencyID" ParameterName="CurrencyID" Version="Current" />
+                  <ScalarProperty Name="QuotationID" ParameterName="QuotationID" Version="Current" />
+                  <ScalarProperty Name="SupplierID" ParameterName="SupplierID" Version="Current" />
+                  <ScalarProperty Name="LPOReference" ParameterName="LPOReference" Version="Current" />
+                  <ScalarProperty Name="Reference" ParameterName="Reference" Version="Current" />
+                  <ScalarProperty Name="PurchaseInvoiceDate" ParameterName="PurchaseInvoiceDate" Version="Current" />
+                  <ScalarProperty Name="PurchaseInvoiceNo" ParameterName="PurchaseInvoiceNo" Version="Current" />
+                </UpdateFunction>
+                <DeleteFunction FunctionName="SHIPPING_FinalModel.Store.SP_DeletePurchaseInvoice" />
+              </ModificationFunctionMapping>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SP_InsertPurchaseInvoice" FunctionName="SHIPPING_FinalModel.Store.SP_InsertPurchaseInvoice" />
+          <FunctionImportMapping FunctionImportName="SP_UpdatePurchaseInvoice" FunctionName="SHIPPING_FinalModel.Store.SP_UpdatePurchaseInvoice" />
+          <FunctionImportMapping FunctionImportName="SP_DeletePurchaseInvoice" FunctionName="SHIPPING_FinalModel.Store.SP_DeletePurchaseInvoice" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

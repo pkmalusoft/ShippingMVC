@@ -88,6 +88,7 @@
         <AssociationConnector Association="SHIPPING_FinalModel.FK_AnalysisHead_AcCompany" />
         <EntityTypeShape EntityType="SHIPPING_FinalModel.CostUpdation" Width="1.5" PointX="4.3973070478054259" PointY="23.89284978429454" />
         <EntityTypeShape EntityType="SHIPPING_FinalModel.AcBankDetail" Width="1.5" PointX="1.878019916768195" PointY="11.988378768781377" />
+        <EntityTypeShape EntityType="SHIPPING_FinalModel.PurchaseInvoice" Width="1.5" PointX="12.375" PointY="11.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -299,6 +299,7 @@
     <Compile Include="Models\PDCOutstandingVM.cs" />
     <Compile Include="Models\PDCVM.cs" />
     <Compile Include="Models\PortCountryVM.cs" />
+    <Compile Include="Models\PurchaseInvoiceModel.cs" />
     <Compile Include="Models\PurchaseInvoiceVM.cs" />
     <Compile Include="Models\RecieptPaymentModel.cs" />
     <Compile Include="Models\RegistrationModel.cs" />

@@ -91,7 +91,7 @@ namespace DAL
         public DbSet<CreditNote> CreditNotes { get; set; }
         public DbSet<CostUpdation> CostUpdations { get; set; }
         public DbSet<AcBankDetail> AcBankDetails { get; set; }
-    
+        public DbSet<PurchaseInvoice> PurchaseInvoices { get; set; }
         public virtual int SP_DeleteUser(Nullable<int> uSerID)
         {
             var uSerIDParameter = uSerID.HasValue ?
@@ -3839,6 +3839,188 @@ namespace DAL
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GetAllItemUnit_Result>("SP_GetAllItemUnit");
         }
+
+
+
+        public virtual int SP_InsertPurchaseInvoice(Nullable<int> purchaseInvoiceId, string purchaseInvoiceNo, Nullable<System.DateTime> purchaseInvoiceDate, string reference, string lPOReference, Nullable<int> supplierID, Nullable<int> employeeeID, Nullable<int> quotationID, Nullable<int> currencyID, Nullable<decimal> exchangeRate, Nullable<int> creditDays, Nullable<System.DateTime> dueDate, Nullable<int> acJouranalID, Nullable<int> branchID, Nullable<decimal> discount, Nullable<bool> statusDiscountAmt, Nullable<decimal> otherCharges, string paymentTerm, string remarks, Nullable<int> fYearID)
+        {
+            var purchaseInvoiceIdParameter = purchaseInvoiceId.HasValue ?
+                new ObjectParameter("PurchaseInvoiceId", purchaseInvoiceId) :
+                new ObjectParameter("PurchaseInvoiceId", typeof(int));
+
+            var purchaseInvoiceNoParameter = purchaseInvoiceNo != null ?
+                new ObjectParameter("PurchaseInvoiceNo", purchaseInvoiceNo) :
+                new ObjectParameter("PurchaseInvoiceNo", typeof(string));
+
+            var purchaseInvoiceDateParameter = purchaseInvoiceDate.HasValue ?
+                new ObjectParameter("PurchaseInvoiceDate", purchaseInvoiceDate) :
+                new ObjectParameter("PurchaseInvoiceDate", typeof(System.DateTime));
+
+            var referenceParameter = reference != null ?
+                new ObjectParameter("Reference", reference) :
+                new ObjectParameter("Reference", typeof(string));
+
+            var lPOReferenceParameter = lPOReference != null ?
+                new ObjectParameter("LPOReference", lPOReference) :
+                new ObjectParameter("LPOReference", typeof(string));
+
+            var supplierIDParameter = supplierID.HasValue ?
+                new ObjectParameter("SupplierID", supplierID) :
+                new ObjectParameter("SupplierID", typeof(int));
+
+            var employeeeIDParameter = employeeeID.HasValue ?
+                new ObjectParameter("EmployeeeID", employeeeID) :
+                new ObjectParameter("EmployeeeID", typeof(int));
+
+            var quotationIDParameter = quotationID.HasValue ?
+                new ObjectParameter("QuotationID", quotationID) :
+                new ObjectParameter("QuotationID", typeof(int));
+
+            var currencyIDParameter = currencyID.HasValue ?
+                new ObjectParameter("CurrencyID", currencyID) :
+                new ObjectParameter("CurrencyID", typeof(int));
+
+            var exchangeRateParameter = exchangeRate.HasValue ?
+                new ObjectParameter("ExchangeRate", exchangeRate) :
+                new ObjectParameter("ExchangeRate", typeof(decimal));
+
+            var creditDaysParameter = creditDays.HasValue ?
+                new ObjectParameter("CreditDays", creditDays) :
+                new ObjectParameter("CreditDays", typeof(int));
+
+            var dueDateParameter = dueDate.HasValue ?
+                new ObjectParameter("DueDate", dueDate) :
+                new ObjectParameter("DueDate", typeof(System.DateTime));
+
+            var acJouranalIDParameter = acJouranalID.HasValue ?
+                new ObjectParameter("AcJouranalID", acJouranalID) :
+                new ObjectParameter("AcJouranalID", typeof(int));
+
+            var branchIDParameter = branchID.HasValue ?
+                new ObjectParameter("BranchID", branchID) :
+                new ObjectParameter("BranchID", typeof(int));
+
+            var discountParameter = discount.HasValue ?
+                new ObjectParameter("Discount", discount) :
+                new ObjectParameter("Discount", typeof(decimal));
+
+            var statusDiscountAmtParameter = statusDiscountAmt.HasValue ?
+                new ObjectParameter("StatusDiscountAmt", statusDiscountAmt) :
+                new ObjectParameter("StatusDiscountAmt", typeof(bool));
+
+            var otherChargesParameter = otherCharges.HasValue ?
+                new ObjectParameter("OtherCharges", otherCharges) :
+                new ObjectParameter("OtherCharges", typeof(decimal));
+
+            var paymentTermParameter = paymentTerm != null ?
+                new ObjectParameter("PaymentTerm", paymentTerm) :
+                new ObjectParameter("PaymentTerm", typeof(string));
+
+            var remarksParameter = remarks != null ?
+                new ObjectParameter("Remarks", remarks) :
+                new ObjectParameter("Remarks", typeof(string));
+
+            var fYearIDParameter = fYearID.HasValue ?
+                new ObjectParameter("FYearID", fYearID) :
+                new ObjectParameter("FYearID", typeof(int));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_InsertPurchaseInvoice", purchaseInvoiceIdParameter, purchaseInvoiceNoParameter, purchaseInvoiceDateParameter, referenceParameter, lPOReferenceParameter, supplierIDParameter, employeeeIDParameter, quotationIDParameter, currencyIDParameter, exchangeRateParameter, creditDaysParameter, dueDateParameter, acJouranalIDParameter, branchIDParameter, discountParameter, statusDiscountAmtParameter, otherChargesParameter, paymentTermParameter, remarksParameter, fYearIDParameter);
+        }
+
+        public virtual int SP_UpdatePurchaseInvoice(Nullable<int> purchaseInvoiceId, string purchaseInvoiceNo, Nullable<System.DateTime> purchaseInvoiceDate, string reference, string lPOReference, Nullable<int> supplierID, Nullable<int> employeeeID, Nullable<int> quotationID, Nullable<int> currencyID, Nullable<decimal> exchangeRate, Nullable<int> creditDays, Nullable<System.DateTime> dueDate, Nullable<int> acJouranalID, Nullable<int> branchID, Nullable<decimal> discount, Nullable<bool> statusDiscountAmt, Nullable<decimal> otherCharges, string paymentTerm, string remarks, Nullable<int> fYearID)
+        {
+            var purchaseInvoiceIdParameter = purchaseInvoiceId.HasValue ?
+                new ObjectParameter("PurchaseInvoiceId", purchaseInvoiceId) :
+                new ObjectParameter("PurchaseInvoiceId", typeof(int));
+
+            var purchaseInvoiceNoParameter = purchaseInvoiceNo != null ?
+                new ObjectParameter("PurchaseInvoiceNo", purchaseInvoiceNo) :
+                new ObjectParameter("PurchaseInvoiceNo", typeof(string));
+
+            var purchaseInvoiceDateParameter = purchaseInvoiceDate.HasValue ?
+                new ObjectParameter("PurchaseInvoiceDate", purchaseInvoiceDate) :
+                new ObjectParameter("PurchaseInvoiceDate", typeof(System.DateTime));
+
+            var referenceParameter = reference != null ?
+                new ObjectParameter("Reference", reference) :
+                new ObjectParameter("Reference", typeof(string));
+
+            var lPOReferenceParameter = lPOReference != null ?
+                new ObjectParameter("LPOReference", lPOReference) :
+                new ObjectParameter("LPOReference", typeof(string));
+
+            var supplierIDParameter = supplierID.HasValue ?
+                new ObjectParameter("SupplierID", supplierID) :
+                new ObjectParameter("SupplierID", typeof(int));
+
+            var employeeeIDParameter = employeeeID.HasValue ?
+                new ObjectParameter("EmployeeeID", employeeeID) :
+                new ObjectParameter("EmployeeeID", typeof(int));
+
+            var quotationIDParameter = quotationID.HasValue ?
+                new ObjectParameter("QuotationID", quotationID) :
+                new ObjectParameter("QuotationID", typeof(int));
+
+            var currencyIDParameter = currencyID.HasValue ?
+                new ObjectParameter("CurrencyID", currencyID) :
+                new ObjectParameter("CurrencyID", typeof(int));
+
+            var exchangeRateParameter = exchangeRate.HasValue ?
+                new ObjectParameter("ExchangeRate", exchangeRate) :
+                new ObjectParameter("ExchangeRate", typeof(decimal));
+
+            var creditDaysParameter = creditDays.HasValue ?
+                new ObjectParameter("CreditDays", creditDays) :
+                new ObjectParameter("CreditDays", typeof(int));
+
+            var dueDateParameter = dueDate.HasValue ?
+                new ObjectParameter("DueDate", dueDate) :
+                new ObjectParameter("DueDate", typeof(System.DateTime));
+
+            var acJouranalIDParameter = acJouranalID.HasValue ?
+                new ObjectParameter("AcJouranalID", acJouranalID) :
+                new ObjectParameter("AcJouranalID", typeof(int));
+
+            var branchIDParameter = branchID.HasValue ?
+                new ObjectParameter("BranchID", branchID) :
+                new ObjectParameter("BranchID", typeof(int));
+
+            var discountParameter = discount.HasValue ?
+                new ObjectParameter("Discount", discount) :
+                new ObjectParameter("Discount", typeof(decimal));
+
+            var statusDiscountAmtParameter = statusDiscountAmt.HasValue ?
+                new ObjectParameter("StatusDiscountAmt", statusDiscountAmt) :
+                new ObjectParameter("StatusDiscountAmt", typeof(bool));
+
+            var otherChargesParameter = otherCharges.HasValue ?
+                new ObjectParameter("OtherCharges", otherCharges) :
+                new ObjectParameter("OtherCharges", typeof(decimal));
+
+            var paymentTermParameter = paymentTerm != null ?
+                new ObjectParameter("PaymentTerm", paymentTerm) :
+                new ObjectParameter("PaymentTerm", typeof(string));
+
+            var remarksParameter = remarks != null ?
+                new ObjectParameter("Remarks", remarks) :
+                new ObjectParameter("Remarks", typeof(string));
+
+            var fYearIDParameter = fYearID.HasValue ?
+                new ObjectParameter("FYearID", fYearID) :
+                new ObjectParameter("FYearID", typeof(int));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_UpdatePurchaseInvoice", purchaseInvoiceIdParameter, purchaseInvoiceNoParameter, purchaseInvoiceDateParameter, referenceParameter, lPOReferenceParameter, supplierIDParameter, employeeeIDParameter, quotationIDParameter, currencyIDParameter, exchangeRateParameter, creditDaysParameter, dueDateParameter, acJouranalIDParameter, branchIDParameter, discountParameter, statusDiscountAmtParameter, otherChargesParameter, paymentTermParameter, remarksParameter, fYearIDParameter);
+        }
+
+        public virtual int SP_DeletePurchaseInvoice(Nullable<int> purchaseInvoiceId)
+        {
+            var purchaseInvoiceIdParameter = purchaseInvoiceId.HasValue ?
+                new ObjectParameter("PurchaseInvoiceId", purchaseInvoiceId) :
+                new ObjectParameter("PurchaseInvoiceId", typeof(int));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_DeletePurchaseInvoice", purchaseInvoiceIdParameter);
+        }
+
 
     }
 }
