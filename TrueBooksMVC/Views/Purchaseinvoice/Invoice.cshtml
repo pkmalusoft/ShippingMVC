@@ -1,6 +1,5 @@
 ﻿@model DAL.PurchaseInvoice
 
-
 @{
     /**/
 
@@ -45,16 +44,20 @@
         @using (Html.BeginForm())
         {
             @Html.ValidationSummary(true)
-            <input type="hidden" id="PurchaseInvoiceId" name="PurchaseInvoiceId" value="@Session["PurchaseInvoiceId"]" />
+            @Html.HiddenFor(model => model.PurchaseInvoiceID)
+
+            <input type="hidden" id="BranchLocalCurrencyId" name="BranchLocalCurrencyId" value="@Session["BaseCurrencyId"]" />
             <div class="row no-margin">
 
                 <div class="col-md-6">
-                    <label class="headinglabel">Invoice No::</label>
-                    <input type="text" class="form-control" id="InvoiceNo" placeholder=" Enter InvoiceNo" name="InvoiceNo">
+                    <label class="headinglabel">Invoice No:</label>
+                    @Html.TextBoxFor(model => model.PurchaseInvoiceNo, new { @class = "form-control", id = "PurchaseInvoiceNo", required = "required" })
+                    <!--<input type="text" class="form-control" id="InvoiceNo" placeholder=" Enter InvoiceNo" name="InvoiceNo" readonly>-->
                 </div>
                 <div class="col-md-6">
                     <label class="headinglabel">Invoice Date:</label>
-                    <input type="Date" class="form-control" id="InvoiceDate" placeholder=" EnterInvoiceDate" name="InvoiceDate">
+                    @Html.TextBoxFor(model => model.PurchaseInvoiceDate, new { Value = Model.PurchaseInvoiceDate.Value.ToString("dd-MMM-yyyy"), id = "", @class = "form-control", @readonly = "readonly", @style = "background-color: lightgrey;" })
+                    <!--<input type="Date" class="form-control" id="InvoiceDate" placeholder=" EnterInvoiceDate" name="InvoiceDate">-->
                 </div>
             </div>
             <div class="row no-margin" style="padding-top: 10px">
@@ -66,22 +69,30 @@
 
                     <div class="col-md-6">
                         <label class="headinglabel">External Reference No:</label>
-                        <input type="text" class="form-control" id="ExternalReference" placeholder=" Enter ExternalReference" name="ExternalReference">
+                        @Html.TextBoxFor(model => model.Reference, new { @class = "form-control", id = "Reference", required = "required" })
+                        <!-- <input type="text" class="form-control" id="ExternalReference" placeholder=" Enter ExternalReference" name="ExternalReference">-->
                     </div>
                 </div>
                 <div class="row no-margin" style="padding-top: 10px">
                     <div class="col-md-6">
                         <label class="headinglabel">Quotation Number | Date:</label>
-                        <input type="text" class="form-control" id="QuotationDate" placeholder=" Enter QuotationDate" name="QuotationDate">
+                        @Html.TextBoxFor(model => model.QuotationID, new { @class = "form-control", id = "QuotationID", required = "required" })
+                        <!--<input type="text" class="form-control" id="QuotationDate" placeholder=" Enter QuotationDate" name="QuotationDate">-->
                     </div>
                     <div class="col-md-3">
                         <label class="headinglabel">Currency:</label>
                         @Html.DropDownListFor(model => model.CurrencyID, new SelectList(ViewBag.Currency, "CurrencyID", "CurrencyName"), "Select Currency", new { @class = "form-control" })
-
+                        <!--<select class="form-control" id="recvd">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                    </select>-->
                     </div>
                     <div class="col-md-3">
                         <label class="headinglabel">Exchange Rate :</label>
-                        <input type="text" class="form-control" id="ExchangeRate" placeholder="Enter ExchangeRate" name="ExchangeRate">
+                        @Html.TextBoxFor(model => model.ExchangeRate, new { @class = "form-control", id = "ExchangeRate", required = "required" })
+                        <!--<input type="text" class="form-control" id="ExchangeRate" placeholder="Enter ExchangeRate" name="ExchangeRate">-->
                     </div>
 
 
@@ -89,22 +100,24 @@
                 <div class="row no-margin" style="padding-top: 10px">
                     <div class="col-md-6">
                         <label class="headinglabel">LPO Number | Date:</label>
-                        <input type="text" class="form-control" id="LPONumber" placeholder=" Enter LPO Number" name="LPONumber">
+                        @Html.TextBoxFor(model => model.LPOReference, new { @class = "form-control", id = "LPOReference", required = "required" })
+                        <!-- <input type="text" class="form-control" id="LPONumber" placeholder=" Enter LPO Number" name="LPONumber">-->
                     </div>
                     <div class="col-md-6">
                         <label class="headinglabel">Good Rcvd By:</label>
-                        <select class="form-control" id="recvd">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                        </select>
+                        <!--<select class="form-control" id="recvd">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                    </select>-->
                     </div>
 
 
 
                 </div>
             </div>
+            <!--------------------------tabledesignstrat----------------------->
             <div class="form_invoice">
                 <div class="row no-margin">
 
@@ -119,8 +132,13 @@
                     </div>
                     <div class="col-md-3">
                         <label class="headinglabel"> Unit</label>
-                        @Html.DropDownListFor(model => model.ItemUnitID, new SelectList(ViewBag.Unit, "ItemUnitID", "ItemUnit"), "Select Unit", new { @class = "form-control" })
-
+                        @* @Html.DropDownListFor(model => model.ItemUnitID, new SelectList(ViewBag.Unit, "ItemUnitID", "ItemUnit"), "Select Unit", new { @class = "form-control" })*@
+                        <select class="form-control" id="recvd">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                        </select>
 
                     </div>
                     <div class="col-md-3">
@@ -184,9 +202,9 @@
 
                     </div>
                     <input type="button" id="add_charges" value="Add" class="btn btn-primary btnwidth" style="float: right;
-    margin-right: 18px;
-        margin-top: 10px;
-    width: 70px;">
+            margin-right: 18px;
+                margin-top: 10px;
+            width: 70px;">
 
                 </div>
 
@@ -253,32 +271,30 @@
 
             </div>
 
-
+            <!--------------------------tabledesignend----------------------->
 
 
             <div class="row no-margin" style="padding-top: 10px">
 
                 <div class="col-md-6">
-                    <label class="headinglabel">Remarks:</label>
-                    <textarea class="form-control" rows="5" id="Remarks"></textarea>
+                   
                 </div>
 
 
                 <div class="col-md-6">
                     <div class="col-md-12">
                         <div class="row no-margin" style="padding-top: 10px">
-                            <div class="col-md-3" style="text-align: center;
-">
+                            <div class="col-md-3" style="text-align: center">
                                 <label class="headinglabel">TAX :</label>
                             </div>
                             <div class="col-md-3">
 
                                 <input type="text" class="form-control" placeholder=" Enter ExternalReference" name="ExternalReference" style="display: inline-block;
-    width: 100%;">
+            width: 100%;">
                             </div>
                             <div class="col-md-3">
                                 <input type="text" class="form-control" placeholder=" Enter ExternalReference" name="ExternalReference" style="display: inline-block;
-   width: 100%;">
+           width: 100%;">
                             </div>
 
                         </div>
@@ -305,25 +321,24 @@
                             <div class="col-md-3">
 
                                 <input type="text" class="form-control" placeholder=" Enter ExternalReference" name="ExternalReference" style="display: inline-block;
-    width: 100%;">
+            width: 100%;">
                             </div>
                             <div class="col-md-3">
                                 <input type="text" class="form-control" placeholder=" Enter ExternalReference" name="ExternalReference" style="display: inline-block;
-   width: 100%;">
+           width: 100%;">
                             </div>
 
                         </div>
 
 
                         <div class="row no-margin" style="padding-top: 10px">
-                            <div class="col-md-3" style="text-align: center;
-">
+                            <div class="col-md-3" style="text-align: center;">
                                 <label class="headinglabel">VAT :</label>
                             </div>
                             <div class="col-md-3">
 
                                 <input type="text" class="form-control" placeholder=" Enter ExternalReference" name="ExternalReference" style="display: inline-block;
-    width: 100%;">
+            width: 100%;">
                             </div>
 
 
@@ -332,17 +347,17 @@
 
                         <div class="row no-margin" style="padding-top: 10px">
                             <div class="col-md-3" style="text-align: center;
-">
+        ">
                                 <label class="headinglabel">Net Total :</label>
                             </div>
                             <div class="col-md-3">
 
                                 <input type="text" class="form-control" placeholder=" Enter ExternalReference" name="ExternalReference" style="display: inline-block;
-    width: 100%;">
+            width: 100%;">
                             </div>
                             <div class="col-md-3">
                                 <input type="text" class="form-control" placeholder=" Enter ExternalReference" name="ExternalReference" style="display: inline-block;
-   width: 100%;">
+           width: 100%;">
                             </div>
 
                         </div>
@@ -353,11 +368,47 @@
 
                 </div>
             </div>
+             <div class="row no-margin buttons" style="padding-top: 10px">
+                    <div class="col-md-12 align-right" style="text-align: left">
+                        @{ if (Model.PurchaseInvoiceID > 0)
+                            {
+                                <input type="submit" name="Command" value="Update" class="btn btn-primary btnwidth" />
+                            }
+                            else
+                            {
+                                <input type="submit" name="Command" value="Save" ng-click="GenerateInvoice()" class="btn btn-primary btnwidth" id="btnSave" />
+                            }
+
+                        }
+                        &nbsp;
+                        <a href='@Url.Action("index", "Invoice", new { id = 0 })' class="btn btn-primary btnwidth">Cancel</a>
+                        &nbsp;
+                        @{ if (Model.PurchaseInvoiceID > 0)
+                            {
 
 
-        }
+                                if (ViewBag.IsInvoiveGenerated != null)
+                                {
+                                    if ((bool)ViewBag.IsInvoiveGenerated == false)
+                                    {
+                                        <input type="button" value="Generate Invoice" onclick="return AddInvoiceNumber();" class="btn btn-primary" style="width: 120px" />
+                                    }
+                                }
+                                else
+                                {
+                                    <input type="button" value="Generate Invoice" onclick="return AddInvoiceNumber();" class="btn btn-primary" style="width: 120px" />
+                                }
+                            }
+                        }
 
-    </section>
+
+
+                    </div>
+                </div>
+
+            }
+
+        </section>
 </div>
 
 

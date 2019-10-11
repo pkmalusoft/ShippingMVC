@@ -17,16 +17,37 @@ namespace TrueBooksMVC.Controllers
         MastersModel MM = new MastersModel();
 
         PurchaseInvoiceModel PM = new PurchaseInvoiceModel();
+
+
         // GET: /PurchaseInvoice/
 
-        public ActionResult Index()
+     
+        public string getPurchaseInvoiceID()
         {
-            return View();
+            string ID = "";
+
+            if (Session["PurchaseInvoiceID"] != null)
+            {
+                ID = Session["PurchaseInvoiceID"].ToString();
+            }
+
+            return ID;
+        }
+        public string getSuccessID()
+        {
+            string ID = "";
+
+            if (Session["ID"] != null)
+            {
+                ID = Session["ID"].ToString();
+            }
+
+            return ID;
         }
         public ActionResult Invoice(FormCollection formCollection, string Command, int id)
         {
             PurchaseInvoice PI = new PurchaseInvoice();
-            UpdateModel<JobGeneration>(PI);
+            UpdateModel<PurchaseInvoice>(PI);
             BindAllMasters();
             if (Session["UserID"] == null)
             {
@@ -36,21 +57,21 @@ namespace TrueBooksMVC.Controllers
             if (Command == "Save")
             {
                 PI.PurchaseInvoiceDate = System.DateTime.UtcNow;
-                PI.PurchaseInvoiceNo = 0;
-               // PurchaseInvoiceID = Convert.ToInt32(PM.MaxJobID()) - 1;
-                 PI.PurchaseInvoiceID = PurchaseInvoiceId;
-
+                //  PI.PurchaseInvoiceNo = 0;
+                // PurchaseInvoiceID = Convert.ToInt32(PM.MaxJobID()) - 1;
+                //  PI.PurchaseInvoiceID = PurchaseInvoiceId;
+                int i = 0;
                 i = PM.AddPurchaseInvoice(PI);
-                PurchaseInvoiceID = i;
+             //   PurchaseInvoiceID = i;
 
                 if (i > 0)
                 {
-                    DeleteAndInsertRecords(formCollection, JobId);                                 
+                   // DeleteAndInsertRecords(formCollection, i);                                 
 
-                    Session["PurchaseInvoiceID"] = PurchaseInvoiceId;
+                    Session["PurchaseInvoiceID"] = i;
 
-                    PM.PurchaseInvoiceID = PurchaseInvoiceId;
-                    return RedirectToAction("Invoice", "Invoice", new { ID = PurchaseInvoiceId });
+                    PI.PurchaseInvoiceID = i;
+                    return RedirectToAction("Index", "Invoice", new { ID = i });
                 }
             }
 
@@ -62,118 +83,19 @@ namespace TrueBooksMVC.Controllers
                     {
                         if (Session["UserID"] != null)
                         {
-                            PI.PurchaseInvoiceID = Convert.ToInt32(Session["PurchaseInvoiceID"]);
-                            int k = J.UpdateJob(PI);
+                          //  PI.PurchaseInvoiceID = Convert.ToInt32(Session["PurchaseInvoiceID"]);
+                            int k = PM.UpdateJob(PI);
                             if (k > 0)
                             {
-                                JobId = JM.JobID;
-                                DeleteAndInsertRecords(formCollection, JobId);
-                                var data = (from c in entity.JobGenerations where c.JobID == JobId select c).FirstOrDefault();
-                                int acjid = 0;
-                                if (data.AcJournalID != null)
-                                {
-                                    acjid = data.AcJournalID.Value;
-                                }
-                                int acprovjid = 0;
-                                if (data.AcProvisionCostJournalID != null)
-                                {
-                                    acprovjid = data.AcProvisionCostJournalID.Value;
-                                }
-
-                                decimal shome = 0;
-                                decimal phome = 0;
-                                if (entity.JInvoices.Where(x => x.JobID == JobId).Count() > 0)
-                                {
-                                    shome = entity.JInvoices.Where(x => x.JobID == JobId).Sum(x => x.SalesHome ?? 0);
-                                    phome = entity.JInvoices.Where(x => x.JobID == JobId).Sum(x => x.ProvisionHome ?? 0);
-                                }
-
-                                int custcontrolacid = (from c in entity.AcHeadAssigns select c.CustomerControlAcID.Value).FirstOrDefault();
-                                int freightacheadid = 158;
-                                int provcontrolacid = (from c in entity.AcHeadAssigns select c.ProvisionCostControlAcID.Value).FirstOrDefault();
-                                int accruedcontrolacid = (from c in entity.AcHeadAssigns select c.AccruedCostControlAcID.Value).FirstOrDefault();
-
-                                int acjdetail1 = (from x in entity.AcJournalDetails where x.AcJournalID == acjid && x.AcHeadID == custcontrolacid select x.AcJournalDetailID).FirstOrDefault();
-
-                                var data1 = (from x in entity.AcJournalDetails where x.AcJournalDetailID == acjdetail1 select x).FirstOrDefault();
-                                if (data1 != null)
-                                {
-                                    data1.Amount = shome;
-                                }
-                                if (data1 != null)
-                                {
-                                    entity.Entry(data1).State = EntityState.Modified;
-                                    entity.SaveChanges();
-                                }
-                                acjdetail1 = (from x in entity.AcJournalDetails where x.AcJournalID == acjid && x.AcHeadID == freightacheadid select x.AcJournalDetailID).FirstOrDefault();
-                                data1 = (from x in entity.AcJournalDetails where x.AcJournalDetailID == acjdetail1 select x).FirstOrDefault();
-                                if (data1 != null)
-                                {
-                                    data1.Amount = -shome;
-                                    entity.Entry(data1).State = EntityState.Modified;
-                                    entity.SaveChanges();
-                                }
-
-                                acjdetail1 = (from x in entity.AcJournalDetails where x.AcJournalID == acprovjid && x.AcHeadID == provcontrolacid select x.AcJournalDetailID).FirstOrDefault();
-                                data1 = (from x in entity.AcJournalDetails where x.AcJournalDetailID == acjdetail1 select x).FirstOrDefault();
-                                if (data1 != null)
-                                {
-                                    data1.Amount = phome;
-                                    entity.Entry(data1).State = EntityState.Modified;
-                                    entity.SaveChanges();
-                                }
-
-                                acjdetail1 = (from x in entity.AcJournalDetails where x.AcJournalID == acprovjid && x.AcHeadID == accruedcontrolacid select x.AcJournalDetailID).FirstOrDefault();
-                                data1 = (from x in entity.AcJournalDetails where x.AcJournalDetailID == acjdetail1 select x).FirstOrDefault();
-                                if (data1 != null)
-                                {
-                                    data1.Amount = -phome;
-                                    entity.Entry(data1).State = EntityState.Modified;
-                                    entity.SaveChanges();
-                                }
-
-
-
-                                //var acjournalid = (from m in entity.JobGenerations where m.JobID == JobId select m.AcJournalID).FirstOrDefault();
-                                //if (acjournalid > 0)
-                                //{
-                                //    var data = (from t in entity.AcJournalDetails where t.AcJournalID == acjournalid select t).ToList();
-                                //    var SumsaleHome = entity.JInvoices.Where(p => p.JobID == JM.JobID).Sum(c => c.SalesHome);
-                                //    var accuredCostID = (from t in entity.AcHeadAssigns select t.AccruedCostControlAcID).FirstOrDefault();
-                                //    var provisionCostid = (from t in entity.AcHeadAssigns select t.ProvisionCostControlAcID).FirstOrDefault();
-                                //    foreach (var item in data)
-                                //    {
-
-                                //        AcJournalDetail acJouDetail = new AcJournalDetail();
-
-                                //        if (item.AcHeadID == accuredCostID)
-                                //        {
-                                //            acJouDetail.Amount = -(SumsaleHome);
-                                //        }
-                                //        else
-                                //        {
-                                //            acJouDetail.Amount = +(SumsaleHome);
-                                //        }
-                                //        acJouDetail.AcHeadID = item.AcHeadID;
-                                //        acJouDetail.AcJournalDetailID = item.AcJournalDetailID;
-                                //        acJouDetail.AcJournalID = item.AcJournalID;
-                                //        acJouDetail.ID = item.ID;
-                                //        entity.Entry(item).CurrentValues.SetValues(acJouDetail);
-                                //        //entity.Entry(acJouDetail).State = EntityState.Modified;
-                                //        entity.SaveChanges();
-                                //    }
-
-                                //}
-
-
+                               // PurchaseInvoiceID = PI.PurchaseInvoiceId;
+                             //   DeleteAndInsertRecords(formCollection, PurchaseInvoiceId);
                             }
-
                         }
                         else
                         {
-                            //  int j = J.UpdateJobIDinAllModules(JobId, Convert.ToInt32(Session["UserID"]), Convert.ToInt32(Session["fyearid"]));
+                           
                         }
-                        return RedirectToAction("JobDetails", "Job", new { ID = 20 });
+                        return RedirectToAction("Index", "Invoice", new { ID = PI.PurchaseInvoiceID });
                     }
                 }
             }
@@ -181,7 +103,7 @@ namespace TrueBooksMVC.Controllers
             {
 
             }
-            return View(JM);
+            return View(PM);
         }
 
         public void BindAllMasters()
@@ -235,7 +157,7 @@ namespace TrueBooksMVC.Controllers
               
 
                 var query = from t in entity.PurchaseInvoices
-                            where t.PurchaseInvoicesID == null
+                            where t.PurchaseInvoiceID == null
 
                             select t;
 

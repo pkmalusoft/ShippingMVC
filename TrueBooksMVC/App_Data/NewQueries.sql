@@ -502,3 +502,61 @@ BEGIN
 Delete from PurchaseInvoice where PurchaseInvoiceID=@PurchaseInvoiceId
 
 END
+-----------------------------
+
+USE [DB_9F57C4_ShippingTest]
+GO
+/****** Object:  StoredProcedure [dbo].[SP_UpdatePurchaseInvoice]    Script Date: 11-10-2019 17:52:59 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE proc [dbo].[SP_UpdateSalesInvoice]
+(
+@SalesInvoiceId int=0,
+@SalesInvoiceNo nvarchar(50),
+@SalesInvoiceDate datetime,
+@Reference nvarchar(50),
+@LPOReference nvarchar(50),
+@CustomerID int,
+@EmployeeeID int,
+@QuotationID int,
+@CurrencyID int,
+@EXchangeRate decimal,
+@CreditDays int,
+@DueDate datetime,
+@AcJouranalID int,
+@BranchID int,
+@Discount decimal,
+@StatusDiscountAmt bit,
+@OtherCharges decimal,
+@PaymentTerm nvarchar,
+@Remarks nvarchar,
+@FYearID int
+)
+AS
+Begin
+
+UPDATE [SalesInvoice]  SET 
+         [SalesInvoiceNo]=@SalesInvoiceNo,
+		   [SalesInvoiceDate]=@SalesInvoiceDate,
+		     [Reference]=@Reference,
+			   [LPOReference]=@LPOReference,
+			   [CustomerID]=@CustomerID,
+			   [EmployeeID]=@EmployeeeID,
+			   [QuotationID]=@QuotationID,
+			   [CurrencyID]=@CurrencyID,
+			   [ExchangeRate]=@ExchangeRate,
+			    [CreditDays]=@CreditDays,
+			   [DueDate]=@DueDate,
+			   [AcJournalID]=@AcJouranalID,
+			   [BranchID]=@BranchID,
+			   [Discount]=@Discount,
+			   [StatusDiscountAmt]=@StatusDiscountAmt,
+			   [OtherCharges]=@OtherCharges,
+			   [PaymentTerm]=@PaymentTerm,
+			   [Remarks]=@Remarks,
+			   [FYearID]=@FYearID
+		WHERE SalesInvoiceID=@SalesInvoiceId
+  
+END
