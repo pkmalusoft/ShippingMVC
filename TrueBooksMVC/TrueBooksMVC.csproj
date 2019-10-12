@@ -678,6 +678,7 @@
     <Content Include="Content\js\bootstrap.min.js" />
     <Content Include="Content\js\demo.js" />
     <Content Include="Content\js\icheck.min.js" />
+    <Content Include="Content\js\jquery-3.4.1.js" />
     <Content Include="Content\js\pages\dashboard.js" />
     <Content Include="Content\js\pages\dashboard2.js" />
     <Content Include="Content\LandingPage\css\bootstrap.min.css" />
@@ -1691,6 +1692,7 @@
     <Content Include="Content\NewCSS\css\batch-icons\batch-icons-webfont.ttf" />
     <Content Include="Content\NewCSS\css\batch-icons\batch-icons-webfont.woff" />
     <Content Include="Content\NewCSS\css\batch-icons\batch-icons-webfontd41d.eot" />
+    <Content Include="Content\js\jquery.fulltableinline.js" />
     <None Include="Properties\PublishProfiles\Shipping.pubxml" />
     <Content Include="Reports\Shipping_Test_18_12_2016.bak" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />

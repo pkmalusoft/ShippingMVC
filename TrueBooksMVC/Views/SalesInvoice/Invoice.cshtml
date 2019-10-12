@@ -7,6 +7,45 @@
 
 
 <style>
+   
+    table {
+        position: relative;
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 10px !important;
+        text-align: center;
+    }
+
+        table, table th, table td {
+            border: 1px solid black;
+        }
+    input.fulltable-filter {
+        display: none;
+    }
+            table th, table td {
+
+               // white-space: nowrap;
+              //  text-overflow: ellipsis;
+                overflow: hidden;
+                line-height: 0px;
+                height: 0px;
+                padding:4px;
+            }
+
+    a.button {
+        position: relative;
+        display: inline-block;
+        font-family: tahoma, arial, helvetica;
+        font-size: 9pt;
+        font-weight: bold;
+        color: #ffffff;
+        background-color: #AAAAAA;
+        padding: 5px;
+        text-decoration: none;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+    }
     .jobform {
         background-color: #fff;
         box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
@@ -29,9 +68,157 @@
         padding: 20px;
         margin-top: 18px;
     }
+
+    table.fulltable thead th {
+        vertical-align: top;
+    }
+
+    table.fulltable span.fulltable-filter {
+        position: relative;
+        display: inline-block;
+        overflow: hidden;
+        box-sizing: border-box;
+        padding: 0;
+    }
+
+    table.fulltable input, table.fulltable select {
+        position: relative;
+        width: 100% !important;
+        font-family: tahoma, arial, helvetica;
+        font-size: 9pt;
+        clear: both;
+        float: left;
+        margin: 6pt 0 !important;
+    }
+
+        table.fulltable input.checkbox {
+            width: 13px !important;
+            height: 13px !important;
+        }
+
+    table.fulltable th.fulltable-selection-control {
+        width: 30px;
+    }
+    /*table.fulltable tr.fulltable-editing td.fulltable-selection-control input.checkbox {
+	display:none;
+}*/
+    table.fulltable th.fulltable-selection-control, table.fulltable td.fulltable-selection-control {
+        padding: 0 1em;
+        width: 30px;
+    }
+
+    table.fulltable.fulltable-editable th.fulltable-edition-control {
+        width: 70px;
+    }
+
+    table.fulltable.fulltable-editable th.fulltable-edition-control, table.fulltable.fulltable-editable td.fulltable-edition-control {
+        padding: 0 1em;
+    }
+
+    table.fulltable.fulltable-editable input.invalid, table.fulltable.fulltable-editable select.invalid {
+        border: solid 1px #FF3333;
+        background-color: #FFEEEE;
+    }
+
+    table.fulltable thead th a.fulltable-sort {
+                font-size: 9px;
+        position: relative;
+        left: 6px;
+        top: 0px;
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        cursor: pointer;
+    }
+
+    table.fulltable thead th.fulltable-asc a.fulltable-sort-desc {
+        display: none !important;
+    }
+
+    table.fulltable thead th.fulltable-desc a.fulltable-sort-asc {
+        display: none !important;
+    }
+
+    table.fulltable.fulltable-editable td.fulltable-edition-control {
+        white-space: nowrap;
+    }
+
+        table.fulltable.fulltable-editable td.fulltable-edition-control a {
+            font-family: 'jquery.fulltable';
+            font-size: 16px;
+            position: relative;
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            top: 1px;
+            line-height: 16px;
+            margin: 0.5em;
+            cursor: pointer;
+            text-align: center;
+        }
+
+            table.fulltable.fulltable-editable td.fulltable-edition-control a.fulltable-create {
+                display: none;
+            }
+
+    table.fulltable.fulltable-editable tr.fulltable-creating td.fulltable-edition-control a.fulltable-create {
+        display: inline-block !important;
+    }
+
+    table.fulltable.fulltable-editable tr.fulltable-creating td.fulltable-edition-control a.fulltable-save {
+        display: none !important;
+    }
+
+    table.fulltable.fulltable-editable tr.fulltable-editing td.fulltable-edition-control a.fulltable-edit, table.fulltable.fulltable-editable tr.fulltable-editing td.fulltable-edition-control a.fulltable-remove {
+        display: none;
+    }
+
+    table.fulltable.fulltable-editable tr td.fulltable-edition-control a.fulltable-save, table.fulltable.fulltable-editable tr td.fulltable-edition-control a.fulltable-discard {
+        display: none;
+    }
+
+    table.fulltable.fulltable-editable tr.fulltable-editing td.fulltable-edition-control a.fulltable-save, table.fulltable.fulltable-editable tr.fulltable-editing td.fulltable-edition-control a.fulltable-discard {
+        display: inline-block;
+    }
+    a.fulltable-create:before {
+        font-family: FontAwesome;
+        top: 0;
+        left: -5px;
+        padding-right: 10px;
+        content: "\f067";
+    }
+    a.fulltable-discard:before {
+        font-family: FontAwesome;
+        top: 0;
+        left: -5px;
+        padding-right: 10px;
+        content: "\f021";
+    }
+    a.fulltable-edit:before {
+        font-family: FontAwesome;
+        top: 0;
+        left: -5px;
+        padding-right: 10px;
+        content: "\f040";
+    }
+    a.fulltable-remove:before {
+        font-family: FontAwesome;
+        top: 0;
+        left: -5px;
+        padding-right: 10px;
+        content: "\f00d";
+    }
+    a.fulltable-save:before {
+        font-family: FontAwesome;
+        top: 0;
+        left: -5px;
+        padding-right: 10px;
+        content: "\f0c7";
+    }
 </style>
 <script src="~/MyJsFiles/SalesInvoice.js"></script>
-
+<script type="text/javascript" src="~/Content/js/jquery-3.4.1.js"></script>
+<script type="text/javascript" src="~/Content/js/jquery.fulltableinline.js"></script>
 <section class="content-header">
     <h1 class="headingfont">Sales Invoice<small></small></h1>
 
@@ -134,7 +321,7 @@
 
         <div class="form_invoice">
 
-            <form action="" method="post" id="myForm">
+            <form action="" method="post" id="myForm" style="display:none">
                 <div class="row no-margin">
 
                     <div class="col-md-3">
@@ -215,69 +402,143 @@
 
 
                     </div>
-                    <input type="button" id="add_charges" value="Add" class="btn btn-primary btnwidth" style="float: right;
+                </div>
+                <input type="button" id="add_charges" value="Add" class="btn btn-primary btnwidth" style="float: right;
     margin-right: 18px;
         margin-top: 10px;
     width: 70px;">
-</form>
-                </div>
+            </form>
+            <script type="text/javascript">
+                 $(function () {
+                        $("#charges_table").FullTable({
+                            "alwaysCreating": true,
+                            "selectable": true,
+                            "fields": {
+                              
+                                "Product_Service": {
+                                    "mandatory": true,
+                                    "errors": {
+                                        "mandatory": "Product and Service is mandatory"
+                                    }
+                                },
+                                "Description": {
+                                    "mandatory": true,
+                                    "errors": {
+                                        "mandatory": "Description is mandatory"
+                                    }
+                                },
+                                "Quantity": {
+                                    "mandatory": true,
+                                    "errors": {
+                                        "mandatory": "Quantity is mandatory"
+                                    }
+                                },
+                                "Unit": {
+                                    "mandatory": true,
+                                    "errors": {
+                                        "mandatory": "Unit is mandatory"
+                                    }
+                                },
+                                "Rate_Type": {
+                                    "mandatory": true,
+                                    "errors": {
+                                        "mandatory": "Rate_Type is mandatory"
+                                    }
+                                },
+                                "Rate_LC": {
+                                    "mandatory": true,
+                                    "errors": {
+                                        "mandatory": "Rate_LC is mandatory"
+                                    }
+                                },
+                                "Rate_FC": {
+                                    "mandatory": true,
+                                    "errors": {
+                                        "mandatory": "Rate_FC is mandatory"
+                                    }
+                                },
+                                "Value_LC": {
+                                    "mandatory": true,
+                                    "errors": {
+                                        "mandatory": "Value_LC is mandatory"
+                                    }
+                                },
+                                "Value_FC": {
+                                    "mandatory": true,
+                                    "errors": {
+                                        "mandatory": "Value_FC is mandatory"
+                                    }
+                                },
+                                "Tax": {
+                                    "mandatory": true,
+                                    "errors": {
+                                        "mandatory": "Tax is mandatory"
+                                    }
+                                },
+                                "Net_Value": {
+                                    "mandatory": true,
+                                    "errors": {
+                                        "mandatory": "Net_Value is mandatory"
+                                    }
+                                },
+                                "Job": {
+                                    "mandatory": true,
+                                    "errors": {
+                                        "mandatory": "Job is mandatory"
+                                    }
+                                },
 
-                <div class="row no-margin" id="AddCharges" style="padding-top: 10px">
-                    <div class="col-xs-12 no-padding for-device">
-                        <div class="data-table tblbackground" style="width:100%; padding: 27px;">
+                            }
+                        });
 
 
-                            <div class="data" style="overflow:auto;">
-                                <table border="1" class="table table-responsive table-bordered smalltablewidth fulltablewidth " id="charges_table">
-                                    <thead>
-                                        <tr>
-                                            
-                                            <td width="20%">
-                                                Product & Service
-                                            </td>
-                                            <td width="20%">Description</td>
-                                            <td width="1%">
-                                                Quantity
-                                            </td>
-                                            <td width="5%">
-                                                Unit
-                                            </td>
-                                            <td id="rate_type" class="hideinsummary">
-                                                Rate Type
-                                            </td>
-                                            <td id="rate_lc" class="hideinsummary">
-                                                Rate(LC)
-                                            </td>
-                                            <td id="rate_fc" class="hideinsummary">
-                                                Rate(FC)
-                                            </td>
-                                            <td width="8%" class="lc_pro">
-                                                <p class="valuelc"> Value LC</p>
-                                            </td>
-                                            <td id="provin_forgin" class="hideinsummary">
-                                                Value FC
-                                            </td>
-                                            <td id="tax" class="hideinsummary">
-                                                Tax
-                                            </td>
-                                            <td id="net_curr" class="summary">
-                                                Net Value
-                                            </td>
-                                            <td id="sale_exrate" class="hideinsummary">
-                                                Job
-                                            </td>
+                        $("#charges_table").FullTable("on", "error", function (errors) {
+                            for (var error in errors) {
+                                error = errors[error];
+                                console.log(error);
+                            }
+                        });
+                        $("#charges_table").FullTable("draw");
+                    }
+                );
 
 
-                                        </tr>
-                                    </thead>
-                                    <tbody id="displayArea"></tbody>
+            </script>
+
+            <div class="row no-margin" id="AddCharges" style="padding-top: 10px">
+                <div class="col-xs-12 no-padding for-device">
+                    <div class="data-table tblbackground" style="width:100%; padding: 27px;">
 
 
-                                </table>
-                            </div>
+                        <div class="data" style="overflow:auto;">
+                            <table border="1" class="fulltablewidth fulltable fulltable-editable" id="charges_table">
+                                <thead>
+                                    <tr>
+
+                                        <th fulltable-field-name="Product_Service">Product & Service</th>
+                                        <th fulltable-field-name="Description">Description</th>
+                                        <th fulltable-field-name="Quantity">Quantity</th>
+                                        <th fulltable-field-name="Unit">Unit</th>
+                                        <th fulltable-field-name="Rate_Type">Rate Type</th>
+                                        <th fulltable-field-name="Rate_LC">Rate(LC)</th>
+                                        <th fulltable-field-name="Rate_FC">Rate(FC)</th>
+                                        <th fulltable-field-name="Value_LC">Value LC</th>
+                                        <th fulltable-field-name="Value_FC">Value FC</th>
+                                        <th fulltable-field-name="Tax">Tax</th>
+                                        <th fulltable-field-name="Net_Value">Net Value</th>
+                                        <th fulltable-field-name="Job">Job</th>
+
+
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+
+
+                            </table>
                         </div>
                     </div>
                 </div>
+            </div>
 
 
 
