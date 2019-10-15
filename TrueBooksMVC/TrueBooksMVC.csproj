@@ -300,13 +300,12 @@
     <Compile Include="Models\PDCVM.cs" />
     <Compile Include="Models\PortCountryVM.cs" />
     <Compile Include="Models\PurchaseInvoiceModel.cs" />
-    <Compile Include="Models\PurchaseInvoiceVM.cs" />
     <Compile Include="Models\RecieptPaymentModel.cs" />
     <Compile Include="Models\RegistrationModel.cs" />
     <Compile Include="Models\RemarksVM.cs" />
     <Compile Include="Models\ReportModel.cs" />
     <Compile Include="Models\RevenueAcHeadVM.cs" />
-    <Compile Include="Models\SalesInvoiceVM.cs" />
+    <Compile Include="Models\SalesInvoiceModel.cs" />
     <Compile Include="Models\ShippingUserVM.cs" />
     <Compile Include="Models\SourceMastersModel.cs" />
     <Compile Include="Models\SupplierLedgerReportVM.cs" />

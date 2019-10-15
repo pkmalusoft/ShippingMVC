@@ -560,3 +560,111 @@ UPDATE [SalesInvoice]  SET
 		WHERE SalesInvoiceID=@SalesInvoiceId
   
 END
+
+
+----
+  ALTER TABLE UserRegistration ADD BranchId int;
+  ALTER TABLE UserRegistration ADD AcFinancialYearID int;
+
+
+  ---
+  USE [DB_9F57C4_ShippingTest]
+GO
+/****** Object:  StoredProcedure [dbo].[SP_InsertPurchaseInvoice]    Script Date: 15-10-2019 19:00:42 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+ALTER proc [dbo].[SP_InsertPurchaseInvoice]
+(
+@PurchaseInvoiceId int=0,
+@PurchaseInvoiceNo nvarchar(50),
+@PurchaseInvoiceDate datetime,
+@Reference nvarchar(50),
+@LPOReference nvarchar(50),
+@SupplierID int,
+@EmployeeeID int,
+@QuotationID int,
+@CurrencyID int,
+@ExchangeRate decimal,
+@CreditDays int,
+@DueDate datetime,
+@AcJouranalID int,
+@BranchID int,
+@Discount decimal,
+@StatusDiscountAmt bit,
+@OtherCharges decimal,
+@PaymentTerm nvarchar,
+@Remarks nvarchar,
+@FYearID int
+)
+AS
+Begin
+Declare @MaxId int;
+SELECT @MaxId = MAX(@PurchaseInvoiceId) FROM PurchaseInvoice;
+
+SET @PurchaseInvoiceNo = RIGHT('0000' + CAST(@MaxId AS VARCHAR(5)),5);
+SET @PurchaseInvoiceNo = 'PI-' + @PurchaseInvoiceNo;
+
+ INSERT INTO [PurchaseInvoice] 
+           ([PurchaseInvoiceNo],
+		   [PurchaseInvoiceDate],
+		     [Reference],
+			   [LPOReference],
+			   [SupplierID],
+			   [EmployeeID],
+			   [QuotationID],
+			   [CurrencyID],
+			   [ExchangeRate],
+			    [CreditDays],
+			   [DueDate],
+			   [AcJournalID],
+			   [BranchID],
+			   [Discount],
+			   [StatusDiscountAmt],
+			   [OtherCharges],
+			   [PaymentTerm],
+			   [Remarks],
+			   [FYearID]
+			
+         )
+     VALUES
+           (
+          @PurchaseInvoiceNo, 
+@PurchaseInvoiceDate,
+@Reference,
+@LPOReference,
+@SupplierID,
+@EmployeeeID,
+@QuotationID,
+@CurrencyID,
+@EXchangeRate,
+@CreditDays,
+@DueDate,
+@AcJouranalID,
+@BranchID,
+@Discount,
+@StatusDiscountAmt,
+@OtherCharges,
+@PaymentTerm,
+@Remarks,
+@FYearID
+         )
+
+END
+
+-------
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [dbo].[SP_GetSalesInvoiceByID]
+(
+@SalesInvoiceID int
+)
+AS
+BEGIN
+SELECT * FROM SalesInvoice where SalesInvoiceID = @SalesInvoiceID
+END

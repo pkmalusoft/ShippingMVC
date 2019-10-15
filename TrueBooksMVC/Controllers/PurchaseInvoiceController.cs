@@ -44,6 +44,18 @@ namespace TrueBooksMVC.Controllers
 
             return ID;
         }
+
+        [HttpGet]
+        public ActionResult Invoice(string Command, int id)
+        {
+            PurchaseInvoice PI = new PurchaseInvoice();
+            //PurchaseInvoiceModel vm = new PurchaseInvoiceModel();
+            PI = PM.GetPurchaseInvoiceByID(id);
+            BindAllMasters();
+            return View(PI);
+        }
+
+        [HttpPost]
         public ActionResult Invoice(FormCollection formCollection, string Command, int id)
         {
             PurchaseInvoice PI = new PurchaseInvoice();
@@ -170,7 +182,15 @@ namespace TrueBooksMVC.Controllers
             }
         }
 
+        public JsonResult GetExchangeRte(string ID)
+        {
+            //List<SP_GetCustomerInvoiceDetailsForReciept_Result> AllInvoices = new List<SP_GetCustomerInvoiceDetailsForReciept_Result>();
 
+            var ExRate = PM.GetCurrencyExchange(Convert.ToInt32(ID));
+
+            return Json(ExRate, JsonRequestBehavior.AllowGet);
+        }
     }
+   
 }
 

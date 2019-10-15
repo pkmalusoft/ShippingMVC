@@ -6,6 +6,11 @@
     ViewBag.Title = "Invoice";
     Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
 }
+<script src="~/MyJsFiles/PurchaseInvoice.js"></script>
+<script type="text/javascript" src="~/Content/js/bootstrap-datepicker.js"></script>
+<script type="text/javascript" src="~/Content/js/jquery-3.4.1.js"></script>
+<script type="text/javascript" src="~/Content/js/jquery.fulltableinline.js"></script>
+
 
 <style>
     .jobform {
@@ -30,8 +35,218 @@
         padding: 20px;
         margin-top: 18px;
     }
+
+    table.fulltable thead th {
+        vertical-align: top;
+    }
+
+    table.fulltable span.fulltable-filter {
+        position: relative;
+        display: inline-block;
+        overflow: hidden;
+        box-sizing: border-box;
+        padding: 0;
+    }
+
+    table.fulltable input, table.fulltable select {
+        position: relative;
+        width: 100% !important;
+        font-family: tahoma, arial, helvetica;
+        font-size: 9pt;
+        clear: both;
+        float: left;
+        margin: 6pt 0 !important;
+    }
+
+        table.fulltable input.checkbox {
+            width: 13px !important;
+            height: 13px !important;
+        }
+
+    table.fulltable th.fulltable-selection-control {
+        width: 30px;
+    }
+    /*table.fulltable tr.fulltable-editing td.fulltable-selection-control input.checkbox {
+        display:none;
+    }*/
+    table.fulltable th.fulltable-selection-control, table.fulltable td.fulltable-selection-control {
+        padding: 0 1em;
+        width: 30px;
+    }
+
+    table.fulltable.fulltable-editable th.fulltable-edition-control {
+        width: 70px;
+    }
+
+    table.fulltable.fulltable-editable th.fulltable-edition-control, table.fulltable.fulltable-editable td.fulltable-edition-control {
+        padding: 0 1em;
+    }
+
+    table.fulltable.fulltable-editable input.invalid, table.fulltable.fulltable-editable select.invalid {
+        border: solid 1px #FF3333;
+        background-color: #FFEEEE;
+    }
+
+    table.fulltable thead th a.fulltable-sort {
+        font-size: 9px;
+        position: relative;
+        left: 6px;
+        top: 0px;
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        cursor: pointer;
+    }
+
+    table.fulltable thead th.fulltable-asc a.fulltable-sort-desc {
+        display: none !important;
+    }
+
+    table.fulltable thead th.fulltable-desc a.fulltable-sort-asc {
+        display: none !important;
+    }
+
+    table.fulltable.fulltable-editable td.fulltable-edition-control {
+        white-space: nowrap;
+    }
+
+        table.fulltable.fulltable-editable td.fulltable-edition-control a {
+            font-family: 'jquery.fulltable';
+            font-size: 16px;
+            position: relative;
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            top: 1px;
+            line-height: 16px;
+            margin: 0.5em;
+            cursor: pointer;
+            text-align: center;
+        }
+
+            table.fulltable.fulltable-editable td.fulltable-edition-control a.fulltable-create {
+                display: none;
+            }
+
+    table.fulltable.fulltable-editable tr.fulltable-creating td.fulltable-edition-control a.fulltable-create {
+        display: inline-block !important;
+    }
+
+    table.fulltable.fulltable-editable tr.fulltable-creating td.fulltable-edition-control a.fulltable-save {
+        display: none !important;
+    }
+
+    table.fulltable.fulltable-editable tr.fulltable-editing td.fulltable-edition-control a.fulltable-edit, table.fulltable.fulltable-editable tr.fulltable-editing td.fulltable-edition-control a.fulltable-remove {
+        display: none;
+    }
+
+    table.fulltable.fulltable-editable tr td.fulltable-edition-control a.fulltable-save, table.fulltable.fulltable-editable tr td.fulltable-edition-control a.fulltable-discard {
+        display: none;
+    }
+
+    table.fulltable.fulltable-editable tr.fulltable-editing td.fulltable-edition-control a.fulltable-save, table.fulltable.fulltable-editable tr.fulltable-editing td.fulltable-edition-control a.fulltable-discard {
+        display: inline-block;
+    }
+
+    a.fulltable-create:before {
+        font-family: FontAwesome;
+        top: 0;
+        left: -5px;
+        padding-right: 10px;
+        content: "\f067";
+    }
+
+    a.fulltable-discard:before {
+        font-family: FontAwesome;
+        top: 0;
+        left: -5px;
+        padding-right: 10px;
+        content: "\f021";
+    }
+
+    a.fulltable-edit:before {
+        font-family: FontAwesome;
+        top: 0;
+        left: -5px;
+        padding-right: 10px;
+        content: "\f040";
+    }
+
+    a.fulltable-remove:before {
+        font-family: FontAwesome;
+        top: 0;
+        left: -5px;
+        padding-right: 10px;
+        content: "\f00d";
+    }
+
+    a.fulltable-save:before {
+        font-family: FontAwesome;
+        top: 0;
+        left: -5px;
+        padding-right: 10px;
+        content: "\f0c7";
+    }
+
+    th.fulltable-selection-control, td.fulltable-selection-control {
+        display: none;
+    }
+
+    table {
+        position: relative;
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 10px !important;
+        text-align: center;
+    }
+
+        table, table th, table td {
+            border: 1px solid #d2d6de;
+        }
+
+    input.fulltable-filter {
+        display: none;
+    }
+
+    table th, table td {
+        // white-space: nowrap;
+        // text-overflow: ellipsis;
+        overflow: hidden;
+        line-height: 0px;
+        height: 0px;
+        padding: 4px;
+    }
 </style>
 <script src="~/MyJsFiles/PurchaseInvoice.js"></script>
+<script type="text/javascript" src="~/Content/js/jquery-3.4.1.js"></script>
+<script type="text/javascript" src="~/Content/js/jquery.fulltableinline.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+      
+        $("#CurrencyID").change(function () {
+            debugger;
+            $("#ExchangeRate").val('');
+            debugger;
+              $.ajax({
+
+                type: "GET",
+                url: "/Job/GetExchangeRte",
+                datatype: "Json",
+                data: { ID: $('#CurrencyID').val() },
+                  success: function (data) {
+                      debugger;
+                      $('#ExchangeRate').val(data);
+                }
+            });
+        });
+        
+
+
+    });
+
+</script>
+
+
 
 <section class="content-header">
     <h1 class="headingfont">Purchase Invoice<small></small></h1>
@@ -42,374 +257,296 @@
     <section class="content jobform">
 
 
+        @Html.BeginForm() {
 
+
+        @Html.ValidationSummary(true)
         <input type="hidden" id="BranchLocalCurrencyId" name="BranchLocalCurrencyId" value="@Session["BaseCurrencyId"]" />
-        @using (Html.BeginForm())
-        {
-            @Html.ValidationSummary(true)
-            @Html.HiddenFor(model => PurchaseInvoiceID)
-            <div class="row no-margin">
 
-                <div class="col-md-6">
-                    <label class="headinglabel">Invoice No:</label>
-                    @Html.TextBoxFor(model => model.PurchaseInvoiceNo, new { @class = "form-control", id = "PurchaseInvoiceNo", required = "required" })
-                    <!--<input type="text" class="form-control" id="InvoiceNo" placeholder=" Enter InvoiceNo" name="InvoiceNo" readonly>-->
-                </div>
-                <div class="col-md-6">
-                    <label class="headinglabel">Invoice Date:</label>
-                    @Html.TextBoxFor(model => model.PurchaseInvoiceDate, new { Value = Model.PurchaseInvoiceDate.Value.ToString("dd-MMM-yyyy"), id = "", @class = "form-control", @readonly = "readonly", @style = "background-color: lightgrey;" })
+        <div class="row no-margin">
 
-                    <!--<input type="Date" class="form-control" id="InvoiceDate" placeholder=" EnterInvoiceDate" name="InvoiceDate">-->
-                </div>
+            <div class="col-md-6">
+                <label class="headinglabel">Invoice No:</label>
+                @Html.TextBoxFor(model => model.PurchaseInvoiceNo, new { @class = "form-control", id = "PurchaseInvoiceNo", @readonly = "readonly" })
+                <!--<input type="text" class="form-control" id="InvoiceNo" placeholder=" Enter InvoiceNo" name="InvoiceNo" readonly>-->
             </div>
-            <div class="row no-margin" style="padding-top: 10px">
+            <div class="col-md-6">
+                <label class="headinglabel">Invoice Date:</label>
+                @Html.TextBoxFor(model => model.PurchaseInvoiceDate, "{0:dd-MMM-yyyy}", new { @id = "invoicedate", @class = "form-control" })
+                @* @Html.TextBoxFor(model => model.PurchaseInvoiceDate, new { Value = Model.PurchaseInvoiceDate.Value.ToString("dd-MMM-yyyy"), id = "invoicedate", @class = "form-control" })*@
 
-                <div class="col-md-6">
-                    <label class="headinglabel">Supplier:</label>
-                    @Html.DropDownListFor(model => model.SupplierID, new SelectList(ViewBag.Suplier, "SupplierID", "SupplierName"), "Select Suplier", new { @class = "form-control" })
-                </div>
-
-                <div class="col-md-6">
-                    <label class="headinglabel">External Reference No:</label>
-                    @Html.TextBoxFor(model => model.Reference, new { @class = "form-control", id = "Reference", required = "required" })
-                    <!-- <input type="text" class="form-control" id="ExternalReference" placeholder=" Enter ExternalReference" name="ExternalReference">-->
-                </div>
+                <!--<input type="Date" class="form-control" id="InvoiceDate" placeholder=" EnterInvoiceDate" name="InvoiceDate">-->
             </div>
-            <div class="row no-margin" style="padding-top: 10px">
-                <div class="col-md-6">
-                    <label class="headinglabel">Quotation Number | Date:</label>
-                    @Html.TextBoxFor(model => model.QuotationID, new { @class = "form-control", id = "QuotationID", required = "required" })
-                    <!--<input type="text" class="form-control" id="QuotationDate" placeholder=" Enter QuotationDate" name="QuotationDate">-->
-                </div>
-                <div class="col-md-3">
-                    <label class="headinglabel">Currency:</label>
-                    @Html.DropDownListFor(model => model.CurrencyID, new SelectList(ViewBag.Currency, "CurrencyID", "CurrencyName"), "Select Currency", new { @class = "form-control" })
-                    <!--<select class="form-control" id="recvd">
+        </div>
+        <div class="row no-margin" style="padding-top: 10px">
+
+            <div class="col-md-6">
+                <label class="headinglabel">Supplier:</label>
+                @Html.DropDownListFor(model => model.SupplierID, (SelectList)ViewBag.Suplier, "Select Supplier", new { @class = "form-control" })
+            </div>
+
+            <div class="col-md-6">
+                <label class="headinglabel">External Reference No:</label>
+                @Html.TextBoxFor(model => model.Reference, new { @class = "form-control", id = "Reference", required = "required" })
+                <!-- <input type="text" class="form-control" id="ExternalReference" placeholder=" Enter ExternalReference" name="ExternalReference">-->
+            </div>
+        </div>
+        <div class="row no-margin" style="padding-top: 10px">
+            <div class="col-md-6">
+                <label class="headinglabel">Quotation Number | Date:</label>
+                @Html.TextBoxFor(model => model.QuotationID, new { @class = "form-control", id = "QuotationID", required = "required" })
+                <!--<input type="text" class="form-control" id="QuotationDate" placeholder=" Enter QuotationDate" name="QuotationDate">-->
+            </div>
+            <div class="col-md-3">
+                <label class="headinglabel">Currency:</label>
+                @Html.DropDownListFor(model => model.CurrencyID, (SelectList)ViewBag.Curency, "Select Currency", new { @class = "form-control" })
+                <!--<select class="form-control" id="recvd">
                     <option>1</option>
                     <option>2</option>
                     <option>3</option>
                     <option>4</option>
                 </select>-->
-                </div>
-                <div class="col-md-3">
-                    <label class="headinglabel">Exchange Rate :</label>
-                    @Html.TextBoxFor(model => model.ExchangeRate, new { @class = "form-control", id = "ExchangeRate", required = "required" })
-                    <!--<input type="text" class="form-control" id="ExchangeRate" placeholder="Enter ExchangeRate" name="ExchangeRate">-->
-                </div>
-
-
             </div>
-            <div class="row no-margin" style="padding-top: 10px">
-                <div class="col-md-6">
-                    <label class="headinglabel">LPO Number | Date:</label>
-                    @Html.TextBoxFor(model => model.LPOReference, new { @class = "form-control", id = "LPOReference", required = "required" })
-                    <!-- <input type="text" class="form-control" id="LPONumber" placeholder=" Enter LPO Number" name="LPONumber">-->
-                </div>
-                <div class="col-md-6">
-                    <label class="headinglabel">Good Rcvd By:</label>
-                    <!--<select class="form-control" id="recvd">
+            <div class="col-md-3">
+                <label class="headinglabel">Exchange Rate :</label>
+                @Html.TextBoxFor(model => model.ExchangeRate, new { @class = "form-control", id = "ExchangeRate", required = "required" })
+                <!--<input type="text" class="form-control" id="ExchangeRate" placeholder="Enter ExchangeRate" name="ExchangeRate">-->
+            </div>
+
+
+        </div>
+        <div class="row no-margin" style="padding-top: 10px">
+            <div class="col-md-6">
+                <label class="headinglabel">LPO Number | Date:</label>
+                @Html.TextBoxFor(model => model.LPOReference, new { @class = "form-control", id = "LPOReference", required = "required" })
+                <!-- <input type="text" class="form-control" id="LPONumber" placeholder=" Enter LPO Number" name="LPONumber">-->
+            </div>
+            <div class="col-md-6">
+                <label class="headinglabel">Good Rcvd By:</label>
+                @Html.DropDownListFor(model => model.EmployeeID, (SelectList)ViewBag.Employees, "Select Employees", new { @class = "form-control" })
+                <!--<select class="form-control" id="recvd">
                     <option>1</option>
                     <option>2</option>
                     <option>3</option>
                     <option>4</option>
                 </select>-->
-                </div>
-
-
-
             </div>
 
-            <!--------------------------tabledesignstrat----------------------->
-            <div class="form_invoice">
-                <div class="row no-margin">
 
 
-                    <div class="col-md-3">
-                        <label class="headinglabel">Description</label>
-                        <input type="text" class="form-control" id="Description" placeholder=" Enter Service" name="Service">
-                    </div>
-                    <div class="col-md-3">
-                        <label class="headinglabel"> Quantity</label>
-                        <input type="text" class="form-control" id="Quantity" placeholder="Enter Quantity" name="Quantity">
-                    </div>
-                    <div class="col-md-3">
-                        <label class="headinglabel"> Unit</label>
-                        @* @Html.DropDownListFor(model => model.ItemUnitID, new SelectList(ViewBag.Unit, "ItemUnitID", "ItemUnit"), "Select Unit", new { @class = "form-control" })*@
-                        <select class="form-control" id="recvd">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                        </select>
+        </div>
 
-                    </div>
-                    <div class="col-md-3">
-                        <label class="headinglabel">  Rate Type</label>
-                        <input type="text" class="form-control" id="RateType" placeholder=" Enter RateType" name="RateType">
-                    </div>
+        <!--------------------------tabledesignstrat----------------------->
+        <div class="form_invoice">
 
-                </div>
-                <div class="row no-margin" style="padding-top: 10px">
+            <button type="button" class='delete'>- Delete</button>
+            <button type="button" class='addmore'>+ Add More</button>
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    $(".delete").on('click', function () {
+                        $('.case:checkbox:checked').parents("tr").remove();
+                        $('.check_all').prop("checked", false);
+                        check();
+                        select_all();
+                    });
+                    var i = 2;
+                    $(".addmore").on('click', function () {
+                        count = $('table tr').length;
+                        var data = "<tr><td><input type='checkbox' class='case'/></td><td><span id='snum" + i + "'>" + count + ".</span></td>";
+                        data += "<td><input type='text' id='Description" + i + "' name='Description[]'/></td> <td><input type='text' id='Quantity" + i + "' name='Quantity[]'/></td><td><input type='text' id='unit" + i + "' name='unit[]'/></td><td><input type='text' id='RateType" + i + "' name='RateType[]'/></td><td><input type='text' id='RateLC" + i + "' name='RateLC[]'/></td><td><input type='text' id='RateFC" + i + "' name='RateFC[]'/></td><td><input type='text' id='ValueLC" + i + "' name='ValueLC[]'/></td><td><input type='text' id='ValueFC" + i + "' name='ValueFC[]'/></td><td><input type='text' id='Tax" + i + "' name='Tax[]'/></td><td><input type='text' id='NetValue" + i + "' name='NetValue[]'/></td><td><input type='text' id='AccountHead" + i + "' name='AccountHead[]'/></td><td><input type='text' id='Product" + i + "' name='Product[]'/></td></tr>";
+                        $('table').append(data);
+                        i++;
+                    });
+                    $('.addmore').keypress(function (e) {
+                        if (e.which == 13) {
+                            //e.preventDefault();
+                           
+                            count = $('table tr').length;
+                            var data = "<tr><td><input type='checkbox' class='case'/></td><td><span id='snum" + i + "'>" + count + ".</span></td>";
+                            data += "<td><input type='text' id='Description" + i + "' name='Description[]'/></td> <td><input type='text' id='Quantity" + i + "' name='Quantity[]'/></td><td><input type='text' id='unit" + i + "' name='unit[]'/></td><td><input type='text' id='RateType" + i + "' name='RateType[]'/></td><td><input type='text' id='RateLC" + i + "' name='RateLC[]'/></td><td><input type='text' id='RateFC" + i + "' name='RateFC[]'/></td><td><input type='text' id='ValueLC" + i + "' name='ValueLC[]'/></td><td><input type='text' id='ValueFC" + i + "' name='ValueFC[]'/></td><td><input type='text' id='Tax" + i + "' name='Tax[]'/></td><td><input type='text' id='NetValue" + i + "' name='NetValue[]'/></td><td><input type='text' id='AccountHead" + i + "' name='AccountHead[]'/></td><td><input type='text' id='Product" + i + "' name='Product[]'/></td></tr>";
+                            $('table').append(data);
+                            i++;
+                        }
+                    });
+                    function select_all() {
+                        $('input[class=case]:checkbox').each(function () {
+                            if ($('input[class=check_all]:checkbox:checked').length == 0) {
+                                $(this).prop("checked", false);
+                            } else {
+                                $(this).prop("checked", true);
+                            }
+                        });
+                    }
 
-
-                    <div class="col-md-3">
-                        <label class="headinglabel">Rate LC</label>
-                        <input type="text" class="form-control" id="RateLC" placeholder=" Enter Rate LC" name="RateLC">
-                    </div>
-                    <div class="col-md-3">
-                        <label class="headinglabel"> Rate FC</label>
-                        <input type="text" class="form-control" id="Rate FC" placeholder="Enter Rate FC" name="RateFC">
-                    </div>
-                    <div class="col-md-3">
-                        <label class="headinglabel"> Value LC</label>
-                        <input type="text" class="form-control" id="ValueLC" placeholder="Enter ValueLC" name="ValueLC">
-                    </div>
-                    <div class="col-md-3">
-                        <label class="headinglabel">  Value FC</label>
-                        <input type="text" class="form-control" id="ValueFc" placeholder=" Enter ValueFc" name="ValueFc">
-                    </div>
-
-                </div>
-
-                <div class="row no-margin" style="padding-top: 10px">
-
-
-                    <div class="col-md-3">
-                        <label class="headinglabel">Tax</label>
-                        <input type="text" class="form-control" id="Tax" placeholder=" Enter Tax" name="Tax">
-                    </div>
-                    <div class="col-md-3">
-                        <label class="headinglabel"> Net Value</label>
-                        <input type="text" class="form-control" id="netvalue" placeholder="Enter netvalue" name="netvalue">
-                    </div>
-                    <div class="col-md-3">
-                        <label class="headinglabel"> Job</label>
-                        <select class="form-control" id="job">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                        </select>
+                    function check() {
+                        obj = $('table tr').find('span');
+                        $.each(obj, function (key, value) {
+                            id = value.id;
+                            $('#' + id).html(key + 1);
+                        });
+                    }
+                });
 
 
-                    </div>
-                    <div class="col-md-3">
-                        <label class="headinglabel">Product & Service</label>
-                        <select class="form-control" id="Service">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                        </select>
+            </script>
 
-                    </div>
-                    <input type="button" id="add_charges" value="Add" class="btn btn-primary btnwidth" style="float: right;
-            margin-right: 18px;
-                margin-top: 10px;
-            width: 70px;">
-
-                </div>
-
-                <div class="row no-margin" id="AddCharges" style="padding-top: 10px">
-                    <div class="col-xs-12 no-padding for-device">
-                        <div class="data-table tblbackground" style="width:100%; padding: 27px;">
+            <div class="row no-margin" id="AddCharges" style="padding-top: 10px">
+                <div class="col-xs-12 no-padding for-device">
+                    <div class="data-table tblsbackground" style="width:100%; padding: 0px;">
 
 
-                            <div class="data" style="overflow:auto;">
-                                <table border="1" class="table table-responsive table-bordered smalltablewidth fulltablewidth " id="charges_table">
-                                    <thead>
-                                        <tr>
+                        <div class="data" style="overflow:auto;">
+                            <table border="1" class=" fulltablewidth" id="charges_table">
+                                <thead>
+                                    <tr>
+                                        <th><input class='check_all' type='checkbox' onclick="select_all()" /></th>
+                                        <th>S. No</th>
+                                        <th>Description</th>
+                                        <th>Quantity</th>
+                                        <th>Unit</th>
+                                        <th>RateType</th>
+                                        <th>RateLC</th>
+                                        <th>RateFC</th>
+                                        <th>ValueLC</th>
+                                        <th>ValueFC</th>
+                                        <th>Tax</th>
+                                        <th>NetValue</th>
+                                        <th>AccountHead</th>
+                                        <th>Job</th>
+                                        <th>Product</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><input type='checkbox' class='case' /></td>
+                                        <td><span id='snum'>1.</span></td>
+                                        <td><input type='text' id='Description' name='Description[]' /></td>
+                                        <td><input type='text' id='Quantity' name='Quantity[]' /></td>
+                                        <td>
+                                            <select name="unit[]">
+                                                <option value="in">Lit</option>
+                                                <option value="de">No</option>
+
+                                            </select>
+                                        </td>
+                                        <td><input type='text' id='RateType' name='RateType[]' /> </td>
+                                        <td><input type='text' id='RateLC' name='RateLC[]' /></td>
+                                        <td><input type='text' id='RateFC' name='RateFC[]' /> </td>
+                                        <td><input type='text' id='ValueLC' name='ValueLC[]' /> </td>
+                                        <td><input type='text' id='ValueFC' name='ValueFC[]' /></td>
+                                        <td><input type='text' id='Tax' name='Tax[]' /> </td>
+                                        <td><input type='text' id='NetValue' name='NetValue[]' /> </td>
+                                        <td><input type='text' id='AccountHead' name='AccountHead[]' /> </td>
+                                        <td><input type='text' id='Job' name='Job[]' /> </td>
+                                        <td><input type='text' id='Product' name='Product[]' /> </td>
 
 
-                                            <td width="20%">Description</td>
-                                            <td width="1%">
-                                                Quantity
-                                            </td>
-                                            <td width="5%">
-                                                Unit
-                                            </td>
-                                            <td id="rate_type" class="summary">
-                                                Rate Type
-                                            </td>
-                                            <td id="rate_lc" class="summary">
-                                                Rate(LC)
-                                            </td>
-                                            <td id="rate_fc" class="summary">
-                                                Rate(FC)
-                                            </td>
-                                            <td width="8%" class="lc_pro">
-                                                <p class="valuelc"> Value LC</p>
-                                            </td>
-                                            <td id="provin_forgin" class="summary">
-                                                Value FC
-                                            </td>
-                                            <td id="tax" class="summary">
-                                                Tax
-                                            </td>
-                                            <td id="sale_curr" class="summary">
-                                                Net Value
-                                            </td>
-                                            <td id="sale_exrate" class="summary">
-                                                Job
-                                            </td>
-
-                                            <td width="20%">
-                                                Product & Service
-                                            </td>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="displayArea"></tbody>
-
-
-
-                                </table>
-                            </div>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
-
-
-
-
             </div>
+        </div>
 
-            <!--------------------------tabledesignend----------------------->
+        <!--------------------------tabledesignend----------------------->
 
-
-            <div class="row no-margin" style="padding-top: 10px">
-
-                <div class="col-md-6">
-
-                </div>
-
-
-                <div class="col-md-6">
-                    <div class="col-md-12">
-                        <div class="row no-margin" style="padding-top: 10px">
-                            <div class="col-md-3" style="text-align: center">
-                                <label class="headinglabel">TAX :</label>
-                            </div>
-                            <div class="col-md-3">
-
-                                <input type="text" class="form-control" placeholder=" Enter ExternalReference" name="ExternalReference" style="display: inline-block;
-            width: 100%;">
-                            </div>
-                            <div class="col-md-3">
-                                <input type="text" class="form-control" placeholder=" Enter ExternalReference" name="ExternalReference" style="display: inline-block;
-           width: 100%;">
-                            </div>
-
+        <div class="row no-margin" style="padding-top: 10px">
+            <div class="col-md-6">
+                <label class="headinglabel">Remarks:</label>
+                <textarea class="form-control" rows="5" cols="30" id="Remarks"></textarea>
+            </div>
+            <div class="col-md-6">
+                <div class="col-md-12">
+                    <div class="row no-margin" style="padding-top: 10px">
+                        <div class="col-md-3" style="text-align: center">
+                            <label class="headinglabel">TAX :</label>
                         </div>
+                        <div class="col-md-3">
 
-                        <div class="row no-margin" style="padding-top: 10px">
-                            <div class="col-md-3" style="text-align: center;border: 1px solid;position: relative;">
-                                <div class="lab_dis" style="position: absolute; top: -11px; left: 3px; background-color: #fff; padding: 2px;"><label class="headinglabel">Discount :</label></div>
-                                <div class="row no-margin" style="padding-top: 10px">
-                                    <div class="col-md-6">
-                                        <label>%</label>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <input type="checkbox" value="">
-                                    </div>
-                                </div><div class="row no-margin" style="padding-top: 10px">
-                                    <div class="col-md-6">
-                                        <label>Amount</label>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <input type="checkbox" value="">
-                                    </div>
+                            <input type="text" class="form-control" placeholder=" Enter ExternalReference" name="ExternalReference" style="display: inline-block;
+                    width: 100%;">
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" placeholder=" Enter ExternalReference" name="ExternalReference" style="display: inline-block;
+                   width: 100%;">
+                        </div>
+                    </div>
+                    <div class="row no-margin" style="padding-top: 10px">
+                        <div class="col-md-3" style="text-align: center;border: 1px solid;position: relative;">
+                            <div class="lab_dis" style="position: absolute; top: -11px; left: 3px; background-color: #fff; padding: 2px;"><label class="headinglabel">Discount :</label></div>
+                            <div class="row no-margin" style="padding-top: 10px">
+                                <div class="col-md-6">
+                                    <label>%</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="checkbox" value="">
+                                </div>
+                            </div><div class="row no-margin" style="padding-top: 10px">
+                                <div class="col-md-6">
+                                    <label>Amount</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="checkbox" value="">
                                 </div>
                             </div>
-                            <div class="col-md-3">
-
-                                <input type="text" class="form-control" placeholder=" Enter ExternalReference" name="ExternalReference" style="display: inline-block;
-            width: 100%;">
-                            </div>
-                            <div class="col-md-3">
-                                <input type="text" class="form-control" placeholder=" Enter ExternalReference" name="ExternalReference" style="display: inline-block;
-           width: 100%;">
-                            </div>
-
                         </div>
+                        <div class="col-md-3">
 
-
-                        <div class="row no-margin" style="padding-top: 10px">
-                            <div class="col-md-3" style="text-align: center;">
-                                <label class="headinglabel">VAT :</label>
-                            </div>
-                            <div class="col-md-3">
-
-                                <input type="text" class="form-control" placeholder=" Enter ExternalReference" name="ExternalReference" style="display: inline-block;
-            width: 100%;">
-                            </div>
-
-
+                            <input type="text" class="form-control" placeholder=" Enter ExternalReference" name="ExternalReference" style="display: inline-block;
+                    width: 100%;">
                         </div>
-
-
-                        <div class="row no-margin" style="padding-top: 10px">
-                            <div class="col-md-3" style="text-align: center">
-                                <label class="headinglabel">Net Total :</label>
-                            </div>
-                            <div class="col-md-3">
-
-                                <input type="text" class="form-control" placeholder=" Enter ExternalReference" name="ExternalReference" style="display: inline-block;
-            width: 100%;">
-                            </div>
-                            <div class="col-md-3">
-                                <input type="text" class="form-control" placeholder=" Enter ExternalReference" name="ExternalReference" style="display: inline-block;
-           width: 100%;">
-                            </div>
-
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" placeholder=" Enter ExternalReference" name="ExternalReference" style="display: inline-block;
+                   width: 100%;">
                         </div>
-
-
-
                     </div>
-
+                    <div class="row no-margin" style="padding-top: 10px">
+                        <div class="col-md-3" style="text-align: center;">
+                            <label class="headinglabel">VAT :</label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" placeholder=" Enter ExternalReference" name="ExternalReference" style="display: inline-block;
+                    width: 100%;">
+                        </div>
+                    </div>
+                    <div class="row no-margin" style="padding-top: 10px">
+                        <div class="col-md-3" style="text-align: center">
+                            <label class="headinglabel">Net Total :</label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" placeholder=" Enter ExternalReference" name="ExternalReference" style="display: inline-block;
+                    width: 100%;">
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" placeholder=" Enter ExternalReference" name="ExternalReference" style="display: inline-block;
+                   width: 100%;">
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="row no-margin buttons" style="padding-top: 10px">
-                <div class="col-md-12 align-right" style="text-align: left">
-                    @{ if (Model.PurchaseInvoiceID > 0)
-                        {
-                            <input type="submit" name="Command" value="Update" class="btn btn-primary btnwidth" />
-                        }
-                        else
-                        {
-                            <input type="submit" name="Command" value="Save" ng-click="GenerateInvoice()" class="btn btn-primary btnwidth" id="btnSave" />
-                        }
-
+        </div>
+        <div class="row no-margin buttons" style="padding-top: 10px">
+            <div class="col-md-12 align-right" style="text-align: left">
+                @{ if (Model.PurchaseInvoiceID > 0)
+                    {
+                        <input type="submit" name="Command" value="Update" class="btn btn-primary btnwidth" />
                     }
-                    &nbsp;
-                    <a href='@Url.Action("index", "Invoice", new { id = 0 })' class="btn btn-primary btnwidth">Cancel</a>
-                    &nbsp;
-                    @{ if (Model.PurchaseInvoiceID > 0)
-                        {
-
-
-                            if (ViewBag.IsInvoiveGenerated != null)
-                            {
-                                if ((bool)ViewBag.IsInvoiveGenerated == false)
-                                {
-                                    <input type="button" value="Generate Invoice" onclick="return AddInvoiceNumber();" class="btn btn-primary" style="width: 120px" />
-                                }
-                            }
-                            else
-                            {
-                                <input type="button" value="Generate Invoice" onclick="return AddInvoiceNumber();" class="btn btn-primary" style="width: 120px" />
-                            }
-                        }
+                    else
+                    {
+                        <input type="submit" name="Command" value="Save" class="btn btn-primary btnwidth" id="btnSave" />
                     }
+                }
+                &nbsp;
+                <a href="@Url.Action("index", "Invoice", new { id = 0 })" class="btn btn-primary btnwidth">Cancel</a>
+                &nbsp;
 
-
-
-                </div>
             </div>
-
-            }
-
-        </section>
+        </div>
+        }
+    </section>
 </div>
 
 

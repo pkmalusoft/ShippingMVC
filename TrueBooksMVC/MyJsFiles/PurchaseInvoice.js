@@ -1,6 +1,6 @@
 ﻿$(document).ready(function () {
 
-    $("#add_charges").click(function () {
+   /* $("#add_charges").click(function () {
 
         var product = $("#Service").val();
         var Description = $("#Description").val();
@@ -28,5 +28,9 @@
 
 
 
-    });
+    });*/
+   
+
+
+    
 });

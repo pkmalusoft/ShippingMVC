@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="0fa85fb3ce344044ae7d1194f3c7d8ec" Name="Diagram1" ZoomLevel="79">
+      <Diagram DiagramId="0fa85fb3ce344044ae7d1194f3c7d8ec" Name="Diagram1" ZoomLevel="61">
         <EntityTypeShape EntityType="SHIPPING_FinalModel.JCargoDescription" Width="1.5" PointX="7.625" PointY="0.875" />
         <EntityTypeShape EntityType="SHIPPING_FinalModel.RecPay" Width="1.5" PointX="5.125" PointY="0.875" />
         <EntityTypeShape EntityType="SHIPPING_FinalModel.JAuditLog" Width="1.5" PointX="11.875" PointY="0.875" />
@@ -60,7 +60,7 @@
         <EntityTypeShape EntityType="SHIPPING_FinalModel.AcMemoBankDetail" Width="1.5" PointX="0.536027552809579" PointY="15.555429614873338" />
         <EntityTypeShape EntityType="SHIPPING_FinalModel.AcMemoJournalDetail" Width="1.5" PointX="8.625" PointY="6.625" />
         <EntityTypeShape EntityType="SHIPPING_FinalModel.AcMemoJournalMaster" Width="1.5" PointX="11.75" PointY="7.125" />
-        <EntityTypeShape EntityType="SHIPPING_FinalModel.UserRegistration" Width="1.5" PointX="9.5674980942008538" PointY="12.610432332665861" />
+        <EntityTypeShape EntityType="SHIPPING_FinalModel.UserRegistration" Width="1.75" PointX="9.375" PointY="12.625" />
         <EntityTypeShape EntityType="SHIPPING_FinalModel.Airline" Width="1.5" PointX="8.9818170801651753" PointY="1.9482702025902785" />
         <EntityTypeShape EntityType="SHIPPING_FinalModel.Commodity" Width="1.5" PointX="1.951926012501086" PointY="19.044679859208259" />
         <EntityTypeShape EntityType="SHIPPING_FinalModel.ItemUnit" Width="1.5" PointX="8.1534692571281777" PointY="22.914847101510897" />
@@ -89,6 +89,7 @@
         <EntityTypeShape EntityType="SHIPPING_FinalModel.CostUpdation" Width="1.5" PointX="4.3973070478054259" PointY="23.89284978429454" />
         <EntityTypeShape EntityType="SHIPPING_FinalModel.AcBankDetail" Width="1.5" PointX="1.878019916768195" PointY="11.988378768781377" />
         <EntityTypeShape EntityType="SHIPPING_FinalModel.PurchaseInvoice" Width="1.5" PointX="12.375" PointY="11.75" />
+        <EntityTypeShape EntityType="SHIPPING_FinalModel.SalesInvoice" Width="1.5" PointX="15.125" PointY="2.375" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -435,6 +435,9 @@
     <Compile Include="SalesAndCollectionRpt_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="SalesInvoice.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="SelectFinancialYearByBranch_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -592,6 +595,12 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="SP_GetJobTruckConsignmentNoteReport_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_GetPurchaseInvoiceByID_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_GetSalesInvoiceByID_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="SP_GetShippingAgents_Result.cs">

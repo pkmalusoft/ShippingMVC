@@ -1,4 +1,5 @@
-﻿@model TrueBooksMVC.Models.SalesInvoiceVM
+﻿@model DAL.SalesInvoice
+
 
 @{
     ViewBag.Title = "Invoice";
@@ -7,239 +8,281 @@
 
 
 <style>
-   
-    table {
-        position: relative;
-        width: 100%;
-        border-collapse: collapse;
-        font-size: 10px !important;
-        text-align: center;
-    }
 
-        table, table th, table td {
-            border: 1px solid black;
-        }
-    input.fulltable-filter {
-        display: none;
-    }
-            table th, table td {
-
-               // white-space: nowrap;
-              //  text-overflow: ellipsis;
-                overflow: hidden;
-                line-height: 0px;
-                height: 0px;
-                padding:4px;
-            }
-
-    a.button {
-        position: relative;
-        display: inline-block;
-        font-family: tahoma, arial, helvetica;
-        font-size: 9pt;
-        font-weight: bold;
-        color: #ffffff;
-        background-color: #AAAAAA;
-        padding: 5px;
-        text-decoration: none;
-        -webkit-border-radius: 5px;
-        -moz-border-radius: 5px;
-        border-radius: 5px;
-    }
-    .jobform {
-        background-color: #fff;
-        box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
-        border-radius: 25px;
-        margin-bottom: 27px;
-        padding: 20px;
-    }
-
-    .discount {
-        display: inline-block;
-        border: 1px solid;
-        padding: 10px;
-    }
-
-    .form_invoice {
-        background-color: #fff;
-        box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
-        border-radius: 25px;
-        margin-bottom: 27px;
-        padding: 20px;
-        margin-top: 18px;
-    }
-
-    table.fulltable thead th {
-        vertical-align: top;
-    }
-
-    table.fulltable span.fulltable-filter {
-        position: relative;
-        display: inline-block;
-        overflow: hidden;
-        box-sizing: border-box;
-        padding: 0;
-    }
-
-    table.fulltable input, table.fulltable select {
-        position: relative;
-        width: 100% !important;
-        font-family: tahoma, arial, helvetica;
-        font-size: 9pt;
-        clear: both;
-        float: left;
-        margin: 6pt 0 !important;
-    }
-
-        table.fulltable input.checkbox {
-            width: 13px !important;
-            height: 13px !important;
-        }
-
-    table.fulltable th.fulltable-selection-control {
-        width: 30px;
-    }
-    /*table.fulltable tr.fulltable-editing td.fulltable-selection-control input.checkbox {
-	display:none;
-}*/
-    table.fulltable th.fulltable-selection-control, table.fulltable td.fulltable-selection-control {
-        padding: 0 1em;
-        width: 30px;
-    }
-
-    table.fulltable.fulltable-editable th.fulltable-edition-control {
-        width: 70px;
-    }
-
-    table.fulltable.fulltable-editable th.fulltable-edition-control, table.fulltable.fulltable-editable td.fulltable-edition-control {
-        padding: 0 1em;
-    }
-
-    table.fulltable.fulltable-editable input.invalid, table.fulltable.fulltable-editable select.invalid {
-        border: solid 1px #FF3333;
-        background-color: #FFEEEE;
-    }
-
-    table.fulltable thead th a.fulltable-sort {
-                font-size: 9px;
-        position: relative;
-        left: 6px;
-        top: 0px;
-        display: inline-block;
-        width: 16px;
-        height: 16px;
-        cursor: pointer;
-    }
-
-    table.fulltable thead th.fulltable-asc a.fulltable-sort-desc {
-        display: none !important;
-    }
-
-    table.fulltable thead th.fulltable-desc a.fulltable-sort-asc {
-        display: none !important;
-    }
-
-    table.fulltable.fulltable-editable td.fulltable-edition-control {
-        white-space: nowrap;
-    }
-
-        table.fulltable.fulltable-editable td.fulltable-edition-control a {
-            font-family: 'jquery.fulltable';
-            font-size: 16px;
+        table {
             position: relative;
-            display: inline-block;
-            width: 16px;
-            height: 16px;
-            top: 1px;
-            line-height: 16px;
-            margin: 0.5em;
-            cursor: pointer;
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 10px !important;
             text-align: center;
         }
 
-            table.fulltable.fulltable-editable td.fulltable-edition-control a.fulltable-create {
-                display: none;
+            table, table th, table td {
+                border: 1px solid #d2d6de;
             }
 
-    table.fulltable.fulltable-editable tr.fulltable-creating td.fulltable-edition-control a.fulltable-create {
-        display: inline-block !important;
-    }
+        input.fulltable-filter {
+            display: none;
+        }
 
-    table.fulltable.fulltable-editable tr.fulltable-creating td.fulltable-edition-control a.fulltable-save {
-        display: none !important;
-    }
+        table th, table td {
+            // white-space: nowrap;
+            // text-overflow: ellipsis;
+            overflow: hidden;
+            line-height: 0px;
+            height: 0px;
+            padding: 4px;
+        }
 
-    table.fulltable.fulltable-editable tr.fulltable-editing td.fulltable-edition-control a.fulltable-edit, table.fulltable.fulltable-editable tr.fulltable-editing td.fulltable-edition-control a.fulltable-remove {
-        display: none;
-    }
+        a.button {
+            position: relative;
+            display: inline-block;
+            font-family: tahoma, arial, helvetica;
+            font-size: 9pt;
+            font-weight: bold;
+            color: #ffffff;
+            background-color: #AAAAAA;
+            padding: 5px;
+            text-decoration: none;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            border-radius: 5px;
+        }
 
-    table.fulltable.fulltable-editable tr td.fulltable-edition-control a.fulltable-save, table.fulltable.fulltable-editable tr td.fulltable-edition-control a.fulltable-discard {
-        display: none;
-    }
+        .jobform {
+            background-color: #fff;
+            box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
+            border-radius: 25px;
+            margin-bottom: 27px;
+            padding: 20px;
+        }
 
-    table.fulltable.fulltable-editable tr.fulltable-editing td.fulltable-edition-control a.fulltable-save, table.fulltable.fulltable-editable tr.fulltable-editing td.fulltable-edition-control a.fulltable-discard {
-        display: inline-block;
-    }
-    a.fulltable-create:before {
-        font-family: FontAwesome;
-        top: 0;
-        left: -5px;
-        padding-right: 10px;
-        content: "\f067";
-    }
-    a.fulltable-discard:before {
-        font-family: FontAwesome;
-        top: 0;
-        left: -5px;
-        padding-right: 10px;
-        content: "\f021";
-    }
-    a.fulltable-edit:before {
-        font-family: FontAwesome;
-        top: 0;
-        left: -5px;
-        padding-right: 10px;
-        content: "\f040";
-    }
-    a.fulltable-remove:before {
-        font-family: FontAwesome;
-        top: 0;
-        left: -5px;
-        padding-right: 10px;
-        content: "\f00d";
-    }
-    a.fulltable-save:before {
-        font-family: FontAwesome;
-        top: 0;
-        left: -5px;
-        padding-right: 10px;
-        content: "\f0c7";
-    }
+        .discount {
+            display: inline-block;
+            border: 1px solid;
+            padding: 10px;
+        }
+
+        .form_invoice {
+            background-color: #fff;
+            box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
+            border-radius: 25px;
+            margin-bottom: 27px;
+            padding: 20px;
+            margin-top: 18px;
+        }
+
+        table.fulltable thead th {
+            vertical-align: top;
+        }
+
+        table.fulltable span.fulltable-filter {
+            position: relative;
+            display: inline-block;
+            overflow: hidden;
+            box-sizing: border-box;
+            padding: 0;
+        }
+
+        table.fulltable input, table.fulltable select {
+            position: relative;
+            width: 100% !important;
+            font-family: tahoma, arial, helvetica;
+            font-size: 9pt;
+            clear: both;
+            float: left;
+            margin: 6pt 0 !important;
+        }
+
+            table.fulltable input.checkbox {
+                width: 13px !important;
+                height: 13px !important;
+            }
+
+        table.fulltable th.fulltable-selection-control {
+            width: 30px;
+        }
+        /*table.fulltable tr.fulltable-editing td.fulltable-selection-control input.checkbox {
+        display:none;
+    }*/
+        table.fulltable th.fulltable-selection-control, table.fulltable td.fulltable-selection-control {
+            padding: 0 1em;
+            width: 30px;
+        }
+
+        table.fulltable.fulltable-editable th.fulltable-edition-control {
+            width: 70px;
+        }
+
+        table.fulltable.fulltable-editable th.fulltable-edition-control, table.fulltable.fulltable-editable td.fulltable-edition-control {
+            padding: 0 1em;
+        }
+
+        table.fulltable.fulltable-editable input.invalid, table.fulltable.fulltable-editable select.invalid {
+            border: solid 1px #FF3333;
+            background-color: #FFEEEE;
+        }
+
+        table.fulltable thead th a.fulltable-sort {
+            font-size: 9px;
+            position: relative;
+            left: 6px;
+            top: 0px;
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+
+        table.fulltable thead th.fulltable-asc a.fulltable-sort-desc {
+            display: none !important;
+        }
+
+        table.fulltable thead th.fulltable-desc a.fulltable-sort-asc {
+            display: none !important;
+        }
+
+        table.fulltable.fulltable-editable td.fulltable-edition-control {
+            white-space: nowrap;
+        }
+
+            table.fulltable.fulltable-editable td.fulltable-edition-control a {
+                font-family: 'jquery.fulltable';
+                font-size: 16px;
+                position: relative;
+                display: inline-block;
+                width: 16px;
+                height: 16px;
+                top: 1px;
+                line-height: 16px;
+                margin: 0.5em;
+                cursor: pointer;
+                text-align: center;
+            }
+
+                table.fulltable.fulltable-editable td.fulltable-edition-control a.fulltable-create {
+                    display: none;
+                }
+
+        table.fulltable.fulltable-editable tr.fulltable-creating td.fulltable-edition-control a.fulltable-create {
+            display: inline-block !important;
+        }
+
+        table.fulltable.fulltable-editable tr.fulltable-creating td.fulltable-edition-control a.fulltable-save {
+            display: none !important;
+        }
+
+        table.fulltable.fulltable-editable tr.fulltable-editing td.fulltable-edition-control a.fulltable-edit, table.fulltable.fulltable-editable tr.fulltable-editing td.fulltable-edition-control a.fulltable-remove {
+            display: none;
+        }
+
+        table.fulltable.fulltable-editable tr td.fulltable-edition-control a.fulltable-save, table.fulltable.fulltable-editable tr td.fulltable-edition-control a.fulltable-discard {
+            display: none;
+        }
+
+        table.fulltable.fulltable-editable tr.fulltable-editing td.fulltable-edition-control a.fulltable-save, table.fulltable.fulltable-editable tr.fulltable-editing td.fulltable-edition-control a.fulltable-discard {
+            display: inline-block;
+        }
+
+        a.fulltable-create:before {
+            font-family: FontAwesome;
+            top: 0;
+            left: -5px;
+            padding-right: 10px;
+            content: "\f067";
+        }
+
+        a.fulltable-discard:before {
+            font-family: FontAwesome;
+            top: 0;
+            left: -5px;
+            padding-right: 10px;
+            content: "\f021";
+        }
+
+        a.fulltable-edit:before {
+            font-family: FontAwesome;
+            top: 0;
+            left: -5px;
+            padding-right: 10px;
+            content: "\f040";
+        }
+
+        a.fulltable-remove:before {
+            font-family: FontAwesome;
+            top: 0;
+            left: -5px;
+            padding-right: 10px;
+            content: "\f00d";
+        }
+
+        a.fulltable-save:before {
+            font-family: FontAwesome;
+            top: 0;
+            left: -5px;
+            padding-right: 10px;
+            content: "\f0c7";
+        }
+
+        th.fulltable-selection-control, td.fulltable-selection-control {
+            display: none;
+        }
 </style>
 <script src="~/MyJsFiles/SalesInvoice.js"></script>
 <script type="text/javascript" src="~/Content/js/jquery-3.4.1.js"></script>
 <script type="text/javascript" src="~/Content/js/jquery.fulltableinline.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $("#CurrencyID").change(function () {
+            debugger;
+            $("#ExchangeRate").val('');
+            debugger;
+            $.ajax({
+
+                type: "GET",
+                url: "/Job/GetExchangeRte",
+                datatype: "Json",
+                data: { ID: $('#CurrencyID').val() },
+                success: function (data) {
+                    debugger;
+                    $('#ExchangeRate').val(data);
+                }
+            });
+        });
+
+
+
+    });
+
+</script>
 <section class="content-header">
     <h1 class="headingfont">Sales Invoice<small></small></h1>
 
 </section>
 <div class="container">
     <section class="content jobform">
+
+        @Html.BeginForm() {
+
+
+        @Html.ValidationSummary(true)
+        <input type="hidden" id="BranchLocalCurrencyId" name="BranchLocalCurrencyId" value="@Session["BaseCurrencyId"]" />
+
         <div class="row no-margin">
 
             <div class="col-md-4">
                 <label class="headinglabel">Invoice No::</label>
-                @Html.TextBoxFor(model => model.SalesInvoiceNo, new { @class = "form-control" })
+                @Html.TextBoxFor(model => model.SalesInvoiceNo, new { @class = "form-control", id = "SalesInvoiceNo", @readonly = "readonly" })
             </div>
             <div class="col-md-4">
                 <label class="headinglabel">Invoice Date:</label>
-                @Html.TextBoxFor(model => model.SalesInvoiceDate, "{0:dd-MMM-yyyy}", new { id = "", @class = "form-control" })
-
+                @Html.TextBoxFor(model => model.SalesInvoiceDate, "{0:dd-MMM-yyyy}", new { @id = "SalesInvoiceDate", @class = "form-control" })
 
             </div>
             <div class="col-md-4">
                 <label class="headinglabel">Invoice Due Date:</label>
-                @Html.TextBoxFor(model => model.DueDate, "{0:dd-MMM-yyyy}", new { id = "", @class = "form-control" })
+                @Html.TextBoxFor(model => model.DueDate, "{0:dd-MMM-yyyy}", new { @id = "DueDate", @class = "form-control" })
 
 
             </div>
@@ -251,25 +294,15 @@
 
             <div class="col-md-4">
                 <label class="headinglabel">Client Name:</label>
-                <select class="form-control" id="clientName">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                </select>
+                @Html.DropDownListFor(model => model.CustomerID, (SelectList)ViewBag.Customer, "Select Customer", new { @class = "form-control" })
             </div>
             <div class="col-md-4">
                 <label class="headinglabel">Quotation Number | Date:</label>
-                @Html.TextBoxFor(model => model.QuotationID, new { @class = "form-control" })
+                @Html.TextBoxFor(model => model.QuotationID, new { @class = "form-control", id = "QuotationID", required = "required" })
             </div>
             <div class="col-md-4">
                 <label class="headinglabel">Currency:</label>
-                <select class="form-control" id="Currency">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                </select>
+                @Html.DropDownListFor(model => model.CurrencyID, (SelectList)ViewBag.Curency, "Select Currency", new { @class = "form-control" })
             </div>
 
 
@@ -288,11 +321,11 @@
             </div>
             <div class="col-md-4">
                 <label class="headinglabel">LPO Number | Date:</label>
-                @Html.TextBoxFor(model => model.LPOReference, new { @class = "form-control" })
+                @Html.TextBoxFor(model => model.LPOReference, new { @class = "form-control", id = "LPOReference", required = "required" })
             </div>
             <div class="col-md-4">
                 <label class="headinglabel">Exchange Rate :</label>
-                @Html.TextBoxFor(model => model.ExchangeRate, new { @class = "form-control" })
+                @Html.TextBoxFor(model => model.ExchangeRate, new { @class = "form-control", id = "ExchangeRate", required = "required" })
             </div>
 
         </div>
@@ -305,16 +338,11 @@
 
             <div class="col-md-4">
                 <label class="headinglabel">External Reference No:</label>
-                @Html.TextBoxFor(model => model.Reference, new { @class = "form-control" })
+                @Html.TextBoxFor(model => model.Reference, new { @class = "form-control", id = "Reference", required = "required" })
             </div>
             <div class="col-md-4">
                 <label class="headinglabel">Salesman :</label>
-                <select class="form-control" id="Salesman">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                </select>
+                @Html.DropDownListFor(model => model.EmployeeID, (SelectList)ViewBag.Employees, "Select Employees", new { @class = "form-control" })
             </div>
 
         </div>
@@ -409,97 +437,99 @@
     width: 70px;">
             </form>
             <script type="text/javascript">
-                 $(function () {
-                        $("#charges_table").FullTable({
-                            "alwaysCreating": true,
-                            "selectable": true,
-                            "fields": {
-                              
-                                "Product_Service": {
-                                    "mandatory": true,
-                                    "errors": {
-                                        "mandatory": "Product and Service is mandatory"
-                                    }
-                                },
-                                "Description": {
-                                    "mandatory": true,
-                                    "errors": {
-                                        "mandatory": "Description is mandatory"
-                                    }
-                                },
-                                "Quantity": {
-                                    "mandatory": true,
-                                    "errors": {
-                                        "mandatory": "Quantity is mandatory"
-                                    }
-                                },
-                                "Unit": {
-                                    "mandatory": true,
-                                    "errors": {
-                                        "mandatory": "Unit is mandatory"
-                                    }
-                                },
-                                "Rate_Type": {
-                                    "mandatory": true,
-                                    "errors": {
-                                        "mandatory": "Rate_Type is mandatory"
-                                    }
-                                },
-                                "Rate_LC": {
-                                    "mandatory": true,
-                                    "errors": {
-                                        "mandatory": "Rate_LC is mandatory"
-                                    }
-                                },
-                                "Rate_FC": {
-                                    "mandatory": true,
-                                    "errors": {
-                                        "mandatory": "Rate_FC is mandatory"
-                                    }
-                                },
-                                "Value_LC": {
-                                    "mandatory": true,
-                                    "errors": {
-                                        "mandatory": "Value_LC is mandatory"
-                                    }
-                                },
-                                "Value_FC": {
-                                    "mandatory": true,
-                                    "errors": {
-                                        "mandatory": "Value_FC is mandatory"
-                                    }
-                                },
-                                "Tax": {
-                                    "mandatory": true,
-                                    "errors": {
-                                        "mandatory": "Tax is mandatory"
-                                    }
-                                },
-                                "Net_Value": {
-                                    "mandatory": true,
-                                    "errors": {
-                                        "mandatory": "Net_Value is mandatory"
-                                    }
-                                },
-                                "Job": {
-                                    "mandatory": true,
-                                    "errors": {
-                                        "mandatory": "Job is mandatory"
-                                    }
-                                },
+                $(function () {
+                    $("#charges_table").FullTable({
+                        "alwaysCreating": true,
+                        "selectable": true,
+                        "editable": true,
+                        "filterable": true,
+                        "fields": {
 
-                            }
-                        });
+                            "Product_Service": {
+                                "mandatory": true,
+                                "errors": {
+                                    "mandatory": "Product and Service is mandatory"
+                                }
+                            },
+                            "Description": {
+                                "mandatory": true,
+                                "errors": {
+                                    "mandatory": "Description is mandatory"
+                                }
+                            },
+                            "Quantity": {
+                                "mandatory": true,
+                                "errors": {
+                                    "mandatory": "Quantity is mandatory"
+                                }
+                            },
+                            "Unit": {
+                                "mandatory": true,
+                                "errors": {
+                                    "mandatory": "Unit is mandatory"
+                                }
+                            },
+                            "Rate_Type": {
+                                "mandatory": true,
+                                "errors": {
+                                    "mandatory": "Rate_Type is mandatory"
+                                }
+                            },
+                            "Rate_LC": {
+                                "mandatory": true,
+                                "errors": {
+                                    "mandatory": "Rate_LC is mandatory"
+                                }
+                            },
+                            "Rate_FC": {
+                                "mandatory": true,
+                                "errors": {
+                                    "mandatory": "Rate_FC is mandatory"
+                                }
+                            },
+                            "Value_LC": {
+                                "mandatory": true,
+                                "errors": {
+                                    "mandatory": "Value_LC is mandatory"
+                                }
+                            },
+                            "Value_FC": {
+                                "mandatory": true,
+                                "errors": {
+                                    "mandatory": "Value_FC is mandatory"
+                                }
+                            },
+                            "Tax": {
+                                "mandatory": true,
+                                "errors": {
+                                    "mandatory": "Tax is mandatory"
+                                }
+                            },
+                            "Net_Value": {
+                                "mandatory": true,
+                                "errors": {
+                                    "mandatory": "Net_Value is mandatory"
+                                }
+                            },
+                            "Job": {
+                                "mandatory": true,
+                                "errors": {
+                                    "mandatory": "Job is mandatory"
+                                }
+                            },
+
+                        }
+                    });
 
 
-                        $("#charges_table").FullTable("on", "error", function (errors) {
-                            for (var error in errors) {
-                                error = errors[error];
-                                console.log(error);
-                            }
-                        });
-                        $("#charges_table").FullTable("draw");
-                    }
+                    $("#charges_table").FullTable("on", "error", function (errors) {
+                        for (var error in errors) {
+                            error = errors[error];
+                            console.log(error);
+                        }
+                    });
+                    $("#charges_table").FullTable("draw");
+                }
                 );
 
 
@@ -507,7 +537,7 @@
 
             <div class="row no-margin" id="AddCharges" style="padding-top: 10px">
                 <div class="col-xs-12 no-padding for-device">
-                    <div class="data-table tblbackground" style="width:100%; padding: 27px;">
+                    <div class="data-table tblsbackground" style="width:100%;">
 
 
                         <div class="data" style="overflow:auto;">
@@ -515,18 +545,18 @@
                                 <thead>
                                     <tr>
 
-                                        <th fulltable-field-name="Product_Service">Product & Service</th>
-                                        <th fulltable-field-name="Description">Description</th>
-                                        <th fulltable-field-name="Quantity">Quantity</th>
-                                        <th fulltable-field-name="Unit">Unit</th>
-                                        <th fulltable-field-name="Rate_Type">Rate Type</th>
-                                        <th fulltable-field-name="Rate_LC">Rate(LC)</th>
-                                        <th fulltable-field-name="Rate_FC">Rate(FC)</th>
-                                        <th fulltable-field-name="Value_LC">Value LC</th>
-                                        <th fulltable-field-name="Value_FC">Value FC</th>
-                                        <th fulltable-field-name="Tax">Tax</th>
-                                        <th fulltable-field-name="Net_Value">Net Value</th>
-                                        <th fulltable-field-name="Job">Job</th>
+                                        <th style="width:15%" fulltable-field-name="Product_Service">Product & Service</th>
+                                        <th style="width:11%" fulltable-field-name="Description">Description</th>
+                                        <th style="width:7%" fulltable-field-name="Quantity">Quantity</th>
+                                        <th style="width:5%" fulltable-field-name="Unit">Unit</th>
+                                        <th style="width:9%" fulltable-field-name="Rate_Type">Rate Type</th>
+                                        <th style="width:8%" fulltable-field-name="Rate_LC">Rate(LC)</th>
+                                        <th style="width:8%" fulltable-field-name="Rate_FC">Rate(FC)</th>
+                                        <th style="width:8%" fulltable-field-name="Value_LC">Value LC</th>
+                                        <th style="width:8%" fulltable-field-name="Value_FC">Value FC</th>
+                                        <th style="width:8%" fulltable-field-name="Tax">Tax</th>
+                                        <th style="width:8%" fulltable-field-name="Net_Value">Net Value</th>
+                                        <th style="width:15%" fulltable-field-name="Job">Job</th>
 
 
                                     </tr>
@@ -549,8 +579,7 @@
         <div class="row no-margin" style="padding-top: 10px">
 
             <div class="col-md-6">
-                <label class="headinglabel">Remarks:</label>
-                <textarea class="form-control" rows="5" id="Remarks"></textarea>
+
             </div>
 
 
@@ -649,7 +678,16 @@
 
             </div>
         </div>
+        <div class="row no-margin buttons" style="padding-top: 10px">
+            <div class="col-md-12 align-right" style="text-align: left">
+                                                          
+                <input type="submit" name="Command" value="Save"  class="btn btn-primary btnwidth" id="btnSave" />
+                
+                &nbsp;
+                <a href="@Url.Action("index", "Invoice", new { id = 0 })" class="btn btn-primary btnwidth">Cancel</a>
 
+            </div>
+        </div>
 
 
     </section>

@@ -33,5 +33,46 @@ namespace TrueBooksMVC.Models
         }
 
 
+        public PurchaseInvoice GetPurchaseInvoiceByID(int ID)
+        {
+            PurchaseInvoice PI = new PurchaseInvoice();
+            PI.PurchaseInvoiceID = 0;
+            PI.PurchaseInvoiceDate = DateTime.Now;
+
+            var query = Context1.SP_GetPurchaseInvoiceByID(ID);
+            foreach (var item in query)
+            {
+                PI.PurchaseInvoiceID = item.PurchaseInvoiceID;
+             
+
+
+
+
+            }
+
+            return PI;
+        }
+
+        public string GetCurrencyExchange(int CurrencyID)
+        {
+            string ExRate = "";
+
+            var query = Context1.SP_GetCurrencyExchangeRate(CurrencyID);
+
+            foreach (var item in query)
+            {
+                if (item.ToString() != "")
+                {
+                    ExRate = item.ToString();
+                }
+                else
+                {
+                    ExRate = "0.00";
+                }
+            }
+
+            return ExRate;
+        }
+
     }
 }
