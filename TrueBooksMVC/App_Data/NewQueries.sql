@@ -668,3 +668,119 @@ AS
 BEGIN
 SELECT * FROM SalesInvoice where SalesInvoiceID = @SalesInvoiceID
 END
+
+
+---
+
+
+
+/****** Object:  Table [dbo].[PurchaseInvoice]    Script Date: 16-10-2019 03:16:51 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[PurchaseInvoice](
+	[PurchaseInvoiceID] [int] IDENTITY(1,1) NOT NULL,
+	[PurchaseInvoiceNo] [varchar](50) NULL,
+	[PurchaseInvoiceDate] [datetime] NULL,
+	[Reference] [varchar](100) NULL,
+	[LPOReference] [varchar](100) NULL,
+	[SupplierID] [int] NULL,
+	[EmployeeID] [int] NULL,
+	[QuotationID] [int] NULL,
+	[CurrencyID] [int] NULL,
+	[ExchangeRate] [decimal](18, 2) NULL,
+	[CreditDays] [int] NULL,
+	[DueDate] [datetime] NULL,
+	[AcJournalID] [int] NULL,
+	[BranchID] [int] NULL,
+	[Discount] [decimal](18, 2) NULL,
+	[StatusDiscountAmt] [bit] NULL,
+	[OtherCharges] [decimal](18, 2) NULL,
+	[PaymentTerm] [varchar](max) NULL,
+	[Remarks] [varchar](max) NULL,
+	[FYearID] [int] NULL,
+ CONSTRAINT [PK_PurchaseInvoiceNew] PRIMARY KEY CLUSTERED 
+(
+	[PurchaseInvoiceID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[PurchaseInvoice] ADD  CONSTRAINT [DF_PurchaseInvoice_ExchangeRate]  DEFAULT ((0)) FOR [ExchangeRate]
+GO
+
+ALTER TABLE [dbo].[PurchaseInvoice] ADD  CONSTRAINT [DF_PurchaseInvoice_CreditDays]  DEFAULT ((0)) FOR [CreditDays]
+GO
+
+ALTER TABLE [dbo].[PurchaseInvoice] ADD  CONSTRAINT [DF_PurchaseInvoice_Discount]  DEFAULT ((0)) FOR [Discount]
+GO
+
+ALTER TABLE [dbo].[PurchaseInvoice] ADD  CONSTRAINT [DF_PurchaseInvoice_StatusDiscountAmt]  DEFAULT ((1)) FOR [StatusDiscountAmt]
+GO
+
+ALTER TABLE [dbo].[PurchaseInvoice] ADD  CONSTRAINT [DF_PurchaseInvoice_OtherCharges]  DEFAULT ((0)) FOR [OtherCharges]
+GO
+
+
+-----
+
+
+
+/****** Object:  Table [dbo].[SalesInvoice]    Script Date: 16-10-2019 03:17:31 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[SalesInvoice](
+	[SalesInvoiceID] [int] IDENTITY(1,1) NOT NULL,
+	[SalesInvoiceNo] [varchar](50) NULL,
+	[SalesInvoiceDate] [datetime] NULL,
+	[Reference] [varchar](100) NULL,
+	[LPOReference] [varchar](100) NULL,
+	[CustomerID] [int] NULL,
+	[EmployeeID] [int] NULL,
+	[QuotationID] [int] NULL,
+	[CurrencyID] [int] NULL,
+	[ExchangeRate] [decimal](18, 2) NULL,
+	[CreditDays] [int] NULL,
+	[DueDate] [datetime] NULL,
+	[AcJournalID] [int] NULL,
+	[BranchID] [int] NULL,
+	[Discount] [decimal](18, 2) NULL,
+	[StatusDiscountAmt] [bit] NULL,
+	[OtherCharges] [decimal](18, 2) NULL,
+	[PaymentTerm] [varchar](max) NULL,
+	[Remarks] [varchar](max) NULL,
+	[FYearID] [int] NULL,
+ CONSTRAINT [PK_SalesInvoiceNew] PRIMARY KEY CLUSTERED 
+(
+	[SalesInvoiceID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[SalesInvoice] ADD  CONSTRAINT [DF_SalesInvoice_ExchangeRate]  DEFAULT ((0)) FOR [ExchangeRate]
+GO
+
+ALTER TABLE [dbo].[SalesInvoice] ADD  CONSTRAINT [DF_SalesInvoice_CreditDays]  DEFAULT ((0)) FOR [CreditDays]
+GO
+
+ALTER TABLE [dbo].[SalesInvoice] ADD  CONSTRAINT [DF__SalesInvo__AcCom__2665ABE1]  DEFAULT ((1)) FOR [BranchID]
+GO
+
+ALTER TABLE [dbo].[SalesInvoice] ADD  CONSTRAINT [sALESiNVOICE_dISCOUNT]  DEFAULT ((0)) FOR [Discount]
+GO
+
+ALTER TABLE [dbo].[SalesInvoice] ADD  CONSTRAINT [sALESiNVOICE_STATUSDISCOUNTAMT]  DEFAULT ((1)) FOR [StatusDiscountAmt]
+GO
+
+ALTER TABLE [dbo].[SalesInvoice] ADD  CONSTRAINT [DF_SalesInvoice_OtherCharges]  DEFAULT ((0)) FOR [OtherCharges]
+GO
+
+
+
