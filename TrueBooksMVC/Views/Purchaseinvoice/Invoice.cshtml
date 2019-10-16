@@ -13,12 +13,25 @@
 
 
 <style>
+    body {
+        counter-reset: section;
+    }
+
+    i.srno {
+        counter-reset: subsection;
+    }
+
+        i.srno:before {
+            counter-increment: section;
+            content: counter(section);
+        }
     .jobform {
         background-color: #fff;
         box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
         border-radius: 25px;
         margin-bottom: 27px;
         padding: 20px;
+        width: 96%;
     }
 
     .discount {
@@ -253,7 +266,7 @@
 
 </section>
 
-<div class="container">
+<div class="containers">
     <section class="content jobform">
 
 
@@ -262,7 +275,7 @@
 
         @Html.ValidationSummary(true)
         <input type="hidden" id="BranchLocalCurrencyId" name="BranchLocalCurrencyId" value="@Session["BaseCurrencyId"]" />
-
+        @Html.HiddenFor(model => model.PurchaseInvoiceID)
         <div class="row no-margin">
 
             <div class="col-md-6">
@@ -294,18 +307,18 @@
         <div class="row no-margin" style="padding-top: 10px">
             <div class="col-md-6">
                 <label class="headinglabel">Quotation Number | Date:</label>
-                @Html.TextBoxFor(model => model.QuotationID, new { @class = "form-control", id = "QuotationID", required = "required" })
+                @Html.TextBoxFor(model => model.QuotationNumber, new { @class = "form-control", id = "QuotationNumber", required = "required" })
                 <!--<input type="text" class="form-control" id="QuotationDate" placeholder=" Enter QuotationDate" name="QuotationDate">-->
             </div>
             <div class="col-md-3">
                 <label class="headinglabel">Currency:</label>
                 @Html.DropDownListFor(model => model.CurrencyID, (SelectList)ViewBag.Curency, "Select Currency", new { @class = "form-control" })
                 <!--<select class="form-control" id="recvd">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                </select>-->
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+            </select>-->
             </div>
             <div class="col-md-3">
                 <label class="headinglabel">Exchange Rate :</label>
@@ -325,11 +338,11 @@
                 <label class="headinglabel">Good Rcvd By:</label>
                 @Html.DropDownListFor(model => model.EmployeeID, (SelectList)ViewBag.Employees, "Select Employees", new { @class = "form-control" })
                 <!--<select class="form-control" id="recvd">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                </select>-->
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+            </select>-->
             </div>
 
 
@@ -339,55 +352,35 @@
         <!--------------------------tabledesignstrat----------------------->
         <div class="form_invoice">
 
-            <button type="button" class='delete'>- Delete</button>
-            <button type="button" class='addmore'>+ Add More</button>
-            <script type="text/javascript">
-                $(document).ready(function () {
-                    $(".delete").on('click', function () {
-                        $('.case:checkbox:checked').parents("tr").remove();
-                        $('.check_all').prop("checked", false);
-                        check();
-                        select_all();
-                    });
-                    var i = 2;
-                    $(".addmore").on('click', function () {
-                        count = $('table tr').length;
-                        var data = "<tr><td><input type='checkbox' class='case'/></td><td><span id='snum" + i + "'>" + count + ".</span></td>";
-                        data += "<td><input type='text' id='Description" + i + "' name='Description[]'/></td> <td><input type='text' id='Quantity" + i + "' name='Quantity[]'/></td><td><input type='text' id='unit" + i + "' name='unit[]'/></td><td><input type='text' id='RateType" + i + "' name='RateType[]'/></td><td><input type='text' id='RateLC" + i + "' name='RateLC[]'/></td><td><input type='text' id='RateFC" + i + "' name='RateFC[]'/></td><td><input type='text' id='ValueLC" + i + "' name='ValueLC[]'/></td><td><input type='text' id='ValueFC" + i + "' name='ValueFC[]'/></td><td><input type='text' id='Tax" + i + "' name='Tax[]'/></td><td><input type='text' id='NetValue" + i + "' name='NetValue[]'/></td><td><input type='text' id='AccountHead" + i + "' name='AccountHead[]'/></td><td><input type='text' id='Product" + i + "' name='Product[]'/></td></tr>";
-                        $('table').append(data);
-                        i++;
-                    });
-                    $('.addmore').keypress(function (e) {
-                        if (e.which == 13) {
-                            //e.preventDefault();
-                           
-                            count = $('table tr').length;
-                            var data = "<tr><td><input type='checkbox' class='case'/></td><td><span id='snum" + i + "'>" + count + ".</span></td>";
-                            data += "<td><input type='text' id='Description" + i + "' name='Description[]'/></td> <td><input type='text' id='Quantity" + i + "' name='Quantity[]'/></td><td><input type='text' id='unit" + i + "' name='unit[]'/></td><td><input type='text' id='RateType" + i + "' name='RateType[]'/></td><td><input type='text' id='RateLC" + i + "' name='RateLC[]'/></td><td><input type='text' id='RateFC" + i + "' name='RateFC[]'/></td><td><input type='text' id='ValueLC" + i + "' name='ValueLC[]'/></td><td><input type='text' id='ValueFC" + i + "' name='ValueFC[]'/></td><td><input type='text' id='Tax" + i + "' name='Tax[]'/></td><td><input type='text' id='NetValue" + i + "' name='NetValue[]'/></td><td><input type='text' id='AccountHead" + i + "' name='AccountHead[]'/></td><td><input type='text' id='Product" + i + "' name='Product[]'/></td></tr>";
-                            $('table').append(data);
-                            i++;
-                        }
-                    });
-                    function select_all() {
-                        $('input[class=case]:checkbox').each(function () {
-                            if ($('input[class=check_all]:checkbox:checked').length == 0) {
-                                $(this).prop("checked", false);
-                            } else {
-                                $(this).prop("checked", true);
-                            }
-                        });
-                    }
+          
+            <script type='text/javascript'>
+            function deleteRow(row)
+            {
+            var i = row.parentNode.parentNode.rowIndex;
+                document.getElementById('charges_table').deleteRow(i);
+            }
+            function insRow()
+            {
+                var x = document.getElementById('charges_table');
+            var new_row = x.rows[1].cloneNode(true);
+            var len = x.rows.length;
+            //new_row.cells[0].innerHTML = len; //auto increment the srno
 
-                    function check() {
-                        obj = $('table tr').find('span');
-                        $.each(obj, function (key, value) {
-                            id = value.id;
-                            $('#' + id).html(key + 1);
-                        });
-                    }
-                });
+            new_row.cells[1].getElementsByTagName('input')[0].value = "";
+            new_row.cells[2].getElementsByTagName('input')[0].value = "";
+            var inp1 = new_row.cells[3].getElementsByTagName('select')[0];
+            inp1.id += len;
+            inp1.value = '';
+            new_row.cells[4].getElementsByTagName('input')[0].value = "";
+            new_row.cells[5].getElementsByTagName('input')[0].value = "";
+            new_row.cells[6].getElementsByTagName('input')[0].value = "";
+            new_row.cells[7].getElementsByTagName('input')[0].value = "";
+            new_row.cells[8].getElementsByTagName('input')[0].value = "";
+            new_row.cells[9].getElementsByTagName('input')[0].value = "";
+            new_row.cells[10].getElementsByTagName('input')[0].value ="";
 
-
+            x.appendChild(new_row);
+            }
             </script>
 
             <div class="row no-margin" id="AddCharges" style="padding-top: 10px">
@@ -399,49 +392,72 @@
                             <table border="1" class=" fulltablewidth" id="charges_table">
                                 <thead>
                                     <tr>
-                                        <th><input class='check_all' type='checkbox' onclick="select_all()" /></th>
                                         <th>S. No</th>
                                         <th>Description</th>
                                         <th>Quantity</th>
                                         <th>Unit</th>
-                                        <th>RateType</th>
-                                        <th>RateLC</th>
+                                        <th>Rate</th>
                                         <th>RateFC</th>
-                                        <th>ValueLC</th>
+                                        <th>Value</th>
                                         <th>ValueFC</th>
+                                        <th>Tax%</th>
                                         <th>Tax</th>
                                         <th>NetValue</th>
                                         <th>AccountHead</th>
                                         <th>Job</th>
                                         <th>Product</th>
-
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td><input type='checkbox' class='case' /></td>
-                                        <td><span id='snum'>1.</span></td>
-                                        <td><input type='text' id='Description' name='Description[]' /></td>
-                                        <td><input type='text' id='Quantity' name='Quantity[]' /></td>
+                                        <td><i class="srno"></i></td>
+                                        <td><input type='text' id='Description' name='Description' /></td>
+                                        <td><input type='text' id='Quantity' name='Quantity' /></td>
                                         <td>
-                                            <select name="unit[]">
-                                                <option value="in">Lit</option>
-                                                <option value="de">No</option>
-
+                                            <select class="search_type" name="Unit">
+                                                <option value="">Unit</option>
+                                                <option value="abc">lit</option>
+                                                <option value="def">pic</option>
+                                                <option value="xyz">qty</option>
                                             </select>
                                         </td>
-                                        <td><input type='text' id='RateType' name='RateType[]' /> </td>
-                                        <td><input type='text' id='RateLC' name='RateLC[]' /></td>
-                                        <td><input type='text' id='RateFC' name='RateFC[]' /> </td>
-                                        <td><input type='text' id='ValueLC' name='ValueLC[]' /> </td>
-                                        <td><input type='text' id='ValueFC' name='ValueFC[]' /></td>
-                                        <td><input type='text' id='Tax' name='Tax[]' /> </td>
-                                        <td><input type='text' id='NetValue' name='NetValue[]' /> </td>
-                                        <td><input type='text' id='AccountHead' name='AccountHead[]' /> </td>
-                                        <td><input type='text' id='Job' name='Job[]' /> </td>
-                                        <td><input type='text' id='Product' name='Product[]' /> </td>
+                                        <td><input type='text' id='RateType' name='RateType' /> </td>
+                                        <td><input type='text' id='RateLC' name='RateLC' /></td>
+                                        <td><input type='text' id='RateFC' name='RateFC' /> </td>
+                                        <td><input type='text' id='ValueLC' name='ValueLC' /> </td>
+                                        <td><input type='text' id='ValueFC' name='ValueFC' /></td>
+                                        <td><input type='text' id='Tax' name='Tax' /> </td>
+                                        <td><input type='text' id='NetValue' name='NetValue' /> </td>
 
 
+                                        <td>
+                                            <select name="AccountHead">
+                                                <option value="">AccountHead</option>
+                                                <option value="123">123</option>
+                                                <option value="456">456</option>
+                                                <option value="789">789</option>
+                                            </select>
+                                        </td>
+
+                                        <td>
+                                            <select name="Job">
+                                                <option value="">Job</option>
+                                                <option value="123">123</option>
+                                                <option value="456">456</option>
+                                                <option value="789">789</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select name="Product">
+                                                <option value="">Product & Services</option>
+                                                <option value="one">1</option>
+                                                <option value="two">2</option>
+                                                <option value="three">3</option>
+                                            </select>
+                                        </td>
+                                        <td><button type="button" onclick="deleteRow(this)">-</button><button type="button" onclick="insRow()">+</button></td>
+                                    
                                     </tr>
                                 </tbody>
                             </table>
@@ -456,7 +472,7 @@
         <div class="row no-margin" style="padding-top: 10px">
             <div class="col-md-6">
                 <label class="headinglabel">Remarks:</label>
-                <textarea class="form-control" rows="5" cols="30" id="Remarks"></textarea>
+                @Html.TextAreaFor(model => model.Remarks, new { @class = "form-control txttarget" })
             </div>
             <div class="col-md-6">
                 <div class="col-md-12">

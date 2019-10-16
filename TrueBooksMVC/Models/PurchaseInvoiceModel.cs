@@ -17,21 +17,28 @@ namespace TrueBooksMVC.Models
 
         public int AddPurchaseInvoice(PurchaseInvoice PI)
         {
-            
-            ObjectParameter objMaxInvoiceId = new ObjectParameter("PurchaseInvoiceID", 0);
-            int query = Convert.ToInt32(Context1.SP_InsertPurchaseInvoice(PI.PurchaseInvoiceID, PI.PurchaseInvoiceNo, PI.PurchaseInvoiceDate, PI.Reference
-                , PI.LPOReference, PI.SupplierID,PI.EmployeeID, PI.QuotationID, PI.CurrencyID, PI.ExchangeRate
-                , PI.CreditDays, PI.DueDate, PI.AcJournalID, PI.BranchID, PI.Discount, PI.StatusDiscountAmt,PI.OtherCharges, PI.PaymentTerm, PI.Remarks, PI.FYearID));                                   
-                       
-            return Convert.ToInt32(objMaxInvoiceId.Value);
+            int result = DAL.SP_InsertPurchaseInvoice(PI);
+
+            return result;
+         
         }
 
-        public int UpdateJob(PurchaseInvoice PI)
+        public int UpdatePurchaseInvoice(PurchaseInvoice PI)
         {
-            int query = Convert.ToInt32(Context1.SP_UpdatePurchaseInvoice(PI.PurchaseInvoiceID, PI.PurchaseInvoiceNo, PI.PurchaseInvoiceDate, PI.Reference, PI.LPOReference, PI.SupplierID, PI.EmployeeID, PI.QuotationID, PI.CurrencyID, PI.ExchangeRate, PI.CreditDays, PI.DueDate, PI.AcJournalID, PI.BranchID, PI.Discount, PI.StatusDiscountAmt, PI.OtherCharges, PI.PaymentTerm, PI.Remarks, PI.FYearID));
-            return query;
-        }
+            int result = DAL.SP_UpdatePurchaseInvoice(PI);
 
+            return result;
+
+           
+        }
+        public int DeletePurchaseInvoice(int PurchaseInvoiceId)
+        {
+            int result = DAL.SP_DeletePurchaseInvoice(PurchaseInvoiceId);
+
+            return result;
+
+
+        }
 
         public PurchaseInvoice GetPurchaseInvoiceByID(int ID)
         {
@@ -43,8 +50,25 @@ namespace TrueBooksMVC.Models
             foreach (var item in query)
             {
                 PI.PurchaseInvoiceID = item.PurchaseInvoiceID;
-             
-
+                PI.PurchaseInvoiceNo = item.PurchaseInvoiceNo;
+                PI.PurchaseInvoiceDate = item.PurchaseInvoiceDate;
+                PI.Reference = item.Reference;
+                PI.LPOReference = item.LPOReference;
+                PI.SupplierID = item.SupplierID;
+                PI.EmployeeID = item.EmployeeID;
+                PI.QuotationNumber = item.QuotationNumber;
+                PI.CurrencyID = item.CurrencyID;
+                PI.ExchangeRate = item.ExchangeRate;
+                PI.CreditDays = item.CreditDays;
+                PI.DueDate = item.DueDate;
+                PI.AcJournalID = item.AcJournalID;
+                PI.BranchID = item.BranchID;
+                PI.Discount = item.Discount;
+                PI.StatusDiscountAmt = item.StatusDiscountAmt;
+                PI.OtherCharges = item.OtherCharges;
+                PI.PaymentTerm = item.PaymentTerm;
+                PI.Remarks = item.Remarks;
+                PI.FYearID = item.FYearID;
 
 
 

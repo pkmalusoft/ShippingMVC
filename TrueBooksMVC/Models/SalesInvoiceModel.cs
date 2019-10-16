@@ -14,30 +14,37 @@ namespace TrueBooksMVC.Models
 
         public int AddSalesInvoice(SalesInvoice SI)
         {
+            int result = DAL.SP_InsertSalesInvoice(SI);
 
-            ObjectParameter objMaxInvoiceId = new ObjectParameter("SalesInvoiceID", 0);
-            int query = Convert.ToInt32(Context1.SP_InsertSalesInvoice(SI.SalesInvoiceID, SI.SalesInvoiceNo, SI.SalesInvoiceDate, SI.Reference
-                , SI.LPOReference, SI.CustomerID, SI.EmployeeID, SI.QuotationID, SI.CurrencyID, SI.ExchangeRate
-                , SI.CreditDays, SI.DueDate, SI.AcJournalID, SI.BranchID, SI.Discount, SI.StatusDiscountAmt, SI.OtherCharges, SI.PaymentTerm, SI.Remarks, SI.FYearID));
-
-            return Convert.ToInt32(objMaxInvoiceId.Value);
+            return result;
         }
 
-        public int UpdateJob(SalesInvoice SI)
+        public int UpdateSalesInvoice(SalesInvoice SI)
         {
-            int query = Convert.ToInt32(Context1.SP_UpdatePurchaseInvoice(SI.SalesInvoiceID, SI.SalesInvoiceNo, SI.SalesInvoiceDate, SI.Reference
-                , SI.LPOReference, SI.CustomerID, SI.EmployeeID, SI.QuotationID, SI.CurrencyID, SI.ExchangeRate
-                , SI.CreditDays, SI.DueDate, SI.AcJournalID, SI.BranchID, SI.Discount, SI.StatusDiscountAmt, SI.OtherCharges, SI.PaymentTerm, SI.Remarks, SI.FYearID));
-            return query;
+
+            int result = DAL.SP_UpdateSalesInvoice(SI);
+
+            return result;
+
+            
         }
 
+        public int DeleteSalesInvoice(int SalesInvoiceId)
+        { 
+        
+            int result = DAL.SP_DeleteSalesInvoice(SalesInvoiceId);
+
+            return result;
+
+
+        }
 
         public SalesInvoice GetSalesInvoiceByID(int ID)
         {
             SalesInvoice SI = new SalesInvoice();
             SI.SalesInvoiceID = 0;
             SI.SalesInvoiceDate = DateTime.Now;
-
+            SI.DueDate = DateTime.Now;
             var query = Context1.SP_GetSalesInvoiceByID(ID);
             foreach (var item in query)
             {
@@ -45,12 +52,12 @@ namespace TrueBooksMVC.Models
 
                 SI.SalesInvoiceNo = item.SalesInvoiceNo;
                 SI.SalesInvoiceDate = item.SalesInvoiceDate;
+                SI.QuotationNumber = item.QuotationNumber;
                 SI.Reference = item.Reference;
                 SI.LPOReference = item.LPOReference;
                 SI.SalesInvoiceID = item.SalesInvoiceID;
                 SI.CustomerID = item.CustomerID;
                 SI.EmployeeID = item.EmployeeID;
-                SI.QuotationID = item.QuotationID;
                 SI.CurrencyID = item.CurrencyID;
                 SI.ExchangeRate = item.ExchangeRate;
                 SI.CreditDays = item.CreditDays;
@@ -63,10 +70,10 @@ namespace TrueBooksMVC.Models
                 SI.PaymentTerm = item.PaymentTerm;
                 SI.Remarks = item.Remarks;
                 SI.FYearID = item.FYearID;
+                SI.DeliveryId = item.DeliveryId;
+              
 
-       
-
-    }
+            }
 
             return SI;
 

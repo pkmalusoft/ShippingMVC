@@ -430,8 +430,7 @@ END
 
 ----------
 
-USE [DB_9F57C4_ShippingTest]
-GO
+
 /****** Object:  StoredProcedure [dbo].[SP_UpdateJob]    Script Date: 10-10-2019 19:29:21 ******/
 SET ANSI_NULLS ON
 GO
@@ -504,8 +503,7 @@ Delete from PurchaseInvoice where PurchaseInvoiceID=@PurchaseInvoiceId
 END
 -----------------------------
 
-USE [DB_9F57C4_ShippingTest]
-GO
+
 /****** Object:  StoredProcedure [dbo].[SP_UpdatePurchaseInvoice]    Script Date: 11-10-2019 17:52:59 ******/
 SET ANSI_NULLS ON
 GO
@@ -568,8 +566,7 @@ END
 
 
   ---
-  USE [DB_9F57C4_ShippingTest]
-GO
+  
 /****** Object:  StoredProcedure [dbo].[SP_InsertPurchaseInvoice]    Script Date: 15-10-2019 19:00:42 ******/
 SET ANSI_NULLS ON
 GO
@@ -784,3 +781,184 @@ GO
 
 
 
+----- oct 16 -- 
+
+USE [DB_9F57C4_ShippingTest]
+GO
+/****** Object:  StoredProcedure [dbo].[SP_InsertSalesInvoice]    Script Date: 16-10-2019 15:43:16 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+ALTER proc [dbo].[SP_InsertSalesInvoice]
+(
+@SalesInvoiceId int=0 output,
+@SalesInvoiceNo nvarchar(50),
+@SalesInvoiceDate datetime,
+@Reference nvarchar(50),
+@LPOReference nvarchar(50),
+@CustomerID int,
+@EmployeeeID int,
+@QuotationID int,
+@CurrencyID int,
+@EXchangeRate decimal,
+@CreditDays int,
+@DueDate datetime,
+@AcJouranalID int,
+@BranchID int,
+@Discount decimal,
+@StatusDiscountAmt bit,
+@OtherCharges decimal,
+@PaymentTerm nvarchar,
+@Remarks nvarchar,
+@FYearID int
+)
+AS
+Begin
+Declare @MaxId int;
+SELECT @MaxId = MAX(@SalesInvoiceId) FROM SalesInvoice;
+
+SET @SalesInvoiceNo = RIGHT('0000' + CAST(@MaxId AS VARCHAR(5)),5);
+SET @SalesInvoiceNo = 'SI-' + @SalesInvoiceNo;
+
+ INSERT INTO [SalesInvoice] 
+           ([SalesInvoiceNo],
+		   [SalesInvoiceDate],
+		     [Reference],
+			   [LPOReference],
+			   [CustomerID],
+			   [EmployeeID],
+			   [QuotationID],
+			   [CurrencyID],
+			   [ExchangeRate],
+			    [CreditDays],
+			   [DueDate],
+			   [AcJournalID],
+			   [BranchID],
+			   [Discount],
+			   [StatusDiscountAmt],
+			   [OtherCharges],
+			   [PaymentTerm],
+			   [Remarks],
+			   [FYearID]
+			
+         )
+     VALUES
+           (
+          @SalesInvoiceNo, 
+@SalesInvoiceDate,
+@Reference,
+@LPOReference,
+@CustomerID,
+@EmployeeeID,
+@QuotationID,
+@CurrencyID,
+@EXchangeRate,
+@CreditDays,
+@DueDate,
+@AcJouranalID,
+@BranchID,
+@Discount,
+@StatusDiscountAmt,
+@OtherCharges,
+@PaymentTerm,
+@Remarks,
+@FYearID
+         )
+		 SET @SalesInvoiceId = SCOPE_IDENTITY();
+		 return @SalesInvoiceId;
+END
+
+------------------
+
+
+/****** Object:  StoredProcedure [dbo].[SP_InsertPurchaseInvoice]    Script Date: 16-10-2019 16:43:47 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+ALTER proc [dbo].[SP_InsertPurchaseInvoice]
+(
+@PurchaseInvoiceId int=0 output,
+@PurchaseInvoiceNo nvarchar(50),
+@PurchaseInvoiceDate datetime,
+@Reference nvarchar(50),
+@LPOReference nvarchar(50),
+@SupplierID int,
+@EmployeeeID int,
+@QuotationID int,
+@CurrencyID int,
+@ExchangeRate decimal,
+@CreditDays int,
+@DueDate datetime,
+@AcJouranalID int,
+@BranchID int,
+@Discount decimal,
+@StatusDiscountAmt bit,
+@OtherCharges decimal,
+@PaymentTerm nvarchar,
+@Remarks nvarchar,
+@FYearID int
+)
+AS
+Begin
+Declare @MaxId int;
+SELECT @MaxId = MAX(@PurchaseInvoiceId) FROM PurchaseInvoice;
+
+SET @PurchaseInvoiceNo = RIGHT('0000' + CAST(@MaxId AS VARCHAR(5)),5);
+SET @PurchaseInvoiceNo = 'PI-' + @PurchaseInvoiceNo;
+
+ INSERT INTO [PurchaseInvoice] 
+           ([PurchaseInvoiceNo],
+		   [PurchaseInvoiceDate],
+		     [Reference],
+			   [LPOReference],
+			   [SupplierID],
+			   [EmployeeID],
+			   [QuotationID],
+			   [CurrencyID],
+			   [ExchangeRate],
+			    [CreditDays],
+			   [DueDate],
+			   [AcJournalID],
+			   [BranchID],
+			   [Discount],
+			   [StatusDiscountAmt],
+			   [OtherCharges],
+			   [PaymentTerm],
+			   [Remarks],
+			   [FYearID]
+			
+         )
+     VALUES
+           (
+          @PurchaseInvoiceNo, 
+@PurchaseInvoiceDate,
+@Reference,
+@LPOReference,
+@SupplierID,
+@EmployeeeID,
+@QuotationID,
+@CurrencyID,
+@EXchangeRate,
+@CreditDays,
+@DueDate,
+@AcJouranalID,
+@BranchID,
+@Discount,
+@StatusDiscountAmt,
+@OtherCharges,
+@PaymentTerm,
+@Remarks,
+@FYearID
+         )
+		  SET @PurchaseInvoiceId = SCOPE_IDENTITY();
+		 return @PurchaseInvoiceId;
+END
+
+----------------------------
+alter table SalesInvoice add DeliveryId int;
+
+alter table SalesInvoice Add QuotationNumber nvarchar(100);

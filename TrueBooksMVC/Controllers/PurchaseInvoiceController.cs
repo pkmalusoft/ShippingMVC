@@ -44,7 +44,7 @@ namespace TrueBooksMVC.Controllers
 
             return ID;
         }
-
+       
         [HttpGet]
         public ActionResult Invoice(string Command, int id)
         {
@@ -59,7 +59,28 @@ namespace TrueBooksMVC.Controllers
         public ActionResult Invoice(FormCollection formCollection, string Command, int id)
         {
             PurchaseInvoice PI = new PurchaseInvoice();
-            UpdateModel<PurchaseInvoice>(PI);
+            // UpdateModel<PurchaseInvoice>(PI);
+
+            PI.PurchaseInvoiceNo = (formCollection["PurchaseInvoiceNo"]);
+            PI.PurchaseInvoiceDate = Common.ParseDate(formCollection["PurchaseInvoiceDate"]);
+            PI.Reference = (formCollection["Reference"]);
+            PI.LPOReference = (formCollection["LPOReference"]);
+            PI.SupplierID = Common.ParseInt(formCollection["SupplierID"]);
+            PI.EmployeeID = Common.ParseInt(formCollection["EmployeeID"]);
+            PI.QuotationNumber = formCollection["QuotationNumber"];
+            PI.CurrencyID = Common.ParseInt(formCollection["CurrencyID"]);
+            PI.ExchangeRate = Common.ParseDecimal(formCollection["ExchangeRate"]);
+            PI.CreditDays = Common.ParseInt(formCollection["CreditDays"]);
+            PI.DueDate = Common.ParseDate(formCollection["DueDate"]);
+            PI.AcJournalID =0;
+            PI.BranchID = Common.ParseInt(Session["branchid"].ToString());
+            PI.Discount = 0;
+            PI.StatusDiscountAmt = false;
+            PI.OtherCharges = 0;
+            PI.PaymentTerm = "";
+            PI.Remarks = (formCollection["Remarks"]);
+            PI.FYearID = Common.ParseInt(Session["fyearid"].ToString());
+            
             BindAllMasters();
             if (Session["UserID"] == null)
             {
@@ -69,60 +90,33 @@ namespace TrueBooksMVC.Controllers
             if (Command == "Save")
             {
                 PI.PurchaseInvoiceDate = System.DateTime.UtcNow;
-                //  PI.PurchaseInvoiceNo = 0;
-                // PurchaseInvoiceID = Convert.ToInt32(PM.MaxJobID()) - 1;
-                //  PI.PurchaseInvoiceID = PurchaseInvoiceId;
                 int i = 0;
                 i = PM.AddPurchaseInvoice(PI);
-             //   PurchaseInvoiceID = i;
-
                 if (i > 0)
                 {
-                   // DeleteAndInsertRecords(formCollection, i);                                 
-
                     Session["PurchaseInvoiceID"] = i;
-
                     PI.PurchaseInvoiceID = i;
-                    return RedirectToAction("Index", "Invoice", new { ID = i });
+                    return RedirectToAction( "Invoice", "PurchaseInvoice", new { ID = i });
                 }
             }
-
             else if (Command == "Update")
             {
-                if (Session["PurchaseInvoiceID"] != null)
-                {
-                    if (Convert.ToInt32(Session["PurchaseInvoiceID"]) > 0)
-                    {
-                        if (Session["UserID"] != null)
-                        {
-                          //  PI.PurchaseInvoiceID = Convert.ToInt32(Session["PurchaseInvoiceID"]);
-                            int k = PM.UpdateJob(PI);
-                            if (k > 0)
-                            {
-                               // PurchaseInvoiceID = PI.PurchaseInvoiceId;
-                             //   DeleteAndInsertRecords(formCollection, PurchaseInvoiceId);
-                            }
-                        }
-                        else
-                        {
-                           
-                        }
-                        return RedirectToAction("Index", "Invoice", new { ID = PI.PurchaseInvoiceID });
-                    }
-                }
+                    PI.PurchaseInvoiceID = id;
+                    int k = PM.UpdatePurchaseInvoice(PI);
+                    return RedirectToAction("Invoice", "PurchaseInvoice", new { ID = PI.PurchaseInvoiceID });
             }
             else if (Command == "SaveInvoice")
             {
 
             }
-            return View(PM);
+            return View(PI);
         }
 
         public void BindAllMasters()
         {
             try
             {
-
+                List<SP_GetAllPorts_Result> Ports = new List<SP_GetAllPorts_Result>();
                 List<SP_GetAllEmployees_Result> Employees = new List<SP_GetAllEmployees_Result>();
                 List<SP_GetAllJobType_Result> JobType = new List<SP_GetAllJobType_Result>();
                 List<SP_GetAllCarrier_Result> Carriers = new List<SP_GetAllCarrier_Result>();

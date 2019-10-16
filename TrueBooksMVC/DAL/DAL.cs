@@ -1,0 +1,577 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Web;
+using DAL;
+//using Microsoft.Practices.EnterpriseLibrary.Data.Sql;
+
+namespace TrueBooksMVC
+{
+    public class DAL
+    {
+        public static int SP_InsertSalesInvoice(SalesInvoice SI)
+        {
+            int i = 0;
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = new SqlConnection(Common.GetConnectionString);
+            cmd.CommandText = "SP_InsertSalesInvoice";
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add("@SalesInvoiceId", SqlDbType.Int);
+            cmd.Parameters["@SalesInvoiceId"].Value = 0;
+            cmd.Parameters["@SalesInvoiceId"].Direction = ParameterDirection.InputOutput;
+
+            cmd.Parameters.Add("@SalesInvoiceNo", SqlDbType.NVarChar);
+            if (SI.SalesInvoiceNo != null)
+            {
+                cmd.Parameters["@SalesInvoiceNo"].Value = SI.SalesInvoiceNo;
+            }
+            else
+            {
+                cmd.Parameters["@SalesInvoiceNo"].Value = "";
+            }
+
+            cmd.Parameters.Add("@SalesInvoiceDate", SqlDbType.DateTime);
+            if(SI.SalesInvoiceDate == DateTime.MinValue)
+            {
+                cmd.Parameters["@SalesInvoiceDate"].Value = DBNull.Value;
+            }
+            else
+            {
+                cmd.Parameters["@SalesInvoiceDate"].Value = SI.SalesInvoiceDate;
+            }
+            
+
+            cmd.Parameters.Add("@Reference", SqlDbType.NVarChar);
+            cmd.Parameters["@Reference"].Value = SI.Reference;
+
+            cmd.Parameters.Add("@LPOReference", SqlDbType.NVarChar);
+            cmd.Parameters["@LPOReference"].Value = SI.LPOReference;
+
+            cmd.Parameters.Add("@CustomerID", SqlDbType.Int);
+            cmd.Parameters["@CustomerID"].Value = SI.CustomerID;
+
+            cmd.Parameters.Add("@EmployeeeID", SqlDbType.Int);
+            cmd.Parameters["@EmployeeeID"].Value = SI.EmployeeID;
+
+            cmd.Parameters.Add("@QuotationNumber", SqlDbType.NVarChar);
+            cmd.Parameters["@QuotationNumber"].Value = SI.QuotationNumber;
+
+            cmd.Parameters.Add("@CurrencyID", SqlDbType.Int);
+            cmd.Parameters["@CurrencyID"].Value = SI.CurrencyID;
+
+            cmd.Parameters.Add("@ExchangeRate", SqlDbType.Decimal);
+            cmd.Parameters["@ExchangeRate"].Value = SI.ExchangeRate;
+
+            cmd.Parameters.Add("@CreditDays", SqlDbType.Int);
+            if (SI.SalesInvoiceNo != null)
+            {
+                cmd.Parameters["@CreditDays"].Value = SI.CreditDays;
+            }
+            else
+            {
+                cmd.Parameters["@CreditDays"].Value = "";
+            }
+            cmd.Parameters.Add("@DueDate", SqlDbType.DateTime);
+            if(SI.DueDate == DateTime.MinValue)
+            {
+                cmd.Parameters["@DueDate"].Value = DBNull.Value;
+            }
+            else
+            {
+                cmd.Parameters["@DueDate"].Value = SI.DueDate;
+            }
+            
+
+            cmd.Parameters.Add("@AcJouranalID", SqlDbType.Int);
+            if (SI.SalesInvoiceNo != null)
+            {
+                cmd.Parameters["@AcJouranalID"].Value = SI.AcJournalID;
+            }
+            else
+            {
+                cmd.Parameters["@AcJouranalID"].Value = "";
+            }
+
+             cmd.Parameters.Add("@BranchID", SqlDbType.Int);
+            cmd.Parameters["@BranchID"].Value = SI.BranchID;
+
+            cmd.Parameters.Add("@Discount", SqlDbType.Decimal);
+            cmd.Parameters["@Discount"].Value = SI.Discount;
+
+            cmd.Parameters.Add("@StatusDiscountAmt", SqlDbType.Bit);
+            cmd.Parameters["@StatusDiscountAmt"].Value = SI.StatusDiscountAmt;
+
+            cmd.Parameters.Add("@OtherCharges", SqlDbType.Decimal);
+            cmd.Parameters["@OtherCharges"].Value = SI.OtherCharges;
+
+            cmd.Parameters.Add("@PaymentTerm", SqlDbType.NVarChar);
+            cmd.Parameters["@PaymentTerm"].Value = SI.PaymentTerm;
+
+            cmd.Parameters.Add("@Remarks", SqlDbType.NVarChar);
+            cmd.Parameters["@Remarks"].Value = SI.Remarks;
+
+            cmd.Parameters.Add("@FYearID", SqlDbType.Int);
+            cmd.Parameters["@FYearID"].Value = SI.FYearID;
+
+            cmd.Parameters.Add("@DeliveryId", SqlDbType.Int);
+            cmd.Parameters["@DeliveryId"].Value = SI.DeliveryId;
+
+
+            try
+            {
+                cmd.Connection.Open();
+                i = cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+            finally
+            {
+                cmd.Connection.Close();
+            }
+
+            return Convert.ToInt32(cmd.Parameters["@SalesInvoiceId"].Value);
+        }
+        public static int SP_UpdateSalesInvoice(SalesInvoice SI)
+        {
+            int i = 0;
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = new SqlConnection(Common.GetConnectionString);
+            cmd.CommandText = "SP_UpdateSalesInvoice";
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add("@SalesInvoiceId", SqlDbType.Int);
+            cmd.Parameters["@SalesInvoiceId"].Value = SI.SalesInvoiceID;
+            // cmd.Parameters["@SalesInvoiceId"].Direction = ParameterDirection.InputOutput;
+            cmd.Parameters.Add("@SalesInvoiceNo", SqlDbType.NVarChar);
+            if (SI.SalesInvoiceNo != null)
+            {
+                cmd.Parameters["@SalesInvoiceNo"].Value = SI.SalesInvoiceNo;
+            }
+            else
+            {
+                cmd.Parameters["@SalesInvoiceNo"].Value = "";
+            }
+
+            cmd.Parameters.Add("@SalesInvoiceDate", SqlDbType.DateTime);
+            if (SI.SalesInvoiceDate == DateTime.MinValue)
+            {
+                cmd.Parameters["@SalesInvoiceDate"].Value = DBNull.Value;
+            }
+            else
+            {
+                cmd.Parameters["@SalesInvoiceDate"].Value = SI.SalesInvoiceDate;
+            }
+
+
+            cmd.Parameters.Add("@Reference", SqlDbType.NVarChar);
+            cmd.Parameters["@Reference"].Value = SI.Reference;
+
+            cmd.Parameters.Add("@LPOReference", SqlDbType.NVarChar);
+            cmd.Parameters["@LPOReference"].Value = SI.LPOReference;
+
+            cmd.Parameters.Add("@CustomerID", SqlDbType.Int);
+            cmd.Parameters["@CustomerID"].Value = SI.CustomerID;
+
+            cmd.Parameters.Add("@EmployeeeID", SqlDbType.Int);
+            cmd.Parameters["@EmployeeeID"].Value = SI.EmployeeID;
+
+            cmd.Parameters.Add("@QuotationNumber", SqlDbType.NVarChar);
+            cmd.Parameters["@QuotationNumber"].Value = SI.QuotationNumber;
+
+            cmd.Parameters.Add("@CurrencyID", SqlDbType.Int);
+            cmd.Parameters["@CurrencyID"].Value = SI.CurrencyID;
+
+            cmd.Parameters.Add("@ExchangeRate", SqlDbType.Decimal);
+            cmd.Parameters["@ExchangeRate"].Value = SI.ExchangeRate;
+
+            cmd.Parameters.Add("@CreditDays", SqlDbType.Int);
+            if (SI.SalesInvoiceNo != null)
+            {
+                cmd.Parameters["@CreditDays"].Value = SI.CreditDays;
+            }
+            else
+            {
+                cmd.Parameters["@CreditDays"].Value = "";
+            }
+            cmd.Parameters.Add("@DueDate", SqlDbType.DateTime);
+            if (SI.DueDate == DateTime.MinValue)
+            {
+                cmd.Parameters["@DueDate"].Value = DBNull.Value;
+            }
+            else
+            {
+                cmd.Parameters["@DueDate"].Value = SI.DueDate;
+            }
+
+
+            cmd.Parameters.Add("@AcJouranalID", SqlDbType.Int);
+            if (SI.SalesInvoiceNo != null)
+            {
+                cmd.Parameters["@AcJouranalID"].Value = SI.AcJournalID;
+            }
+            else
+            {
+                cmd.Parameters["@AcJouranalID"].Value = "";
+            }
+
+            cmd.Parameters.Add("@BranchID", SqlDbType.Int);
+            cmd.Parameters["@BranchID"].Value = SI.BranchID;
+
+            cmd.Parameters.Add("@Discount", SqlDbType.Decimal);
+            cmd.Parameters["@Discount"].Value = SI.Discount;
+
+            cmd.Parameters.Add("@StatusDiscountAmt", SqlDbType.Bit);
+            cmd.Parameters["@StatusDiscountAmt"].Value = SI.StatusDiscountAmt;
+
+            cmd.Parameters.Add("@OtherCharges", SqlDbType.Decimal);
+            cmd.Parameters["@OtherCharges"].Value = SI.OtherCharges;
+
+            cmd.Parameters.Add("@PaymentTerm", SqlDbType.NVarChar);
+            cmd.Parameters["@PaymentTerm"].Value = SI.PaymentTerm;
+
+            cmd.Parameters.Add("@Remarks", SqlDbType.NVarChar);
+            cmd.Parameters["@Remarks"].Value = SI.Remarks;
+
+            cmd.Parameters.Add("@FYearID", SqlDbType.Int);
+            cmd.Parameters["@FYearID"].Value = SI.FYearID;
+
+            cmd.Parameters.Add("@DeliveryId", SqlDbType.Int);
+            cmd.Parameters["@DeliveryId"].Value = SI.DeliveryId;
+
+
+            try
+            {
+                cmd.Connection.Open();
+                i = cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+            finally
+            {
+                cmd.Connection.Close();
+            }
+
+            return Convert.ToInt32(cmd.Parameters["@SalesInvoiceId"].Value);
+        }
+
+        public static int SP_DeleteSalesInvoice(int Id)
+        {
+            int i = 0;
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = new SqlConnection(Common.GetConnectionString);
+            cmd.CommandText = "SP_DeleteSalesInvoice";
+            cmd.CommandType = CommandType.StoredProcedure;
+          
+            cmd.Parameters.Add("@SalesInvoiceId", SqlDbType.Int);
+            cmd.Parameters["@SalesInvoiceId"].Value = Id;
+
+            try
+            {
+                cmd.Connection.Open();
+                i = cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+            finally
+            {
+                cmd.Connection.Close();
+            }
+
+            return Convert.ToInt32(cmd.Parameters["@SalesInvoiceId"].Value);
+        }
+
+
+
+
+        public static int SP_InsertPurchaseInvoice(PurchaseInvoice PI)
+        {
+            int i = 0;
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = new SqlConnection(Common.GetConnectionString);
+            cmd.CommandText = "SP_InsertPurchaseInvoice";
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.Add("@PurchaseInvoiceId", SqlDbType.Int);
+            cmd.Parameters["@PurchaseInvoiceId"].Value = 0;
+            cmd.Parameters["@PurchaseInvoiceId"].Direction = ParameterDirection.InputOutput;
+
+            cmd.Parameters.Add("@PurchaseInvoiceNo", SqlDbType.NVarChar);
+            if (PI.PurchaseInvoiceNo != null)
+            {
+                cmd.Parameters["@PurchaseInvoiceNo"].Value = PI.PurchaseInvoiceNo;
+            }
+            else
+            {
+                cmd.Parameters["@PurchaseInvoiceNo"].Value = "";
+            }
+            
+
+            cmd.Parameters.Add("@PurchaseInvoiceDate", SqlDbType.DateTime);
+            if (PI.PurchaseInvoiceDate == DateTime.MinValue)
+            {
+                cmd.Parameters["@PurchaseInvoiceDate"].Value = DBNull.Value;
+            }
+            else
+            {
+                cmd.Parameters["@PurchaseInvoiceDate"].Value = PI.PurchaseInvoiceDate;
+            }
+
+            cmd.Parameters.Add("@Reference", SqlDbType.NVarChar);
+            cmd.Parameters["@Reference"].Value = PI.Reference;
+
+            cmd.Parameters.Add("@LPOReference", SqlDbType.NVarChar);
+            cmd.Parameters["@LPOReference"].Value = PI.LPOReference;
+
+            cmd.Parameters.Add("@SupplierID", SqlDbType.Int);
+            cmd.Parameters["@SupplierID"].Value = PI.SupplierID;
+
+            cmd.Parameters.Add("@EmployeeeID", SqlDbType.Int);
+            cmd.Parameters["@EmployeeeID"].Value = PI.EmployeeID;
+
+            cmd.Parameters.Add("@QuotationNumber", SqlDbType.NVarChar);
+            cmd.Parameters["@QuotationNumber"].Value = PI.QuotationNumber;
+
+            cmd.Parameters.Add("@CurrencyID", SqlDbType.Int);
+            cmd.Parameters["@CurrencyID"].Value = PI.CurrencyID;
+
+            cmd.Parameters.Add("@ExchangeRate", SqlDbType.Decimal);
+            cmd.Parameters["@ExchangeRate"].Value = PI.ExchangeRate;
+
+            cmd.Parameters.Add("@CreditDays", SqlDbType.Int);
+            if (PI.CreditDays != null)
+            {
+                cmd.Parameters["@CreditDays"].Value = PI.CreditDays;
+            }
+            else
+            {
+                cmd.Parameters["@CreditDays"].Value = "";
+            }
+            cmd.Parameters.Add("@DueDate", SqlDbType.DateTime);
+            if (PI.DueDate == DateTime.MinValue)
+            {
+                cmd.Parameters["@DueDate"].Value = DBNull.Value;
+            }
+            else
+            {
+                cmd.Parameters["@DueDate"].Value = PI.DueDate;
+            }
+
+
+            cmd.Parameters.Add("@AcJouranalID", SqlDbType.Int);
+            if (PI.AcJournalID != null)
+            {
+                cmd.Parameters["@AcJouranalID"].Value = PI.AcJournalID;
+            }
+            else
+            {
+                cmd.Parameters["@AcJouranalID"].Value = "";
+            }
+
+            cmd.Parameters.Add("@BranchID", SqlDbType.Int);
+            cmd.Parameters["@BranchID"].Value = PI.BranchID;
+
+            cmd.Parameters.Add("@Discount", SqlDbType.Decimal);
+            cmd.Parameters["@Discount"].Value = PI.Discount;
+
+            cmd.Parameters.Add("@StatusDiscountAmt", SqlDbType.Bit);
+            cmd.Parameters["@StatusDiscountAmt"].Value = PI.StatusDiscountAmt;
+
+            cmd.Parameters.Add("@OtherCharges", SqlDbType.Decimal);
+            cmd.Parameters["@OtherCharges"].Value = PI.OtherCharges;
+
+            cmd.Parameters.Add("@PaymentTerm", SqlDbType.NVarChar);
+            cmd.Parameters["@PaymentTerm"].Value = PI.PaymentTerm;
+
+            cmd.Parameters.Add("@Remarks", SqlDbType.NVarChar);
+            cmd.Parameters["@Remarks"].Value = PI.Remarks;
+
+            cmd.Parameters.Add("@FYearID", SqlDbType.Int);
+            cmd.Parameters["@FYearID"].Value = PI.FYearID;
+
+           
+
+
+
+
+            try
+            {
+                cmd.Connection.Open();
+                i = cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+            finally
+            {
+                cmd.Connection.Close();
+            }
+
+            return Convert.ToInt32(cmd.Parameters["@PurchaseInvoiceId"].Value);
+        }
+
+        public static int SP_UpdatePurchaseInvoice(PurchaseInvoice PI)
+        {
+            int i = 0;
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = new SqlConnection(Common.GetConnectionString);
+            cmd.CommandText = "SP_UpdatePurchaseInvoice";
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.Add("@PurchaseInvoiceId", SqlDbType.Int);
+            cmd.Parameters["@PurchaseInvoiceId"].Value = PI.PurchaseInvoiceID;
+            //cmd.Parameters["@PurchaseInvoiceId"].Direction = ParameterDirection.InputOutput;
+            
+            cmd.Parameters.Add("@PurchaseInvoiceNo", SqlDbType.NVarChar);
+            if (PI.PurchaseInvoiceNo != null)
+            {
+                cmd.Parameters["@PurchaseInvoiceNo"].Value = PI.PurchaseInvoiceNo;
+            }
+            else
+            {
+                cmd.Parameters["@PurchaseInvoiceNo"].Value = "";
+            }
+
+            cmd.Parameters.Add("@PurchaseInvoiceDate", SqlDbType.DateTime);
+            if (PI.PurchaseInvoiceDate == DateTime.MinValue)
+            {
+                cmd.Parameters["@PurchaseInvoiceDate"].Value = DBNull.Value;
+            }
+            else
+            {
+                cmd.Parameters["@PurchaseInvoiceDate"].Value = PI.PurchaseInvoiceDate;
+            }
+
+            cmd.Parameters.Add("@Reference", SqlDbType.NVarChar);
+            cmd.Parameters["@Reference"].Value = PI.Reference;
+
+            cmd.Parameters.Add("@LPOReference", SqlDbType.NVarChar);
+            cmd.Parameters["@LPOReference"].Value = PI.LPOReference;
+
+            cmd.Parameters.Add("@SupplierID", SqlDbType.Int);
+            cmd.Parameters["@SupplierID"].Value = PI.SupplierID;
+
+            cmd.Parameters.Add("@EmployeeeID", SqlDbType.Int);
+            cmd.Parameters["@EmployeeeID"].Value = PI.EmployeeID;
+
+            cmd.Parameters.Add("@QuotationNumber", SqlDbType.NVarChar);
+            cmd.Parameters["@QuotationNumber"].Value = PI.QuotationNumber;
+
+            cmd.Parameters.Add("@CurrencyID", SqlDbType.Int);
+            cmd.Parameters["@CurrencyID"].Value = PI.CurrencyID;
+
+            cmd.Parameters.Add("@ExchangeRate", SqlDbType.Decimal);
+            cmd.Parameters["@ExchangeRate"].Value = PI.ExchangeRate;
+
+            cmd.Parameters.Add("@CreditDays", SqlDbType.Int);
+            if (PI.CreditDays != null)
+            {
+                cmd.Parameters["@CreditDays"].Value = PI.CreditDays;
+            }
+            else
+            {
+                cmd.Parameters["@CreditDays"].Value = "";
+            }
+            cmd.Parameters.Add("@DueDate", SqlDbType.DateTime);
+            if (PI.DueDate == DateTime.MinValue)
+            {
+                cmd.Parameters["@DueDate"].Value = DBNull.Value;
+            }
+            else
+            {
+                cmd.Parameters["@DueDate"].Value = PI.DueDate;
+            }
+
+
+            cmd.Parameters.Add("@AcJouranalID", SqlDbType.Int);
+            if (PI.AcJournalID != null)
+            {
+                cmd.Parameters["@AcJouranalID"].Value = PI.AcJournalID;
+            }
+            else
+            {
+                cmd.Parameters["@AcJouranalID"].Value = "";
+            }
+
+            cmd.Parameters.Add("@BranchID", SqlDbType.Int);
+            cmd.Parameters["@BranchID"].Value = PI.BranchID;
+
+            cmd.Parameters.Add("@Discount", SqlDbType.Decimal);
+            cmd.Parameters["@Discount"].Value = PI.Discount;
+
+            cmd.Parameters.Add("@StatusDiscountAmt", SqlDbType.Bit);
+            cmd.Parameters["@StatusDiscountAmt"].Value = PI.StatusDiscountAmt;
+
+            cmd.Parameters.Add("@OtherCharges", SqlDbType.Decimal);
+            cmd.Parameters["@OtherCharges"].Value = PI.OtherCharges;
+
+            cmd.Parameters.Add("@PaymentTerm", SqlDbType.NVarChar);
+            cmd.Parameters["@PaymentTerm"].Value = PI.PaymentTerm;
+
+            cmd.Parameters.Add("@Remarks", SqlDbType.NVarChar);
+            cmd.Parameters["@Remarks"].Value = PI.Remarks;
+
+            cmd.Parameters.Add("@FYearID", SqlDbType.Int);
+            cmd.Parameters["@FYearID"].Value = PI.FYearID;
+
+
+
+
+            try
+            {
+                cmd.Connection.Open();
+                i = cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+            finally
+            {
+                cmd.Connection.Close();
+            }
+
+            return Convert.ToInt32(cmd.Parameters["@PurchaseInvoiceId"].Value);
+        }
+
+        public static int SP_DeletePurchaseInvoice(int Id)
+        {
+            int i = 0;
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = new SqlConnection(Common.GetConnectionString);
+            cmd.CommandText = "SP_DeletePurchaseInvoice";
+            cmd.CommandType = CommandType.StoredProcedure;
+           
+            cmd.Parameters.Add("@PurchaseInvoiceId", SqlDbType.Int);
+            cmd.Parameters["@PurchaseInvoiceId"].Value = Id;
+
+            try
+            {
+                cmd.Connection.Open();
+                i = cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+            finally
+            {
+                cmd.Connection.Close();
+            }
+
+            return i;
+        }
+    }
+}

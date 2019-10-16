@@ -17,11 +17,11 @@ namespace DAL
         public int SalesInvoiceID { get; set; }
         public string SalesInvoiceNo { get; set; }
         public Nullable<System.DateTime> SalesInvoiceDate { get; set; }
+        public string QuotationNumber { get; set; }
         public string Reference { get; set; }
         public string LPOReference { get; set; }
         public Nullable<int> CustomerID { get; set; }
         public Nullable<int> EmployeeID { get; set; }
-        public Nullable<int> QuotationID { get; set; }
         public Nullable<int> CurrencyID { get; set; }
         public Nullable<decimal> ExchangeRate { get; set; }
         public Nullable<int> CreditDays { get; set; }
@@ -34,5 +34,6 @@ namespace DAL
         public string PaymentTerm { get; set; }
         public string Remarks { get; set; }
         public Nullable<int> FYearID { get; set; }
+        public Nullable<int> DeliveryId { get; set; }
     }
 }

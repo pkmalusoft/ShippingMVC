@@ -21,7 +21,7 @@ namespace DAL
         public string LPOReference { get; set; }
         public Nullable<int> SupplierID { get; set; }
         public Nullable<int> EmployeeID { get; set; }
-        public Nullable<int> QuotationID { get; set; }
+        public string QuotationNumber { get; set; }
         public Nullable<int> CurrencyID { get; set; }
         public Nullable<decimal> ExchangeRate { get; set; }
         public Nullable<int> CreditDays { get; set; }

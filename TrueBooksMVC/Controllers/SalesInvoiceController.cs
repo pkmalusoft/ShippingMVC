@@ -39,8 +39,7 @@ namespace TrueBooksMVC.Controllers
 
             return ID;
         }
-
-
+       
         [HttpGet]
         public ActionResult Invoice(string Command, int id)
         {
@@ -51,11 +50,35 @@ namespace TrueBooksMVC.Controllers
             return View(SI);
         }
 
+       
+
+
         [HttpPost]
         public ActionResult Invoice(FormCollection formCollection, string Command, int id)
         {
             SalesInvoice SI = new SalesInvoice();
-            UpdateModel<SalesInvoice>(SI);
+            //  UpdateModel<SalesInvoice>(SI);
+            SI.SalesInvoiceID = Common.ParseInt(formCollection["SalesInvoiceID"]);
+            SI.SalesInvoiceNo = (formCollection["SalesInvoiceNo"]);
+            SI.SalesInvoiceDate = Common.ParseDate(formCollection["SalesInvoiceDate"]);
+            SI.Reference = (formCollection["Reference"]);
+            SI.LPOReference = (formCollection["LPOReference"]);
+            SI.CustomerID = Common.ParseInt(formCollection["CustomerID"]);
+            SI.EmployeeID = Common.ParseInt(formCollection["EmployeeeID"]);
+            SI.CurrencyID = Common.ParseInt(formCollection["CurrencyID"]);
+            SI.ExchangeRate = Common.ParseDecimal(formCollection["ExchangeRate"]);
+            SI.CreditDays = 0;
+            SI.DueDate = Common.ParseDate(formCollection["DueDate"]);
+            SI.AcJournalID = 0;
+            SI.BranchID = Common.ParseInt(Session["branchid"].ToString()); ;
+            SI.Discount =0;
+            SI.StatusDiscountAmt =false;
+            SI.OtherCharges = 0;
+            SI.PaymentTerm = "";
+            SI.Remarks = (formCollection["Remarks"]);
+            SI.FYearID = Common.ParseInt(Session["fyearid"].ToString());
+            SI.DeliveryId = Common.ParseInt(formCollection["DeliveryId"]);
+            SI.QuotationNumber =(formCollection["QuotationNumber"]);
             BindAllMasters();
             if (Session["UserID"] == null)
             {
@@ -65,60 +88,37 @@ namespace TrueBooksMVC.Controllers
             if (Command == "Save")
             {
                 SI.SalesInvoiceDate = System.DateTime.UtcNow;
-                //  PI.PurchaseInvoiceNo = 0;
-                // PurchaseInvoiceID = Convert.ToInt32(PM.MaxJobID()) - 1;
-                //  PI.PurchaseInvoiceID = PurchaseInvoiceId;
-                int i = 0;
+                 int i = 0;
                 i = SM.AddSalesInvoice(SI);
-                //   PurchaseInvoiceID = i;
-
                 if (i > 0)
-                {
-                    // DeleteAndInsertRecords(formCollection, i);                                 
-
-                    Session["PurchaseInvoiceID"] = i;
-
+                {                                              
+                    Session["SalesInvoiceID"] = i;
                     SI.SalesInvoiceID = i;
-                    return RedirectToAction("Index", "Invoice", new { ID = i });
+                    return RedirectToAction("Invoice", "SalesInvoice", new { ID = i });
                 }
             }
 
             else if (Command == "Update")
             {
-                if (Session["SalesInvoiceID"] != null)
-                {
-                    if (Convert.ToInt32(Session["SalesInvoiceID"]) > 0)
-                    {
-                        if (Session["UserID"] != null)
-                        {
-                            //  PI.PurchaseInvoiceID = Convert.ToInt32(Session["PurchaseInvoiceID"]);
-                            int k = SM.UpdateJob(SI);
-                            if (k > 0)
-                            {
-                                // PurchaseInvoiceID = PI.PurchaseInvoiceId;
-                                //   DeleteAndInsertRecords(formCollection, PurchaseInvoiceId);
-                            }
-                        }
-                        else
-                        {
 
-                        }
-                        return RedirectToAction("Index", "Invoice", new { ID = SI.SalesInvoiceID });
-                    }
-                }
+                SI.SalesInvoiceID = id;
+                int k = SM.UpdateSalesInvoice(SI);
+                return RedirectToAction("Invoice", "SalesInvoice", new { ID = SI.SalesInvoiceID });
+
+                                                          
             }
             else if (Command == "SaveInvoice")
             {
 
             }
-            return View(SM);
+            return View(SI);
         }
 
         public void BindAllMasters()
         {
             try
             {
-
+                List<SP_GetAllPorts_Result> Ports = new List<SP_GetAllPorts_Result>();
                 List<SP_GetAllEmployees_Result> Employees = new List<SP_GetAllEmployees_Result>();
                 List<SP_GetAllJobType_Result> JobType = new List<SP_GetAllJobType_Result>();
                 List<SP_GetAllCarrier_Result> Carriers = new List<SP_GetAllCarrier_Result>();
@@ -131,7 +131,7 @@ namespace TrueBooksMVC.Controllers
                 List<SP_GetShippingAgents_Result> ShippingAgent = new List<SP_GetShippingAgents_Result>();
                 List<SP_GetAllItemUnit_Result> Unit = new List<SP_GetAllItemUnit_Result>();
 
-
+                Ports = MM.GetAllPort();
                 Employees = MM.GetAllEmployees();
                 JobType = MM.GetJobTypeS();
                 Carriers = MM.GetAllCarrier();
@@ -144,7 +144,7 @@ namespace TrueBooksMVC.Controllers
                 ShippingAgent = MM.GetShippingAgents();
                 Unit = MM.GetItemUnit();
 
-
+                ViewBag.Ports = new SelectList(Ports, "PortID", "Port");
                 ViewBag.Customer = new SelectList(Customers, "CustomerID", "Customer");
                 ViewBag.Employees = new SelectList(Employees, "EmployeeID", "EmployeeName");
                 ViewBag.Countries = new SelectList(Countries, "CountryID", "CountryName");
