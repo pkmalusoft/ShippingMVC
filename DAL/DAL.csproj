@@ -378,6 +378,9 @@
     <Compile Include="PurchaseInvoice.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="PurchaseInvoiceDetail.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="qryCustomerStatement.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

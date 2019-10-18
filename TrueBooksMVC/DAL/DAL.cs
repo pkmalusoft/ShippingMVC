@@ -603,7 +603,7 @@ namespace TrueBooksMVC
             return i;
         }
 
-        public static int AddPurchaseInvoiceDetail(PurchaseInvoiceDetails PID)
+        public static int AddPurchaseInvoiceDetail(PurchaseInvoiceDetail PID)
         {
             int i = 0;
             SqlCommand cmd = new SqlCommand();
@@ -627,7 +627,20 @@ namespace TrueBooksMVC
 
          
             cmd.Parameters.Add("@ProductID", SqlDbType.Int);
-            cmd.Parameters["@ProductID"].Value = PID.ProductID;
+
+            if (PID.PurchaseInvoiceID != null)
+            {
+                cmd.Parameters["@ProductID"].Value = PID.@ProductID;
+            }
+            else
+            {
+                cmd.Parameters["@ProductID"].Value = "";
+            }
+
+
+
+
+          
 
             cmd.Parameters.Add("@Quantity", SqlDbType.Int);
             cmd.Parameters["@Quantity"].Value = PID.Quantity;
@@ -687,7 +700,39 @@ namespace TrueBooksMVC
         }
 
 
-        public static int AddSalesInvoiceDetail(SalesInvoiceDetails SID)
+        public static int SP_DeleteSalesInvoiceDetails(int Id)
+        {
+            int i = 0;
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = new SqlConnection(Common.GetConnectionString);
+            cmd.CommandText = "SP_DeleteSalesInvoiceDetails";
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.Add("@SalesInvoiceId", SqlDbType.Int);
+            cmd.Parameters["@SalesInvoiceId"].Value = Id;
+
+            try
+            {
+                cmd.Connection.Open();
+                i = cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+            finally
+            {
+                cmd.Connection.Close();
+            }
+
+            return i;
+        }
+
+
+
+
+        public static int AddSalesInvoiceDetails(SalesInvoiceDetail SID)
         {
             int i = 0;
             SqlCommand cmd = new SqlCommand();
@@ -695,9 +740,9 @@ namespace TrueBooksMVC
             cmd.CommandText = "SP_InsertSalesInvoiceDetails";
             cmd.CommandType = CommandType.StoredProcedure;
 
-            cmd.Parameters.Add("@PurchaseInvoiceDetailID", SqlDbType.Int);
-            cmd.Parameters["@PurchaseInvoiceDetailID"].Value = 0;
-            cmd.Parameters["@PurchaseInvoiceDetailID"].Direction = ParameterDirection.InputOutput;
+            cmd.Parameters.Add("@SalesInvoiceDetailID", SqlDbType.Int);
+            cmd.Parameters["@SalesInvoiceDetailID"].Value = 0;
+            cmd.Parameters["@SalesInvoiceDetailID"].Direction = ParameterDirection.InputOutput;
 
             cmd.Parameters.Add("@SalesInvoiceID", SqlDbType.Int);
             if (SID.SalesInvoiceID != null)
@@ -724,7 +769,7 @@ namespace TrueBooksMVC
 
             cmd.Parameters.Add("@RateLC", SqlDbType.Int);
             cmd.Parameters["@RateLC"].Value = SID.RateLC;
-
+                      
             cmd.Parameters.Add("@RateFC", SqlDbType.Decimal);
             cmd.Parameters["@RateFC"].Value = SID.RateFC;
 

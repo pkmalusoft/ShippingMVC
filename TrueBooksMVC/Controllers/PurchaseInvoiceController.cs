@@ -57,16 +57,13 @@ namespace TrueBooksMVC.Controllers
 
         private bool DeleteAndInsertRecords(FormCollection formCollection, int InvoiceId)
         {
-            if (InvoiceId <= 0)
-            {
-                return false;
-            }
+           
             DAL.SP_DeletePurchaseInvoiceDetails(InvoiceId);
             int i = 0;
             int InvoiceDetailsCount = 0;
             ArrayList InvoiceDetailsArray = new ArrayList();
 
-       
+
             for (int j = 0; j < formCollection.Keys.Count; j++)
             {
                 if (formCollection.Keys[j].StartsWith("Description_"))
@@ -74,71 +71,119 @@ namespace TrueBooksMVC.Controllers
                     InvoiceDetailsCount = InvoiceDetailsCount + 1;
                     InvoiceDetailsArray.Add(formCollection.Keys[j].Replace("Description_", "").Trim());
                 }
+
+
+                for (int c = 0; c < InvoiceDetailsCount; c++)
+                {
+                    string[] strArray;
+                    PurchaseInvoiceDetail PID = new PurchaseInvoiceDetail();
+                    PID.PurchaseInvoiceID = InvoiceId;
+
+                    if (formCollection.GetValue("Description_" + InvoiceDetailsArray[c]) != null)
+                    {
+                        strArray = (string[])formCollection.GetValue("Description_" + InvoiceDetailsArray[c]).RawValue;
+                        PID.Description = strArray[0].Trim();
+                    }
+                    int Quantity = 0;
+                    if (formCollection.GetValue("Quantity_" + InvoiceDetailsArray[c]) != null)
+                    {
+                        strArray = (string[])formCollection.GetValue("Quantity_" + InvoiceDetailsArray[c]).RawValue;
+                        int.TryParse(strArray[0], out Quantity);
+                    }
+                    PID.Quantity = Quantity;
+                    int UnitTypeID = 0;
+                    if (formCollection.GetValue("UnitID_" + InvoiceDetailsArray[c]) != null)
+                    {
+                        strArray = (string[])formCollection.GetValue("UnitID_" + InvoiceDetailsArray[c]).RawValue;
+                        int.TryParse(strArray[0], out UnitTypeID);
+                    }
+                    PID.ItemUnitID = UnitTypeID;
+
+                    decimal Rate = 0;
+                    if (formCollection.GetValue("Rate_" + InvoiceDetailsArray[c]) != null)
+                    {
+                        strArray = (string[])formCollection.GetValue("Rate_" + InvoiceDetailsArray[c]).RawValue;
+                        decimal.TryParse(strArray[0], out Rate);
+                    }
+                    PID.Rate = Rate;
+
+                    decimal RateFC = 0;
+                    if (formCollection.GetValue("RateFC_" + InvoiceDetailsArray[c]) != null)
+                    {
+                        strArray = (string[])formCollection.GetValue("RateFC_" + InvoiceDetailsArray[c]).RawValue;
+                        decimal.TryParse(strArray[0], out RateFC);
+                    }
+                    PID.RateFC = RateFC;
+
+                    decimal Value = 0;
+                    if (formCollection.GetValue("Value_" + InvoiceDetailsArray[c]) != null)
+                    {
+                        strArray = (string[])formCollection.GetValue("Value_" + InvoiceDetailsArray[c]).RawValue;
+                        decimal.TryParse(strArray[0], out Value);
+                    }
+                    PID.Value = Value;
+
+
+                    decimal ValueFC = 0;
+                    if (formCollection.GetValue("ValueFC_" + InvoiceDetailsArray[c]) != null)
+                    {
+                        strArray = (string[])formCollection.GetValue("ValueFC_" + InvoiceDetailsArray[c]).RawValue;
+                        decimal.TryParse(strArray[0], out ValueFC);
+                    }
+                    PID.Value = ValueFC;
+
+                    decimal Taxprec = 0;
+                    if (formCollection.GetValue("Taxprec_" + InvoiceDetailsArray[c]) != null)
+                    {
+                        strArray = (string[])formCollection.GetValue("Taxprec_" + InvoiceDetailsArray[c]).RawValue;
+                        decimal.TryParse(strArray[0], out Taxprec);
+                    }
+                    PID.Value = Taxprec;
+
+                    decimal Tax = 0;
+                    if (formCollection.GetValue("Tax_" + InvoiceDetailsArray[c]) != null)
+                    {
+                        strArray = (string[])formCollection.GetValue("Tax_" + InvoiceDetailsArray[c]).RawValue;
+                        decimal.TryParse(strArray[0], out Tax);
+                    }
+                    PID.Value = Tax;
+
+                    decimal NetValue = 0;
+                    if (formCollection.GetValue("NetValue_" + InvoiceDetailsArray[c]) != null)
+                    {
+                        strArray = (string[])formCollection.GetValue("NetValue_" + InvoiceDetailsArray[c]).RawValue;
+                        decimal.TryParse(strArray[0], out NetValue);
+                    }
+                    PID.Value = NetValue;
+
+                    int AcHeadID = 0;
+                    if (formCollection.GetValue("AcHeadID_" + InvoiceDetailsArray[c]) != null)
+                    {
+                        strArray = (string[])formCollection.GetValue("AcHeadID_" + InvoiceDetailsArray[c]).RawValue;
+                        int.TryParse(strArray[0], out AcHeadID);
+                    }
+                    PID.Value = AcHeadID;
+
+                    int JobID = 0;
+                    if (formCollection.GetValue("JobID_" + InvoiceDetailsArray[c]) != null)
+                    {
+                        strArray = (string[])formCollection.GetValue("JobID_" + InvoiceDetailsArray[c]).RawValue;
+                        int.TryParse(strArray[0], out JobID);
+                    }
+                    PID.Value = JobID;
+                    int ProductID = 0;
+                    if (formCollection.GetValue("ProductID_" + InvoiceDetailsArray[c]) != null)
+                    {
+                        strArray = (string[])formCollection.GetValue("ProductID_" + InvoiceDetailsArray[c]).RawValue;
+                        int.TryParse(strArray[0], out ProductID);
+                    }
+                    PID.ItemUnitID = ProductID;
+
+
+                    int iCharge = DAL.AddPurchaseInvoiceDetail(PID);
+                }
             }
-
-            for (int c = 0; c < InvoiceDetailsCount; c++)
-            {
-                string[] strArray;
-                PurchaseInvoiceDetails PID = new PurchaseInvoiceDetails();
-                PID.PurchaseInvoiceID = InvoiceId;
-
-                if (formCollection.GetValue("Description_" + InvoiceDetailsArray[c]) != null)
-                {
-                    strArray = (string[])formCollection.GetValue("Description_" + InvoiceDetailsArray[c]).RawValue;
-                    PID.Description = strArray[0].Trim();
-                }
-                int Quantity = 0;
-                if (formCollection.GetValue("Quantity_" + InvoiceDetailsArray[c]) != null)
-                {
-                    strArray = (string[])formCollection.GetValue("Quantity_" + InvoiceDetailsArray[c]).RawValue;
-                    int.TryParse(strArray[0], out Quantity);
-                }
-                PID.Quantity = Quantity;
-                int UnitTypeID = 0;
-                if (formCollection.GetValue("UnitID_" + InvoiceDetailsArray[c]) != null)
-                {
-                    strArray = (string[])formCollection.GetValue("UnitID_" + InvoiceDetailsArray[c]).RawValue;
-                    int.TryParse(strArray[0], out UnitTypeID);
-                }
-                PID.ItemUnitID = UnitTypeID;
-
-                decimal Rate = 0;
-                if (formCollection.GetValue("Rate_" + InvoiceDetailsArray[c]) != null)
-                {
-                    strArray = (string[])formCollection.GetValue("Rate_" + InvoiceDetailsArray[c]).RawValue;
-                    decimal.TryParse(strArray[0], out Rate);
-                }
-                PID.Rate = Rate;
-
-                decimal RateFC = 0;
-                if (formCollection.GetValue("RateFC_" + InvoiceDetailsArray[c]) != null)
-                {
-                    strArray = (string[])formCollection.GetValue("RateFC_" + InvoiceDetailsArray[c]).RawValue;
-                    decimal.TryParse(strArray[0], out RateFC);
-                }
-                PID.RateFC = RateFC;
-
-                decimal Value = 0;
-                if (formCollection.GetValue("Value_" + InvoiceDetailsArray[c]) != null)
-                {
-                    strArray = (string[])formCollection.GetValue("Value_" + InvoiceDetailsArray[c]).RawValue;
-                    decimal.TryParse(strArray[0], out Value);
-                }
-                PID.Value = Value;
-
-
-                decimal ValueFC = 0;
-                if (formCollection.GetValue("ValueFC_" + InvoiceDetailsArray[c]) != null)
-                {
-                    strArray = (string[])formCollection.GetValue("ValueFC_" + InvoiceDetailsArray[c]).RawValue;
-                    decimal.TryParse(strArray[0], out ValueFC);
-                }
-                PID.Value = ValueFC;
-
-
-
-                int iCharge = DAL.AddPurchaseInvoiceDetail(PID);
-            }
+            return true;
         }
 
         [HttpPost]
@@ -178,6 +223,7 @@ namespace TrueBooksMVC.Controllers
                 PI.PurchaseInvoiceDate = System.DateTime.UtcNow;
                 int i = 0;
                 i = PM.AddPurchaseInvoice(PI);
+              //  DeleteAndInsertRecords(formCollection,id);
                 if (i > 0)
                 {
                     Session["PurchaseInvoiceID"] = i;
@@ -189,7 +235,8 @@ namespace TrueBooksMVC.Controllers
             {
                     PI.PurchaseInvoiceID = id;
                     int k = PM.UpdatePurchaseInvoice(PI);
-                    return RedirectToAction("Invoice", "PurchaseInvoice", new { ID = PI.PurchaseInvoiceID });
+                    DeleteAndInsertRecords(formCollection, id);
+                return RedirectToAction("Invoice", "PurchaseInvoice", new { ID = PI.PurchaseInvoiceID });
             }
             else if (Command == "SaveInvoice")
             {

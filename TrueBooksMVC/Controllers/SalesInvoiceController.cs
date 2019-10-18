@@ -114,6 +114,147 @@ namespace TrueBooksMVC.Controllers
             return View(SI);
         }
 
+        private bool DeleteAndInsertRecords(FormCollection formCollection, int InvoiceId)
+        {
+            if (InvoiceId <= 0)
+            {
+                return false;
+            }
+            DAL.SP_DeleteSalesInvoiceDetails(InvoiceId);
+            int i = 0;
+            int InvoiceDetailsCount = 0;
+            ArrayList InvoiceDetailsArray = new ArrayList();
+
+
+            for (int j = 0; j < formCollection.Keys.Count; j++)
+            {
+                if (formCollection.Keys[j].StartsWith("Description_"))
+                {
+                    InvoiceDetailsCount = InvoiceDetailsCount + 1;
+                    InvoiceDetailsArray.Add(formCollection.Keys[j].Replace("Description_", "").Trim());
+                }
+            }
+
+            for (int c = 0; c < InvoiceDetailsCount; c++)
+            {
+                string[] strArray;
+                SalesInvoiceDetail SID = new SalesInvoiceDetail();
+                SID.SalesInvoiceID = InvoiceId;
+
+                int ProductID = 0;
+                if (formCollection.GetValue("ProductID_" + InvoiceDetailsArray[c]) != null)
+                {
+                    strArray = (string[])formCollection.GetValue("ProductID_" + InvoiceDetailsArray[c]).RawValue;
+                    int.TryParse(strArray[0], out ProductID);
+                }
+                SID.ItemUnitID = ProductID;
+
+
+                if (formCollection.GetValue("Description_" + InvoiceDetailsArray[c]) != null)
+                {
+                    strArray = (string[])formCollection.GetValue("Description_" + InvoiceDetailsArray[c]).RawValue;
+                    SID.Description = strArray[0].Trim();
+                }
+                int Quantity = 0;
+                if (formCollection.GetValue("Quantity_" + InvoiceDetailsArray[c]) != null)
+                {
+                    strArray = (string[])formCollection.GetValue("Quantity_" + InvoiceDetailsArray[c]).RawValue;
+                    int.TryParse(strArray[0], out Quantity);
+                }
+                SID.Quantity = Quantity;
+                int UnitTypeID = 0;
+                if (formCollection.GetValue("UnitID_" + InvoiceDetailsArray[c]) != null)
+                {
+                    strArray = (string[])formCollection.GetValue("UnitID_" + InvoiceDetailsArray[c]).RawValue;
+                    int.TryParse(strArray[0], out UnitTypeID);
+                }
+                SID.ItemUnitID = UnitTypeID;
+
+                decimal Rate = 0;
+                if (formCollection.GetValue("Rate_" + InvoiceDetailsArray[c]) != null)
+                {
+                    strArray = (string[])formCollection.GetValue("Rate_" + InvoiceDetailsArray[c]).RawValue;
+                    decimal.TryParse(strArray[0], out Rate);
+                }
+                SID.Rate = Rate;
+
+                decimal RateLC = 0;
+                if (formCollection.GetValue("RateLC_" + InvoiceDetailsArray[c]) != null)
+                {
+                    strArray = (string[])formCollection.GetValue("RateLC_" + InvoiceDetailsArray[c]).RawValue;
+                    decimal.TryParse(strArray[0], out RateLC);
+                }
+                SID.RateLC = RateLC;
+
+
+
+
+                decimal RateFC = 0;
+                if (formCollection.GetValue("RateFC_" + InvoiceDetailsArray[c]) != null)
+                {
+                    strArray = (string[])formCollection.GetValue("RateFC_" + InvoiceDetailsArray[c]).RawValue;
+                    decimal.TryParse(strArray[0], out RateFC);
+                }
+                SID.RateFC = RateFC;
+
+                decimal Value = 0;
+                if (formCollection.GetValue("Value_" + InvoiceDetailsArray[c]) != null)
+                {
+                    strArray = (string[])formCollection.GetValue("Value_" + InvoiceDetailsArray[c]).RawValue;
+                    decimal.TryParse(strArray[0], out Value);
+                }
+                SID.Value = Value;
+
+
+                decimal ValueLC = 0;
+                if (formCollection.GetValue("ValueLC_" + InvoiceDetailsArray[c]) != null)
+                {
+                    strArray = (string[])formCollection.GetValue("ValueLC_" + InvoiceDetailsArray[c]).RawValue;
+                    decimal.TryParse(strArray[0], out ValueLC);
+                }
+                SID.Value = Value;
+
+                decimal ValueFC = 0;
+                if (formCollection.GetValue("ValueFC_" + InvoiceDetailsArray[c]) != null)
+                {
+                    strArray = (string[])formCollection.GetValue("ValueFC_" + InvoiceDetailsArray[c]).RawValue;
+                    decimal.TryParse(strArray[0], out ValueFC);
+                }
+                SID.Value = ValueFC;
+                              
+
+                decimal Tax = 0;
+                if (formCollection.GetValue("Tax_" + InvoiceDetailsArray[c]) != null)
+                {
+                    strArray = (string[])formCollection.GetValue("Tax_" + InvoiceDetailsArray[c]).RawValue;
+                    decimal.TryParse(strArray[0], out Tax);
+                }
+                SID.Value = Tax;
+
+                decimal NetValue = 0;
+                if (formCollection.GetValue("NetValue_" + InvoiceDetailsArray[c]) != null)
+                {
+                    strArray = (string[])formCollection.GetValue("NetValue_" + InvoiceDetailsArray[c]).RawValue;
+                    decimal.TryParse(strArray[0], out NetValue);
+                }
+                SID.Value = NetValue;
+
+            
+                decimal JobID = 0;
+                if (formCollection.GetValue("JobID_" + InvoiceDetailsArray[c]) != null)
+                {
+                    strArray = (string[])formCollection.GetValue("JobID_" + InvoiceDetailsArray[c]).RawValue;
+                    decimal.TryParse(strArray[0], out JobID);
+                }
+                SID.Value = JobID;
+
+
+
+                int iCharge = DAL.AddSalesInvoiceDetails(SID);
+            }
+            return true;
+        }
+
         public void BindAllMasters()
         {
             try

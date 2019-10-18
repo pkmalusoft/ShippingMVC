@@ -3791,7 +3791,9 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Parameter Name="PurchaseInvoiceID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_GetAllProductServices" ReturnType="Collection(SHIPPING_FinalModel.SP_GetAllProductServices_Result)" />
+          <EntitySet Name="PurchaseInvoiceDetails" EntityType="SHIPPING_FinalModel.PurchaseInvoiceDetail" />
           <EntitySet Name="SalesInvoiceDetails" EntityType="SHIPPING_FinalModel.SalesInvoiceDetail" />
+   
         </EntityContainer>
         <ComplexType Name="SP_GetUserDetailForEdit_Result">
           <Property Type="Int32" Name="UserID" Nullable="false" />
@@ -6891,6 +6893,26 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Type="String" Name="ProductName" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="Status" Nullable="true" MaxLength="50" />
         </ComplexType>
+        <EntityType Name="PurchaseInvoiceDetail">
+          <Key>
+            <PropertyRef Name="PurchaseInvoiceDetailID" />
+          </Key>
+          <Property Name="PurchaseInvoiceDetailID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PurchaseInvoiceID" Type="Int32" />
+          <Property Name="ProductID" Type="Int32" />
+          <Property Name="Quantity" Type="Int32" />
+          <Property Name="ItemUnitID" Type="Int32" />
+          <Property Name="Rate" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="RateFC" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Value" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ValueFC" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Taxprec" Type="Decimal" Precision="5" Scale="2" />
+          <Property Name="Tax" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="NetValue" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="AcHeadID" Type="Int32" />
+          <Property Name="JobID" Type="Int32" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
         <EntityType Name="SalesInvoiceDetail">
           <Key>
             <PropertyRef Name="SalesInvoiceDetailID" />
@@ -6911,6 +6933,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Name="JobID" Type="Int32" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
+       
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -10245,6 +10268,27 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="PurchaseInvoiceDetails">
+            <EntityTypeMapping TypeName="SHIPPING_FinalModel.PurchaseInvoiceDetail">
+              <MappingFragment StoreEntitySet="PurchaseInvoiceDetails">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="JobID" ColumnName="JobID" />
+                <ScalarProperty Name="AcHeadID" ColumnName="AcHeadID" />
+                <ScalarProperty Name="NetValue" ColumnName="NetValue" />
+                <ScalarProperty Name="Tax" ColumnName="Tax" />
+                <ScalarProperty Name="Taxprec" ColumnName="Taxprec" />
+                <ScalarProperty Name="ValueFC" ColumnName="ValueFC" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="RateFC" ColumnName="RateFC" />
+                <ScalarProperty Name="Rate" ColumnName="Rate" />
+                <ScalarProperty Name="ItemUnitID" ColumnName="ItemUnitID" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="PurchaseInvoiceID" ColumnName="PurchaseInvoiceID" />
+                <ScalarProperty Name="PurchaseInvoiceDetailID" ColumnName="PurchaseInvoiceDetailID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="SalesInvoiceDetails">
             <EntityTypeMapping TypeName="SHIPPING_FinalModel.SalesInvoiceDetail">
               <MappingFragment StoreEntitySet="SalesInvoiceDetails">
@@ -10266,6 +10310,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+         
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -1066,7 +1066,7 @@ Begin
 @Taxprec,
 @Tax,
 @NetValue,
-@AcHeadID ,
+@AcHeadID,
 @JobID,
 @Description
          )
@@ -1196,4 +1196,93 @@ Begin
 		 
 END
 
+----------------------
+/****** Object:  StoredProcedure [dbo].[SP_UpdatePurchaseInvoice]    Script Date: 18-10-2019 18:42:11 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE proc [dbo].[SP_UpdatePurchaseInvoiceDetails]
+(
+@PurchaseInvoiceDetailID int=0 output,
+@PurchaseInvoiceID int,
+@ProductID int,
+@Quantity int,
+@ItemUnitID int,
+@Rate decimal,
+@RateFC decimal,
+@Value decimal,
+@ValueFC decimal,
+@Taxprec decimal,
+@Tax decimal,
+@NetValue decimal,
+@AcHeadID int,
+@JobID int,
+@Description nvarchar(max)
+)
+AS
+Begin
 
+UPDATE [PurchaseInvoiceDetails]  SET 
+    [PurchaseInvoiceID]=@PurchaseInvoiceID,
+		   [ProductID]=@ProductID,
+		    [Quantity]=@Quantity,
+	[ItemUnitID]=@ItemUnitID,
+	[Rate]=@Rate,
+	[RateFC]=@RateFC,
+	[Value]=@Value,
+	[ValueFC]=@ValueFC,
+	[Taxprec]=@Taxprec,
+	[Tax]=@Tax,
+	[NetValue]=@NetValue,
+	[AcHeadID]=@AcHeadID,
+	[JobID]=@JobID,
+	[Description]=@Description	
+		WHERE PurchaseInvoiceDetailID=@PurchaseInvoiceDetailID
+  
+END
+----------------------------
+/****** Object:  StoredProcedure [dbo].[SP_UpdatePurchaseInvoice]    Script Date: 18-10-2019 18:42:11 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE proc [dbo].[SP_UpdateSalesInvoiceDetails]
+(
+@SalesInvoiceDetailID int=0 output,
+@SalesInvoiceID int,
+@ProductID int,
+@Quantity int,
+@ItemUnitID int,
+@Rate decimal,
+@RateLC decimal,
+@RateFC decimal,
+@Value decimal,
+@ValueLC decimal,
+@ValueFC decimal,
+@Tax decimal,
+@NetValue decimal,
+@JobID int,
+@Description nvarchar(max)
+)
+AS
+Begin
+
+UPDATE [SalesInvoiceDetails]  SET 
+    [SalesInvoiceID]=@SalesInvoiceID,
+		   [ProductID]=@ProductID,
+		    [Quantity]=@Quantity,
+	[ItemUnitID]=@ItemUnitID,
+	[Rate]=@Rate,
+	[RateLC]=@RateLC,
+	[RateFC]=@RateFC,
+	[Value]=@Value,
+	[ValueLC]=@ValueLC,
+	[ValueFC]=@ValueFC,
+	[Tax]=@Tax,
+	[NetValue]=@NetValue,
+	[JobID]=@JobID,
+	[Description]=@Description	
+		WHERE SalesInvoiceDetailID=@SalesInvoiceDetailID
+  
+END
