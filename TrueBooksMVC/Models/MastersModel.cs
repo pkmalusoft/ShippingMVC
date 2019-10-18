@@ -117,5 +117,21 @@ namespace TrueBooksMVC.Models
         {
             return Context1.SP_GetCustomerByID(customerID).OrderBy(x => x.Customer).ToList();
         }
+
+        public List<AcHeadSelectAll_Result> AcHeadSelectAll(int branchID)
+        {
+            return Context1.AcHeadSelectAll(branchID).OrderBy(x => x.AcHead).ToList();
+        }
+
+        public List<SP_GetAllJobsDetails_Result> GetAllJobsDetails()
+        {
+            return Context1.SP_GetAllJobsDetails().OrderBy(x => x.JobCode).ToList();
+        }
+        public List<SP_GetAllProductServices_Result> GetAllProductServices()
+        {
+            return Context1.SP_GetAllProductServices().OrderBy(x => x.ProductName).ToList();
+        }
+
+
     }
 }

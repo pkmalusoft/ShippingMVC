@@ -573,5 +573,204 @@ namespace TrueBooksMVC
 
             return i;
         }
+
+        public static int SP_DeletePurchaseInvoiceDetails(int Id)
+        {
+            int i = 0;
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = new SqlConnection(Common.GetConnectionString);
+            cmd.CommandText = "SP_DeletePurchaseInvoiceDetails";
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.Add("@PurchaseInvoiceId", SqlDbType.Int);
+            cmd.Parameters["@PurchaseInvoiceId"].Value = Id;
+
+            try
+            {
+                cmd.Connection.Open();
+                i = cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+            finally
+            {
+                cmd.Connection.Close();
+            }
+
+            return i;
+        }
+
+        public static int AddPurchaseInvoiceDetail(PurchaseInvoiceDetails PID)
+        {
+            int i = 0;
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = new SqlConnection(Common.GetConnectionString);
+            cmd.CommandText = "SP_InsertPurchaseInvoiceDetails";
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.Add("@PurchaseInvoiceDetailID", SqlDbType.Int);
+            cmd.Parameters["@PurchaseInvoiceDetailID"].Value = 0;
+            cmd.Parameters["@PurchaseInvoiceDetailID"].Direction = ParameterDirection.InputOutput;
+
+            cmd.Parameters.Add("@PurchaseInvoiceID", SqlDbType.Int);
+            if (PID.PurchaseInvoiceID != null)
+            {
+                cmd.Parameters["@PurchaseInvoiceID"].Value = PID.@PurchaseInvoiceID;
+            }
+            else
+            {
+                cmd.Parameters["@PurchaseInvoiceID"].Value = "";
+            }            
+
+         
+            cmd.Parameters.Add("@ProductID", SqlDbType.Int);
+            cmd.Parameters["@ProductID"].Value = PID.ProductID;
+
+            cmd.Parameters.Add("@Quantity", SqlDbType.Int);
+            cmd.Parameters["@Quantity"].Value = PID.Quantity;
+
+            cmd.Parameters.Add("@ItemUnitID", SqlDbType.Int);
+            cmd.Parameters["@ItemUnitID"].Value = PID.ItemUnitID;
+
+            cmd.Parameters.Add("@Rate", SqlDbType.Int);
+            cmd.Parameters["@Rate"].Value = PID.Rate;
+
+            cmd.Parameters.Add("@RateFC", SqlDbType.Decimal);
+            cmd.Parameters["@RateFC"].Value = PID.RateFC;
+
+            cmd.Parameters.Add("@Value", SqlDbType.Int);
+            cmd.Parameters["@Rate"].Value = PID.Rate;
+
+            cmd.Parameters.Add("@ValeFC", SqlDbType.Decimal);
+            cmd.Parameters["@RateFC"].Value = PID.RateFC;
+
+                cmd.Parameters.Add("@Taxprec", SqlDbType.Decimal);
+                cmd.Parameters["@Taxprec"].Value = PID.Taxprec;
+
+                cmd.Parameters.Add("@Tax", SqlDbType.Decimal);
+                cmd.Parameters["@Tax"].Value = PID.Tax;
+
+                cmd.Parameters.Add("@NetValue", SqlDbType.Decimal);
+                cmd.Parameters["@NetValue"].Value = PID.NetValue;
+
+                cmd.Parameters.Add("@AcHeadID", SqlDbType.Int);
+                cmd.Parameters["@AcHeadID"].Value = PID.AcHeadID;
+
+                cmd.Parameters.Add("@JobID", SqlDbType.Int);
+                cmd.Parameters["@JobID"].Value = PID.JobID;
+                cmd.Parameters.Add("@Description", SqlDbType.NVarChar);
+                cmd.Parameters["@Description"].Value = PID.Description;
+
+
+
+
+
+                try
+            {
+                cmd.Connection.Open();
+                i = cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+            finally
+            {
+                cmd.Connection.Close();
+            }
+
+            return Convert.ToInt32(cmd.Parameters["@PurchaseInvoiceDetailID"].Value);
+        }
+
+
+        public static int AddSalesInvoiceDetail(SalesInvoiceDetails SID)
+        {
+            int i = 0;
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = new SqlConnection(Common.GetConnectionString);
+            cmd.CommandText = "SP_InsertSalesInvoiceDetails";
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.Add("@PurchaseInvoiceDetailID", SqlDbType.Int);
+            cmd.Parameters["@PurchaseInvoiceDetailID"].Value = 0;
+            cmd.Parameters["@PurchaseInvoiceDetailID"].Direction = ParameterDirection.InputOutput;
+
+            cmd.Parameters.Add("@SalesInvoiceID", SqlDbType.Int);
+            if (SID.SalesInvoiceID != null)
+            {
+                cmd.Parameters["@SalesInvoiceID"].Value = SID.SalesInvoiceID;
+            }
+            else
+            {
+                cmd.Parameters["@SalesInvoiceID"].Value = "";
+            }
+
+
+            cmd.Parameters.Add("@ProductID", SqlDbType.Int);
+            cmd.Parameters["@ProductID"].Value = SID.ProductID;
+
+            cmd.Parameters.Add("@Quantity", SqlDbType.Int);
+            cmd.Parameters["@Quantity"].Value = SID.Quantity;
+
+            cmd.Parameters.Add("@ItemUnitID", SqlDbType.Int);
+            cmd.Parameters["@ItemUnitID"].Value = SID.ItemUnitID;
+
+            cmd.Parameters.Add("@Rate", SqlDbType.Int);
+            cmd.Parameters["@Rate"].Value = SID.Rate;
+
+            cmd.Parameters.Add("@RateLC", SqlDbType.Int);
+            cmd.Parameters["@RateLC"].Value = SID.RateLC;
+
+            cmd.Parameters.Add("@RateFC", SqlDbType.Decimal);
+            cmd.Parameters["@RateFC"].Value = SID.RateFC;
+
+            cmd.Parameters.Add("@Value", SqlDbType.Int);
+            cmd.Parameters["@Rate"].Value = SID.Rate;
+            cmd.Parameters.Add("@ValueLC", SqlDbType.Decimal);
+            cmd.Parameters["@ValueLC"].Value = SID.ValueLC;
+            cmd.Parameters.Add("@ValeFC", SqlDbType.Decimal);
+            cmd.Parameters["@RateFC"].Value = SID.RateFC;
+
+           
+
+            cmd.Parameters.Add("@Tax", SqlDbType.Decimal);
+            cmd.Parameters["@Tax"].Value = SID.Tax;
+
+            cmd.Parameters.Add("@NetValue", SqlDbType.Decimal);
+            cmd.Parameters["@NetValue"].Value = SID.NetValue;
+
+         
+
+            cmd.Parameters.Add("@JobID", SqlDbType.Int);
+            cmd.Parameters["@JobID"].Value = SID.JobID;
+            cmd.Parameters.Add("@Description", SqlDbType.NVarChar);
+            cmd.Parameters["@Description"].Value = SID.Description;
+
+
+
+
+
+            try
+            {
+                cmd.Connection.Open();
+                i = cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+            finally
+            {
+                cmd.Connection.Close();
+            }
+
+            return Convert.ToInt32(cmd.Parameters["@PurchaseInvoiceDetailID"].Value);
+        }
+
     }
 }

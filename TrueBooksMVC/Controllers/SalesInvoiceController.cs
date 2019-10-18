@@ -130,6 +130,10 @@ namespace TrueBooksMVC.Controllers
                 List<SP_GetAllSupplier_Result> Supplier = new List<SP_GetAllSupplier_Result>();
                 List<SP_GetShippingAgents_Result> ShippingAgent = new List<SP_GetShippingAgents_Result>();
                 List<SP_GetAllItemUnit_Result> Unit = new List<SP_GetAllItemUnit_Result>();
+                List<SP_GetAllJobsDetails_Result> Job = new List<SP_GetAllJobsDetails_Result>();
+                List<SP_GetAllProductServices_Result> Product = new List<SP_GetAllProductServices_Result>();
+                List<AcHeadSelectAll_Result> AccountHead = new List<AcHeadSelectAll_Result>();
+
 
                 Ports = MM.GetAllPort();
                 Employees = MM.GetAllEmployees();
@@ -143,7 +147,14 @@ namespace TrueBooksMVC.Controllers
                 Supplier = MM.GetAllSupplier();
                 ShippingAgent = MM.GetShippingAgents();
                 Unit = MM.GetItemUnit();
+                Job = MM.GetAllJobsDetails();
+                AccountHead = MM.AcHeadSelectAll(Common.ParseInt(Session["branchid"].ToString()));
+                Product = MM.GetAllProductServices();
 
+
+                ViewBag.AccountHead = new SelectList(AccountHead, "AcHeadID", "AcHead");
+                ViewBag.Product = new SelectList(Product, "ProductID", "ProductName");
+                ViewBag.Job = new SelectList(Job, "JobID", "JobCode");
                 ViewBag.Ports = new SelectList(Ports, "PortID", "Port");
                 ViewBag.Customer = new SelectList(Customers, "CustomerID", "Customer");
                 ViewBag.Employees = new SelectList(Employees, "EmployeeID", "EmployeeName");

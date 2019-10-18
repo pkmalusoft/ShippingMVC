@@ -962,3 +962,238 @@ END
 alter table SalesInvoice add DeliveryId int;
 
 alter table SalesInvoice Add QuotationNumber nvarchar(100);
+----------------------------------------oct18
+
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE Proc [dbo].[SP_GetAllJOB]
+AS
+BEGIN
+Select * from dbo.Job
+END
+------------------------
+/****** Object:  Table [dbo].[Supplier]    Script Date: 18-10-2019 03:17:42 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[ProductServices](
+	[ProductID] [int] NOT NULL,
+	[ProductName] [nvarchar](100) NULL,
+	[Status] [nvarchar](50) NULL,
+	
+	);
+
+
+	USE [DB_9F57C4_ShippingTest]
+GO
+/****** Object:  StoredProcedure [dbo].[SP_DeletePurchaseInvoice]    Script Date: 18-10-2019 06:39:53 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE Proc [dbo].[SP_DeletePurchaseInvoiceDetails]
+(
+@PurchaseInvoiceId int
+)
+AS
+BEGIN
+Delete from PurchaseInvoiceDetails where PurchaseInvoiceID=@PurchaseInvoiceId
+
+END
+
+------------------------
+
+
+/****** Object:  StoredProcedure [dbo].[SP_InsertPurchaseInvoice]    Script Date: 18-10-2019 07:34:05 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE proc [dbo].[SP_InsertPurchaseInvoiceDetails]
+(
+@PurchaseInvoiceDetailID int=0 output,
+@PurchaseInvoiceID int,
+@ProductID int,
+@Quantity int,
+@ItemUnitID int,
+@Rate decimal,
+@RateFC decimal,
+@Value decimal,
+@ValueFC decimal,
+@Taxprec decimal,
+@Tax decimal,
+@NetValue decimal,
+@AcHeadID int,
+@JobID int,
+@Description nvarchar(max)
+
+)
+AS
+Begin
+
+ INSERT INTO [PurchaseInvoiceDetails] 
+           ([PurchaseInvoiceID],
+		   [ProductID],
+		    [Quantity],
+	[ItemUnitID],
+	[Rate],
+	[RateFC],
+	[Value],
+	[ValueFC],
+	[Taxprec],
+	[Tax],
+	[NetValue],
+	[AcHeadID],
+	[JobID],
+	[Description]			
+         )
+     VALUES
+           (@PurchaseInvoiceID,
+       @ProductID, 
+@Quantity, 
+@ItemUnitID,
+@Rate,
+@RateFC,
+@Value,
+@ValueFC,
+@Taxprec,
+@Tax,
+@NetValue,
+@AcHeadID ,
+@JobID,
+@Description
+         )
+		 
+END
+-------------------------
+
+
+
+
+/****** Object:  Table [dbo].[SalesInvoiceDetails]    Script Date: 18-10-2019 07:27:46 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[SalesInvoiceDetails](
+	[SalesInvoiceDetailID] [int] IDENTITY(1,1) NOT NULL,
+	[SalesInvoiceID] [int] NULL,
+	[ProductID] [int] NULL,
+	[Quantity] [int] NULL,
+	[ItemUnitID] [int] NULL,
+	[Rate] [decimal](18, 2) NULL,
+	[RateLC] [decimal](18, 2) NULL,
+	[RateFC] [decimal](18, 2) NULL,
+	[Value] [decimal](18, 2) NULL,
+	[ValueLC] [decimal](18, 2) NULL,
+	[ValueFC] [decimal](18, 2) NULL,
+	[Tax] [decimal](18, 2) NULL,
+	[NetValue] [decimal](18, 2) NULL,
+	[JobID] [int] NULL,
+	[Description] [varchar](max) NULL,
+ )
+
+
+------------------------
+
+
+
+
+/****** Object:  Table [dbo].[PurchaseInvoiceDetails]    Script Date: 18-10-2019 07:19:34 ******/
+
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[PurchaseInvoiceDetails](
+	[PurchaseInvoiceDetailID] [int] IDENTITY(1,1) NOT NULL,
+	[PurchaseInvoiceID] [int] NULL,
+	[ProductID] [int] NULL,
+	[Quantity] [int] NULL,
+	[ItemUnitID] [int] NULL,
+	[Rate] [decimal](18, 2) NULL,
+	[RateFC] [decimal](18, 2) NULL,
+	[Value] [decimal](18, 2) NULL,
+	[ValueFC] [decimal](18, 2) NULL,
+	[Taxprec] [decimal](5, 2) NULL,
+	[Tax] [decimal](18, 2) NULL,
+	[NetValue] [decimal](18, 2) NULL,
+	[AcHeadID] [int] NULL,
+	[JobID] [int] NULL,
+	[Description] [varchar](max) NULL,
+ )
+GO
+
+-----------------------------------------
+
+/****** Object:  StoredProcedure [dbo].[SP_InsertPurchaseInvoice]    Script Date: 18-10-2019 07:34:05 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE proc [dbo].[SP_InsertSalesInvoiceDetails]
+(
+@SalesInvoiceDetailID int=0 output,
+@SalesInvoiceID int,
+@ProductID int,
+@Quantity int,
+@ItemUnitID int,
+@Rate decimal,
+@RateLC decimal,
+@RateFC decimal,
+@Value decimal,
+@ValueLC decimal,
+@ValueFC decimal,
+@Tax decimal,
+@NetValue decimal,
+@JobID int,
+@Description nvarchar(max)
+
+)
+AS
+Begin
+
+ INSERT INTO [SalesInvoiceDetails] 
+           ([SalesInvoiceID],
+		   [ProductID],
+		    [Quantity],
+	[ItemUnitID],
+	[Rate],[RateLC],
+	[RateFC],
+	[Value],[ValueLC],
+	[ValueFC],
+	[Tax],
+	[NetValue],
+	
+	[JobID],
+	[Description]			
+         )
+     VALUES
+           (@SalesInvoiceID,
+       @ProductID, 
+@Quantity, 
+@ItemUnitID,
+@Rate,@RateLC,
+@RateFC,
+@Value,
+@ValueLC,
+@ValueFC,
+@Tax,
+@NetValue,
+@JobID,
+@Description
+         )
+		 
+END
+
+

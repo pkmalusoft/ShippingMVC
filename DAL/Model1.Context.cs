@@ -93,7 +93,8 @@ namespace DAL
         public DbSet<AcBankDetail> AcBankDetails { get; set; }
         public DbSet<PurchaseInvoice> PurchaseInvoices { get; set; }
         public DbSet<SalesInvoice> SalesInvoices { get; set; }
-
+        public DbSet<PurchaseInvoiceDetail> PurchaseInvoiceDetails { get; set; }
+        public DbSet<SalesInvoiceDetail> SalesInvoiceDetails { get; set; }
         public virtual int SP_DeleteUser(Nullable<int> uSerID)
         {
             var uSerIDParameter = uSerID.HasValue ?
@@ -3860,6 +3861,10 @@ namespace DAL
                 new ObjectParameter("PurchaseInvoiceID", typeof(int));
 
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GetPurchaseInvoiceByID_Result>("SP_GetPurchaseInvoiceByID", purchaseInvoiceIDParameter);
+        }
+        public virtual ObjectResult<SP_GetAllProductServices_Result> SP_GetAllProductServices()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GetAllProductServices_Result>("SP_GetAllProductServices");
         }
     }
 }

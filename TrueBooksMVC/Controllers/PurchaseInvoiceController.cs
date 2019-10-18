@@ -55,6 +55,92 @@ namespace TrueBooksMVC.Controllers
             return View(PI);
         }
 
+        private bool DeleteAndInsertRecords(FormCollection formCollection, int InvoiceId)
+        {
+            if (InvoiceId <= 0)
+            {
+                return false;
+            }
+            DAL.SP_DeletePurchaseInvoiceDetails(InvoiceId);
+            int i = 0;
+            int InvoiceDetailsCount = 0;
+            ArrayList InvoiceDetailsArray = new ArrayList();
+
+       
+            for (int j = 0; j < formCollection.Keys.Count; j++)
+            {
+                if (formCollection.Keys[j].StartsWith("Description_"))
+                {
+                    InvoiceDetailsCount = InvoiceDetailsCount + 1;
+                    InvoiceDetailsArray.Add(formCollection.Keys[j].Replace("Description_", "").Trim());
+                }
+            }
+
+            for (int c = 0; c < InvoiceDetailsCount; c++)
+            {
+                string[] strArray;
+                PurchaseInvoiceDetails PID = new PurchaseInvoiceDetails();
+                PID.PurchaseInvoiceID = InvoiceId;
+
+                if (formCollection.GetValue("Description_" + InvoiceDetailsArray[c]) != null)
+                {
+                    strArray = (string[])formCollection.GetValue("Description_" + InvoiceDetailsArray[c]).RawValue;
+                    PID.Description = strArray[0].Trim();
+                }
+                int Quantity = 0;
+                if (formCollection.GetValue("Quantity_" + InvoiceDetailsArray[c]) != null)
+                {
+                    strArray = (string[])formCollection.GetValue("Quantity_" + InvoiceDetailsArray[c]).RawValue;
+                    int.TryParse(strArray[0], out Quantity);
+                }
+                PID.Quantity = Quantity;
+                int UnitTypeID = 0;
+                if (formCollection.GetValue("UnitID_" + InvoiceDetailsArray[c]) != null)
+                {
+                    strArray = (string[])formCollection.GetValue("UnitID_" + InvoiceDetailsArray[c]).RawValue;
+                    int.TryParse(strArray[0], out UnitTypeID);
+                }
+                PID.ItemUnitID = UnitTypeID;
+
+                decimal Rate = 0;
+                if (formCollection.GetValue("Rate_" + InvoiceDetailsArray[c]) != null)
+                {
+                    strArray = (string[])formCollection.GetValue("Rate_" + InvoiceDetailsArray[c]).RawValue;
+                    decimal.TryParse(strArray[0], out Rate);
+                }
+                PID.Rate = Rate;
+
+                decimal RateFC = 0;
+                if (formCollection.GetValue("RateFC_" + InvoiceDetailsArray[c]) != null)
+                {
+                    strArray = (string[])formCollection.GetValue("RateFC_" + InvoiceDetailsArray[c]).RawValue;
+                    decimal.TryParse(strArray[0], out RateFC);
+                }
+                PID.RateFC = RateFC;
+
+                decimal Value = 0;
+                if (formCollection.GetValue("Value_" + InvoiceDetailsArray[c]) != null)
+                {
+                    strArray = (string[])formCollection.GetValue("Value_" + InvoiceDetailsArray[c]).RawValue;
+                    decimal.TryParse(strArray[0], out Value);
+                }
+                PID.Value = Value;
+
+
+                decimal ValueFC = 0;
+                if (formCollection.GetValue("ValueFC_" + InvoiceDetailsArray[c]) != null)
+                {
+                    strArray = (string[])formCollection.GetValue("ValueFC_" + InvoiceDetailsArray[c]).RawValue;
+                    decimal.TryParse(strArray[0], out ValueFC);
+                }
+                PID.Value = ValueFC;
+
+
+
+                int iCharge = DAL.AddPurchaseInvoiceDetail(PID);
+            }
+        }
+
         [HttpPost]
         public ActionResult Invoice(FormCollection formCollection, string Command, int id)
         {
@@ -128,8 +214,13 @@ namespace TrueBooksMVC.Controllers
                 List<SP_GetAllSupplier_Result> Supplier = new List<SP_GetAllSupplier_Result>();
                 List<SP_GetShippingAgents_Result> ShippingAgent = new List<SP_GetShippingAgents_Result>();
                 List<SP_GetAllItemUnit_Result> Unit = new List<SP_GetAllItemUnit_Result>();
+                List<SP_GetAllJobsDetails_Result> Job = new List<SP_GetAllJobsDetails_Result>();
+                List<SP_GetAllProductServices_Result> Product = new List<SP_GetAllProductServices_Result>();
+               List<AcHeadSelectAll_Result>AccountHead = new List<AcHeadSelectAll_Result>();
 
-              
+
+               AccountHead = MM.AcHeadSelectAll(Common.ParseInt(Session["branchid"].ToString()));
+                Product = MM.GetAllProductServices();
                 Employees = MM.GetAllEmployees();
                 JobType = MM.GetJobTypeS();
                 Carriers = MM.GetAllCarrier();
@@ -141,8 +232,11 @@ namespace TrueBooksMVC.Controllers
                 Supplier = MM.GetAllSupplier();
                 ShippingAgent = MM.GetShippingAgents();
                 Unit = MM.GetItemUnit();
+                Job = MM.GetAllJobsDetails();
 
-               
+               ViewBag.AccountHead = new SelectList(AccountHead, "AcHeadID", "AcHead");
+                ViewBag.Product = new SelectList(Product, "ProductID", "ProductName");
+                ViewBag.Job = new SelectList(Job, "JobID", "JobCode");
                 ViewBag.Customer = new SelectList(Customers, "CustomerID", "Customer");
                 ViewBag.Employees = new SelectList(Employees, "EmployeeID", "EmployeeName");
                 ViewBag.Countries = new SelectList(Countries, "CountryID", "CountryName");

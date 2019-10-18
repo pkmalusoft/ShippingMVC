@@ -777,6 +777,28 @@ warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.AcHeadAssign' does not 
           <Property Name="Remarks" Type="nvarchar(max)" />
           <Property Name="FYearID" Type="int" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.PurchaseInvoiceDetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="PurchaseInvoiceDetails">
+          <Key>
+            <PropertyRef Name="PurchaseInvoiceDetailID" />
+          </Key>
+          <Property Name="PurchaseInvoiceDetailID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PurchaseInvoiceID" Type="int" />
+          <Property Name="ProductID" Type="int" />
+          <Property Name="Quantity" Type="int" />
+          <Property Name="ItemUnitID" Type="int" />
+          <Property Name="Rate" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="RateFC" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Value" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="ValueFC" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Taxprec" Type="decimal" Precision="5" Scale="2" />
+          <Property Name="Tax" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="NetValue" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="AcHeadID" Type="int" />
+          <Property Name="JobID" Type="int" />
+          <Property Name="Description" Type="varchar(max)" />
+        </EntityType>
         <EntityType Name="RecPay">
           <Key>
             <PropertyRef Name="RecPayID" />
@@ -869,6 +891,28 @@ warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.AcHeadAssign' does not 
           <Property Name="Remarks" Type="nvarchar(max)" />
           <Property Name="FYearID" Type="int" />
           <Property Name="DeliveryId" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.SalesInvoiceDetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="SalesInvoiceDetails">
+          <Key>
+            <PropertyRef Name="SalesInvoiceDetailID" />
+          </Key>
+          <Property Name="SalesInvoiceDetailID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SalesInvoiceID" Type="int" />
+          <Property Name="ProductID" Type="int" />
+          <Property Name="Quantity" Type="int" />
+          <Property Name="ItemUnitID" Type="int" />
+          <Property Name="Rate" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="RateLC" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="RateFC" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Value" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="ValueLC" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="ValueFC" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Tax" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="NetValue" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="JobID" Type="int" />
+          <Property Name="Description" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="ShippingAgent">
           <Key>
@@ -1671,6 +1715,7 @@ warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.qrySupplierOutstanding'
           <Parameter Name="FyearId" Type="int" Mode="In" />
         </Function>
         <Function Name="SP_GetAllPorts" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_GetAllProductServices" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_GetAllRecieptsDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_GetAllRecieptsDetailsByDate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="FromDate" Type="nvarchar" Mode="In" />
@@ -2170,8 +2215,8 @@ warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.qrySupplierOutstanding'
           <Parameter Name="Discount" Type="decimal" Mode="In" />
           <Parameter Name="StatusDiscountAmt" Type="bit" Mode="In" />
           <Parameter Name="OtherCharges" Type="decimal" Mode="In" />
-          <Parameter Name="PaymentTerm" Type="nvarchar" Mode="In" />
-          <Parameter Name="Remarks" Type="nvarchar" Mode="In" />
+          <Parameter Name="PaymentTerm" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="Remarks" Type="nvarchar(max)" Mode="In" />
           <Parameter Name="FYearID" Type="int" Mode="In" />
         </Function>
         <Function Name="SP_UpdateSalesInvoice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -2182,7 +2227,7 @@ warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.qrySupplierOutstanding'
           <Parameter Name="LPOReference" Type="nvarchar" Mode="In" />
           <Parameter Name="CustomerID" Type="int" Mode="In" />
           <Parameter Name="EmployeeeID" Type="int" Mode="In" />
-          <Parameter Name="QuotationID" Type="int" Mode="In" />
+          <Parameter Name="QuotationNumber" Type="nvarchar" Mode="In" />
           <Parameter Name="CurrencyID" Type="int" Mode="In" />
           <Parameter Name="EXchangeRate" Type="decimal" Mode="In" />
           <Parameter Name="CreditDays" Type="int" Mode="In" />
@@ -2192,8 +2237,8 @@ warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.qrySupplierOutstanding'
           <Parameter Name="Discount" Type="decimal" Mode="In" />
           <Parameter Name="StatusDiscountAmt" Type="bit" Mode="In" />
           <Parameter Name="OtherCharges" Type="decimal" Mode="In" />
-          <Parameter Name="PaymentTerm" Type="nvarchar" Mode="In" />
-          <Parameter Name="Remarks" Type="nvarchar" Mode="In" />
+          <Parameter Name="PaymentTerm" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="Remarks" Type="nvarchar(max)" Mode="In" />
           <Parameter Name="FYearID" Type="int" Mode="In" />
           <Parameter Name="DeliveryId" Type="int" Mode="In" />
         </Function>
@@ -2305,6 +2350,44 @@ FROM [dbo].[AcBankDetails] AS [AcBankDetails]</DefiningQuery>
 [AcHeadAssign].[CashControlAcID] AS [CashControlAcID], 
 [AcHeadAssign].[SupplierControlAcID] AS [SupplierControlAcID]
 FROM [dbo].[AcHeadAssign] AS [AcHeadAssign]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="PurchaseInvoiceDetails" EntityType="Self.PurchaseInvoiceDetails" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+[PurchaseInvoiceDetails].[PurchaseInvoiceDetailID] AS [PurchaseInvoiceDetailID], 
+[PurchaseInvoiceDetails].[PurchaseInvoiceID] AS [PurchaseInvoiceID], 
+[PurchaseInvoiceDetails].[ProductID] AS [ProductID], 
+[PurchaseInvoiceDetails].[Quantity] AS [Quantity], 
+[PurchaseInvoiceDetails].[ItemUnitID] AS [ItemUnitID], 
+[PurchaseInvoiceDetails].[Rate] AS [Rate], 
+[PurchaseInvoiceDetails].[RateFC] AS [RateFC], 
+[PurchaseInvoiceDetails].[Value] AS [Value], 
+[PurchaseInvoiceDetails].[ValueFC] AS [ValueFC], 
+[PurchaseInvoiceDetails].[Taxprec] AS [Taxprec], 
+[PurchaseInvoiceDetails].[Tax] AS [Tax], 
+[PurchaseInvoiceDetails].[NetValue] AS [NetValue], 
+[PurchaseInvoiceDetails].[AcHeadID] AS [AcHeadID], 
+[PurchaseInvoiceDetails].[JobID] AS [JobID], 
+[PurchaseInvoiceDetails].[Description] AS [Description]
+FROM [dbo].[PurchaseInvoiceDetails] AS [PurchaseInvoiceDetails]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="SalesInvoiceDetails" EntityType="Self.SalesInvoiceDetails" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+[SalesInvoiceDetails].[SalesInvoiceDetailID] AS [SalesInvoiceDetailID], 
+[SalesInvoiceDetails].[SalesInvoiceID] AS [SalesInvoiceID], 
+[SalesInvoiceDetails].[ProductID] AS [ProductID], 
+[SalesInvoiceDetails].[Quantity] AS [Quantity], 
+[SalesInvoiceDetails].[ItemUnitID] AS [ItemUnitID], 
+[SalesInvoiceDetails].[Rate] AS [Rate], 
+[SalesInvoiceDetails].[RateLC] AS [RateLC], 
+[SalesInvoiceDetails].[RateFC] AS [RateFC], 
+[SalesInvoiceDetails].[Value] AS [Value], 
+[SalesInvoiceDetails].[ValueLC] AS [ValueLC], 
+[SalesInvoiceDetails].[ValueFC] AS [ValueFC], 
+[SalesInvoiceDetails].[Tax] AS [Tax], 
+[SalesInvoiceDetails].[NetValue] AS [NetValue], 
+[SalesInvoiceDetails].[JobID] AS [JobID], 
+[SalesInvoiceDetails].[Description] AS [Description]
+FROM [dbo].[SalesInvoiceDetails] AS [SalesInvoiceDetails]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="qryCustomerStatement" EntityType="Self.qryCustomerStatement" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -3661,7 +3744,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
             <Parameter Name="LPOReference" Mode="In" Type="String" />
             <Parameter Name="CustomerID" Mode="In" Type="Int32" />
             <Parameter Name="EmployeeeID" Mode="In" Type="Int32" />
-            <Parameter Name="QuotationID" Mode="In" Type="Int32" />
+            <Parameter Name="QuotationNumber" Mode="In" Type="String" />
             <Parameter Name="CurrencyID" Mode="In" Type="Int32" />
             <Parameter Name="EXchangeRate" Mode="In" Type="Decimal" />
             <Parameter Name="CreditDays" Mode="In" Type="Int32" />
@@ -3705,8 +3788,10 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           </FunctionImport>
           <EntitySet Name="PurchaseInvoices" EntityType="SHIPPING_FinalModel.PurchaseInvoice" />
           <FunctionImport Name="SP_GetPurchaseInvoiceByID" ReturnType="Collection(SHIPPING_FinalModel.SP_GetPurchaseInvoiceByID_Result)">
-            <Parameter Name="PurchaseInvoiceID" Mode="In" Type="Int32" />
+          <Parameter Name="PurchaseInvoiceID" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="SP_GetAllProductServices" ReturnType="Collection(SHIPPING_FinalModel.SP_GetAllProductServices_Result)" />
+          <EntitySet Name="SalesInvoiceDetails" EntityType="SHIPPING_FinalModel.SalesInvoiceDetail" />
         </EntityContainer>
         <ComplexType Name="SP_GetUserDetailForEdit_Result">
           <Property Type="Int32" Name="UserID" Nullable="false" />
@@ -6801,6 +6886,31 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Type="String" Name="Remarks" Nullable="true" />
           <Property Type="Int32" Name="FYearID" Nullable="true" />
         </ComplexType>
+        <ComplexType Name="SP_GetAllProductServices_Result">
+          <Property Type="Int32" Name="ProductID" Nullable="false" />
+          <Property Type="String" Name="ProductName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Status" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <EntityType Name="SalesInvoiceDetail">
+          <Key>
+            <PropertyRef Name="SalesInvoiceDetailID" />
+          </Key>
+          <Property Name="SalesInvoiceDetailID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SalesInvoiceID" Type="Int32" />
+          <Property Name="ProductID" Type="Int32" />
+          <Property Name="Quantity" Type="Int32" />
+          <Property Name="ItemUnitID" Type="Int32" />
+          <Property Name="Rate" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="RateLC" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="RateFC" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Value" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ValueLC" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ValueFC" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Tax" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="NetValue" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="JobID" Type="Int32" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -10126,6 +10236,36 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_GetAllProductServices" FunctionName="SHIPPING_FinalModel.Store.SP_GetAllProductServices">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SHIPPING_FinalModel.SP_GetAllProductServices_Result">
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="SalesInvoiceDetails">
+            <EntityTypeMapping TypeName="SHIPPING_FinalModel.SalesInvoiceDetail">
+              <MappingFragment StoreEntitySet="SalesInvoiceDetails">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="JobID" ColumnName="JobID" />
+                <ScalarProperty Name="NetValue" ColumnName="NetValue" />
+                <ScalarProperty Name="Tax" ColumnName="Tax" />
+                <ScalarProperty Name="ValueFC" ColumnName="ValueFC" />
+                <ScalarProperty Name="ValueLC" ColumnName="ValueLC" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="RateFC" ColumnName="RateFC" />
+                <ScalarProperty Name="RateLC" ColumnName="RateLC" />
+                <ScalarProperty Name="Rate" ColumnName="Rate" />
+                <ScalarProperty Name="ItemUnitID" ColumnName="ItemUnitID" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="SalesInvoiceID" ColumnName="SalesInvoiceID" />
+                <ScalarProperty Name="SalesInvoiceDetailID" ColumnName="SalesInvoiceDetailID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

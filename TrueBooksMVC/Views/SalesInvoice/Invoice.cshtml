@@ -49,13 +49,14 @@
             border-radius: 5px;
         }
 
-        .jobform {
-            background-color: #fff;
-            box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
-            border-radius: 25px;
-            margin-bottom: 27px;
-            padding: 20px;
-        }
+    .jobform {
+        background-color: #fff;
+        box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
+        border-radius: 25px;
+        margin-bottom: 27px;
+        padding: 20px;
+        width: 96%;
+    }
 
         .discount {
             display: inline-block;
@@ -71,161 +72,37 @@
             padding: 20px;
             margin-top: 18px;
         }
+    .smalltablewidth {
+        width: 100%;
+        margin: 0px !important;
+    }
 
-        table.fulltable thead th {
-            vertical-align: top;
-        }
+    .fulltablewidth {
+        max-width: 1371px;
+    }
 
-        table.fulltable span.fulltable-filter {
-            position: relative;
-            display: inline-block;
-            overflow: hidden;
-            box-sizing: border-box;
-            padding: 0;
-        }
+    .table > tbody > tr > td,
+    .table > tbody > tr > th,
+    .table > tfoot > tr > td,
+    .table > tfoot > tr > th,
+    .table > thead > tr > td,
+    .table > thead > tr > th {
+        padding: 7px;
+        line-height: 1.42857143;
+        vertical-align: middle;
+    }
 
-        table.fulltable input, table.fulltable select {
-            position: relative;
-            width: 100% !important;
-            font-family: tahoma, arial, helvetica;
-            font-size: 9pt;
-            clear: both;
-            float: left;
-            margin: 6pt 0 !important;
-        }
+    .no-padding {
+        padding: 0px;
+    }
 
-            table.fulltable input.checkbox {
-                width: 13px !important;
-                height: 13px !important;
-            }
-
-        table.fulltable th.fulltable-selection-control {
-            width: 30px;
-        }
-        /*table.fulltable tr.fulltable-editing td.fulltable-selection-control input.checkbox {
-        display:none;
-    }*/
-        table.fulltable th.fulltable-selection-control, table.fulltable td.fulltable-selection-control {
-            padding: 0 1em;
-            width: 30px;
-        }
-
-        table.fulltable.fulltable-editable th.fulltable-edition-control {
-            width: 70px;
-        }
-
-        table.fulltable.fulltable-editable th.fulltable-edition-control, table.fulltable.fulltable-editable td.fulltable-edition-control {
-            padding: 0 1em;
-        }
-
-        table.fulltable.fulltable-editable input.invalid, table.fulltable.fulltable-editable select.invalid {
-            border: solid 1px #FF3333;
-            background-color: #FFEEEE;
-        }
-
-        table.fulltable thead th a.fulltable-sort {
-            font-size: 9px;
-            position: relative;
-            left: 6px;
-            top: 0px;
-            display: inline-block;
-            width: 16px;
-            height: 16px;
-            cursor: pointer;
-        }
-
-        table.fulltable thead th.fulltable-asc a.fulltable-sort-desc {
-            display: none !important;
-        }
-
-        table.fulltable thead th.fulltable-desc a.fulltable-sort-asc {
-            display: none !important;
-        }
-
-        table.fulltable.fulltable-editable td.fulltable-edition-control {
-            white-space: nowrap;
-        }
-
-            table.fulltable.fulltable-editable td.fulltable-edition-control a {
-                font-family: 'jquery.fulltable';
-                font-size: 16px;
-                position: relative;
-                display: inline-block;
-                width: 16px;
-                height: 16px;
-                top: 1px;
-                line-height: 16px;
-                margin: 0.5em;
-                cursor: pointer;
-                text-align: center;
-            }
-
-                table.fulltable.fulltable-editable td.fulltable-edition-control a.fulltable-create {
-                    display: none;
-                }
-
-        table.fulltable.fulltable-editable tr.fulltable-creating td.fulltable-edition-control a.fulltable-create {
-            display: inline-block !important;
-        }
-
-        table.fulltable.fulltable-editable tr.fulltable-creating td.fulltable-edition-control a.fulltable-save {
-            display: none !important;
-        }
-
-        table.fulltable.fulltable-editable tr.fulltable-editing td.fulltable-edition-control a.fulltable-edit, table.fulltable.fulltable-editable tr.fulltable-editing td.fulltable-edition-control a.fulltable-remove {
-            display: none;
-        }
-
-        table.fulltable.fulltable-editable tr td.fulltable-edition-control a.fulltable-save, table.fulltable.fulltable-editable tr td.fulltable-edition-control a.fulltable-discard {
-            display: none;
-        }
-
-        table.fulltable.fulltable-editable tr.fulltable-editing td.fulltable-edition-control a.fulltable-save, table.fulltable.fulltable-editable tr.fulltable-editing td.fulltable-edition-control a.fulltable-discard {
-            display: inline-block;
-        }
-
-        a.fulltable-create:before {
-            font-family: FontAwesome;
-            top: 0;
-            left: -5px;
-            padding-right: 10px;
-            content: "\f067";
-        }
-
-        a.fulltable-discard:before {
-            font-family: FontAwesome;
-            top: 0;
-            left: -5px;
-            padding-right: 10px;
-            content: "\f021";
-        }
-
-        a.fulltable-edit:before {
-            font-family: FontAwesome;
-            top: 0;
-            left: -5px;
-            padding-right: 10px;
-            content: "\f040";
-        }
-
-        a.fulltable-remove:before {
-            font-family: FontAwesome;
-            top: 0;
-            left: -5px;
-            padding-right: 10px;
-            content: "\f00d";
-        }
-
-        a.fulltable-save:before {
-            font-family: FontAwesome;
-            top: 0;
-            left: -5px;
-            padding-right: 10px;
-            content: "\f0c7";
-        }
-
-        th.fulltable-selection-control, td.fulltable-selection-control {
-            display: none;
+    table.dataTable, table.dataTable th, table.dataTable td {
+        box-sizing: content-box;
+        text-align: center;
+        padding: 7px;
+        border: 1px solid #eee;
+    }
+       
         }
 </style>
 <script src="~/MyJsFiles/SalesInvoice.js"></script>
@@ -260,7 +137,7 @@
     <h1 class="headingfont">Sales Invoice<small></small></h1>
 
 </section>
-<div class="container">
+<div class="containers">
     <section class="content jobform">
 
         @Html.BeginForm() {
@@ -344,133 +221,147 @@
 
         <div class="form_invoice">
 
-           
-            <script type="text/javascript">
-                $(function () {
-                    $("#charges_table").FullTable({
-                        "alwaysCreating": true,
-                        "selectable": true,
-                        "editable": true,
-                        "filterable": true,
-                        "fields": {
 
-                            "Product_Service": {
-                                "mandatory": true,
-                                "errors": {
-                                    "mandatory": "Product and Service is mandatory"
-                                }
-                            },
-                            "Description": {
-                                "mandatory": true,
-                                "errors": {
-                                    "mandatory": "Description is mandatory"
-                                }
-                            },
-                            "Quantity": {
-                                "mandatory": true,
-                                "errors": {
-                                    "mandatory": "Quantity is mandatory"
-                                }
-                            },
-                            "Unit": {
-                                "mandatory": true,
-                                "errors": {
-                                    "mandatory": "Unit is mandatory"
-                                }
-                            },
-                            "Rate_Type": {
-                                "mandatory": true,
-                                "errors": {
-                                    "mandatory": "Rate_Type is mandatory"
-                                }
-                            },
-                            "Rate_LC": {
-                                "mandatory": true,
-                                "errors": {
-                                    "mandatory": "Rate_LC is mandatory"
-                                }
-                            },
-                            "Rate_FC": {
-                                "mandatory": true,
-                                "errors": {
-                                    "mandatory": "Rate_FC is mandatory"
-                                }
-                            },
-                            "Value_LC": {
-                                "mandatory": true,
-                                "errors": {
-                                    "mandatory": "Value_LC is mandatory"
-                                }
-                            },
-                            "Value_FC": {
-                                "mandatory": true,
-                                "errors": {
-                                    "mandatory": "Value_FC is mandatory"
-                                }
-                            },
-                            "Tax": {
-                                "mandatory": true,
-                                "errors": {
-                                    "mandatory": "Tax is mandatory"
-                                }
-                            },
-                            "Net_Value": {
-                                "mandatory": true,
-                                "errors": {
-                                    "mandatory": "Net_Value is mandatory"
-                                }
-                            },
-                            "Job": {
-                                "mandatory": true,
-                                "errors": {
-                                    "mandatory": "Job is mandatory"
-                                }
-                            },
+            <button type="button" class='addmore'>+ Add More</button>
+            <script>
+                $(document).ready(function () {
+                   
 
+                    var i = 2;
+                    var index = 0;
+
+                    $("#charges_table").on('click', '.delete', function () {
+                        $(this).parent().parent().remove();
+                    });
+                    $("#charges_table").on('click','.addmore', function () {
+                        debugger;
+                        count = $('table tr').length;
+                        index = $(this).attr('index');
+                        i = count;
+                        if (index == (count - 1)) {
+                            var unitSelect = $('.Unit_demo_class').attr('id', 'UnitID_' + i).attr('name', 'UnitID_' + i).parent().html().replace("Unit_demo_class", "");
+                                                 
+                            var JobSelect = $('.Job_demo_class').attr('id', 'JobID_' + i).attr('name', 'Job_' + i).parent().html().replace("Job_demo_class");
+                            var ProductSelect = $('.Product_demo_class').attr('id', 'ProductID_' + i).attr('name', 'Product_' + i).parent().html().replace("Product_demo_class");
+                            var data = "<tr><td><span id='snum" + i + "'>" + count + ".</span></td>";
+                            data += "<td>" + ProductSelect + "</td><td><input type='text' id='Description_" + i + "' name='Description_" + i + "' style='width: 110px'/></td> <td><input type='text' id='Quantity_" + i + "' name='Quantity_" + i + "' style='width: 47px'/></td><td>" + unitSelect + "</td><td><input type='text' id='Rate_" + i + "' name='Rate_" + i + "'style='width: 60px'/></td><td> <input type='text' id='RateLC_" + i + "' name='RateLC_" + i + "' style='width: 60px'/></td><td><input type='text' id='RateFC_" + i + "' name='RateFC_" + i + "' style='width: 60px' /></td><td><input type='text' id='Value_" + i + "' name='Value_" + i + "' style='width: 60px' /></td><td><input type='text' id='ValueLC_" + i + "' name='ValueLC_" + i + "' style='width: 65px' /></td><td><input type='text' id='ValueFC_" + i + "' name='ValueFC_" + i + "' style='width: 65px'/></td><td><input type='text' id='Tax_" + i + "' name='Tax_" + i + "' style='width: 60px'/></td><td><input type='text' id='NetValue_" + i + "' name='NetValue_" + i + "' style='width: 60px'/></td><td>" + JobSelect + "</td><td><button type='button' class='delete' >-</button>&nbsp;&nbsp;<button type='button' index='" + i + "' class='addmore'>+</button></td></tr>"
+                            $('table').append(data);
                         }
                     });
 
-
-                    $("#charges_table").FullTable("on", "error", function (errors) {
-                        for (var error in errors) {
-                            error = errors[error];
-                            console.log(error);
-                        }
+                    $(".two-decimals").change(function () {
+                        this.value = parseFloat(this.value).toFixed(2);
                     });
-                    $("#charges_table").FullTable("draw");
-                }
-                );
 
-
+                  
+                });
             </script>
 
             <div class="row no-margin" id="AddCharges" style="padding-top: 10px">
                 <div class="col-xs-12 no-padding for-device">
                     <div class="data-table tblsbackground" style="width:100%;">
+                        <div style="display:none;">
+                            @Html.DropDownList("Unit", (SelectList)ViewBag.Unit, "Select", new { @class = "Unit_demo_class", id = "UnitID", @style = "height: 22px" })
 
+                        </div>
+
+                        <div style="display:none;">
+                            @Html.DropDownList("Job", (SelectList)ViewBag.Job, "Select", new { @class = "Job_demo_class", @name = "Job", id = "JobID", @style = "width: 100px; height: 21px;" })
+                        </div>
+                        <div style="display:none;">
+                            @Html.DropDownList("Product", (SelectList)ViewBag.AccountHead, "Select", new { @class = "Product_demo_class", @name = "Product", id = "ProductID", @style = "width: 100px; height: 21px;" })
+
+                        </div>
 
                         <div class="data" style="overflow:auto;">
-                            <table border="1" class="fulltablewidth fulltable fulltable-editable" id="charges_table">
-                                <thead>
-                                    <tr>
+                            <table border="1" class="table table-responsive table-bordered smalltablewidth fulltablewidth " id="charges_table">
+                                <tr>
+                                   
+                                    <td width="5%">
+                                        S. No
+                                    </td>
+                                    <td width="10%" class="lc_pro">
+                                        Product & Services
+                                    </td>
+                                    <td width="10%">Description</td>
+                                    <td width="1%">
+                                        Quantity
+                                    </td>
+                                    <td width="5%">
+                                        Unit
+                                    </td>
+                                    <td width="5%" class="hideinsummary">
+                                        Rate
+                                    </td>
+                                    <td width="5%">
+                                        Rate LC
+                                    </td>
+                                    <td width="5%" class="hideinsummary">
+                                        Rate FC
+                                    </td>
+                                    <td width="5%" class="hideinsummary">
+                                        Vale
+                                    </td>
+                                    <td width="8%" class="lc_pro">
+                                        Value LC
+                                    </td>
+                                    <td width="5%">
+                                        Value FC
+                                    </td>
+                                    <td width="5%">
+                                        Tax
+                                    </td>
+                                    <td width="5%">
+                                        NetValue
+                                    </td>
 
-                                        <th style="width:15%" fulltable-field-name="Product_Service">Product & Service</th>
-                                        <th style="width:11%" fulltable-field-name="Description">Description</th>
-                                        <th style="width:7%" fulltable-field-name="Quantity">Quantity</th>
-                                        <th style="width:5%" fulltable-field-name="Unit">Unit</th>
-                                        <th style="width:9%" fulltable-field-name="Rate_Type">Rate Type</th>
-                                        <th style="width:8%" fulltable-field-name="Rate_LC">Rate(LC)</th>
-                                        <th style="width:8%" fulltable-field-name="Rate_FC">Rate(FC)</th>
-                                        <th style="width:8%" fulltable-field-name="Value_LC">Value LC</th>
-                                        <th style="width:8%" fulltable-field-name="Value_FC">Value FC</th>
-                                        <th style="width:8%" fulltable-field-name="Tax">Tax</th>
-                                        <th style="width:8%" fulltable-field-name="Net_Value">Net Value</th>
-                                        <th style="width:15%" fulltable-field-name="Job">Job</th>
+                                    <td width="10%" class="lc_pro">
+                                        Job
+                                    </td>
+
+                                    <td width="10%" class="fc_pro">
+                                        Action
+                                    </td>
+
+                                </tr>
 
 
-                                    </tr>
-                                </thead>
-                                <tbody></tbody>
+                                <tr>
+                                   
+                                    <td><span id='snum'>1.</span></td>
+                                    <td>
+                                        @Html.DropDownList("Product", (SelectList)ViewBag.Product, "Select", new { @class = "Product", id = "ProductID_1", @name= "ProductID_1", @style = "width: 100px; height: 21px;" })
+
+
+                                    </td>
+                                    <td><input type='text' id='Description_1' name='Description_1' style="width:110px" /></td>
+                                    <td><input type='text' id='Quantity_1' name='Quantity_1' style="width:47px" /></td>
+                                    <td>
+                                        @Html.DropDownList("Unit", (SelectList)ViewBag.Unit, "Select", new { @class = "Unit", id = "UnitID", @style = "height: 22px" })
+
+                                    </td>
+                                    <td><input type='text' id='Rate_1' name='Rate_1' style="width: 60px" /> </td>
+                                    <td><input type='text' class="two-decimals" id='RateLC_1' name='RateLC_1' style="width: 60px" /></td>
+                                    <td><input type='text' class="two-decimals" id='RateFC_1' name='RateFC_1' style="width: 60px" /></td>
+                                    <td><input type='text' id='Value_1' name='Value_1' style="width: 60px" /> </td>
+                                    <td><input type='text' class="two-decimals" id='ValueLC_1' name='ValueLC_1' style="width: 65px" /></td>
+                                    <td><input type='text' class="two-decimals"  id='ValueFC_1' name='ValueFC_1' style="width: 65px" /></td>
+                                    <td><input type='text'  class="two-decimals" id='Tax_1' name='Tax_1' style="width: 60px" /> </td>
+
+                                    <td><input type='text' class="two-decimals" id='NetValue_1' name='NetValue_1' style="width: 60px" /> </td>
+
+
+                                    <td>
+
+                                        @Html.DropDownList("Job", (SelectList)ViewBag.Job, "Select", new { @class = "Job", id = "JobID_1",@name= "JobID_1", @style = "width: 100px; height: 21px;" })
+
+                                    </td>
+
+                                    <td><button type="button" onclick="deleteRow(this)">-</button>&nbsp;&nbsp;<button type="button" index="1" class="addmore">+</button></td>
+
+                                </tr>
+
+
 
 
                             </table>
