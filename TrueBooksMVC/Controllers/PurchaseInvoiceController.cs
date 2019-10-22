@@ -55,6 +55,18 @@ namespace TrueBooksMVC.Controllers
             return View(PI);
         }
 
+        public ActionResult Index()
+        {
+            DateTime fdate = Convert.ToDateTime(Session["FyearFrom"]);
+            DateTime tdate = Convert.ToDateTime(Session["FyearTo"]);
+            List<PurchaseInvoice> AllInvoices = new List<PurchaseInvoice>();
+            AllInvoices = DAL.SP_GetAllPurchaseInvoiceByDate(Convert.ToDateTime(fdate), Convert.ToDateTime(tdate)).ToList();
+
+            //    var data = (from t in AllJobs where (t.JobDate >= Convert.ToDateTime(Session["FyearFrom"]) && t.JobDate <= Convert.ToDateTime(Session["FyearTo"])) select t).ToList();
+
+            return View(AllInvoices);
+        }
+
         private bool DeleteAndInsertRecords(FormCollection formCollection, int InvoiceId)
         {
            
@@ -360,7 +372,22 @@ namespace TrueBooksMVC.Controllers
             }
         }
 
+        public ActionResult GetPurchaseInvoice(DateTime fdate, DateTime tdate)
+        {
+            var data = DAL.SP_GetAllPurchaseInvoiceByDate(Convert.ToDateTime(fdate), Convert.ToDateTime(tdate));
+            string view = this.RenderPartialView("_InvoiceView", data);
 
+            return new JsonResult
+            {
+                Data = new
+                {
+                    success = true,
+                    view = view
+                },
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+
+        }
 
 
 

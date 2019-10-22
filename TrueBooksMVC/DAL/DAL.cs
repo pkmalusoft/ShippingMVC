@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Data;
 using System.Data.SqlClient;
 using System.Web;
 using DAL;
+using System.Collections;
 //using Microsoft.Practices.EnterpriseLibrary.Data.Sql;
 
 namespace TrueBooksMVC
@@ -845,15 +847,70 @@ namespace TrueBooksMVC
             return ds;
         }
 
+        public static List<SalesInvoice> SP_GetAllSalesInvoiceByDate(Nullable<System.DateTime> fdate, Nullable<System.DateTime> tdate)
+        {
+            List<SalesInvoice> dtList = new List<SalesInvoice>();
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = new SqlConnection(Common.GetConnectionString);
+            cmd.CommandText = "SP_GetAllSalesInvoiceByDate";
+            cmd.CommandType = CommandType.StoredProcedure;
 
+            cmd.Parameters.Add("@fdate", SqlDbType.DateTime);
+            cmd.Parameters["@fdate"].Value = fdate;
 
+            cmd.Parameters.Add("@tdate", SqlDbType.DateTime);
+            cmd.Parameters["@tdate"].Value = tdate;
 
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet ds = new DataSet();
+            da.Fill(ds);
 
+            if (ds != null && ds.Tables.Count > 0)
+            {
+                dtList = ds.Tables[0].AsEnumerable()
+                .Select(row => new SalesInvoice
+                {
+                    SalesInvoiceID = int.Parse(row["SalesInvoiceID"].ToString()),
+                    SalesInvoiceNo = row["SalesInvoiceNo"].ToString(),
+                    SalesInvoiceDate = Convert.ToDateTime(row["SalesInvoiceDate"]),
+                    DueDate = Convert.ToDateTime(row["DueDate"].ToString()),
+                    Remarks = row["Client"].ToString(),
+                }).ToList();
+            }
+            return dtList;
+        }
 
+        public static List<PurchaseInvoice> SP_GetAllPurchaseInvoiceByDate(Nullable<System.DateTime> fdate, Nullable<System.DateTime> tdate)
+        {
+            List<PurchaseInvoice> dtList = new List<PurchaseInvoice>();
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = new SqlConnection(Common.GetConnectionString);
+            cmd.CommandText = "SP_GetAllPurchaseInvoiceByDate";
+            cmd.CommandType = CommandType.StoredProcedure;
 
+            cmd.Parameters.Add("@fdate", SqlDbType.DateTime);
+            cmd.Parameters["@fdate"].Value = fdate;
 
+            cmd.Parameters.Add("@tdate", SqlDbType.DateTime);
+            cmd.Parameters["@tdate"].Value = tdate;
 
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet ds = new DataSet();
+            da.Fill(ds);
 
-
+            if (ds != null && ds.Tables.Count > 0)
+            {
+                dtList = ds.Tables[0].AsEnumerable()
+                .Select(row => new PurchaseInvoice
+                {
+                    PurchaseInvoiceID = int.Parse(row["PurchaseInvoiceID"].ToString()),
+                    PurchaseInvoiceNo = row["PurchaseInvoiceNo"].ToString(),
+                    PurchaseInvoiceDate = row["PurchaseInvoiceDate"] != DBNull.Value ? Convert.ToDateTime(row["PurchaseInvoiceDate"]) : DateTime.Now,
+                    DueDate = row["DueDate"]  != DBNull.Value ?  Convert.ToDateTime(row["DueDate"].ToString()) : DateTime.Now,
+                    Remarks = row["SupplierName"].ToString(),
+                }).ToList();
+            }
+            return dtList;
+        }
     }
 }

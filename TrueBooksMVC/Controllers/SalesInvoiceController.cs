@@ -39,7 +39,19 @@ namespace TrueBooksMVC.Controllers
 
             return ID;
         }
-       
+
+        public ActionResult Index()
+        {
+            DateTime fdate = Convert.ToDateTime(Session["FyearFrom"]);
+            DateTime tdate = Convert.ToDateTime(Session["FyearTo"]);
+            List<SalesInvoice> AllInvoices = new List<SalesInvoice>();
+            AllInvoices = DAL.SP_GetAllSalesInvoiceByDate(Convert.ToDateTime(fdate), Convert.ToDateTime(tdate)).ToList();
+                      
+        //    var data = (from t in AllJobs where (t.JobDate >= Convert.ToDateTime(Session["FyearFrom"]) && t.JobDate <= Convert.ToDateTime(Session["FyearTo"])) select t).ToList();
+
+            return View(AllInvoices);
+        }
+
         [HttpGet]
         public ActionResult Invoice(string Command, int id)
         {
@@ -365,6 +377,23 @@ namespace TrueBooksMVC.Controllers
                 var Failed = "failed";
                 return Json(Failed, JsonRequestBehavior.AllowGet);
             }
+        }
+
+        public ActionResult GetSalesInvoice(DateTime fdate, DateTime tdate)
+        {
+            var data = DAL.SP_GetAllSalesInvoiceByDate(Convert.ToDateTime(fdate), Convert.ToDateTime(tdate));
+            string view = this.RenderPartialView("_InvoiceView", data);
+
+            return new JsonResult
+            {
+                Data = new
+                {
+                    success = true,
+                    view = view
+                },
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+
         }
 
     }

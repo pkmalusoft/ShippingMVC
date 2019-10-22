@@ -1286,3 +1286,55 @@ UPDATE [SalesInvoiceDetails]  SET
 		WHERE SalesInvoiceDetailID=@SalesInvoiceDetailID
   
 END
+
+
+-- sethu oct 22
+/****** Object:  StoredProcedure [dbo].[SP_GetAllJobsDetailsByDate]    Script Date: 10/22/2019 7:07:05 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE Proc [dbo].[SP_GetAllSalesInvoiceByDate]--'2016-12-1','2016-12-21'
+(
+@fdate datetime,
+@tdate datetime 
+)
+AS
+BEGIN
+select 
+i.SalesInvoiceID,
+i.SalesInvoiceNo,
+i.SalesInvoiceDate,
+i.DueDate,
+C.Customer as Client
+from SalesInvoice i 
+left outer join CUSTOMER C on i.CustomerID=c.CustomerID 
+where (i.SalesInvoiceDate>=@fdate and i.SalesInvoiceDate<=@tdate) order by SalesInvoiceDate desc 
+END
+
+
+/***** Object:  Table [dbo].[ProductServices]    Script Date: 22-10-2019 08:43:35 *****/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[ProductServices](
+	[ProductID] [int] NOT NULL,
+	[ProductName] [nvarchar](100) NULL,
+	[Status] [nvarchar](50) NULL
+) ON [PRIMARY]
+GO
+
+
+/***** Object:  StoredProcedure [dbo].[SP_GetAllProductServices]    Script Date: 22-10-2019 08:44:00 *****/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER proc [dbo].[SP_GetAllProductServices]
+AS
+Begin 
+Select * from dbo.ProductServices where status = 1
+END

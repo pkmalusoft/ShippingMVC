@@ -1,5 +1,276 @@
-﻿@{
-    ViewBag.Title = "index";
+﻿@model IEnumerable<DAL.PurchaseInvoice>
+
+@using TrueBooksMVC.Models
+@using System.Linq
+@using DAL;
+
+@{
+    ViewBag.Title = "Purchase Invoice";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
+
+    SHIPPING_FinalEntities entity = new SHIPPING_FinalEntities();
 }
 
-<h2>index</h2>
+<style>
+    tfoot {
+        display: table-header-group;
+    }
+
+    #tbl1 tr {
+        height: 35px;
+    }
+
+    .panel-body {
+        padding: 0px;
+    }
+
+    .panel {
+        background-color: unset;
+    }
+
+    .tblbackground {
+        background-color: #fff;
+        box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
+        border-radius: 10px;
+    }
+</style>
+
+<script src="@Url.Content("~/Scripts/angular.js")"></script>
+<script src="@Url.Content("~/MyJsFiles/CustomerRecieptDetails.js")"></script>
+<script src="~/Content/jquery.dataTables.min.js"></script>
+
+
+
+
+@if (ViewBag.SuccessMsg != null)
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $.notify("@ViewBag.SuccessMsg ", "success");
+                                        });
+    </script>
+}
+
+
+<div ng-app="MyApp" ng-controller="MyController">
+    <div class="" dir="ltr" id="main" runat="server">
+        <section class="content-header">
+            <h1 class="headingfont">Sales Invoice<small></small></h1>
+
+        </section>
+        <p class="cbtnpadding">
+            @{
+
+                DateTime x = DateTime.Now;
+                DateTime fs = Convert.ToDateTime(Session["FyearFrom"].ToString());
+                DateTime to = Convert.ToDateTime(Session["FyearTo"].ToString());
+
+                if (x >= fs && x <= to)
+                {
+                    <a href='@Url.Action("Invoice", "PurchaseInvoice", new { id = 0 })' class="btn btn-primary btnwidth" data-toggle="tooltip" data-placement="right" style="margin-left:-6px;">Add </a>
+                    <input type="hidden" id="hdnEditJobID" />
+                }
+            }
+        </p>
+        <section class="content">
+            <p style="color: white" class="cbtnpadding">
+                <div id="error" style="display: none; font-family: 'Montserrat', sans-serif !important; color: red">* From Date must not be Greater than To Date</div>
+                <table class="searchtabs tabsser" id="tbl1">
+                    <tr>
+                        <td class="searlabel ">
+                            From Date
+                        </td>
+                        <td class="searinput">
+                            <input type="text" id="frmdate" class="form-control" />
+                        </td>
+                        <td class="searlabel">
+                            To Date
+                        </td>
+                        <td class="searinput">
+                            <input type="text" id="todate" class="form-control" />
+                        </td>
+                        <td>
+                            <input type="button" value="Search" id="btnsearch" class="btn btn-primary btnwidt fa fa-search" />
+                        </td>
+                    </tr>
+                </table>
+                <table class="searchtabs tablserch" id="tbl1">
+                    <tr>
+                        <td class="searlabel">
+                            From Date
+                        </td>
+                        <td class="searinput">
+                            <input type="text" id="frmdate" class="form-control" />
+                        </td>
+                    </tr>
+                    <br />
+                    <tr>
+                        <td class="searlabel">
+                            To Date
+                        </td>
+                        <td class="searinput">
+                            <input type="text" id="todate" class="form-control" />
+                        </td>
+                    </tr>
+                    <br />
+                    <tr>
+                        <td></td>
+                        <td style="text-align:center">
+                            <input type="button" value="Search" id="btnsearch" class="btn btn-primary btnwid fa fa-search" />
+                        </td>
+                    </tr>
+                </table>
+            </p>
+            <div class="row no-margin" style="padding-top: 20px">
+                <div class="col-md-12 col-lg-12 col=xs-12 col-sm-12 tblbackground">
+                    <div class="row">
+                        <div class="col-md-12 col-xs-12 col-sm-12" id="result">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function DeleteBranch(ID) {
+        if (confirm("Are you sure, You want to Delete Sales Invoice?")) {
+            window.location.href = "/PurchaseInvoice/DeleteInvoice/?id=" + ID;
+        }
+    }
+
+    $(document).ready(function () {
+
+
+        $("#frmdate").css("border-radius", "5px");
+        $("#todate").css("border-radius", "5px");
+
+        var startdate = '@Session["FyearFrom"].ToString()';
+        var enddate = '@Session["FyearTo"].ToString()';
+        var sd = new Date(startdate);
+        var ed = new Date(enddate);
+
+        $("#frmdate").datepicker({
+            dateFormat: 'dd-M-yy',
+            changeYear: true, changeMonth: true,
+            minDate: sd,
+            maxDate:ed,
+        });
+
+        $("#todate").datepicker({
+            dateFormat: 'dd-M-yy',
+            changeYear: true, changeMonth: true,
+            minDate: sd,
+            maxDate:ed,
+
+        });
+
+        $("#frmdate").val(GetCurrentDate());
+        $("#todate").val(GetCurrentDate());
+
+        $('#dataTables-example tfoot th:not(:last)').each(function () {
+            var title = $(this).text();
+            $(this).html('<input type="text" style="width:90%" />');
+        });
+
+
+        var table = $('#dataTables-example').DataTable({ "sPaginationType": "full_numbers" });
+        f2();
+        table.draw();
+
+        table.columns().every(function () {
+            var that = this;
+
+            $('input', this.footer()).on('keyup change', function () {
+                if (that.search() !== this.value) {
+                    that
+                        .search(this.value)
+                        .draw();
+                }
+            });
+        });
+        showLoading();
+        $.ajax({
+            url: "@Url.Action("GetPurchaseInvoice", "PurchaseInvoice")",
+            data: { fdate: $('#frmdate').val(), tdate: $('#todate').val() },
+            type: "GET",
+            dataType: "json",
+            success: function (data) {
+                debugger;
+                $('#result').html(data.view);
+                hideLoading();
+            },
+            error: function () {
+                alert("Failed! An Occur by your Transaction .");
+                hideLoading();
+            }
+        });
+
+        $("#btnsearch").click(function () {
+            var frm = new Date($('#frmdate').val());
+            var dto = new Date($('#todate').val());
+            showLoading();
+            if (frm > dto) {
+                $("#error").show();
+                return false;
+            }
+            else {
+                $("#error").hide();
+                //  f2();
+                //  table.draw();
+                $.ajax({
+                    url: "@Url.Action("GetPurchaseInvoice", "PurchaseInvoice")",
+                    data: { fdate: $('#frmdate').val(), tdate: $('#todate').val() },
+                    type: "GET",
+                    dataType: "json",
+                    success: function (data) {
+                        debugger;
+                        $('#result').html(data.view);
+                        hideLoading();
+                    },
+                    error: function () {
+                        alert("Failed! An Occur by your Transaction .");
+                        hideLoading();
+                    }
+                });
+            }
+        });
+    });
+
+
+ $("#frmdate").css("border-radius", "5px");
+    function GetCurrentDate() {
+        var m_names = new Array("Jan", "Feb", "Mar","Apr", "May", "Jun", "Jul", "Aug", "Sep","Oct", "Nov", "Dec");
+        var startdate = '@Session["FyearFrom"].ToString()';
+        var enddate = '@Session["FyearTo"].ToString()';
+        var sd = new Date(startdate);
+        var ed = new Date(enddate);
+        var str = new Date(startdate);
+        var d = new Date();
+        var curr_date = d.getDate();
+        var curr_month = d.getMonth();
+        var curr_year = str.getFullYear();
+        return (curr_date + "-" + m_names[curr_month] + "-" + curr_year);
+    }
+
+    function f2() {
+
+        $.fn.dataTable.ext.search.push(
+function (settings, data, dataIndex) {
+    var min = new Date($("#frmdate").val());
+    var max = new Date($("#todate").val());
+
+    var cmpdate = new Date(data[1]); // use data for the age column
+    if (min == max && cmpdate == max) {
+        return true;
+    }
+    else if (cmpdate >= min && cmpdate <= max) {
+        return true;
+    }
+    return false;
+}
+);
+    }
+</script>
