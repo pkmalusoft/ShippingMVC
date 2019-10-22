@@ -8,46 +8,10 @@
 
 
 <style>
-
-        table {
-            position: relative;
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 10px !important;
-            text-align: center;
-        }
-
-            table, table th, table td {
-                border: 1px solid #d2d6de;
-            }
-
-        input.fulltable-filter {
-            display: none;
-        }
-
-        table th, table td {
-            // white-space: nowrap;
-            // text-overflow: ellipsis;
-            overflow: hidden;
-            line-height: 0px;
-            height: 0px;
-            padding: 4px;
-        }
-
-        a.button {
-            position: relative;
-            display: inline-block;
-            font-family: tahoma, arial, helvetica;
-            font-size: 9pt;
-            font-weight: bold;
-            color: #ffffff;
-            background-color: #AAAAAA;
-            padding: 5px;
-            text-decoration: none;
-            -webkit-border-radius: 5px;
-            -moz-border-radius: 5px;
-            border-radius: 5px;
-        }
+    input, select {
+        border-radius: 3px !important;
+    }
+   
 
     .jobform {
         background-color: #fff;
@@ -105,34 +69,8 @@
        
         }
 </style>
-<script src="~/MyJsFiles/SalesInvoice.js"></script>
-<script type="text/javascript" src="~/Content/js/jquery-3.4.1.js"></script>
-<script type="text/javascript" src="~/Content/js/jquery.fulltableinline.js"></script>
-<script type="text/javascript">
-    $(document).ready(function () {
-
-        $("#CurrencyID").change(function () {
-            debugger;
-            $("#ExchangeRate").val('');
-            debugger;
-            $.ajax({
-
-                type: "GET",
-                url: "/Job/GetExchangeRte",
-                datatype: "Json",
-                data: { ID: $('#CurrencyID').val() },
-                success: function (data) {
-                    debugger;
-                    $('#ExchangeRate').val(data);
-                }
-            });
-        });
-
-
-
-    });
-
-</script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.20/datatables.min.css" />
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.20/datatables.min.js"></script>
 <section class="content-header">
     <h1 class="headingfont">Sales Invoice<small></small></h1>
 
@@ -145,7 +83,7 @@
 
         @Html.ValidationSummary(true)
         <input type="hidden" id="BranchLocalCurrencyId" name="BranchLocalCurrencyId" value="@Session["BaseCurrencyId"]" />
-        @Html.HiddenFor(model => model.SalesInvoiceID)
+        @Html.HiddenFor(model => model.SalesInvoiceID, new { id = "SalesInvoiceID" } )
         <div class="row no-margin">
 
             <div class="col-md-4">
@@ -220,61 +158,25 @@
         </div>
 
         <div class="form_invoice">
-
-
-            <button type="button" class='addmore'>+ Add More</button>
-            <script>
-                $(document).ready(function () {
-                   
-
-                    var i = 2;
-                    var index = 0;
-
-                    $("#charges_table").on('click', '.delete', function () {
-                        $(this).parent().parent().remove();
-                    });
-                    $("#charges_table").on('click','.addmore', function () {
-                        debugger;
-                        count = $('table tr').length;
-                        index = $(this).attr('index');
-                        i = count;
-                        if (index == (count - 1)) {
-                            var unitSelect = $('.Unit_demo_class').attr('id', 'UnitID_' + i).attr('name', 'UnitID_' + i).parent().html().replace("Unit_demo_class", "");
-                                                 
-                            var JobSelect = $('.Job_demo_class').attr('id', 'JobID_' + i).attr('name', 'Job_' + i).parent().html().replace("Job_demo_class");
-                            var ProductSelect = $('.Product_demo_class').attr('id', 'ProductID_' + i).attr('name', 'Product_' + i).parent().html().replace("Product_demo_class");
-                            var data = "<tr><td><span id='snum" + i + "'>" + count + ".</span></td>";
-                            data += "<td>" + ProductSelect + "</td><td><input type='text' id='Description_" + i + "' name='Description_" + i + "' style='width: 110px'/></td> <td><input type='text' id='Quantity_" + i + "' name='Quantity_" + i + "' style='width: 47px'/></td><td>" + unitSelect + "</td><td><input type='text' id='Rate_" + i + "' name='Rate_" + i + "'style='width: 60px'/></td><td> <input type='text' id='RateLC_" + i + "' name='RateLC_" + i + "' style='width: 60px'/></td><td><input type='text' id='RateFC_" + i + "' name='RateFC_" + i + "' style='width: 60px' /></td><td><input type='text' id='Value_" + i + "' name='Value_" + i + "' style='width: 60px' /></td><td><input type='text' id='ValueLC_" + i + "' name='ValueLC_" + i + "' style='width: 65px' /></td><td><input type='text' id='ValueFC_" + i + "' name='ValueFC_" + i + "' style='width: 65px'/></td><td><input type='text' id='Tax_" + i + "' name='Tax_" + i + "' style='width: 60px'/></td><td><input type='text' id='NetValue_" + i + "' name='NetValue_" + i + "' style='width: 60px'/></td><td>" + JobSelect + "</td><td><button type='button' class='delete' >-</button>&nbsp;&nbsp;<button type='button' index='" + i + "' class='addmore'>+</button></td></tr>"
-                            $('table').append(data);
-                        }
-                    });
-
-                    $(".two-decimals").change(function () {
-                        this.value = parseFloat(this.value).toFixed(2);
-                    });
-
-                  
-                });
-            </script>
-
+            <button type="button" class='addmore topbutton'>+ Add More</button>
             <div class="row no-margin" id="AddCharges" style="padding-top: 10px">
                 <div class="col-xs-12 no-padding for-device">
                     <div class="data-table tblsbackground" style="width:100%;">
                         <div style="display:none;">
-                            @Html.DropDownList("Unit", (SelectList)ViewBag.Unit, "Select", new { @class = "Unit_demo_class", id = "UnitID", @style = "height: 22px" })
+                            @Html.DropDownList("Unit", (SelectList)ViewBag.Unit, "Select", new { @class = "Unit_demo_class", id = "Unit", @style = "height: 22px" })
 
                         </div>
 
                         <div style="display:none;">
-                            @Html.DropDownList("Job", (SelectList)ViewBag.Job, "Select", new { @class = "Job_demo_class", @name = "Job", id = "JobID", @style = "width: 100px; height: 21px;" })
+                            @Html.DropDownList("Job", (SelectList)ViewBag.Job, "Select", new { @class = "Job_demo_class", @name = "Job", id = "Job", @style = "width: 100px; height: 21px;" })
                         </div>
                         <div style="display:none;">
-                            @Html.DropDownList("Product", (SelectList)ViewBag.AccountHead, "Select", new { @class = "Product_demo_class", @name = "Product", id = "ProductID", @style = "width: 100px; height: 21px;" })
+                            @Html.DropDownList("Product", (SelectList)ViewBag.Product, "Select", new { @class = "Product_demo_class", @name = "Product", id = "Product", @style = "width: 100px; height: 21px;" })
 
                         </div>
 
                         <div class="data" style="overflow:auto;">
-                            <table border="1" class="table table-responsive table-bordered smalltablewidth fulltablewidth " id="charges_table">
+                            <table border="1" class="table table-responsive table-bordered smalltablewidth fulltablewidth " id="charges_table" index="1">
                                 <tr>
                                    
                                     <td width="5%">
@@ -330,20 +232,20 @@
                                    
                                     <td><span id='snum'>1.</span></td>
                                     <td>
-                                        @Html.DropDownList("Product", (SelectList)ViewBag.Product, "Select", new { @class = "Product", id = "ProductID_1", @name= "ProductID_1", @style = "width: 100px; height: 21px;" })
+                                        @Html.DropDownList("Product_1", (SelectList)ViewBag.Product, "Select", new { @class = "Product", id = "Product_1", @name= "Product_1", @style = "width: 100px; height: 21px;" })
 
 
                                     </td>
                                     <td><input type='text' id='Description_1' name='Description_1' style="width:110px" /></td>
                                     <td><input type='text' id='Quantity_1' name='Quantity_1' style="width:47px" /></td>
                                     <td>
-                                        @Html.DropDownList("Unit", (SelectList)ViewBag.Unit, "Select", new { @class = "Unit", id = "UnitID", @style = "height: 22px" })
+                                        @Html.DropDownList("Unit_1", (SelectList)ViewBag.Unit, "Select", new { @class = "Unit", id = "Unit_1", @name="Unit_1", @style = "height: 22px" })
 
                                     </td>
                                     <td><input type='text' id='Rate_1' name='Rate_1' style="width: 60px" /> </td>
                                     <td><input type='text' class="two-decimals" id='RateLC_1' name='RateLC_1' style="width: 60px" /></td>
                                     <td><input type='text' class="two-decimals" id='RateFC_1' name='RateFC_1' style="width: 60px" /></td>
-                                    <td><input type='text' id='Value_1' name='Value_1' style="width: 60px" /> </td>
+                                    <td><input type='text' class='two-decimals' id='Value_1' name='Value_1' style="width: 60px" /> </td>
                                     <td><input type='text' class="two-decimals" id='ValueLC_1' name='ValueLC_1' style="width: 65px" /></td>
                                     <td><input type='text' class="two-decimals"  id='ValueFC_1' name='ValueFC_1' style="width: 65px" /></td>
                                     <td><input type='text'  class="two-decimals" id='Tax_1' name='Tax_1' style="width: 60px" /> </td>
@@ -353,11 +255,11 @@
 
                                     <td>
 
-                                        @Html.DropDownList("Job", (SelectList)ViewBag.Job, "Select", new { @class = "Job", id = "JobID_1",@name= "JobID_1", @style = "width: 100px; height: 21px;" })
+                                        @Html.DropDownList("Job_1", (SelectList)ViewBag.Job, "Select", new { @class = "Job", id = "Job_1",@name= "Job_1", @style = "width: 100px; height: 21px;" })
 
                                     </td>
 
-                                    <td><button type="button" onclick="deleteRow(this)">-</button>&nbsp;&nbsp;<button type="button" index="1" class="addmore">+</button></td>
+                                    <td><button type="button" onclick="deleteRow(this)">-</button>&nbsp;&nbsp;<button type="button" class="addmore">+</button></td>
 
                                 </tr>
 
@@ -388,66 +290,57 @@
                     <div class="row no-margin" style="padding-top: 10px">
                         <div class="col-md-3" style="text-align: center;
 ">
-                            <label class="headinglabel">TAX :</label>
+                            <label class="headinglabel">Invoice Total :</label>
                         </div>
                         <div class="col-md-3">
 
-                            <input type="text" class="form-control" placeholder=" Enter ExternalReference" name="ExternalReference" style="display: inline-block;
+                            <input type="text" class="form-control" placeholder="Local Currencey"  name="ExternalReference" style="display: inline-block;
     width: 100%;">
                         </div>
                         <div class="col-md-3">
-                            <input type="text" class="form-control" placeholder=" Enter ExternalReference" name="ExternalReference" style="display: inline-block;
+                            <input type="text" class="form-control" placeholder="Foreign Currency" name="ExternalReference" style="display: inline-block;
    width: 100%;">
                         </div>
 
                     </div>
+
+                    <div class="row no-margin" style="padding-top: 10px">
+                        <div class="col-md-3" style="text-align: center;">
+                            <label class="headinglabel">Add: Tax :</label>
+                        </div>
+                        <div class="col-md-3">
+
+                            <input type="text" class="form-control" name="ExternalReference" style="display: inline-block;
+    width: 100%;">
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control"  name="ExternalReference" style="display: inline-block;
+   width: 100%;">
+                        </div>
+
+                    </div>
+
 
                     <div class="row no-margin" style="padding-top: 10px">
                         <div class="col-md-3" style="text-align: center;border: 1px solid;position: relative;">
-                            <div class="lab_dis" style="
-    position: absolute;
-    top: -11px;
-    left: 3px;
-    background-color: #fff;
-    padding: 2px;
-"><label class="headinglabel">Discount :</label></div>
+                            <div class="lab_dis" style="position: absolute; top: -11px; left: 3px; background-color: #fff; padding: 2px;"><label class="headinglabel">Discount :</label></div>
                             <div class="row no-margin" style="padding-top: 10px">
-                                <div class="col-md-6">
-                                    <label>%</label>
+                               
+                                <div class="col-md-6" style="padding:0">
+                                    <label for="DiscountType1">%&nbsp;<input type="radio" id="DiscountType1" name="DiscountType" checked></label>
                                 </div>
-                                <div class="col-md-6">
-                                    <input type="checkbox" value="">
-                                </div>
-                            </div><div class="row no-margin" style="padding-top: 10px">
-                                <div class="col-md-6">
-                                    <label>Amount</label>
-                                </div>
-                                <div class="col-md-6">
-                                    <input type="checkbox" value="">
+
+                              
+                                <div class="col-md-6" style="padding:0">
+                                    <label for="DiscountType2">Amount&nbsp;<input type="radio" id="DiscountType2" name="DiscountType"></label>
+                                    
                                 </div>
                             </div>
                         </div>
+
                         <div class="col-md-3">
 
-                            <input type="text" class="form-control" placeholder=" Enter ExternalReference" name="ExternalReference" style="display: inline-block;
-    width: 100%;">
-                        </div>
-                        <div class="col-md-3">
-                            <input type="text" class="form-control" placeholder=" Enter ExternalReference" name="ExternalReference" style="display: inline-block;
-   width: 100%;">
-                        </div>
-
-                    </div>
-
-
-                    <div class="row no-margin" style="padding-top: 10px">
-                        <div class="col-md-3" style="text-align: center;
-">
-                            <label class="headinglabel">VAT :</label>
-                        </div>
-                        <div class="col-md-3">
-
-                            <input type="text" class="form-control" placeholder=" Enter ExternalReference" name="ExternalReference" style="display: inline-block;
+                            <input type="text" class="form-control" name="DiscountValue" value="0" style="display: inline-block;
     width: 100%;">
                         </div>
 
@@ -458,15 +351,15 @@
                     <div class="row no-margin" style="padding-top: 10px">
                         <div class="col-md-3" style="text-align: center;
 ">
-                            <label class="headinglabel">Net Total :</label>
+                            
                         </div>
                         <div class="col-md-3">
 
-                            <input type="text" class="form-control" placeholder=" Enter ExternalReference" name="ExternalReference" style="display: inline-block;
+                            <input type="text" class="form-control"  name="ExternalReference" style="display: inline-block;
     width: 100%;">
                         </div>
                         <div class="col-md-3">
-                            <input type="text" class="form-control" placeholder=" Enter ExternalReference" name="ExternalReference" style="display: inline-block;
+                            <input type="text" class="form-control"  name="ExternalReference" style="display: inline-block;
    width: 100%;">
                         </div>
 
@@ -507,3 +400,112 @@
 
 
 </div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var startdate = '@Session["FyearFrom"].ToString()';
+        var enddate = '@Session["FyearTo"].ToString()';
+        var sd = new Date(startdate);
+        var ed = new Date(enddate);
+
+        $("#SalesInvoiceDate").datepicker({
+            dateFormat: 'dd-M-yy',
+            changeYear: true, changeMonth: true,
+            minDate: sd,
+            maxDate: ed,
+        });
+
+        $("#DueDate").datepicker({
+            dateFormat: 'dd-M-yy',
+            changeYear: true, changeMonth: true,
+            minDate: sd,
+            maxDate: ed,
+        });
+
+        var i = 2;
+        var index = 0;
+
+        $("#charges_table").on('click', '.delete', function () {
+            $(this).parent().parent().remove();
+        });
+
+        function AddNewRow() {
+            debugger;
+            count = $('#charges_table tr').length;
+            i = count;
+            var unitSelect = $('.Unit_demo_class').attr('id', 'Unit_' + i).attr('name', 'Unit_' + i).parent().html().replace("Unit_demo_class", "");
+            var JobSelect = $('.Job_demo_class').attr('id', 'Job_' + i).attr('name', 'Job_' + i).parent().html().replace("Job_demo_class");
+            var ProductSelect = $('.Product_demo_class').attr('id', 'Product_' + i).attr('name', 'Product_' + i).parent().html().replace("Product_demo_class");
+            var data = "<tr><td><span id='snum" + i + "'>" + count + ".</span></td>";
+            data += "<td>" + ProductSelect + "</td><td><input type='text' id='Description_" + i + "' name='Description_" + i + "' style='width: 110px'/></td> <td><input type='text' id='Quantity_" + i + "' name='Quantity_" + i + "' style='width: 47px'/></td><td>" + unitSelect + "</td><td><input type='text' id='Rate_" + i + "' name='Rate_" + i + "'style='width: 60px;text-align:right' class='two-decimals'/></td><td> <input type='text' id='RateLC_" + i + "' name='RateLC_" + i + "' style='width: 60px;text-align:right;' class='two-decimals'/></td><td><input type='text' id='RateFC_" + i + "' name='RateFC_" + i + "' style='width: 60px;text-align:right' class='two-decimals' /></td><td><input type='text' id='Value_" + i + "' name='Value_" + i + "' style='width: 60px;text-align:right' class='two-decimals' /></td><td><input type='text' id='ValueLC_" + i + "' name='ValueLC_" + i + "' style='width: 65px;text-align:right' class='two-decimals' /></td><td><input type='text' id='ValueFC_" + i + "' name='ValueFC_" + i + "' style='width: 65px;text-align:right' class='two-decimals'/></td><td><input type='text' id='Tax_" + i + "' name='Tax_" + i + "' style='width: 60px ;text-align:right'  /></td><td><input type='text' id='NetValue_" + i + "' name='NetValue_" + i + "' style='width: 60px; text-align:right' class='two-decimals'/></td><td>" + JobSelect + "</td><td><button type='button' class='delete' >-</button>&nbsp;&nbsp;<button type='button' index='" + i + "' class='addmore'>+</button></td></tr>"
+            $('#charges_table').append(data);
+            $("#charges_table").attr('index', i);
+        }
+
+        $("#charges_table").on('click', '.addmore', function () {
+            AddNewRow();
+        });
+
+        $(".topbutton").on('click', function () {
+            AddNewRow();
+        });
+
+        $(".two-decimals").change(function () {
+            this.value = parseFloat(this.value).toFixed(2);
+        });
+
+        $("#CurrencyID").change(function () {
+            debugger;
+            $("#ExchangeRate").val('');
+            debugger;
+            $.ajax({
+
+                type: "GET",
+                url: "/Job/GetExchangeRte",
+                datatype: "Json",
+                data: { ID: $('#CurrencyID').val() },
+                success: function (data) {
+                    debugger;
+                    $('#ExchangeRate').val(data);
+                }
+            });
+        });
+        debugger;
+        var InvoiceId = $('#SalesInvoiceID').val();
+        if (InvoiceId != 0 && InvoiceId != "") {
+            $.ajax({
+                type: "GET",
+                url: "/SalesInvoice/GetSalesInvoiceDetailsByInvoiceId",
+                datatype: "Json",
+                data: { InvoiceId: $('#SalesInvoiceID').val() },
+                success: function (data) {
+                    debugger;
+                    if (data.length > 0) {
+                        $('#charges_table tr:nth-child(2)').remove();
+                    }
+                    count = $('table tr').length;
+                    index = $(this).attr('index');
+                    i = count;
+
+                    var vInvoiceDetails = JSON.parse('[]');
+                    for (var i = 0; i < data.length; i++) {
+                        var InvoiceDetailsObj = data[i];
+                        var InvoiceDetailStr = JSON.stringify(InvoiceDetailsObj);
+                        vInvoiceDetails.push(InvoiceDetailStr);
+                        var unitSelect = $('.Unit_demo_class').attr('id', 'Unit_' + i).attr('name', 'Unit_' + i).parent().html().replace("Unit_demo_class", "");
+                        var JobSelect = $('.Job_demo_class').attr('id', 'Job_' + i).attr('name', 'Job_' + i).parent().html().replace("Job_demo_class");
+                        var ProductSelect = $('.Product_demo_class').attr('id', 'Product_' + i).attr('name', 'Product_' + i).parent().html().replace("Product_demo_class");
+                        var tdata = "<tr><td><span id='snum" + i + "'>" + count + ".</span></td>";
+                        tdata += "<td>" + ProductSelect + "</td><td><input type='text' id='Description_" + i + "' name='Description_" + i + "' style='width: 110px' value='" + InvoiceDetailsObj.Description + "' /></td > <td><input type='text' id='Quantity_" + i + "' name='Quantity_" + i + "' style='width: 47px' value='" + InvoiceDetailsObj.Quantity + "' /></td> <td>" + unitSelect + "</td> <td><input type='text' id='Rate_" + i + "' name='Rate_" + i + "' style='width: 60px;text-align:right' value='" + InvoiceDetailsObj.Rate + "' class='two-decimals' /></td> <td> <input type='text' id='RateLC_" + i + "' name='RateLC_" + i + "' style='width: 60px;text-align:right' value='" + InvoiceDetailsObj.RateLC + "'class='two-decimals' /></td> <td><input type='text' id='RateFC_" + i + "' name='RateFC_" + i + "' style='width: 60px;text-align:right' value='" + InvoiceDetailsObj.RateFC + "' class='two-decimals' /></td> <td><input type='text' id='Value_" + i + "' name='Value_" + i + "' style='width: 60px;text-align:right' value='" + InvoiceDetailsObj.Value + "' class='two-decimals' /></td> <td><input type='text' id='ValueLC_" + i + "' name='ValueLC_" + i + "' style='width: 65px;text-align:right' value='" + InvoiceDetailsObj.ValueLC + "'class='two-decimals' /></td> <td><input type='text' id='ValueFC_" + i + "' name='ValueFC_" + i + "' style='width: 65px;text-align:right' value='" + InvoiceDetailsObj.ValueFC + "' class='two-decimals' /></td> <td><input type='text' id='Tax_" + i + "' name='Tax_" + i + "' style='width: 60px;text-align:right' value='" + InvoiceDetailsObj.Tax + "' class='two-decimals' /></td> <td><input type='text' id='NetValue_" + i + "' name='NetValue_" + i + "' style='width: 60px;text-align:right' value='" + InvoiceDetailsObj.NetValue + "' class='two-decimals' /></td> <td>" + JobSelect + "</td> <td><button type='button' class='delete' >-</button>&nbsp;&nbsp;<button type='button' index='" + i + "' class='addmore'>+</button></td></tr > "
+                        $('table').append(tdata);
+                        $('#charges_table').find('#Unit_' + i).val(InvoiceDetailsObj.ItemUnitID);
+                        $('#charges_table').find('#Job_' + i).val(InvoiceDetailsObj.JobID);
+                        $('#charges_table').find('#Product_' + i).val(InvoiceDetailsObj.ProductID);
+                    }
+                }
+            });
+        }
+
+    });
+
+</script>
+<link href="~/Content/themes/base/minified/jquery-ui.min.css" rel="stylesheet" />
