@@ -117,7 +117,7 @@
             </div>
             <div class="col-md-4">
                 <label class="headinglabel">Currency:</label>
-                @Html.DropDownListFor(model => model.CurrencyID, (SelectList)ViewBag.Curency, "Select Currency", new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.CurrencyID, (SelectList)ViewBag.Curency, "Select Currency", new { @class = "form-control getcurrency" })
             </div>
 
 
@@ -135,7 +135,7 @@
             </div>
             <div class="col-md-4">
                 <label class="headinglabel">Exchange Rate :</label>
-                @Html.TextBoxFor(model => model.ExchangeRate, new { @class = "form-control", id = "ExchangeRate", required = "required" })
+                @Html.TextBoxFor(model => model.ExchangeRate, new { @class = "form-control ExchangeRate", id = "ExchangeRate", required = "required" })
             </div>
 
         </div>
@@ -202,7 +202,7 @@
                                         Rate FC
                                     </td>
                                     <td width="5%" class="hideinsummary">
-                                        Vale
+                                        Value
                                     </td>
                                     <td width="8%" class="lc_pro">
                                         Value LC
@@ -229,33 +229,34 @@
 
 
                                 <tr>
-                                   
+
                                     <td><span id='snum'>1.</span></td>
                                     <td>
-                                        @Html.DropDownList("Product_1", (SelectList)ViewBag.Product, "Select", new { @class = "Product", id = "Product_1", @name= "Product_1", @style = "width: 100px; height: 21px;" })
+                                        @Html.DropDownList("Product_1", (SelectList)ViewBag.Product, "Select", new { @class = "Product", id = "Product_1", @name = "Product_1", @style = "width: 100px; height: 21px;" })
 
 
                                     </td>
                                     <td><input type='text' id='Description_1' name='Description_1' style="width:110px" /></td>
-                                    <td><input type='text' id='Quantity_1' name='Quantity_1' style="width:47px" /></td>
+                                    <td><input type='text' class="QTY" id='Quantity_1' name='Quantity_1' style="width:47px" /></td>
                                     <td>
-                                        @Html.DropDownList("Unit_1", (SelectList)ViewBag.Unit, "Select", new { @class = "Unit", id = "Unit_1", @name="Unit_1", @style = "height: 22px" })
+                                        @Html.DropDownList("Unit_1", (SelectList)ViewBag.Unit, "Select", new { @class = "Unit", id = "Unit_1", @name = "Unit_1", @style = "height: 22px" })
 
                                     </td>
-                                    <td><input type='text' id='Rate_1' name='Rate_1' style="width: 60px" /> </td>
-                                    <td><input type='text' class="two-decimals" id='RateLC_1' name='RateLC_1' style="width: 60px" /></td>
-                                    <td><input type='text' class="two-decimals" id='RateFC_1' name='RateFC_1' style="width: 60px" /></td>
-                                    <td><input type='text' class='two-decimals' id='Value_1' name='Value_1' style="width: 60px" /> </td>
-                                    <td><input type='text' class="two-decimals" id='ValueLC_1' name='ValueLC_1' style="width: 65px" /></td>
-                                    <td><input type='text' class="two-decimals"  id='ValueFC_1' name='ValueFC_1' style="width: 65px" /></td>
-                                    <td><input type='text'  class="two-decimals" id='Tax_1' name='Tax_1' style="width: 60px" /> </td>
+                                    <td><input type='text' class="two-decimals Rate" id='Rate_1' name='Rate_1' style="width: 60px;text-align:right" /> </td>
+                                    <td><input type='text' class="two-decimals RateLC" id='RateLC_1' name='RateLC_1' style="width: 65px;text-align:right" /></td>
 
-                                    <td><input type='text' class="two-decimals" id='NetValue_1' name='NetValue_1' style="width: 60px" /> </td>
+                                    <td><input type='text' class="two-decimals RateFC" id='RateFC_1' name='RateFC_1' style="width: 60px;text-align:right" /></td>
+                                    <td><input type='text' class='two-decimals Value' id='Value_1' name='Value_1' style="width: 60px;text-align:right" /> </td>
+                                    <td><input type='text' class="two-decimals ValueLC" id='ValueLC_1' name='ValueLC_1' style="width: 65px;text-align:right" /></td>
+                                    <td><input type='text' class="two-decimals ValueFC" id='ValueFC_1' name='ValueFC_1' style="width: 65px;text-align:right" /></td>
+                                    <td><input type='text' class="two-decimals Tax" id='Tax_1' name='Tax_1' style="width: 60px;text-align:right" /> </td>
+
+                                    <td><input type='text' class="two-decimals NetValue" id='NetValue_1' name='NetValue_1' style="width: 60px;text-align:right" /> </td>
 
 
                                     <td>
 
-                                        @Html.DropDownList("Job_1", (SelectList)ViewBag.Job, "Select", new { @class = "Job", id = "Job_1",@name= "Job_1", @style = "width: 100px; height: 21px;" })
+                                        @Html.DropDownList("Job_1", (SelectList)ViewBag.Job, "Select", new { @class = "Job", id = "Job_1", @name = "Job_1", @style = "width: 100px; height: 21px;" })
 
                                     </td>
 
@@ -294,11 +295,11 @@
                         </div>
                         <div class="col-md-3">
 
-                            <input type="text" class="form-control" placeholder="Local Currencey"  name="ExternalReference" style="display: inline-block;
+                            <input type="text" class="form-control" id="TotalLC" placeholder=" Local Currencey"  name="Local" style="display: inline-block;
     width: 100%;">
                         </div>
                         <div class="col-md-3">
-                            <input type="text" class="form-control" placeholder="Foreign Currency" name="ExternalReference" style="display: inline-block;
+                            <input type="text" class="form-control" id="TotalFC" placeholder=" Foreign Currency" name="Foreign" style="display: inline-block;
    width: 100%;">
                         </div>
 
@@ -436,9 +437,10 @@
             var JobSelect = $('.Job_demo_class').attr('id', 'Job_' + i).attr('name', 'Job_' + i).parent().html().replace("Job_demo_class");
             var ProductSelect = $('.Product_demo_class').attr('id', 'Product_' + i).attr('name', 'Product_' + i).parent().html().replace("Product_demo_class");
             var data = "<tr><td><span id='snum" + i + "'>" + count + ".</span></td>";
-            data += "<td>" + ProductSelect + "</td><td><input type='text' id='Description_" + i + "' name='Description_" + i + "' style='width: 110px'/></td> <td><input type='text' id='Quantity_" + i + "' name='Quantity_" + i + "' style='width: 47px'/></td><td>" + unitSelect + "</td><td><input type='text' id='Rate_" + i + "' name='Rate_" + i + "'style='width: 60px;text-align:right' class='two-decimals'/></td><td> <input type='text' id='RateLC_" + i + "' name='RateLC_" + i + "' style='width: 60px;text-align:right;' class='two-decimals'/></td><td><input type='text' id='RateFC_" + i + "' name='RateFC_" + i + "' style='width: 60px;text-align:right' class='two-decimals' /></td><td><input type='text' id='Value_" + i + "' name='Value_" + i + "' style='width: 60px;text-align:right' class='two-decimals' /></td><td><input type='text' id='ValueLC_" + i + "' name='ValueLC_" + i + "' style='width: 65px;text-align:right' class='two-decimals' /></td><td><input type='text' id='ValueFC_" + i + "' name='ValueFC_" + i + "' style='width: 65px;text-align:right' class='two-decimals'/></td><td><input type='text' id='Tax_" + i + "' name='Tax_" + i + "' style='width: 60px ;text-align:right'  /></td><td><input type='text' id='NetValue_" + i + "' name='NetValue_" + i + "' style='width: 60px; text-align:right' class='two-decimals'/></td><td>" + JobSelect + "</td><td><button type='button' class='delete' >-</button>&nbsp;&nbsp;<button type='button' index='" + i + "' class='addmore'>+</button></td></tr>"
+            data += "<td>" + ProductSelect + "</td><td><input type='text' id='Description_" + i + "' name='Description_" + i + "' style='width: 110px'/></td> <td><input type='text' id='Quantity_" + i + "' name='Quantity_" + i + "' style='width: 47px' class='QTY'/></td><td>" + unitSelect + "</td><td><input type='text' id='Rate_" + i + "' name='Rate_" + i + "'style='width: 60px;text-align:right' class='two-decimals Rate'/></td><td> <input type='text' id='RateLC_" + i + "' name='RateLC_" + i + "' style='width: 60px;text-align:right;' class='two-decimals RateLC'/></td><td><input type='text' id='RateFC_" + i + "' name='RateFC_" + i + "' style='width: 60px;text-align:right' class='two-decimals RateFC' /></td><td><input type='text' id='Value_" + i + "' name='Value_" + i + "' style='width: 60px;text-align:right' class='two-decimals Value' /></td><td><input type='text' id='ValueLC_" + i + "' name='ValueLC_" + i + "' style='width: 65px;text-align:right' class='two-decimals ValueLC' /></td><td><input type='text' id='ValueFC_" + i + "' name='ValueFC_" + i + "' style='width: 65px;text-align:right' class='two-decimals ValueFC'/></td><td><input type='text' id='Tax_" + i + "' name='Tax_" + i + "' style='width: 60px ;text-align:right' class='Tax' /></td><td><input type='text' id='NetValue_" + i + "' name='NetValue_" + i + "' style='width: 60px; text-align:right' class='two-decimals NetValue'/></td><td>" + JobSelect + "</td><td><button type='button' class='delete' >-</button>&nbsp;&nbsp;<button type='button' index='" + i + "' class='addmore'>+</button></td></tr>"
             $('#charges_table').append(data);
             $("#charges_table").attr('index', i);
+            CalculateValue();
         }
 
         $("#charges_table").on('click', '.addmore', function () {
@@ -451,6 +453,7 @@
 
         $(".two-decimals").change(function () {
             this.value = parseFloat(this.value).toFixed(2);
+           
         });
 
         $("#CurrencyID").change(function () {
@@ -482,7 +485,7 @@
                     if (data.length > 0) {
                         $('#charges_table tr:nth-child(2)').remove();
                     }
-                    count = $('table tr').length;
+                    count = $('#charges_table tr').length;
                     index = $(this).attr('index');
                     i = count;
 
@@ -495,15 +498,74 @@
                         var JobSelect = $('.Job_demo_class').attr('id', 'Job_' + i).attr('name', 'Job_' + i).parent().html().replace("Job_demo_class");
                         var ProductSelect = $('.Product_demo_class').attr('id', 'Product_' + i).attr('name', 'Product_' + i).parent().html().replace("Product_demo_class");
                         var tdata = "<tr><td><span id='snum" + i + "'>" + count + ".</span></td>";
-                        tdata += "<td>" + ProductSelect + "</td><td><input type='text' id='Description_" + i + "' name='Description_" + i + "' style='width: 110px' value='" + InvoiceDetailsObj.Description + "' /></td > <td><input type='text' id='Quantity_" + i + "' name='Quantity_" + i + "' style='width: 47px' value='" + InvoiceDetailsObj.Quantity + "' /></td> <td>" + unitSelect + "</td> <td><input type='text' id='Rate_" + i + "' name='Rate_" + i + "' style='width: 60px;text-align:right' value='" + InvoiceDetailsObj.Rate + "' class='two-decimals' /></td> <td> <input type='text' id='RateLC_" + i + "' name='RateLC_" + i + "' style='width: 60px;text-align:right' value='" + InvoiceDetailsObj.RateLC + "'class='two-decimals' /></td> <td><input type='text' id='RateFC_" + i + "' name='RateFC_" + i + "' style='width: 60px;text-align:right' value='" + InvoiceDetailsObj.RateFC + "' class='two-decimals' /></td> <td><input type='text' id='Value_" + i + "' name='Value_" + i + "' style='width: 60px;text-align:right' value='" + InvoiceDetailsObj.Value + "' class='two-decimals' /></td> <td><input type='text' id='ValueLC_" + i + "' name='ValueLC_" + i + "' style='width: 65px;text-align:right' value='" + InvoiceDetailsObj.ValueLC + "'class='two-decimals' /></td> <td><input type='text' id='ValueFC_" + i + "' name='ValueFC_" + i + "' style='width: 65px;text-align:right' value='" + InvoiceDetailsObj.ValueFC + "' class='two-decimals' /></td> <td><input type='text' id='Tax_" + i + "' name='Tax_" + i + "' style='width: 60px;text-align:right' value='" + InvoiceDetailsObj.Tax + "' class='two-decimals' /></td> <td><input type='text' id='NetValue_" + i + "' name='NetValue_" + i + "' style='width: 60px;text-align:right' value='" + InvoiceDetailsObj.NetValue + "' class='two-decimals' /></td> <td>" + JobSelect + "</td> <td><button type='button' class='delete' >-</button>&nbsp;&nbsp;<button type='button' index='" + i + "' class='addmore'>+</button></td></tr > "
+                        tdata += "<td>" + ProductSelect + "</td><td><input type='text' id='Description_" + i + "' name='Description_" + i + "' style='width: 110px' value='" + InvoiceDetailsObj.Description + "' /></td > <td><input type='text' class='QTY' id='Quantity_" + i + "' name='Quantity_" + i + "' style='width: 47px' value='" + InvoiceDetailsObj.Quantity + "' /></td> <td>" + unitSelect + "</td> <td><input type='text' id='Rate_" + i + "' name='Rate_" + i + "' style='width: 60px;text-align:right' value='" + InvoiceDetailsObj.Rate + "' class='two-decimals Rate' /></td> <td> <input type='text' id='RateLC_" + i + "' name='RateLC_" + i + "' style='width: 60px;text-align:right' value='" + InvoiceDetailsObj.RateLC + "'class='two-decimals RateLC' /></td> <td><input type='text' id='RateFC_" + i + "' name='RateFC_" + i + "' style='width: 60px;text-align:right' value='" + InvoiceDetailsObj.RateFC + "' class='two-decimals RateFC' /></td> <td><input type='text' id='Value_" + i + "' name='Value_" + i + "' style='width: 60px;text-align:right' value='" + InvoiceDetailsObj.Value + "' class='two-decimals Value' /></td> <td><input type='text' id='ValueLC_" + i + "' name='ValueLC_" + i + "' style='width: 65px;text-align:right' value='" + InvoiceDetailsObj.ValueLC + "'class='two-decimals ValueLC' /></td> <td><input type='text' id='ValueFC_" + i + "' name='ValueFC_" + i + "' style='width: 65px;text-align:right' value='" + InvoiceDetailsObj.ValueFC + "' class='two-decimals ValueFC' /></td> <td><input type='text' id='Tax_" + i + "' name='Tax_" + i + "' style='width: 60px;text-align:right' value='" + InvoiceDetailsObj.Tax + "' class='two-decimals Tax' /></td> <td><input type='text' id='NetValue_" + i + "' name='NetValue_" + i + "' style='width: 60px;text-align:right' value='" + InvoiceDetailsObj.NetValue + "' class='two-decimals NetValue' /></td> <td>" + JobSelect + "</td> <td><button type='button' class='delete' >-</button>&nbsp;&nbsp;<button type='button' index='" + i + "' class='addmore'>+</button></td></tr > "
                         $('table').append(tdata);
                         $('#charges_table').find('#Unit_' + i).val(InvoiceDetailsObj.ItemUnitID);
                         $('#charges_table').find('#Job_' + i).val(InvoiceDetailsObj.JobID);
                         $('#charges_table').find('#Product_' + i).val(InvoiceDetailsObj.ProductID);
                     }
+                    CalculateValue();
                 }
             });
         }
+
+        $('#CurrencyID').on('change', function () {
+            CalculateValue();
+        });
+        $('#ExchangeRate').on('change', function () {
+            CalculateValue();
+        });
+
+        function CalculateValue() {
+            debugger;
+            var trCount = $('#charges_table tr').length;
+            var TotalCount = 0;
+            var rates = $('.Rate').val();
+            trCount = trCount + 1;
+            for (i = 2; i < trCount; i++) {
+
+                var Qty = $('#charges_table tr:nth-child(' + i + ')');
+                Qty = $(Qty).find('.QTY').val();
+                if (isNaN(parseInt(Qty))) {
+                    Qty = 0;
+                }
+                var Rate = $('#charges_table tr:nth-child(' + i + ')').find('.Rate').val();  
+                
+                if (isNaN(parseInt(Rate))) {
+                    Rate = 0;
+                }
+                
+                var BranchLocalCurrencyId = $('#CurrencyID').val();
+                var ExRate = $('.ExchangeRate').val();
+
+                if (BranchLocalCurrencyId == $('#ExchangeRate').val()) {
+
+                    var rateLC = $('.RateLC').val(ExRate);
+                  
+                    TotalValue = (Qty * Rate);
+
+                      $('.ValueLC').val(TotalValue);
+                   
+                    TotalCount = TotalCount + (Qty * Rate);
+                }
+                else {
+                    var rateFC = $('.RateFc').val(ExRate);
+                  
+                    TotalValues = (Qty * Rate * ExRate);
+                    $('.ValueFC').val(TotalValues);
+                    TotalCounts = TotalCount + TotalValues;
+
+                }
+                $('.Value').val(rates);
+            }
+            $('#TotalLC').val(TotalCount);
+            $('#TotalFC').val(TotalCounts);
+        }
+      
+        $(".Rate").blur(function () {
+            CalculateValue();
+        });
+     
 
     });
 
