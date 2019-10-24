@@ -1338,3 +1338,75 @@ AS
 Begin 
 Select * from dbo.ProductServices where status = 1
 END
+
+
+EXEC sp_rename 'SalesInvoiceDetails.Rate', 'RateType', 'COLUMN';
+
+ALTER TABLE SalesInvoiceDetails
+ALTER COLUMN RateType nvarchar(50);
+
+
+---
+
+USE [DB_9F57C4_ShippingTest]
+GO
+/****** Object:  StoredProcedure [dbo].[SP_InsertSalesInvoiceDetails]    Script Date: 24-10-2019 16:58:34 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+ALTER proc [dbo].[SP_InsertSalesInvoiceDetails]
+(
+@SalesInvoiceDetailID int=0 output,
+@SalesInvoiceID int,
+@ProductID int,
+@Quantity int,
+@ItemUnitID int,
+@RateType nvarchar(50),
+@RateLC decimal,
+@RateFC decimal,
+@Value decimal,
+@ValueLC decimal,
+@ValueFC decimal,
+@Tax decimal,
+@NetValue decimal,
+@JobID int,
+@Description nvarchar(max)
+
+)
+AS
+Begin
+
+ INSERT INTO [SalesInvoiceDetails] 
+           ([SalesInvoiceID],
+		   [ProductID],
+		    [Quantity],
+	[ItemUnitID],
+	[RateType],[RateLC],
+	[RateFC],
+	[Value],[ValueLC],
+	[ValueFC],
+	[Tax],
+	[NetValue],
+	
+	[JobID],
+	[Description]			
+         )
+     VALUES
+           (@SalesInvoiceID,
+       @ProductID, 
+@Quantity, 
+@ItemUnitID,
+@RateType,@RateLC,
+@RateFC,
+@Value,
+@ValueLC,
+@ValueFC,
+@Tax,
+@NetValue,
+@JobID,
+@Description
+         )
+		 
+END

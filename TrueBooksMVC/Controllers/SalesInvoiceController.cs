@@ -114,13 +114,13 @@ namespace TrueBooksMVC.Controllers
                 }
                 SID.ItemUnitID = UnitTypeID;
 
-                decimal Rate = 0;
-                if (formCollection.GetValue("Rate_" + InvoiceDetailsArray[c]) != null)
+                string RateType = "";
+                if (formCollection.GetValue("RateType_" + InvoiceDetailsArray[c]) != null)
                 {
-                    strArray = (string[])formCollection.GetValue("Rate_" + InvoiceDetailsArray[c]).RawValue;
-                    decimal.TryParse(strArray[0], out Rate);
+                    strArray = (string[])formCollection.GetValue("RateType_" + InvoiceDetailsArray[c]).RawValue;
+                    RateType = strArray[0].ToString();
                 }
-                SID.Rate = Rate;
+                SID.RateType = RateType;
 
                 decimal RateLC = 0;
                 if (formCollection.GetValue("RateLC_" + InvoiceDetailsArray[c]) != null)
@@ -357,7 +357,7 @@ namespace TrueBooksMVC.Controllers
             ProductID = int.Parse(row["ProductID"].ToString()),
             Quantity = int.Parse(row["Quantity"].ToString()),
             ItemUnitID = int.Parse(row["ItemUnitID"].ToString()),
-            Rate = decimal.Parse(row["Rate"].ToString()),
+            RateType = row["RateType"].ToString(),
             RateLC = decimal.Parse(row["RateLC"].ToString()),
             RateFC = decimal.Parse(row["RateFC"].ToString()),
             Value = decimal.Parse(row["Value"].ToString()),

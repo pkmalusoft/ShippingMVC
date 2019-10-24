@@ -19,7 +19,7 @@ namespace DAL
         public Nullable<int> ProductID { get; set; }
         public Nullable<int> Quantity { get; set; }
         public Nullable<int> ItemUnitID { get; set; }
-        public Nullable<decimal> Rate { get; set; }
+        public string RateType { get; set; }
         public Nullable<decimal> RateLC { get; set; }
         public Nullable<decimal> RateFC { get; set; }
         public Nullable<decimal> Value { get; set; }

@@ -768,8 +768,8 @@ namespace TrueBooksMVC
             cmd.Parameters.Add("@ItemUnitID", SqlDbType.Int);
             cmd.Parameters["@ItemUnitID"].Value = SID.ItemUnitID;
 
-            cmd.Parameters.Add("@Rate", SqlDbType.Int);
-            cmd.Parameters["@Rate"].Value = SID.Rate;
+            cmd.Parameters.Add("@RateType", SqlDbType.Int);
+            cmd.Parameters["@RateType"].Value = SID.RateType;
 
             cmd.Parameters.Add("@RateLC", SqlDbType.Decimal);
             cmd.Parameters["@RateLC"].Value = SID.RateLC;
