@@ -311,11 +311,11 @@
                         </div>
                         <div class="col-md-3">
 
-                            <input type="text" class="form-control" name="ExternalReference" style="display: inline-block;
+                            <input type="text" class="form-control Tax_LC" name="Tax_LC" style="display: inline-block;
     width: 100%;">
                         </div>
                         <div class="col-md-3">
-                            <input type="text" class="form-control"  name="ExternalReference" style="display: inline-block;
+                            <input type="text" class="form-control Tax_FC"  name="Tax_FC" style="display: inline-block;
    width: 100%;">
                         </div>
 
@@ -341,7 +341,7 @@
 
                         <div class="col-md-3">
 
-                            <input type="text" class="form-control" name="DiscountValue" value="0" style="display: inline-block;
+                            <input type="text" class="form-control discountamou" name="discount" value="0" style="display: inline-block;
     width: 100%;">
                         </div>
 
@@ -356,11 +356,11 @@
                         </div>
                         <div class="col-md-3">
 
-                            <input type="text" class="form-control"  name="ExternalReference" style="display: inline-block;
+                            <input type="text" class="form-control"  name="totalvalue" style="display: inline-block;
     width: 100%;">
                         </div>
                         <div class="col-md-3">
-                            <input type="text" class="form-control"  name="ExternalReference" style="display: inline-block;
+                            <input type="text" class="form-control"  name="totalvalue" style="display: inline-block;
    width: 100%;">
                         </div>
 
@@ -516,10 +516,19 @@
             CalculateValue();
         });
 
+        $('.Tax_LC').on('change', function () {
+            CalculateValue();
+        });
+
+        $('.discountamou').on('change', function () {
+            CalculateValue();
+        });
+
         function CalculateValue() {
             debugger;
             var trCount = $('#charges_table tr').length;
             var TotalCount = 0;
+            var TotalCounts = 0;
             var rates = $('.Rate').val();
             trCount = trCount + 1;
             for (i = 2; i < trCount; i++) {
@@ -538,28 +547,38 @@
                 var BranchLocalCurrencyId = $('#CurrencyID').val();
                 var ExRate = $('.ExchangeRate').val();
 
-                if (BranchLocalCurrencyId == $('#ExchangeRate').val()) {
+                if (BranchLocalCurrencyId == $('#CurrencyID').val()) {
 
-                    var rateLC = $('.RateLC').val(ExRate);
+                   $('.RateLC').val(ExRate);
                   
                     TotalValue = (Qty * Rate);
 
                       $('.ValueLC').val(TotalValue);
                    
                     TotalCount = TotalCount + (Qty * Rate);
+                    totalamount = (total_lc + tax_lc - discount);
+                    $('.total').val(totalamount);
                 }
                 else {
-                    var rateFC = $('.RateFc').val(ExRate);
+                  $('.RateFC').val(ExRate);
                   
                     TotalValues = (Qty * Rate * ExRate);
                     $('.ValueFC').val(TotalValues);
-                    TotalCounts = TotalCount + TotalValues;
-
+                    TotalCounts = TotalCounts + TotalValues;
+                    totalamount = (total_fc + tax_fc - discount);
+                    $('.total').val(totalamount);
                 }
                 $('.Value').val(rates);
+              var total_lc=  $('#TotalLC').val(TotalCount);
+                var total_fc = $('#TotalFC').val(TotalCounts);
+                var tax_lc = $('.Tax_LC').val();
+                var tax_fc = $('.Tax_FC').val();
+                var discount = $('.discountamou').val(); 
+
+               
+
             }
-            $('#TotalLC').val(TotalCount);
-            $('#TotalFC').val(TotalCounts);
+           
         }
       
         $(".Rate").blur(function () {
