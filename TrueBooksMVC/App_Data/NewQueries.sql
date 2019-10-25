@@ -1410,3 +1410,176 @@ Begin
          )
 		 
 END
+
+
+--
+ALTER TABLE SalesInvoice Add DiscountType int;
+ALTER TABLE SalesInvoice ADD DiscountValueLC decimal(18,2);
+ALTER TABLE SalesInvoice ADD DiscountValueFC decimal(18,2);
+
+-----
+USE [DB_9F57C4_ShippingTest]
+GO
+/****** Object:  StoredProcedure [dbo].[SP_UpdateSalesInvoice]    Script Date: 10/25/2019 6:36:30 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER proc[dbo].[SP_UpdateSalesInvoice]
+    (
+@SalesInvoiceId int = 0,
+@SalesInvoiceNo nvarchar(50),
+@SalesInvoiceDate datetime,
+@Reference nvarchar(50),
+@LPOReference nvarchar(50),
+@CustomerID int,
+@EmployeeeID int,
+@QuotationNumber nvarchar(100) = '',
+@CurrencyID int,
+@EXchangeRate decimal,
+@CreditDays int,
+@DueDate datetime,
+@AcJouranalID int,
+@BranchID int,
+@Discount decimal,
+@StatusDiscountAmt bit,
+@OtherCharges decimal,
+@PaymentTerm nvarchar(max),
+@Remarks nvarchar(max),
+@FYearID int,
+@DeliveryId int,
+@DiscountType int,
+@DiscountValueLC decimal(18,2),
+@DiscountValueFC decimal(18,2)
+)
+AS
+Begin
+
+UPDATE[SalesInvoice]  SET
+[SalesInvoiceNo] =@SalesInvoiceNo,
+[SalesInvoiceDate] =@SalesInvoiceDate,
+[Reference] =@Reference,
+[LPOReference] =@LPOReference,
+[CustomerID] =@CustomerID,
+[EmployeeID] =@EmployeeeID,
+[QuotationNumber] =@QuotationNumber,
+[CurrencyID] =@CurrencyID,
+[ExchangeRate] =@ExchangeRate,
+[CreditDays] =@CreditDays,
+[DueDate] =@DueDate,
+[AcJournalID] =@AcJouranalID,
+[BranchID] =@BranchID,
+[Discount] =@Discount,
+[StatusDiscountAmt] =@StatusDiscountAmt,
+[OtherCharges] =@OtherCharges,
+[PaymentTerm] =@PaymentTerm,
+[Remarks] =@Remarks,
+[FYearID] =@FYearID,
+[DeliveryId] =@DeliveryId,
+[DiscountType] = @DiscountType,
+	[DiscountValueLC] = @DiscountValueLC,
+	[DiscountValueFC] = @DiscountValueFC
+WHERE SalesInvoiceID =@SalesInvoiceId
+
+END
+
+
+----
+USE [DB_9F57C4_ShippingTest]
+GO
+/****** Object:  StoredProcedure [dbo].[SP_InsertSalesInvoice]    Script Date: 10/25/2019 6:34:13 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+ALTER proc[dbo].[SP_InsertSalesInvoice]
+    (
+@SalesInvoiceId int = 0 output,
+@SalesInvoiceNo nvarchar(50),
+@SalesInvoiceDate datetime = null,
+@Reference nvarchar(50),
+@LPOReference nvarchar(50),
+@CustomerID int,
+@EmployeeeID int,
+@QuotationNumber nvarchar(100) = '',
+@CurrencyID int,
+@EXchangeRate decimal,
+@CreditDays int,
+@DueDate datetime = null,
+@AcJouranalID int,
+@BranchID int,
+@Discount decimal,
+@StatusDiscountAmt bit,
+@OtherCharges decimal,
+@PaymentTerm nvarchar(max),
+@Remarks nvarchar(max),
+@FYearID int,
+@DeliveryId int,
+@DiscountType int,
+@DiscountValueLC decimal(18,2),
+@DiscountValueFC decimal(18,2)
+)
+AS
+Begin
+Declare @MaxId int;
+SELECT @MaxId = MAX(@SalesInvoiceId) FROM SalesInvoice;
+
+SET @SalesInvoiceNo = RIGHT('0000' + CAST(@MaxId AS VARCHAR(5)), 5);
+SET @SalesInvoiceNo = 'SI-' + @SalesInvoiceNo;
+
+INSERT INTO[SalesInvoice]
+    ([SalesInvoiceNo],
+    [SalesInvoiceDate],
+    [Reference],
+    [LPOReference],
+    [CustomerID],
+    [EmployeeID],
+    [QuotationNumber],
+    [CurrencyID],
+    [ExchangeRate],
+    [CreditDays],
+    [DueDate],
+    [AcJournalID],
+    [BranchID],
+    [Discount],
+    [StatusDiscountAmt],
+    [OtherCharges],
+    [PaymentTerm],
+    [Remarks],
+    [FYearID],
+    [DeliveryId],
+	[DiscountType],
+	[DiscountValueLC],
+	[DiscountValueFC]
+    )
+VALUES
+    (
+          @SalesInvoiceNo,
+@SalesInvoiceDate,
+@Reference,
+@LPOReference,
+@CustomerID,
+@EmployeeeID,
+@QuotationNumber,
+@CurrencyID,
+@EXchangeRate,
+@CreditDays,
+@DueDate,
+@AcJouranalID,
+@BranchID,
+@Discount,
+@StatusDiscountAmt,
+@OtherCharges,
+@PaymentTerm,
+@Remarks,
+@FYearID,
+@DeliveryId,
+@DiscountType,
+@DiscountValueLC,
+@DiscountValueFC
+ )
+SET @SalesInvoiceId = SCOPE_IDENTITY();
+return @SalesInvoiceId;
+END
+

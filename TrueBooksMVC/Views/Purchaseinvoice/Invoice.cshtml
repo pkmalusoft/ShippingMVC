@@ -95,7 +95,22 @@
 
 <div class="containers">
     <section class="content jobform">
+        <div style="display:none;">
+            @Html.DropDownList("AccountHead", (SelectList)ViewBag.AccountHead, "Select", new { @class = "AccountHead_demo_class", @name = "AccountHead", id = "AcHead", @style = "width: 100px; height: 21px;" })
+        </div>
 
+        <div style="display:none;">
+            @Html.DropDownList("Unit", (SelectList)ViewBag.Unit, "Select", new { @class = "Unit_demo_class", id = "Unit", @style = "height: 22px" })
+
+        </div>
+
+        <div style="display:none;">
+            @Html.DropDownList("Job", (SelectList)ViewBag.Job, "Select", new { @class = "Job_demo_class", @name = "Job", id = "Job", @style = "width: 100px; height: 21px;" })
+        </div>
+        <div style="display:none;">
+            @Html.DropDownList("Product", (SelectList)ViewBag.Product, "Select", new { @class = "Product_demo_class", @name = "Product", id = "Product", @style = "width: 100px; height: 21px;" })
+
+        </div>
 
         @Html.BeginForm() {
 
@@ -141,11 +156,11 @@
                 <label class="headinglabel">Currency:</label>
                 @Html.DropDownListFor(model => model.CurrencyID, (SelectList)ViewBag.Curency, "Select Currency", new { @class = "form-control" })
                 <!--<select class="form-control" id="recvd">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                </select>-->
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+            </select>-->
             </div>
             <div class="col-md-3">
                 <label class="headinglabel">Exchange Rate :</label>
@@ -165,11 +180,11 @@
                 <label class="headinglabel">Good Rcvd By:</label>
                 @Html.DropDownListFor(model => model.EmployeeID, (SelectList)ViewBag.Employees, "Select Employees", new { @class = "form-control" })
                 <!--<select class="form-control" id="recvd">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                </select>-->
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+            </select>-->
             </div>
 
 
@@ -180,33 +195,18 @@
         <div class="form_invoice">
 
             <button type="button" class='addmore topbutton'>+ Add More</button>
-         
+
             <div class="row no-margin" id="AddCharges" style="padding-top: 10px">
                 <div class="col-xs-12 no-padding for-device">
                     <div class="data-table tblsbackground" style="width:100%; padding: 0px;">
-                       
-                        <div style="display:none;">
-                            @Html.DropDownList("AccountHead", (SelectList)ViewBag.AccountHead, "Select", new { @class = "AccountHead_demo_class", @name = "AccountHead", id = "AcHead", @style = "width: 100px; height: 21px;" })
-                        </div>
-                       
-                        <div style="display:none;">
-                            @Html.DropDownList("Unit", (SelectList)ViewBag.Unit, "Select", new { @class = "Unit_demo_class", id = "Unit", @style = "height: 22px" })
 
-                        </div>
 
-                        <div style="display:none;">
-                            @Html.DropDownList("Job", (SelectList)ViewBag.Job, "Select", new { @class = "Job_demo_class", @name = "Job", id = "Job", @style = "width: 100px; height: 21px;" })
-                        </div>
-                        <div style="display:none;">
-                            @Html.DropDownList("Product", (SelectList)ViewBag.Product, "Select", new { @class = "Product_demo_class", @name = "Product", id = "Product", @style = "width: 100px; height: 21px;" })
-
-                        </div>
 
 
                         <div class="data" style="overflow:auto;">
                             <table border="1" class="table table-responsive table-bordered smalltablewidth fulltablewidth " id="charges_table">
                                 <tr>
-                                  
+
                                     <td width="5%">
                                         S. No
                                     </td>
@@ -255,18 +255,18 @@
 
 
                                 <tr>
-                                  
+
                                     <td><span id='snum'>1.</span></td>
                                     <td><input type='text' id='Description_1' name='Description_1' style="width:110px" /></td>
                                     <td><input type='text' id='Quantity_1' name='Quantity_1' style="width:47px" /></td>
                                     <td>
-                                        @Html.DropDownList("Unit_1", (SelectList)ViewBag.Unit, "Select", new { @class = "Unit", id = "Unit_1", @name= "Unit_1", @style = "height: 22px" })
+                                        @Html.DropDownList("Unit_1", (SelectList)ViewBag.Unit, "Select", new { @class = "Unit", id = "Unit_1", @name = "Unit_1", @style = "height: 22px" })
 
                                     </td>
-                                    <td><input type='text'  class="two-decimals" id='Rate_1' name='Rate_1' style="width: 60px; text-align:right" /> </td>
-                                    <td><input type='text' class="two-decimals"  id='RateFC_1' name='RateFC_1' style="width: 60px;text-align:right" /></td>
-                                    <td><input type='text'  class="two-decimals" id='Value_1' name='Value_1' style="width: 60px; text-align:right" /> </td>
-                                    <td><input type='text'  class="two-decimals" id='ValueFC_1' name='ValueFC_1' style="width: 65px;text-align:right" /></td>
+                                    <td><input type='text' class="two-decimals" id='Rate_1' name='Rate_1' style="width: 60px; text-align:right" /> </td>
+                                    <td><input type='text' class="two-decimals" id='RateFC_1' name='RateFC_1' style="width: 60px;text-align:right" /></td>
+                                    <td><input type='text' class="two-decimals" id='Value_1' name='Value_1' style="width: 60px; text-align:right" /> </td>
+                                    <td><input type='text' class="two-decimals" id='ValueFC_1' name='ValueFC_1' style="width: 65px;text-align:right" /></td>
                                     <td><input type='text' class="two-decimals" id='Taxpre_1' name='Taxpre_1' style="width: 60px; text-align:right" /> </td>
                                     <td><input type='text' class="two-decimals" id='Tax_1' name='Tax_1' style="width: 60px; text-align:right" /> </td>
 
@@ -274,7 +274,7 @@
 
 
                                     <td>
-                                        @Html.DropDownList("AcHead_1", (SelectList)ViewBag.AccountHead, "Select", new { @class = "AccountHead", id = "AcHead_1", @name= "AcHead_1", @style = "width: 100px; height: 21px;" })
+                                        @Html.DropDownList("AcHead_1", (SelectList)ViewBag.AccountHead, "Select", new { @class = "AccountHead", id = "AcHead_1", @name = "AcHead_1", @style = "width: 100px; height: 21px;" })
                                     </td>
 
                                     <td>
@@ -301,7 +301,7 @@
 
                         </div>
                     </div>
-                    </div>
+                </div>
             </div>
         </div>
 
@@ -333,7 +333,7 @@
                             <label class="headinglabel">Add: Tax :</label>
                         </div>
                         <div class="col-md-3">
-                                  <input type="text" class="form-control" name="ExternalReference" style="display: inline-block; width: 100%;">
+                            <input type="text" class="form-control" name="ExternalReference" style="display: inline-block; width: 100%;">
                         </div>
                         <div class="col-md-3">
                             <input type="text" class="form-control" name="ExternalReference" style="display: inline-block;
@@ -363,7 +363,7 @@
 
 
 
-                       
+
                         <div class="col-md-3">
                             <input type="text" class="form-control" name="ExternalReference" style="display: inline-block;
                     width: 100%;">
@@ -371,10 +371,10 @@
                     </div>
                     <div class="row no-margin" style="padding-top: 10px">
                         <div class="col-md-3" style="text-align: center">
-                           
+
                         </div>
                         <div class="col-md-3">
-                            <input type="text" class="form-control"  name="ExternalReference" style="display: inline-block;
+                            <input type="text" class="form-control" name="ExternalReference" style="display: inline-block;
                     width: 100%;">
                         </div>
                         <div class="col-md-3">

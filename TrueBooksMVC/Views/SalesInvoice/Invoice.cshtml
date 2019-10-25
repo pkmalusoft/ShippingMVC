@@ -83,7 +83,7 @@
 
         @Html.ValidationSummary(true)
         <input type="hidden" id="BranchLocalCurrencyId" name="BranchLocalCurrencyId" value="@Session["BaseCurrencyId"]" />
-        @Html.HiddenFor(model => model.SalesInvoiceID, new { id = "SalesInvoiceID" } )
+        @Html.HiddenFor(model => model.SalesInvoiceID, new { id = "SalesInvoiceID" })
         <div class="row no-margin">
 
             <div class="col-md-4">
@@ -158,7 +158,8 @@
         </div>
 
         <div class="form_invoice">
-            <button type="button" class='addmore topbutton'>+ Add More</button>
+            <button type="button" class='addmore topbutton' style="margin:5px;">+ Add More</button>
+            <button type="button" class='calc' style="margin:5px;">Calc</button>
             <div class="row no-margin" id="AddCharges" style="padding-top: 10px">
                 <div class="col-xs-12 no-padding for-device">
                     <div class="data-table tblsbackground" style="width:100%;">
@@ -178,7 +179,7 @@
                         <div class="data" style="overflow:auto;">
                             <table border="1" class="table table-responsive table-bordered smalltablewidth fulltablewidth " id="charges_table" index="1">
                                 <tr>
-                                   
+
                                     <td width="5%">
                                         S. No
                                     </td>
@@ -201,9 +202,6 @@
                                     <td width="5%" class="hideinsummary">
                                         Rate FC
                                     </td>
-                                    <td width="5%" class="hideinsummary">
-                                        Value
-                                    </td>
                                     <td width="8%" class="lc_pro">
                                         Value LC
                                     </td>
@@ -224,17 +222,11 @@
                                     <td width="10%" class="fc_pro">
                                         Action
                                     </td>
-
                                 </tr>
-
-
                                 <tr>
-
                                     <td><span id='snum'>1.</span></td>
                                     <td>
                                         @Html.DropDownList("Product_1", (SelectList)ViewBag.Product, "Select", new { @class = "Product", id = "Product_1", @name = "Product_1", @style = "width: 100px; height: 21px;" })
-
-
                                     </td>
                                     <td><input type='text' id='Description_1' name='Description_1' style="width:110px" /></td>
                                     <td><input type='text' class="QTY" id='Quantity_1' name='Quantity_1' style="width:47px" /></td>
@@ -242,59 +234,34 @@
                                         @Html.DropDownList("Unit_1", (SelectList)ViewBag.Unit, "Select", new { @class = "Unit", id = "Unit_1", @name = "Unit_1", @style = "height: 22px" })
 
                                     </td>
-                                    <td><input type='text' class="two-decimals Rate" id='RateType_1' name='RateType_1' style="width: 60px;text-align:right" /> </td>
+                                    <td><input type='text' class="Rate" id='RateType_1' name='RateType_1' style="width: 60px;" /> </td>
                                     <td><input type='text' class="two-decimals RateLC" id='RateLC_1' name='RateLC_1' style="width: 65px;text-align:right" /></td>
-
                                     <td><input type='text' class="two-decimals RateFC" id='RateFC_1' name='RateFC_1' style="width: 60px;text-align:right" /></td>
-                                    <td><input type='text' class='two-decimals Value' id='Value_1' name='Value_1' style="width: 60px;text-align:right" /> </td>
-                                    <td><input type='text' class="two-decimals ValueLC" id='ValueLC_1' name='ValueLC_1' style="width: 65px;text-align:right" /></td>
-                                    <td><input type='text' class="two-decimals ValueFC" id='ValueFC_1' name='ValueFC_1' style="width: 65px;text-align:right" /></td>
+                                    <td><input type='text' class="two-decimals ValueLC" readonly="readonly" id='ValueLC_1' name='ValueLC_1' style="width: 65px;text-align:right" /></td>
+                                    <td><input type='text' class="two-decimals ValueFC" readonly="readonly" id='ValueFC_1' name='ValueFC_1' style="width: 65px;text-align:right" /></td>
                                     <td><input type='text' class="two-decimals Tax" id='Tax_1' name='Tax_1' style="width: 60px;text-align:right" /> </td>
-
                                     <td><input type='text' class="two-decimals NetValue" id='NetValue_1' name='NetValue_1' style="width: 60px;text-align:right" /> </td>
-
-
                                     <td>
-
                                         @Html.DropDownList("Job_1", (SelectList)ViewBag.Job, "Select", new { @class = "Job", id = "Job_1", @name = "Job_1", @style = "width: 100px; height: 21px;" })
-
                                     </td>
-
                                     <td><button type="button" onclick="deleteRow(this)">-</button>&nbsp;&nbsp;<button type="button" class="addmore">+</button></td>
-
                                 </tr>
-
-
-
-
                             </table>
                         </div>
                     </div>
                 </div>
             </div>
-
-
-
-
         </div>
-
-
         <div class="row no-margin" style="padding-top: 10px">
-
             <div class="col-md-6">
-
             </div>
-
-
             <div class="col-md-6">
                 <div class="col-md-12">
                     <div class="row no-margin" style="padding-top: 10px">
-                        <div class="col-md-3" style="text-align: center;
-">
+                        <div class="col-md-3" style="text-align: center;">
                             <label class="headinglabel">Invoice Total :</label>
                         </div>
                         <div class="col-md-3">
-
                             <input type="text" class="form-control" id="TotalLC" placeholder=" Local Currencey"  name="Local" style="display: inline-block;
     width: 100%;">
                         </div>
@@ -302,15 +269,12 @@
                             <input type="text" class="form-control" id="TotalFC" placeholder=" Foreign Currency" name="Foreign" style="display: inline-block;
    width: 100%;">
                         </div>
-
                     </div>
-
                     <div class="row no-margin" style="padding-top: 10px">
                         <div class="col-md-3" style="text-align: center;">
                             <label class="headinglabel">Add: Tax :</label>
                         </div>
                         <div class="col-md-3">
-
                             <input type="text" class="form-control Tax_LC" name="Tax_LC" style="display: inline-block;
     width: 100%;">
                         </div>
@@ -320,61 +284,42 @@
                         </div>
 
                     </div>
-
-
                     <div class="row no-margin" style="padding-top: 10px">
                         <div class="col-md-3" style="text-align: center;border: 1px solid;position: relative;">
                             <div class="lab_dis" style="position: absolute; top: -11px; left: 3px; background-color: #fff; padding: 2px;"><label class="headinglabel">Discount :</label></div>
                             <div class="row no-margin" style="padding-top: 10px">
-                               
                                 <div class="col-md-6" style="padding:0">
-                                    <label for="DiscountType1">%&nbsp;<input type="radio" id="DiscountType1" name="DiscountType" checked></label>
+                                    <label for="DiscountType1">%&nbsp;<input type="radio" id="DiscountType1" name="DiscountType" value="1" @(Model.DiscountType == 1 || Model.SalesInvoiceID == 0 ? "checked='true'" : "" )></label>
                                 </div>
-
-                              
                                 <div class="col-md-6" style="padding:0">
-                                    <label for="DiscountType2">Amount&nbsp;<input type="radio" id="DiscountType2" name="DiscountType"></label>
-                                    
+                                    <label for="DiscountType2">Amount&nbsp;<input type="radio" id="DiscountType2" value="2" name="DiscountType" @(Model.DiscountType == 2 ? "checked='true'" : "" )></label>
                                 </div>
                             </div>
                         </div>
-
                         <div class="col-md-3">
-
-                            <input type="text" class="form-control discountamou" name="discount" value="0" style="display: inline-block;
-    width: 100%;">
+                            @Html.TextBoxFor(model => model.DiscountValueLC, new { @class = "form-control discountamou", id = "discount", name = "discount", style = "display: inline-block;width: 100%;" })
+                           
                         </div>
-
-
-                    </div>
-
-
-                    <div class="row no-margin" style="padding-top: 10px">
-                        <div class="col-md-3" style="text-align: center;
-">
+                        <div class="col-md-3">
+                            @Html.TextBoxFor(model => model.DiscountValueFC, new { @class = "form-control discountamouFC", id = "discountFC", name = "discountFC", style = "display: inline-block;width: 100%;" })
                             
                         </div>
-                        <div class="col-md-3">
-
-                            <input type="text" class="form-control"  name="totalvalue" style="display: inline-block;
-    width: 100%;">
-                        </div>
-                        <div class="col-md-3">
-                            <input type="text" class="form-control"  name="totalvalue" style="display: inline-block;
-   width: 100%;">
-                        </div>
-
                     </div>
-
-
-
+                    <div class="row no-margin" style="padding-top: 10px">
+                        <div class="col-md-3" style="text-align: center;">
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control"  name="TotalValueLC" id="TotalValueLC" style="display: inline-block;width: 100%;">
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control"  name="TotalValueFC" id="TotalValueFC" style="display: inline-block;width: 100%;">
+                        </div>
+                    </div>
                 </div>
-
             </div>
         </div>
         <div class="row no-margin buttons" style="padding-top: 10px">
             <div class="col-md-12 align-right" style="text-align: left">
-
                 @{ if (Model.SalesInvoiceID > 0)
                     {
                         <input type="submit" name="Command" value="Update" class="btn btn-primary btnwidth" />
@@ -383,23 +328,12 @@
                     {
                         <input type="submit" name="Command" value="Save"  class="btn btn-primary btnwidth" id="btnSave" />
                     }
-
                 }
-
                 &nbsp;
                 <a href="@Url.Action("index", "Invoice", new { id = 0 })" class="btn btn-primary btnwidth">Cancel</a>
-
             </div>
         </div>
-
-
     </section>
-
-
-
-
-
-
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
@@ -437,7 +371,7 @@
             var JobSelect = $('.Job_demo_class').attr('id', 'Job_' + i).attr('name', 'Job_' + i).parent().html().replace("Job_demo_class");
             var ProductSelect = $('.Product_demo_class').attr('id', 'Product_' + i).attr('name', 'Product_' + i).parent().html().replace("Product_demo_class");
             var data = "<tr><td><span id='snum" + i + "'>" + count + ".</span></td>";
-            data += "<td>" + ProductSelect + "</td><td><input type='text' id='Description_" + i + "' name='Description_" + i + "' style='width: 110px'/></td> <td><input type='text' id='Quantity_" + i + "' name='Quantity_" + i + "' style='width: 47px' class='QTY'/></td><td>" + unitSelect + "</td><td><input type='text' id='RateType_" + i + "' name='RateType_" + i + "'style='width: 60px;text-align:right' class='two-decimals Rate'/></td><td> <input type='text' id='RateLC_" + i + "' name='RateLC_" + i + "' style='width: 60px;text-align:right;' class='two-decimals RateLC'/></td><td><input type='text' id='RateFC_" + i + "' name='RateFC_" + i + "' style='width: 60px;text-align:right' class='two-decimals RateFC' /></td><td><input type='text' id='Value_" + i + "' name='Value_" + i + "' style='width: 60px;text-align:right' class='two-decimals Value' /></td><td><input type='text' id='ValueLC_" + i + "' name='ValueLC_" + i + "' style='width: 65px;text-align:right' class='two-decimals ValueLC' /></td><td><input type='text' id='ValueFC_" + i + "' name='ValueFC_" + i + "' style='width: 65px;text-align:right' class='two-decimals ValueFC'/></td><td><input type='text' id='Tax_" + i + "' name='Tax_" + i + "' style='width: 60px ;text-align:right' class='Tax' /></td><td><input type='text' id='NetValue_" + i + "' name='NetValue_" + i + "' style='width: 60px; text-align:right' class='two-decimals NetValue'/></td><td>" + JobSelect + "</td><td><button type='button' class='delete' >-</button>&nbsp;&nbsp;<button type='button' index='" + i + "' class='addmore'>+</button></td></tr>"
+            data += "<td>" + ProductSelect + "</td><td><input type='text' id='Description_" + i + "' name='Description_" + i + "' style='width: 110px'/></td> <td><input type='text' id='Quantity_" + i + "' name='Quantity_" + i + "' style='width: 47px' class='QTY'/></td><td>" + unitSelect + "</td><td><input type='text' id='RateType_" + i + "' name='RateType_" + i + "'style='width: 60px;' class='Rate'/></td><td> <input type='text' id='RateLC_" + i + "' name='RateLC_" + i + "' style='width: 60px;text-align:right;' class='two-decimals RateLC'/></td><td><input type='text' id='RateFC_" + i + "' name='RateFC_" + i + "' style='width: 60px;text-align:right' class='two-decimals RateFC' /></td><td><input type='text' id='ValueLC_" + i + "' name='ValueLC_" + i + "' style='width: 65px;text-align:right' class='two-decimals ValueLC' readonly='readonly' /></td><td><input type='text' id='ValueFC_" + i + "' name='ValueFC_" + i + "' style='width: 65px;text-align:right' class='two-decimals ValueFC' readonly='readonly'/></td><td><input type='text' id='Tax_" + i + "' name='Tax_" + i + "' style='width: 60px ;text-align:right' class='two-decimals Tax' /></td><td><input type='text' id='NetValue_" + i + "' name='NetValue_" + i + "' style='width: 60px; text-align:right' class='two-decimals NetValue'/></td><td>" + JobSelect + "</td><td><button type='button' class='delete' >-</button>&nbsp;&nbsp;<button type='button' index='" + i + "' class='addmore'>+</button></td></tr>"
             $('#charges_table').append(data);
             $("#charges_table").attr('index', i);
             CalculateValue();
@@ -451,10 +385,7 @@
             AddNewRow();
         });
 
-        $(".two-decimals").change(function () {
-            this.value = parseFloat(this.value).toFixed(2);
-           
-        });
+     
 
         $("#CurrencyID").change(function () {
             debugger;
@@ -498,7 +429,7 @@
                         var JobSelect = $('.Job_demo_class').attr('id', 'Job_' + i).attr('name', 'Job_' + i).parent().html().replace("Job_demo_class");
                         var ProductSelect = $('.Product_demo_class').attr('id', 'Product_' + i).attr('name', 'Product_' + i).parent().html().replace("Product_demo_class");
                         var tdata = "<tr><td><span id='snum" + i + "'>" + count + ".</span></td>";
-                        tdata += "<td>" + ProductSelect + "</td><td><input type='text' id='Description_" + i + "' name='Description_" + i + "' style='width: 110px' value='" + InvoiceDetailsObj.Description + "' /></td > <td><input type='text' class='QTY' id='Quantity_" + i + "' name='Quantity_" + i + "' style='width: 47px' value='" + InvoiceDetailsObj.Quantity + "' /></td> <td>" + unitSelect + "</td> <td><input type='text' id='RateType_" + i + "' name='RateType_" + i + "' style='width: 60px;text-align:right' value='" + InvoiceDetailsObj.RateType + "' class='two-decimals Rate' /></td> <td> <input type='text' id='RateLC_" + i + "' name='RateLC_" + i + "' style='width: 60px;text-align:right' value='" + InvoiceDetailsObj.RateLC + "'class='two-decimals RateLC' /></td> <td><input type='text' id='RateFC_" + i + "' name='RateFC_" + i + "' style='width: 60px;text-align:right' value='" + InvoiceDetailsObj.RateFC + "' class='two-decimals RateFC' /></td> <td><input type='text' id='Value_" + i + "' name='Value_" + i + "' style='width: 60px;text-align:right' value='" + InvoiceDetailsObj.Value + "' class='two-decimals Value' /></td> <td><input type='text' id='ValueLC_" + i + "' name='ValueLC_" + i + "' style='width: 65px;text-align:right' value='" + InvoiceDetailsObj.ValueLC + "'class='two-decimals ValueLC' /></td> <td><input type='text' id='ValueFC_" + i + "' name='ValueFC_" + i + "' style='width: 65px;text-align:right' value='" + InvoiceDetailsObj.ValueFC + "' class='two-decimals ValueFC' /></td> <td><input type='text' id='Tax_" + i + "' name='Tax_" + i + "' style='width: 60px;text-align:right' value='" + InvoiceDetailsObj.Tax + "' class='two-decimals Tax' /></td> <td><input type='text' id='NetValue_" + i + "' name='NetValue_" + i + "' style='width: 60px;text-align:right' value='" + InvoiceDetailsObj.NetValue + "' class='two-decimals NetValue' /></td> <td>" + JobSelect + "</td> <td><button type='button' class='delete' >-</button>&nbsp;&nbsp;<button type='button' index='" + i + "' class='addmore'>+</button></td></tr > "
+                        tdata += "<td>" + ProductSelect + "</td><td><input type='text' id='Description_" + i + "' name='Description_" + i + "' style='width: 110px' value='" + InvoiceDetailsObj.Description + "' /></td > <td><input type='text' class='QTY' id='Quantity_" + i + "' name='Quantity_" + i + "' style='width: 47px' value='" + InvoiceDetailsObj.Quantity + "' /></td> <td>" + unitSelect + "</td> <td><input type='text' id='RateType_" + i + "' name='RateType_" + i + "' style='width: 60px;' value='" + InvoiceDetailsObj.RateType + "' class='Rate' /></td> <td> <input type='text' id='RateLC_" + i + "' name='RateLC_" + i + "' style='width: 60px;text-align:right' value='" + InvoiceDetailsObj.RateLC + "'class='two-decimals RateLC' /></td> <td><input type='text' id='RateFC_" + i + "' name='RateFC_" + i + "' style='width: 60px;text-align:right' value='" + InvoiceDetailsObj.RateFC + "' class='two-decimals RateFC' /></td><td><input type='text' id='ValueLC_" + i + "' name='ValueLC_" + i + "' style='width: 65px;text-align:right' value='" + InvoiceDetailsObj.ValueLC + "'class='two-decimals ValueLC' readonly='readonly' /></td> <td><input type='text' id='ValueFC_" + i + "' name='ValueFC_" + i + "' style='width: 65px;text-align:right' value='" + InvoiceDetailsObj.ValueFC + "' class='two-decimals ValueFC' readonly='readonly' /></td> <td><input type='text' id='Tax_" + i + "' name='Tax_" + i + "' style='width: 60px;text-align:right' value='" + InvoiceDetailsObj.Tax + "' class='two-decimals Tax' /></td> <td><input type='text' id='NetValue_" + i + "' name='NetValue_" + i + "' style='width: 60px;text-align:right' value='" + InvoiceDetailsObj.NetValue + "' class='two-decimals NetValue' /></td> <td>" + JobSelect + "</td> <td><button type='button' class='delete' >-</button>&nbsp;&nbsp;<button type='button' index='" + i + "' class='addmore'>+</button></td></tr > "
                         $('table').append(tdata);
                         $('#charges_table').find('#Unit_' + i).val(InvoiceDetailsObj.ItemUnitID);
                         $('#charges_table').find('#Job_' + i).val(InvoiceDetailsObj.JobID);
@@ -509,18 +440,47 @@
             });
         }
 
-        $('#CurrencyID').on('change', function () {
+        $("#charges_table").on('change', '.two-decimals', function () {
+            var decValue = parseFloat(this.value).toFixed(2);
+            if (isNaN(parseInt(decValue))) {
+                decValue = '0.00';
+            }
+            this.value = decValue;
+        });
+
+        $('#CurrencyID').on('change',function () {
             CalculateValue();
         });
+
         $('#ExchangeRate').on('change', function () {
             CalculateValue();
         });
 
-        $('.Tax_LC').on('change', function () {
+        $('#charges_table').on('change','.Tax', function () {
             CalculateValue();
         });
 
-        $('.discountamou').on('change', function () {
+        $("#charges_table").on('change','.RateLC',function () {
+            CalculateValue();
+        });
+
+        $("#charges_table").on('change', '.RateFC', function () {
+            CalculateValue();
+        });
+
+        $('#charges_table').on('change','.discountamou', function () {
+            CalculateValue();
+        });
+
+        $('#discount').on('change', function () {
+            CalculateValue();
+        });
+
+        $('#discountFC').on('change', function () {
+            CalculateValue();
+        });
+        
+        $('.calc').on('click', function () {
             CalculateValue();
         });
 
@@ -535,7 +495,8 @@
             var Tax = 0;
             var CurrencyId = $('#CurrencyID').val();
             var BranchLocalCurrencyId = $('#BranchLocalCurrencyId').val();
-            
+            var TaxPercentage = 5;
+
             var ExRate = $('.ExchangeRate').val();
             for (i = 2; i < trCount; i++) {
 
@@ -544,55 +505,105 @@
                 if (isNaN(parseInt(Qty))) {
                     Qty = 0;
                 }
-                var RateLC = $('#charges_table tr:nth-child(' + i + ')').find('.RateLC').val();  
-                var RateFC = $('#charges_table tr:nth-child(' + i + ')').find('.RateFC').val(); 
-                
+                var RateLC = $('#charges_table tr:nth-child(' + i + ')').find('.RateLC').val();
+                var RateFC = $('#charges_table tr:nth-child(' + i + ')').find('.RateFC').val();
+
                 if (isNaN(parseInt(RateLC))) {
                     RateLC = 0;
                 }
-               
+                if (isNaN(parseInt(RateFC))) {
+                    RateFC = 0;
+                }
                 if (BranchLocalCurrencyId == CurrencyId) {
-                    TotalValue = (Qty * RateLC); 
-                    TotalValue = parseFloat(TotalValue).toFixed(2);                  
+                    $('.RateFC').attr('readonly', 'readonly');
+                    $('.RateFC').val('0.00');
+                    $('.RateLC').removeAttr('readonly');
+                    TotalValue = (Qty * RateLC);
+                    TotalValue = parseFloat(TotalValue).toFixed(2);
                     $('#charges_table tr:nth-child(' + i + ')').find('.ValueLC').val(TotalValue);
                     $('#charges_table tr:nth-child(' + i + ')').find('.ValueFC').val('0.00');
-                    Tax = $('#charges_table tr:nth-child(' + i + ')').find('.Tax').val();
+                    Tax = parseFloat(TotalValue * (TaxPercentage / 100)).toFixed(2);
+                    if (isNaN(parseInt(Tax))) {
+                        Tax = 0.00;
+                    }
+                    $('#charges_table tr:nth-child(' + i + ')').find('.Tax').val(Tax)
                     NetValue = (Qty * RateLC) + Tax;
                     NetValue = parseFloat(NetValue).toFixed(2);
                     TotalCount = TotalCount + NetValue;
                     $('#charges_table tr:nth-child(' + i + ')').find('.NetValue').val(NetValue);
                 }
-                else 
+                else {
+                    $('.RateLC').attr('readonly', 'readonly');
+                    $('.RateFC').removeAttr('readonly');
                     TotalValue = (Qty * RateFC);
                     TotalValue = parseFloat(TotalValue).toFixed(2);
                     $('#charges_table tr:nth-child(' + i + ')').find('.ValueFC').val(TotalValue);
                     TotalValue = parseFloat(TotalValue * ExRate).toFixed(2);
                     $('#charges_table tr:nth-child(' + i + ')').find('.ValueLC').val(TotalValue);
+                    Tax = parseFloat(TotalValue * (TaxPercentage / 100)).toFixed(2);
+                    if (isNaN(parseInt(Tax))) {
+                        Tax = 0.00;
+                    }
+                    $('#charges_table tr:nth-child(' + i + ')').find('.Tax').val(Tax)
                    
-                    Tax = $('#charges_table tr:nth-child(' + i + ')').find('.Tax').val();
-                    NetValue = TotalValue + Tax;
+                    NetValue = parseFloat(TotalValue) + parseFloat(Tax);
                     NetValue = parseFloat(NetValue).toFixed(2);
                     $('#charges_table tr:nth-child(' + i + ')').find('.NetValue').val(NetValue);
                 }
-
-                $('.Value').val(rates);
-                  $('#TotalLC').val(TotalCount);
-                var total_fc = $('#TotalFC').val(TotalCounts);
-                var tax_lc = $('.Tax_LC').val();
-                var tax_fc = $('.Tax_FC').val();
-                var discount = $('.discountamou').val(); 
-
-               
-
             }
+            var TotalValueLC = 0;
+            $('.ValueLC').each(function (i, obj) {
+                var ValueLc = $(this).val();
+                if (isNaN(parseInt(ValueLc))) {
+                    ValueLc = 0;
+                }
+                TotalValueLC = TotalValueLC + parseFloat(ValueLc);
+            });
            
-        }
-      
-        $(".RateLC").blur(function () {
-            CalculateValue();
-        });
-     
 
+            $('#TotalLC').val(parseFloat(TotalValueLC).toFixed(2));
+
+            var TotalValueFC = 0;
+            $('.ValueFC').each(function (i, obj) {
+                var ValueFc = $(this).val();
+                if (isNaN(parseInt(ValueFc))) {
+                    ValueFc = 0;
+                }
+                TotalValueFC = TotalValueFC + parseFloat(ValueFc);
+            });
+
+            $('#TotalFC').val(parseFloat(TotalValueFC).toFixed(2));
+
+            var TotalTaxLC = 0;
+            $('.Tax').each(function (i, obj) {
+                var ValueTax_LC = $(this).val();
+                if (isNaN(parseInt(ValueTax_LC))) {
+                    ValueTax_LC = 0;
+                }
+                TotalTaxLC = TotalTaxLC + parseFloat(ValueTax_LC);
+            });
+            $('.Tax_LC').val(parseFloat(TotalTaxLC).toFixed(2));
+            $('.Tax_FC').val('0.00');
+
+            var DiscountType = $('input[name=DiscountType]:checked').val();
+            var discount = $('#discount').val();
+            var discountFC = $('#discountFC').val();
+            if (isNaN(parseInt(discount))) {
+                discount = 0;
+            }
+            if (isNaN(parseInt(discountFC))) {
+                discountFC = 0;
+            }
+            if (DiscountType == 1) {
+                TotalValueLC = TotalValueLC + TotalTaxLC - (TotalValueLC * (discount / 100));
+                TotalValueFC = TotalValueFC + discountFC - (TotalValueFC * (discount / 100));
+                $('#TotalValueLC').val(parseFloat(TotalValueLC).toFixed(2));
+                $('#TotalValueFC').val(parseFloat(TotalValueFC).toFixed(2));
+            } else {
+                $('#TotalValueLC').val(parseFloat((TotalValueLC + TotalTaxLC) - discount).toFixed(2));
+                $('#TotalValueFC').val(parseFloat(TotalValueFC - discountFC).toFixed(2));
+            }
+        }
     });
 
 </script>

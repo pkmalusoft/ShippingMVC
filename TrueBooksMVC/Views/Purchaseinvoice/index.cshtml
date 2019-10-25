@@ -177,8 +177,9 @@
 
 
         var table = $('#dataTables-example').DataTable({ "sPaginationType": "full_numbers" });
-        f2();
+       // f2();
         table.draw();
+        table.search('').columns().search('').draw();
 
         table.columns().every(function () {
             var that = this;
@@ -227,6 +228,7 @@
                     dataType: "json",
                     success: function (data) {
                         debugger;
+                        $('#result').html('');
                         $('#result').html(data.view);
                         hideLoading();
                     },

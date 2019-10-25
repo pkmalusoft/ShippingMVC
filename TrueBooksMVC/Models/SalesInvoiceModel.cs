@@ -71,7 +71,9 @@ namespace TrueBooksMVC.Models
                 SI.Remarks = item.Remarks;
                 SI.FYearID = item.FYearID;
                 SI.DeliveryId = item.DeliveryId;
-              
+                SI.DiscountType = item.DiscountType;
+                SI.DiscountValueLC = item.DiscountValueLC;
+                SI.DiscountValueFC = item.DiscountValueFC;
 
             }
 

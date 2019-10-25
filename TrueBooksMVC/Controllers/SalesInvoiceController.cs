@@ -139,11 +139,11 @@ namespace TrueBooksMVC.Controllers
                 SID.RateFC = RateFC;
 
                 decimal Value = 0;
-                if (formCollection.GetValue("Value_" + InvoiceDetailsArray[c]) != null)
-                {
-                    strArray = (string[])formCollection.GetValue("Value_" + InvoiceDetailsArray[c]).RawValue;
-                    decimal.TryParse(strArray[0], out Value);
-                }
+              //  if (formCollection.GetValue("Value_" + InvoiceDetailsArray[c]) != null)
+               // {
+                //    strArray = (string[])formCollection.GetValue("Value_" + InvoiceDetailsArray[c]).RawValue;
+                 //   decimal.TryParse(strArray[0], out Value);
+               // }
                 SID.Value = Value;
 
 
@@ -223,6 +223,10 @@ namespace TrueBooksMVC.Controllers
             SI.FYearID = Common.ParseInt(Session["fyearid"].ToString());
             SI.DeliveryId = Common.ParseInt(formCollection["DeliveryId"]);
             SI.QuotationNumber =(formCollection["QuotationNumber"]);
+            SI.DiscountType = Common.ParseInt(formCollection["DiscountType"]);
+            SI.DiscountValueLC = Common.ParseDecimal(formCollection["discount"]);
+            SI.DiscountValueFC = Common.ParseDecimal(formCollection["discountFC"]);
+
             BindAllMasters();
             if (Session["UserID"] == null)
             {

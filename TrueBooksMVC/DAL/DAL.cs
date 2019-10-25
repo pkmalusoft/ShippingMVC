@@ -119,6 +119,14 @@ namespace TrueBooksMVC
             cmd.Parameters.Add("@DeliveryId", SqlDbType.Int);
             cmd.Parameters["@DeliveryId"].Value = SI.DeliveryId;
 
+            cmd.Parameters.Add("@DiscountType", SqlDbType.Int);
+            cmd.Parameters["@DiscountType"].Value = SI.DiscountType;
+
+            cmd.Parameters.Add("@DiscountValueLC", SqlDbType.Decimal);
+            cmd.Parameters["@DiscountValueLC"].Value = SI.DiscountValueLC;
+
+            cmd.Parameters.Add("@DiscountValueFC", SqlDbType.Decimal);
+            cmd.Parameters["@DiscountValueFC"].Value = SI.DiscountValueFC;
 
             try
             {
@@ -243,6 +251,14 @@ namespace TrueBooksMVC
             cmd.Parameters.Add("@DeliveryId", SqlDbType.Int);
             cmd.Parameters["@DeliveryId"].Value = SI.DeliveryId;
 
+            cmd.Parameters.Add("@DiscountType", SqlDbType.Int);
+            cmd.Parameters["@DiscountType"].Value = SI.DiscountType;
+
+            cmd.Parameters.Add("@DiscountValueLC", SqlDbType.Decimal);
+            cmd.Parameters["@DiscountValueLC"].Value = SI.DiscountValueLC;
+
+            cmd.Parameters.Add("@DiscountValueFC", SqlDbType.Decimal);
+            cmd.Parameters["@DiscountValueFC"].Value = SI.DiscountValueFC;
 
             try
             {
@@ -768,7 +784,7 @@ namespace TrueBooksMVC
             cmd.Parameters.Add("@ItemUnitID", SqlDbType.Int);
             cmd.Parameters["@ItemUnitID"].Value = SID.ItemUnitID;
 
-            cmd.Parameters.Add("@RateType", SqlDbType.Int);
+            cmd.Parameters.Add("@RateType", SqlDbType.NVarChar);
             cmd.Parameters["@RateType"].Value = SID.RateType;
 
             cmd.Parameters.Add("@RateLC", SqlDbType.Decimal);

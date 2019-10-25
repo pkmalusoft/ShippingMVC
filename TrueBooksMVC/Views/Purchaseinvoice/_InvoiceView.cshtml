@@ -22,6 +22,8 @@
          var table = $('#dataTables-example').DataTable();
 
          table.draw();
+         table.search('').columns().search('').draw();
+
          table.columns().every(function () {
              var that = this;
 

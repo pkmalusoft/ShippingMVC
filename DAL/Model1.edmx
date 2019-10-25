@@ -891,6 +891,9 @@ warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.PurchaseInvoiceDetails'
           <Property Name="Remarks" Type="nvarchar(max)" />
           <Property Name="FYearID" Type="int" />
           <Property Name="DeliveryId" Type="int" />
+          <Property Name="DiscountType" Type="int" />
+          <Property Name="DiscountValueLC" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="DiscountValueFC" Type="decimal" Precision="18" Scale="2" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.SalesInvoiceDetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -2114,6 +2117,9 @@ warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.qrySupplierOutstanding'
           <Parameter Name="Remarks" Type="nvarchar(max)" Mode="In" />
           <Parameter Name="FYearID" Type="int" Mode="In" />
           <Parameter Name="DeliveryId" Type="int" Mode="In" />
+          <Parameter Name="DiscountType" Type="int" Mode="In"  />
+          <Parameter Name="DiscountValueLC" Type="decimal" Mode="In"  />
+          <Parameter Name="DiscountValueFC" Type="decimal" Mode="In" />
         </Function>
         <Function Name="SP_InsertUserDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="UserName" Type="varchar" Mode="In" />
@@ -2241,6 +2247,9 @@ warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.qrySupplierOutstanding'
           <Parameter Name="Remarks" Type="nvarchar(max)" Mode="In" />
           <Parameter Name="FYearID" Type="int" Mode="In" />
           <Parameter Name="DeliveryId" Type="int" Mode="In" />
+          <Parameter Name="DiscountType" Type="int" Mode="In"  />
+          <Parameter Name="DiscountValueLC" Type="decimal" Mode="In"  />
+          <Parameter Name="DiscountValueFC" Type="decimal" Mode="In"  />
         </Function>
         <Function Name="SPGetAllLocalCurrencyCostUpdation" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="AcFinancialYearID" Type="int" Mode="In" />
@@ -3758,6 +3767,9 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
             <Parameter Name="Remarks" Mode="In" Type="String" />
             <Parameter Name="FYearID" Mode="In" Type="Int32" />
             <Parameter Name="DeliveryId" Mode="In" Type="Int32" />
+            <Parameter Name="DiscountType" Mode="In" Type="Int32" />
+            <Parameter Name="DiscountValueLC" Mode="In" Type="Decimal" />
+            <Parameter Name="DiscountValueFC" Mode="In" Type="Decimal" />
           </FunctionImport>
           <FunctionImport Name="SP_InsertSalesInvoice">
             <Parameter Name="SalesInvoiceId" Mode="InOut" Type="Int32" />
@@ -3781,6 +3793,9 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
             <Parameter Name="Remarks" Mode="In" Type="String" />
             <Parameter Name="FYearID" Mode="In" Type="Int32" />
             <Parameter Name="DeliveryId" Mode="In" Type="Int32" />
+            <Parameter Name="DiscountType" Mode="In" Type="Int32" />
+            <Parameter Name="DiscountValueLC" Mode="In" Type="Decimal" />
+            <Parameter Name="DiscountValueFC" Mode="In" Type="Decimal" />
           </FunctionImport>
           <EntitySet Name="SalesInvoices" EntityType="SHIPPING_FinalModel.SalesInvoice" />
           <FunctionImport Name="SP_GetSalesInvoiceByID" ReturnType="Collection(SHIPPING_FinalModel.SP_GetSalesInvoiceByID_Result)">
@@ -6817,6 +6832,9 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Name="Remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="FYearID" Type="Int32" />
           <Property Name="DeliveryId" Type="Int32" />
+          <Property Name="DiscountType" Type="Int32" />
+          <Property Name="DiscountValueLC" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="DiscountValueFC" Type="Decimal" Precision="18" Scale="2" />
         </EntityType>
         <ComplexType Name="SP_GetSalesInvoiceByID_Result">
           <Property Type="Int32" Name="SalesInvoiceID" Nullable="false" />
@@ -6840,6 +6858,9 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Type="String" Name="Remarks" Nullable="true" />
           <Property Type="Int32" Name="FYearID" Nullable="true" />
           <Property Type="Int32" Name="DeliveryId" Nullable="true" />
+          <Property Type="Int32" Name="DiscountType" Nullable="true" />
+          <Property Type="Decimal" Name="DiscountValueLC" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="DiscountValueFC" Nullable="true" Precision="18" Scale="2" />
         </ComplexType>
         <EntityType Name="PurchaseInvoice">
           <Key>
@@ -10177,6 +10198,9 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
                 <ScalarProperty Name="SalesInvoiceDate" ColumnName="SalesInvoiceDate" />
                 <ScalarProperty Name="SalesInvoiceNo" ColumnName="SalesInvoiceNo" />
                 <ScalarProperty Name="SalesInvoiceID" ColumnName="SalesInvoiceID" />
+                <ScalarProperty Name="DiscountType" ColumnName="DiscountType" />
+                <ScalarProperty Name="DiscountValueLC" ColumnName="DiscountValueLC" />
+                <ScalarProperty Name="DiscountValueFC" ColumnName="DiscountValueFC" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

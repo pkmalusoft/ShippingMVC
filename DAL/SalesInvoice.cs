@@ -35,5 +35,8 @@ namespace DAL
         public string Remarks { get; set; }
         public Nullable<int> FYearID { get; set; }
         public Nullable<int> DeliveryId { get; set; }
+        public Nullable<int> DiscountType { get; set; }
+        public Nullable<decimal> DiscountValueLC { get; set; }
+        public Nullable<decimal> DiscountValueFC { get; set; }
     }
 }
