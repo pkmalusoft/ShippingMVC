@@ -69,7 +69,9 @@ namespace TrueBooksMVC.Models
                 PI.PaymentTerm = item.PaymentTerm;
                 PI.Remarks = item.Remarks;
                 PI.FYearID = item.FYearID;
-
+                PI.DiscountType = item.DiscountType;
+                PI.DiscountValueFC = item.DiscountValueFC;
+                PI.DiscountValueLC = item.DiscountValueLC;
 
 
             }

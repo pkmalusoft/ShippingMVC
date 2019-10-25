@@ -1583,3 +1583,169 @@ SET @SalesInvoiceId = SCOPE_IDENTITY();
 return @SalesInvoiceId;
 END
 
+-------------------------------------------------------------------------------------------------------------------------
+ALTER TABLE PurchaseInvoice Add DiscountType int;
+ALTER TABLE PurchaseInvoice ADD DiscountValueLC decimal(18,2);
+ALTER TABLE PurchaseInvoice ADD DiscountValueFC decimal(18,2);
+
+-------------------------------------------------------------------------------------------------------------------------
+
+
+USE [DB_9F57C4_ShippingTest]
+GO
+/****** Object:  StoredProcedure [dbo].[SP_InsertPurchaseInvoice]    Script Date: 25-10-2019 15:00:08 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+ALTER proc [dbo].[SP_InsertPurchaseInvoice]
+(
+@PurchaseInvoiceId int=0 output,
+@PurchaseInvoiceNo nvarchar(50),
+@PurchaseInvoiceDate datetime,
+@Reference nvarchar(50),
+@LPOReference nvarchar(50),
+@SupplierID int,
+@EmployeeeID int,
+@QuotationNumber nvarchar(100)= '',
+@CurrencyID int,
+@ExchangeRate decimal,
+@CreditDays int,
+@DueDate datetime,
+@AcJouranalID int,
+@BranchID int,
+@Discount decimal,
+@StatusDiscountAmt bit,
+@OtherCharges decimal,
+@PaymentTerm nvarchar(max),
+@Remarks nvarchar(max),
+@FYearID int,
+@DiscountType int,
+@DiscountValueLC decimal(18,2),
+@DiscountValueFC decimal(18,2)
+)
+AS
+Begin
+Declare @MaxId int;
+SELECT @MaxId = MAX(@PurchaseInvoiceId) FROM PurchaseInvoice;
+
+SET @PurchaseInvoiceNo = RIGHT('0000' + CAST(@MaxId AS VARCHAR(5)),5);
+SET @PurchaseInvoiceNo = 'PI-' + @PurchaseInvoiceNo;
+
+ INSERT INTO [PurchaseInvoice] 
+           ([PurchaseInvoiceNo],
+		   [PurchaseInvoiceDate],
+		     [Reference],
+			   [LPOReference],
+			   [SupplierID],
+			   [EmployeeID],
+			   [QuotationNumber],
+			   [CurrencyID],
+			   [ExchangeRate],
+			    [CreditDays],
+			   [DueDate],
+			   [AcJournalID],
+			   [BranchID],
+			   [Discount],
+			   [StatusDiscountAmt],
+			   [OtherCharges],
+			   [PaymentTerm],
+			   [Remarks],
+			   [FYearID],
+			 [DiscountType],
+	[DiscountValueLC],
+	[DiscountValueFC]
+         )
+     VALUES
+           (
+          @PurchaseInvoiceNo, 
+@PurchaseInvoiceDate,
+@Reference,
+@LPOReference,
+@SupplierID,
+@EmployeeeID,
+@QuotationNumber,
+@CurrencyID,
+@EXchangeRate,
+@CreditDays,
+@DueDate,
+@AcJouranalID,
+@BranchID,
+@Discount,
+@StatusDiscountAmt,
+@OtherCharges,
+@PaymentTerm,
+@Remarks,
+@FYearID,
+@DiscountType,
+@DiscountValueLC,
+@DiscountValueFC
+         )
+		  SET @PurchaseInvoiceId = SCOPE_IDENTITY();
+		 return @PurchaseInvoiceId;
+END
+
+------------------------------------------------------------------------------------------------------------------------
+USE [DB_9F57C4_ShippingTest]
+GO
+/****** Object:  StoredProcedure [dbo].[SP_UpdatePurchaseInvoice]    Script Date: 25-10-2019 15:04:47 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER proc [dbo].[SP_UpdatePurchaseInvoice]
+(
+@PurchaseInvoiceId int=0,
+@PurchaseInvoiceNo nvarchar(50),
+@PurchaseInvoiceDate datetime,
+@Reference nvarchar(50),
+@LPOReference nvarchar(50),
+@SupplierID int,
+@EmployeeeID int,
+@QuotationNumber nvarchar(100)='',
+@CurrencyID int,
+@ExchangeRate decimal,
+@CreditDays int,
+@DueDate datetime,
+@AcJouranalID int,
+@BranchID int,
+@Discount decimal,
+@StatusDiscountAmt bit,
+@OtherCharges decimal,
+@PaymentTerm nvarchar(max),
+@Remarks nvarchar(max),
+@FYearID int,
+@DiscountType int,
+@DiscountValueLC decimal(18,2),
+@DiscountValueFC decimal(18,2)
+)
+AS
+Begin
+
+UPDATE [PurchaseInvoice]  SET 
+         [PurchaseInvoiceNo]=@PurchaseInvoiceNo,
+		   [PurchaseInvoiceDate]=@PurchaseInvoiceDate,
+		     [Reference]=@Reference,
+			   [LPOReference]=@LPOReference,
+			   [SupplierID]=@SupplierID,
+			   [EmployeeID]=@EmployeeeID,
+			   [QuotationNumber]=@QuotationNumber,
+			   [CurrencyID]=@CurrencyID,
+			   [ExchangeRate]=@ExchangeRate,
+			    [CreditDays]=@CreditDays,
+			   [DueDate]=@DueDate,
+			   [AcJournalID]=@AcJouranalID,
+			   [BranchID]=@BranchID,
+			   [Discount]=@Discount,
+			   [StatusDiscountAmt]=@StatusDiscountAmt,
+			   [OtherCharges]=@OtherCharges,
+			   [PaymentTerm]=@PaymentTerm,
+			   [Remarks]=@Remarks,
+			   [FYearID]=@FYearID,
+			   [DiscountType] = @DiscountType,
+	[DiscountValueLC] = @DiscountValueLC,
+	[DiscountValueFC] = @DiscountValueFC
+		WHERE PurchaseInvoiceID=@PurchaseInvoiceId
+  
+END

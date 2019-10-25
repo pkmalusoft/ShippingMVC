@@ -12,7 +12,9 @@
 <script type="text/javascript">
 
      $(document).ready(function () {
-
+         $('#dataTables-example').dataTable({
+             "searching": false
+         });
          $('#dataTables-example tfoot th').each(function () {
              var title = $(this).text();
              $(this).html('<input type="text"  style="width:90%" />');

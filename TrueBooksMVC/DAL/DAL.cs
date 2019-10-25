@@ -413,9 +413,16 @@ namespace TrueBooksMVC
             cmd.Parameters["@Remarks"].Value = PI.Remarks;
 
             cmd.Parameters.Add("@FYearID", SqlDbType.Int);
-            cmd.Parameters["@FYearID"].Value = PI.FYearID;
+            cmd.Parameters["@FYearID"].Value = PI.FYearID;                     
 
-           
+            cmd.Parameters.Add("@DiscountType", SqlDbType.Int);
+            cmd.Parameters["@DiscountType"].Value = PI.DiscountType;
+
+            cmd.Parameters.Add("@DiscountValueLC", SqlDbType.Decimal);
+            cmd.Parameters["@DiscountValueLC"].Value = PI.DiscountValueLC;
+
+            cmd.Parameters.Add("@DiscountValueFC", SqlDbType.Decimal);
+            cmd.Parameters["@DiscountValueFC"].Value = PI.DiscountValueFC;
 
 
 
@@ -542,7 +549,14 @@ namespace TrueBooksMVC
             cmd.Parameters.Add("@FYearID", SqlDbType.Int);
             cmd.Parameters["@FYearID"].Value = PI.FYearID;
 
+            cmd.Parameters.Add("@DiscountType", SqlDbType.Int);
+            cmd.Parameters["@DiscountType"].Value = PI.DiscountType;
 
+            cmd.Parameters.Add("@DiscountValueLC", SqlDbType.Decimal);
+            cmd.Parameters["@DiscountValueLC"].Value = PI.DiscountValueLC;
+
+            cmd.Parameters.Add("@DiscountValueFC", SqlDbType.Decimal);
+            cmd.Parameters["@DiscountValueFC"].Value = PI.DiscountValueFC;
 
 
             try

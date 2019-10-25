@@ -15,9 +15,9 @@
     @*      @Scripts.Render("~/NewDesignFiles/jquery.min.js")*@
 
     @*<link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">*@
-    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
-    @*
-        <link rel="stylesheet" href="/resources/demos/style.css">*@
+      <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+    
+    @*<link rel="stylesheet" href="/resources/demos/style.css">*@
 
 
     @Styles.Render("~/content/css/bootstrap-inputs.css")
@@ -25,13 +25,13 @@
     <!-- JS SCRIPTS -->
     <script src="~/Content/NewCSS/plugins/jQuery/jQuery-2.2.0.min.js"></script>
     <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
-
     <script src="~/Content/jquery-ui.js"></script>
     <script src="~/Content/NewCSS/bootstrap/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" />
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
     <script src="~/Content/NewCSS/js/app.min.js"></script>
     <script src="~/Content/jquery.dataTables.min.js"></script>
     <script src="~/Content/NewCSS/js/menu.js"></script>
-
     <script src="~/Scripts/notify.js"></script>
     <script src="~/Scripts/notify.min.js"></script>
     <!-- css files -->
@@ -47,17 +47,11 @@
         /*.panel-body {
             background-color:silver !important;
         }*/
-        html, button, input, optgroup, select, textarea {
-            font-family: 'Montserrat', sans-serif !important;
-        }
+        html, button, input, optgroup, select, textarea {font-family: 'Montserrat', sans-serif !important;}
 
-        .field-validation-error {
-            color: #ff0000;
-        }
+        .field-validation-error {color: #ff0000;}
 
-        .field-validation-valid {
-            display: none;
-        }
+        .field-validation-valid {display: none;}
 
         .input-validation-error {
             border: 1px solid #ff0000;
@@ -234,6 +228,7 @@
                 height: 128px;
                 width: 128px;
             }
+
         option {
             border: 1px solid;
             margin-top: -2px;

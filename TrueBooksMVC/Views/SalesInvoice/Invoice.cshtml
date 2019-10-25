@@ -309,10 +309,10 @@
                         <div class="col-md-3" style="text-align: center;">
                         </div>
                         <div class="col-md-3">
-                            <input type="text" class="form-control"  name="TotalValueLC" id="TotalValueLC" style="display: inline-block;width: 100%;">
+                            <input type="text" class="form-control TotalValueLC"  name="TotalValueLC" id="TotalValueLC" style="display: inline-block;width: 100%;">
                         </div>
                         <div class="col-md-3">
-                            <input type="text" class="form-control"  name="TotalValueFC" id="TotalValueFC" style="display: inline-block;width: 100%;">
+                            <input type="text" class="form-control TotalValueFC"  name="TotalValueFC" id="TotalValueFC" style="display: inline-block;width: 100%;">
                         </div>
                     </div>
                 </div>
@@ -469,6 +469,10 @@
         });
 
         $('#charges_table').on('change','.discountamou', function () {
+            CalculateValue();
+        });
+
+        $('input[name=DiscountType]').on('change', function () {
             CalculateValue();
         });
 

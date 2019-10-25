@@ -222,7 +222,10 @@ namespace TrueBooksMVC.Controllers
             PI.PaymentTerm = "";
             PI.Remarks = (formCollection["Remarks"]);
             PI.FYearID = Common.ParseInt(Session["fyearid"].ToString());
-            
+            PI.DiscountType = Common.ParseInt(formCollection["DiscountType"]);
+            PI.DiscountValueFC = Common.ParseDecimal(formCollection["discountFC"]);
+            PI.DiscountValueLC = Common.ParseDecimal(formCollection["discount"]);
+
             BindAllMasters();
             if (Session["UserID"] == null)
             {

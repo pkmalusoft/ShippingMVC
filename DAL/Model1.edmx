@@ -2048,6 +2048,9 @@ warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.qrySupplierOutstanding'
           <Parameter Name="PaymentTerm" Type="nvarchar(max)" Mode="In" />
           <Parameter Name="Remarks" Type="nvarchar(max)" Mode="In" />
           <Parameter Name="FYearID" Type="int" Mode="In" />
+          <Parameter Name="DiscountType" Type="int" Mode="In" />
+          <Parameter Name="DiscountValueLC" Type="decimal" Precision="18" Scale="2" Mode="In" />
+          <Parameter Name="DiscountValueFC" Type="decimal" Precision="18" Scale="2" Mode="In" />
         </Function>
         <Function Name="SP_InsertRecPay" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="RecPayDate" Type="datetime" Mode="In" />
@@ -2224,6 +2227,9 @@ warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.qrySupplierOutstanding'
           <Parameter Name="PaymentTerm" Type="nvarchar(max)" Mode="In" />
           <Parameter Name="Remarks" Type="nvarchar(max)" Mode="In" />
           <Parameter Name="FYearID" Type="int" Mode="In" />
+          <Parameter Name="DiscountType" Type="int" Mode="In" />
+          <Parameter Name="DiscountValueLC" Type="decimal" Precision="18" Scale="2" Mode="In" />
+          <Parameter Name="DiscountValueFC" Type="decimal" Precision="18" Scale="2" Mode="In" />
         </Function>
         <Function Name="SP_UpdateSalesInvoice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="SalesInvoiceId" Type="int" Mode="In" />
@@ -3715,6 +3721,9 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
             <Parameter Name="PaymentTerm" Mode="In" Type="String" />
             <Parameter Name="Remarks" Mode="In" Type="String" />
             <Parameter Name="FYearID" Mode="In" Type="Int32" />
+            <Parameter Name="DiscountType" Type="Int32" Mode="In" />
+            <Parameter Name="DiscountValueLC" Type="Decimal" Precision="18" Scale="2" Mode="In" />
+            <Parameter Name="DiscountValueFC" Type="Decimal" Precision="18" Scale="2" Mode="In" />
           </FunctionImport>
           <FunctionImport Name="SP_UpdatePurchaseInvoice">
             <Parameter Name="PurchaseInvoiceId" Mode="In" Type="Int32" />
@@ -3737,6 +3746,9 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
             <Parameter Name="PaymentTerm" Mode="In" Type="String" />
             <Parameter Name="Remarks" Mode="In" Type="String" />
             <Parameter Name="FYearID" Mode="In" Type="Int32" />
+            <Parameter Name="DiscountType" Type="Int32" Mode="In" />
+            <Parameter Name="DiscountValueLC" Type="Decimal" Precision="18" Scale="2" Mode="In" />
+            <Parameter Name="DiscountValueFC" Type="Decimal" Precision="18" Scale="2" Mode="In" />
           </FunctionImport>
           <FunctionImport Name="SP_DeletePurchaseInvoice">
           <Parameter Name="PurchaseInvoiceId" Mode="In" Type="Int32" />
@@ -6908,6 +6920,9 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Type="String" Name="PaymentTerm" Nullable="true" />
           <Property Type="String" Name="Remarks" Nullable="true" />
           <Property Type="Int32" Name="FYearID" Nullable="true" />
+          <Property Name="DiscountType" Type="Int32" Nullable="true" />
+          <Property Name="DiscountValueLC" Type="Decimal" Precision="18" Scale="2" Nullable="true" />
+          <Property Name="DiscountValueFC" Type="Decimal" Precision="18" Scale="2" Nullable="true" />
         </ComplexType>
         <ComplexType Name="SP_GetAllProductServices_Result">
           <Property Type="Int32" Name="ProductID" Nullable="false" />
