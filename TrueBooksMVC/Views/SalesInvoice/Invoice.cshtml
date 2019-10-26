@@ -8,6 +8,7 @@
 
 
 <style>
+
     input, select {
         border-radius: 3px !important;
     }
@@ -78,6 +79,19 @@
 <div class="containers">
     <section class="content jobform">
 
+        <div style="display:none;">
+            @Html.DropDownList("Unit", (SelectList)ViewBag.Unit, "Select", new { @class = "Unit_demo_class", id = "Unit", @style = "height: 22px" })
+
+        </div>
+
+        <div style="display:none;">
+            @Html.DropDownList("Job", (SelectList)ViewBag.Job, "Select", new { @class = "Job_demo_class", @name = "Job", id = "Job", @style = "width: 100px; height: 21px;" })
+        </div>
+        <div style="display:none;">
+            @Html.DropDownList("Product", (SelectList)ViewBag.Product, "Select", new { @class = "Product_demo_class", @name = "Product", id = "Product", @style = "width: 100px; height: 21px;" })
+
+        </div>
+
         @Html.BeginForm() {
 
 
@@ -98,18 +112,14 @@
             <div class="col-md-4">
                 <label class="headinglabel">Invoice Due Date:</label>
                 @Html.TextBoxFor(model => model.DueDate, "{0:dd-MMM-yyyy}", new { @id = "DueDate", @class = "form-control" })
-
-
             </div>
-
-
-
         </div>
         <div class="row no-margin" style="padding-top: 10px">
 
             <div class="col-md-4">
                 <label class="headinglabel">Client Name:</label>
-                @Html.DropDownListFor(model => model.CustomerID, (SelectList)ViewBag.Customer, "Select Customer", new { @class = "form-control" })
+                <input type="text" id="CustomerID" value="" class="form-control" />
+                @Html.HiddenFor(model => model.CustomerID, new { id = "SelectedCustomerID", Name = "SelectedCustomerID" })
             </div>
             <div class="col-md-4">
                 <label class="headinglabel">Quotation Number | Date:</label>
@@ -117,17 +127,16 @@
             </div>
             <div class="col-md-4">
                 <label class="headinglabel">Currency:</label>
-                @Html.DropDownListFor(model => model.CurrencyID, (SelectList)ViewBag.Curency, "Select Currency", new { @class = "form-control getcurrency" })
+                <input type="text" id="CurrencyID" value="" class="form-control" />
+                @Html.HiddenFor(model => model.CurrencyID, new { id = "SelectedCurrencyID", Name = "SelectedCurrencyID" })
             </div>
-
-
-
         </div>
         <div class="row no-margin" style="padding-top: 10px">
 
             <div class="col-md-4">
                 <label class="headinglabel">Delivery Location:</label>
-                @Html.DropDownListFor(model => model.DeliveryId, (SelectList)ViewBag.Ports, "Select Delivery", new { @class = "form-control" })
+                <input type="text" id="DeliveryId" value="" class="form-control" />
+                @Html.HiddenFor(model => model.DeliveryId, new { id = "SelectedDeliveryId", Name = "SelectedDeliveryId" })
             </div>
             <div class="col-md-4">
                 <label class="headinglabel">LPO Number | Date:</label>
@@ -137,7 +146,6 @@
                 <label class="headinglabel">Exchange Rate :</label>
                 @Html.TextBoxFor(model => model.ExchangeRate, new { @class = "form-control ExchangeRate", id = "ExchangeRate", required = "required" })
             </div>
-
         </div>
         <div class="row no-margin" style="padding-top: 10px">
 
@@ -152,7 +160,8 @@
             </div>
             <div class="col-md-4">
                 <label class="headinglabel">Salesman :</label>
-                @Html.DropDownListFor(model => model.EmployeeID, (SelectList)ViewBag.Employees, "Select Employees", new { @class = "form-control" })
+                <input type="text" id="EmployeeID" value="" class="form-control" />
+                @Html.HiddenFor(model => model.EmployeeID, new { id = "SelectedEmployeeID", Name = "SelectedEmployeeID" })
             </div>
 
         </div>
@@ -163,23 +172,9 @@
             <div class="row no-margin" id="AddCharges" style="padding-top: 10px">
                 <div class="col-xs-12 no-padding for-device">
                     <div class="data-table tblsbackground" style="width:100%;">
-                        <div style="display:none;">
-                            @Html.DropDownList("Unit", (SelectList)ViewBag.Unit, "Select", new { @class = "Unit_demo_class", id = "Unit", @style = "height: 22px" })
-
-                        </div>
-
-                        <div style="display:none;">
-                            @Html.DropDownList("Job", (SelectList)ViewBag.Job, "Select", new { @class = "Job_demo_class", @name = "Job", id = "Job", @style = "width: 100px; height: 21px;" })
-                        </div>
-                        <div style="display:none;">
-                            @Html.DropDownList("Product", (SelectList)ViewBag.Product, "Select", new { @class = "Product_demo_class", @name = "Product", id = "Product", @style = "width: 100px; height: 21px;" })
-
-                        </div>
-
                         <div class="data" style="overflow:auto;">
                             <table border="1" class="table table-responsive table-bordered smalltablewidth fulltablewidth " id="charges_table" index="1">
                                 <tr>
-
                                     <td width="5%">
                                         S. No
                                     </td>
@@ -262,7 +257,7 @@
                             <label class="headinglabel">Invoice Total :</label>
                         </div>
                         <div class="col-md-3">
-                            <input type="text" class="form-control" id="TotalLC" placeholder=" Local Currencey"  name="Local" style="display: inline-block;
+                            <input type="text" class="form-control" id="TotalLC" placeholder=" Local Currencey" name="Local" style="display: inline-block;
     width: 100%;">
                         </div>
                         <div class="col-md-3">
@@ -279,7 +274,7 @@
     width: 100%;">
                         </div>
                         <div class="col-md-3">
-                            <input type="text" class="form-control Tax_FC"  name="Tax_FC" style="display: inline-block;
+                            <input type="text" class="form-control Tax_FC" name="Tax_FC" style="display: inline-block;
    width: 100%;">
                         </div>
 
@@ -298,21 +293,21 @@
                         </div>
                         <div class="col-md-3">
                             @Html.TextBoxFor(model => model.DiscountValueLC, new { @class = "form-control discountamou", id = "discount", name = "discount", style = "display: inline-block;width: 100%;" })
-                           
+
                         </div>
                         <div class="col-md-3">
                             @Html.TextBoxFor(model => model.DiscountValueFC, new { @class = "form-control discountamouFC", id = "discountFC", name = "discountFC", style = "display: inline-block;width: 100%;" })
-                            
+
                         </div>
                     </div>
                     <div class="row no-margin" style="padding-top: 10px">
                         <div class="col-md-3" style="text-align: center;">
                         </div>
                         <div class="col-md-3">
-                            <input type="text" class="form-control TotalValueLC"  name="TotalValueLC" id="TotalValueLC" style="display: inline-block;width: 100%;">
+                            <input type="text" class="form-control TotalValueLC" name="TotalValueLC" id="TotalValueLC" style="display: inline-block;width: 100%;">
                         </div>
                         <div class="col-md-3">
-                            <input type="text" class="form-control TotalValueFC"  name="TotalValueFC" id="TotalValueFC" style="display: inline-block;width: 100%;">
+                            <input type="text" class="form-control TotalValueFC" name="TotalValueFC" id="TotalValueFC" style="display: inline-block;width: 100%;">
                         </div>
                     </div>
                 </div>
@@ -326,7 +321,7 @@
                     }
                     else
                     {
-                        <input type="submit" name="Command" value="Save"  class="btn btn-primary btnwidth" id="btnSave" />
+                        <input type="submit" name="Command" value="Save" class="btn btn-primary btnwidth" id="btnSave" />
                     }
                 }
                 &nbsp;
@@ -608,6 +603,177 @@
                 $('#TotalValueFC').val(parseFloat(TotalValueFC - discountFC).toFixed(2));
             }
         }
+
+        var SalesInvoiceID = $('#SalesInvoiceID').val();
+        $("#CurrencyID").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '/AutoComplete/Currency',
+                    datatype: "json",
+                    data: {
+                        term: request.term
+                    },
+                    success: function (data) {
+                        response($.map(data, function (val, item) {
+                            return {
+                                label: val.CurrencyName,
+                                value: val.CurrencyName,
+                                CurrencyID: val.CurrencyID
+                            }
+                        }))
+                    }
+                })
+            }, minLength: 1,
+            select: function (e, i) {
+                e.preventDefault();
+                $("#CurrencyID").val(i.item.label);
+                $('#SelectedCurrencyID').val(i.item.CurrencyID);
+            }
+        });
+        var SelectedCurrencyID = $('#SelectedCurrencyID').val();
+        if ((isNaN(SelectedCurrencyID) == false) && SalesInvoiceID != 0) {
+            $.ajax({
+                url: '/AutoComplete/CurrencyById',
+                datatype: "json",
+                data: {
+                    Id: SelectedCurrencyID
+                },
+                success: function (data) {
+                    debugger;
+                    $.each(data, function (index, element) {
+                        $('#CurrencyID').val(element.CurrencyName);
+                    });
+                }
+            });
+        }
+
+        $("#CustomerID").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '/AutoComplete/Customer',
+                    datatype: "json",
+                    data: {
+                        term: request.term
+                    },
+                    success: function (data) {
+                        response($.map(data, function (val, item) {
+                            return {
+                                label: val.Customer,
+                                value: val.Customer,
+                                CurrencyID: val.CustomerID
+                            }
+                        }))
+                    }
+                })
+            }, minLength: 1,
+            select: function (e, i) {
+                e.preventDefault();
+                $("#CustomerID").val(i.item.label);
+                $('#SelectedCustomerID').val(i.item.CustomerID);
+            }
+        });
+        var SelectedCustomerID = $('#SelectedCustomerID').val();
+        if ((isNaN(SelectedCustomerID) == false) && SalesInvoiceID != 0) {
+            $.ajax({
+                url: '/AutoComplete/CustomerById',
+                datatype: "json",
+                data: {
+                    Id: SelectedCustomerID
+                },
+                success: function (data) {
+                    debugger;
+                    $.each(data, function (index, element) {
+                        $('#CustomerID').val(element.Customer);
+                    });
+                }
+            });
+        }
+
+        $("#DeliveryId").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '/AutoComplete/Ports',
+                    datatype: "json",
+                    data: {
+                        term: request.term
+                    },
+                    success: function (data) {
+                        response($.map(data, function (val, item) {
+                            return {
+                                label: val.Port,
+                                value: val.Port,
+                                PortID: val.PortID
+                            }
+                        }))
+                    }
+                })
+            }, minLength: 1,
+            select: function (e, i) {
+                e.preventDefault();
+                $("#DeliveryId").val(i.item.label);
+                $('#SelectedDeliveryId').val(i.item.PortID);
+            }
+        });
+        var SelectedDeliveryId = $('#SelectedDeliveryId').val();
+        if ((isNaN(SelectedDeliveryId) == false) && SalesInvoiceID != 0) {
+            $.ajax({
+                url: '/AutoComplete/PortById',
+                datatype: "json",
+                data: {
+                    Id: SelectedDeliveryId
+                },
+                success: function (data) {
+                    debugger;
+                    $.each(data, function (index, element) {
+                        $('#DeliveryId').val(element.Port);
+                    });
+                }
+            });
+        }
+        
+        
+        $("#EmployeeID").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '/AutoComplete/Employee',
+                    datatype: "json",
+                    data: {
+                        term: request.term
+                    },
+                    success: function (data) {
+                        response($.map(data, function (val, item) {
+                            return {
+                                label: val.EmployeeName,
+                                value: val.EmployeeName,
+                                EmployeeID: val.EmployeeID
+                            }
+                        }))
+                    }
+                })
+            }, minLength: 1,
+            select: function (e, i) {
+                e.preventDefault();
+                $("#EmployeeID").val(i.item.label);
+                $('#SelectedEmployeeID').val(i.item.EmployeeID);
+            }
+        });
+        var SelectedEmployeeID = $('#SelectedEmployeeID').val();
+        if ((isNaN(SelectedEmployeeID) == false) && PurchaseInvoiceID != 0) {
+            $.ajax({
+                url: '/AutoComplete/EmployeeById',
+                datatype: "json",
+                data: {
+                    Id: SelectedCurrencyID
+                },
+                success: function (data) {
+                    debugger;
+                    $.each(data, function (index, element) {
+                        $('#EmployeeID').val(element.EmployeeName);
+                    });
+                }
+            });
+        }
+
     });
 
 </script>

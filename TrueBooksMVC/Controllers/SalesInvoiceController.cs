@@ -207,9 +207,9 @@ namespace TrueBooksMVC.Controllers
             SI.SalesInvoiceDate = Common.ParseDate(formCollection["SalesInvoiceDate"]);
             SI.Reference = (formCollection["Reference"]);
             SI.LPOReference = (formCollection["LPOReference"]);
-            SI.CustomerID = Common.ParseInt(formCollection["CustomerID"]);
+            SI.CustomerID = Common.ParseInt(formCollection["SelectedCustomerID"]);
             SI.EmployeeID = Common.ParseInt(formCollection["EmployeeeID"]);
-            SI.CurrencyID = Common.ParseInt(formCollection["CurrencyID"]);
+            SI.CurrencyID = Common.ParseInt(formCollection["SelectedCurrencyID"]);
             SI.ExchangeRate = Common.ParseDecimal(formCollection["ExchangeRate"]);
             SI.CreditDays = 0;
             SI.DueDate = Common.ParseDate(formCollection["DueDate"]);
@@ -221,7 +221,7 @@ namespace TrueBooksMVC.Controllers
             SI.PaymentTerm = "";
             SI.Remarks = (formCollection["Remarks"]);
             SI.FYearID = Common.ParseInt(Session["fyearid"].ToString());
-            SI.DeliveryId = Common.ParseInt(formCollection["DeliveryId"]);
+            SI.DeliveryId = Common.ParseInt(formCollection["SelectedDeliveryId"]);
             SI.QuotationNumber =(formCollection["QuotationNumber"]);
             SI.DiscountType = Common.ParseInt(formCollection["DiscountType"]);
             SI.DiscountValueLC = Common.ParseDecimal(formCollection["discount"]);

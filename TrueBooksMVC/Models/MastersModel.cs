@@ -27,7 +27,18 @@ namespace TrueBooksMVC.Models
 
             return query;
         }
+        public List<SP_GetAllCustomers_Result> GetAllCustomer(string Term)
+        {
+            var query = Context1.SP_GetAllCustomers().Where(c => c.Customer.ToLower().Contains(Term.ToLower())).OrderBy(x => x.Customer).ToList();
 
+            return query;
+        }
+        public List<SP_GetAllCustomers_Result> GetCustomerById(int Id)
+        {
+            var query = Context1.SP_GetAllCustomers().Where(c => c.CustomerID.Equals(Id)).OrderBy(x => x.Customer).ToList();
+
+            return query;
+        }
         public List<SP_GetAllSupplier_Result> GetAllSupplier()
         {
             var query = Context1.SP_GetAllSupplier().OrderBy(x => x.SupplierName).ToList();
@@ -35,10 +46,32 @@ namespace TrueBooksMVC.Models
             return query;
         }
 
+        public List<SP_GetAllSupplier_Result> GetAllSupplier(string Term)
+        {
+            var query = Context1.SP_GetAllSupplier().Where(c => c.SupplierName.ToLower().Contains(Term.ToLower())).OrderBy(x => x.SupplierName).ToList();
+            return query;
+        }
+        public List<SP_GetAllSupplier_Result> GetSupplierById(int Id)
+        {
+            var query = Context1.SP_GetAllSupplier().Where(c => c.SupplierID.Equals(Id)).ToList();
+            return query;
+        }
         public List<SP_GetAllPorts_Result> GetAllPort()
         {
             var query = Context1.SP_GetAllPorts().OrderBy(x => x.Port).ToList();
 
+            return query;
+        }
+
+        public List<SP_GetAllPorts_Result> GetAllPorts(string Term)
+        {
+            var query = Context1.SP_GetAllPorts().Where(c => c.Port.ToLower().Contains(Term.ToLower())).OrderBy(x => x.Port).ToList();
+            return query;
+        }
+
+        public List<SP_GetAllPorts_Result> GetPortById(int Id)
+        {
+            var query = Context1.SP_GetAllPorts().Where(c => c.PortID.Equals(Id)).OrderBy(x => x.Port).ToList();
             return query;
         }
 
@@ -77,6 +110,18 @@ namespace TrueBooksMVC.Models
             return query;
         }
 
+        public List<SP_GetAllEmployees_Result> GetAllEmployees(string Term)
+        {
+            var query = Context1.SP_GetAllEmployees().Where(c => c.EmployeeName.ToLower().Contains(Term.ToLower())).OrderBy(x => x.EmployeeName).ToList();
+
+            return query;
+        }
+        public List<SP_GetAllEmployees_Result> GetEmployeeById(int Id)
+        {
+            var query = Context1.SP_GetAllEmployees().Where(c => c.EmployeeID.Equals(Id)).OrderBy(x => x.EmployeeName).ToList();
+
+            return query;
+        }
         public List<SP_GetAllCountries_Result> GetAllCountries()
         {
             var query = Context1.SP_GetAllCountries().OrderBy(x => x.CountryName).ToList();
@@ -98,6 +143,17 @@ namespace TrueBooksMVC.Models
             return query;
         }
 
+        public List<SP_GetCurrency_Result> GetCurrency(string Term)
+        {
+            var query = Context1.SP_GetCurrency().Where(c => c.CurrencyName.ToLower().Contains(Term.ToLower())).OrderBy(x => x.CurrencyName).ToList();
+
+            return query;
+        }
+        public List<SP_GetCurrency_Result> GetCurrencyById(int Id)
+        {
+            var query = Context1.SP_GetCurrency().Where(c => c.CurrencyID.Equals(Id)).ToList();
+            return query;
+        }
         public List<SP_GetAllRevenueType_Result> GetRevenueType()
         {
             return Context1.SP_GetAllRevenueType().OrderBy(x => x.RevenueType).ToList();

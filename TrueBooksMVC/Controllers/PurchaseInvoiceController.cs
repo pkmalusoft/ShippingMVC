@@ -207,10 +207,10 @@ namespace TrueBooksMVC.Controllers
             PI.PurchaseInvoiceDate = Common.ParseDate(formCollection["PurchaseInvoiceDate"]);
             PI.Reference = (formCollection["Reference"]);
             PI.LPOReference = (formCollection["LPOReference"]);
-            PI.SupplierID = Common.ParseInt(formCollection["SupplierID"]);
-            PI.EmployeeID = Common.ParseInt(formCollection["EmployeeID"]);
+            PI.SupplierID = Common.ParseInt(formCollection["SelectedSupplierID"]);
+            PI.EmployeeID = Common.ParseInt(formCollection["SelectedEmployeeID"]);
             PI.QuotationNumber = formCollection["QuotationNumber"];
-            PI.CurrencyID = Common.ParseInt(formCollection["CurrencyID"]);
+            PI.CurrencyID = Common.ParseInt(formCollection["SelectedCurrencyID"]);
             PI.ExchangeRate = Common.ParseDecimal(formCollection["ExchangeRate"]);
             PI.CreditDays = Common.ParseInt(formCollection["CreditDays"]);
             PI.DueDate = Common.ParseDate(formCollection["DueDate"]);
@@ -223,8 +223,8 @@ namespace TrueBooksMVC.Controllers
             PI.Remarks = (formCollection["Remarks"]);
             PI.FYearID = Common.ParseInt(Session["fyearid"].ToString());
             PI.DiscountType = Common.ParseInt(formCollection["DiscountType"]);
-            PI.DiscountValueFC = Common.ParseDecimal(formCollection["discountFC"]);
-            PI.DiscountValueLC = Common.ParseDecimal(formCollection["discount"]);
+            PI.DiscountValueFC = Common.ParseDecimal(formCollection["DiscountValueFC"]);
+            PI.DiscountValueLC = Common.ParseDecimal(formCollection["DiscountValueLC"]);
 
             BindAllMasters();
             if (Session["UserID"] == null)

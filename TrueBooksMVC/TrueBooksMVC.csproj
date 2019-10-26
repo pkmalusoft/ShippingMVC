@@ -263,6 +263,7 @@
     <Compile Include="Models\AcJournalDetailVM.cs" />
     <Compile Include="Models\AcJournalMasterVoucherVM.cs" />
     <Compile Include="Models\AcMemoJournalDetailVM.cs" />
+    <Compile Include="Models\AutoCompleteController.cs" />
     <Compile Include="Models\BankReconcilVM.cs" />
     <Compile Include="Models\BranchFinnancialYearVm.cs" />
     <Compile Include="Models\CargoDesClass.cs" />
