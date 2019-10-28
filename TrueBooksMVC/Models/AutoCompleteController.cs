@@ -134,5 +134,29 @@ namespace TrueBooksMVC.Models
             PortList = MM.GetPortById(Id);
             return Json(PortList, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult AccountHead(string term)
+        {
+            MastersModel MM = new MastersModel();
+            if (!String.IsNullOrEmpty(term))
+            {
+                List<AcHeadSelectAll_Result> AccountHeadList = new List<AcHeadSelectAll_Result>();
+                AccountHeadList = MM.AcHeadSelectAll(Common.ParseInt(Session["branchid"].ToString()),term);
+                return Json(AccountHeadList, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                List<AcHeadSelectAll_Result> AccountHeadList = new List<AcHeadSelectAll_Result>();
+                AccountHeadList = MM.AcHeadSelectAll(Common.ParseInt(Session["branchid"].ToString()));
+                return Json(AccountHeadList, JsonRequestBehavior.AllowGet);
+            }
+        }
+        public ActionResult AcHeadById(int Id)
+        {
+            MastersModel MM = new MastersModel();
+            List<AcHeadSelectAll_Result> AccountHeadList = new List<AcHeadSelectAll_Result>();
+            AccountHeadList = MM.AcHeadById(Common.ParseInt(Session["branchid"].ToString()),Id);
+            return Json(AccountHeadList, JsonRequestBehavior.AllowGet);
+        }
     }
 }

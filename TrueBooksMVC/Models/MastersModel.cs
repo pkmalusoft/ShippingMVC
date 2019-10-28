@@ -179,6 +179,16 @@ namespace TrueBooksMVC.Models
             return Context1.AcHeadSelectAll(branchID).OrderBy(x => x.AcHead).ToList();
         }
 
+        public List<AcHeadSelectAll_Result> AcHeadSelectAll(int branchID,string Term)
+        {
+            return Context1.AcHeadSelectAll(branchID).Where(c => c.AcHead.ToLower().Contains(Term.ToLower())).OrderBy(x => x.AcHead).ToList();
+        }
+
+        public List<AcHeadSelectAll_Result> AcHeadById(int branchID, int  Id)
+        {
+            return Context1.AcHeadSelectAll(branchID).Where(c => c.AcHeadID.Equals(Id)).OrderBy(x => x.AcHead).ToList();
+        }
+
         public List<SP_GetAllJobsDetails_Result> GetAllJobsDetails()
         {
             return Context1.SP_GetAllJobsDetails().OrderBy(x => x.JobCode).ToList();

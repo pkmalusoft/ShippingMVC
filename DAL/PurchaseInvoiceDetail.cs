@@ -27,6 +27,7 @@ namespace DAL
         public Nullable<decimal> Tax { get; set; }
         public Nullable<decimal> NetValue { get; set; }
         public Nullable<int> AcHeadID { get; set; }
+        public string AcHead { get; set; }
         public Nullable<int> JobID { get; set; }
         public string Description { get; set; }
     }

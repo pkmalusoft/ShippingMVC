@@ -346,8 +346,8 @@ namespace TrueBooksMVC.Controllers
             DataSet ds = DAL.GetPurchaseInvoiceDetailsById(InvoiceId);
             if (ds != null && ds.Tables.Count > 0)
             {
-                List<PurchaseInvoiceDetail> dtList = ds.Tables[0].AsEnumerable()
-        .Select(row => new PurchaseInvoiceDetail
+                List<PurchaseInvoiceDetailVM> dtList = ds.Tables[0].AsEnumerable()
+        .Select(row => new PurchaseInvoiceDetailVM
         {
             PurchaseInvoiceDetailID = int.Parse(row["PurchaseInvoiceDetailID"].ToString()),
             PurchaseInvoiceID = int.Parse(row["PurchaseInvoiceID"].ToString()),
@@ -362,6 +362,7 @@ namespace TrueBooksMVC.Controllers
             Tax = decimal.Parse(row["Tax"].ToString()),
             NetValue = decimal.Parse(row["NetValue"].ToString()),
             AcHeadID = int.Parse(row["AcHeadID"].ToString()),
+            AcHead = row["AcHead"].ToString(),
             JobID = int.Parse(row["JobID"].ToString()),
             Description = row["Description"].ToString()
         }).ToList();
