@@ -978,5 +978,22 @@ namespace TrueBooksMVC
             return dtList;
         }
 
+
+       public static DataSet SP_JobRegisterReportPrintByJObID(int JobId)
+        {
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = new SqlConnection(Common.GetConnectionString);
+            cmd.CommandText = "SP_JobRegisterReportPrintByJObID";
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.Add("@jobId", SqlDbType.Int);
+            cmd.Parameters["@jobId"].Value = JobId;
+
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet ds = new DataSet();
+            da.Fill(ds);
+            return ds;
+        }
+
     }
 }

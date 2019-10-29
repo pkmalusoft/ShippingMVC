@@ -53,8 +53,14 @@ namespace TrueBooksMVC.Reports
                 ReportViewer1.LocalReport.DataSources.Clear();
 
                 ReportDataSource _rsource;
-                var dt = entity.SP_JobRegisterReportPrintByJObID(jobid).ToList();
-                _rsource = new ReportDataSource("JobRegister", dt);
+                DataSet ds = DAL.SP_JobRegisterReportPrintByJObID(jobid);
+                _rsource = new ReportDataSource("JobRegister", ds.Tables[0]);
+
+                ReportDataSource _rsCargo;
+                _rsCargo = new ReportDataSource("Cargo", ds.Tables[1]);
+
+                ReportDataSource _rsBillOfEntry;
+                _rsBillOfEntry = new ReportDataSource("BillOfEntry", ds.Tables[2]);
 
                 ReportDataSource _rsource1 = new ReportDataSource("Comapny", dtcompany);
 
@@ -75,6 +81,8 @@ namespace TrueBooksMVC.Reports
                 ReportViewer1.LocalReport.DataSources.Add(_rsource2);
 
                 ReportViewer1.LocalReport.DataSources.Add(_rsource);
+                ReportViewer1.LocalReport.DataSources.Add(_rsCargo);
+                ReportViewer1.LocalReport.DataSources.Add(_rsBillOfEntry);
                 ReportViewer1.LocalReport.DataSources.Add(_rsource1);
                 ReportViewer1.LocalReport.DataSources.Add(_rsource3);
                
