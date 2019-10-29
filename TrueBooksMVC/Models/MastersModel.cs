@@ -193,11 +193,36 @@ namespace TrueBooksMVC.Models
         {
             return Context1.SP_GetAllJobsDetails().OrderBy(x => x.JobCode).ToList();
         }
+
+        public List<SP_GetAllJobsDetails_Result> GetAllJobsDetails(string Term)
+        {
+            try
+            {
+                return Context1.SP_GetAllJobsDetails().Where(c => c.JobDescription.ToLower().Contains(Term.ToLower())).OrderBy(c => c.JobCode).ToList();
+            }catch(Exception ex)
+            {
+                List<SP_GetAllJobsDetails_Result>  obj = new List<SP_GetAllJobsDetails_Result>();
+                return obj;
+            }
+        }
+
+        public List<SP_GetAllJobsDetails_Result> JobById(int Id)
+        {
+            return Context1.SP_GetAllJobsDetails().Where(c => c.JobID.Equals(Id)).OrderBy(x => x.JobCode).ToList();
+        }
+
         public List<SP_GetAllProductServices_Result> GetAllProductServices()
         {
             return Context1.SP_GetAllProductServices().OrderBy(x => x.ProductName).ToList();
         }
 
-
+        public List<SP_GetAllProductServices_Result> GetAllProductServices(string Term)
+        {
+            return Context1.SP_GetAllProductServices().Where(c => c.ProductName.ToLower().Contains(Term.ToLower())).OrderBy(x => x.ProductName).ToList();
+        }
+        public List<SP_GetAllProductServices_Result> ProductById(int Id)
+        {
+            return Context1.SP_GetAllProductServices().Where(c => c.ProductID.Equals(Id)).OrderBy(x => x.ProductName).ToList();
+        }
     }
 }

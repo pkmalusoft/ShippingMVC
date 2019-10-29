@@ -101,17 +101,19 @@
 <div class="containers">
     <section class="content jobform">
         <div style="display:none;">
-            @Html.DropDownList("AccountHead", (SelectList)ViewBag.AccountHead, "Select", new { @class = "AccountHead_demo_class", @name = "AccountHead", id = "AcHead", @style = "width: 100px; height: 21px;" })
-        </div>
-        <div style="display:none;">
             @Html.DropDownList("Unit", (SelectList)ViewBag.Unit, "Select", new { @class = "Unit_demo_class", id = "Unit", @style = "height: 22px" })
         </div>
+        @*<div style="display:none;">
+            @Html.DropDownList("AccountHead", (SelectList)ViewBag.AccountHead, "Select", new { @class = "AccountHead_demo_class", @name = "AccountHead", id = "AcHead", @style = "width: 100px; height: 21px;" })
+        </div>
+
         <div style="display:none;">
             @Html.DropDownList("Job", (SelectList)ViewBag.Job, "Select", new { @class = "Job_demo_class", @name = "Job", id = "Job", @style = "width: 100px; height: 21px;" })
         </div>
         <div style="display:none;">
             @Html.DropDownList("Product", (SelectList)ViewBag.Product, "Select", new { @class = "Product_demo_class", @name = "Product", id = "Product", @style = "width: 100px; height: 21px;" })
         </div>
+        *@
 
         @using (@Html.BeginForm())
         {
@@ -238,10 +240,12 @@
                                             <input type="text" id="AcHead_1_txt" name="AcHead_1_txt" value="" class="AccountHead" style="width: 100px; height: 21px;" />
                                         </td>
                                         <td>
-                                            @Html.DropDownList("Job_1", (SelectList)ViewBag.Job, "Select", new { @class = "Job", id = "Job_1", @name = "Job_1", @style = "width: 100px; height: 21px;" })
+                                            <input type="text" id="JobID_1_txt" name="JobID_1_txt" value="" class="Job" style="width: 100px; height: 21px;" />
+                                            <input type="hidden" id="JobID_1" name="JobID_1" value="" />
                                         </td>
                                         <td>
-                                            @Html.DropDownList("Product_1", (SelectList)ViewBag.Product, "Select", new { @class = "Product", id = "Product_1", @name = "Product_1", @style = "width: 100px; height: 21px;" })
+                                            <input type="text" id="Product_1_txt" name="Product_1_txt" value="" class="Product" style="width: 100px; height: 21px;" />
+                                            <input type="hidden" id="Product_1" name="Product_1" value="" />
                                         </td>
                                         <td><button type="button" onclick="deleteRow(this)">-</button>&nbsp;&nbsp;<button type="button" index="1" class="addmore">+</button></td>
                                     </tr>
@@ -332,8 +336,8 @@
                     &nbsp;
                 </div>
             </div>
-            }
-        </section>
+        }
+    </section>
     </div>
 
 
@@ -373,6 +377,63 @@
             }
         }; 
 
+        var JobAutoComplete = {
+            source: function (request, response) {
+                $.ajax({
+                    url: '/AutoComplete/Job',
+                    datatype: "json",
+                    data: {
+                        term: request.term
+                    },
+                    success: function (data) {
+                        response($.map(data, function (val, item) {
+                            return {
+                                label: val.JobCode,
+                                value: val.JobCode,
+                                JobID: val.JobID
+                            }
+                        }))
+                    }
+                })
+            }, minLength: 1,
+            select: function (e, i) {
+                e.preventDefault();
+                debugger;
+                $(this).val(i.item.label);
+                var id = $(this).attr('id');
+                id = id.replace("_txt", "");
+                $("#" + id).val(i.item.JobID);
+            }
+        }; 
+        
+        var ProductsAutoComplete = {
+            source: function (request, response) {
+                $.ajax({
+                    url: '/AutoComplete/Products',
+                    datatype: "json",
+                    data: {
+                        term: request.term
+                    },
+                    success: function (data) {
+                        response($.map(data, function (val, item) {
+                            return {
+                                label: val.ProductName,
+                                value: val.ProductName,
+                                ProductID: val.ProductID
+                            }
+                        }))
+                    }
+                })
+            }, minLength: 1,
+            select: function (e, i) {
+                e.preventDefault();
+                debugger;
+                $(this).val(i.item.label);
+                var id = $(this).attr('id');
+                id = id.replace("_txt", "");
+                $("#" + id).val(i.item.ProductID);
+            }
+        }; 
         $("#invoicedate").datepicker({
             dateFormat: 'dd-M-yy',
             changeYear: true, changeMonth: true,
@@ -412,12 +473,15 @@
             i = count;
             var unitSelect = $('.Unit_demo_class').attr('id', 'Unit_' + i).attr('name', 'Unit_' + i).parent().html().replace("Unit_demo_class", "");
             var AccountHeadSelect = '<input type="hidden" id="AcHead_' + i + '" name="AcHead_' + i + '" value="" /> <input type = "text" id="AcHead_' + i + '_txt" name = "AcHead_' + i + '_txt" value = "" class="AccountHead" style = "width: 100px; height: 21px;" />';
-            var JobSelect = $('.Job_demo_class').attr('id', 'JobID_' + i).attr('name', 'Job_' + i).parent().html().replace("Job_demo_class");
-            var ProductSelect = $('.Product_demo_class').attr('id', 'Product_' + i).attr('name', 'Product_' + i).parent().html().replace("Product_demo_class");
+            var JobSelect = '<input type="hidden" id="JobID_' + i + '" name="JobID_' + i + '" value="" /> <input type = "text" id="JobID_' + i + '_txt" name = "JobID_' + i + '_txt" value = "" class="Job" style = "width: 100px; height: 21px;" />';
+            var ProductSelect = '<input type="hidden" id="Product_' + i + '" name="Product_' + i + '" value="" /> <input type = "text" id="Product_' + i + '_txt" name = "Product_' + i + '_txt" value = "" class="Product" style = "width: 100px; height: 21px;" />';
+           
             var data = "<tr><td><span id='snum" + i + "'>" + count + ".</span></td>";
             data += "<td><input type='text' id='Description_" + i + "' name='Description_" + i + "' style='width: 110px'/></td> <td><input type='text' id='Quantity_" + i + "' name='Quantity_" + i + "' style='width: 47px' class='QTY'/></td><td>" + unitSelect + "</td><td><input type='text' id='Rate_" + i + "' name='Rate_" + i + "'style='width: 60px;text-align:right' class='two-decimals Rate' autocomplete='off' /></td><td> <input type='text' id='RateFC_" + i + "' name='RateFC_" + i + "' style='width: 60px;text-align:right' class='two-decimals RateFC' autocomplete='off'/></td><td><input type='text' id='Value_" + i + "' name='Value_" + i + "' style='width: 60px;text-align:right' class='two-decimals Value' readonly='readonly' /></td><td><input type='text' id='ValueFC_" + i + "' name='ValueFC_" + i + "' style='width: 65px;text-align:right' class='two-decimals ValueFC' readonly='readonly'/></td><td><input type='text' id='Taxpre_" + i + "' name='Taxpre_" + i + "' style='width: 60px;text-align:right' class='two-decimals TaxPercent'/></td><td><input type='text' id='Tax_" + i + "' name='Tax_" + i + "' style='width: 60px;text-align:right'class='two-decimals Tax' readonly='readonly'/></td><td><input type='text' id='NetValue_" + i + "' name='NetValue_" + i + "' style='width: 60px; text-align:right' class='two-decimals NetValue' readonly='readonly'/></td><td>" + AccountHeadSelect + "</td><td>" + JobSelect + "</td><td>" + ProductSelect + "</select></td><td><button type='button' class='delete' >-</button>&nbsp;&nbsp;<button type='button' index='" + i + "' class='addmore'>+</button></td></tr>"
             $('#charges_table').append(data);
             $('#AcHead_' + i + '_txt').focus().autocomplete(autocompleteOptions);
+            $('#JobID_' + i + '_txt').focus().autocomplete(JobAutoComplete);
+            $('#Product_' + i + '_txt').focus().autocomplete(ProductsAutoComplete);
             CalculateValue();
         }
         $("#charges_table").on('click', '.addmore', function () {
@@ -454,8 +518,8 @@
                         vInvoiceDetails.push(InvoiceDetailStr);
                         var unitSelect = $('.Unit_demo_class').attr('id', 'Unit_' + i).attr('name', 'Unit_' + i).parent().html().replace("Unit_demo_class", "");
                         var AccountHeadSelect = '<input type="hidden" id="AcHead_' + i + '" name="AcHead_' + i + '" value="' + InvoiceDetailsObj.AcHeadID + '" /> <input type = "text" id="AcHead_' + i + '_txt" name = "AcHead_' + i + '_txt" value = "' + InvoiceDetailsObj.AcHead + '" class="AccountHead ui-autocomplete-input" style = "width: 100px; height: 21px;" />';
-                        var JobSelect = $('.Job_demo_class').attr('id', 'Job_' + i).attr('name', 'Job_' + i).parent().html().replace("Job_demo_class");
-                        var ProductSelect = $('.Product_demo_class').val(InvoiceDetailsObj.ProductID).attr('id', 'Product_' + i).attr('name', 'Product_' + i).parent().html().replace("Product_demo_class");
+                        var JobSelect = '<input type="hidden" id="JobID_' + i + '" name="JobID_' + i + '" value="' + InvoiceDetailsObj.JobID + '" /> <input type = "text" id="JobID_' + i + '_txt" name = "JobID_' + i + '_txt" value = "' + InvoiceDetailsObj.JobCode + '" class="Job" style = "width: 100px; height: 21px;" />';
+                        var ProductSelect = '<input type="hidden" id="Product_' + i + '" name="Product_' + i + '" value="' + InvoiceDetailsObj.ProductID + '" /> <input type = "text" id="Product_' + i + '_txt" name = "Product_' + i + '_txt" value = "' + InvoiceDetailsObj.ProductName + '" class="Product" style = "width: 100px; height: 21px;" />';
                         var tdata = "<tr><td><span id='snum" + i + "'>" + count + ".</span></td>";
                         tdata += "<td><input type='text' id='Description_" + i + "' name='Description_" + i + "' style='width: 110px' value='" + InvoiceDetailsObj.Description + "' /></td ><td><input type='text' id='Quantity_" + i + "' name='Quantity_" + i + "' style='width: 47px' value='" + InvoiceDetailsObj.Quantity + "' class='QTY' /></td><td>" + unitSelect + "</td><td><input type='text' id='Rate_" + i + "' name='Rate_" + i + "' style='width: 60px;text-align:right' value='" + InvoiceDetailsObj.Rate + "' class='two-decimals Rate' autocomplete='off' /></td><td><input type='text' id='RateFC_" + i + "' name='RateFC_" + i + "' style='width: 60px;text-align:right' value='" + InvoiceDetailsObj.RateFC + "' class='two-decimals RateFC'  autocomplete='off' /></td><td><input type='text' id='Value_" + i + "' name='Value_" + i + "' style='width: 60px;text-align:right' value='" + InvoiceDetailsObj.Value + "' class='two-decimals Value' readonly='readonly' /></td><td><input type='text' id='ValueFC_" + i + "' name='ValueFC_" + i + "' style='width: 65px;text-align:right' value='" + InvoiceDetailsObj.ValueFC + "' class='two-decimals ValueFC' readonly='readonly' /></td><td><input type='text' id='Taxpre_" + i + "' name='Taxpre_" + i + "' value='" + InvoiceDetailsObj.Taxprec + "' style='width: 60px;text-align:right' class='two-decimals TaxPercent'/></td><td><input type='text' id='Tax_" + i + "' name='Tax_" + i + "' style='width: 60px;text-align:right' value='" + InvoiceDetailsObj.Tax + "' class='two-decimals Tax' readonly='readonly' /></td><td><input type='text' id='NetValue_" + i + "' name='NetValue_" + i + "' style='width: 60px;text-align:right' value='" + InvoiceDetailsObj.NetValue + "' class='two-decimals Netvalue' readonly='readonly' /></td><td>" + AccountHeadSelect + "</td><td>" + JobSelect + "</td><td>" + ProductSelect + "</td><td><button type='button' class='delete' >-</button>&nbsp;&nbsp;<button type='button' index='" + i + "' class='addmore'>+</button></td></tr > "
                         $('#charges_table').append(tdata);
@@ -464,8 +528,10 @@
                         $('#charges_table').find('#Job_' + i).val(InvoiceDetailsObj.JobID);
                         $('#charges_table').find('#Product_' + i).val(InvoiceDetailsObj.ProductID);
                         $('#AcHead_' + i + '_txt').focus().autocomplete(autocompleteOptions);
-                        CalculateValue();
+                        $('#JobID_' + i + '_txt').focus().autocomplete(JobAutoComplete);
+                        $('#Product_' + i + '_txt').focus().autocomplete(ProductsAutoComplete); 
                     }
+                    CalculateValue();
                 }
 
             });
@@ -816,7 +882,8 @@
             }
             });
 
-        
+        $('.Job').focus().autocomplete(JobAutoComplete);
+        $('.Product').focus().autocomplete(ProductsAutoComplete);
 
     });
 

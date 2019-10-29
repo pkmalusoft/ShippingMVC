@@ -17,7 +17,7 @@
             var name=x.text();
           alert(x.text());
             $("#myModal").modal('show');
-             
+
            if (x.text() == "Invoice Report")
             {
                 alert(x.text());
@@ -63,7 +63,7 @@
             }
 
 
-           
+
 
         });*@
 
@@ -88,43 +88,41 @@
         });
 
         $("#btntruck").click(function () {
-
             x = "Truck";
             $("#myModal").modal('show');
-
-
         });
 
+        $("#btnJobReport").click(function () {
+            var win = window.open('/Reports/JobRegisterReport.aspx?jobid=' + @ViewBag.id, '_blank');
+            @*  window.location.href = '/Reports/JobRegisterReport.aspx?jobid=' + '@ViewBag.id', target = _blank; *@
+        });
+        
 
         $("#btnsubmitforreport").click(function () {
-          
             if (x == "Invoice")
             {
-
                 if ($("#plain").is(':checked')) {
                     @*window.location.href = '@Url.Action("InvoiceReportPlain", "ReportInvoice", new { JobID = ViewBag.id})';*@
-                     window.location.href = 'http://shipping.trianglesoft.in/Reports/InvoiceReport.aspx?jobid=' + '@ViewBag.id', target = _blank;
+                     window.location.href = '/Reports/InvoiceReport.aspx?jobid=' + '@ViewBag.id', target = _blank;
                     @*window.location.href = '@System.Configuration.ConfigurationManager.AppSettings["spath"].ToString()' + '/Reports/InvoiceReport.aspx?jobid=' + '@ViewBag.id', target = _blank;*@
                 }
-
                 if ($("#formatted").is(':checked')) {
                     @*window.location.href = '@Url.Action("InvoiceReportFormatted", "ReportInvoice", new { JobID = ViewBag.id})';*@
 
                     @*window.location.href = '@System.Configuration.ConfigurationManager.AppSettings["spath"].ToString()' + '/Reports/InvoiceReportFormatted.aspx?jobid=' + '@ViewBag.id', target = _blank;*@
-                    window.location.href = 'http://shipping.trianglesoft.in/Reports/InvoiceReportFormatted.aspx?jobid=' + '@ViewBag.id', target = _blank;
+                    window.location.href = '/Reports/InvoiceReportFormatted.aspx?jobid=' + '@ViewBag.id', target = _blank;
                 }
             }
             else if (x == "DeliveryReport")
             {
                 if ($("#plain").is(':checked')) {
                    @* window.location.href = '@Url.Action("DeliveryReportPlain", "ReportInvoice", new { JobID = ViewBag.id})';*@
-                    window.location.href = 'http://shipping.trianglesoft.in/Reports/DeliveryNote.aspx?jobid=' + '@ViewBag.id', target = _blank;
+                    window.location.href = '/Reports/DeliveryNote.aspx?jobid=' + '@ViewBag.id', target = _blank;
                 }
-
                 if ($("#formatted").is(':checked')) {
                     @*window.location.href = '@Url.Action("DeliveryReportFormatted", "ReportInvoice", new { JobID = ViewBag.id})';*@
                     @*  window.location.href = '@System.Configuration.ConfigurationManager.AppSettings["spath"].ToString()' + '/Reports/DeliveryNoteFormatted.aspx?jobid=' + '@ViewBag.id', target = _blank;*@
-                    window.location.href = 'http://shipping.trianglesoft.in/Reports/DeliveryNoteFormatted.aspx?jobid=' + '@ViewBag.id', target = _blank;
+                    window.location.href = '/Reports/DeliveryNoteFormatted.aspx?jobid=' + '@ViewBag.id', target = _blank;
                 }
             }
             else if (x == "Truck")
@@ -132,13 +130,12 @@
                 if ($("#plain").is(':checked')) {
                     @*window.location.href = '@Url.Action("TruckConsignmentReportPlain", "ReportInvoice", new { JobID = ViewBag.id})';*@
                     @* window.location.href = '@System.Configuration.ConfigurationManager.AppSettings["spath"].ToString()' + '/Reports/TruckConsignmentNote.aspx?jobid=' + '@ViewBag.id', target = _blank;*@
-                    window.location.href = 'http://shipping.trianglesoft.in/Reports/TruckConsignmentNote.aspx?jobid=' + '@ViewBag.id', target = _blank;
+                    window.location.href = '/Reports/TruckConsignmentNote.aspx?jobid=' + '@ViewBag.id', target = _blank;
                  }
-
                  if ($("#formatted").is(':checked')) {
                      @* window.location.href = '@Url.Action("TruckConsignmentReportFormatted", "ReportInvoice", new { JobID = ViewBag.id})';*@
                      @*window.location.href = '@System.Configuration.ConfigurationManager.AppSettings["spath"].ToString()' + '/Reports/TruckConsignmentNoteFormatted.aspx?jobid=' + '@ViewBag.id', target = _blank;*@
-                     window.location.href = 'http://shipping.trianglesoft.in/Reports/TruckConsignmentNoteFormatted.aspx?jobid=' + '@ViewBag.id', target = _blank;
+                     window.location.href = '/Reports/TruckConsignmentNoteFormatted.aspx?jobid=' + '@ViewBag.id', target = _blank;
                 }
             }
             else if (x == "Arrival") {
@@ -150,11 +147,8 @@
                     window.location.href = '@Url.Action("ArrivalReportFormatted", "ReportInvoice", new { JobID = ViewBag.id})';
                  }
              }
-            
             $("#myModal").modal('hide');
-
         });
-    
     });
 </script>
 <div ng-app="MyApp" ng-controller="MyController">
@@ -169,10 +163,10 @@
                 <tr height="750px">
                     <td>
                         <center>
-                        <table border="0" width="670px" style="margin-top: -370px;">
-                            <tr>
-                                <td width="70%" >
-                                    <pre>
+                            <table border="0" width="670px" style="margin-top: -370px;">
+                                <tr>
+                                    <td width="70%">
+                                        <pre>
  To,
 
  @ViewBag.Custmr 
@@ -180,11 +174,12 @@
  @ViewBag.Adress2 
  Ph : @ViewBag.Phne 
                                     </pre>
-                                </td>
-                               
-                                <td width="30%">Date: @TrueBooksMVC.Models.CommanFunctions.GetShortDateFormat(@ViewBag.InvcDate)</td>
-                            </tr>
-                        </table></center>
+                                    </td>
+
+                                    <td width="30%">Date: @TrueBooksMVC.Models.CommanFunctions.GetShortDateFormat(@ViewBag.InvcDate)</td>
+                                </tr>
+                            </table>
+                        </center>
                         <br />
                         <br />
                         <table border="0" width="670px">
@@ -237,24 +232,24 @@
                             {
                                 <tr>
                                     <td width="50%">@item.RevenueCode</td>
-                                     <td width="25%">@string.Format("{0:n2}", @item.SalesForeign)</td>
-                                <td width="25%">@string.Format("{0:n2}", @item.SalesHome)</td>
+                                    <td width="25%">@string.Format("{0:n2}", @item.SalesForeign)</td>
+                                    <td width="25%">@string.Format("{0:n2}", @item.SalesHome)</td>
                                 </tr>
                             }
                         </table>
                     </td>
                 </tr>
-           @*     <tr>
-                    <td>
-                        <pre>
-                                 RAMMAR SHIPPING SERVICES
-                                P.O.BOX 121324 DUBAI U.A.E
-                            Tel: 00971 4 3798831 Fax: 00971 4 3798832
-                        noora@rammargroup.com / accounts@rammargroup.com 
-                        </pre>
+                @*     <tr>
+                        <td>
+                            <pre>
+                                     RAMMAR SHIPPING SERVICES
+                                    P.O.BOX 121324 DUBAI U.A.E
+                                Tel: 00971 4 3798831 Fax: 00971 4 3798832
+                            noora@rammargroup.com / accounts@rammargroup.com
+                            </pre>
 
-                    </td>
-                </tr>*@
+                        </td>
+                    </tr>*@
             </table>
         </div>
         <div id="Delivery" style="display: none;">
@@ -276,7 +271,7 @@
                             <tr>
                                 <td width="50%">
                                     <pre><b> Collect From </b>&nbsp;  @ViewBag.DCustomer
- <b>Customer Ref</b> &nbsp;
+                                    <b>Customer Ref</b> &nbsp;
                                     </pre>
                                 </td>
                                 <td rowspan="6" width="50%">
@@ -286,7 +281,7 @@
                             <tr>
                                 <td>
                                     <pre><b> B/L No </b>&nbsp; @ViewBag.DMBL
- <b>B.E.No </b>&nbsp; @ViewBag.DBIllOfEntry</pre>
+                                    <b>B.E.No </b>&nbsp; @ViewBag.DBIllOfEntry</pre>
                                 </td>
                             </tr>
                             <tr>
@@ -418,7 +413,7 @@
                 <tr>
                     <td>
                         <pre>
- <b>@ViewBag.CompanyName</b>
+                        <b>@ViewBag.CompanyName</b>
 @ViewBag.Address1                                      
                         </pre>
                     </td>
@@ -554,7 +549,7 @@
                             <tr>
                                 <td colspan="2">
                                     <pre>
- <b> FREIGHT PREPAID </b>
+                                    <b> FREIGHT PREPAID </b>
 
 
 
@@ -598,13 +593,13 @@
             <div class="" dir="ltr" id="main" runat="server">
                 <div class="content">
                     @*     <section class="content-header">
-                    <ol class="breadcrumb">
-                        <li><a href='@Url.Action("Home", "Home")'><i class="fa fa-dashboard"></i>Home</a></li>
-                        <li><a href="#">Gerenal</a></li>
+                            <ol class="breadcrumb">
+                                <li><a href='@Url.Action("Home", "Home")'><i class="fa fa-dashboard"></i>Home</a></li>
+                                <li><a href="#">Gerenal</a></li>
 
-                    </ol>
-                    <br />
-                </section>*@
+                            </ol>
+                            <br />
+                        </section>*@
                     <section class="content">
                         <div id="divgridJob" class="row" runat="server" style="min-height: 250px; padding: 5px; margin-right: auto; margin-left: auto;">
                             <div class="col-md-12">
@@ -622,22 +617,28 @@
                                             <div class="panel panel-primary">
                                                 <div class="panel-heading">
                                                     Choose report to print
-                       
+
                                                 </div>
                                                 <!-- .panel-heading -->
                                                 <div class="panel-body">
                                                     <table>
                                                         <tr>
                                                             <td>
-                                                                <button class="btn btn-primary btnprint" data-toggle="tooltip" data-placement="top" title="Click here" id="btninvoice">Invoice Report</button>&nbsp;</td>
+                                                                <button class="btn btn-primary btnprint" data-toggle="tooltip" data-placement="top" title="Click here" id="btninvoice">Invoice Report</button>&nbsp;
+                                                            </td>
                                                             <td>
                                                                 <button class="btn btn-primary btnprint" data-toggle="tooltip" data-placement="top" title="Click here" id="btndelivery">Delivery Note Report </button>
                                                                 &nbsp;
                                                             </td>
                                                             <td>
-                                                                <button class="btn btn-primary btnprint" data-toggle="tooltip" data-placement="top" title="Click here" id="btnarrival">Arrival Note Report</button>&nbsp;</td>
+                                                                <button class="btn btn-primary btnprint" data-toggle="tooltip" data-placement="top" title="Click here" id="btnarrival">Arrival Note Report</button>&nbsp;
+                                                            </td>
                                                             <td>
-                                                                <button class="btn btn-primary btnprint" data-toggle="tooltip" data-placement="top" title="Click here" id="btntruck">Truck Consignment Report</button></td>
+                                                                <button class="btn btn-primary btnprint" data-toggle="tooltip" data-placement="top" title="Click here" id="btntruck">Truck Consignment Report</button>
+                                                            </td>
+                                                            <td>
+                                                                <button class="btn btn-primary btnprint" data-toggle="tooltip" data-placement="top" title="Click here" id="btnJobReport">Job Report</button>
+                                                            </td>
                                                         </tr>
                                                     </table>
                                                 </div>
@@ -661,24 +662,24 @@
 
         @* Popup Code*@
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content" style="width:400px">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="myModalLabel">Report</h4>
-                </div>
-                <div class="modal-body">
-                    <input type="radio" name="rpttype" id="plain" class="rbtn" value="plain" />&nbsp;Plain Report<br />
-                    <br />
-                    <input type="radio" id="formatted" name="rpttype" class="rbtn" value="formatted" />&nbsp;Formatted Report
-                </div>
-                <div class="modal-footer" style="text-align:left" >
+            <div class="modal-dialog">
+                <div class="modal-content" style="width:400px">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel">Report</h4>
+                    </div>
+                    <div class="modal-body">
+                        <input type="radio" name="rpttype" id="plain" class="rbtn" value="plain" />&nbsp;Plain Report<br />
+                        <br />
+                        <input type="radio" id="formatted" name="rpttype" class="rbtn" value="formatted" />&nbsp;Formatted Report
+                    </div>
+                    <div class="modal-footer" style="text-align:left">
 
-                    <button type="button" class="btn btn-primary" onclick="ShowReport()" id="btnsubmitforreport">Submit</button>
+                        <button type="button" class="btn btn-primary" onclick="ShowReport()" id="btnsubmitforreport">Submit</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
         @* End popup *@
 

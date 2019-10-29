@@ -10,6 +10,7 @@ namespace TrueBooksMVC.Models
             public int PurchaseInvoiceDetailID { get; set; }
             public Nullable<int> PurchaseInvoiceID { get; set; }
             public Nullable<int> ProductID { get; set; }
+            public string ProductName { get; set; }
             public Nullable<int> Quantity { get; set; }
             public Nullable<int> ItemUnitID { get; set; }
             public Nullable<decimal> Rate { get; set; }
@@ -22,6 +23,8 @@ namespace TrueBooksMVC.Models
             public Nullable<int> AcHeadID { get; set; }
             public string AcHead { get; set; }
             public Nullable<int> JobID { get; set; }
+            public string JobCode { get; set; }
             public string Description { get; set; }
+            
     }
 }

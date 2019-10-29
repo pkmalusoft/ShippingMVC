@@ -869,7 +869,24 @@ WHERE SalesInvoiceDetailID =@SalesInvoiceDetailID
 END
 ------------------------------------------------------------------
 -- oct 28 -- 
-USE [DB_9F57C4_ShippingTest]
+
+/****** Object:  StoredProcedure [dbo].[SP_GetSalesInvoiceDetailsByID]    Script Date: 10/28/2019 1:01:08 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER PROC[dbo].[SP_GetSalesInvoiceDetailsByID]
+    (
+@SalesInvoiceID int
+)
+AS
+BEGIN
+SELECT sd.*,j.JobCode,p.ProductName FROM SalesInvoiceDetails as sd
+left join JobGeneration as j on sd.JobID = j.JobID
+left join ProductServices as p on sd.ProductID = p.ProductID
+ where sd.SalesInvoiceID = @SalesInvoiceID
+END
+
 GO
 /****** Object:  StoredProcedure [dbo].[SP_GetPurchaseInvoiceDetailsByID]    Script Date: 10/28/2019 7:37:56 AM ******/
 SET ANSI_NULLS ON
@@ -882,8 +899,10 @@ ALTER PROC[dbo].[SP_GetPurchaseInvoiceDetailsByID]
 )
 AS
 BEGIN
-SELECT pid.*,h.AcHead FROM PurchaseInvoiceDetails as pid
+SELECT pid.*,h.AcHead,j.JobCode,p.ProductName FROM PurchaseInvoiceDetails as pid
 left join AcHead as h on pid.AcHeadID = h.AcHeadID
+left join JobGeneration as j on pid.JobID = j.JobID
+left join ProductServices as p on pid.ProductID = p.ProductID
  where pid.PurchaseInvoiceID = @PurchaseInvoiceID
 END
 

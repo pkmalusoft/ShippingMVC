@@ -19,6 +19,7 @@ namespace DAL
         public Nullable<System.DateTime> JobDate { get; set; }
         public string JobDescription { get; set; }
         public string JobCode { get; set; }
+        public string CostUpdatedOrNot { get; set; }
         public string Shipper { get; set; }
         public string Consignee { get; set; }
         public string Customer { get; set; }

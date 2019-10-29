@@ -158,5 +158,52 @@ namespace TrueBooksMVC.Models
             AccountHeadList = MM.AcHeadById(Common.ParseInt(Session["branchid"].ToString()),Id);
             return Json(AccountHeadList, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult Job(string term)
+        {
+            MastersModel MM = new MastersModel();
+            if (!String.IsNullOrEmpty(term))
+            {
+                List<SP_GetAllJobsDetails_Result> JobList = new List<SP_GetAllJobsDetails_Result>();
+                JobList = DAL.GetAllJobsDetails(term);
+                return Json(JobList, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                List<SP_GetAllJobsDetails_Result> JobList = new List<SP_GetAllJobsDetails_Result>();
+                JobList = MM.GetAllJobsDetails();
+                return Json(JobList, JsonRequestBehavior.AllowGet);
+            }
+        }
+        public ActionResult JobById(int Id)
+        {
+            MastersModel MM = new MastersModel();
+            List<SP_GetAllJobsDetails_Result> JobList = new List<SP_GetAllJobsDetails_Result>();
+            JobList = MM.JobById(Id);
+            return Json(JobList, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult Products(string term)
+        {
+            MastersModel MM = new MastersModel();
+            if (!String.IsNullOrEmpty(term))
+            {
+                List<SP_GetAllProductServices_Result> ProductList = new List<SP_GetAllProductServices_Result>();
+                ProductList = MM.GetAllProductServices(term);
+                return Json(ProductList, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                List<SP_GetAllProductServices_Result> ProductList = new List<SP_GetAllProductServices_Result>();
+                ProductList = MM.GetAllProductServices();
+                return Json(ProductList, JsonRequestBehavior.AllowGet);
+            }
+        }
+        public ActionResult ProductById(int Id)
+        {
+            MastersModel MM = new MastersModel();
+            List<SP_GetAllProductServices_Result> ProductList = new List<SP_GetAllProductServices_Result>();
+            ProductList = MM.ProductById(Id);
+            return Json(ProductList, JsonRequestBehavior.AllowGet);
+        }
     }
 }

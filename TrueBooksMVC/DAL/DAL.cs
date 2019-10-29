@@ -758,7 +758,7 @@ namespace TrueBooksMVC
 
 
 
-        public static int AddSalesInvoiceDetails(SalesInvoiceDetail SID)
+        public static int AddSalesInvoiceDetails(Models.SalesInvoiceDetail SID)
         {
             int i = 0;
             SqlCommand cmd = new SqlCommand();
@@ -942,5 +942,41 @@ namespace TrueBooksMVC
             }
             return dtList;
         }
+
+        public static List<SP_GetAllJobsDetails_Result> GetAllJobsDetails(string Term)
+        {
+            List<SP_GetAllJobsDetails_Result> dtList = new List<SP_GetAllJobsDetails_Result>();
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = new SqlConnection(Common.GetConnectionString);
+            cmd.CommandText = "SP_GetAllJobsDetailsForDropdown";
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.Add("@JobDescription", SqlDbType.NVarChar);
+            cmd.Parameters["@JobDescription"].Value = Term;
+
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet ds = new DataSet();
+            da.Fill(ds);
+
+            if (ds != null && ds.Tables.Count > 0)
+            {
+                dtList = ds.Tables[0].AsEnumerable()
+                .Select(row => new SP_GetAllJobsDetails_Result
+                {
+                    JobID = int.Parse(row["JobID"].ToString()),
+                   // InvoiceNo = int.Parse(row["InvoiceNo"].ToString()),
+                  //  InvoiceDate = row["InvoiceDate"] != DBNull.Value ? Convert.ToDateTime(row["InvoiceDate"]) : DateTime.Now,
+                  //  JobDate = row["JobDate"] != DBNull.Value ? Convert.ToDateTime(row["JobDate"].ToString()) : DateTime.Now,
+                    JobDescription = row["JobDescription"].ToString(),
+                    JobCode = row["JobCode"].ToString(),
+                 //   CostUpdatedOrNot = row["CostUpdatedOrNot"].ToString(),
+                 //   Shipper = row["Shipper"].ToString(),
+                  //  Consignee = row["Consignee"].ToString(),
+                  //  Customer = row["Customer"].ToString()
+    }).ToList();
+            }
+            return dtList;
+        }
+
     }
 }

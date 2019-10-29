@@ -4022,6 +4022,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Type="DateTime" Name="JobDate" Nullable="true" Precision="23" />
           <Property Type="String" Name="JobDescription" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="JobCode" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="CostUpdatedOrNot" Nullable="true" MaxLength="5" />
           <Property Type="String" Name="Shipper" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="Consignee" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="Customer" Nullable="true" MaxLength="100" />
@@ -7242,6 +7243,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
                 <ScalarProperty Name="JobDate" ColumnName="JobDate" />
                 <ScalarProperty Name="JobDescription" ColumnName="JobDescription" />
                 <ScalarProperty Name="JobCode" ColumnName="JobCode" />
+                <ScalarProperty Name="CostUpdatedOrNot" ColumnName="CostUpdatedOrNot" />
                 <ScalarProperty Name="Shipper" ColumnName="Shipper" />
                 <ScalarProperty Name="Consignee" ColumnName="Consignee" />
                 <ScalarProperty Name="Customer" ColumnName="Customer" />

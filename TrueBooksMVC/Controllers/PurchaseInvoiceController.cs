@@ -176,9 +176,9 @@ namespace TrueBooksMVC.Controllers
                     PID.AcHeadID = AcHeadID;
 
                     int JobID = 0;
-                    if (formCollection.GetValue("Job_" + InvoiceDetailsArray[c]) != null)
+                    if (formCollection.GetValue("JobID_" + InvoiceDetailsArray[c]) != null)
                     {
-                        strArray = (string[])formCollection.GetValue("Job_" + InvoiceDetailsArray[c]).RawValue;
+                        strArray = (string[])formCollection.GetValue("JobID_" + InvoiceDetailsArray[c]).RawValue;
                         int.TryParse(strArray[0], out JobID);
                     }
                     PID.JobID = JobID;
@@ -276,13 +276,13 @@ namespace TrueBooksMVC.Controllers
                 List<SP_GetAllSupplier_Result> Supplier = new List<SP_GetAllSupplier_Result>();
                 List<SP_GetShippingAgents_Result> ShippingAgent = new List<SP_GetShippingAgents_Result>();
                 List<SP_GetAllItemUnit_Result> Unit = new List<SP_GetAllItemUnit_Result>();
-                List<SP_GetAllJobsDetails_Result> Job = new List<SP_GetAllJobsDetails_Result>();
-                List<SP_GetAllProductServices_Result> Product = new List<SP_GetAllProductServices_Result>();
-               List<AcHeadSelectAll_Result>AccountHead = new List<AcHeadSelectAll_Result>();
+              //  List<SP_GetAllJobsDetails_Result> Job = new List<SP_GetAllJobsDetails_Result>();
+             //   List<SP_GetAllProductServices_Result> Product = new List<SP_GetAllProductServices_Result>();
+             //  List<AcHeadSelectAll_Result>AccountHead = new List<AcHeadSelectAll_Result>();
 
 
-               AccountHead = MM.AcHeadSelectAll(Common.ParseInt(Session["branchid"].ToString()));
-                Product = MM.GetAllProductServices();
+             //  AccountHead = MM.AcHeadSelectAll(Common.ParseInt(Session["branchid"].ToString()));
+             //   Product = MM.GetAllProductServices();
                 Employees = MM.GetAllEmployees();
                 JobType = MM.GetJobTypeS();
                 Carriers = MM.GetAllCarrier();
@@ -294,11 +294,11 @@ namespace TrueBooksMVC.Controllers
                 Supplier = MM.GetAllSupplier();
                 ShippingAgent = MM.GetShippingAgents();
                 Unit = MM.GetItemUnit();
-                Job = MM.GetAllJobsDetails();
+           //     Job = MM.GetAllJobsDetails();
 
-               ViewBag.AccountHead = new SelectList(AccountHead, "AcHeadID", "AcHead");
-                ViewBag.Product = new SelectList(Product, "ProductID", "ProductName");
-                ViewBag.Job = new SelectList(Job, "JobID", "JobCode");
+            //   ViewBag.AccountHead = new SelectList(AccountHead, "AcHeadID", "AcHead");
+              //  ViewBag.Product = new SelectList(Product, "ProductID", "ProductName");
+             //   ViewBag.Job = new SelectList(Job, "JobID", "JobCode");
                 ViewBag.Customer = new SelectList(Customers, "CustomerID", "Customer");
                 ViewBag.Employees = new SelectList(Employees, "EmployeeID", "EmployeeName");
                 ViewBag.Countries = new SelectList(Countries, "CountryID", "CountryName");
@@ -352,6 +352,7 @@ namespace TrueBooksMVC.Controllers
             PurchaseInvoiceDetailID = int.Parse(row["PurchaseInvoiceDetailID"].ToString()),
             PurchaseInvoiceID = int.Parse(row["PurchaseInvoiceID"].ToString()),
             ProductID = int.Parse(row["ProductID"].ToString()),
+            ProductName = row["ProductName"].ToString(),
             Quantity = int.Parse(row["Quantity"].ToString()),
             ItemUnitID = int.Parse(row["ItemUnitID"].ToString()),
             Rate = decimal.Parse(row["Rate"].ToString()),
@@ -364,6 +365,7 @@ namespace TrueBooksMVC.Controllers
             AcHeadID = int.Parse(row["AcHeadID"].ToString()),
             AcHead = row["AcHead"].ToString(),
             JobID = int.Parse(row["JobID"].ToString()),
+            JobCode = row["JobCode"].ToString(),
             Description = row["Description"].ToString()
         }).ToList();
                 return Json(dtList, JsonRequestBehavior.AllowGet);

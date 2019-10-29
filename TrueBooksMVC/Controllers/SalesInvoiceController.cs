@@ -82,7 +82,7 @@ namespace TrueBooksMVC.Controllers
             for (int c = 0; c < InvoiceDetailsCount; c++)
             {
                 string[] strArray;
-                SalesInvoiceDetail SID = new SalesInvoiceDetail();
+                Models.SalesInvoiceDetail SID = new Models.SalesInvoiceDetail();
                 SID.SalesInvoiceID = InvoiceId;
 
                 int ProductID = 0;
@@ -353,12 +353,13 @@ namespace TrueBooksMVC.Controllers
             DataSet ds= DAL.GetSalesInvoiceDetailsById(InvoiceId);
             if(ds != null && ds.Tables.Count > 0)
             {
-                List<SalesInvoiceDetail> dtList = ds.Tables[0].AsEnumerable()
-        .Select(row => new SalesInvoiceDetail
+                List<Models.SalesInvoiceDetail> dtList = ds.Tables[0].AsEnumerable()
+        .Select(row => new Models.SalesInvoiceDetail
         {
             SalesInvoiceDetailID = int.Parse(row["SalesInvoiceDetailID"].ToString()),
             SalesInvoiceID = int.Parse(row["SalesInvoiceID"].ToString()),
             ProductID = int.Parse(row["ProductID"].ToString()),
+            ProductName = row["ProductName"].ToString(),
             Quantity = int.Parse(row["Quantity"].ToString()),
             ItemUnitID = int.Parse(row["ItemUnitID"].ToString()),
             RateType = row["RateType"].ToString(),
@@ -370,6 +371,7 @@ namespace TrueBooksMVC.Controllers
             Tax = decimal.Parse(row["Tax"].ToString()),
             NetValue = decimal.Parse(row["NetValue"].ToString()),
             JobID = int.Parse(row["JobID"].ToString()),
+            JobCode = row["JobCode"].ToString(),
             Description = row["Description"].ToString()
             //...
         }).ToList();
