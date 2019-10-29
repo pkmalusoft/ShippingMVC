@@ -133,37 +133,45 @@
            
             <fieldset>
                 <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
-                <div class="row no-margin">
-
-
-                    <div class="col-md-4">
-                        <label class="headinglabel required">From:</label>
-                        @*<input type="text" class="datepicker form-control" id="txtfrom" />*@
-                        @Html.TextBoxFor(model => model.FromDate, new { @class = "form-control datepicker " })
-                    </div>
-
-                    <div class="col-md-4">
-                        <label class="headinglabel required">To:</label>
-                        @* <input type="text" class="datepicker form-control" id="txtto" />*@
-                        @Html.TextBoxFor(model => model.ToDate, new { @class = "form-control datepicker " })
-                    </div>
-                    <div class="col-md-4">
-                        <label class="headinglabel required">Company Name</label>
-                        @Html.DropDownList("CompanyId", ViewBag.Company as SelectList, "Select", new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.CompanyId)
-
-                    </div>
-
-                </div>
-
 
                 <div class="row no-margin" style="padding-top:10px;">
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <label class="headinglabel required">Branch Name</label>
                         @Html.TextBoxFor(model => model.BranchName, new { @class = "form-control txttarget" })
                         @Html.ValidationMessageFor(model => model.BranchName)
 
                     </div>
+
+                    <div class="col-md-6">
+                        <label class="required headinglabel">Contact Person</label>
+                        <input type="text" name="contact_person" class="form-control txttarget">
+
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="headinglabel required">Address</label>
+                        @Html.TextBoxFor(model => model.Address, new { @class = "form-control txttarget" })
+                        @Html.ValidationMessageFor(model => model.Address)
+
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class=" headinglabel required">Phone</label>
+                        @Html.TextBoxFor(model => model.phone, new { @class = "form-control txttarget" })
+                        @Html.ValidationMessageFor(model => model.phone)
+
+                    </div>
+
+
+                </div>
+                <div class="row no-margin" style="padding-top:10px;">
+
+                    <div class="col-md-4">
+                        <label class=" headinglabel required">City</label>
+                        <input type="text" name="city" class="form-control txttarget">
+
+                    </div>
+
                     <div class="col-md-4">
                         <label class=" headinglabel required">Country</label>
                         @Html.DropDownList("CountryID", ViewBag.CountryID as SelectList, "Select", new { @class = "form-control" })
@@ -179,22 +187,34 @@
                 </div>
                 <div class="row no-margin" style="padding-top:10px;">
                     <div class="col-md-4">
-                        <label class="headinglabel required">Address</label>
-                        @Html.TextBoxFor(model => model.Address, new { @class = "form-control txttarget" })
-                        @Html.ValidationMessageFor(model => model.Address)
-
-                    </div>
-                    <div class="col-md-4">
-                        <label class=" headinglabel required">Phone</label>
-                        @Html.TextBoxFor(model => model.phone, new { @class = "form-control txttarget" })
-                        @Html.ValidationMessageFor(model => model.phone)
-
-                    </div>
-                    <div class="col-md-4">
                         <label class=" headinglabel">Email</label>
                         @Html.TextBoxFor(model => model.Email, new { @class = "form-control txttarget" })
                         @Html.ValidationMessageFor(model => model.Email)
 
+                    </div>
+                    <div class="col-md-4">
+                        <label class=" headinglabel required">Website</label>
+                        <input type="text" name="city" class="form-control txttarget">
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="headinglabel required">Company Name</label>
+                        @Html.DropDownList("CompanyId", ViewBag.Company as SelectList, "Select", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.CompanyId)
+
+                    </div>
+                </div>
+                <div class="row no-margin" style="padding-top:10px;">
+                    <div class="col-md-4">
+                        <label class="headinglabel required">Period From:</label>
+                        @*<input type="text" class="datepicker form-control" id="txtfrom" />*@
+                        @Html.TextBoxFor(model => model.FromDate, new { @class = "form-control datepicker " })
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="headinglabel required">Period To:</label>
+                        @* <input type="text" class="datepicker form-control" id="txtto" />*@
+                        @Html.TextBoxFor(model => model.ToDate, new { @class = "form-control datepicker " })
                     </div>
                 </div>
                 <div class="row no-margin" style="padding-top: 10px">

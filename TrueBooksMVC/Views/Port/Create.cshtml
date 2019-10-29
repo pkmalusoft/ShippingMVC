@@ -16,7 +16,7 @@
         background-color: #fff;
         width: 100%;
         margin: 0 auto;
-        max-width: 800px;
+        max-width: 400px;
         padding: 20px;
         margin-top: 50px;
         border-radius: 10px;
@@ -84,22 +84,20 @@
 
             <div class="row no-margin">
 
+                <div class="col-md-8">
+                    <label class="required headinglabel">Port Name</label>
+                    @Html.TextBoxFor(model => model.Port1, new { @class = "form-control txttarget" })
+                    @Html.ValidationMessageFor(model => model.Port1)
+
+                </div>
+
                 <div class="col-md-4">
                     <label class="required headinglabel">Port Code</label>
                     @Html.TextBoxFor(model => model.PortCode, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.PortCode)
 
                 </div>
-
-                <div class="col-md-4">
-                    <label class="required headinglabel">Port</label>
-                    @Html.TextBoxFor(model => model.Port1, new { @class = "form-control txttarget" })
-                    @Html.ValidationMessageFor(model => model.Port1)
-
-                </div>
-
-
-                <div class="col-md-4">
+                <div class="col-md-8">
                     <label class="required headinglabel">Country</label>
                     @Html.DropDownListFor(model => model.CountryID, (IEnumerable<SelectListItem>)ViewBag.country, "Select", new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.CountryID)

@@ -133,7 +133,7 @@
                           </div>
                           <div class="col-md-4">
                               <label class="required headinglabel">Account Head</label>
-                              @Html.DropDownListFor(model => model.AcHeadID, new SelectList(@ViewBag.accounthead, "AcHeadID", "AcHead1"), "Select", new { @class = "form-control" });
+                              @Html.DropDownListFor(model => model.AcHeadID, new SelectList(@ViewBag.accounthead, "AcHeadID", "AcHead1"), "Select", new { @class = "form-control" })
                               @*@Html.TextBoxFor(model => model.AcHeadID, new { @class = "form-control" })*@
                               @Html.ValidationMessageFor(model => model.AcHeadID)
 
