@@ -951,8 +951,8 @@ namespace TrueBooksMVC
             cmd.CommandText = "SP_GetAllJobsDetailsForDropdown";
             cmd.CommandType = CommandType.StoredProcedure;
 
-            cmd.Parameters.Add("@JobDescription", SqlDbType.NVarChar);
-            cmd.Parameters["@JobDescription"].Value = Term;
+            cmd.Parameters.Add("@JobCode", SqlDbType.NVarChar);
+            cmd.Parameters["@JobCode"].Value = Term;
 
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataSet ds = new DataSet();
@@ -988,6 +988,38 @@ namespace TrueBooksMVC
 
             cmd.Parameters.Add("@jobId", SqlDbType.Int);
             cmd.Parameters["@jobId"].Value = JobId;
+
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet ds = new DataSet();
+            da.Fill(ds);
+            return ds;
+        }
+
+        public static DataSet SP_GetSalesInvoiceReport(int SalesInvoiceID)
+        {
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = new SqlConnection(Common.GetConnectionString);
+            cmd.CommandText = "SP_GetSalesInvoiceReport";
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.Add("@SalesInvoiceID", SqlDbType.Int);
+            cmd.Parameters["@SalesInvoiceID"].Value = SalesInvoiceID;
+
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet ds = new DataSet();
+            da.Fill(ds);
+            return ds;
+        }
+
+        public static DataSet SP_GetPurchaseInvoiceReport(int PurchaseInvoiceID)
+        {
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = new SqlConnection(Common.GetConnectionString);
+            cmd.CommandText = "SP_GetPurchaseInvoiceReport";
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.Add("@PurchaseInvoiceID", SqlDbType.Int);
+            cmd.Parameters["@PurchaseInvoiceID"].Value = PurchaseInvoiceID;
 
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataSet ds = new DataSet();

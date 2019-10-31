@@ -487,6 +487,13 @@
     <Compile Include="Reports\MonthlySalesReport.aspx.designer.cs">
       <DependentUpon>MonthlySalesReport.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Reports\PurchaseInvoiceReport.aspx.cs">
+      <DependentUpon>PurchaseInvoiceReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\PurchaseInvoiceReport.aspx.designer.cs">
+      <DependentUpon>PurchaseInvoiceReport.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Reports\ReceiptVocher.aspx.cs">
       <DependentUpon>ReceiptVocher.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -500,6 +507,13 @@
     </Compile>
     <Compile Include="Reports\Report_JobCost.aspx.designer.cs">
       <DependentUpon>Report_JobCost.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\SalesInvoiceReport.aspx.cs">
+      <DependentUpon>SalesInvoiceReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\SalesInvoiceReport.aspx.designer.cs">
+      <DependentUpon>SalesInvoiceReport.aspx</DependentUpon>
     </Compile>
     <Compile Include="Reports\SupplierAging.aspx.cs">
       <DependentUpon>SupplierAging.aspx</DependentUpon>
@@ -1522,8 +1536,10 @@
     <Content Include="Reports\JobWiseIncomeExpenditure.aspx" />
     <Content Include="Reports\LedgerReport.aspx" />
     <Content Include="Reports\MonthlySalesReport.aspx" />
+    <Content Include="Reports\PurchaseInvoiceReport.aspx" />
     <Content Include="Reports\ReceiptVocher.aspx" />
     <Content Include="Reports\Report_JobCost.aspx" />
+    <Content Include="Reports\SalesInvoiceReport.aspx" />
     <Content Include="Reports\SupplierAging.aspx" />
     <Content Include="Reports\SupplierLedger.aspx" />
     <Content Include="Reports\SupplierOutStanding.aspx" />
@@ -2948,6 +2964,8 @@
     <EmbeddedResource Include="Reports\ChartOFAcount.rdlc" />
     <EmbeddedResource Include="Reports\ContainerReport.rdlc" />
     <EmbeddedResource Include="Reports\AirShipmentReport.rdlc" />
+    <EmbeddedResource Include="Reports\PurchaseInvoiceReport.rdlc" />
+    <EmbeddedResource Include="Reports\SalesInvoiceReport.rdlc" />
     <EmbeddedResource Include="Reports\Report_JobCost.rdlc" />
     <EmbeddedResource Include="Reports\JobWiseIncomeExpenditure.rdlc" />
     <EmbeddedResource Include="Reports\CustomerAggingIndivisual.rdlc" />

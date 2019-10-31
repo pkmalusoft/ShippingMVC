@@ -346,8 +346,8 @@
                     success: function (data) {
                         response($.map(data, function (val, item) {
                             return {
-                                label: val.JobDescription,
-                                value: val.JobDescription,
+                                label: val.JobCode,
+                                value: val.JobCode,
                                 JobID: val.JobID
                             }
                         }))

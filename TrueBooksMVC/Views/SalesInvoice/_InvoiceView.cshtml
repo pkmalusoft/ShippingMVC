@@ -81,7 +81,7 @@
                                                     <a href="#" onclick="DeleteInvoice(InvoiceId=@item.SalesInvoiceID)"><i class="fa fa-times"></i></a>&vert;&nbsp;&nbsp;&nbsp;
                                                     @if (item.SalesInvoiceID > 0)
                                                     {
-                                                        <a href='@Url.Action("ReportInvoice", "ReportInvoice", new { id = item.SalesInvoiceID })' data-toggle="tooltip" data-placement="right" title="Print"><i class="fa fa-print"></i></a>
+                                                        <a href="/Reports/SalesInvoiceReport.aspx?id=@item.SalesInvoiceID" target="_blank" id = "@item.SalesInvoiceID" data-toggle="tooltip" data-placement="right" title="Print"><i class="fa fa-print"></i></a>
                                                     }
                                                 </td>
                                             </tr>

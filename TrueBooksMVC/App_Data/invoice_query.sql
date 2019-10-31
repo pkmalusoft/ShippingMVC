@@ -906,4 +906,93 @@ left join ProductServices as p on pid.ProductID = p.ProductID
  where pid.PurchaseInvoiceID = @PurchaseInvoiceID
 END
 
---
+-- oct 31 --
+
+GO
+/****** Object:  StoredProcedure [dbo].[SP_GetAllJobsDetailsForDropdown]    Script Date: 10/31/2019 2:44:47 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER Proc [dbo].[SP_GetAllJobsDetailsForDropdown]
+@JobCode nvarchar(50) = ''
+AS
+/*************
+EXEC SP_GetAllJobsDetailsForDropdown @JobCode = 'AC1'
+*****************/
+BEGIN
+select top 200
+j.JobID as [JobID],
+jt.JobDescription,
+j.JobCode
+from JobGeneration j 
+left outer join JobType jt on j.JobTypeID=jt.JobTypeID 
+left outer join Employees E on j.EmployeeID=E.EmployeeID   
+WHERE (@JobCode = '' OR j.JobCode LIKE CONCAT('%', @JobCode ,'%')) ORDER by JobID desc
+END
+
+---
+
+/****** Object:  StoredProcedure [dbo].[SP_GetInvoiceReport]    Script Date: 10/31/2019 2:12:24 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER PROC [dbo].[SP_GetSalesInvoiceReport]
+(
+@SalesInvoiceID int
+)
+AS
+BEGIN
+SELECT si.SalesInvoiceNo,REPLACE(CONVERT(NVARCHAR(20),si.SalesInvoiceDate,106),' ','-') as SalesInvoiceDate
+,si.QuotationNumber,si.Reference,si.LPOReference,c1.Customer, e.EmployeeName,cr.CurrencyName,si.ExchangeRate
+,si.CreditDays,REPLACE(CONVERT(NVARCHAR(20),si.DueDate,106),' ','-') as DueDate,si.Remarks
+,case when si.DiscountType = 1 THEN 'Percentage' WHEN si.DiscountType = 2 THEN 'Amount' ELSE '' END as DiscountType
+,si.DiscountValueLC,si.DiscountValueFC
+ FROM SalesInvoice as si LEFT JOIN CUSTOMER as c1 on si.CustomerID = c1.CustomerID
+ LEFT JOIn Employees as e on si.EmployeeID = e.EmployeeID
+ LEFT JOIN CurrencyMaster as cr on si.CurrencyID = cr.CurrencyID
+ WHERE SalesInvoiceID = @SalesInvoiceID;
+
+ SELECT p.ProductName,sd.Quantity,iu.ItemUnit,sd.RateType,sd.RateLC,sd.RateFC,sd.ValueLC,sd.ValueFC,sd.Tax,sd.NetValue
+ ,j.JobCode,sd.Description FROM SalesInvoiceDetails as sd
+ LEFT JOIN ProductServices as p on sd.ProductID = p.ProductID
+ LEFT JOIN ItemUnit as iu on sd.ItemUnitID = iu.ItemUnitID
+ LEFT JOIN JobGeneration as j on sd.JobID = j.JobID
+ WHERE SalesInvoiceID = @SalesInvoiceID;
+
+
+END
+
+-----
+
+/****** Object:  StoredProcedure [dbo].[SP_GetInvoiceReport]    Script Date: 10/31/2019 2:12:24 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER PROC [dbo].[SP_GetPurchaseInvoiceReport]
+(
+@PurchaseInvoiceID int
+)
+AS
+BEGIN
+SELECT pit.PurchaseInvoiceNo,REPLACE(CONVERT(NVARCHAR(20),pit.PurchaseInvoiceDate,106),' ','-') as PurchaseInvoiceDate
+,pit.QuotationNumber,pit.Reference,pit.LPOReference,s1.SupplierName, e.EmployeeName,cr.CurrencyName,pit.ExchangeRate
+,pit.CreditDays,REPLACE(CONVERT(NVARCHAR(20),pit.DueDate,106),' ','-') as DueDate,pit.Remarks
+,case when pit.DiscountType = 1 THEN 'Percentage' WHEN pit.DiscountType = 2 THEN 'Amount' ELSE '' END as DiscountType
+,pit.DiscountValueLC,pit.DiscountValueFC
+ FROM PurchaseInvoice as pit LEFT JOIN Supplier as s1 on s1.SupplierID = pit.SupplierID
+ LEFT JOIn Employees as e on pit.EmployeeID = e.EmployeeID
+ LEFT JOIN CurrencyMaster as cr on pit.CurrencyID = cr.CurrencyID
+ WHERE pit.PurchaseInvoiceID = @PurchaseInvoiceID;
+
+ SELECT p.ProductName,pd.Quantity,iu.ItemUnit,pd.Rate as RateLC,pd.RateFC,pd.Value as ValueLC,pd.ValueFC,pd.Tax,pd.NetValue
+ ,j.JobCode,pd.Description FROM PurchaseInvoiceDetails as pd
+ LEFT JOIN ProductServices as p on pd.ProductID = p.ProductID
+ LEFT JOIN ItemUnit as iu on pd.ItemUnitID = iu.ItemUnitID
+ LEFT JOIN JobGeneration as j on pd.JobID = j.JobID
+ WHERE pd.PurchaseInvoiceID = @PurchaseInvoiceID;
+
+
+END
