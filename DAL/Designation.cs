@@ -16,15 +16,15 @@ namespace DAL
     {
         public Designation()
         {
-            this.AcCompanies = new HashSet<AcCompany>();
             this.BranchMasters = new HashSet<BranchMaster>();
+            this.AcCompanies = new HashSet<AcCompany>();
         }
     
         public int DesignationID { get; set; }
         public string Designation1 { get; set; }
         public Nullable<int> User1 { get; set; }
     
-        public virtual ICollection<AcCompany> AcCompanies { get; set; }
         public virtual ICollection<BranchMaster> BranchMasters { get; set; }
+        public virtual ICollection<AcCompany> AcCompanies { get; set; }
     }
 }

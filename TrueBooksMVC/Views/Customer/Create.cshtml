@@ -115,41 +115,41 @@
         <fieldset>
             <div class="row no-margin">
 
-                <div class="col-md-4">
-                    <label class="required headinglabel">Customer</label>
+                <div class="col-md-6">
+                    <label class="required headinglabel">Customer Name</label>
                     @Html.TextBoxFor(model => model.Customer1, new { @class = "form-control txttarget" })
                     @Html.ValidationMessageFor(model => model.Customer1)
 
                 </div>
-                <div class="col-md-4">
-                    <label class="required headinglabel">Customer Code</label>
+                <div class="col-md-6">
+                    <label class="required headinglabel">Reference Code</label>
                     @Html.TextBoxFor(model => model.ReferenceCode, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.ReferenceCode)
-
-                </div>
-                <div class="col-md-4">
-                    <label class="required headinglabel">Contact Person</label>
-                    @Html.TextBoxFor(model => model.ContactPerson, new { @class = "form-control txttarget" })
-                    @Html.ValidationMessageFor(model => model.ContactPerson)
 
                 </div>
             </div>
 
             <div class="row no-margin" style="padding-top:10px">
 
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <label class="required headinglabel">Address 1</label>
                     @Html.TextBoxFor(model => model.Address1, new { @class = "form-control txttarget" })
                     @Html.ValidationMessageFor(model => model.Address1)
 
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-6">
+                    <label class="required headinglabel">Contact Person</label>
+                    @Html.TextBoxFor(model => model.ContactPerson, new { @class = "form-control txttarget" })
+                    @Html.ValidationMessageFor(model => model.ContactPerson)
+
+                </div>
+                <div class="col-md-6">
                     <label class="headinglabel">Address 2</label>
                     @Html.TextBoxFor(model => model.Address2, new { @class = "form-control txttarget" })
                     @Html.ValidationMessageFor(model => model.Address2)
 
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <label class="headinglabel">Address 3</label>
                     @Html.TextBoxFor(model => model.Address3, new { @class = "form-control txttarget" })
                     @Html.ValidationMessageFor(model => model.Address3)
@@ -158,64 +158,62 @@
             </div>
 
             <div class="row no-margin" style="padding-top:10px;">
-                <div class="col-md-4">
-                    <label class="headinglabel">PO Box No</label>
-                    @Html.TextBoxFor(model => model.POBoxNo, new { @class = "form-control textright" })
-                    @Html.ValidationMessageFor(model => model.POBoxNo)
+                <div class="col-md-6">
+                    <label class="required headinglabel">City</label>
+                    @Html.TextBoxFor(model => model.City, new { @class = "form-control textright txttarget" })
+                    @Html.ValidationMessageFor(model => model.City)
 
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <label class="required headinglabel">Phone</label>
                     @Html.TextBoxFor(model => model.Phone, new { @class = "form-control textright txttarget" })
                     @Html.ValidationMessageFor(model => model.Phone)
 
                 </div>
-                <div class="col-md-4">
+            </div>
+            <div class="row no-margin" style="padding-top:10px;">
+                <div class="col-md-6">
+                    <label class="required headinglabel">Country</label>
+                    @Html.DropDownListFor(model => model.CountryID, (IEnumerable<SelectListItem>)ViewBag.country, "select", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.CountryID)
+
+                </div>
+                <div class="col-md-6">
                     <label class="required headinglabel">Fax</label>
                     @Html.TextBoxFor(model => model.Fax, new { @class = "form-control textright" })
                     @Html.ValidationMessageFor(model => model.Fax)
 
                 </div>
             </div>
-
             <div class="row no-margin" style="padding-top:10px;">
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <label class="required headinglabel">Email</label>
                     @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Email)
 
                 </div>
-                <div class="col-md-4">
-                    <label class="headinglabel">Website</label>
-                    @Html.TextBoxFor(model => model.WebSite, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.WebSite)
-
-                </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <label class="headinglabel">Max Credit Days</label>
                     @Html.TextBoxFor(model => model.MaxCreditDays, new { @class = "form-control textright" })
                     @Html.ValidationMessageFor(model => model.MaxCreditDays)
 
                 </div>
-
-
-            </div>
-
-            <div class="row no-margin" style="padding-top:10px;">
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <label class="headinglabel">Max Credit Limit</label>
                     @Html.TextBoxFor(model => model.MaxCreditLimit, new { @class = "form-control textright", @Value = "0" })
                     @Html.ValidationMessageFor(model => model.MaxCreditLimit)
                 </div>
+            </div>
 
-                <div class="col-md-4">
-                    <label class="headinglabel">Discount Percentage</label>
-                    @Html.TextBoxFor(model => model.DiscountPercentage, new { @class = "form-control textright", @Value = "0" })
-                    @Html.ValidationMessageFor(model => model.DiscountPercentage)
+            <div class="row no-margin" style="padding-top:10px;">
+                <div class="col-md-6">
+                    <label class="headinglabel">Website</label>
+                    @Html.TextBoxFor(model => model.WebSite, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.WebSite)
 
                 </div>
-                <div class="col-md-4">
 
+                <div class="col-md-3">
 
                     <label class="headinglabel">Exporter Code</label>
                     @Html.TextBoxFor(model => model.ExporterCode, new { @class = "form-control" })
@@ -223,23 +221,35 @@
 
                 </div>
 
+                <div class="col-md-3">
+                    <label class="headinglabel">Discount Percentage</label>
+                    @Html.TextBoxFor(model => model.DiscountPercentage, new { @class = "form-control textright", @Value = "0" })
+                    @Html.ValidationMessageFor(model => model.DiscountPercentage)
+
+                </div>
+
             </div>
 
             <div class="row no-margin" style="padding-top:10px">
-                <div class="col-md-4">
+                <div class="col-md-3">
 
                     <label class="headinglabel">Remarks</label>
                     @Html.TextBoxFor(model => model.Remarks, new { @class = "form-control txttarget" })
                     @Html.ValidationMessageFor(model => model.Remarks)
 
                 </div>
+                <div class="col-md-3">
+                    <label class="headinglabel">PO Box No</label>
+                    @Html.TextBoxFor(model => model.POBoxNo, new { @class = "form-control textright" })
+                    @Html.ValidationMessageFor(model => model.POBoxNo)
 
-                <div class="col-md-4" style="padding-top:15px">
+                </div>
+                <div class="col-md-3" style="padding-top:15px">
 
                     @Html.CheckBox("StatusActive", new { @name = "StatusActive" }) &nbsp <label class="headinglabel">Status Active</label>
                     @Html.ValidationMessageFor(model => model.StatusActive)
                 </div>
-                <div class="col-md-4" style="padding-top:15px">
+                <div class="col-md-3" style="padding-top:15px">
                     @Html.CheckBox("StatusBlocked", new { @name = "StatusBlocked" }) &nbsp <label class="headinglabel">Status Blocked</label>
                     @Html.ValidationMessageFor(model => model.StatusBlocked)
 
@@ -248,19 +258,19 @@
             </div>
 
             <div class="row no-margin" style="padding-top:10px">
-                <div class="col-md-4" style="padding-top:15px">
+                <div class="col-md-3" style="padding-top:15px">
                     @Html.CheckBox("StatusReserved", new { @name = "StatusReserved" }) &nbsp <label class="headinglabel">Status Reserved</label>
                     @Html.ValidationMessageFor(model => model.StatusReserved)
 
                 </div>
 
-                <div class="col-md-4" style="padding-top:15px">
+                <div class="col-md-3" style="padding-top:15px">
                     @Html.CheckBox("StatusConsignor", new { @name = "StatusConsignor" }) &nbsp <label class="headinglabel">Status Consignor</label>
                     @Html.ValidationMessageFor(model => model.StatusConsignor)
 
                 </div>
 
-                <div class="col-md-4" style="padding-top:15px">
+                <div class="col-md-3" style="padding-top:15px">
                     @Html.CheckBox("InvoiceTo", new { @name = "InvoiceTo" }) &nbsp <label class="headinglabel">Invoice To</label>
                     @Html.ValidationMessageFor(model => model.InvoiceTo)
 
@@ -270,7 +280,7 @@
 
 
             <div class="row no-margin" style="padding-top:10px">
-                <div class="col-md-12"  style="
+                <div class="col-md-12" style="
                      text-align: center;
                      padding: 9px;
                      margin-top: 12px;

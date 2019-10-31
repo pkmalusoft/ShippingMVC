@@ -19,6 +19,8 @@ namespace TrueBooksMVC.Models
         public string Address { get; set; }
         public string phone { get; set; }
         public string  Email { get; set; }
-       
+        public string City { get; set; }
+        public string Website { get; set; }
+        public string ContactPerson { get; set; }
     }
 }

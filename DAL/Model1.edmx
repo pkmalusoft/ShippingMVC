@@ -67,6 +67,8 @@ warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.AcBankDetails' does not
           <Property Name="CompanyPrefix" Type="varchar" MaxLength="10" />
           <Property Name="CurrencyID" Type="int" />
           <Property Name="AreaID" Type="int" />
+          <Property Name="ContactPerson" Type="nvarchar" MaxLength="100" />
+          <Property Name="logo" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="AcFinancialYear">
           <Key>
@@ -312,6 +314,8 @@ warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.AcHeadAssign' does not 
           <Property Name="CurrencyID" Type="int" />
           <Property Name="AcCompanyID" Type="int" />
           <Property Name="StatusAssociate" Type="bit" />
+          <Property Name="City" Type="nvarchar" MaxLength="50" />
+          <Property Name="ContactPerson" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Carrier">
           <Key>
@@ -384,6 +388,7 @@ warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.AcHeadAssign' does not 
           <Property Name="CountryID" Type="int" Nullable="false" />
           <Property Name="CountryName" Type="nvarchar" MaxLength="50" />
           <Property Name="CountryCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="CountryPrefix" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="CreditNote">
           <Key>
@@ -415,6 +420,7 @@ warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.AcHeadAssign' does not 
           <Property Name="CountryID" Type="int" />
           <Property Name="StatusBaseCurrency" Type="bit" />
           <Property Name="ExchangeRate" Type="money" />
+          <Property Name="CurrencyCode" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="CUSTOMER">
           <Key>
@@ -442,6 +448,8 @@ warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.AcHeadAssign' does not 
           <Property Name="ExporterCode" Type="nvarchar" MaxLength="50" />
           <Property Name="POBoxNo" Type="nvarchar" MaxLength="25" />
           <Property Name="InvoiceTo" Type="bit" />
+          <Property Name="CountryID" Type="int" />
+          <Property Name="City" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="DebitNote">
           <Key>
@@ -700,6 +708,7 @@ warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.AcHeadAssign' does not 
           <Property Name="LocationID" Type="int" Nullable="false" />
           <Property Name="Location" Type="nvarchar" MaxLength="50" />
           <Property Name="prefix" Type="nvarchar" MaxLength="5" />
+          <Property Name="Country" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Menu">
           <Key>
@@ -776,6 +785,9 @@ warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.AcHeadAssign' does not 
           <Property Name="PaymentTerm" Type="nvarchar(max)" />
           <Property Name="Remarks" Type="nvarchar(max)" />
           <Property Name="FYearID" Type="int" />
+          <Property Name="DiscountType" Type="int" />
+          <Property Name="DiscountValueLC" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="DiscountValueFC" Type="decimal" Precision="18" Scale="2" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.PurchaseInvoiceDetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -906,7 +918,7 @@ warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.SalesInvoiceDetails' do
           <Property Name="ProductID" Type="int" />
           <Property Name="Quantity" Type="int" />
           <Property Name="ItemUnitID" Type="int" />
-          <Property Name="Rate" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="RateType" Type="nvarchar" MaxLength="50" />
           <Property Name="RateLC" Type="decimal" Precision="18" Scale="2" />
           <Property Name="RateFC" Type="decimal" Precision="18" Scale="2" />
           <Property Name="Value" Type="decimal" Precision="18" Scale="2" />
@@ -937,6 +949,11 @@ warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.SalesInvoiceDetails' do
           <Property Name="StatusReserved" Type="bit" />
           <Property Name="Remarks" Type="nvarchar" MaxLength="200" />
           <Property Name="CountryID" Type="int" />
+          <Property Name="City" Type="nvarchar" MaxLength="50" />
+          <Property Name="Discount" Type="decimal" Precision="18" Scale="5" />
+          <Property Name="ExportCode" Type="nvarchar" MaxLength="100" />
+          <Property Name="CreditLimit" Type="nvarchar" MaxLength="100" />
+          <Property Name="CreditDays" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="Supplier">
           <Key>
@@ -961,6 +978,9 @@ warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.SalesInvoiceDetails' do
           <Property Name="POBoxNo" Type="nvarchar" MaxLength="25" />
           <Property Name="statusInventory" Type="bit" />
           <Property Name="RevenuTypeIds" Type="nvarchar(max)" />
+          <Property Name="CountryID" Type="int" />
+          <Property Name="City" Type="nvarchar" MaxLength="100" />
+          <Property Name="ExportCode" Type="int" />
         </EntityType>
         <EntityType Name="Transporter">
           <Key>
@@ -986,6 +1006,8 @@ warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.SalesInvoiceDetails' do
           <Property Name="Remarks" Type="nvarchar" MaxLength="200" />
           <Property Name="StatusReserved" Type="bit" />
           <Property Name="ExporterCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="CountryID" Type="int" />
+          <Property Name="City" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="UserProfile">
           <Key>
@@ -2049,8 +2071,8 @@ warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.qrySupplierOutstanding'
           <Parameter Name="Remarks" Type="nvarchar(max)" Mode="In" />
           <Parameter Name="FYearID" Type="int" Mode="In" />
           <Parameter Name="DiscountType" Type="int" Mode="In" />
-          <Parameter Name="DiscountValueLC" Type="decimal" Precision="18" Scale="2" Mode="In" />
-          <Parameter Name="DiscountValueFC" Type="decimal" Precision="18" Scale="2" Mode="In" />
+          <Parameter Name="DiscountValueLC" Type="decimal" Mode="In" />
+          <Parameter Name="DiscountValueFC" Type="decimal" Mode="In" />
         </Function>
         <Function Name="SP_InsertRecPay" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="RecPayDate" Type="datetime" Mode="In" />
@@ -2120,8 +2142,8 @@ warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.qrySupplierOutstanding'
           <Parameter Name="Remarks" Type="nvarchar(max)" Mode="In" />
           <Parameter Name="FYearID" Type="int" Mode="In" />
           <Parameter Name="DeliveryId" Type="int" Mode="In" />
-          <Parameter Name="DiscountType" Type="int" Mode="In"  />
-          <Parameter Name="DiscountValueLC" Type="decimal" Mode="In"  />
+          <Parameter Name="DiscountType" Type="int" Mode="In" />
+          <Parameter Name="DiscountValueLC" Type="decimal" Mode="In" />
           <Parameter Name="DiscountValueFC" Type="decimal" Mode="In" />
         </Function>
         <Function Name="SP_InsertUserDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -2228,8 +2250,8 @@ warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.qrySupplierOutstanding'
           <Parameter Name="Remarks" Type="nvarchar(max)" Mode="In" />
           <Parameter Name="FYearID" Type="int" Mode="In" />
           <Parameter Name="DiscountType" Type="int" Mode="In" />
-          <Parameter Name="DiscountValueLC" Type="decimal" Precision="18" Scale="2" Mode="In" />
-          <Parameter Name="DiscountValueFC" Type="decimal" Precision="18" Scale="2" Mode="In" />
+          <Parameter Name="DiscountValueLC" Type="decimal" Mode="In" />
+          <Parameter Name="DiscountValueFC" Type="decimal" Mode="In" />
         </Function>
         <Function Name="SP_UpdateSalesInvoice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="SalesInvoiceId" Type="int" Mode="In" />
@@ -2253,9 +2275,9 @@ warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.qrySupplierOutstanding'
           <Parameter Name="Remarks" Type="nvarchar(max)" Mode="In" />
           <Parameter Name="FYearID" Type="int" Mode="In" />
           <Parameter Name="DeliveryId" Type="int" Mode="In" />
-          <Parameter Name="DiscountType" Type="int" Mode="In"  />
-          <Parameter Name="DiscountValueLC" Type="decimal" Mode="In"  />
-          <Parameter Name="DiscountValueFC" Type="decimal" Mode="In"  />
+          <Parameter Name="DiscountType" Type="int" Mode="In" />
+          <Parameter Name="DiscountValueLC" Type="decimal" Mode="In" />
+          <Parameter Name="DiscountValueFC" Type="decimal" Mode="In" />
         </Function>
         <Function Name="SPGetAllLocalCurrencyCostUpdation" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="AcFinancialYearID" Type="int" Mode="In" />
@@ -2392,7 +2414,7 @@ FROM [dbo].[PurchaseInvoiceDetails] AS [PurchaseInvoiceDetails]</DefiningQuery>
 [SalesInvoiceDetails].[ProductID] AS [ProductID], 
 [SalesInvoiceDetails].[Quantity] AS [Quantity], 
 [SalesInvoiceDetails].[ItemUnitID] AS [ItemUnitID], 
-[SalesInvoiceDetails].[Rate] AS [Rate], 
+[SalesInvoiceDetails].[RateType] AS [RateType], 
 [SalesInvoiceDetails].[RateLC] AS [RateLC], 
 [SalesInvoiceDetails].[RateFC] AS [RateFC], 
 [SalesInvoiceDetails].[Value] AS [Value], 
@@ -2758,26 +2780,19 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
             <Parameter Name="DeliveryOrderDate" Mode="In" Type="DateTime" />
           </FunctionImport>
           <EntitySet Name="Carriers" EntityType="SHIPPING_FinalModel.Carrier" />
-          <EntitySet Name="CountryMasters" EntityType="SHIPPING_FinalModel.CountryMaster" />
-          <EntitySet Name="CUSTOMERs" EntityType="SHIPPING_FinalModel.CUSTOMER" />
           <EntitySet Name="Departments" EntityType="SHIPPING_FinalModel.Department" />
           <EntitySet Name="Designations" EntityType="SHIPPING_FinalModel.Designation" />
           <EntitySet Name="Employees" EntityType="SHIPPING_FinalModel.Employee" />
           <EntitySet Name="JobModes" EntityType="SHIPPING_FinalModel.JobMode" />
           <EntitySet Name="JobTypes" EntityType="SHIPPING_FinalModel.JobType" />
-          <EntitySet Name="Locations" EntityType="SHIPPING_FinalModel.Location" />
           <EntitySet Name="RevenueTypes" EntityType="SHIPPING_FinalModel.RevenueType" />
-          <EntitySet Name="ShippingAgents" EntityType="SHIPPING_FinalModel.ShippingAgent" />
-          <EntitySet Name="Transporters" EntityType="SHIPPING_FinalModel.Transporter" />
           <EntitySet Name="Vessels" EntityType="SHIPPING_FinalModel.Vessel" />
           <EntitySet Name="Voyages" EntityType="SHIPPING_FinalModel.Voyage" />
           <EntitySet Name="UserProfiles" EntityType="SHIPPING_FinalModel.UserProfile" />
           <EntitySet Name="AspNetRoles" EntityType="SHIPPING_FinalModel.AspNetRole" />
           <EntitySet Name="RoleMasters" EntityType="SHIPPING_FinalModel.RoleMaster" />
-          <EntitySet Name="CurrencyMasters" EntityType="SHIPPING_FinalModel.CurrencyMaster" />
           <EntitySet Name="MenuAccessLevels" EntityType="SHIPPING_FinalModel.MenuAccessLevel" />
           <EntitySet Name="ContainerTypes" EntityType="SHIPPING_FinalModel.ContainerType" />
-          <EntitySet Name="Suppliers" EntityType="SHIPPING_FinalModel.Supplier" />
           <EntitySet Name="Ports" EntityType="SHIPPING_FinalModel.Port" />
           <FunctionImport Name="SP_GetCostUpdationByCostID" ReturnType="Collection(SHIPPING_FinalModel.SP_GetCostUpdationByCostID_Result)">
           <Parameter Name="CostUpdationID" Mode="In" Type="Int32" />
@@ -2785,48 +2800,10 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <FunctionImport Name="SP_GetSupplierByRevenueTypeID1" ReturnType="Collection(String)">
           <Parameter Name="RevenuTypeId" Mode="In" Type="Int32" />
           </FunctionImport>
-          <EntitySet Name="AcCompanies" EntityType="SHIPPING_FinalModel.AcCompany" />
           <EntitySet Name="AcGroups" EntityType="SHIPPING_FinalModel.AcGroup" />
           <EntitySet Name="AcHeads" EntityType="SHIPPING_FinalModel.AcHead" />
           <EntitySet Name="AcHeadAssigns" EntityType="SHIPPING_FinalModel.AcHeadAssign" />
-          <AssociationSet Name="FK_AcCompany_CountryMaster" Association="SHIPPING_FinalModel.FK_AcCompany_CountryMaster">
-            <End Role="CountryMaster" EntitySet="CountryMasters" />
-            <End Role="AcCompany" EntitySet="AcCompanies" />
-          </AssociationSet>
-          <AssociationSet Name="FK_AcCompany_CurrencyMaster" Association="SHIPPING_FinalModel.FK_AcCompany_CurrencyMaster">
-            <End Role="CurrencyMaster" EntitySet="CurrencyMasters" />
-            <End Role="AcCompany" EntitySet="AcCompanies" />
-          </AssociationSet>
-          <AssociationSet Name="FK_AcCompany_Designation" Association="SHIPPING_FinalModel.FK_AcCompany_Designation">
-            <End Role="Designation" EntitySet="Designations" />
-            <End Role="AcCompany" EntitySet="AcCompanies" />
-          </AssociationSet>
-          <AssociationSet Name="FK_AcCompany_Location" Association="SHIPPING_FinalModel.FK_AcCompany_Location">
-            <End Role="Location" EntitySet="Locations" />
-            <End Role="AcCompany" EntitySet="AcCompanies" />
-          </AssociationSet>
           <EntitySet Name="Menus" EntityType="SHIPPING_FinalModel.Menu" />
-          <EntitySet Name="BranchMasters" EntityType="SHIPPING_FinalModel.BranchMaster" />
-          <AssociationSet Name="FK_AcGroup_BranchMaster" Association="SHIPPING_FinalModel.FK_AcGroup_BranchMaster">
-            <End Role="BranchMaster" EntitySet="BranchMasters" />
-            <End Role="AcGroup" EntitySet="AcGroups" />
-          </AssociationSet>
-          <AssociationSet Name="FK_BranchMaster_CountryMaster" Association="SHIPPING_FinalModel.FK_BranchMaster_CountryMaster">
-            <End Role="CountryMaster" EntitySet="CountryMasters" />
-            <End Role="BranchMaster" EntitySet="BranchMasters" />
-          </AssociationSet>
-          <AssociationSet Name="FK_BranchMaster_CurrencyMaster" Association="SHIPPING_FinalModel.FK_BranchMaster_CurrencyMaster">
-            <End Role="CurrencyMaster" EntitySet="CurrencyMasters" />
-            <End Role="BranchMaster" EntitySet="BranchMasters" />
-          </AssociationSet>
-          <AssociationSet Name="FK_BranchMaster_Designation" Association="SHIPPING_FinalModel.FK_BranchMaster_Designation">
-            <End Role="Designation" EntitySet="Designations" />
-            <End Role="BranchMaster" EntitySet="BranchMasters" />
-          </AssociationSet>
-          <AssociationSet Name="FK_BranchMaster_Location" Association="SHIPPING_FinalModel.FK_BranchMaster_Location">
-            <End Role="Location" EntitySet="Locations" />
-            <End Role="BranchMaster" EntitySet="BranchMasters" />
-          </AssociationSet>
           <FunctionImport Name="AcHeadAssignInsert">
             <Parameter Name="provisionCostControlAcID" Mode="In" Type="Int32" />
             <Parameter Name="AccruedCostControlAcID" Mode="In" Type="Int32" />
@@ -2847,10 +2824,6 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           </AssociationSet>
           <AssociationSet Name="FK_AnalysisHead_AnalysisGroup" Association="SHIPPING_FinalModel.FK_AnalysisHead_AnalysisGroup">
             <End Role="AnalysisGroup" EntitySet="AnalysisGroups" />
-            <End Role="AnalysisHead" EntitySet="AnalysisHeads" />
-          </AssociationSet>
-          <AssociationSet Name="FK_AnalysisHead_BranchMaster" Association="SHIPPING_FinalModel.FK_AnalysisHead_BranchMaster">
-            <End Role="BranchMaster" EntitySet="BranchMasters" />
             <End Role="AnalysisHead" EntitySet="AnalysisHeads" />
           </AssociationSet>
           <FunctionImport Name="AcCategoryDelete">
@@ -3016,10 +2989,6 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <EntitySet Name="AcOpeningMasters" EntityType="SHIPPING_FinalModel.AcOpeningMaster" />
           <AssociationSet Name="FK_AcOpeningMaster_AcHead" Association="SHIPPING_FinalModel.FK_AcOpeningMaster_AcHead">
             <End Role="AcHead" EntitySet="AcHeads" />
-            <End Role="AcOpeningMaster" EntitySet="AcOpeningMasters" />
-          </AssociationSet>
-          <AssociationSet Name="FK_AcOpeningMaster_BranchMaster" Association="SHIPPING_FinalModel.FK_AcOpeningMaster_BranchMaster">
-            <End Role="BranchMaster" EntitySet="BranchMasters" />
             <End Role="AcOpeningMaster" EntitySet="AcOpeningMasters" />
           </AssociationSet>
           <FunctionImport Name="AcOpeningMasterInsert">
@@ -3422,10 +3391,6 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
             <End Role="AcOpeningMaster" EntitySet="AcOpeningMasters" />
           </AssociationSet>
           <EntitySet Name="DebitNotes" EntityType="SHIPPING_FinalModel.DebitNote" />
-          <AssociationSet Name="FK_AcGroup_AcCompany" Association="SHIPPING_FinalModel.FK_AcGroup_AcCompany">
-            <End Role="AcCompany" EntitySet="AcCompanies" />
-            <End Role="AcGroup" EntitySet="AcGroups" />
-          </AssociationSet>
           <FunctionImport Name="SP_GetAllCostUpdation" ReturnType="Collection(SHIPPING_FinalModel.SP_GetAllCostUpdation_Result)" />
           <EntitySet Name="AcJournalDetails" EntityType="SHIPPING_FinalModel.AcJournalDetail" />
           <EntitySet Name="AcJournalMasters" EntityType="SHIPPING_FinalModel.AcJournalMaster" />
@@ -3462,14 +3427,6 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
             <Parameter Name="tdate" Mode="In" Type="DateTime" />
           </FunctionImport>
           <EntitySet Name="CreditNotes" EntityType="SHIPPING_FinalModel.CreditNote" />
-          <AssociationSet Name="FK_AcOpeningMaster_AcCompany" Association="SHIPPING_FinalModel.FK_AcOpeningMaster_AcCompany">
-            <End Role="AcCompany" EntitySet="AcCompanies" />
-            <End Role="AcOpeningMaster" EntitySet="AcOpeningMasters" />
-          </AssociationSet>
-          <AssociationSet Name="FK_AnalysisHead_AcCompany" Association="SHIPPING_FinalModel.FK_AnalysisHead_AcCompany">
-            <End Role="AcCompany" EntitySet="AcCompanies" />
-            <End Role="AnalysisHead" EntitySet="AnalysisHeads" />
-          </AssociationSet>
           <FunctionImport Name="SP_GetChargesbyJobIDandUser" ReturnType="Collection(SHIPPING_FinalModel.SP_GetChargesbyJobIDandUser_Result)">
             <Parameter Name="JobId" Mode="In" Type="Int32" />
             <Parameter Name="UserID" Mode="In" Type="Int32" />
@@ -3721,9 +3678,9 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
             <Parameter Name="PaymentTerm" Mode="In" Type="String" />
             <Parameter Name="Remarks" Mode="In" Type="String" />
             <Parameter Name="FYearID" Mode="In" Type="Int32" />
-            <Parameter Name="DiscountType" Type="Int32" Mode="In" />
-            <Parameter Name="DiscountValueLC" Type="Decimal" Precision="18" Scale="2" Mode="In" />
-            <Parameter Name="DiscountValueFC" Type="Decimal" Precision="18" Scale="2" Mode="In" />
+            <Parameter Name="DiscountType" Mode="In" Type="Int32" />
+            <Parameter Name="DiscountValueLC" Mode="In" Type="Decimal" />
+            <Parameter Name="DiscountValueFC" Mode="In" Type="Decimal" />
           </FunctionImport>
           <FunctionImport Name="SP_UpdatePurchaseInvoice">
             <Parameter Name="PurchaseInvoiceId" Mode="In" Type="Int32" />
@@ -3746,9 +3703,9 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
             <Parameter Name="PaymentTerm" Mode="In" Type="String" />
             <Parameter Name="Remarks" Mode="In" Type="String" />
             <Parameter Name="FYearID" Mode="In" Type="Int32" />
-            <Parameter Name="DiscountType" Type="Int32" Mode="In" />
-            <Parameter Name="DiscountValueLC" Type="Decimal" Precision="18" Scale="2" Mode="In" />
-            <Parameter Name="DiscountValueFC" Type="Decimal" Precision="18" Scale="2" Mode="In" />
+            <Parameter Name="DiscountType" Mode="In" Type="Int32" />
+            <Parameter Name="DiscountValueLC" Mode="In" Type="Decimal" />
+            <Parameter Name="DiscountValueFC" Mode="In" Type="Decimal" />
           </FunctionImport>
           <FunctionImport Name="SP_DeletePurchaseInvoice">
           <Parameter Name="PurchaseInvoiceId" Mode="In" Type="Int32" />
@@ -3820,8 +3777,60 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <FunctionImport Name="SP_GetAllProductServices" ReturnType="Collection(SHIPPING_FinalModel.SP_GetAllProductServices_Result)" />
           <EntitySet Name="PurchaseInvoiceDetails" EntityType="SHIPPING_FinalModel.PurchaseInvoiceDetail" />
           <EntitySet Name="SalesInvoiceDetails" EntityType="SHIPPING_FinalModel.SalesInvoiceDetail" />
-   
-        </EntityContainer>
+          <EntitySet Name="CountryMasters" EntityType="SHIPPING_FinalModel.CountryMaster" />
+          <EntitySet Name="Locations" EntityType="SHIPPING_FinalModel.Location" />
+          <EntitySet Name="CurrencyMasters" EntityType="SHIPPING_FinalModel.CurrencyMaster" />
+          <EntitySet Name="BranchMasters" EntityType="SHIPPING_FinalModel.BranchMaster" />
+          <AssociationSet Name="FK_BranchMaster_CountryMaster" Association="SHIPPING_FinalModel.FK_BranchMaster_CountryMaster">
+            <End Role="CountryMaster" EntitySet="CountryMasters" />
+            <End Role="BranchMaster" EntitySet="BranchMasters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BranchMaster_CurrencyMaster" Association="SHIPPING_FinalModel.FK_BranchMaster_CurrencyMaster">
+            <End Role="CurrencyMaster" EntitySet="CurrencyMasters" />
+            <End Role="BranchMaster" EntitySet="BranchMasters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BranchMaster_Designation" Association="SHIPPING_FinalModel.FK_BranchMaster_Designation">
+            <End Role="Designation" EntitySet="Designations" />
+            <End Role="BranchMaster" EntitySet="BranchMasters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BranchMaster_Location" Association="SHIPPING_FinalModel.FK_BranchMaster_Location">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="BranchMaster" EntitySet="BranchMasters" />
+          </AssociationSet>
+          <EntitySet Name="ShippingAgents" EntityType="SHIPPING_FinalModel.ShippingAgent" />
+          <EntitySet Name="Transporters" EntityType="SHIPPING_FinalModel.Transporter" />
+          <EntitySet Name="CUSTOMERs" EntityType="SHIPPING_FinalModel.CUSTOMER" />
+          <EntitySet Name="Suppliers" EntityType="SHIPPING_FinalModel.Supplier" />
+          <EntitySet Name="AcCompanies" EntityType="SHIPPING_FinalModel.AcCompany" />
+          <AssociationSet Name="FK_AcCompany_CountryMaster" Association="SHIPPING_FinalModel.FK_AcCompany_CountryMaster">
+            <End Role="CountryMaster" EntitySet="CountryMasters" />
+            <End Role="AcCompany" EntitySet="AcCompanies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AcCompany_CurrencyMaster" Association="SHIPPING_FinalModel.FK_AcCompany_CurrencyMaster">
+            <End Role="CurrencyMaster" EntitySet="CurrencyMasters" />
+            <End Role="AcCompany" EntitySet="AcCompanies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AcCompany_Designation" Association="SHIPPING_FinalModel.FK_AcCompany_Designation">
+            <End Role="Designation" EntitySet="Designations" />
+            <End Role="AcCompany" EntitySet="AcCompanies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AcCompany_Location" Association="SHIPPING_FinalModel.FK_AcCompany_Location">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="AcCompany" EntitySet="AcCompanies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AcGroup_AcCompany" Association="SHIPPING_FinalModel.FK_AcGroup_AcCompany">
+            <End Role="AcCompany" EntitySet="AcCompanies" />
+            <End Role="AcGroup" EntitySet="AcGroups" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AcOpeningMaster_AcCompany" Association="SHIPPING_FinalModel.FK_AcOpeningMaster_AcCompany">
+            <End Role="AcCompany" EntitySet="AcCompanies" />
+            <End Role="AcOpeningMaster" EntitySet="AcOpeningMasters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AnalysisHead_AcCompany" Association="SHIPPING_FinalModel.FK_AnalysisHead_AcCompany">
+            <End Role="AcCompany" EntitySet="AcCompanies" />
+            <End Role="AnalysisHead" EntitySet="AnalysisHeads" />
+          </AssociationSet>
+          </EntityContainer>
         <ComplexType Name="SP_GetUserDetailForEdit_Result">
           <Property Type="Int32" Name="UserID" Nullable="false" />
           <Property Type="String" Name="Username" Nullable="true" MaxLength="50" />
@@ -4361,43 +4370,6 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Type="Int32" Name="CarrierID" Nullable="false" />
           <Property Type="String" Name="Carrier1" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="CountryMaster">
-          <Key>
-            <PropertyRef Name="CountryID" />
-          </Key>
-          <Property Type="Int32" Name="CountryID" Nullable="false" />
-          <Property Type="String" Name="CountryName" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="CountryCode" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="AcCompanies" Relationship="SHIPPING_FinalModel.FK_AcCompany_CountryMaster" FromRole="CountryMaster" ToRole="AcCompany" />
-          <NavigationProperty Name="BranchMasters" Relationship="SHIPPING_FinalModel.FK_BranchMaster_CountryMaster" FromRole="CountryMaster" ToRole="BranchMaster" />
-        </EntityType>
-        <EntityType Name="CUSTOMER">
-          <Key>
-            <PropertyRef Name="CustomerID" />
-          </Key>
-          <Property Type="Int32" Name="CustomerID" Nullable="false" />
-          <Property Type="String" Name="Customer1" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="ReferenceCode" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="ContactPerson" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Address1" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Address2" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Address3" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Phone" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Fax" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Email" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="WebSite" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="MaxCreditDays" />
-          <Property Type="Double" Name="MaxCreditLimit" />
-          <Property Type="Single" Name="DiscountPercentage" />
-          <Property Type="Boolean" Name="StatusActive" />
-          <Property Type="Boolean" Name="StatusBlocked" />
-          <Property Type="Boolean" Name="StatusConsignor" />
-          <Property Type="String" Name="Remarks" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Type="Boolean" Name="StatusReserved" />
-          <Property Type="String" Name="ExporterCode" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="POBoxNo" MaxLength="25" FixedLength="false" Unicode="true" />
-          <Property Type="Boolean" Name="InvoiceTo" />
-        </EntityType>
         <EntityType Name="Department">
           <Key>
             <PropertyRef Name="DepartmentID" />
@@ -4412,8 +4384,8 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Type="Int32" Name="DesignationID" Nullable="false" />
           <Property Type="String" Name="Designation1" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="User1" />
-          <NavigationProperty Name="AcCompanies" Relationship="SHIPPING_FinalModel.FK_AcCompany_Designation" FromRole="Designation" ToRole="AcCompany" />
           <NavigationProperty Name="BranchMasters" Relationship="SHIPPING_FinalModel.FK_BranchMaster_Designation" FromRole="Designation" ToRole="BranchMaster" />
+          <NavigationProperty Name="AcCompanies" Relationship="SHIPPING_FinalModel.FK_AcCompany_Designation" FromRole="Designation" ToRole="AcCompany" />
         </EntityType>
         <EntityType Name="Employee">
           <Key>
@@ -4456,16 +4428,6 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Type="Boolean" Name="StatusSea" />
           <Property Type="Boolean" Name="ShowDisplay" />
         </EntityType>
-        <EntityType Name="Location">
-          <Key>
-            <PropertyRef Name="LocationID" />
-          </Key>
-          <Property Type="Int32" Name="LocationID" Nullable="false" />
-          <Property Type="String" Name="Location1" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="prefix" MaxLength="5" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="AcCompanies" Relationship="SHIPPING_FinalModel.FK_AcCompany_Location" FromRole="Location" ToRole="AcCompany" />
-          <NavigationProperty Name="BranchMasters" Relationship="SHIPPING_FinalModel.FK_BranchMaster_Location" FromRole="Location" ToRole="BranchMaster" />
-        </EntityType>
         <EntityType Name="RevenueType">
           <Key>
             <PropertyRef Name="RevenueTypeID" />
@@ -4477,52 +4439,6 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Type="Decimal" Name="RevenueCost" Precision="19" Scale="4" />
           <Property Type="Decimal" Name="MinimumValue" Precision="19" Scale="4" />
           <Property Name="TaxPercentage" Type="Decimal" Precision="5" Scale="2" />
-        </EntityType>
-        <EntityType Name="ShippingAgent">
-          <Key>
-            <PropertyRef Name="ShippingAgentID" />
-          </Key>
-          <Property Type="Int32" Name="ShippingAgentID" Nullable="false" />
-          <Property Type="String" Name="AgentName" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="ReferenceCode" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="ContactPerson" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Address1" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Address2" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Address3" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Phone" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Fax" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Email" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="WebSite" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="Boolean" Name="StatusActive" />
-          <Property Type="Boolean" Name="StatusBlocked" />
-          <Property Type="Boolean" Name="StatusReserved" />
-          <Property Type="String" Name="Remarks" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="CountryID" />
-        </EntityType>
-        <EntityType Name="Transporter">
-          <Key>
-            <PropertyRef Name="TransPorterID" />
-          </Key>
-          <Property Type="Int32" Name="TransPorterID" Nullable="false" />
-          <Property Type="String" Name="TransPorter1" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="ReferenceCode" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="ContactPerson" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Address1" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Address2" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Address3" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Phone" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Fax" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Email" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="WebSite" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="MaxCreditDays" />
-          <Property Type="Double" Name="MaxCreditLimit" />
-          <Property Type="Single" Name="DiscountPercentage" />
-          <Property Type="Boolean" Name="StatusActive" />
-          <Property Type="Boolean" Name="StatusBlocked" />
-          <Property Type="Boolean" Name="StatusConsignor" />
-          <Property Type="String" Name="Remarks" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Type="Boolean" Name="StatusReserved" />
-          <Property Type="String" Name="ExporterCode" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Vessel">
           <Key>
@@ -4560,21 +4476,6 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Type="Int32" Name="RoleID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="RoleName" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="CurrencyMaster">
-          <Key>
-            <PropertyRef Name="CurrencyID" />
-          </Key>
-          <Property Type="Int32" Name="CurrencyID" Nullable="false" />
-          <Property Type="String" Name="CurrencyName" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Symbol" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Type="Int16" Name="NoOfDecimals" />
-          <Property Type="String" Name="MonetaryUnit" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="CountryID" />
-          <Property Type="Boolean" Name="StatusBaseCurrency" />
-          <Property Type="Decimal" Name="ExchangeRate" Precision="19" Scale="4" />
-          <NavigationProperty Name="AcCompanies" Relationship="SHIPPING_FinalModel.FK_AcCompany_CurrencyMaster" FromRole="CurrencyMaster" ToRole="AcCompany" />
-          <NavigationProperty Name="BranchMasters" Relationship="SHIPPING_FinalModel.FK_BranchMaster_CurrencyMaster" FromRole="CurrencyMaster" ToRole="BranchMaster" />
-        </EntityType>
         <EntityType Name="MenuAccessLevel">
           <Key>
             <PropertyRef Name="MenuAccessID" />
@@ -4595,30 +4496,6 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           </Key>
           <Property Type="Int32" Name="ContainerTypeID" Nullable="false" />
           <Property Type="String" Name="ContainerType1" MaxLength="50" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="Supplier">
-          <Key>
-            <PropertyRef Name="SupplierID" />
-          </Key>
-          <Property Type="Int32" Name="SupplierID" Nullable="false" />
-          <Property Type="String" Name="SupplierName" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="ReferenceCode" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="ContactPerson" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Address1" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Address2" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Address3" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Phone" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Fax" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Email" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="WebSite" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="MaxCreditDays" />
-          <Property Type="Double" Name="MaxCreditLimit" />
-          <Property Type="Boolean" Name="StatusActive" />
-          <Property Type="String" Name="Remarks" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Type="Boolean" Name="StatusReserved" />
-          <Property Type="String" Name="POBoxNo" MaxLength="25" FixedLength="false" Unicode="true" />
-          <Property Type="Boolean" Name="statusInventory" />
-          <Property Type="String" Name="RevenuTypeIds" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Port">
           <Key>
@@ -4644,42 +4521,6 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Type="String" Name="JobCode" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="SupplierName" Nullable="true" MaxLength="100" />
         </ComplexType>
-        <EntityType Name="AcCompany">
-          <Key>
-            <PropertyRef Name="AcCompanyID" />
-          </Key>
-          <Property Type="Int32" Name="AcCompanyID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="AcCompany1" MaxLength="125" FixedLength="false" Unicode="false" />
-          <Property Type="Int32" Name="ParentID" />
-          <Property Type="String" Name="Address1" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="Address2" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="Address3" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="Phone" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="EMail" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Type="Int32" Name="UserID" />
-          <Property Type="Int32" Name="CountryID" />
-          <Property Type="Int32" Name="CityID" />
-          <Property Type="Int32" Name="LocationID" />
-          <Property Type="String" Name="KeyPerson" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Type="Int32" Name="DesignationID" />
-          <Property Type="String" Name="PhoneNo1" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="PhoneNo2" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="PhoneNo3" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="PhoneNo4" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="MobileNo1" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="MobileNo2" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="Website" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="CompanyPrefix" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Type="Int32" Name="CurrencyID" />
-          <Property Type="Int32" Name="AreaID" />
-          <NavigationProperty Name="CountryMaster" Relationship="SHIPPING_FinalModel.FK_AcCompany_CountryMaster" FromRole="AcCompany" ToRole="CountryMaster" />
-          <NavigationProperty Name="CurrencyMaster" Relationship="SHIPPING_FinalModel.FK_AcCompany_CurrencyMaster" FromRole="AcCompany" ToRole="CurrencyMaster" />
-          <NavigationProperty Name="Designation" Relationship="SHIPPING_FinalModel.FK_AcCompany_Designation" FromRole="AcCompany" ToRole="Designation" />
-          <NavigationProperty Name="Location" Relationship="SHIPPING_FinalModel.FK_AcCompany_Location" FromRole="AcCompany" ToRole="Location" />
-          <NavigationProperty Name="AcGroups" Relationship="SHIPPING_FinalModel.FK_AcGroup_AcCompany" FromRole="AcCompany" ToRole="AcGroup" />
-          <NavigationProperty Name="AcOpeningMasters" Relationship="SHIPPING_FinalModel.FK_AcOpeningMaster_AcCompany" FromRole="AcCompany" ToRole="AcOpeningMaster" />
-          <NavigationProperty Name="AnalysisHeads" Relationship="SHIPPING_FinalModel.FK_AnalysisHead_AcCompany" FromRole="AcCompany" ToRole="AnalysisHead" />
-        </EntityType>
         <EntityType Name="AcGroup">
           <Key>
             <PropertyRef Name="AcGroupID" />
@@ -4696,7 +4537,6 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Type="Int32" Name="UserID" />
           <Property Type="Int32" Name="AcCategoryID" />
           <Property Type="String" Name="GroupCode" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="BranchMaster" Relationship="SHIPPING_FinalModel.FK_AcGroup_BranchMaster" FromRole="AcGroup" ToRole="BranchMaster" />
           <NavigationProperty Name="AcCategory" Relationship="SHIPPING_FinalModel.FK_AcGroup_AcCategory" FromRole="AcGroup" ToRole="AcCategory" />
           <NavigationProperty Name="AcCompany" Relationship="SHIPPING_FinalModel.FK_AcGroup_AcCompany" FromRole="AcGroup" ToRole="AcCompany" />
         </EntityType>
@@ -4729,54 +4569,6 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Type="Int32" Name="CashControlAcID" />
           <Property Type="Int32" Name="SupplierControlAcID" />
         </EntityType>
-        <Association Name="FK_AcCompany_CountryMaster">
-          <End Type="SHIPPING_FinalModel.CountryMaster" Role="CountryMaster" Multiplicity="0..1" />
-          <End Type="SHIPPING_FinalModel.AcCompany" Role="AcCompany" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CountryMaster">
-              <PropertyRef Name="CountryID" />
-            </Principal>
-            <Dependent Role="AcCompany">
-              <PropertyRef Name="CountryID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_AcCompany_CurrencyMaster">
-          <End Type="SHIPPING_FinalModel.CurrencyMaster" Role="CurrencyMaster" Multiplicity="0..1" />
-          <End Type="SHIPPING_FinalModel.AcCompany" Role="AcCompany" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CurrencyMaster">
-              <PropertyRef Name="CurrencyID" />
-            </Principal>
-            <Dependent Role="AcCompany">
-              <PropertyRef Name="CurrencyID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_AcCompany_Designation">
-          <End Type="SHIPPING_FinalModel.Designation" Role="Designation" Multiplicity="0..1" />
-          <End Type="SHIPPING_FinalModel.AcCompany" Role="AcCompany" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Designation">
-              <PropertyRef Name="DesignationID" />
-            </Principal>
-            <Dependent Role="AcCompany">
-              <PropertyRef Name="DesignationID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_AcCompany_Location">
-          <End Type="SHIPPING_FinalModel.Location" Role="Location" Multiplicity="0..1" />
-          <End Type="SHIPPING_FinalModel.AcCompany" Role="AcCompany" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Location">
-              <PropertyRef Name="LocationID" />
-            </Principal>
-            <Dependent Role="AcCompany">
-              <PropertyRef Name="LocationID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="Menu">
           <Key>
             <PropertyRef Name="MenuID" />
@@ -4798,101 +4590,6 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Type="Int32" Name="MenuOrder" />
           <Property Type="Boolean" Name="IsAccountMenu" />
         </EntityType>
-        <EntityType Name="BranchMaster">
-          <Key>
-            <PropertyRef Name="BranchID" />
-          </Key>
-          <Property Type="Int32" Name="BranchID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="BranchName" MaxLength="125" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="Address1" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="Address2" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="Address3" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Type="Int32" Name="CountryID" />
-          <Property Type="Int32" Name="CityID" />
-          <Property Type="Int32" Name="LocationID" />
-          <Property Type="String" Name="KeyPerson" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Type="Int32" Name="DesignationID" />
-          <Property Type="String" Name="Phone" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="PhoneNo1" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="PhoneNo2" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="PhoneNo3" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="PhoneNo4" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="MobileNo1" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="MobileNo2" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="EMail" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="Website" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="BranchPrefix" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Type="Int32" Name="CurrencyID" />
-          <Property Type="Int32" Name="AcCompanyID" />
-          <Property Type="Boolean" Name="StatusAssociate" />
-          <NavigationProperty Name="AcGroups" Relationship="SHIPPING_FinalModel.FK_AcGroup_BranchMaster" FromRole="BranchMaster" ToRole="AcGroup" />
-          <NavigationProperty Name="CountryMaster" Relationship="SHIPPING_FinalModel.FK_BranchMaster_CountryMaster" FromRole="BranchMaster" ToRole="CountryMaster" />
-          <NavigationProperty Name="CurrencyMaster" Relationship="SHIPPING_FinalModel.FK_BranchMaster_CurrencyMaster" FromRole="BranchMaster" ToRole="CurrencyMaster" />
-          <NavigationProperty Name="Designation" Relationship="SHIPPING_FinalModel.FK_BranchMaster_Designation" FromRole="BranchMaster" ToRole="Designation" />
-          <NavigationProperty Name="Location" Relationship="SHIPPING_FinalModel.FK_BranchMaster_Location" FromRole="BranchMaster" ToRole="Location" />
-          <NavigationProperty Name="AnalysisHeads" Relationship="SHIPPING_FinalModel.FK_AnalysisHead_BranchMaster" FromRole="BranchMaster" ToRole="AnalysisHead" />
-          <NavigationProperty Name="AcOpeningMasters" Relationship="SHIPPING_FinalModel.FK_AcOpeningMaster_BranchMaster" FromRole="BranchMaster" ToRole="AcOpeningMaster" />
-        </EntityType>
-        <Association Name="FK_AcGroup_BranchMaster">
-          <End Type="SHIPPING_FinalModel.BranchMaster" Role="BranchMaster" Multiplicity="0..1" />
-          <End Type="SHIPPING_FinalModel.AcGroup" Role="AcGroup" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BranchMaster">
-              <PropertyRef Name="BranchID" />
-            </Principal>
-            <Dependent Role="AcGroup">
-              <PropertyRef Name="AcCompanyID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_BranchMaster_CountryMaster">
-          <End Type="SHIPPING_FinalModel.CountryMaster" Role="CountryMaster" Multiplicity="0..1" />
-          <End Type="SHIPPING_FinalModel.BranchMaster" Role="BranchMaster" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CountryMaster">
-              <PropertyRef Name="CountryID" />
-            </Principal>
-            <Dependent Role="BranchMaster">
-              <PropertyRef Name="CountryID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_BranchMaster_CurrencyMaster">
-          <End Type="SHIPPING_FinalModel.CurrencyMaster" Role="CurrencyMaster" Multiplicity="0..1" />
-          <End Type="SHIPPING_FinalModel.BranchMaster" Role="BranchMaster" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CurrencyMaster">
-              <PropertyRef Name="CurrencyID" />
-            </Principal>
-            <Dependent Role="BranchMaster">
-              <PropertyRef Name="CurrencyID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_BranchMaster_Designation">
-          <End Type="SHIPPING_FinalModel.Designation" Role="Designation" Multiplicity="0..1" />
-          <End Type="SHIPPING_FinalModel.BranchMaster" Role="BranchMaster" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Designation">
-              <PropertyRef Name="DesignationID" />
-            </Principal>
-            <Dependent Role="BranchMaster">
-              <PropertyRef Name="DesignationID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_BranchMaster_Location">
-          <End Type="SHIPPING_FinalModel.Location" Role="Location" Multiplicity="0..1" />
-          <End Type="SHIPPING_FinalModel.BranchMaster" Role="BranchMaster" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Location">
-              <PropertyRef Name="LocationID" />
-            </Principal>
-            <Dependent Role="BranchMaster">
-              <PropertyRef Name="LocationID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <ComplexType Name="SelectFinancialYearByBranch_Result">
           <Property Type="Int32" Name="AcFinancialYearID" Nullable="false" />
           <Property Type="String" Name="FYearName" Nullable="true" MaxLength="27" />
@@ -4923,7 +4620,6 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Type="Int32" Name="AnalysisGroupID" />
           <Property Type="Int32" Name="BranchID" />
           <NavigationProperty Name="AnalysisGroup" Relationship="SHIPPING_FinalModel.FK_AnalysisHead_AnalysisGroup" FromRole="AnalysisHead" ToRole="AnalysisGroup" />
-          <NavigationProperty Name="BranchMaster" Relationship="SHIPPING_FinalModel.FK_AnalysisHead_BranchMaster" FromRole="AnalysisHead" ToRole="BranchMaster" />
           <NavigationProperty Name="AcCompany" Relationship="SHIPPING_FinalModel.FK_AnalysisHead_AcCompany" FromRole="AnalysisHead" ToRole="AcCompany" />
         </EntityType>
         <Association Name="FK_AcGroup_AcCategory">
@@ -4947,18 +4643,6 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
             </Principal>
             <Dependent Role="AnalysisHead">
               <PropertyRef Name="AnalysisGroupID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_AnalysisHead_BranchMaster">
-          <End Type="SHIPPING_FinalModel.BranchMaster" Role="BranchMaster" Multiplicity="0..1" />
-          <End Type="SHIPPING_FinalModel.AnalysisHead" Role="AnalysisHead" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BranchMaster">
-              <PropertyRef Name="BranchID" />
-            </Principal>
-            <Dependent Role="AnalysisHead">
-              <PropertyRef Name="BranchID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -5169,7 +4853,6 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Type="Int32" Name="AcCompanyID" />
           <Property Type="String" Name="InvRemarks" MaxLength="500" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="AcHead" Relationship="SHIPPING_FinalModel.FK_AcOpeningMaster_AcHead" FromRole="AcOpeningMaster" ToRole="AcHead" />
-          <NavigationProperty Name="BranchMaster" Relationship="SHIPPING_FinalModel.FK_AcOpeningMaster_BranchMaster" FromRole="AcOpeningMaster" ToRole="BranchMaster" />
           <NavigationProperty Name="AcFinancialYear" Relationship="SHIPPING_FinalModel.FK_AcOpeningMaster_AcFinancialYear" FromRole="AcOpeningMaster" ToRole="AcFinancialYear" />
           <NavigationProperty Name="AcCompany" Relationship="SHIPPING_FinalModel.FK_AcOpeningMaster_AcCompany" FromRole="AcOpeningMaster" ToRole="AcCompany" />
         </EntityType>
@@ -5182,18 +4865,6 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
             </Principal>
             <Dependent Role="AcOpeningMaster">
               <PropertyRef Name="AcHeadID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_AcOpeningMaster_BranchMaster">
-          <End Type="SHIPPING_FinalModel.BranchMaster" Role="BranchMaster" Multiplicity="0..1" />
-          <End Type="SHIPPING_FinalModel.AcOpeningMaster" Role="AcOpeningMaster" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BranchMaster">
-              <PropertyRef Name="BranchID" />
-            </Principal>
-            <Dependent Role="AcOpeningMaster">
-              <PropertyRef Name="BranchID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -5912,18 +5583,6 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Type="Int32" Name="AcHeadID" />
           <Property Type="Int32" Name="SupplierID" />
         </EntityType>
-        <Association Name="FK_AcGroup_AcCompany">
-          <End Type="SHIPPING_FinalModel.AcCompany" Role="AcCompany" Multiplicity="0..1" />
-          <End Type="SHIPPING_FinalModel.AcGroup" Role="AcGroup" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AcCompany">
-              <PropertyRef Name="AcCompanyID" />
-            </Principal>
-            <Dependent Role="AcGroup">
-              <PropertyRef Name="AcCompanyID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <ComplexType Name="SP_GetAllCostUpdation_Result">
           <Property Type="String" Name="JobCode" Nullable="true" MaxLength="50" />
           <Property Type="DateTime" Name="JobDate" Nullable="true" Precision="23" />
@@ -6196,30 +5855,6 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Type="Int32" Name="CustomerID" />
           <Property Type="Boolean" Name="statusclose" />
         </EntityType>
-        <Association Name="FK_AcOpeningMaster_AcCompany">
-          <End Type="SHIPPING_FinalModel.AcCompany" Role="AcCompany" Multiplicity="0..1" />
-          <End Type="SHIPPING_FinalModel.AcOpeningMaster" Role="AcOpeningMaster" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AcCompany">
-              <PropertyRef Name="AcCompanyID" />
-            </Principal>
-            <Dependent Role="AcOpeningMaster">
-              <PropertyRef Name="BranchID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_AnalysisHead_AcCompany">
-          <End Type="SHIPPING_FinalModel.AcCompany" Role="AcCompany" Multiplicity="0..1" />
-          <End Type="SHIPPING_FinalModel.AnalysisHead" Role="AnalysisHead" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AcCompany">
-              <PropertyRef Name="AcCompanyID" />
-            </Principal>
-            <Dependent Role="AnalysisHead">
-              <PropertyRef Name="BranchID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <ComplexType Name="SP_GetChargesbyJobIDandUser_Result">
           <Property Type="Int32" Name="InvoiceID" Nullable="false" />
           <Property Type="Int32" Name="JobID" Nullable="true" />
@@ -6899,6 +6534,9 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Name="PaymentTerm" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="FYearID" Type="Int32" />
+          <Property Name="DiscountType" Type="Int32" />
+          <Property Name="DiscountValueLC" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="DiscountValueFC" Type="Decimal" Precision="18" Scale="2" />
         </EntityType>
         <ComplexType Name="SP_GetPurchaseInvoiceByID_Result">
           <Property Type="Int32" Name="PurchaseInvoiceID" Nullable="false" />
@@ -6959,7 +6597,6 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Name="ProductID" Type="Int32" />
           <Property Name="Quantity" Type="Int32" />
           <Property Name="ItemUnitID" Type="Int32" />
-          <Property Name="Rate" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="RateLC" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="RateFC" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="Value" Type="Decimal" Precision="18" Scale="2" />
@@ -6969,9 +6606,360 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Name="NetValue" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="JobID" Type="Int32" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="RateType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
-       
-      </Schema>
+        <EntityType Name="CountryMaster">
+          <Key>
+            <PropertyRef Name="CountryID" />
+          </Key>
+          <Property Name="CountryID" Type="Int32" Nullable="false" />
+          <Property Name="CountryName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CountryCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CountryPrefix" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="BranchMasters" Relationship="SHIPPING_FinalModel.FK_BranchMaster_CountryMaster" FromRole="CountryMaster" ToRole="BranchMaster" />
+          <NavigationProperty Name="AcCompanies" Relationship="SHIPPING_FinalModel.FK_AcCompany_CountryMaster" FromRole="CountryMaster" ToRole="AcCompany" />
+        </EntityType>
+        <EntityType Name="Location">
+          <Key>
+            <PropertyRef Name="LocationID" />
+          </Key>
+          <Property Name="LocationID" Type="Int32" Nullable="false" />
+          <Property Name="Location1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="prefix" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="BranchMasters" Relationship="SHIPPING_FinalModel.FK_BranchMaster_Location" FromRole="Location" ToRole="BranchMaster" />
+          <NavigationProperty Name="AcCompanies" Relationship="SHIPPING_FinalModel.FK_AcCompany_Location" FromRole="Location" ToRole="AcCompany" />
+        </EntityType>
+        <EntityType Name="CurrencyMaster">
+          <Key>
+            <PropertyRef Name="CurrencyID" />
+          </Key>
+          <Property Name="CurrencyID" Type="Int32" Nullable="false" />
+          <Property Name="CurrencyName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Symbol" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="NoOfDecimals" Type="Int16" />
+          <Property Name="MonetaryUnit" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CountryID" Type="Int32" />
+          <Property Name="StatusBaseCurrency" Type="Boolean" />
+          <Property Name="ExchangeRate" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="CurrencyCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="BranchMasters" Relationship="SHIPPING_FinalModel.FK_BranchMaster_CurrencyMaster" FromRole="CurrencyMaster" ToRole="BranchMaster" />
+          <NavigationProperty Name="AcCompanies" Relationship="SHIPPING_FinalModel.FK_AcCompany_CurrencyMaster" FromRole="CurrencyMaster" ToRole="AcCompany" />
+        </EntityType>
+        <EntityType Name="BranchMaster">
+          <Key>
+            <PropertyRef Name="BranchID" />
+          </Key>
+          <Property Name="BranchID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BranchName" Type="String" MaxLength="125" FixedLength="false" Unicode="false" />
+          <Property Name="Address1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Address2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Address3" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CountryID" Type="Int32" />
+          <Property Name="CityID" Type="Int32" />
+          <Property Name="LocationID" Type="Int32" />
+          <Property Name="KeyPerson" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DesignationID" Type="Int32" />
+          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PhoneNo1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PhoneNo2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PhoneNo3" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PhoneNo4" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MobileNo1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MobileNo2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EMail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Website" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="BranchPrefix" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CurrencyID" Type="Int32" />
+          <Property Name="AcCompanyID" Type="Int32" />
+          <Property Name="StatusAssociate" Type="Boolean" />
+          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ContactPerson" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="CountryMaster" Relationship="SHIPPING_FinalModel.FK_BranchMaster_CountryMaster" FromRole="BranchMaster" ToRole="CountryMaster" />
+          <NavigationProperty Name="CurrencyMaster" Relationship="SHIPPING_FinalModel.FK_BranchMaster_CurrencyMaster" FromRole="BranchMaster" ToRole="CurrencyMaster" />
+          <NavigationProperty Name="Designation" Relationship="SHIPPING_FinalModel.FK_BranchMaster_Designation" FromRole="BranchMaster" ToRole="Designation" />
+          <NavigationProperty Name="Location" Relationship="SHIPPING_FinalModel.FK_BranchMaster_Location" FromRole="BranchMaster" ToRole="Location" />
+        </EntityType>
+        <Association Name="FK_BranchMaster_CountryMaster">
+          <End Type="SHIPPING_FinalModel.CountryMaster" Role="CountryMaster" Multiplicity="0..1" />
+          <End Type="SHIPPING_FinalModel.BranchMaster" Role="BranchMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CountryMaster">
+              <PropertyRef Name="CountryID" />
+            </Principal>
+            <Dependent Role="BranchMaster">
+              <PropertyRef Name="CountryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BranchMaster_CurrencyMaster">
+          <End Type="SHIPPING_FinalModel.CurrencyMaster" Role="CurrencyMaster" Multiplicity="0..1" />
+          <End Type="SHIPPING_FinalModel.BranchMaster" Role="BranchMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CurrencyMaster">
+              <PropertyRef Name="CurrencyID" />
+            </Principal>
+            <Dependent Role="BranchMaster">
+              <PropertyRef Name="CurrencyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BranchMaster_Designation">
+          <End Type="SHIPPING_FinalModel.Designation" Role="Designation" Multiplicity="0..1" />
+          <End Type="SHIPPING_FinalModel.BranchMaster" Role="BranchMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Designation">
+              <PropertyRef Name="DesignationID" />
+            </Principal>
+            <Dependent Role="BranchMaster">
+              <PropertyRef Name="DesignationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BranchMaster_Location">
+          <End Type="SHIPPING_FinalModel.Location" Role="Location" Multiplicity="0..1" />
+          <End Type="SHIPPING_FinalModel.BranchMaster" Role="BranchMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="LocationID" />
+            </Principal>
+            <Dependent Role="BranchMaster">
+              <PropertyRef Name="LocationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ShippingAgent">
+          <Key>
+            <PropertyRef Name="ShippingAgentID" />
+          </Key>
+          <Property Name="ShippingAgentID" Type="Int32" Nullable="false" />
+          <Property Name="AgentName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ReferenceCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ContactPerson" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Address1" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Address2" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Address3" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Fax" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="WebSite" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="StatusActive" Type="Boolean" />
+          <Property Name="StatusBlocked" Type="Boolean" />
+          <Property Name="StatusReserved" Type="Boolean" />
+          <Property Name="Remarks" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CountryID" Type="Int32" />
+          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Discount" Type="Decimal" Precision="18" Scale="5" />
+          <Property Name="ExportCode" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CreditLimit" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CreditDays" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Transporter">
+          <Key>
+            <PropertyRef Name="TransPorterID" />
+          </Key>
+          <Property Name="TransPorterID" Type="Int32" Nullable="false" />
+          <Property Name="TransPorter1" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ReferenceCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ContactPerson" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Address1" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Address2" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Address3" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Fax" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="WebSite" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MaxCreditDays" Type="Int32" />
+          <Property Name="MaxCreditLimit" Type="Double" />
+          <Property Name="DiscountPercentage" Type="Single" />
+          <Property Name="StatusActive" Type="Boolean" />
+          <Property Name="StatusBlocked" Type="Boolean" />
+          <Property Name="StatusConsignor" Type="Boolean" />
+          <Property Name="Remarks" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="StatusReserved" Type="Boolean" />
+          <Property Name="ExporterCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CountryID" Type="Int32" />
+          <Property Name="City" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="CUSTOMER">
+          <Key>
+            <PropertyRef Name="CustomerID" />
+          </Key>
+          <Property Name="CustomerID" Type="Int32" Nullable="false" />
+          <Property Name="Customer1" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ReferenceCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ContactPerson" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Address1" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Address2" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Address3" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Fax" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="WebSite" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MaxCreditDays" Type="Int32" />
+          <Property Name="MaxCreditLimit" Type="Double" />
+          <Property Name="DiscountPercentage" Type="Single" />
+          <Property Name="StatusActive" Type="Boolean" />
+          <Property Name="StatusBlocked" Type="Boolean" />
+          <Property Name="StatusConsignor" Type="Boolean" />
+          <Property Name="Remarks" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="StatusReserved" Type="Boolean" />
+          <Property Name="ExporterCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="POBoxNo" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="InvoiceTo" Type="Boolean" />
+          <Property Name="CountryID" Type="Int32" />
+          <Property Name="City" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Supplier">
+          <Key>
+            <PropertyRef Name="SupplierID" />
+          </Key>
+          <Property Name="SupplierID" Type="Int32" Nullable="false" />
+          <Property Name="SupplierName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ReferenceCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ContactPerson" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Address1" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Address2" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Address3" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Fax" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="WebSite" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MaxCreditDays" Type="Int32" />
+          <Property Name="MaxCreditLimit" Type="Double" />
+          <Property Name="StatusActive" Type="Boolean" />
+          <Property Name="Remarks" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="StatusReserved" Type="Boolean" />
+          <Property Name="POBoxNo" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="statusInventory" Type="Boolean" />
+          <Property Name="RevenuTypeIds" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CountryID" Type="Int32" />
+          <Property Name="City" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ExportCode" Type="Int32" />
+        </EntityType>
+        <EntityType Name="AcCompany">
+          <Key>
+            <PropertyRef Name="AcCompanyID" />
+          </Key>
+          <Property Name="AcCompanyID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AcCompany1" Type="String" MaxLength="125" FixedLength="false" Unicode="false" />
+          <Property Name="ParentID" Type="Int32" />
+          <Property Name="Address1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Address2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Address3" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EMail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="CountryID" Type="Int32" />
+          <Property Name="CityID" Type="Int32" />
+          <Property Name="LocationID" Type="Int32" />
+          <Property Name="KeyPerson" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DesignationID" Type="Int32" />
+          <Property Name="PhoneNo1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PhoneNo2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PhoneNo3" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PhoneNo4" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MobileNo1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MobileNo2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Website" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CompanyPrefix" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CurrencyID" Type="Int32" />
+          <Property Name="AreaID" Type="Int32" />
+          <Property Name="ContactPerson" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="logo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="CountryMaster" Relationship="SHIPPING_FinalModel.FK_AcCompany_CountryMaster" FromRole="AcCompany" ToRole="CountryMaster" />
+          <NavigationProperty Name="CurrencyMaster" Relationship="SHIPPING_FinalModel.FK_AcCompany_CurrencyMaster" FromRole="AcCompany" ToRole="CurrencyMaster" />
+          <NavigationProperty Name="Designation" Relationship="SHIPPING_FinalModel.FK_AcCompany_Designation" FromRole="AcCompany" ToRole="Designation" />
+          <NavigationProperty Name="Location" Relationship="SHIPPING_FinalModel.FK_AcCompany_Location" FromRole="AcCompany" ToRole="Location" />
+          <NavigationProperty Name="AcGroups" Relationship="SHIPPING_FinalModel.FK_AcGroup_AcCompany" FromRole="AcCompany" ToRole="AcGroup" />
+          <NavigationProperty Name="AcOpeningMasters" Relationship="SHIPPING_FinalModel.FK_AcOpeningMaster_AcCompany" FromRole="AcCompany" ToRole="AcOpeningMaster" />
+          <NavigationProperty Name="AnalysisHeads" Relationship="SHIPPING_FinalModel.FK_AnalysisHead_AcCompany" FromRole="AcCompany" ToRole="AnalysisHead" />
+        </EntityType>
+        <Association Name="FK_AcCompany_CountryMaster">
+          <End Type="SHIPPING_FinalModel.CountryMaster" Role="CountryMaster" Multiplicity="0..1" />
+          <End Type="SHIPPING_FinalModel.AcCompany" Role="AcCompany" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CountryMaster">
+              <PropertyRef Name="CountryID" />
+            </Principal>
+            <Dependent Role="AcCompany">
+              <PropertyRef Name="CountryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AcCompany_CurrencyMaster">
+          <End Type="SHIPPING_FinalModel.CurrencyMaster" Role="CurrencyMaster" Multiplicity="0..1" />
+          <End Type="SHIPPING_FinalModel.AcCompany" Role="AcCompany" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CurrencyMaster">
+              <PropertyRef Name="CurrencyID" />
+            </Principal>
+            <Dependent Role="AcCompany">
+              <PropertyRef Name="CurrencyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AcCompany_Designation">
+          <End Type="SHIPPING_FinalModel.Designation" Role="Designation" Multiplicity="0..1" />
+          <End Type="SHIPPING_FinalModel.AcCompany" Role="AcCompany" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Designation">
+              <PropertyRef Name="DesignationID" />
+            </Principal>
+            <Dependent Role="AcCompany">
+              <PropertyRef Name="DesignationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AcCompany_Location">
+          <End Type="SHIPPING_FinalModel.Location" Role="Location" Multiplicity="0..1" />
+          <End Type="SHIPPING_FinalModel.AcCompany" Role="AcCompany" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="LocationID" />
+            </Principal>
+            <Dependent Role="AcCompany">
+              <PropertyRef Name="LocationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AcGroup_AcCompany">
+          <End Type="SHIPPING_FinalModel.AcCompany" Role="AcCompany" Multiplicity="0..1" />
+          <End Type="SHIPPING_FinalModel.AcGroup" Role="AcGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AcCompany">
+              <PropertyRef Name="AcCompanyID" />
+            </Principal>
+            <Dependent Role="AcGroup">
+              <PropertyRef Name="AcCompanyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AcOpeningMaster_AcCompany">
+          <End Type="SHIPPING_FinalModel.AcCompany" Role="AcCompany" Multiplicity="0..1" />
+          <End Type="SHIPPING_FinalModel.AcOpeningMaster" Role="AcOpeningMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AcCompany">
+              <PropertyRef Name="AcCompanyID" />
+            </Principal>
+            <Dependent Role="AcOpeningMaster">
+              <PropertyRef Name="BranchID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AnalysisHead_AcCompany">
+          <End Type="SHIPPING_FinalModel.AcCompany" Role="AcCompany" Multiplicity="0..1" />
+          <End Type="SHIPPING_FinalModel.AnalysisHead" Role="AnalysisHead" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AcCompany">
+              <PropertyRef Name="AcCompanyID" />
+            </Principal>
+            <Dependent Role="AnalysisHead">
+              <PropertyRef Name="BranchID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -7654,43 +7642,6 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="CountryMasters">
-            <EntityTypeMapping TypeName="SHIPPING_FinalModel.CountryMaster">
-              <MappingFragment StoreEntitySet="CountryMaster">
-                <ScalarProperty Name="CountryCode" ColumnName="CountryCode" />
-                <ScalarProperty Name="CountryName" ColumnName="CountryName" />
-                <ScalarProperty Name="CountryID" ColumnName="CountryID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="CUSTOMERs">
-            <EntityTypeMapping TypeName="SHIPPING_FinalModel.CUSTOMER">
-              <MappingFragment StoreEntitySet="CUSTOMER">
-                <ScalarProperty Name="InvoiceTo" ColumnName="InvoiceTo" />
-                <ScalarProperty Name="POBoxNo" ColumnName="POBoxNo" />
-                <ScalarProperty Name="ExporterCode" ColumnName="ExporterCode" />
-                <ScalarProperty Name="StatusReserved" ColumnName="StatusReserved" />
-                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
-                <ScalarProperty Name="StatusConsignor" ColumnName="StatusConsignor" />
-                <ScalarProperty Name="StatusBlocked" ColumnName="StatusBlocked" />
-                <ScalarProperty Name="StatusActive" ColumnName="StatusActive" />
-                <ScalarProperty Name="DiscountPercentage" ColumnName="DiscountPercentage" />
-                <ScalarProperty Name="MaxCreditLimit" ColumnName="MaxCreditLimit" />
-                <ScalarProperty Name="MaxCreditDays" ColumnName="MaxCreditDays" />
-                <ScalarProperty Name="WebSite" ColumnName="WebSite" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Fax" ColumnName="Fax" />
-                <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="Address3" ColumnName="Address3" />
-                <ScalarProperty Name="Address2" ColumnName="Address2" />
-                <ScalarProperty Name="Address1" ColumnName="Address1" />
-                <ScalarProperty Name="ContactPerson" ColumnName="ContactPerson" />
-                <ScalarProperty Name="ReferenceCode" ColumnName="ReferenceCode" />
-                <ScalarProperty Name="Customer1" ColumnName="Customer" />
-                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Departments">
             <EntityTypeMapping TypeName="SHIPPING_FinalModel.Department">
               <MappingFragment StoreEntitySet="Department">
@@ -7752,15 +7703,6 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Locations">
-            <EntityTypeMapping TypeName="SHIPPING_FinalModel.Location">
-              <MappingFragment StoreEntitySet="Location">
-                <ScalarProperty Name="prefix" ColumnName="prefix" />
-                <ScalarProperty Name="Location1" ColumnName="Location" />
-                <ScalarProperty Name="LocationID" ColumnName="LocationID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="RevenueTypes">
             <EntityTypeMapping TypeName="SHIPPING_FinalModel.RevenueType">
               <MappingFragment StoreEntitySet="RevenueType">
@@ -7771,54 +7713,6 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
                 <ScalarProperty Name="AcHeadID" ColumnName="AcHeadID" />
                 <ScalarProperty Name="RevenueType1" ColumnName="RevenueType" />
                 <ScalarProperty Name="RevenueTypeID" ColumnName="RevenueTypeID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ShippingAgents">
-            <EntityTypeMapping TypeName="SHIPPING_FinalModel.ShippingAgent">
-              <MappingFragment StoreEntitySet="ShippingAgent">
-                <ScalarProperty Name="CountryID" ColumnName="CountryID" />
-                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
-                <ScalarProperty Name="StatusReserved" ColumnName="StatusReserved" />
-                <ScalarProperty Name="StatusBlocked" ColumnName="StatusBlocked" />
-                <ScalarProperty Name="StatusActive" ColumnName="StatusActive" />
-                <ScalarProperty Name="WebSite" ColumnName="WebSite" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Fax" ColumnName="Fax" />
-                <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="Address3" ColumnName="Address3" />
-                <ScalarProperty Name="Address2" ColumnName="Address2" />
-                <ScalarProperty Name="Address1" ColumnName="Address1" />
-                <ScalarProperty Name="ContactPerson" ColumnName="ContactPerson" />
-                <ScalarProperty Name="ReferenceCode" ColumnName="ReferenceCode" />
-                <ScalarProperty Name="AgentName" ColumnName="AgentName" />
-                <ScalarProperty Name="ShippingAgentID" ColumnName="ShippingAgentID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Transporters">
-            <EntityTypeMapping TypeName="SHIPPING_FinalModel.Transporter">
-              <MappingFragment StoreEntitySet="Transporter">
-                <ScalarProperty Name="ExporterCode" ColumnName="ExporterCode" />
-                <ScalarProperty Name="StatusReserved" ColumnName="StatusReserved" />
-                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
-                <ScalarProperty Name="StatusConsignor" ColumnName="StatusConsignor" />
-                <ScalarProperty Name="StatusBlocked" ColumnName="StatusBlocked" />
-                <ScalarProperty Name="StatusActive" ColumnName="StatusActive" />
-                <ScalarProperty Name="DiscountPercentage" ColumnName="DiscountPercentage" />
-                <ScalarProperty Name="MaxCreditLimit" ColumnName="MaxCreditLimit" />
-                <ScalarProperty Name="MaxCreditDays" ColumnName="MaxCreditDays" />
-                <ScalarProperty Name="WebSite" ColumnName="WebSite" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Fax" ColumnName="Fax" />
-                <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="Address3" ColumnName="Address3" />
-                <ScalarProperty Name="Address2" ColumnName="Address2" />
-                <ScalarProperty Name="Address1" ColumnName="Address1" />
-                <ScalarProperty Name="ContactPerson" ColumnName="ContactPerson" />
-                <ScalarProperty Name="ReferenceCode" ColumnName="ReferenceCode" />
-                <ScalarProperty Name="TransPorter1" ColumnName="TransPorter" />
-                <ScalarProperty Name="TransPorterID" ColumnName="TransPorterID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -7863,20 +7757,6 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="CurrencyMasters">
-            <EntityTypeMapping TypeName="SHIPPING_FinalModel.CurrencyMaster">
-              <MappingFragment StoreEntitySet="CurrencyMaster">
-                <ScalarProperty Name="ExchangeRate" ColumnName="ExchangeRate" />
-                <ScalarProperty Name="StatusBaseCurrency" ColumnName="StatusBaseCurrency" />
-                <ScalarProperty Name="CountryID" ColumnName="CountryID" />
-                <ScalarProperty Name="MonetaryUnit" ColumnName="MonetaryUnit" />
-                <ScalarProperty Name="NoOfDecimals" ColumnName="NoOfDecimals" />
-                <ScalarProperty Name="Symbol" ColumnName="Symbol" />
-                <ScalarProperty Name="CurrencyName" ColumnName="CurrencyName" />
-                <ScalarProperty Name="CurrencyID" ColumnName="CurrencyID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="MenuAccessLevels">
             <EntityTypeMapping TypeName="SHIPPING_FinalModel.MenuAccessLevel">
               <MappingFragment StoreEntitySet="MenuAccessLevel">
@@ -7897,31 +7777,6 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
               <MappingFragment StoreEntitySet="ContainerType">
                 <ScalarProperty Name="ContainerType1" ColumnName="ContainerType" />
                 <ScalarProperty Name="ContainerTypeID" ColumnName="ContainerTypeID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Suppliers">
-            <EntityTypeMapping TypeName="SHIPPING_FinalModel.Supplier">
-              <MappingFragment StoreEntitySet="Supplier">
-                <ScalarProperty Name="RevenuTypeIds" ColumnName="RevenuTypeIds" />
-                <ScalarProperty Name="statusInventory" ColumnName="statusInventory" />
-                <ScalarProperty Name="POBoxNo" ColumnName="POBoxNo" />
-                <ScalarProperty Name="StatusReserved" ColumnName="StatusReserved" />
-                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
-                <ScalarProperty Name="StatusActive" ColumnName="StatusActive" />
-                <ScalarProperty Name="MaxCreditLimit" ColumnName="MaxCreditLimit" />
-                <ScalarProperty Name="MaxCreditDays" ColumnName="MaxCreditDays" />
-                <ScalarProperty Name="WebSite" ColumnName="WebSite" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Fax" ColumnName="Fax" />
-                <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="Address3" ColumnName="Address3" />
-                <ScalarProperty Name="Address2" ColumnName="Address2" />
-                <ScalarProperty Name="Address1" ColumnName="Address1" />
-                <ScalarProperty Name="ContactPerson" ColumnName="ContactPerson" />
-                <ScalarProperty Name="ReferenceCode" ColumnName="ReferenceCode" />
-                <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
-                <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -7955,36 +7810,6 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="SP_GetSupplierByRevenueTypeID1" FunctionName="SHIPPING_FinalModel.Store.SP_GetSupplierByRevenueTypeID" />
-          <EntitySetMapping Name="AcCompanies">
-            <EntityTypeMapping TypeName="SHIPPING_FinalModel.AcCompany">
-              <MappingFragment StoreEntitySet="AcCompany">
-                <ScalarProperty Name="AreaID" ColumnName="AreaID" />
-                <ScalarProperty Name="CurrencyID" ColumnName="CurrencyID" />
-                <ScalarProperty Name="CompanyPrefix" ColumnName="CompanyPrefix" />
-                <ScalarProperty Name="Website" ColumnName="Website" />
-                <ScalarProperty Name="MobileNo2" ColumnName="MobileNo2" />
-                <ScalarProperty Name="MobileNo1" ColumnName="MobileNo1" />
-                <ScalarProperty Name="PhoneNo4" ColumnName="PhoneNo4" />
-                <ScalarProperty Name="PhoneNo3" ColumnName="PhoneNo3" />
-                <ScalarProperty Name="PhoneNo2" ColumnName="PhoneNo2" />
-                <ScalarProperty Name="PhoneNo1" ColumnName="PhoneNo1" />
-                <ScalarProperty Name="DesignationID" ColumnName="DesignationID" />
-                <ScalarProperty Name="KeyPerson" ColumnName="KeyPerson" />
-                <ScalarProperty Name="LocationID" ColumnName="LocationID" />
-                <ScalarProperty Name="CityID" ColumnName="CityID" />
-                <ScalarProperty Name="CountryID" ColumnName="CountryID" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="EMail" ColumnName="EMail" />
-                <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="Address3" ColumnName="Address3" />
-                <ScalarProperty Name="Address2" ColumnName="Address2" />
-                <ScalarProperty Name="Address1" ColumnName="Address1" />
-                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
-                <ScalarProperty Name="AcCompany1" ColumnName="AcCompany" />
-                <ScalarProperty Name="AcCompanyID" ColumnName="AcCompanyID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="AcGroups">
             <EntityTypeMapping TypeName="SHIPPING_FinalModel.AcGroup">
               <MappingFragment StoreEntitySet="AcGroup">
@@ -8051,35 +7876,6 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
                 <ScalarProperty Name="Link" ColumnName="Link" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="MenuID" ColumnName="MenuID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="BranchMasters">
-            <EntityTypeMapping TypeName="SHIPPING_FinalModel.BranchMaster">
-              <MappingFragment StoreEntitySet="BranchMaster">
-                <ScalarProperty Name="StatusAssociate" ColumnName="StatusAssociate" />
-                <ScalarProperty Name="AcCompanyID" ColumnName="AcCompanyID" />
-                <ScalarProperty Name="CurrencyID" ColumnName="CurrencyID" />
-                <ScalarProperty Name="BranchPrefix" ColumnName="BranchPrefix" />
-                <ScalarProperty Name="Website" ColumnName="Website" />
-                <ScalarProperty Name="EMail" ColumnName="EMail" />
-                <ScalarProperty Name="MobileNo2" ColumnName="MobileNo2" />
-                <ScalarProperty Name="MobileNo1" ColumnName="MobileNo1" />
-                <ScalarProperty Name="PhoneNo4" ColumnName="PhoneNo4" />
-                <ScalarProperty Name="PhoneNo3" ColumnName="PhoneNo3" />
-                <ScalarProperty Name="PhoneNo2" ColumnName="PhoneNo2" />
-                <ScalarProperty Name="PhoneNo1" ColumnName="PhoneNo1" />
-                <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="DesignationID" ColumnName="DesignationID" />
-                <ScalarProperty Name="KeyPerson" ColumnName="KeyPerson" />
-                <ScalarProperty Name="LocationID" ColumnName="LocationID" />
-                <ScalarProperty Name="CityID" ColumnName="CityID" />
-                <ScalarProperty Name="CountryID" ColumnName="CountryID" />
-                <ScalarProperty Name="Address3" ColumnName="Address3" />
-                <ScalarProperty Name="Address2" ColumnName="Address2" />
-                <ScalarProperty Name="Address1" ColumnName="Address1" />
-                <ScalarProperty Name="BranchName" ColumnName="BranchName" />
-                <ScalarProperty Name="BranchID" ColumnName="BranchID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -10251,6 +10047,9 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <EntitySetMapping Name="PurchaseInvoices">
             <EntityTypeMapping TypeName="SHIPPING_FinalModel.PurchaseInvoice">
               <MappingFragment StoreEntitySet="PurchaseInvoice">
+                <ScalarProperty Name="DiscountValueFC" ColumnName="DiscountValueFC" />
+                <ScalarProperty Name="DiscountValueLC" ColumnName="DiscountValueLC" />
+                <ScalarProperty Name="DiscountType" ColumnName="DiscountType" />
                 <ScalarProperty Name="FYearID" ColumnName="FYearID" />
                 <ScalarProperty Name="Remarks" ColumnName="Remarks" />
                 <ScalarProperty Name="PaymentTerm" ColumnName="PaymentTerm" />
@@ -10333,6 +10132,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <EntitySetMapping Name="SalesInvoiceDetails">
             <EntityTypeMapping TypeName="SHIPPING_FinalModel.SalesInvoiceDetail">
               <MappingFragment StoreEntitySet="SalesInvoiceDetails">
+                <ScalarProperty Name="RateType" ColumnName="RateType" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="JobID" ColumnName="JobID" />
                 <ScalarProperty Name="NetValue" ColumnName="NetValue" />
@@ -10342,12 +10142,222 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
                 <ScalarProperty Name="Value" ColumnName="Value" />
                 <ScalarProperty Name="RateFC" ColumnName="RateFC" />
                 <ScalarProperty Name="RateLC" ColumnName="RateLC" />
-                <ScalarProperty Name="Rate" ColumnName="Rate" />
                 <ScalarProperty Name="ItemUnitID" ColumnName="ItemUnitID" />
                 <ScalarProperty Name="Quantity" ColumnName="Quantity" />
                 <ScalarProperty Name="ProductID" ColumnName="ProductID" />
                 <ScalarProperty Name="SalesInvoiceID" ColumnName="SalesInvoiceID" />
                 <ScalarProperty Name="SalesInvoiceDetailID" ColumnName="SalesInvoiceDetailID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CountryMasters">
+            <EntityTypeMapping TypeName="SHIPPING_FinalModel.CountryMaster">
+              <MappingFragment StoreEntitySet="CountryMaster">
+                <ScalarProperty Name="CountryPrefix" ColumnName="CountryPrefix" />
+                <ScalarProperty Name="CountryCode" ColumnName="CountryCode" />
+                <ScalarProperty Name="CountryName" ColumnName="CountryName" />
+                <ScalarProperty Name="CountryID" ColumnName="CountryID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Locations">
+            <EntityTypeMapping TypeName="SHIPPING_FinalModel.Location">
+              <MappingFragment StoreEntitySet="Location">
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="prefix" ColumnName="prefix" />
+                <ScalarProperty Name="Location1" ColumnName="Location" />
+                <ScalarProperty Name="LocationID" ColumnName="LocationID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CurrencyMasters">
+            <EntityTypeMapping TypeName="SHIPPING_FinalModel.CurrencyMaster">
+              <MappingFragment StoreEntitySet="CurrencyMaster">
+                <ScalarProperty Name="CurrencyCode" ColumnName="CurrencyCode" />
+                <ScalarProperty Name="ExchangeRate" ColumnName="ExchangeRate" />
+                <ScalarProperty Name="StatusBaseCurrency" ColumnName="StatusBaseCurrency" />
+                <ScalarProperty Name="CountryID" ColumnName="CountryID" />
+                <ScalarProperty Name="MonetaryUnit" ColumnName="MonetaryUnit" />
+                <ScalarProperty Name="NoOfDecimals" ColumnName="NoOfDecimals" />
+                <ScalarProperty Name="Symbol" ColumnName="Symbol" />
+                <ScalarProperty Name="CurrencyName" ColumnName="CurrencyName" />
+                <ScalarProperty Name="CurrencyID" ColumnName="CurrencyID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BranchMasters">
+            <EntityTypeMapping TypeName="SHIPPING_FinalModel.BranchMaster">
+              <MappingFragment StoreEntitySet="BranchMaster">
+                <ScalarProperty Name="ContactPerson" ColumnName="ContactPerson" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="StatusAssociate" ColumnName="StatusAssociate" />
+                <ScalarProperty Name="AcCompanyID" ColumnName="AcCompanyID" />
+                <ScalarProperty Name="CurrencyID" ColumnName="CurrencyID" />
+                <ScalarProperty Name="BranchPrefix" ColumnName="BranchPrefix" />
+                <ScalarProperty Name="Website" ColumnName="Website" />
+                <ScalarProperty Name="EMail" ColumnName="EMail" />
+                <ScalarProperty Name="MobileNo2" ColumnName="MobileNo2" />
+                <ScalarProperty Name="MobileNo1" ColumnName="MobileNo1" />
+                <ScalarProperty Name="PhoneNo4" ColumnName="PhoneNo4" />
+                <ScalarProperty Name="PhoneNo3" ColumnName="PhoneNo3" />
+                <ScalarProperty Name="PhoneNo2" ColumnName="PhoneNo2" />
+                <ScalarProperty Name="PhoneNo1" ColumnName="PhoneNo1" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="DesignationID" ColumnName="DesignationID" />
+                <ScalarProperty Name="KeyPerson" ColumnName="KeyPerson" />
+                <ScalarProperty Name="LocationID" ColumnName="LocationID" />
+                <ScalarProperty Name="CityID" ColumnName="CityID" />
+                <ScalarProperty Name="CountryID" ColumnName="CountryID" />
+                <ScalarProperty Name="Address3" ColumnName="Address3" />
+                <ScalarProperty Name="Address2" ColumnName="Address2" />
+                <ScalarProperty Name="Address1" ColumnName="Address1" />
+                <ScalarProperty Name="BranchName" ColumnName="BranchName" />
+                <ScalarProperty Name="BranchID" ColumnName="BranchID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ShippingAgents">
+            <EntityTypeMapping TypeName="SHIPPING_FinalModel.ShippingAgent">
+              <MappingFragment StoreEntitySet="ShippingAgent">
+                <ScalarProperty Name="CreditDays" ColumnName="CreditDays" />
+                <ScalarProperty Name="CreditLimit" ColumnName="CreditLimit" />
+                <ScalarProperty Name="ExportCode" ColumnName="ExportCode" />
+                <ScalarProperty Name="Discount" ColumnName="Discount" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="CountryID" ColumnName="CountryID" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="StatusReserved" ColumnName="StatusReserved" />
+                <ScalarProperty Name="StatusBlocked" ColumnName="StatusBlocked" />
+                <ScalarProperty Name="StatusActive" ColumnName="StatusActive" />
+                <ScalarProperty Name="WebSite" ColumnName="WebSite" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Fax" ColumnName="Fax" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Address3" ColumnName="Address3" />
+                <ScalarProperty Name="Address2" ColumnName="Address2" />
+                <ScalarProperty Name="Address1" ColumnName="Address1" />
+                <ScalarProperty Name="ContactPerson" ColumnName="ContactPerson" />
+                <ScalarProperty Name="ReferenceCode" ColumnName="ReferenceCode" />
+                <ScalarProperty Name="AgentName" ColumnName="AgentName" />
+                <ScalarProperty Name="ShippingAgentID" ColumnName="ShippingAgentID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Transporters">
+            <EntityTypeMapping TypeName="SHIPPING_FinalModel.Transporter">
+              <MappingFragment StoreEntitySet="Transporter">
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="CountryID" ColumnName="CountryID" />
+                <ScalarProperty Name="ExporterCode" ColumnName="ExporterCode" />
+                <ScalarProperty Name="StatusReserved" ColumnName="StatusReserved" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="StatusConsignor" ColumnName="StatusConsignor" />
+                <ScalarProperty Name="StatusBlocked" ColumnName="StatusBlocked" />
+                <ScalarProperty Name="StatusActive" ColumnName="StatusActive" />
+                <ScalarProperty Name="DiscountPercentage" ColumnName="DiscountPercentage" />
+                <ScalarProperty Name="MaxCreditLimit" ColumnName="MaxCreditLimit" />
+                <ScalarProperty Name="MaxCreditDays" ColumnName="MaxCreditDays" />
+                <ScalarProperty Name="WebSite" ColumnName="WebSite" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Fax" ColumnName="Fax" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Address3" ColumnName="Address3" />
+                <ScalarProperty Name="Address2" ColumnName="Address2" />
+                <ScalarProperty Name="Address1" ColumnName="Address1" />
+                <ScalarProperty Name="ContactPerson" ColumnName="ContactPerson" />
+                <ScalarProperty Name="ReferenceCode" ColumnName="ReferenceCode" />
+                <ScalarProperty Name="TransPorter1" ColumnName="TransPorter" />
+                <ScalarProperty Name="TransPorterID" ColumnName="TransPorterID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CUSTOMERs">
+            <EntityTypeMapping TypeName="SHIPPING_FinalModel.CUSTOMER">
+              <MappingFragment StoreEntitySet="CUSTOMER">
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="CountryID" ColumnName="CountryID" />
+                <ScalarProperty Name="InvoiceTo" ColumnName="InvoiceTo" />
+                <ScalarProperty Name="POBoxNo" ColumnName="POBoxNo" />
+                <ScalarProperty Name="ExporterCode" ColumnName="ExporterCode" />
+                <ScalarProperty Name="StatusReserved" ColumnName="StatusReserved" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="StatusConsignor" ColumnName="StatusConsignor" />
+                <ScalarProperty Name="StatusBlocked" ColumnName="StatusBlocked" />
+                <ScalarProperty Name="StatusActive" ColumnName="StatusActive" />
+                <ScalarProperty Name="DiscountPercentage" ColumnName="DiscountPercentage" />
+                <ScalarProperty Name="MaxCreditLimit" ColumnName="MaxCreditLimit" />
+                <ScalarProperty Name="MaxCreditDays" ColumnName="MaxCreditDays" />
+                <ScalarProperty Name="WebSite" ColumnName="WebSite" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Fax" ColumnName="Fax" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Address3" ColumnName="Address3" />
+                <ScalarProperty Name="Address2" ColumnName="Address2" />
+                <ScalarProperty Name="Address1" ColumnName="Address1" />
+                <ScalarProperty Name="ContactPerson" ColumnName="ContactPerson" />
+                <ScalarProperty Name="ReferenceCode" ColumnName="ReferenceCode" />
+                <ScalarProperty Name="Customer1" ColumnName="Customer" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Suppliers">
+            <EntityTypeMapping TypeName="SHIPPING_FinalModel.Supplier">
+              <MappingFragment StoreEntitySet="Supplier">
+                <ScalarProperty Name="ExportCode" ColumnName="ExportCode" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="CountryID" ColumnName="CountryID" />
+                <ScalarProperty Name="RevenuTypeIds" ColumnName="RevenuTypeIds" />
+                <ScalarProperty Name="statusInventory" ColumnName="statusInventory" />
+                <ScalarProperty Name="POBoxNo" ColumnName="POBoxNo" />
+                <ScalarProperty Name="StatusReserved" ColumnName="StatusReserved" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="StatusActive" ColumnName="StatusActive" />
+                <ScalarProperty Name="MaxCreditLimit" ColumnName="MaxCreditLimit" />
+                <ScalarProperty Name="MaxCreditDays" ColumnName="MaxCreditDays" />
+                <ScalarProperty Name="WebSite" ColumnName="WebSite" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Fax" ColumnName="Fax" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Address3" ColumnName="Address3" />
+                <ScalarProperty Name="Address2" ColumnName="Address2" />
+                <ScalarProperty Name="Address1" ColumnName="Address1" />
+                <ScalarProperty Name="ContactPerson" ColumnName="ContactPerson" />
+                <ScalarProperty Name="ReferenceCode" ColumnName="ReferenceCode" />
+                <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
+                <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AcCompanies">
+            <EntityTypeMapping TypeName="SHIPPING_FinalModel.AcCompany">
+              <MappingFragment StoreEntitySet="AcCompany">
+                <ScalarProperty Name="logo" ColumnName="logo" />
+                <ScalarProperty Name="ContactPerson" ColumnName="ContactPerson" />
+                <ScalarProperty Name="AreaID" ColumnName="AreaID" />
+                <ScalarProperty Name="CurrencyID" ColumnName="CurrencyID" />
+                <ScalarProperty Name="CompanyPrefix" ColumnName="CompanyPrefix" />
+                <ScalarProperty Name="Website" ColumnName="Website" />
+                <ScalarProperty Name="MobileNo2" ColumnName="MobileNo2" />
+                <ScalarProperty Name="MobileNo1" ColumnName="MobileNo1" />
+                <ScalarProperty Name="PhoneNo4" ColumnName="PhoneNo4" />
+                <ScalarProperty Name="PhoneNo3" ColumnName="PhoneNo3" />
+                <ScalarProperty Name="PhoneNo2" ColumnName="PhoneNo2" />
+                <ScalarProperty Name="PhoneNo1" ColumnName="PhoneNo1" />
+                <ScalarProperty Name="DesignationID" ColumnName="DesignationID" />
+                <ScalarProperty Name="KeyPerson" ColumnName="KeyPerson" />
+                <ScalarProperty Name="LocationID" ColumnName="LocationID" />
+                <ScalarProperty Name="CityID" ColumnName="CityID" />
+                <ScalarProperty Name="CountryID" ColumnName="CountryID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="EMail" ColumnName="EMail" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Address3" ColumnName="Address3" />
+                <ScalarProperty Name="Address2" ColumnName="Address2" />
+                <ScalarProperty Name="Address1" ColumnName="Address1" />
+                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
+                <ScalarProperty Name="AcCompany1" ColumnName="AcCompany" />
+                <ScalarProperty Name="AcCompanyID" ColumnName="AcCompanyID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

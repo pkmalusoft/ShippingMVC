@@ -16,15 +16,16 @@ namespace DAL
     {
         public Location()
         {
-            this.AcCompanies = new HashSet<AcCompany>();
             this.BranchMasters = new HashSet<BranchMaster>();
+            this.AcCompanies = new HashSet<AcCompany>();
         }
     
         public int LocationID { get; set; }
         public string Location1 { get; set; }
         public string prefix { get; set; }
+        public string Country { get; set; }
     
-        public virtual ICollection<AcCompany> AcCompanies { get; set; }
         public virtual ICollection<BranchMaster> BranchMasters { get; set; }
+        public virtual ICollection<AcCompany> AcCompanies { get; set; }
     }
 }

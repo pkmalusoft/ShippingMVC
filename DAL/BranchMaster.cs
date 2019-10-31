@@ -14,13 +14,6 @@ namespace DAL
     
     public partial class BranchMaster
     {
-        public BranchMaster()
-        {
-            this.AcGroups = new HashSet<AcGroup>();
-            this.AnalysisHeads = new HashSet<AnalysisHead>();
-            this.AcOpeningMasters = new HashSet<AcOpeningMaster>();
-        }
-    
         public int BranchID { get; set; }
         public string BranchName { get; set; }
         public string Address1 { get; set; }
@@ -44,13 +37,12 @@ namespace DAL
         public Nullable<int> CurrencyID { get; set; }
         public Nullable<int> AcCompanyID { get; set; }
         public Nullable<bool> StatusAssociate { get; set; }
+        public string City { get; set; }
+        public string ContactPerson { get; set; }
     
-        public virtual ICollection<AcGroup> AcGroups { get; set; }
         public virtual CountryMaster CountryMaster { get; set; }
         public virtual CurrencyMaster CurrencyMaster { get; set; }
         public virtual Designation Designation { get; set; }
         public virtual Location Location { get; set; }
-        public virtual ICollection<AnalysisHead> AnalysisHeads { get; set; }
-        public virtual ICollection<AcOpeningMaster> AcOpeningMasters { get; set; }
     }
 }

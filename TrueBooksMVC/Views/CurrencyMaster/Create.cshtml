@@ -103,71 +103,80 @@
                   <fieldset>
                       <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
                       <div class="row no-margin">
-                          <div class="col-md-4">
+                          <div class="col-md-6">
                               <label class="required headinglabel">Currency Name</label>
 
                               @Html.TextBoxFor(model => model.CurrencyName, new { @class = "form-control txttarget" })
                               @Html.ValidationMessageFor(model => model.CurrencyName)
                           </div>
 
-                          <div class="col-md-4">
-                              <label class="required headinglabel">Symbol</label>
-
-                              @Html.TextBoxFor(model => model.Symbol, new { @class = "form-control" })
-                              @Html.ValidationMessageFor(model => model.Symbol)
-
-                          </div>
-
-                          <div class="col-md-4">
-                              <label class="required headinglabel">No. Of Decimals</label>
-
-                              @Html.TextBoxFor(model => model.NoOfDecimals, new { @class = "form-control textright" })
-                              @Html.ValidationMessageFor(model => model.NoOfDecimals)
-                          </div>
-                      </div>
-
-                      <div class="row no-margin" style="padding-top:10px">
-                          <div class="col-md-4">
-                              <label class="required headinglabel">Monetary Unit</label>
-
-                              @Html.TextBoxFor(model => model.MonetaryUnit, new { @class = "form-control txttarget" })
-                              @Html.ValidationMessageFor(model => model.MonetaryUnit)
-                          </div>
-
-                          <div class="col-md-4">
-                              <label class="required headinglabel">Country</label>
-
-                              @Html.DropDownListFor(model => model.CountryID, new SelectList(ViewBag.country, "CountryID", "CountryName"), "Select", new { @class = "form-control" });
-                              @Html.ValidationMessageFor(model => model.CountryID)
-                          </div>
-
-                          <div class="col-md-4">
-                              <label class="required headinglabel">Exchange Rate</label>
-                              @Html.TextBoxFor(model => model.ExchangeRate, new { @class = "form-control textright" })
-                              @Html.ValidationMessageFor(model => model.ExchangeRate)
-
-                          </div>
-                      </div>
-
-                      <div class="row no-margin" style="padding-top:10px">
                           <div class="col-md-6">
-
-
-                              @Html.CheckBox("StatusBaseCurrency", new { @name = "StatusBaseCurrency" }) &nbsp <label class="headinglabel">Status Base Currency</label>
-                              @Html.ValidationMessageFor(model => model.StatusBaseCurrency)
-                          </div>
-                      </div>
-
-                      <div class="row no-margin" style="padding-top:10px">
-                          <div class="col-md-12 butdivs">
-                              <input type="submit" value="Save" class="btn btn-primary btnwid" id="btnsave" />
-
-                              &nbsp;
-                              <a href='@Url.Action("Index", "CurrencyMaster", new { id = 0 })' class="btn btn-danger btnwid" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+                              <label class="required headinglabel">Currency Code</label>
+                              @Html.TextBoxFor(model => model.CurrencyCode, new { @class = "form-control" })
+                              @Html.ValidationMessageFor(model => model.CurrencyCode)
+                              <!--<input type="text" name="currency_code" class="form-control txttarget">-->
 
                           </div>
-                      </div>
-                  </fieldset>
+                          </div>
+                          <div class="row no-margin" style="padding-top:10px">
+                              <div class="col-md-6">
+                                  <label class="required headinglabel">Country</label>
+
+                                  @Html.DropDownListFor(model => model.CountryID, new SelectList(ViewBag.country, "CountryID", "CountryName"), "Select", new { @class = "form-control" })
+                                  @Html.ValidationMessageFor(model => model.CountryID)
+                              </div>
+
+                              <div class="col-md-6">
+                                  <label class="required headinglabel">No. Of Decimals</label>
+
+                                  @Html.TextBoxFor(model => model.NoOfDecimals, new { @class = "form-control textright" })
+                                  @Html.ValidationMessageFor(model => model.NoOfDecimals)
+                              </div>
+
+                          </div>
+
+                          <div class="row no-margin" style="padding-top:10px">
+                              <div class="col-md-3">
+                                  <label class="required headinglabel">Monetary Unit</label>
+
+                                  @Html.TextBoxFor(model => model.MonetaryUnit, new { @class = "form-control txttarget" })
+                                  @Html.ValidationMessageFor(model => model.MonetaryUnit)
+                              </div>
+
+                              <div class="col-md-3">
+                                  <label class="required headinglabel">Currency Symbol</label>
+
+                                  @Html.TextBoxFor(model => model.Symbol, new { @class = "form-control" })
+                                  @Html.ValidationMessageFor(model => model.Symbol)
+
+                              </div>
+
+                              <div class="col-md-3">
+                                  <label class="required headinglabel">Exchange Rate</label>
+                                  @Html.TextBoxFor(model => model.ExchangeRate, new { @class = "form-control textright" })
+                                  @Html.ValidationMessageFor(model => model.ExchangeRate)
+
+                              </div>
+
+
+                              <div class="row no-margin" style="padding-top:25px">
+                                  <div class="col-md-3">
+
+                                      @Html.CheckBox("StatusBaseCurrency", new { @name = "StatusBaseCurrency" }) &nbsp <label class="headinglabel">Status Base Currency</label>
+                                      @Html.ValidationMessageFor(model => model.StatusBaseCurrency)
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="row no-margin" style="padding-top:10px">
+                              <div class="col-md-12 butdivs">
+                                  <input type="submit" value="Save" class="btn btn-primary btnwid" id="btnsave" />
+
+                                  &nbsp;
+                                  <a href='@Url.Action("Index", "CurrencyMaster", new { id = 0 })' class="btn btn-danger btnwid" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+
+                              </div>
+                          </div>
+</fieldset>
                   </div>
                   }
 

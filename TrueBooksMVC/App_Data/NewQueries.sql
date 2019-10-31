@@ -1749,3 +1749,24 @@ UPDATE [PurchaseInvoice]  SET
 		WHERE PurchaseInvoiceID=@PurchaseInvoiceId
   
 END
+-----------------------------------------------------------------------------oct31--------------------------
+
+ALTER TABLE CountryMaster ADD CountryPrefix nvarchar(50);
+ALTER TABLE Location ADD Country nvarchar(50);
+ALTER TABLE CurrencyMaster ADD CurrencyCode nvarchar(50);
+ALTER TABLE BranchMaster ADD City nvarchar(50);
+ALTER TABLE BranchMaster ADD ContactPerson nvarchar(50);
+ALTER TABLE ShippingAgent ADD City nvarchar(50);
+ALTER TABLE ShippingAgent ADD Discount Decimal(18,5);
+ALTER TABLE ShippingAgent ADD ExportCode int;
+ALTER TABLE ShippingAgent ADD CreditLimit int;
+ALTER TABLE ShippingAgent ADD CreditDays int;
+ALTER TABLE Transporter ADD CountryID int;
+ALTER TABLE Transporter ADD City nvarchar(100);
+ALTER TABLE CUSTOMER ADD CountryID int;
+ALTER TABLE CUSTOMER ADD City nvarchar(100);
+ALTER TABLE Supplier ADD CountryID int;
+ALTER TABLE Supplier ADD City nvarchar(100);
+ALTER TABLE Supplier ADD ExportCode int;
+ALTER TABLE AcCompany ADD ContactPerson nvarchar(100);
+ALTER TABLE AcCompany ADD logo nvarchar(max);

@@ -19,7 +19,6 @@ namespace DAL
         public Nullable<int> ProductID { get; set; }
         public Nullable<int> Quantity { get; set; }
         public Nullable<int> ItemUnitID { get; set; }
-        public string RateType { get; set; }
         public Nullable<decimal> RateLC { get; set; }
         public Nullable<decimal> RateFC { get; set; }
         public Nullable<decimal> Value { get; set; }
@@ -29,5 +28,6 @@ namespace DAL
         public Nullable<decimal> NetValue { get; set; }
         public Nullable<int> JobID { get; set; }
         public string Description { get; set; }
+        public string RateType { get; set; }
     }
 }

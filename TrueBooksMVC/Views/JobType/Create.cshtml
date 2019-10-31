@@ -76,54 +76,49 @@
 
             <div class="row no-margin">
 
-                <div class="col-md-4">
-                    <label class="required headinglabel">Job Description</label>
+                <div class="col-md-6">
+                    <label class="required headinglabel">Job Type</label>
                     @Html.TextBoxFor(model => model.JobDescription, new { @class = "form-control txttarget" })
                     @Html.ValidationMessageFor(model => model.JobDescription)
 
                 </div>
 
-                <div class="col-md-4">
+                <div class="col-md-6">
+                    <label class="headinglabel">Job Type Prefix</label>
+                    @Html.TextBoxFor(model => model.JobPrefix, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.JobPrefix)
+                </div>
+
+                <div class="col-md-6" style="padding-top:10px">
                     <label class="required headinglabel">Job Mode</label>
                     @Html.DropDownListFor(model => model.JobModeID, (IEnumerable<SelectListItem>)ViewBag.JobMode, "Select", new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.JobModeID)
 
                 </div>
 
-                <div class="col-md-4">
+                <div class="col-md-6"  style="padding-top:10px" >
+                    <label class="headinglabel">Job Type Code</label>
+                    @Html.TextBoxFor(model => model.JobCode, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.JobCode)
+
+                </div>
+
+                <div class="col-md-6"  style="padding-top:10px">
                     <label class="headinglabel">Remarks</label>
                     @Html.TextBoxFor(model => model.Remarks, new { @class = "form-control txttarget" })
                     @Html.ValidationMessageFor(model => model.Remarks)
 
                 </div>
 
-            </div>
+             
+                    <div class="col-md-6" style="padding-top:37px">
+                        @Html.CheckBox("StatusSea", new { @name = "StatusSea" }) &nbsp <label class="headinglabel">Status Sea</label>
+                        @Html.ValidationMessageFor(model => model.StatusSea)
 
-            <div class="row no-margin" style="padding-top:10px">
-
-                <div class="col-md-4">
-                    <label class="headinglabel">Job Type Code</label>
-                    @Html.TextBoxFor(model => model.JobCode, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.JobCode)
+                    </div>
 
                 </div>
-                <div class="col-md-4">
-                    <label class="headinglabel">Job Prefix</label>
-                    @Html.TextBoxFor(model => model.JobPrefix, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.JobPrefix)
-
-
-
-                </div>
-                <div class="col-md-4" style="padding-top:15px">
-                    @Html.CheckBox("StatusSea", new { @name = "StatusSea" }) &nbsp <label class="headinglabel">Status Sea</label>
-                    @Html.ValidationMessageFor(model => model.StatusSea)
-
-                </div>
-            </div>
-
-
-
+      
             <div class="row no-margin" style="padding-top:10px">
                 <div class="col-md-12 butdivs">
 

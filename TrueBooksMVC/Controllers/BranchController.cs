@@ -76,6 +76,9 @@ namespace TrueBooksMVC.Controllers
                 branchmaster.CurrencyID = branchVM.currencyId;
                 branchmaster.CountryID = branchVM.CountryID;
                 branchmaster.EMail = branchVM.Email;
+                branchmaster.Website = branchVM.Website;
+                branchmaster.City = branchVM.City;
+                branchmaster.ContactPerson = branchVM.ContactPerson;
                 branchmaster.Phone = branchVM.phone;
                 db.BranchMasters.Add(branchmaster);
                 db.SaveChanges();

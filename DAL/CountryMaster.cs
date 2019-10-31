@@ -16,15 +16,16 @@ namespace DAL
     {
         public CountryMaster()
         {
-            this.AcCompanies = new HashSet<AcCompany>();
             this.BranchMasters = new HashSet<BranchMaster>();
+            this.AcCompanies = new HashSet<AcCompany>();
         }
     
         public int CountryID { get; set; }
         public string CountryName { get; set; }
         public string CountryCode { get; set; }
+        public string CountryPrefix { get; set; }
     
-        public virtual ICollection<AcCompany> AcCompanies { get; set; }
         public virtual ICollection<BranchMaster> BranchMasters { get; set; }
+        public virtual ICollection<AcCompany> AcCompanies { get; set; }
     }
 }
