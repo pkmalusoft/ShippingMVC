@@ -61,54 +61,63 @@
 <div class="table-responsive tblbackground" style="padding:15px">
 <table class="table table-responsive table-bordered tblfont" id="dataTables-example">
     <thead>
-    <tr>
-        
-        <th>
-            @Html.Label("Country Name")
-        </th>
-        <th>
-            @Html.Label("Country Code")
-        </th>
-        <th>Action</th>
-    </tr>
+        <tr>
+
+            <th>
+                @Html.Label("Country Name")
+            </th>
+            <th>
+                @Html.Label("Country Code")
+            </th>
+            <th>
+                @Html.Label("Country Perfix")
+            </th>
+            <th>Action</th>
+        </tr>
 </thead>
 
     <tfoot>
         <tr>
-        
-        <th>
-            @Html.Label("Country Name")
-        </th>
-        <th>
-            @Html.Label("Country Code")
-        </th>
-         <th style="display:none">Action</th>
-    </tr>
+
+            <th>
+                @Html.Label("Country Name")
+            </th>
+            <th>
+                @Html.Label("Country Code")
+            </th>
+            <th>
+                @Html.Label("Country Perfix")
+            </th>
+            <th style="display:none">Action</th>
+        </tr>
 
     </tfoot>
   
 
     <tbody>
 @foreach (var item in Model) {
-    <tr>
-      
-        <td class="tdtarget">
-            @Html.DisplayFor(modelItem => item.CountryName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CountryCode)
-        </td>
-        <td>
-           @*  @Html.ActionLink("Edit", "Edit", new { id=item.CountryID }) |
+        <tr>
+
+            <td class="tdtarget">
+                @Html.DisplayFor(modelItem => item.CountryName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CountryCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CountryPrefix)
+            </td>
+            <td>
+                @*  @Html.ActionLink("Edit", "Edit", new { id=item.CountryID }) |
             @Html.ActionLink("Details", "Details", new { id=item.CountryID }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.CountryID })*@
 
-            <a href="@Url.Action("Edit", new { id = item.CountryID })"><i class="fa fa-pencil"></i></a> |
-@*<a href="@Url.Action("Delete", new { id = item.CountryID })"><i class="fa fa-times"></i></a>*@
-            <a href="#" onclick="Delete(ID=@item.CountryID)"><i class="fa fa-times"></i></a>
+                <a href="@Url.Action("Edit", new { id = item.CountryID })"><i class="fa fa-pencil"></i></a> |
+                @*<a href="@Url.Action("Delete", new { id = item.CountryID })"><i class="fa fa-times"></i></a>*@
+                <a href="#" onclick="Delete(ID=@item.CountryID)"><i class="fa fa-times"></i></a>
 
-        </td>
-    </tr>
+            </td>
+        </tr>
 }
 <//tbody>
 </table>

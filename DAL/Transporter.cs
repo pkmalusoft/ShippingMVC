@@ -34,5 +34,7 @@ namespace DAL
         public string Remarks { get; set; }
         public Nullable<bool> StatusReserved { get; set; }
         public string ExporterCode { get; set; }
+        public Nullable<int> CountryID { get; set; }
+        public string City { get; set; }
     }
 }

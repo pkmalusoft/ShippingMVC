@@ -109,7 +109,7 @@
 
             <div class="row no-margin">
 
-
+                @Html.HiddenFor(model => model.ShippingAgentID)
                 <div class="col-md-6">
                     <label class="required headinglabel">Shipping Agent Name</label>
                     @Html.TextBoxFor(model => model.AgentName, new { @class = "form-control txttarget" })
@@ -159,7 +159,8 @@
                 <div class="row no-margin" style="padding-top:10px">
                     <div class="col-md-6">
                         <label class="required headinglabel">City</label>
-                        <input type="text" name="city" class="form-control txttarget">
+                        @Html.TextBoxFor(model => model.City, new { @class = "form-control txttarget" })
+                        @Html.ValidationMessageFor(model => model.City)
 
                     </div>
                     <div class="col-md-6">
@@ -194,12 +195,14 @@
                     </div>
                     <div class="col-md-3">
                         <label class="required headinglabel">Credit Days</label>
-                        <input type="text" name="crdate" class="form-control txttarget">
+                        @Html.TextBoxFor(model => model.CreditDays, new { @class = "form-control txttarget" })
+                        @Html.ValidationMessageFor(model => model.CreditDays)
 
                     </div>
                     <div class="col-md-3">
                         <label class="required headinglabel">Credit Limit</label>
-                        <input type="text" name="crlimit" class="form-control txttarget">
+                        @Html.TextBoxFor(model => model.CreditLimit, new { @class = "form-control txttarget" })
+                        @Html.ValidationMessageFor(model => model.CreditLimit)
 
                     </div>
                 </div>
@@ -217,12 +220,14 @@
                     </div>
                     <div class="col-md-3">
                         <label class="required headinglabel">Exporter Code</label>
-                        <input type="text" name="ex_code" class="form-control txttarget">
+                        @Html.TextBoxFor(model => model.ExportCode, new { @class = "form-control txttarget" })
+                        @Html.ValidationMessageFor(model => model.ExportCode)
 
                     </div>
                     <div class="col-md-3">
                         <label class="required headinglabel">Discount %</label>
-                        <input type="text" name="discount" class="form-control txttarget">
+                        @Html.TextBoxFor(model => model.Discount, new { @class = "form-control txttarget" })
+                        @Html.ValidationMessageFor(model => model.Discount)
 
                     </div>
                 </div>

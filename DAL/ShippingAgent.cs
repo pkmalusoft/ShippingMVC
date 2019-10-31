@@ -30,5 +30,10 @@ namespace DAL
         public Nullable<bool> StatusReserved { get; set; }
         public string Remarks { get; set; }
         public Nullable<int> CountryID { get; set; }
+        public string City { get; set; }
+        public Nullable<decimal> Discount { get; set; }
+        public string ExportCode { get; set; }
+        public string CreditLimit { get; set; }
+        public string CreditDays { get; set; }
     }
 }

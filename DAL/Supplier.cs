@@ -33,5 +33,8 @@ namespace DAL
         public string POBoxNo { get; set; }
         public Nullable<bool> statusInventory { get; set; }
         public string RevenuTypeIds { get; set; }
+        public Nullable<int> CountryID { get; set; }
+        public string City { get; set; }
+        public Nullable<int> ExportCode { get; set; }
     }
 }

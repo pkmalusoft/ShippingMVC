@@ -112,7 +112,9 @@
 
                           <div class="col-md-6">
                               <label class="required headinglabel">Currency Code</label>
-                              <input type="text" name="currency_code" class="form-control txttarget">
+                              @Html.TextBoxFor(model => model.CurrencyCode, new { @class = "form-control" })
+                              @Html.ValidationMessageFor(model => model.CurrencyCode)
+                              <!--<input type="text" name="currency_code" class="form-control txttarget">-->
 
                           </div>
                           </div>

@@ -11,18 +11,25 @@
     <legend>Location</legend>
 
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.Location1)
+        @Html.DisplayNameFor(model => model.Location1)
     </div>
     <div class="display-field">
         @Html.DisplayFor(model => model.Location1)
     </div>
 
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.prefix)
+        @Html.DisplayNameFor(model => model.prefix)
     </div>
     <div class="display-field">
         @Html.DisplayFor(model => model.prefix)
     </div>
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.Country)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Country)
+    </div>
+
 </fieldset>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id=Model.LocationID }) |

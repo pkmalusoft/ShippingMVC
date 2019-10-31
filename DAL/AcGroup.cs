@@ -27,7 +27,6 @@ namespace DAL
         public Nullable<int> AcCategoryID { get; set; }
         public string GroupCode { get; set; }
     
-        public virtual BranchMaster BranchMaster { get; set; }
         public virtual AcCategory AcCategory { get; set; }
         public virtual AcCompany AcCompany { get; set; }
     }

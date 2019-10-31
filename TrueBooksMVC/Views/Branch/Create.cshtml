@@ -144,7 +144,9 @@
 
                     <div class="col-md-6">
                         <label class="required headinglabel">Contact Person</label>
-                        <input type="text" name="contact_person" class="form-control txttarget">
+                        @Html.TextBoxFor(model => model.ContactPerson, new { @class = "form-control txttarget" })
+                        @Html.ValidationMessageFor(model => model.ContactPerson)
+                     
 
                     </div>
 
@@ -168,7 +170,8 @@
 
                     <div class="col-md-4">
                         <label class=" headinglabel required">City</label>
-                        <input type="text" name="city" class="form-control txttarget">
+                        @Html.TextBoxFor(model => model.City, new { @class = "form-control txttarget" })
+                        @Html.ValidationMessageFor(model => model.City)
 
                     </div>
 
@@ -194,7 +197,8 @@
                     </div>
                     <div class="col-md-4">
                         <label class=" headinglabel required">Website</label>
-                        <input type="text" name="city" class="form-control txttarget">
+                        @Html.TextBoxFor(model => model.Website, new { @class = "form-control txttarget" })
+                        @Html.ValidationMessageFor(model => model.Website)
                     </div>
 
                     <div class="col-md-4">

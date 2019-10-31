@@ -66,27 +66,33 @@
 <div class="table-responsive tblbackground" style="padding:15px">
 <table class="table table-responsive table-bordered tblfont" id="dataTables-example">
    <thead>
-        <tr>
-        <th>
-            @Html.Label("Location")
-        </th>
-        <th>
-            @Html.Label("Prefix")
-        </th>
-        <th>Action</th>
-    </tr>
+       <tr>
+           <th>
+               @Html.Label("Location")
+           </th>
+           <th>
+               @Html.Label("Prefix")
+           </th>
+           <th>
+               @Html.Label("Country")
+           </th>
+           <th>Action</th>
+       </tr>
    </thead>
 
     <tfoot>
-         <tr>
-        <th>
-            @Html.Label("Location")
-        </th>
-        <th>
-            @Html.Label("Prefix")
-        </th>
-          <th style="display:none">Action</th>
-    </tr>
+        <tr>
+            <th>
+                @Html.Label("Location")
+            </th>
+            <th>
+                @Html.Label("Prefix")
+            </th>
+            <th>
+                @Html.Label("Country")
+            </th>
+            <th style="display:none">Action</th>
+        </tr>
 
     </tfoot>
 
@@ -100,11 +106,14 @@
             @Html.DisplayFor(modelItem => item.prefix)
         </td>
         <td>
-           @* @Html.ActionLink("Edit", "Edit", new { id = item.LocationID }) |*@
-          @*  @Html.ActionLink("Details", "Details", new { id=item.LocationID }) |*@
-          @*  @Html.ActionLink("Delete", "Delete", new { id=item.LocationID })*@
+            @Html.DisplayFor(modelItem => item.Country)
+        </td>
+        <td>
+            @* @Html.ActionLink("Edit", "Edit", new { id = item.LocationID }) |*@
+            @*  @Html.ActionLink("Details", "Details", new { id=item.LocationID }) |*@
+            @*  @Html.ActionLink("Delete", "Delete", new { id=item.LocationID })*@
             <a href="@Url.Action("Edit", new { id = item.LocationID })"><i class="fa fa-pencil"></i></a> |
-           @* <a href="@Url.Action("Delete", new { id = item.LocationID })"><i class="fa fa-times"></i></a>*@
+            @* <a href="@Url.Action("Delete", new { id = item.LocationID })"><i class="fa fa-times"></i></a>*@
 
             <a href="#" onclick="DeleteLocation(ID=@item.LocationID)"><i class="fa fa-times"></i></a>
         </td>

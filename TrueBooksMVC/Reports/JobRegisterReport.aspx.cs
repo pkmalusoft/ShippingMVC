@@ -16,15 +16,10 @@ namespace TrueBooksMVC.Reports
         {
             SHIPPING_FinalEntities entity = new SHIPPING_FinalEntities();
 
-
-
-
-
             if (!IsPostBack)
             {
                 int jobid = 0;
                 jobid = Convert.ToInt32(Request.QueryString["jobid"].ToString());
-
 
                 DataTable dtcompany = new DataTable();
                 dtcompany.Columns.Add("CompanyName");
@@ -47,20 +42,27 @@ namespace TrueBooksMVC.Reports
                 dr[6] = "";
                 dtcompany.Rows.Add(dr);
 
-
                 ReportViewer1.SizeToReportContent = true;
                 ReportViewer1.LocalReport.ReportPath = Server.MapPath("~/Reports/JobRegisterReport.rdlc");
                 ReportViewer1.LocalReport.DataSources.Clear();
 
                 ReportDataSource _rsource;
-                var dt = entity.SP_JobRegisterReportPrintByJObID(jobid).ToList();
-                _rsource = new ReportDataSource("JobRegister", dt);
+                DataSet ds = DAL.SP_JobRegisterReportPrintByJObID(jobid);
+                _rsource = new ReportDataSource("JobRegister", ds.Tables[0]);
+
+                ReportDataSource _rsCargo;
+                _rsCargo = new ReportDataSource("Cargo", ds.Tables[1]);
+
+                ReportDataSource _rsBillOfEntry;
+                _rsBillOfEntry = new ReportDataSource("BillOfEntry", ds.Tables[2]);
 
                 ReportDataSource _rsource1 = new ReportDataSource("Comapny", dtcompany);
 
-                DataTable ddcharges = new DataTable();
-                var dd = entity.GetChargesByJobIDForJobRegister(jobid).ToList();
-                ReportDataSource _rsource2 = new ReportDataSource("Charges", dd);
+               // DataTable ddcharges = new DataTable();
+             //   var dd = entity.GetChargesByJobIDForJobRegister(jobid).ToList();
+                ReportDataSource _rsource2 = new ReportDataSource("Charges", ds.Tables[3]);
+                ReportDataSource _rsourceContainerDetails = new ReportDataSource("ContainerDetails", ds.Tables[4]);
+                ReportDataSource _rsourceAuditLog = new ReportDataSource("AuditLog", ds.Tables[5]);
 
                 DataTable druser = new DataTable();
                 druser.Columns.Add("UserName");
@@ -73,18 +75,15 @@ namespace TrueBooksMVC.Reports
                 ReportDataSource _rsource3 = new ReportDataSource("User", druser);
 
                 ReportViewer1.LocalReport.DataSources.Add(_rsource2);
-
                 ReportViewer1.LocalReport.DataSources.Add(_rsource);
+                ReportViewer1.LocalReport.DataSources.Add(_rsCargo);
+                ReportViewer1.LocalReport.DataSources.Add(_rsBillOfEntry);
                 ReportViewer1.LocalReport.DataSources.Add(_rsource1);
                 ReportViewer1.LocalReport.DataSources.Add(_rsource3);
-               
-
+                ReportViewer1.LocalReport.DataSources.Add(_rsourceContainerDetails);
+                ReportViewer1.LocalReport.DataSources.Add(_rsourceAuditLog);
                 ReportViewer1.LocalReport.Refresh();
             }
-
-
-
-
         }
 
         protected void ReportViewer1_PageNavigation(object sender, PageNavigationEventArgs e)

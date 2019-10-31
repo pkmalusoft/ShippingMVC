@@ -16,8 +16,8 @@ namespace DAL
     {
         public CurrencyMaster()
         {
-            this.AcCompanies = new HashSet<AcCompany>();
             this.BranchMasters = new HashSet<BranchMaster>();
+            this.AcCompanies = new HashSet<AcCompany>();
         }
     
         public int CurrencyID { get; set; }
@@ -28,8 +28,9 @@ namespace DAL
         public Nullable<int> CountryID { get; set; }
         public Nullable<bool> StatusBaseCurrency { get; set; }
         public Nullable<decimal> ExchangeRate { get; set; }
+        public string CurrencyCode { get; set; }
     
-        public virtual ICollection<AcCompany> AcCompanies { get; set; }
         public virtual ICollection<BranchMaster> BranchMasters { get; set; }
+        public virtual ICollection<AcCompany> AcCompanies { get; set; }
     }
 }

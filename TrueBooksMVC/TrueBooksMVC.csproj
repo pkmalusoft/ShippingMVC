@@ -2932,6 +2932,7 @@
     <Content Include="Views\Purchaseinvoice\_InvoiceView.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Content\Logo\" />
     <Folder Include="Content\script\" />
     <Folder Include="TempFile\" />
     <Folder Include="Views\Report\" />

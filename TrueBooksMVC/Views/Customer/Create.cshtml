@@ -160,7 +160,8 @@
             <div class="row no-margin" style="padding-top:10px;">
                 <div class="col-md-6">
                     <label class="required headinglabel">City</label>
-                    <input type="text" name="city" class="form-control txttarget">
+                    @Html.TextBoxFor(model => model.City, new { @class = "form-control textright txttarget" })
+                    @Html.ValidationMessageFor(model => model.City)
 
                 </div>
                 <div class="col-md-6">
@@ -173,7 +174,8 @@
             <div class="row no-margin" style="padding-top:10px;">
                 <div class="col-md-6">
                     <label class="required headinglabel">Country</label>
-                    <input type="text" name="country" class="form-control txttarget">
+                    @Html.DropDownListFor(model => model.CountryID, (IEnumerable<SelectListItem>)ViewBag.country, "select", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.CountryID)
 
                 </div>
                 <div class="col-md-6">

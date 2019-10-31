@@ -92,14 +92,14 @@
                       <div class="row no-margin" style="padding-top: 10px">
                           <div class="col-md-6">
                               <label class="required headinglabel">Country Code</label>
-                              @Html.TextBoxFor(model => model.CountryCode, new { @class = "form-control" })
+                              @Html.TextBoxFor(model => model.CountryCode, new { @class ="form-control" })
                               @Html.ValidationMessageFor(model => model.CountryCode)
-
                           </div>
                           <div class="col-md-6">
                               <label class="required headinglabel">Country Prefix</label>
-                              <input type="text" name="country_prefix" class="form-control txttarget">
-
+                              @Html.TextBoxFor(model => model.CountryPrefix, new { @class ="form-control" })
+                              @Html.ValidationMessageFor(model => model.CountryPrefix)
+                             <!-- <input type="text" name="country_prefix" class="form-control txttarget">-->
                           </div>
                       </div>
 

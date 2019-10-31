@@ -39,9 +39,22 @@ namespace ShippingFinal.Controllers
         //
         // GET: /Transporter/Create
 
+
         public ActionResult Create()
         {
+
+            ViewBag.country = DropDownList<CountryMaster>.LoadItems(
+                   objSourceMastersModel.GetCountry(), "CountryID", "CountryName");
+
             return View();
+        }
+
+        public static class DropDownList<T>
+        {
+            public static SelectList LoadItems(IList<T> collection, string value, string text)
+            {
+                return new SelectList(collection, value, text);
+            }
         }
 
         //
@@ -53,6 +66,8 @@ namespace ShippingFinal.Controllers
         {
             if (ModelState.IsValid)
             {
+                ViewBag.country = DropDownList<CountryMaster>.LoadItems(
+                     objSourceMastersModel.GetCountry(), "CountryID", "CountryName");
                 var query = (from t in db.Transporters where t.TransPorter1 == transporter.TransPorter1 select t).ToList();
 
                 if (query.Count > 0)
@@ -80,6 +95,7 @@ namespace ShippingFinal.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.country = new SelectList(objSourceMastersModel.GetCountry(), "CountryID", "CountryName", transporter.CountryID);
             return View(transporter);
         }
 
@@ -132,4 +148,8 @@ namespace ShippingFinal.Controllers
         //    base.Dispose(disposing);
         //}
     }
+
+
+
+
 }

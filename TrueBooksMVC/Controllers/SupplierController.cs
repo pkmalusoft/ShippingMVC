@@ -41,12 +41,19 @@ namespace TrueBooksMVC.Controllers
 
         public ActionResult Create()
         {
-
+            ViewBag.country = DropDownList<CountryMaster>.LoadItems(
+                ObjectSourceModel.GetCountry(), "CountryID", "CountryName");
             var data = db.RevenueTypes.ToList();
             ViewBag.revenue = data;
             return View();
         }
-
+        public static class DropDownList<T>
+        {
+            public static SelectList LoadItems(IList<T> collection, string value, string text)
+            {
+                return new SelectList(collection, value, text);
+            }
+        }
         //
         // POST: /Supplier/Create
 
@@ -56,6 +63,8 @@ namespace TrueBooksMVC.Controllers
         {
             if (ModelState.IsValid)
             {
+                ViewBag.country = DropDownList<CountryMaster>.LoadItems(
+                    ObjectSourceModel.GetCountry(), "CountryID", "CountryName");
                 var query = (from t in db.Suppliers where t.SupplierName == supplier.SupplierName select t).ToList();
 
                 if (query.Count > 0)
@@ -89,6 +98,7 @@ namespace TrueBooksMVC.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.country = new SelectList(ObjectSourceModel.GetCountry(), "CountryID", "CountryName", supplier.CountryID);
             return View(supplier);
         }
 

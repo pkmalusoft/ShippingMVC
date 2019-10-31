@@ -67,7 +67,7 @@
 
 
         <div class="row no-margin">
-            <div class="col-md-6">
+            <div class="col-md-8">
                 <label class="required headinglabel">Location</label>
                 @Html.HiddenFor(model => model.LocationID)
                 @Html.TextBoxFor(model => model.Location1, new { @class = "form-control txttarget" })
@@ -75,14 +75,22 @@
 
             </div>
 
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <label class="required headinglabel">Prefix</label>
                 @Html.TextBoxFor(model => model.prefix, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.prefix)
 
             </div>
         </div>
+        <div class="row no-margin">
 
+            <div class="col-md-12">
+                <label class="required headinglabel">Country</label>
+                @Html.TextBoxFor(model => model.Country, new { @class = "form-control" })
+                <!-- <input type="text" name="country" class="form-control txttarget">-->
+
+            </div>
+        </div>
         <div class="row no-margin" style="padding-top:10px">
             <div class="col-md-6">
 

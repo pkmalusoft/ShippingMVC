@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -58,7 +59,7 @@ namespace ShippingFinal.Controllers
         {
             if (ModelState.IsValid)
             {
-
+               
                 var query = (from t in db.AcCompanies where t.AcCompany1 == accompany.AcCompany1 select t).ToList();
 
                 if (query.Count > 0)

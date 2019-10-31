@@ -29,7 +29,6 @@ namespace DAL
         public string InvRemarks { get; set; }
     
         public virtual AcHead AcHead { get; set; }
-        public virtual BranchMaster BranchMaster { get; set; }
         public virtual AcFinancialYear AcFinancialYear { get; set; }
         public virtual AcCompany AcCompany { get; set; }
     }

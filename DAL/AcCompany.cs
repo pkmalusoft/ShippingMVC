@@ -45,6 +45,8 @@ namespace DAL
         public string CompanyPrefix { get; set; }
         public Nullable<int> CurrencyID { get; set; }
         public Nullable<int> AreaID { get; set; }
+        public string ContactPerson { get; set; }
+        public string logo { get; set; }
     
         public virtual CountryMaster CountryMaster { get; set; }
         public virtual CurrencyMaster CurrencyMaster { get; set; }
