@@ -435,7 +435,19 @@ SET @SalesInvoiceId = SCOPE_IDENTITY();
 return @SalesInvoiceId;
 END
 
-
+----
+--backup
+/****** Script for SelectTopNRows command from SSMS  ******/
+SELECT TOP 1000 [SalesInvoiceID]
+      ,[DocumentNo]
+      ,[TransDate]
+      ,[CustomerID]
+      ,[Remarks]
+      ,[Amt]
+      ,[AcCompanyID]
+      ,[AcjournalID]
+  FROM [malusoft_shipping].[dbo].[SalesInvoice]
+  ---------
 ----------------------------------
 
     USE[DB_9F57C4_ShippingTest]

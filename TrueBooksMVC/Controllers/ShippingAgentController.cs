@@ -93,6 +93,8 @@ namespace ShippingFinal.Controllers
                 {
                    
                     ViewBag.SuccessMsg = "Agent name is already exist";
+                    ViewBag.country = DropDownList<CountryMaster>.LoadItems(
+                   objSourceMastersModel.GetCountry(), "CountryID", "CountryName");
                     return View();
                 }
 
@@ -101,7 +103,17 @@ namespace ShippingFinal.Controllers
                 TempData["SuccessMSG"] = "You have successfully added Shipping Agent.";
                 return RedirectToAction("Index");
             }
-
+            else
+            {
+                TempData["SuccessMSG"] = "Invalid Model State";
+                var errors = ModelState.Values.SelectMany(v => v.Errors);
+                foreach(var item in errors)
+                {
+                    TempData["SuccessMSG"] = TempData["SuccessMSG"].ToString() + item.ErrorMessage + ";";
+                }
+            }
+            ViewBag.country = DropDownList<CountryMaster>.LoadItems(
+                   objSourceMastersModel.GetCountry(), "CountryID", "CountryName");
             return View(shippingagent);
             }
 
