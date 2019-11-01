@@ -47,7 +47,8 @@ namespace DAL
         public Nullable<int> AreaID { get; set; }
         public string ContactPerson { get; set; }
         public string logo { get; set; }
-    
+        public Byte[] ImageFile { get; set; }
+
         public virtual CountryMaster CountryMaster { get; set; }
         public virtual CurrencyMaster CurrencyMaster { get; set; }
         public virtual Designation Designation { get; set; }

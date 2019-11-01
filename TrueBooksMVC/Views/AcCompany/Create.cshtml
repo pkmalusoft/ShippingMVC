@@ -107,7 +107,7 @@
     }
 
       <section class="content">
-          @using (Html.BeginForm())
+          @using (Html.BeginForm("Create", "AcCompany", FormMethod.Post, new { @id= "AcCompany", enctype = "multipart/form-data" }))
           {
               @Html.AntiForgeryToken()
               @Html.ValidationSummary(true)
@@ -134,14 +134,14 @@
                       <div class="row no-margin" style="padding-top: 10px">
                           <div class="col-md-6">
                               <label class="required headinglabel">Address 1</label>
-                              @Html.TextBoxFor(model => model.Address1, new { @class = "form-control txttarget" })
+                              @Html.TextBoxFor(model => model.Address1, new { @class = "form-control" })
                               @Html.ValidationMessageFor(model => model.Address1)
 
                           </div>
 
                           <div class="col-md-6">
                               <label class="headinglabel">Address 2</label>
-                              @Html.TextBoxFor(model => model.Address2, new { @class = "form-control txttarget" })
+                              @Html.TextBoxFor(model => model.Address2, new { @class = "form-control" })
                               @Html.ValidationMessageFor(model => model.Address2)
 
                           </div>
@@ -149,14 +149,14 @@
                       <div class="row no-margin" style="padding-top: 10px">
                           <div class="col-md-6">
                               <label class="headinglabel">Address 3</label>
-                              @Html.TextBoxFor(model => model.Address3, new { @class = "form-control txttarget" })
+                              @Html.TextBoxFor(model => model.Address3, new { @class = "form-control" })
                               @Html.ValidationMessageFor(model => model.Address3)
 
                           </div>
 
                           <div class="col-md-6">
                               <label class="required headinglabel">Phone</label>
-                              @Html.TextBoxFor(model => model.Phone, new { @class = "form-control textright txttarget" })
+                              @Html.TextBoxFor(model => model.Phone, new { @class = "form-control textright" })
                               @Html.ValidationMessageFor(model => model.Phone)
 
                           </div>
@@ -171,19 +171,19 @@
 
                           <div class="col-md-3">
                               <label class="headinglabel required">Country</label>
-                              @Html.DropDownListFor(model => model.CountryID, new SelectList(ViewBag.Country, "CountryID", "CountryName"), "Select", new { @class = "form-control txttarget" })
+                              @Html.DropDownListFor(model => model.CountryID, new SelectList(ViewBag.Country, "CountryID", "CountryName"), "Select", new { @class = "form-control" })
                               @Html.ValidationMessageFor(model => model.CountryID)
 
                           </div>
                           <div class="col-md-3">
                               <label class="headinglabel required">Currency</label>
-                              @Html.DropDownListFor(model => model.CurrencyID, new SelectList(ViewBag.Currency, "CurrencyID", "CurrencyName"), "Select", new { @class = "form-control txttarget" })
+                              @Html.DropDownListFor(model => model.CurrencyID, new SelectList(ViewBag.Currency, "CurrencyID", "CurrencyName"), "Select", new { @class = "form-control" })
                               @Html.ValidationMessageFor(model => model.CountryID)
 
                           </div>
                           <div class="col-md-3">
                               <label class="headinglabel required">Upload Logo</label>
-                              <input type="file" name="ImageFile" class="form-control txttarget" value="Browse">
+                              <input type="file" id="ImageFile" name="ImageFile" class="form-control">
 
                           </div>
                       </div>

@@ -55,11 +55,11 @@ namespace ShippingFinal.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(AcCompany accompany)
+        public ActionResult Create(AcCompany accompany, HttpPostedFileBase ImageFile)
         {
             if (ModelState.IsValid)
             {
-               
+                string fileName = "";
                 var query = (from t in db.AcCompanies where t.AcCompany1 == accompany.AcCompany1 select t).ToList();
 
                 if (query.Count > 0)
@@ -70,6 +70,17 @@ namespace ShippingFinal.Controllers
 
                     ViewBag.SuccessMsg = "Company name is already exist";
                     return View();
+                }
+                if (ImageFile != null && ImageFile.ContentLength > 0)
+                {
+                    fileName = Path.GetFileName(ImageFile.FileName);
+                    if (System.IO.File.Exists(Server.MapPath("~/Content/Logo/" + fileName)))
+                    {
+                        ViewBag.SuccessMsg = "Logo with same file name is already exist";
+                        return View();
+                    }
+                    ImageFile.SaveAs(Server.MapPath("~/Content/Logo/" + fileName));
+                    accompany.logo = fileName;
                 }
                 objSourceMastersModel.SaveAcCompanies(accompany);
                 ViewBag.SuccessMsg = "You have successfully added Company.";
@@ -99,15 +110,29 @@ namespace ShippingFinal.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(AcCompany accompany)
+        public ActionResult Edit(AcCompany accompany, HttpPostedFileBase ImageFile)
         {
+            string fileName = "";
             if (ModelState.IsValid)
             {
+                if (ImageFile != null && ImageFile.ContentLength > 0)
+                {
+                    fileName = Path.GetFileName(ImageFile.FileName);
+                    if (System.IO.File.Exists(Server.MapPath("~/Content/Logo/" + fileName)))
+                    {
+                        ViewBag.SuccessMsg = "Logo with same file name is already exist";
+                        return View();
+                    }
+                    ImageFile.SaveAs(Server.MapPath("~/Content/Logo/" + fileName));
+                    accompany.logo = fileName;
+                }
                 objSourceMastersModel.SaveAcCompaniesById(accompany);
+
                 ViewBag.SuccessMsg = "You have successfully updated Company.";
                 return View("Index", objSourceMastersModel.GetAllAcCompanies());
                 
             }
+
             return View(accompany);
         }
 

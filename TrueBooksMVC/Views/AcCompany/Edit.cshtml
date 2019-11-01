@@ -72,13 +72,13 @@
 <section class="content-header">
 
 
-@using (Html.BeginForm()) {
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true)
-    
+@using (Html.BeginForm("Edit", "AcCompany", FormMethod.Post, new { @id = "AcCompany", enctype = "multipart/form-data" })) {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+
     <fieldset class="searchdiv">
         <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
-        @Html.HiddenFor(Model => Model.AcCompanyID)
+        @Html.HiddenFor(model => model.AcCompanyID)
         <div class="row no-margin">
 
             <div class="col-md-6">
@@ -145,10 +145,11 @@
                 @Html.ValidationMessageFor(model => model.CountryID)
 
             </div>
-            <div class="col-md-3">
+            <div class="col-md-6">
                 <label class="headinglabel required">Upload Logo</label>
-                <input type="file" name="ImageFile" class="form-control txttarget" value="Browse">
-
+                <img src="/Content/Logo/@Model.logo" style="width:200px;height:auto" />
+                @Html.HiddenFor(model => model.logo);
+                <input type="file" id="ImageFile" name="ImageFile" class="form-control">
             </div>
         </div>
 
