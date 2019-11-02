@@ -5845,8 +5845,9 @@ div#dataTables-example_paginate {
 }
 .form-control {
     height: 27px !important;
-    padding: 0px 1px !important;
+    padding: 0px 7px !important;
     font-size: 10px !important;
+    
 }
 .searcfied {
     width: 27%;
@@ -5877,7 +5878,7 @@ div#dataTables-example_paginate {
     border-radius: 10px;
 }
 .form-control {
-    margin-top:10px;}
+    margin-top:0px;}
 select#AcFYearID {
     margin-top: 0 !important;
 }

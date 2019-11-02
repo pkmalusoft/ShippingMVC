@@ -205,6 +205,7 @@
     <Compile Include="Controllers\MenuCreationController.cs" />
     <Compile Include="Controllers\OpeningInvoiceController.cs" />
     <Compile Include="Controllers\PaymentTermsController.cs" />
+    <Compile Include="Controllers\ProductServiceController.cs" />
     <Compile Include="Controllers\PurchaseInvoiceController.cs" />
     <Compile Include="Controllers\QuotationvalidityController.cs" />
     <Compile Include="Controllers\RecieptVoucherController.cs" />
@@ -300,6 +301,7 @@
     <Compile Include="Models\PDCOutstandingVM.cs" />
     <Compile Include="Models\PDCVM.cs" />
     <Compile Include="Models\PortCountryVM.cs" />
+    <Compile Include="Models\ProductServiceModel.cs" />
     <Compile Include="Models\PurchaseInvoiceDetailVM.cs" />
     <Compile Include="Models\PurchaseInvoiceModel.cs" />
     <Compile Include="Models\RecieptPaymentModel.cs" />
@@ -2946,6 +2948,7 @@
     <Content Include="Views\Purchaseinvoice\Invoice.cshtml" />
     <Content Include="Views\SalesInvoice\_InvoiceView.cshtml" />
     <Content Include="Views\Purchaseinvoice\_InvoiceView.cshtml" />
+    <Content Include="Views\ProductService\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Logo\" />

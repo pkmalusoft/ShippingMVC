@@ -89,6 +89,7 @@
         <AssociationConnector Association="SHIPPING_FinalModel.FK_AcGroup_AcCompany" />
         <AssociationConnector Association="SHIPPING_FinalModel.FK_AcOpeningMaster_AcCompany" />
         <AssociationConnector Association="SHIPPING_FinalModel.FK_AnalysisHead_AcCompany" />
+        <EntityTypeShape EntityType="SHIPPING_FinalModel.ProductService" Width="1.5" PointX="6.375" PointY="10.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

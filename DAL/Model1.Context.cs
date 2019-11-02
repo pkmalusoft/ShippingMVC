@@ -95,6 +95,7 @@ namespace DAL
         public DbSet<SalesInvoice> SalesInvoices { get; set; }
         public DbSet<PurchaseInvoiceDetail> PurchaseInvoiceDetails { get; set; }
         public DbSet<SalesInvoiceDetail> SalesInvoiceDetails { get; set; }
+        public DbSet<ProductService> ProductServices { get; set; }
         public virtual int SP_DeleteUser(Nullable<int> uSerID)
         {
             var uSerIDParameter = uSerID.HasValue ?
