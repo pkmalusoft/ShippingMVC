@@ -36,7 +36,9 @@
         box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
         border-radius: 25px;
         margin-bottom: 27px;
-        padding: 20px;
+        padding-top: 14px;
+        padding-left: 8px;
+        padding-right: 8px;
         width: 96%;
     }
 
@@ -71,7 +73,7 @@
     .table > tfoot > tr > th,
     .table > thead > tr > td,
     .table > thead > tr > th {
-        padding: 7px;
+        padding: 1px;
         line-height: 1.42857143;
         vertical-align: middle;
     }
@@ -177,74 +179,74 @@
                             <div class="data" style="overflow:auto;">
                                 <table border="1" class="table table-responsive table-bordered smalltablewidth fulltablewidth" id="charges_table">
                                     <tr>
-                                        <td width="5%">
+                                        <td width="2%">
                                             S. No
                                         </td>
-                                        <td width="10%">Description</td>
+                                        <td width="15%">Description</td>
                                         <td width="1%">
                                             Quantity
                                         </td>
-                                        <td width="5%">
+                                        <td width="4%">
                                             Unit
                                         </td>
-                                        <td width="5%" class="hideinsummary">
+                                        <td width="4%" class="hideinsummary">
                                             Rate
                                         </td>
-                                        <td width="5%" class="hideinsummary">
+                                        <td width="4%" class="hideinsummary">
                                             Rate FC
                                         </td>
-                                        <td width="5%" class="hideinsummary">
+                                        <td width="4%" class="hideinsummary">
                                             Value
                                         </td>
-                                        <td width="8%" class="lc_pro">
+                                        <td width="4%" class="lc_pro">
                                             Value FC
                                         </td>
-                                        <td width="5%">
+                                        <td width="3%">
                                             Tax%
                                         </td>
-                                        <td width="5%">
+                                        <td width="3%">
                                             Tax
                                         </td>
-                                        <td width="5%">
+                                        <td width="3%">
                                             NetValue
                                         </td>
-                                        <td width="5%">
+                                        <td width="10%">
                                             AccountHead
                                         </td>
                                         <td width="10%" class="lc_pro">
                                             Job
                                         </td>
-                                        <td width="10%" class="lc_pro">
+                                        <td width="15%" class="lc_pro">
                                             Product & Services
                                         </td>
-                                        <td width="10%" class="fc_pro">
+                                        <td width="2%" class="fc_pro">
                                             Action
                                         </td>
                                     </tr>
                                     <tr>
                                         <td><span id="snum">1.</span></td>
-                                        <td><input type="text" id="Description_1" name="Description_1" style="width:110px" /></td>
-                                        <td><input type="text" id="Quantity_1" name="Quantity_1" style="width:47px" class="QTY" /></td>
+                                        <td><input type="text" id="Description_1" name="Description_1" style="width:100%;border: none;" /></td>
+                                        <td><input type="text" id="Quantity_1" name="Quantity_1" style="width:100%;border: none;" class="QTY" /></td>
                                         <td>
-                                            @Html.DropDownList("Unit_1", (SelectList)ViewBag.Unit, "Select", new { @class = "Unit", id = "Unit_1", @name = "Unit_1", @style = "height: 22px" })
+                                            @Html.DropDownList("Unit_1", (SelectList)ViewBag.Unit, "Select", new { @class = "Unit", id = "Unit_1", @name = "Unit_1", @style = "width:100%;border: none;height: 22px" })
                                         </td>
-                                        <td><input type="text" class="two-decimals Rate" id="Rate_1" name="Rate_1" style="width: 60px; text-align:right" autocomplete="off" /> </td>
-                                        <td><input type="text" class="two-decimals RateFC" id="RateFC_1" name="RateFC_1" style="width: 60px;text-align:right" autocomplete="off" /></td>
-                                        <td><input type="text" class="two-decimals Value" id="Value_1" name="Value_1" style="width: 60px; text-align:right" readonly="readonly" /> </td>
-                                        <td><input type="text" class="two-decimals ValueFC" id="ValueFC_1" name="ValueFC_1" style="width: 65px;text-align:right" readonly="readonly" /></td>
-                                        <td><input type="text" class="two-decimals TaxPercent" id="Taxpre_1" name="Taxpre_1" style="width: 60px; text-align:right" /> </td>
-                                        <td><input type="text" class="two-decimals Tax" id="Tax_1" name="Tax_1" style="width: 60px; text-align:right" readonly="readonly" /> </td>
-                                        <td><input type="text" class="two-decimals NetValue" id="NetValue_1" name="NetValue_1" style="width: 60px; text-align:right" readonly="readonly" /> </td>
+                                        <td><input type="text" class="two-decimals Rate" id="Rate_1" name="Rate_1" style="width:100%;border: none; text-align:right" autocomplete="off" /> </td>
+                                        <td><input type="text" class="two-decimals RateFC" id="RateFC_1" name="RateFC_1" style="width:100%;border: none;text-align:right" autocomplete="off" /></td>
+                                        <td><input type="text" class="two-decimals Value" id="Value_1" name="Value_1" style="width:100%;border: none; text-align:right" readonly="readonly" /> </td>
+                                        <td><input type="text" class="two-decimals ValueFC" id="ValueFC_1" name="ValueFC_1" style="width:100%;border: none;text-align:right" readonly="readonly" /></td>
+                                        <td><input type="text" class="two-decimals TaxPercent" id="Taxpre_1" name="Taxpre_1" style="width:100%;border: none; text-align:right" /> </td>
+                                        <td><input type="text" class="two-decimals Tax" id="Tax_1" name="Tax_1" style="width:100%;border: none; text-align:right" readonly="readonly" /> </td>
+                                        <td><input type="text" class="two-decimals NetValue" id="NetValue_1" name="NetValue_1" style="width:100%;border: none; text-align:right" readonly="readonly" /> </td>
                                         <td>
                                             <input type="hidden" id="AcHead_1" name="AcHead_1" value="" />
-                                            <input type="text" id="AcHead_1_txt" name="AcHead_1_txt" value="" class="AccountHead" style="width: 100px; height: 21px;" />
+                                            <input type="text" id="AcHead_1_txt" name="AcHead_1_txt" value="" class="AccountHead" style="width:100%;border: none; height: 21px;" />
                                         </td>
                                         <td>
-                                            <input type="text" id="JobID_1_txt" name="JobID_1_txt" value="" class="Job" style="width: 100px; height: 21px;" />
+                                            <input type="text" id="JobID_1_txt" name="JobID_1_txt" value="" class="Job" style="width:100%;border: none; height: 21px;" />
                                             <input type="hidden" id="JobID_1" name="JobID_1" value="" />
                                         </td>
                                         <td>
-                                            <input type="text" id="Product_1_txt" name="Product_1_txt" value="" class="Product" style="width: 100px; height: 21px;" />
+                                            <input type="text" id="Product_1_txt" name="Product_1_txt" value="" class="Product" style="width:100%;border: none; height: 21px;" />
                                             <input type="hidden" id="Product_1" name="Product_1" value="" />
                                         </td>
                                         <td><button type="button" onclick="deleteRow(this)">-</button>&nbsp;&nbsp;<button type="button" index="1" class="addmore">+</button></td>
@@ -472,12 +474,12 @@
             index = $(this).attr('index');
             i = count;
             var unitSelect = $('.Unit_demo_class').attr('id', 'Unit_' + i).attr('name', 'Unit_' + i).parent().html().replace("Unit_demo_class", "");
-            var AccountHeadSelect = '<input type="hidden" id="AcHead_' + i + '" name="AcHead_' + i + '" value="" /> <input type = "text" id="AcHead_' + i + '_txt" name = "AcHead_' + i + '_txt" value = "" class="AccountHead" style = "width: 100px; height: 21px;" />';
-            var JobSelect = '<input type="hidden" id="JobID_' + i + '" name="JobID_' + i + '" value="" /> <input type = "text" id="JobID_' + i + '_txt" name = "JobID_' + i + '_txt" value = "" class="Job" style = "width: 100px; height: 21px;" />';
-            var ProductSelect = '<input type="hidden" id="Product_' + i + '" name="Product_' + i + '" value="" /> <input type = "text" id="Product_' + i + '_txt" name = "Product_' + i + '_txt" value = "" class="Product" style = "width: 100px; height: 21px;" />';
+            var AccountHeadSelect = '<input type="hidden" id="AcHead_' + i + '" name="AcHead_' + i + '" value="" /> <input type = "text" id="AcHead_' + i + '_txt" name = "AcHead_' + i + '_txt" value = "" class="AccountHead" style = "width: 100%;border:none; height: 21px;" />';
+            var JobSelect = '<input type="hidden" id="JobID_' + i + '" name="JobID_' + i + '" value="" /> <input type = "text" id="JobID_' + i + '_txt" name = "JobID_' + i + '_txt" value = "" class="Job" style = "width: 100%;border:none; height: 21px;" />';
+            var ProductSelect = '<input type="hidden" id="Product_' + i + '" name="Product_' + i + '" value="" /> <input type = "text" id="Product_' + i + '_txt" name = "Product_' + i + '_txt" value = "" class="Product" style = "width: 100%;border:none; height: 21px;" />';
            
             var data = "<tr><td><span id='snum" + i + "'>" + count + ".</span></td>";
-            data += "<td><input type='text' id='Description_" + i + "' name='Description_" + i + "' style='width: 110px'/></td> <td><input type='text' id='Quantity_" + i + "' name='Quantity_" + i + "' style='width: 47px' class='QTY'/></td><td>" + unitSelect + "</td><td><input type='text' id='Rate_" + i + "' name='Rate_" + i + "'style='width: 60px;text-align:right' class='two-decimals Rate' autocomplete='off' /></td><td> <input type='text' id='RateFC_" + i + "' name='RateFC_" + i + "' style='width: 60px;text-align:right' class='two-decimals RateFC' autocomplete='off'/></td><td><input type='text' id='Value_" + i + "' name='Value_" + i + "' style='width: 60px;text-align:right' class='two-decimals Value' readonly='readonly' /></td><td><input type='text' id='ValueFC_" + i + "' name='ValueFC_" + i + "' style='width: 65px;text-align:right' class='two-decimals ValueFC' readonly='readonly'/></td><td><input type='text' id='Taxpre_" + i + "' name='Taxpre_" + i + "' style='width: 60px;text-align:right' class='two-decimals TaxPercent'/></td><td><input type='text' id='Tax_" + i + "' name='Tax_" + i + "' style='width: 60px;text-align:right'class='two-decimals Tax' readonly='readonly'/></td><td><input type='text' id='NetValue_" + i + "' name='NetValue_" + i + "' style='width: 60px; text-align:right' class='two-decimals NetValue' readonly='readonly'/></td><td>" + AccountHeadSelect + "</td><td>" + JobSelect + "</td><td>" + ProductSelect + "</select></td><td><button type='button' class='delete' >-</button>&nbsp;&nbsp;<button type='button' index='" + i + "' class='addmore'>+</button></td></tr>"
+            data += "<td><input type='text' id='Description_" + i + "' name='Description_" + i + "' style='width: 100%;border:none'/></td> <td><input type='text' id='Quantity_" + i + "' name='Quantity_" + i + "' style='width: 100%;border:none' class='QTY'/></td><td>" + unitSelect + "</td><td><input type='text' id='Rate_" + i + "' name='Rate_" + i + "'style='width: 100%;border:none;text-align:right' class='two-decimals Rate' autocomplete='off' /></td><td> <input type='text' id='RateFC_" + i + "' name='RateFC_" + i + "' style='width: 100%;border:none;text-align:right' class='two-decimals RateFC' autocomplete='off'/></td><td><input type='text' id='Value_" + i + "' name='Value_" + i + "' style='width: 100%;border:none;text-align:right' class='two-decimals Value' readonly='readonly' /></td><td><input type='text' id='ValueFC_" + i + "' name='ValueFC_" + i + "' style='width: 100%;border:none;text-align:right' class='two-decimals ValueFC' readonly='readonly'/></td><td><input type='text' id='Taxpre_" + i + "' name='Taxpre_" + i + "' style='width: 100%;border:none;text-align:right' class='two-decimals TaxPercent'/></td><td><input type='text' id='Tax_" + i + "' name='Tax_" + i + "' style='width: 100%;border:none;text-align:right'class='two-decimals Tax' readonly='readonly'/></td><td><input type='text' id='NetValue_" + i + "' name='NetValue_" + i + "' style='width: 100%;border:none; text-align:right' class='two-decimals NetValue' readonly='readonly'/></td><td>" + AccountHeadSelect + "</td><td>" + JobSelect + "</td><td>" + ProductSelect + "</select></td><td><button type='button' class='delete' >-</button>&nbsp;&nbsp;<button type='button' index='" + i + "' class='addmore'>+</button></td></tr>"
             $('#charges_table').append(data);
             $('#AcHead_' + i + '_txt').focus().autocomplete(autocompleteOptions);
             $('#JobID_' + i + '_txt').focus().autocomplete(JobAutoComplete);
@@ -517,11 +519,11 @@
                         var InvoiceDetailStr = JSON.stringify(InvoiceDetailsObj);
                         vInvoiceDetails.push(InvoiceDetailStr);
                         var unitSelect = $('.Unit_demo_class').attr('id', 'Unit_' + i).attr('name', 'Unit_' + i).parent().html().replace("Unit_demo_class", "");
-                        var AccountHeadSelect = '<input type="hidden" id="AcHead_' + i + '" name="AcHead_' + i + '" value="' + InvoiceDetailsObj.AcHeadID + '" /> <input type = "text" id="AcHead_' + i + '_txt" name = "AcHead_' + i + '_txt" value = "' + InvoiceDetailsObj.AcHead + '" class="AccountHead ui-autocomplete-input" style = "width: 100px; height: 21px;" />';
-                        var JobSelect = '<input type="hidden" id="JobID_' + i + '" name="JobID_' + i + '" value="' + InvoiceDetailsObj.JobID + '" /> <input type = "text" id="JobID_' + i + '_txt" name = "JobID_' + i + '_txt" value = "' + InvoiceDetailsObj.JobCode + '" class="Job" style = "width: 100px; height: 21px;" />';
-                        var ProductSelect = '<input type="hidden" id="Product_' + i + '" name="Product_' + i + '" value="' + InvoiceDetailsObj.ProductID + '" /> <input type = "text" id="Product_' + i + '_txt" name = "Product_' + i + '_txt" value = "' + InvoiceDetailsObj.ProductName + '" class="Product" style = "width: 100px; height: 21px;" />';
+                        var AccountHeadSelect = '<input type="hidden" id="AcHead_' + i + '" name="AcHead_' + i + '" value="' + InvoiceDetailsObj.AcHeadID + '" /> <input type = "text" id="AcHead_' + i + '_txt" name = "AcHead_' + i + '_txt" value = "' + InvoiceDetailsObj.AcHead + '" class="AccountHead ui-autocomplete-input" style = "width: 100%;border:none; height: 21px;" />';
+                        var JobSelect = '<input type="hidden" id="JobID_' + i + '" name="JobID_' + i + '" value="' + InvoiceDetailsObj.JobID + '" /> <input type = "text" id="JobID_' + i + '_txt" name = "JobID_' + i + '_txt" value = "' + InvoiceDetailsObj.JobCode + '" class="Job" style = "width: 100%;border:none; height: 21px;" />';
+                        var ProductSelect = '<input type="hidden" id="Product_' + i + '" name="Product_' + i + '" value="' + InvoiceDetailsObj.ProductID + '" /> <input type = "text" id="Product_' + i + '_txt" name = "Product_' + i + '_txt" value = "' + InvoiceDetailsObj.ProductName + '" class="Product" style = "width: 100%;border:none; height: 21px;" />';
                         var tdata = "<tr><td><span id='snum" + i + "'>" + count + ".</span></td>";
-                        tdata += "<td><input type='text' id='Description_" + i + "' name='Description_" + i + "' style='width: 110px' value='" + InvoiceDetailsObj.Description + "' /></td ><td><input type='text' id='Quantity_" + i + "' name='Quantity_" + i + "' style='width: 47px' value='" + InvoiceDetailsObj.Quantity + "' class='QTY' /></td><td>" + unitSelect + "</td><td><input type='text' id='Rate_" + i + "' name='Rate_" + i + "' style='width: 60px;text-align:right' value='" + InvoiceDetailsObj.Rate + "' class='two-decimals Rate' autocomplete='off' /></td><td><input type='text' id='RateFC_" + i + "' name='RateFC_" + i + "' style='width: 60px;text-align:right' value='" + InvoiceDetailsObj.RateFC + "' class='two-decimals RateFC'  autocomplete='off' /></td><td><input type='text' id='Value_" + i + "' name='Value_" + i + "' style='width: 60px;text-align:right' value='" + InvoiceDetailsObj.Value + "' class='two-decimals Value' readonly='readonly' /></td><td><input type='text' id='ValueFC_" + i + "' name='ValueFC_" + i + "' style='width: 65px;text-align:right' value='" + InvoiceDetailsObj.ValueFC + "' class='two-decimals ValueFC' readonly='readonly' /></td><td><input type='text' id='Taxpre_" + i + "' name='Taxpre_" + i + "' value='" + InvoiceDetailsObj.Taxprec + "' style='width: 60px;text-align:right' class='two-decimals TaxPercent'/></td><td><input type='text' id='Tax_" + i + "' name='Tax_" + i + "' style='width: 60px;text-align:right' value='" + InvoiceDetailsObj.Tax + "' class='two-decimals Tax' readonly='readonly' /></td><td><input type='text' id='NetValue_" + i + "' name='NetValue_" + i + "' style='width: 60px;text-align:right' value='" + InvoiceDetailsObj.NetValue + "' class='two-decimals Netvalue' readonly='readonly' /></td><td>" + AccountHeadSelect + "</td><td>" + JobSelect + "</td><td>" + ProductSelect + "</td><td><button type='button' class='delete' >-</button>&nbsp;&nbsp;<button type='button' index='" + i + "' class='addmore'>+</button></td></tr > "
+                        tdata += "<td><input type='text' id='Description_" + i + "' name='Description_" + i + "' style='width: 100%;border:none' value='" + InvoiceDetailsObj.Description + "' /></td ><td><input type='text' id='Quantity_" + i + "' name='Quantity_" + i + "' style='width: 100%;border:none' value='" + InvoiceDetailsObj.Quantity + "' class='QTY' /></td><td>" + unitSelect + "</td><td><input type='text' id='Rate_" + i + "' name='Rate_" + i + "' style='width: 100%;border:none;text-align:right' value='" + InvoiceDetailsObj.Rate + "' class='two-decimals Rate' autocomplete='off' /></td><td><input type='text' id='RateFC_" + i + "' name='RateFC_" + i + "' style='width: 100%;border:none;text-align:right' value='" + InvoiceDetailsObj.RateFC + "' class='two-decimals RateFC'  autocomplete='off' /></td><td><input type='text' id='Value_" + i + "' name='Value_" + i + "' style='width: 100%;border:none;text-align:right' value='" + InvoiceDetailsObj.Value + "' class='two-decimals Value' readonly='readonly' /></td><td><input type='text' id='ValueFC_" + i + "' name='ValueFC_" + i + "' style='width: 100%;border:none;text-align:right' value='" + InvoiceDetailsObj.ValueFC + "' class='two-decimals ValueFC' readonly='readonly' /></td><td><input type='text' id='Taxpre_" + i + "' name='Taxpre_" + i + "' value='" + InvoiceDetailsObj.Taxprec + "' style='width: 100%;border:none;text-align:right' class='two-decimals TaxPercent'/></td><td><input type='text' id='Tax_" + i + "' name='Tax_" + i + "' style='width: 100%;border:none;text-align:right' value='" + InvoiceDetailsObj.Tax + "' class='two-decimals Tax' readonly='readonly' /></td><td><input type='text' id='NetValue_" + i + "' name='NetValue_" + i + "' style='width: 100%;border:none;text-align:right' value='" + InvoiceDetailsObj.NetValue + "' class='two-decimals Netvalue' readonly='readonly' /></td><td>" + AccountHeadSelect + "</td><td>" + JobSelect + "</td><td>" + ProductSelect + "</td><td><button type='button' class='delete' >-</button>&nbsp;&nbsp;<button type='button' index='" + i + "' class='addmore'>+</button></td></tr > "
                         $('#charges_table').append(tdata);
                         $('#charges_table').find('#Unit_' + i).val(InvoiceDetailsObj.ItemUnitID);
                         $('#charges_table').find('#AcHead_' + i).val(InvoiceDetailsObj.AcHeadID);

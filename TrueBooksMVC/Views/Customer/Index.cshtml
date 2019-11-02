@@ -51,8 +51,9 @@
 
 </section>
 <p class="indexbtnpadding">
-    @Html.ActionLink("Create New", "Create",null,new {@class="btn btn-primary btnwidth"})
+    @Html.ActionLink("Create New", "Create",null,new {@class="btn btn-primary btnwidth",@id="create"})
 </p>
+
 <section class="content">
        @if (ViewBag.SuccessMsg != null)
        {

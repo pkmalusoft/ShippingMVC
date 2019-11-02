@@ -90,6 +90,7 @@
     .sorting_1, .sorting_2, .sorting_3 {
         background-color: #fafafa !important;
     }
+
     tfoot {
         display: table-header-group;
     }
@@ -105,9 +106,11 @@
     .panel {
         background-color: unset;
     }
+
     .dataTables_wrapper .dataTables_paginate .paginate_button {
         background-color: #f9f9f9 !important;
     }
+
     .tblbackground {
         background-color: #fff;
         box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
@@ -122,6 +125,9 @@
 
 
 
+
+
+
 @if (ViewBag.SuccessMsg != null)
 {
     <script type="text/javascript">
@@ -130,7 +136,7 @@
                                         });
     </script>
 }
-
+    <a href="/salesInvoice/invoice/0"><button class="btn btn-primary btnwidth" style="margin:10px"> Create</button></a>
 
 <div ng-app="MyApp" ng-controller="MyController">
     <div class="" dir="ltr" id="main" runat="server">
