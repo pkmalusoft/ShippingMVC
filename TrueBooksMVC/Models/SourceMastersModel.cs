@@ -2096,6 +2096,124 @@ namespace TrueBooksMVC.Models
         }
         #endregion
 
+
+
+        #region country
+
+        public List<ProductService> GetProduct()
+        {
+
+            var query = Context1.ProductServices.OrderBy(x => x.ProductName).ToList();
+
+            return query;
+        }
+
+
+        public ProductService GetProductById(int id)
+        {
+
+            var query = Context1.ProductServices.Where(item => item.ProductID == id).FirstOrDefault();
+
+            return query;
+        }
+
+        public bool SaveProductById(ProductService iProduct)
+        {
+
+            try
+            {
+                if (iProduct.ProductID > 0)
+                {
+                    Context1.Entry(iProduct).State = EntityState.Modified;
+                    Context1.SaveChanges();
+                }
+                else
+                {
+                    Context1.ProductServices.Add(iProduct);
+                    Context1.SaveChanges();
+                }
+                return true;
+
+            }
+            catch (Exception)
+            {
+                return false;
+                throw;
+            }
+            // return false;
+
+        }
+        public bool SaveProduct(ProductService iProduct)
+        {
+
+            try
+            {
+                {
+                    iProduct.ProductID = GetMaxNumberProduct();
+                    Context1.ProductServices.Add(iProduct);
+                    Context1.SaveChanges();
+                }
+                return true;
+
+            }
+            catch (Exception)
+            {
+                return false;
+                throw;
+            }
+            //return false;
+
+        }
+
+        public bool DeleteProduct(int iProductId)
+        {
+
+            try
+            {
+                if (iProductId > 0)
+                {
+                    ProductService product = Context1.ProductServices.Find(iProductId);
+                    Context1.ProductServices.Remove(product);
+                    Context1.SaveChanges();
+                    return true;
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+                throw;
+            }
+            return false;
+        }
+        public int GetMaxNumberProduct()
+        {
+
+            var query = Context1.ProductServices.OrderByDescending(item => item.ProductID).FirstOrDefault();
+
+            if (query == null)
+            {
+                return 1;
+            }
+            else
+            {
+                return query.ProductID + 1;
+            }
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+        #endregion
+
+
     }
 }
 

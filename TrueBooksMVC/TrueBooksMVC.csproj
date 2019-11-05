@@ -301,7 +301,6 @@
     <Compile Include="Models\PDCOutstandingVM.cs" />
     <Compile Include="Models\PDCVM.cs" />
     <Compile Include="Models\PortCountryVM.cs" />
-    <Compile Include="Models\ProductServiceModel.cs" />
     <Compile Include="Models\PurchaseInvoiceDetailVM.cs" />
     <Compile Include="Models\PurchaseInvoiceModel.cs" />
     <Compile Include="Models\RecieptPaymentModel.cs" />
@@ -2949,6 +2948,10 @@
     <Content Include="Views\SalesInvoice\_InvoiceView.cshtml" />
     <Content Include="Views\Purchaseinvoice\_InvoiceView.cshtml" />
     <Content Include="Views\ProductService\Create.cshtml" />
+    <Content Include="Views\ProductService\Delete.cshtml" />
+    <Content Include="Views\ProductService\Details.cshtml" />
+    <Content Include="Views\ProductService\Edit.cshtml" />
+    <Content Include="Views\ProductService\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Logo\" />
