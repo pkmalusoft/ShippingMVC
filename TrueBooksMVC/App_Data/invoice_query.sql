@@ -1008,3 +1008,10 @@ SELECT pit.PurchaseInvoiceNo,REPLACE(CONVERT(NVARCHAR(20),pit.PurchaseInvoiceDat
 
 
 END
+
+
+-- sethu -- oct 4
+
+ALTER TABLE CostUpdation Add TransactionDate datetime;
+ALTER TABLE CostUpdation Add InvoiceAmount decimal(18,2);
+

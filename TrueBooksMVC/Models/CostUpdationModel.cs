@@ -75,13 +75,23 @@ namespace TrueBooksMVC.Models
                 CostUp.InvoiceNo = item.InvoiceNo;
                 CostUp.DocumentNo = item.DocumentNo;
                 CostUp.SupplierID = item.SupplierID;
+                CostUp.SelectedSupplierID = item.SupplierID;
                 CostUp.InvoiceDate = item.InvoiceDate;
                 CostUp.EmployeeID = item.EmployeeID;
                 CostUp.JobID = item.JobID;
                 CostUp.CostUpdationID = item.CostUpdationID;
-                CostUp.JobCode = item.JobCode;
+                if (item.JobCode.StartsWith(","))
+                {
+                    CostUp.JobCode = item.JobCode.Substring(1);
+                }
+                else
+                {
+                    CostUp.JobCode = item.JobCode;
+                }
                 CostUp.SupplierName = item.SupplierName;
                 CostUp.SupplierID = item.SupplierID;
+                CostUp.TransactionDate = item.TransactionDate;
+                CostUp.InvoiceAmount = item.InvoiceAmount;
             }
 
             else
@@ -93,9 +103,9 @@ namespace TrueBooksMVC.Models
 
         }
 
-        public List<int> SaveCostUpdation(costUpdationVM CU)
+        public int SaveCostUpdation(costUpdationVM CU)
         {
-            List<int> costupdationIdlist = new List<int>();
+            int costupdationId = 0;
             CostUpdation objcostUpdation = new CostUpdation();
             //int i = Context1.SP_InsertCostUpdationAndDetails(CU.SupplierID, CU.JobID, CU.InvoiceNo, CU.InvoiceDate, CU.EmployeeID,
             //    CU.DocumentNo, CU.SupplierPaymentStatus, CU.UserID, SupplierRef, Convert.ToDecimal(amountPaidTillDate));
@@ -116,17 +126,19 @@ namespace TrueBooksMVC.Models
                     objcostUpdation.EmployeeID = CU.EmployeeID;
                     objcostUpdation.CostUpdationID = CU.CostUpdationID;
                     objcostUpdation.AcJournalID = CU.AcJournalID;
+                    objcostUpdation.TransactionDate = CU.TransactionDate;
+                    objcostUpdation.InvoiceAmount = CU.InvoiceAmount;
                     Context1.Entry(objcostUpdation).State = EntityState.Modified;
                     Context1.SaveChanges();
-                    costupdationIdlist.Add(objcostUpdation.CostUpdationID);
+                    costupdationId = objcostUpdation.CostUpdationID;
                 }
-
             }
             else
             {
-                foreach (var item in CU.MultiJobID)
-                {
-                    CU.InvoiceNo = GetInvoiceNoByJobID(Convert.ToInt32(item));
+              //  foreach (var item in CU.MultiJobID)
+               // {
+
+                   // CU.InvoiceNo = GetInvoiceNoByJobID(0);
                     objcostUpdation = new CostUpdation();
                     
                     var maxValue = Context1.CostUpdations.Max(x => x.CostUpdationID);
@@ -140,7 +152,7 @@ namespace TrueBooksMVC.Models
                     //     int MaxcostupdationID = 33831;
                     objcostUpdation.CostUpdationID = MaxcostupdationID;
                     objcostUpdation.SupplierID = CU.SupplierID;
-                    objcostUpdation.JobID = item;
+                    objcostUpdation.JobID = 0;
                     objcostUpdation.InvoiceNo = CU.InvoiceNo;
                     objcostUpdation.InvoiceDate = CU.InvoiceDate;
                     objcostUpdation.DocumentNo = CU.DocumentNo;
@@ -149,70 +161,64 @@ namespace TrueBooksMVC.Models
                     objcostUpdation.EmployeeID = CU.EmployeeID;
                    // objcostUpdation.AcJournalID = CU.AcJournalID;
                     objcostUpdation.PrevCostupID = CU.PrevCostupID;
+                    objcostUpdation.TransactionDate = CU.TransactionDate;
+                    objcostUpdation.InvoiceAmount = CU.InvoiceAmount;
+
                     //Updation Jinvoice Entry
-                    var joinvoice = Context1.JInvoices.Where(ite => ite.JobID == item && ite.SupplierID == CU.SupplierID).ToList();
+                    //todo: sethu. move this to cost detail insert
+                  /*  var joinvoice = Context1.JInvoices.Where(ite => ite.JobID == item && ite.SupplierID == CU.SupplierID).ToList();
                     foreach (var objjoince in joinvoice)
                     {
                         objjoince.CostUpdationStatus = "2";
-                    }
+                    }*/
 
                   //  5000,1,1,'','2016-1-1',1,1,'','',1,0
                     Context1.SP_InsertCostUpdation(objcostUpdation.CostUpdationID, objcostUpdation.SupplierID.Value,
  objcostUpdation.JobID.Value, objcostUpdation.InvoiceNo, objcostUpdation.InvoiceDate,0, objcostUpdation.EmployeeID.Value,
-  objcostUpdation.DocumentNo,objcostUpdation.PrevCostupID, objcostUpdation.SupplierPaymentStatus, objcostUpdation.UserID.Value, false);
+  objcostUpdation.DocumentNo,objcostUpdation.PrevCostupID, objcostUpdation.SupplierPaymentStatus, objcostUpdation.UserID.Value, false, objcostUpdation.TransactionDate, objcostUpdation.InvoiceAmount);
                     //   Context1.CostUpdations.Add(objcostUpdation);
                     Context1.SaveChanges();
-                    costupdationIdlist.Add(objcostUpdation.CostUpdationID);
-                }
+                costupdationId = objcostUpdation.CostUpdationID;
+               // }
             }
-
-            return costupdationIdlist;
-
-
+            return costupdationId;
         }
 
-        public int SaveCostUpdationDetails(CostUpdationDetail costupdationdetailsid, int costUpdationID)
+        public int SaveCostUpdationDetails(costUpdationDetailVM costupdationdetailsid, int costUpdationID)
         {
             //int i = Context1.SP_InsertCostUpdationAndDetails(CU.SupplierID, CU.JobID, CU.InvoiceNo, CU.InvoiceDate, CU.EmployeeID,
             //    CU.DocumentNo, CU.SupplierPaymentStatus, CU.UserID, SupplierRef, Convert.ToDecimal(amountPaidTillDate));
-
             try
             {
                 //foreach (var CU in CUdetailslist)
                 //{
-                if (costupdationdetailsid.CostUpdationDetailID > 0)
-                {
-                    //Edit Code
-                    CostUpdationDetail objCostUpdationDetail = Context1.CostUpdationDetails.Where(item => item.CostUpdationDetailID == costupdationdetailsid.CostUpdationDetailID).FirstOrDefault();
-                    objCostUpdationDetail.RevenueTypeID = objCostUpdationDetail.RevenueTypeID;
-                    objCostUpdationDetail.ProvisionCurrencyID = costupdationdetailsid.ProvisionCurrencyID;
-                    objCostUpdationDetail.ProvisionExchangeRate = costupdationdetailsid.ProvisionExchangeRate;
-                    objCostUpdationDetail.ProvisionForeign = costupdationdetailsid.ProvisionForeign;
-                    objCostUpdationDetail.ProvisionHome = costupdationdetailsid.ProvisionHome;
-                    objCostUpdationDetail.SalesCurrencyID = costupdationdetailsid.SalesCurrencyID;
-                    objCostUpdationDetail.SalesExchangeRate = costupdationdetailsid.SalesExchangeRate;
-
-
-                    objCostUpdationDetail.SalesForeign = costupdationdetailsid.SalesForeign;
-                    objCostUpdationDetail.SalesHome = costupdationdetailsid.SalesHome;
-                    objCostUpdationDetail.Cost = costupdationdetailsid.Cost;
-                    objCostUpdationDetail.SupplierID = costupdationdetailsid.SupplierID;
-                    objCostUpdationDetail.JInvoiceID = costupdationdetailsid.JInvoiceID;
-
-
-                    objCostUpdationDetail.PaidOrNot = "N";
-                    objCostUpdationDetail.SupplierReference = costupdationdetailsid.SupplierReference;
-                    //todo:fix to run by sethu
-                    //    objCostUpdationDetail.AmountPaidTillDate = costupdationdetailsid.InvoiceAmount + costupdationdetailsid.AmountPaidTillDate;
-                    objCostUpdationDetail.AmountPaidTillDate = costupdationdetailsid.AmountPaidTillDate;
-                    objCostUpdationDetail.SupplierPayStatus = "1";
-                    objCostUpdationDetail.CostUpdationID = costUpdationID;
-
-
-
-                    Context1.Entry(objCostUpdationDetail).State = EntityState.Modified;
-                }
-                else
+                /*    if (costupdationdetailsid.CostUpdationDetailID > 0)
+                    {
+                        //Edit Code
+                        CostUpdationDetail objCostUpdationDetail = Context1.CostUpdationDetails.Where(item => item.CostUpdationDetailID == costupdationdetailsid.CostUpdationDetailID).FirstOrDefault();
+                        objCostUpdationDetail.RevenueTypeID = objCostUpdationDetail.RevenueTypeID;
+                        objCostUpdationDetail.ProvisionCurrencyID = costupdationdetailsid.ProvisionCurrencyID;
+                        objCostUpdationDetail.ProvisionExchangeRate = costupdationdetailsid.ProvisionExchangeRate;
+                        objCostUpdationDetail.ProvisionForeign = costupdationdetailsid.ProvisionForeign;
+                        objCostUpdationDetail.ProvisionHome = costupdationdetailsid.ProvisionHome;
+                        objCostUpdationDetail.SalesCurrencyID = costupdationdetailsid.SalesCurrencyID;
+                        objCostUpdationDetail.SalesExchangeRate = costupdationdetailsid.SalesExchangeRate;
+                        objCostUpdationDetail.SalesForeign = costupdationdetailsid.SalesForeign;
+                        objCostUpdationDetail.SalesHome = costupdationdetailsid.SalesHome;
+                        objCostUpdationDetail.Cost = costupdationdetailsid.Cost;
+                        objCostUpdationDetail.SupplierID = costupdationdetailsid.SupplierID;
+                        objCostUpdationDetail.JInvoiceID = costupdationdetailsid.JInvoiceID;
+                        objCostUpdationDetail.PaidOrNot = "N";
+                        objCostUpdationDetail.SupplierReference = costupdationdetailsid.supplierReference;
+                        //todo:fix to run by sethu
+                        //    objCostUpdationDetail.AmountPaidTillDate = costupdationdetailsid.InvoiceAmount + costupdationdetailsid.AmountPaidTillDate;
+                        objCostUpdationDetail.AmountPaidTillDate = costupdationdetailsid.AmountPaidTillDate;
+                        objCostUpdationDetail.SupplierPayStatus = "1";
+                        objCostUpdationDetail.CostUpdationID = costUpdationID;
+                        Context1.Entry(objCostUpdationDetail).State = EntityState.Modified;
+                    }
+                    else*/
+                if (costupdationdetailsid.InvoiceAmount > 0)
                 {
                     CostUpdationDetail objCostUpdationDetail = new CostUpdationDetail();
                     var maxValue = Context1.CostUpdations.Max(x => x.CostUpdationID);
@@ -230,19 +236,32 @@ namespace TrueBooksMVC.Models
                     objCostUpdationDetail.ProvisionHome = costupdationdetailsid.ProvisionHome;
                     objCostUpdationDetail.SalesCurrencyID = costupdationdetailsid.SalesCurrencyID;
                     objCostUpdationDetail.SalesExchangeRate = costupdationdetailsid.SalesExchangeRate;
-
-
                     objCostUpdationDetail.SalesForeign = costupdationdetailsid.SalesForeign;
                     objCostUpdationDetail.SalesHome = costupdationdetailsid.SalesHome;
                     objCostUpdationDetail.Cost = costupdationdetailsid.Cost;
                     objCostUpdationDetail.SupplierID = costupdationdetailsid.SupplierID;
                     objCostUpdationDetail.JInvoiceID = costupdationdetailsid.JInvoiceID;
-                    objCostUpdationDetail.Variance=null;
+                    objCostUpdationDetail.Variance = null;
+                    objCostUpdationDetail.AmountPaidTillDate= costupdationdetailsid.AmountPaidTillDate;
+                    objCostUpdationDetail.SupplierReference = costupdationdetailsid.supplierReference;
+                    if (costupdationdetailsid.InvoiceAmount != null)
+                    {
 
-                    objCostUpdationDetail.SupplierReference = costupdationdetailsid.SupplierReference;
+                    }
+                    else
+                    {
+                        costupdationdetailsid.InvoiceAmount = 0;
+                    }
                     //todo:fix to run by sethu
                     //  objCostUpdationDetail.AmountPaidTillDate = costupdationdetailsid.InvoiceAmount;
-                     objCostUpdationDetail.AmountPaidTillDate = costupdationdetailsid.AmountPaidTillDate;
+                    if (objCostUpdationDetail.AmountPaidTillDate != null)
+                    {
+                        objCostUpdationDetail.AmountPaidTillDate = objCostUpdationDetail.AmountPaidTillDate + costupdationdetailsid.InvoiceAmount;
+                    }
+                    else
+                    {
+                        objCostUpdationDetail.AmountPaidTillDate = costupdationdetailsid.InvoiceAmount;
+                    }
 
                     if (objCostUpdationDetail.AmountPaidTillDate > 0)
                     {
@@ -254,16 +273,17 @@ namespace TrueBooksMVC.Models
                     }
                     objCostUpdationDetail.SupplierPayStatus = "1";
                     objCostUpdationDetail.CostUpdationID = costUpdationID;
-                   
 
                     //Context1.CostUpdationDetails.Add(objCostUpdationDetail);
                     Context1.SP_InsertCostUpdationDetails(objCostUpdationDetail.CostUpdationDetailID, objCostUpdationDetail.CostUpdationID, objCostUpdationDetail.RevenueTypeID
                         , objCostUpdationDetail.ProvisionCurrencyID, objCostUpdationDetail.ProvisionExchangeRate, objCostUpdationDetail.ProvisionForeign,
                         objCostUpdationDetail.ProvisionHome, objCostUpdationDetail.SalesCurrencyID, objCostUpdationDetail.SalesExchangeRate,
                         objCostUpdationDetail.SalesForeign, objCostUpdationDetail.SalesHome, objCostUpdationDetail.Variance,
-                        objCostUpdationDetail.SupplierID,objCostUpdationDetail.JInvoiceID, objCostUpdationDetail.Cost, 0, objCostUpdationDetail.AmountPaidTillDate,
+                        objCostUpdationDetail.SupplierID, objCostUpdationDetail.JInvoiceID, objCostUpdationDetail.Cost, 0, objCostUpdationDetail.AmountPaidTillDate,
                         objCostUpdationDetail.PaidOrNot, objCostUpdationDetail.SupplierReference, objCostUpdationDetail.SupplierPayStatus, false);
                 }
+
+                //}
                 Context1.SaveChanges();
                 //}
 

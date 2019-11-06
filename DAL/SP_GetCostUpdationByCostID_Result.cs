@@ -26,5 +26,7 @@ namespace DAL
         public Nullable<int> UserID { get; set; }
         public string JobCode { get; set; }
         public string SupplierName { get; set; }
+        public Nullable<System.DateTime> TransactionDate { get; set; }
+        public Nullable<decimal> InvoiceAmount { get; set; }
     }
 }

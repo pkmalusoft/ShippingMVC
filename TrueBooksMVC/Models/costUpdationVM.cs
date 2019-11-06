@@ -11,6 +11,7 @@ namespace TrueBooksMVC.Models
 
         public int CostUpdationID { get; set; }
         public Nullable<int> SupplierID { get; set; }
+        public Nullable<int> SelectedSupplierID { get; set; }
         public Nullable<int> JobID { get; set; }
         public List<int> MultiJobID { get; set; }
         public string InvoiceNo { get; set; }
@@ -24,9 +25,10 @@ namespace TrueBooksMVC.Models
         public string ReferenceNo { get; set; }
         public string SupplierName { get; set; }
         public String JobCode { get; set; }
-        
-     
-        public List<CostUpdationDetail> CostUpdationDetails { get; set; }
+        public Nullable<System.DateTime> TransactionDate { get; set; }
+        public Nullable<decimal> InvoiceAmount { get; set; }
+
+        public virtual List<costUpdationDetailVM> CostUpdationDetails { get; set; }
 
     }
 }

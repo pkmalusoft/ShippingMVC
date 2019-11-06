@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Web;
 using DAL;
 using System.Collections;
+using TrueBooksMVC.Models;
 //using Microsoft.Practices.EnterpriseLibrary.Data.Sql;
 
 namespace TrueBooksMVC
@@ -1026,6 +1027,105 @@ namespace TrueBooksMVC
             da.Fill(ds);
             return ds;
         }
+
+        public static List<GetAllCostUpdation_Result> SP_GetAllCostUpdation(DateTime FromDate,DateTime ToDate)
+        {
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = new SqlConnection(Common.GetConnectionString);
+            cmd.CommandText = "SP_GetAllCostUpdation";
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.Add("@FromDate", SqlDbType.DateTime);
+            cmd.Parameters["@FromDate"].Value = FromDate;
+
+            cmd.Parameters.Add("@ToDate", SqlDbType.DateTime);
+            cmd.Parameters["@ToDate"].Value = ToDate;
+
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet ds = new DataSet();
+            da.Fill(ds);
+            List<GetAllCostUpdation_Result> objList = new List<GetAllCostUpdation_Result>();
+            GetAllCostUpdation_Result obj;
+           if (ds != null && ds.Tables.Count > 0)
+            {
+                for(int i=0; i < ds.Tables[0].Rows.Count; i++)
+                {
+                    obj = new GetAllCostUpdation_Result();
+                    obj.SINo = Common.ParseInt(ds.Tables[0].Rows[i]["SINo"].ToString());
+                    obj.SupplierInvoiceNumber = ds.Tables[0].Rows[i]["SupplierInvoiceNumber"].ToString();
+                    if(ds.Tables[0].Rows[i]["InvoiceDate"] != DBNull.Value)
+                    {
+                        obj.InvoiceDate = Convert.ToDateTime(ds.Tables[0].Rows[i]["InvoiceDate"].ToString());
+                    }
+
+                    obj.SupplierName = ds.Tables[0].Rows[i]["SupplierName"].ToString();
+                    obj.CurrencyName = ds.Tables[0].Rows[i]["CurrencyName"].ToString();
+                    obj.InvoiceAmount = Common.ParseDecimal(ds.Tables[0].Rows[i]["InvoiceAmount"].ToString());
+                    obj.JobNumbers = ds.Tables[0].Rows[i]["JobNumbers"].ToString();
+                    obj.JobDates = ds.Tables[0].Rows[i]["JobDates"].ToString();
+                    obj.JobValues = ds.Tables[0].Rows[i]["JobValues"].ToString();
+                    obj.YearToDateInvoiced = ds.Tables[0].Rows[i]["YearToDateInvoiced"].ToString();
+                    obj.CostUpdationID = Common.ParseInt(ds.Tables[0].Rows[i]["CostUpdationID"].ToString());
+                    objList.Add(obj);
+                }
+            }
+            return objList;
+        }
+
+        public static List<costUpdationDetailVM> GetCostUpdationDetailsbyCostUpdationID(int CostUpdationID)
+        {
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = new SqlConnection(Common.GetConnectionString);
+            cmd.CommandText = "SP_GetCostUpdationDetailByCostID";
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.Add("@CostUpdationID", SqlDbType.Int);
+            cmd.Parameters["@CostUpdationID"].Value = CostUpdationID;
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet ds = new DataSet();
+            da.Fill(ds);
+            List<costUpdationDetailVM> objList = new List<costUpdationDetailVM>();
+            costUpdationDetailVM obj;
+            if (ds != null && ds.Tables.Count > 0)
+            {
+                for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                {
+                    obj = new costUpdationDetailVM();
+                    obj.CostUpdationDetailID = Common.ParseInt(ds.Tables[0].Rows[i]["CostUpdationDetailID"].ToString());
+                    obj.CostUpdationID = Common.ParseInt(ds.Tables[0].Rows[i]["CostUpdationID"].ToString());
+                    obj.RevenueTypeID = Common.ParseInt(ds.Tables[0].Rows[i]["RevenueTypeID"].ToString());
+                    obj.ProvisionCurrencyID = Common.ParseInt(ds.Tables[0].Rows[i]["ProvisionCurrencyID"].ToString());
+                    obj.ProvisionExchangeRate = Common.ParseDecimal(ds.Tables[0].Rows[i]["ProvisionExchangeRate"].ToString());
+                    obj.ProvisionForeign = Common.ParseDecimal(ds.Tables[0].Rows[i]["ProvisionForeign"].ToString());
+                    obj.ProvisionHome = Common.ParseDecimal(ds.Tables[0].Rows[i]["ProvisionHome"].ToString());
+                    obj.SalesCurrencyID = Common.ParseInt(ds.Tables[0].Rows[i]["SalesCurrencyID"].ToString());
+                    obj.SalesExchangeRate=Common.ParseDecimal(ds.Tables[0].Rows[i]["SalesExchangeRate"].ToString());
+                    obj.SalesForeign = Common.ParseDecimal(ds.Tables[0].Rows[i]["SalesForeign"].ToString());
+                    obj.SalesHome = Common.ParseDecimal(ds.Tables[0].Rows[i]["SalesHome"].ToString());
+                    obj.Variance = Common.ParseDecimal(ds.Tables[0].Rows[i]["Variance"].ToString());
+                    obj.SupplierID = Common.ParseInt(ds.Tables[0].Rows[i]["SupplierID"].ToString());
+                    obj.JInvoiceID = Common.ParseInt(ds.Tables[0].Rows[i]["JInvoiceID"].ToString());
+                    obj.Cost = Common.ParseDecimal(ds.Tables[0].Rows[i]["Cost"].ToString());
+                    obj.PrevCostDetailID = Common.ParseInt(ds.Tables[0].Rows[i]["PrevCostDetailID"].ToString());
+                    obj.AmountPaidTillDate = Common.ParseDecimal(ds.Tables[0].Rows[i]["AmountPaidTillDate"].ToString());
+                    obj.InvoiceAmount = Common.ParseDecimal(ds.Tables[0].Rows[i]["InvoiceAmount"].ToString());
+                    obj.PaidOrNot = ds.Tables[0].Rows[i]["PaidOrNot"].ToString();
+                    obj.supplierReference = ds.Tables[0].Rows[i]["SupplierReference"].ToString();
+                    obj.SupplierPayStatus = ds.Tables[0].Rows[i]["SupplierPayStatus"].ToString();
+                    obj.RevenueType = ds.Tables[0].Rows[i]["RevenueType"].ToString();
+                    obj.CurrencyName = ds.Tables[0].Rows[i]["CurrencyName"].ToString();
+
+                    if (ds.Tables[0].Rows[i]["Lock"] != DBNull.Value)
+                    {
+                        obj.Lock = Convert.ToBoolean(ds.Tables[0].Rows[i]["Lock"]);
+                    }
+                    obj.JobCode = ds.Tables[0].Rows[i]["JobCode"].ToString();
+                    objList.Add(obj);
+                }
+            }
+            return objList;
+         }
+
 
     }
 }

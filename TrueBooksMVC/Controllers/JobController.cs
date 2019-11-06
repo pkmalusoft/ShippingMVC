@@ -1021,8 +1021,9 @@ namespace TrueBooksMVC.Controllers
             int i = 0;
             int ChargesCount = 0;
             ArrayList ChargesArray = new ArrayList();
+            string DeletedInvoiceIds = ((string[])formCollection.GetValue("DeletedInvoiceIds").RawValue)[0].ToString();
 
-            DeleteJobDetailsByJobID(JobId);
+            DeleteJobDetailsByJobID(JobId, DeletedInvoiceIds);
 
             for (int j = 0; j < formCollection.Keys.Count; j++)
             {
@@ -1039,7 +1040,16 @@ namespace TrueBooksMVC.Controllers
                 JInvoice Charges = new JInvoice();
                 Charges.UserID = Convert.ToInt32(Session["UserID"].ToString());
                 Charges.JobID = JobId;
-                
+                Charges.CostUpdationStatus = "1";
+
+                int InvoiceID = 0;
+                if (formCollection.GetValue("InvoiceID_" + ChargesArray[c]) != null)
+                {
+                    strArray = (string[])formCollection.GetValue("InvoiceID_" + ChargesArray[c]).RawValue;
+                    int.TryParse(strArray[0], out InvoiceID);
+                }
+                Charges.InvoiceID = InvoiceID;
+
                 int RevenueTypeID = 0;
                 if (formCollection.GetValue("RevenueTypeID_" + ChargesArray[c]) != null)
                 {
@@ -1177,7 +1187,7 @@ namespace TrueBooksMVC.Controllers
                 }
                 Charges.Margin = Margin;
 
-                int iCharge = J.AddCharges(Charges, Session["UserID"].ToString());
+                int iCharge = J.AddOrUpdateCharges(Charges, Session["UserID"].ToString());
             }
             int CargoCount = 0;
             ArrayList CargoArray = new ArrayList();
@@ -1536,7 +1546,7 @@ namespace TrueBooksMVC.Controllers
                 if (Charges.InvoiceID <= 0)
                 {
 
-                    int i = J.AddCharges(Charges, Session["UserID"].ToString());
+                    int i = J.AddOrUpdateCharges(Charges, Session["UserID"].ToString());
                 }
                 else
                 {
@@ -1717,9 +1727,9 @@ namespace TrueBooksMVC.Controllers
 
         }
 
-        public bool DeleteJobDetailsByJobID(int JobID)
+        public bool DeleteJobDetailsByJobID(int JobID,string InvoiceIds)
         {
-            J.DeleteJobDetailsByJobID(JobID);
+            J.DeleteJobDetailsByJobID(JobID, InvoiceIds);
             return true;
         }
 

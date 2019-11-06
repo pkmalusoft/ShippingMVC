@@ -44,7 +44,14 @@ namespace TrueBooksMVC.Models
         public decimal AmountPaid { get; set; }
         public string supplierReference { get; set; }
         public int CostUpdationDetailID { get; set; }
-        
-
+        public int CostUpdationID { get; set; }
+        public Nullable<decimal> Variance { get; set; }
+        public Nullable<int> JInvoiceID { get; set; }
+        public Nullable<int> PrevCostDetailID { get; set; }
+        public Nullable<decimal> AmountPaidTillDate { get; set; }
+        public Nullable<decimal> InvoiceAmount { get; set; }
+        public string PaidOrNot { get; set; }
+        public string SupplierPayStatus { get; set; }
+        public Nullable<bool> Lock { get; set; }
     }
 }

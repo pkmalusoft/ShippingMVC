@@ -1706,6 +1706,7 @@ warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.qrySupplierOutstanding'
         </Function>
         <Function Name="SP_DeleteJobDetailsByJobID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="JobID" Type="int" Mode="In" />
+          <Parameter Name="InvoiceIds" Type="varchar" Mode="In" />
         </Function>
         <Function Name="SP_DeletePurchaseInvoice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="PurchaseInvoiceId" Type="int" Mode="In" />
@@ -1948,6 +1949,8 @@ warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.qrySupplierOutstanding'
           <Parameter Name="SupplierPaymentStatus" Type="nvarchar" Mode="In" />
           <Parameter Name="UserID" Type="int" Mode="In" />
           <Parameter Name="Lock" Type="bit" Mode="In" />
+          <Parameter Name="TransactionDate" Type="datetime" Mode="In" />
+          <Parameter Name="InvoiceAmount" Type="decimal" Mode="In" />
         </Function>
         <Function Name="SP_InsertCostUpdationAndDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="SupplierID" Type="int" Mode="In" />
@@ -2670,6 +2673,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           </FunctionImport>
           <FunctionImport Name="SP_DeleteJobDetailsByJobID">
           <Parameter Name="JobID" Mode="In" Type="Int32" />
+          <Parameter Name="InvoiceIds" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="SP_GetAuditbyJobIDandUser" ReturnType="Collection(SHIPPING_FinalModel.SP_GetAuditbyJobIDandUser_Result)">
             <Parameter Name="JobId" Mode="In" Type="Int32" />
@@ -3526,6 +3530,8 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
             <Parameter Name="SupplierPaymentStatus" Mode="In" Type="String" />
             <Parameter Name="UserID" Mode="In" Type="Int32" />
             <Parameter Name="Lock" Mode="In" Type="Boolean" />
+            <Parameter Name="TransactionDate" Mode="In" Type="DateTime" />
+            <Parameter Name="InvoiceAmount" Mode="In" Type="Decimal" />
           </FunctionImport>
           <FunctionImport Name="SP_InsertCostUpdationDetails">
             <Parameter Name="CostUpdationDetailID" Mode="In" Type="Int32" />
@@ -4535,6 +4541,8 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Type="Int32" Name="UserID" Nullable="true" />
           <Property Type="String" Name="JobCode" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="SupplierName" Nullable="true" MaxLength="100" />
+          <Property Type="DateTime" Name="TransactionDate" Nullable="true" Precision="23" />
+          <Property Type="Decimal" Name="InvoiceAmount" Nullable="true" Precision="18" />
         </ComplexType>
         <EntityType Name="AcGroup">
           <Key>
@@ -7834,6 +7842,8 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="JobCode" ColumnName="JobCode" />
                 <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
+                <ScalarProperty Name="TransactionDate" ColumnName="TransactionDate" />
+                <ScalarProperty Name="InvoiceAmount" ColumnName="InvoiceAmount" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

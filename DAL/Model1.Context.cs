@@ -577,13 +577,17 @@ namespace DAL
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_DeleteContainerbyJobIDandUser", jContainerDetailIDParameter);
         }
 
-        public virtual int SP_DeleteJobDetailsByJobID(Nullable<int> JobID)
+        public virtual int SP_DeleteJobDetailsByJobID(Nullable<int> JobID,string InvoiceIds)
         {
             var jobIDParameter = JobID.HasValue ?
                  new ObjectParameter("JobID", JobID) :
                  new ObjectParameter("JobID", typeof(int));
 
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_DeleteJobDetailsByJobID", jobIDParameter);
+            var invoiceIdsParameter = InvoiceIds != null ?
+                new ObjectParameter("InvoiceIds", InvoiceIds) :
+
+                new ObjectParameter("JobID", typeof(int));
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_DeleteJobDetailsByJobID", jobIDParameter, invoiceIdsParameter);
         }
         
 
@@ -2582,8 +2586,12 @@ namespace DAL
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SalesAndCollectionRpt_Result>("SalesAndCollectionRpt", customerIDParameter, yearFromParameter, yearToParameter);
         }
     
-        public virtual int SP_InsertCharges(Nullable<int> jobID, Nullable<int> revenueTypeID, Nullable<int> provisionCurrencyID, Nullable<decimal> provisionExchangeRate, Nullable<decimal> provisionForeign, Nullable<decimal> provisionHome, Nullable<int> salesCurrencyID, Nullable<decimal> salesExchangeRate, Nullable<decimal> salesForeign, Nullable<decimal> salesHome, Nullable<decimal> cost, Nullable<int> supplierID, string revenueCode, Nullable<double> quantity, Nullable<int> unitID, Nullable<decimal> provisionRate, Nullable<decimal> salesRate, string amtInWords, string invoiceStatus, string costUpdationStatus, Nullable<int> userID, string description, Nullable<decimal> tax, Nullable<decimal> taxamount, Nullable<decimal> margin)
+        public virtual int SP_InsertCharges(Nullable<int> InvoiceID,Nullable<int> jobID, Nullable<int> revenueTypeID, Nullable<int> provisionCurrencyID, Nullable<decimal> provisionExchangeRate, Nullable<decimal> provisionForeign, Nullable<decimal> provisionHome, Nullable<int> salesCurrencyID, Nullable<decimal> salesExchangeRate, Nullable<decimal> salesForeign, Nullable<decimal> salesHome, Nullable<decimal> cost, Nullable<int> supplierID, string revenueCode, Nullable<double> quantity, Nullable<int> unitID, Nullable<decimal> provisionRate, Nullable<decimal> salesRate, string amtInWords, string invoiceStatus, string costUpdationStatus, Nullable<int> userID, string description, Nullable<decimal> tax, Nullable<decimal> taxamount, Nullable<decimal> margin)
         {
+            var invoiceIDParameter = InvoiceID.HasValue ?
+              new ObjectParameter("InvoiceID", InvoiceID) :
+              new ObjectParameter("InvoiceID", typeof(int));
+
             var jobIDParameter = jobID.HasValue ?
                 new ObjectParameter("JobID", jobID) :
                 new ObjectParameter("JobID", typeof(int));
@@ -2685,7 +2693,7 @@ namespace DAL
             new ObjectParameter("Margin", typeof(decimal));
 
 
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_InsertCharges", jobIDParameter, revenueTypeIDParameter, provisionCurrencyIDParameter, provisionExchangeRateParameter, provisionForeignParameter, provisionHomeParameter, salesCurrencyIDParameter, salesExchangeRateParameter, salesForeignParameter, salesHomeParameter, costParameter, supplierIDParameter, revenueCodeParameter, quantityParameter, unitIDParameter, provisionRateParameter, salesRateParameter, amtInWordsParameter, invoiceStatusParameter, costUpdationStatusParameter, userIDParameter, descriptionParameter, taxParameter, taxamountParameter, marginParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_InsertCharges", invoiceIDParameter,jobIDParameter, revenueTypeIDParameter, provisionCurrencyIDParameter, provisionExchangeRateParameter, provisionForeignParameter, provisionHomeParameter, salesCurrencyIDParameter, salesExchangeRateParameter, salesForeignParameter, salesHomeParameter, costParameter, supplierIDParameter, revenueCodeParameter, quantityParameter, unitIDParameter, provisionRateParameter, salesRateParameter, amtInWordsParameter, invoiceStatusParameter, costUpdationStatusParameter, userIDParameter, descriptionParameter, taxParameter, taxamountParameter, marginParameter);
         }
     
         public virtual ObjectResult<Report_TradingProfitAndLoss_Result> Report_TradingProfitAndLoss(Nullable<System.DateTime> fromDate, Nullable<System.DateTime> toDate)
@@ -3282,7 +3290,7 @@ namespace DAL
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GetAllPaymentsDetailsByDate_Result>("SP_GetAllPaymentsDetailsByDate", fromDateParameter, todateParameter, fyearIdParameter);
         }
     
-        public virtual int SP_InsertCostUpdation(Nullable<int> costUpdationID, Nullable<int> supplierID, Nullable<int> jobID, string invoice, Nullable<System.DateTime> invoiceDate, Nullable<int> acJournalID, Nullable<int> employeeID, string documentNo, Nullable<int> prevCostupID, string supplierPaymentStatus, Nullable<int> userID, Nullable<bool> @lock)
+        public virtual int SP_InsertCostUpdation(Nullable<int> costUpdationID, Nullable<int> supplierID, Nullable<int> jobID, string invoice, Nullable<System.DateTime> invoiceDate, Nullable<int> acJournalID, Nullable<int> employeeID, string documentNo, Nullable<int> prevCostupID, string supplierPaymentStatus, Nullable<int> userID, Nullable<bool> @lock,Nullable<DateTime> TransactionDate,Nullable<Decimal> InvoiceAmount)
         {
             var costUpdationIDParameter = costUpdationID.HasValue ?
                 new ObjectParameter("CostUpdationID", costUpdationID) :
@@ -3331,8 +3339,16 @@ namespace DAL
             var lockParameter = @lock.HasValue ?
                 new ObjectParameter("Lock", @lock) :
                 new ObjectParameter("Lock", typeof(bool));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_InsertCostUpdation", costUpdationIDParameter, supplierIDParameter, jobIDParameter, invoiceParameter, invoiceDateParameter, acJournalIDParameter, employeeIDParameter, documentNoParameter, prevCostupIDParameter, supplierPaymentStatusParameter, userIDParameter, lockParameter);
+
+            var transactionDateParameter = TransactionDate.HasValue ?
+               new ObjectParameter("TransactionDate", TransactionDate) :
+               new ObjectParameter("TransactionDate", typeof(DateTime));
+
+            var invoiceAmountParameter = InvoiceAmount.HasValue ?
+              new ObjectParameter("InvoiceAmount", InvoiceAmount) :
+              new ObjectParameter("InvoiceAmount", typeof(decimal));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_InsertCostUpdation", costUpdationIDParameter, supplierIDParameter, jobIDParameter, invoiceParameter, invoiceDateParameter, acJournalIDParameter, employeeIDParameter, documentNoParameter, prevCostupIDParameter, supplierPaymentStatusParameter, userIDParameter, lockParameter, transactionDateParameter, invoiceAmountParameter);
         }
     
         public virtual int SP_InsertCostUpdationDetails(Nullable<int> costUpdationDetailID, Nullable<int> costUpdationID, Nullable<int> revenueTypeID, Nullable<int> provisionCurrencyID, Nullable<decimal> provisionExchangeRate, Nullable<decimal> provisionForeign, Nullable<decimal> provisionHome, Nullable<int> salesCurrencyID, Nullable<decimal> salesExchangeRate, Nullable<decimal> salesForeign, Nullable<decimal> salesHome, Nullable<decimal> variance, Nullable<int> supplierID, Nullable<int> jInvoiceID, Nullable<decimal> cost, Nullable<int> prevCostDetailID, Nullable<decimal> amountPaidTillDate, string paidOrNot, string supplierReference, string supplierPayStatus, Nullable<bool> @lock)

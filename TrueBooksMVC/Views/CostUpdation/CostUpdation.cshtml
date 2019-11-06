@@ -19,11 +19,16 @@
         font-size: 17px;
         color: #1b1919 !important;
     }
+
     .btnwid {
         width: 100px;
         margin-right: 15px;
         font-size: 18px;
         border-radius: 10px;
+    }
+
+    .multiselect-container {
+        width: 250px;
     }
 </style>
 <!-- Include the plugin's CSS and JS: -->
@@ -44,18 +49,78 @@
         $(":text").css({ "border-radius": "5px" });
         $("select").css({ "border-radius": "5px" });
 
-     
+        $('.txtNum').blur(function () {
+            if (isNaN(parseInt($(this).val()))) {
+                $(this).val('0.00');
+            } else {
+                var amt = parseFloat($(this).val());
+                $(this).val(amt.toFixed(2));
+            }
+        });
 
-        $("#SupplierID").change(function () {
+        $('#tbl1').on('blur','.txtNum',function () {
+            if (isNaN(parseInt($(this).val()))) {
+                $(this).val('0.00');
+            } else {
+                var amt = parseFloat($(this).val());
+                $(this).val(amt.toFixed(2));
+            }
+        });
+
+        $("#SupplierID").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '/AutoComplete/Supplier',
+                    datatype: "json",
+                    data: {
+                        term: request.term
+                    },
+                    success: function (data) {
+                        response($.map(data, function (val, item) {
+                            return {
+                                label: val.SupplierName,
+                                value: val.SupplierName,
+                                SupplierID: val.SupplierID
+                            }
+                        }))
+                    }
+                })
+            }, minLength: 1,
+            select: function (e, i) {
+                e.preventDefault();
+                $("#SupplierID").val(i.item.label);
+                $('#SelectedSupplierID').val(i.item.SupplierID);
+                SelectedSupplierIDChanged();
+            }
+        });
+        debugger;
+        var SelectedSupplierID = $('#SelectedSupplierID').val();
+        if ((isNaN(SelectedSupplierID) == false) && SelectedSupplierID != 0) {
+            $.ajax({
+                url: '/AutoComplete/SupplierById',
+                datatype: "json",
+                data: {
+                    Id: SelectedSupplierID
+                },
+                success: function (data) {
+                    debugger;
+                    $.each(data, function (index, element) {
+                        $('#SupplierID').val(element.SupplierName);
+                    });
+                }
+            });
+        }
+
+        function SelectedSupplierIDChanged() {
             showLoading();
             $.ajax({
                 type: "POST",
                 url: "/CostUpdation/BindJobCodeBySupplier",
                 datatype: "Json",
-                data: { supplierID: $('#SupplierID').val() },
+                data: { supplierID: $('#SelectedSupplierID').val() },
                 success: function (data) {
                     debugger;
-                 
+
                     $("#MultiJobID").empty();
                     if ($("#MultiJobID").length > 0) {
                         var x = $("#MultiJobID").parent("span").parent("div");
@@ -63,7 +128,7 @@
 
                         $(x).append('<select id="MultiJobID" name="MultiJobID" multiple="multiple"></select>');
                     }
-                
+
                     $.each(data, function (index, value) {
                         $('#MultiJobID').append('<option value="' + value.JobID + '">' + value.JobCode + '</option>');
                     });
@@ -80,19 +145,30 @@
                     hideLoading();
                 }
             });
+        };
+
+        $(".amt").blur(function () {
+            var parenttr = $(this).parent("td").parent("tr");
+
+            var amt = parseInt($(parenttr).find("td").eq(5).text());
+            var eamt = parseInt($(x).val());
+
+            if (eamt > amt) {
+                alert("The Amount Must Be Equal to Or Less Than Provision Amount");
+                $(this).val(0);
+                $(this).focus();
+            }
         });
 
-
-
-
     });
+
     function BindCostUpdationDetailsGrid() {
         var countries = [];
         $.each($("#MultiJobID option:selected"), function () {
             countries.push($(this).val());
-        }); 
+        });
         var jobidstring = countries.join(", ");
-      
+
         $('#tbl1 tr:gt(0)').remove()
 
         $.ajax({
@@ -100,7 +176,7 @@
             url: "/CostUpdation/BindCostGrid",
 
             datatype: "Json",
-            data: { ID: $('#SupplierID').val(), JobIDList: jobidstring },
+            data: { ID: $('#SelectedSupplierID').val(), JobIDList: jobidstring },
             success: function (data) {
                 debugger;
                 for (var i = 0; i < data.length; i++) {
@@ -110,10 +186,11 @@
                                                '<td>' + data[i].CurrencyName + '<input id="" name="CostUpdationDetails[' + i + '].CurrencyName" value=' + data[i].CurrencyName + ' type="hidden"></td>' +
                                                '<td>' + data[i].ProvisionExchangeRate + '<input id="" name="CostUpdationDetails[' + i + '].ProvisionExchangeRate" value=' + data[i].ProvisionExchangeRate + ' type="hidden"></td>' +
                                                '<td>' + data[i].ProvisionForeign + '<input id="" name="CostUpdationDetails[' + i + '].ProvisionForeign" value=' + data[i].ProvisionForeign + ' type="hidden"></td>' +
-                                               '<td>' + data[i].ProvisionHome + '<input id="" name="CostUpdationDetails[' + i + '].ProvisionHome" value=' + data[i].ProvisionHome + ' type="hidden"> <input  name="CostUpdationDetails[' + i + '].ProvisionCurrencyID" value=' + data[i].ProvisionCurrencyID + ' type="hidden"></td>' +
-                                               '<td> <input type="text" id="" class="invamt" onBlur="f1(this)" name=CostUpdationDetails[' + i + '].InvoiceAmount> <input  name="CostUpdationDetails[' + i + '].SalesCurrencyID" value=' + data[i].SalesCurrencyID + ' type="hidden"> ' +
+                                               '<td>' + data[i].ProvisionHome + '<input id="" name="CostUpdationDetails[' + i + '].ProvisionHome" value=' + data[i].ProvisionHome + ' type="hidden"> <input  name="CostUpdationDetails[' + i + '].ProvisionCurrencyID" value=' + data[i].ProvisionCurrencyID + ' type="hidden" /></td>' +
+                                               '<td>0</td>' +
+                        '<td> <input type="text" id="" class="invamt txtNum textright" onBlur="f1(this)" name="CostUpdationDetails[' + i + '].InvoiceAmount" autocomplete="off" /> <input  name="CostUpdationDetails[' + i + '].SalesCurrencyID" value=' + data[i].SalesCurrencyID + ' type="hidden" /> ' +
                                                '</td>' +
-                                               '<td><input type="text" id="" name=CostUpdationDetails[' + i + '].SupplierReference></input><input id="" name="CostUpdationDetails[' + i + '].SalesExchangeRate" value=' + data[i].SalesExchangeRate + ' type="hidden"> <input  name="CostUpdationDetails[' + i + '].SalesForeign" value=' + data[i].SalesForeign + ' type="hidden"> <input  name="CostUpdationDetails[' + i + '].SalesHome" value=' + data[i].SalesHome + ' type="hidden"><input  name="CostUpdationDetails[' + i + '].SupplierID" value=' + data[i].SupplierID + ' type="hidden"><input  name="CostUpdationDetails[' + i + '].JInvoiceID" value=' + data[i].InvoiceID + ' type="hidden"><input  name="CostUpdationDetails[' + i + '].Cost" value=' + data[i].Cost + ' type="hidden"> <input  name="CostUpdationDetails[' + i + '].InvoiceID" value=' + data[i].InvoiceID + ' type="hidden">' +
+                                               '<td><input type="text" id="" name="CostUpdationDetails[' + i + '].SupplierReference"></input><input id="" name="CostUpdationDetails[' + i + '].SalesExchangeRate" value=' + data[i].SalesExchangeRate + ' type="hidden" /> <input  name="CostUpdationDetails[' + i + '].SalesForeign" value=' + data[i].SalesForeign + ' type="hidden"> <input  name="CostUpdationDetails[' + i + '].SalesHome" value=' + data[i].SalesHome + ' type="hidden" /><input  name="CostUpdationDetails[' + i + '].SupplierID" value=' + data[i].SupplierID + ' type="hidden"><input  name="CostUpdationDetails[' + i + '].JInvoiceID" value=' + data[i].InvoiceID + ' type="hidden"><input  name="CostUpdationDetails[' + i + '].Cost" value=' + data[i].Cost + ' type="hidden"> <input  name="CostUpdationDetails[' + i + '].InvoiceID" value=' + data[i].InvoiceID + ' type="hidden">' +
                                                '<input  name="CostUpdationDetails[' + i + '].JobID" value=' + data[i].JobID + ' type="hidden">' +
 
                                                '</td>' +
@@ -121,24 +198,7 @@
                 }
             }
         });
-
-
-
     }
-
-    $(".amt").blur(function () {
-        var parenttr = $(this).parent("td").parent("tr");
-
-        var amt = parseInt($(parenttr).find("td").eq(5).text());
-        var eamt = parseInt($(x).val());
-
-        if (eamt > amt) {
-            alert("The Amount Must Be Equal to Or Less Than Provision Amount");
-            $(this).val(0);
-            $(this).focus();
-        }
-    });
-
 
     function f1(x) {
         var parenttr = $(x).parent("td").parent("tr");
@@ -159,358 +219,323 @@
         @using (Html.BeginForm())
         {
             @Html.ValidationSummary(true)
-
             <section class="content-header">
                 <h1>Cost Updation<small></small></h1>
             </section>
             <!-- Main content -->
             <section class="content">
-
                 <div class="row back-to-list">
                     <div class="col-xs-3" style="padding-left: 30px">
-                        <a href='@Url.Action("CostUpdationDetails", "CostUpdation", new { id = 0 })' class="btn btn-primary" >Back to list</a>
+                        <a href='@Url.Action("CostUpdationDetails", "CostUpdation", new { id = 0 })' class="btn btn-primary">Back to list</a>
                         @Html.HiddenFor(model => model.CostUpdationID)
                     </div>
                     <div class="col-xs-7">
                     </div>
-
-                  @*  @if (Model.CostUpdationID > 0)
-                    {
-                        for (int i = 0; i < Model.CostUpdationDetails.Count; i++)
-                        {
-                            if (Model.CostUpdationDetails[i].AmountPaidTillDate > 0)
-                            {
-                                        
-                        <div class="col-xs-2" id="imagePaid">
-                            <img src="~/Images/paid.jpg" class="img-responsive" style="width: 90px; height: 40px" />
-                        </div>
-                            }
-                        }
-                    }*@
-
-
                 </div>
                 <div class="form_field">
-                <div class="row no-margin form-layout" style="padding-top: 10px">
-                    <div class="col-xs-12 col-sm-4">
-                        <div class="form-title">
-                            <label class="headinglabel">Invoice Date</label>
-                        </div>
-                        <div class="form-field">
-                            @if(Model.CostUpdationID>0)
-                            {
-                                  @Html.TextBoxFor(m => m.InvoiceDate, new { Value = Model.InvoiceDate.Value.ToString("dd-MMM-yyyy"), id = "", @class = "form-control" })
-                                 @Html.ValidationMessageFor(model => model.InvoiceDate)
-                                  @Html.HiddenFor(model => model.AcJournalID)
-                        
-                            }
-                            else{
-                                 @Html.TextBoxFor(model => model.InvoiceDate, new { @class = "form-control", required = "required" })
-                                 @Html.ValidationMessageFor(model => model.InvoiceDate)
-                                  @Html.HiddenFor(model => model.AcJournalID)
-                            }
-                           
-                           
-                          
+                    <div class="row no-margin form-layout" style="padding-top: 10px">
+                        @if (Model.CostUpdationID <= 0)
+                        {
+                            <div class="col-xs-12 col-sm-3">
+                                <div class="form-title">
+                                    <label class="headinglabel">Doc No</label>
+                                </div>
+                                <div class="form-field">
+                                    @Html.TextBoxFor(model => model.DocumentNo, new { @Value = ViewBag.DocumentNos, @class = "form-control", required = "required", autocomplete = "off" })
+                                    @Html.ValidationMessageFor(model => model.DocumentNo)
 
-                        </div>
-                    </div>
-                    @if (Model.CostUpdationID <= 0)
-                    {
-                        <div class="col-xs-12 col-sm-4">
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-xs-12 col-sm-3">
+                                <div class="form-title">
+                                    <label class="headinglabel">Doc No</label>
+                                </div>
+                                <div class="form-field">
+                                    @Html.TextBoxFor(model => model.DocumentNo, new { @readonly = "readonly", @class = "form-control", autocomplete = "off" })
+
+                                </div>
+                            </div>
+                        }
+                        <div class="col-xs-12 col-sm-3">
                             <div class="form-title">
-                                <label class="headinglabel">Doc No</label>
+                                <label class="headinglabel">Transaction Date</label>
                             </div>
                             <div class="form-field">
-                                @Html.TextBoxFor(model => model.DocumentNo, new { @Value = ViewBag.DocumentNos, @class = "form-control", required = "required" })
-                                @Html.ValidationMessageFor(model => model.DocumentNo)
-
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-4">
-                            <div class="form-title">
-                                <label class="headinglabel">Supplier</label>
-                            </div>
-                            <div class="form-field">
-                                @Html.DropDownListFor(model => model.SupplierID, (SelectList)ViewBag.Suppliers, "select", new { ng_model = "SupplierID", @class = "form-control", required = "required" })
-                                @* @Html.DropDownListFor(model => model.JobID, (SelectList)ViewBag.AllJobCodes, "Select", new { ng_model = "JobID", ng_change = "BindSuppliers()", @class = "form-control", required = "required" })*@
-                                @Html.ValidationMessageFor(model => model.SupplierID)
-
-                            </div>
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="col-xs-12 col-sm-4">
-                            <div class="form-title">
-                                <label class="headinglabel">Doc No</label>
-                            </div>
-                            <div class="form-field">
-                                @Html.TextBoxFor(model => model.DocumentNo, new { @readonly = "readonly", @class = "form-control" })
-                                @Html.HiddenFor(model => model.SupplierID)
-
-
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-4">
-                            <div class="form-title">
-                                <label class="headinglabel">Supplier</label>
-                            </div>
-                            <div class="form-field">
-                                @Html.TextBoxFor(model => model.SupplierName, new { @class = "form-control", @readonly = "readonly" })
-
-                            </div>
-                        </div>
-                    }
-                </div>
-                <div class="row no-margin form-layout" style="padding-top: 10px">
-                    <div class="col-xs-12 col-sm-4">
-                        <div class="form-title">
-                            <label class="headinglabel">Employee</label>
-                        </div>
-                        <div class="form-field">
-                            @Html.DropDownListFor(model => model.EmployeeID, (SelectList)ViewBag.Employes, "Select", new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.EmployeeID)
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-sm-4">
-                        <div class="form-title">
-                            <label class="headinglabel">Job No</label>
-                        </div>
-                        <div class="form-field">
-                            @if (Model.CostUpdationID <= 0)
-                            {
-                                <select id="MultiJobID" name="MultiJobID" multiple="multiple">
-                                   
-                                </select> 
-                                <input type="button" onclick="BindCostUpdationDetailsGrid()" value="Search" class="btn btn-primary" />
-                              
-                            }
-                            else
-                            {
-                               
-                                @Html.TextBoxFor(model => model.JobCode, new { @readonly = "readonly", @class = "form-control" })
-                                @Html.HiddenFor(model => model.JobID)
-                               
-                                
-                         
-                                
-                            }
-                        </div>
-                    </div>
-
-                    @*   <div class="col-xs-12 col-sm-4">
-                        <div class="form-title">
-                            <label class="headinglabel">Reference No</label>
-                        </div>
-                        <div class="form-field">
-                            @Html.TextBoxFor(model => model.ReferenceNo, new { @class = "form-control", required = "required" })
-
-                        </div>
-                    </div>*@
-
-                </div>
-                <div class="row no-margin form-layout">
-                    <div class="col-xs-12" style="padding-top: 10px">
-                        <div class="data" style="padding-top: 10px;">
-                            <table border="1" class="table table-responsive tblbackground" style="width: 100%" id="tbl1">
-                                <tr style="font-weight: bold;background-color: #35b8eb;color: #fff;font-size: 16px;">
-                                    <td>Job Code
-                                    </td>
-                                    <td>Revenue Type
-                                    </td>
-                                    <td>Currency Name
-                                    </td>
-                                    <td>Provision Exchange Rate
-                                    </td>
-                                    <td>Provision Foreign
-                                    </td>
-                                    <td>Provision Home
-                                    </td>
-                                    @if (Model.CostUpdationID > 0)
-                                    {
-                                        <td>Amount Paid Till Date
-                                        </td>
-                                    }
-                                    <td>Invoice Amount</td>
-                                    <td>Refference No</td>
-
-                                </tr>
-
                                 @if (Model.CostUpdationID > 0)
                                 {
-
-                                    for (int i = 0; i < Model.CostUpdationDetails.Count; i++)
-                                    {
-                                    <tr>
-
-                                        <td >
-                                            <div class="data1">@*@Model.CostUpdationDetails[i].JobCode*@
-                                                @Model.JobCode
-                                               @* @Model.CostUpdationDetails[i].CostUpdationDetailID*@
-                                                @Html.HiddenFor(model=>model.JobCode)
-                                               @* @Html.HiddenFor(item => @Model.CostUpdationDetails[i].CostUpdationDetailID)*@
-                                            </div>
-                                        </td>
-                                        <td >
-                                            <div class="data2">
-                                                @Model.CostUpdationDetails[i].RevenueTypeName
-                                                @Html.HiddenFor(item => @Model.CostUpdationDetails[i].RevenueTypeID)
-
-                                            </div>
-                                        </td>
-                                        <td >
-                                            <div class="data3">@Model.CostUpdationDetails[i].CurrencyName
-                                                @Html.HiddenFor(item => @Model.CostUpdationDetails[i].ProvisionCurrencyID)
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="data4" style="text-align:right">@string.Format("{0:n2}",@Model.CostUpdationDetails[i].ProvisionExchangeRate)
-                                                @Html.HiddenFor(item => @Model.CostUpdationDetails[i].ProvisionExchangeRate)
-                                            </div>
-                                        </td>
-                                        <td style="text-align: right;">
-                                            <div class="data5">@string.Format("{0:n2}",@Model.CostUpdationDetails[i].ProvisionForeign)
-                                                @Html.HiddenFor(item => @Model.CostUpdationDetails[i].ProvisionForeign)
-                                            </div>
-                                        </td>
-                                        <td style="text-align: right;">
-                                            <div class="data6">@string.Format("{0:n2}",@Model.CostUpdationDetails[i].ProvisionHome)</div>
-                                            @Html.HiddenFor(item => @Model.CostUpdationDetails[i].ProvisionHome)
-                                            @Html.HiddenFor(item => @Model.CostUpdationDetails[i].SalesExchangeRate)
-                                            @Html.HiddenFor(item => @Model.CostUpdationDetails[i].SalesHome)
-                                            @Html.HiddenFor(item => @Model.CostUpdationDetails[i].SalesForeign)
-                                            @Html.HiddenFor(item => @Model.CostUpdationDetails[i].Cost)
-                                            @Html.HiddenFor(item => @Model.CostUpdationDetails[i].SupplierID)
-                                            @Html.HiddenFor(item => @Model.CostUpdationDetails[i].JInvoiceID)
-                                            @Html.HiddenFor(item => @Model.CostUpdationDetails[i].CostUpdationID)
-                                             @Html.HiddenFor(item => @Model.CostUpdationDetails[i].CostUpdationDetailID)
-                                            @Html.HiddenFor(item => @Model.CostUpdationDetails[i].SalesCurrencyID)
-                                            @Html.HiddenFor(item => @Model.CostUpdationDetails[i].AmountPaidTillDate)
-                                          
-                                            @Html.HiddenFor(item => @Model.AcJournalID)
-                                             
-
-
-
-
-                                        </td>
-                                        <td style="text-align: right;">
-                                            <div class="data6">@Html.DisplayFor(item => @Model.CostUpdationDetails[i].AmountPaidTillDate)</div>
-
-                                        </td>
-
-                                        <td style="text-align: right;">
-                                            <div class="data8">
-                                                <div class="data7">
-                                                    <div class="data6">@Html.TextBoxFor(item => @Model.CostUpdationDetails[i].InvoiceAmount,new{@class="amt"})</div>
-                                                </div>
-                                            </div>
-                                        </td>
-
-                                        <td style="text-align: right;">
-                                            <div class="data8">
-                                                <div class="data7">
-                                                    <div class="data6">@Html.TextBoxFor(item => @Model.CostUpdationDetails[i].SupplierReference)
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    }
+                                    @Html.TextBoxFor(m => m.TransactionDate, new { Value = Model.TransactionDate.HasValue ? Model.TransactionDate.Value.ToString("dd-MMM-yyyy") : "", id = "TransactionDate", @class = "form-control" , autocomplete="off" })
+                                    @Html.ValidationMessageFor(model => model.TransactionDate)
                                 }
-
-@*<tr ng-repeat="cost in costs">
-
-                                    <td>
-                                        <div class="data1">{{cost.JobCode}}</div>
-                                    </td>
-                                    <td>
-                                        <div class="data2">{{cost.RevenueType}}</div>
-                                    </td>
-                                    <td>
-                                        <div class="data3">{{cost.CurrencyName}}</div>
-                                    </td>
-                                    <td style="text-align: right;">
-                                        <div class="data4">{{cost.ProvisionExchangeRate | currency:""}}</div>
-                                    </td>
-                                    <td style="text-align: right;">
-                                        <div class="data5">{{cost.ProvisionForeign | currency:""}} </div>
-                                    </td>
-                                    <td style="text-align: right;">
-                                        <div class="data6">{{cost.ProvisionHome | currency:""}}</div>
-                                    </td>
-                                    <td style="text-align: right;">
-                                        <div class="data6">{{cost.AmountPaidTillDate | currency:""}}</div>
-
-                                    </td>
-
-                                    <td style="text-align: right;">
-                                        <div class="data8">
-                                            <div class="data7">
-                                                <input name="AmountPaidTillDate" type="text" />{{cost.InvoiceAmount | currency:""}}
-                                            </div>
-                                        </div>
-                                    </td>
-
-                                    <td style="text-align: right;">
-                                        <div class="data8">
-                                            <div class="data7">
-                                                <input name="AmountPaidTillDate" type="text" />{{cost.RefferenceNo}}
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>*@
-                            </table>
-
+                                else
+                                {
+                                    @Html.TextBoxFor(model => model.TransactionDate, new { @class = "form-control", required = "required", autocomplete = "off" })
+                                    @Html.ValidationMessageFor(model => model.TransactionDate)
+                                }
+                            </div>
                         </div>
 
                     </div>
-                </div>
+                    <div class="row no-margin form-layout" style="padding-top: 10px">
+                        @if (Model.CostUpdationID <= 0)
+                        {
+                            <div class="col-xs-12 col-sm-3">
+                                <div class="form-title">
+                                    <label class="headinglabel">Supplier</label>
+                                </div>
+                                <div class="form-field">
+                                    <input type="text" id="SupplierID" value="" class="form-control" />
+                                    @Html.HiddenFor(model => model.SelectedSupplierID, new { Value = "0", id = "SelectedSupplierID" })
+
+                                    @*  @Html.DropDownListFor(model => model.SupplierID, (SelectList)ViewBag.Suppliers, "select", new { ng_model = "SupplierID", @class = "form-control", required = "required" })
+                                        @Html.DropDownListFor(model => model.JobID, (SelectList)ViewBag.AllJobCodes, "Select", new { ng_model = "JobID", ng_change = "BindSuppliers()", @class = "form-control", required = "required" })
+                                        @Html.ValidationMessageFor(model => model.SupplierID)*@
+
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-xs-12 col-sm-3">
+                                <div class="form-title">
+                                    <label class="headinglabel">Supplier</label>
+                                </div>
+                                <div class="form-field">
+                                    @Html.TextBoxFor(model => model.SupplierName, new { @class = "form-control", @readonly = "readonly" })
+                                    @Html.HiddenFor(model => model.SelectedSupplierID, new { id = "SelectedSupplierID" })
+                                </div>
+                            </div>
+                        }
+                        <div class="col-xs-12 col-sm-3">
+                            <div class="form-title">
+                                <label class="headinglabel">Invoice Number</label>
+                            </div>
+                            <div class="form-field">
+                                @Html.TextBoxFor(model => model.InvoiceNo, new { @class = "form-control", autocomplete = "off" })
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-3">
+                            <div class="form-title">
+                                <label class="headinglabel">Invoice Date</label>
+                            </div>
+                            <div class="form-field">
+                                @if (Model.CostUpdationID > 0)
+                                {
+                                    @Html.TextBoxFor(m => m.InvoiceDate, new { Value = Model.InvoiceDate.Value.ToString("dd-MMM-yyyy"), id = "InvoiceDate", @class = "form-control", autocomplete = "off" })
+                                    @Html.ValidationMessageFor(model => model.InvoiceDate)
+                                    @Html.HiddenFor(model => model.AcJournalID)
+                                }
+                                else
+                                {
+                                    @Html.TextBoxFor(model => model.InvoiceDate, new { @class = "form-control", required = "required", autocomplete = "off" })
+                                    @Html.ValidationMessageFor(model => model.InvoiceDate)
+                                    @Html.HiddenFor(model => model.AcJournalID)
+                                }
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-3">
+                            <div class="form-title">
+                                <label class="headinglabel">Invoice Amount</label>
+                            </div>
+                            <div class="form-field">
+                                @if (Model.CostUpdationID > 0)
+                                {
+                                    @Html.TextBoxFor(m => m.InvoiceAmount, new { @class = "form-control txtNum textright", autocomplete = "off" })
+                                }
+                                else
+                                {
+                                    @Html.TextBoxFor(model => model.InvoiceAmount, new { @class = "form-control txtNum textright", autocomplete = "off" })
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row no-margin form-layout" style="padding-top: 10px">
+                        <div class="col-xs-12 col-sm-4">
+                            <div class="form-title">
+                                <label class="headinglabel">Employee</label>
+                            </div>
+                            <div class="form-field">
+                                @Html.DropDownListFor(model => model.EmployeeID, (SelectList)ViewBag.Employes, "Select", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.EmployeeID)
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-4">
+                            <div class="form-title">
+                                <label class="headinglabel">Job No</label>
+                            </div>
+                            <div class="form-field">
+                                @if (Model.CostUpdationID <= 0)
+                                {
+                                    <select id="MultiJobID" name="MultiJobID" multiple="multiple"></select>
+                                    <input type="button" onclick="BindCostUpdationDetailsGrid()" value="Search" class="btn btn-primary" />
+                                }
+                                else
+                                {
+                                    @Html.TextBoxFor(model => model.JobCode, new { @readonly = "readonly", @class = "form-control" })
+                                    @Html.HiddenFor(model => model.JobID)
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row no-margin form-layout">
+                        <div class="col-xs-12" style="padding-top: 10px">
+                            <div class="data" style="padding-top: 10px;">
+                                <table border="1" class="table table-responsive tblbackground" style="width: 100%" id="tbl1">
+                                    <tr style="font-weight: bold;background-color: #35b8eb;color: #fff;font-size: 16px;">
+                                        <td>
+                                            Job Code
+                                        </td>
+                                        <td>
+                                            Revenue Type
+                                        </td>
+                                        <td>
+                                            Currency Name
+                                        </td>
+                                        <td>
+                                            Provision Exchange Rate
+                                        </td>
+                                        <td>
+                                            Provision Foreign
+                                        </td>
+                                        <td>
+                                            Provision Home
+                                        </td>
+                                        @if (Model.CostUpdationID >= 0)
+                                        {
+                                            <td>
+                                                Amount Paid Till Date
+                                            </td>
+                                        }
+                                        <td>Invoice Amount</td>
+                                        <td>Refference No</td>
+                                    </tr>
+                                    @if (Model.CostUpdationID > 0)
+                                    {
+                                        for (int i = 0; i < Model.CostUpdationDetails.Count; i++)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <div class="data1">
+                                                        @Model.CostUpdationDetails[i].JobCode
+                                                        @Html.HiddenFor(model => model.CostUpdationDetails[i].JobID)
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="data2">
+                                                        @Model.CostUpdationDetails[i].RevenueType
+                                                        @Html.HiddenFor(item => @Model.CostUpdationDetails[i].RevenueTypeID)
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="data3">
+                                                        @Model.CostUpdationDetails[i].CurrencyName
+                                                        @Html.HiddenFor(item => @Model.CostUpdationDetails[i].ProvisionCurrencyID)
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="data4" style="text-align:right">
+                                                        @string.Format("{0:n2}", @Model.CostUpdationDetails[i].ProvisionExchangeRate)
+                                                        @Html.HiddenFor(item => @Model.CostUpdationDetails[i].ProvisionExchangeRate)
+                                                    </div>
+                                                </td>
+                                                <td style="text-align: right;">
+                                                    <div class="data5">
+                                                        @string.Format("{0:n2}", @Model.CostUpdationDetails[i].ProvisionForeign)
+                                                        @Html.HiddenFor(item => @Model.CostUpdationDetails[i].ProvisionForeign)
+                                                    </div>
+                                                </td>
+                                                <td style="text-align: right;">
+                                                    <div class="data6">@string.Format("{0:n2}", @Model.CostUpdationDetails[i].ProvisionHome)</div>
+                                                    @Html.HiddenFor(item => @Model.CostUpdationDetails[i].ProvisionHome)
+                                                    @Html.HiddenFor(item => @Model.CostUpdationDetails[i].SalesExchangeRate)
+                                                    @Html.HiddenFor(item => @Model.CostUpdationDetails[i].SalesHome)
+                                                    @Html.HiddenFor(item => @Model.CostUpdationDetails[i].SalesForeign)
+                                                    @Html.HiddenFor(item => @Model.CostUpdationDetails[i].Cost)
+                                                    @Html.HiddenFor(item => @Model.CostUpdationDetails[i].SupplierID)
+                                                    @Html.HiddenFor(item => @Model.CostUpdationDetails[i].JInvoiceID)
+                                                    @Html.HiddenFor(item => @Model.CostUpdationDetails[i].CostUpdationID)
+                                                    @Html.HiddenFor(item => @Model.CostUpdationDetails[i].CostUpdationDetailID)
+                                                    @Html.HiddenFor(item => @Model.CostUpdationDetails[i].SalesCurrencyID)
+                                                </td>
+                                                <td style="text-align: right;">
+                                                    <div class="data6">
+                                                        @Html.DisplayFor(item => @Model.CostUpdationDetails[i].AmountPaidTillDate)
+                                                        @Html.HiddenFor(item => @Model.CostUpdationDetails[i].AmountPaidTillDate)
+                                                    </div>
+                                                </td>
+                                                <td style="text-align: right;">
+                                                    <div class="data8">
+                                                        <div class="data7">
+                                                            <div class="data6">
+                                                                @Html.TextBoxFor(item => @Model.CostUpdationDetails[i].InvoiceAmount, new { @class = "amt txtNum textright", autocomplete = "off" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td style="text-align: right;">
+                                                    <div class="data8">
+                                                        <div class="data7">
+                                                            <div class="data6">
+                                                                @Html.TextBoxFor(item => @Model.CostUpdationDetails[i].supplierReference,new { autocomplete = "off" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                </table>
+
+                            </div>
+
+                        </div>
+                    </div>
 
 
-                <div class="row no-margin buttons spacer9">
-                    <div class="col-xs-12 align-right" style="text-align:center;padding:20px">
-                        <input type="submit" class="btn btn-primary btnwid" value="Save" name="Command" />
-                        <a href='@Url.Action("CostUpdationDetails", "CostUpdation", new { id = 0 })' class="btn btn-danger btnwid" >Cancel</a>
+                    <div class="row no-margin buttons spacer9">
+                        <div class="col-xs-12 align-right" style="text-align:center;padding:20px">
+                            <input type="submit" class="btn btn-primary btnwid" value="Save" name="Command" />
+                            <a href='@Url.Action("CostUpdationDetails", "CostUpdation", new { id = 0 })' class="btn btn-danger btnwid">Cancel</a>
+                        </div>
                     </div>
                 </div>
-                   </div>
             </section>
-
-           
         }
     </div>
 </div>
-
 <div>
 </div>
 
 <script type="text/javascript">
-    // When the document is ready
-    $(document).ready(function () {
+            // When the document is ready
+            $(document).ready(function () {
 
-        var startdate = '@Session["FyearFrom"].ToString()';
-        var enddate = '@Session["FyearTo"].ToString()';
-        var sd = new Date(startdate);
-        var ed = new Date(enddate);
+                var startdate = '@Session["FyearFrom"].ToString()';
+                var enddate = '@Session["FyearTo"].ToString()';
+                var sd = new Date(startdate);
+                var ed = new Date(enddate);
 
-        $(function () {
-            $("#InvoiceDate").datepicker({
-                dateFormat: 'dd-M-yy',
-                changeYear: true, changeMonth: true,
-                minDate: sd,
-                maxDate: ed,
+                $(function () {
+                    $("#InvoiceDate").datepicker({
+                        dateFormat: 'dd-M-yy',
+                        changeYear: true, changeMonth: true,
+                        minDate: sd,
+                        maxDate: ed,
+                    });
+                    $("#TransactionDate").datepicker({
+                        dateFormat: 'dd-M-yy',
+                        changeYear: true, changeMonth: true,
+                        minDate: sd,
+                        maxDate: ed,
+                    });
+                });
+                //$('#InvoiceDate').datepicker({
+                //    format: "dd-mm-yyyy",
+                //    maxDate: '0',
+                //    changeYear: true,
+                //    changeMonth: true,
+                //});
             });
-        });
-        //$('#InvoiceDate').datepicker({
-        //    format: "dd-mm-yyyy",
-        //    maxDate: '0',
-        //    changeYear: true,
-        //    changeMonth: true,
-        //});
-
-
-    });
 </script>

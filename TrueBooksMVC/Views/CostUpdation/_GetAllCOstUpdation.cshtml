@@ -1,11 +1,51 @@
-﻿@model IEnumerable<DAL.SP_GetAllCostUpdation_Result>
+﻿@model IEnumerable<TrueBooksMVC.Models.GetAllCostUpdation_Result>
 
 @{
     Layout = null;
 }
+
+<style>
+    td.details-control img{
+        padding:5px;
+        /* background: url('/Content/img/details_open.png') no-repeat center center;
+        cursor: pointer;*/
+    }
+
+    tr.shown td.details-control img{
+        padding: 5px;
+        /* background: url('/Content/img/details_close.png') no-repeat center center; */
+    }
+
+</style>
 <script type="text/javascript">
     $(document).ready(function () {
 
+        function escapeRegExp(string) {
+            return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+        }
+
+        function format(d) {
+            // `d` is the original data object for the row
+            debugger;
+            return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
+                '<tr>' +
+                '<td>Job Numbers:</td>' +
+                '<td>' + d[6].replace(new RegExp(escapeRegExp('&amp;lt;br&amp;gt;'), 'g'), '<br>').substring(4) + '</td>' + 
+                '</tr>' +
+                '<tr>' +
+                '<td>JobDates:</td>' +
+                '<td>' + d[7].replace(new RegExp(escapeRegExp('&amp;lt;br&amp;gt;'), 'g'), '<br>').substring(4).replace('12:00AM','') + '</td>' +
+                '</tr>' +
+                '<tr>' +
+                '<td>JobValues:</td>' +
+                '<td class="textright">' + d[8].replace(new RegExp(escapeRegExp('&amp;lt;br&amp;gt;'), 'g'), '<br>').substring(4) + '</td>' +
+                '</tr>' +
+                '<tr>' +
+                '<td>YearToDateInvoiced:</td>' +
+                '<td class="textright">' + d[9].replace(new RegExp(escapeRegExp('&amp;lt;br&amp;gt;'), 'g'), '<br>').substring(4) + '</td>' +
+                '</tr>' +
+                '</table>';
+        }
 
         $('#dataTables-example tfoot th:not(:last)').each(function () {
             var title = $(this).text();
@@ -26,6 +66,24 @@
                 }
             });
         });
+
+        $('#dataTables-example tbody').on('click', 'td.details-control', function () {
+            debugger;
+            var tr = $(this).closest('tr');
+            var row = table.row(tr);
+            if (row.child.isShown()) {
+                // This row is already open - close it
+                row.child.hide();
+                tr.removeClass('shown');
+                $(this).find('img').attr('src', '/Content/img/details_open.png');
+            }
+            else {
+                // Open this row
+                row.child(format(row.data())).show();
+                tr.addClass('shown');
+                $(this).find('img').attr('src', '/Content/img/details_close.png');
+            }
+        });
     });
 </script>
 
@@ -43,50 +101,64 @@
                                                                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                                                                     <thead>
                                                                         <tr>
-
-                                                                            <th>Job Code</th>
-                                                                            <th>Job Date</th>
+                                                                            <th>SI No</th>
+                                                                            <th>Supplier Invoice Number</th>
+                                                                            <th>Invoice Date</th>
                                                                             <th>Supplier Name</th>
-                                                                            <th>Employee Name</th>
-                                                                            <th>Document No</th>
-                                                                            <th>Supplier Reference</th>
-                                                                            <th>Invoice No</th>
+                                                                            <th>Invoice Amount</th>
                                                                             <th style="width: 70px;">Action</th>
+                                                                            <th style="display:none"></th>
+                                                                            <th style="display:none"></th>
+                                                                            <th style="display:none"></th>
+                                                                            <th style="display:none"></th>
                                                                         </tr>
                                                                     </thead>
                                                                       <tfoot>
-                                                                        <tr>
-
-                                                                            <th>Job Code</th>
-                                                                            <th>Job Date</th>
-                                                                            <th>Supplier Name</th>
-                                                                            <th>Employee Name</th>
-                                                                            <th>Document No</th>
-                                                                            <th>Supplier Reference</th>
-                                                                             <th>Invoice No</th>
-                                                                            <th style="width: 70px;"></th>
-                                                                        </tr>
+                                                                          <tr>
+                                                                              <th>SI No</th>
+                                                                              <th>Supplier Invoice Number</th>
+                                                                              <th>Invoice Date</th>
+                                                                              <th>Supplier Name</th>
+                                                                              <th>Invoice Amount</th>
+                                                                              <th style="width: 70px;"></th>
+                                                                              <th style="display:none"></th>
+                                                                              <th style="display:none"></th>
+                                                                              <th style="display:none"></th>
+                                                                              <th style="display:none"></th>
+                                                                          </tr>
                                                                     </tfoot>
-
                                                                     <tbody>
                                                                         @foreach (var item in Model)
                                                                         {
-                                                                            <tr>
+                                                                        <tr>
+                                                                            <td class="details-control">
+                                                                                <img src="/Content/img/details_open.png" id="plus_minus" style="cursor: pointer;" />
+                                                                                @Html.DisplayFor(modelItem => item.SINo)
+                                                                                @Html.HiddenFor(modelItem => item.CostUpdationID)
+                                                                            </td>
+                                                                            <td>@Html.DisplayFor(modelItem => item.SupplierInvoiceNumber)</td>
+                                                                            <td>@TrueBooksMVC.Models.CommanFunctions.GetShortDateFormat(item.InvoiceDate)</td>
+                                                                            <td>@Html.DisplayFor(modelItem => item.SupplierName)</td>
+                                                                            <td>@Html.DisplayFor(modelItem => item.InvoiceAmount)</td>
+                                                                            <td>
+                                                                                <a href='@Url.Action("CostUpdation", "CostUpdation", new { id = item.CostUpdationID })' data-toggle="tooltip" data-placement="left" title="Edit"><i class="fa fa-pencil"></i></a>|
 
-                                                                                <td>@Html.DisplayFor(modelItem => item.JobCode)</td>
-                                                                                <td>@TrueBooksMVC.Models.CommanFunctions.GetShortDateFormat(item.JobDate)</td>
-                                                                                <td>@Html.DisplayFor(modelItem => item.SupplierName)</td>
-                                                                                <td>@Html.DisplayFor(modelItem => item.EmployeeName)</td>
-                                                                                <td>@Html.DisplayFor(modelItem => item.DocumentNo)</td>
-                                                                                <td style="text-align:right">@Html.DisplayFor(modelItem => item.SupplierReference) </td>
-                                                                                 <td  style="text-align:right">@Html.DisplayFor(modelItem => item.InvoiceNo) </td>
-                                                                                <td><a href='@Url.Action("CostUpdation", "CostUpdation", new { id = item.CostUpdationID })' data-toggle="tooltip" data-placement="left" title="Edit"><i class="fa fa-pencil"></i></a>|
-                                                                          
-                                                                               @*    <a href='@Url.Action("DeleteCost", "CostUpdation", new { id = item.CostUpdationID })' data-toggle="tooltip" data-placement="right" title="Delete"><i class="fa fa-times-circle"></i></a>*@
-                                                                                      <a href="#" onclick="Delete(ID=@item.CostUpdationID)"><i class="fa fa-times"></i></a>
-                                                                                </td>
-
-                                                                            </tr>
+                                                                                @*    <a href='@Url.Action("DeleteCost", "CostUpdation", new { id = item.CostUpdationID })' data-toggle="tooltip" data-placement="right" title="Delete"><i class="fa fa-times-circle"></i></a>*@
+                                                                                <a href="#" onclick="Delete(ID=@item.CostUpdationID)"><i class="fa fa-times"></i></a>
+                                                                            </td>
+                                                                            <td style="display:none">
+                                                                                @Html.DisplayFor(modelItem => item.JobNumbers)
+                                                                            </td>
+                                                                            <td style="display:none">
+                                                                                @Html.DisplayFor(modelItem => item.JobDates)
+                                                                            </td>
+                                                                            <td style="display:none">
+                                                                                @Html.DisplayFor(modelItem => item.JobValues)
+                                                                            </td>
+                                                                            <td style="display:none">
+                                                                                @Html.DisplayFor(modelItem => item.YearToDateInvoiced)
+                                                                            </td>
+                                                                        </tr>
                                                                         }
                                                                     </tbody>
                                                                 </table>

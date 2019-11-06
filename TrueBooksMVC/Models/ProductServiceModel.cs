@@ -12,9 +12,9 @@ namespace TrueBooksMVC.Models
     public class ProductServiceModel 
     {
         // GET: ProductServiceModel
-        public ActionResult Index()
-        {
-            return View();
-        }
+      //  public ActionResult Index()
+     //   {
+       //     return View();
+      //  }
     }
 }
