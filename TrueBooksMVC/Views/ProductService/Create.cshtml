@@ -16,7 +16,7 @@
         background-color: #fff;
         width: 100%;
         margin: 0 auto;
-        max-width: 350px;
+        max-width: 550px;
         padding: 20px;
         margin-top: 50px;
         border-radius: 10px;
@@ -58,7 +58,7 @@
         });
     </script>
 <section class="content-header">
-    <h1 class="headingfont">Country</h1>
+    <h1 class="headingfont">Product & Service</h1>
 
 </section>
 @if (ViewBag.SuccessMsg != null)
@@ -82,41 +82,65 @@
                       <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
                       <div class="row no-margin">
 
-                          <div class="col-md-12">
+                          <div class="col-md-4">
                               <label class="required headinglabel">Product</label>
-                              @* @Html.TextBoxFor(model => model.Product, new { @class = "form-control txttarget" }) *@
-                             @* @Html.ValidationMessageFor(model => model.CountryName) *@
+                              @Html.TextBoxFor(model => model.ProductName, new { @class = "form-control txttarget" })
+                              @Html.ValidationMessageFor(model => model.ProductName)
+
 
                           </div>
+
+                          <div class="col-md-4">
+                              <label class="required headinglabel">Product Code</label>
+                              @Html.TextBoxFor(model => model.ProductCode, new { @class = "form-control" })
+                              @Html.ValidationMessageFor(model => model.ProductCode)
                           </div>
-                      <div class="row no-margin" style="padding-top: 10px">
-                          <div class="col-md-6">
-                              <label class="required headinglabel">Country Code</label>
-                              @*  @Html.TextBoxFor(model => model.CountryCode, new { @class ="form-control" }) *@
-                             @*@ @Html.ValidationMessageFor(model => model.CountryCode) *@
+                          <div class="col-md-4">
+                              <label class="required headinglabel">HSN Code</label>
+                              @Html.TextBoxFor(model => model.HSNCode, new { @class = "form-control" })
+                              @Html.ValidationMessageFor(model => model.HSNCode)
+                              <!-- <input type="text" name="country_prefix" class="form-control txttarget">-->
                           </div>
-                          <div class="col-md-6">
-                              <label class="required headinglabel">Country Prefix</label>
-                              @* @Html.TextBoxFor(model => model.CountryPrefix, new { @class = "form-control" }) *@
-                            @*  @Html.ValidationMessageFor(model => model.CountryPrefix) *@
+                      </div>
+
+                      <div class="row no-margin" style="padding-top:10px">
+
+                          <div class="col-md-4">
+                              <label class="required headinglabel">EndUser</label>
+                              @Html.TextBoxFor(model => model.EndUser, new { @class = "form-control txttarget" })
+                              @Html.ValidationMessageFor(model => model.EndUser)
+
+
+                          </div>
+
+                          <div class="col-md-4">
+                              <label class="required headinglabel">Reseller</label>
+                              @Html.TextBoxFor(model => model.Reseller, new { @class = "form-control" })
+                              @Html.ValidationMessageFor(model => model.Reseller)
+                          </div>
+                          <div class="col-md-4">
+                              <label class="required headinglabel">SpecialPrice</label>
+                              @Html.TextBoxFor(model => model.SpecialPrice, new { @class = "form-control" })
+                              @Html.ValidationMessageFor(model => model.SpecialPrice)
                               <!-- <input type="text" name="country_prefix" class="form-control txttarget">-->
                           </div>
                       </div>
 
 
-                          <div class="row no-margin" style="padding-top:10px">
-                              <div class="col-md-12 butdivs">
 
-                                  <input type="submit" value="Save" class="btn btn-primary btnwid" id="btnsave" />
+                      <div class="row no-margin" style="padding-top:10px">
+                          <div class="col-md-12 butdivs">
 
-                                  &nbsp;
-                                  <a href='@Url.Action("Index", "Country", new { id = 0 })' class="btn btn-danger btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+                              <input type="submit" value="Save" class="btn btn-primary btnwid" id="btnsave" />
 
-                              </div>
+                              &nbsp;
+                              <a href='@Url.Action("Index", "ProductService", new { id = 0 })' class="btn btn-danger btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+
                           </div>
+                      </div>
 
 
-</fieldset>
+                  </fieldset>
                   </div>
                   }
           </section>
