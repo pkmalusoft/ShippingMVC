@@ -2149,14 +2149,14 @@ namespace TrueBooksMVC.Models
             try
             {
                 {
-                    iProduct.ProductID = GetMaxNumberProduct();
+                 //   iProduct.ProductID = GetMaxNumberProduct();
                     Context1.ProductServices.Add(iProduct);
                     Context1.SaveChanges();
                 }
                 return true;
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return false;
                 throw;

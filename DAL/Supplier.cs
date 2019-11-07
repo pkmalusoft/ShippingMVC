@@ -36,5 +36,12 @@ namespace DAL
         public Nullable<int> CountryID { get; set; }
         public string City { get; set; }
         public Nullable<int> ExportCode { get; set; }
+        public Nullable<int> CityID { get; set; }
+        public Nullable<int> CurrencyID { get; set; }
+        public Nullable<int> AcCompanyID { get; set; }
+        public string MobileNo { get; set; }
+        public Nullable<int> LocationID { get; set; }
+        public Nullable<int> BranchID { get; set; }
+        public Nullable<int> SupplierTypeID { get; set; }
     }
 }

@@ -26,7 +26,7 @@ namespace DAL
         public string SupplierPaymentStatus { get; set; }
         public Nullable<int> UserID { get; set; }
         public Nullable<bool> Lock { get; set; }
-        public Nullable<System.DateTime> TransactionDate { get; set; }
         public Nullable<decimal> InvoiceAmount { get; set; }
+        public Nullable<System.DateTime> TransactionDate { get; set; }
     }
 }

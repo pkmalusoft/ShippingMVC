@@ -24,18 +24,24 @@
     }
 </style>
 <script type="text/javascript">
-        $(document).ready(function () {
+    $(document).ready(function () {
+
+        $('.txtNum').blur(function () {
+            if (isNaN(parseInt($(this).val()))) {
+                $(this).val('0.00');
+            } else {
+                var amt = parseFloat($(this).val());
+                $(this).val(amt.toFixed(2));
+            }
+        });
+
             $("#CountryName").focus();
             $(":text").css({ "border-radius": "5px" });
             $("select").css({ "border-radius": "5px" });
-
-
             $("#btnsave").click(function () {
                 var conname = $("#CountryName").val();
                 var concode = $("#CountryCode").val();
-              
-
-
+             
                 if (conname == "") {
                     $("#alert").show();
                     return false;
@@ -44,19 +50,14 @@
                     $("#alert").show();
                     return false;
                 }
-               
                 else {
                     $("#alert").hide();
                     return true;
                 }
-
-
             });
-
-
-
         });
     </script>
+
 <section class="content-header">
     <h1 class="headingfont">Product & Service</h1>
 
@@ -67,10 +68,10 @@
           $(document).ready(function () {
               $.notify("@ViewBag.SuccessMsg", "success");
           });
-                                                </script>
+      </script>
     }
 
-      <section class="content">
+<section class="content">
 
           @using (Html.BeginForm())
           {
@@ -81,22 +82,18 @@
                   <fieldset>
                       <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
                       <div class="row no-margin">
-
                           <div class="col-md-4">
                               <label class="required headinglabel">Product</label>
-                              @Html.TextBoxFor(model => model.ProductName, new { @class = "form-control txttarget" })
+                              @Html.TextBoxFor(model => model.ProductName, new { @class = "form-control txttarget" , required= "required" })
                               @Html.ValidationMessageFor(model => model.ProductName)
-
-
                           </div>
-
                           <div class="col-md-4">
                               <label class="required headinglabel">Product Code</label>
-                              @Html.TextBoxFor(model => model.ProductCode, new { @class = "form-control" })
+                              @Html.TextBoxFor(model => model.ProductCode, new { @class = "form-control" , required = "required" })
                               @Html.ValidationMessageFor(model => model.ProductCode)
                           </div>
                           <div class="col-md-4">
-                              <label class="required headinglabel">HSN Code</label>
+                              <label class="headinglabel">HSN Code</label>
                               @Html.TextBoxFor(model => model.HSNCode, new { @class = "form-control" })
                               @Html.ValidationMessageFor(model => model.HSNCode)
                               <!-- <input type="text" name="country_prefix" class="form-control txttarget">-->
@@ -104,23 +101,20 @@
                       </div>
 
                       <div class="row no-margin" style="padding-top:10px">
-
                           <div class="col-md-4">
-                              <label class="required headinglabel">EndUser</label>
-                              @Html.TextBoxFor(model => model.EndUser, new { @class = "form-control txttarget" })
+                              <label class="headinglabel">End User Price</label>
+                              @Html.TextBoxFor(model => model.EndUser, new { @class = "form-control textright txtNum" })
                               @Html.ValidationMessageFor(model => model.EndUser)
-
-
                           </div>
 
                           <div class="col-md-4">
-                              <label class="required headinglabel">Reseller</label>
-                              @Html.TextBoxFor(model => model.Reseller, new { @class = "form-control" })
+                              <label class="headinglabel">Reseller Price</label>
+                              @Html.TextBoxFor(model => model.Reseller, new { @class = "form-control textright txtNum" })
                               @Html.ValidationMessageFor(model => model.Reseller)
                           </div>
                           <div class="col-md-4">
-                              <label class="required headinglabel">SpecialPrice</label>
-                              @Html.TextBoxFor(model => model.SpecialPrice, new { @class = "form-control" })
+                              <label class="headinglabel">Special Price</label>
+                              @Html.TextBoxFor(model => model.SpecialPrice, new { @class = "form-control textright txtNum" })
                               @Html.ValidationMessageFor(model => model.SpecialPrice)
                               <!-- <input type="text" name="country_prefix" class="form-control txttarget">-->
                           </div>

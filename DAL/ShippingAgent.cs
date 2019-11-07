@@ -33,7 +33,7 @@ namespace DAL
         public string City { get; set; }
         public Nullable<decimal> Discount { get; set; }
         public string ExportCode { get; set; }
-        public string CreditLimit { get; set; }
-        public string CreditDays { get; set; }
+        public Nullable<int> CreditLimit { get; set; }
+        public Nullable<int> CreditDays { get; set; }
     }
 }

@@ -31,7 +31,6 @@ namespace DAL
         public Nullable<decimal> Cost { get; set; }
         public Nullable<int> PrevCostDetailID { get; set; }
         public Nullable<decimal> AmountPaidTillDate { get; set; }
-        public Nullable<decimal> InvoiceAmount { get; set; }
         public string PaidOrNot { get; set; }
         public string SupplierReference { get; set; }
         public string SupplierPayStatus { get; set; }

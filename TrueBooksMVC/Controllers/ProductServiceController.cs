@@ -64,9 +64,15 @@ namespace TrueBooksMVC.Controllers
                     return View();
                 }
 
-                objSourceMastersModel.SaveProduct(productservice);
-                ViewBag.SuccessMsg = "You have successfully added Product.";
-                return View("Index", objSourceMastersModel.GetProduct());
+                if (objSourceMastersModel.SaveProduct(productservice))
+                {
+                    ViewBag.SuccessMsg = "You have successfully added Product.";
+                    return View("Index", objSourceMastersModel.GetProduct());
+                }
+                else
+                {
+                    return View(productservice);
+                }
             }
 
             return View(productservice);

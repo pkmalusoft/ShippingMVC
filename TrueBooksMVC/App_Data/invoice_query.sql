@@ -1015,3 +1015,4 @@ END
 ALTER TABLE CostUpdation Add TransactionDate datetime;
 ALTER TABLE CostUpdation Add InvoiceAmount decimal(18,2);
 
+alter table ShippingAgent alter column [ExportCode] [nvarchar](200) NULL
