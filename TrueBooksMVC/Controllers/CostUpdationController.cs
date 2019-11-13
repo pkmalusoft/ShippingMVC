@@ -275,9 +275,9 @@ namespace TrueBooksMVC.Controllers
             ViewBag.DocumentNos = DocNo;
 
             ViewBag.AllJobCodes = new SelectList(JobCodes, "JobID", "JobCode");
-            var query = (from t in entity.Suppliers select t).OrderBy(x => x.SupplierName).ToList();
+           // var query = (from t in entity.Suppliers select t).OrderBy(x => x.SupplierName).ToList();
 
-            ViewBag.Suppliers = new SelectList(query.ToList(), "SupplierID", "SupplierName");
+          //  ViewBag.Suppliers = new SelectList(query.ToList(), "SupplierID", "SupplierName");
 
             //ViewBag.Suppliers = new SelectList(new[] { new { SupplierID = "0", SupplierName = "Select" } }, "SupplierID", "SupplierName");
 

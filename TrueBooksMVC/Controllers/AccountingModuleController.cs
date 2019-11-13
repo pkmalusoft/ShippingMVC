@@ -884,12 +884,24 @@ namespace TrueBooksMVC.Controllers
             int max = 0;
             max = (from c in context.AcJournalMasters orderby c.AcJournalID descending select c.AcJournalID).FirstOrDefault();
 
+            int MaxId = 0;
+            MaxId = (from c in context.AcJournalMasters orderby c.ID descending select c.ID).FirstOrDefault();
 
             AcJournalMaster ajm = new AcJournalMaster();
             ajm.AcJournalID = max + 1;
             ajm.VoucherNo = (voucherno + 1).ToString();
             ajm.TransDate = v.transdate;
             ajm.TransType = Convert.ToInt16(v.transtype);
+            if (v.transtype == 1)
+            {
+                v.TransactionNo = "RE" + (MaxId + 1).ToString().PadLeft(7,'0');
+                //new { ID = "1", trans = "Receipt" },
+                // new { ID = "2", trans = "Payment" },
+            }
+            else if (v.transtype == 2)
+            {
+                v.TransactionNo = "PA" + (MaxId + 1).ToString().PadLeft(7, '0');
+            }
             ajm.AcFinancialYearID = Convert.ToInt32(Session["fyearid"].ToString());
             ajm.VoucherType = v.TransactionType;
             ajm.StatusDelete = false;
@@ -943,7 +955,7 @@ namespace TrueBooksMVC.Controllers
 
             ac.AcJournalDetailID = maxAcJDetailID + 1;
             ac.AcJournalID = ajm.AcJournalID;
-            ac.AcHeadID = v.AcHead;
+            ac.AcHeadID = v.SelectedAcHead;
             if (StatusTrans == "P")
             {
                 ac.Amount = -(TotalAmt);
@@ -1000,8 +1012,9 @@ namespace TrueBooksMVC.Controllers
 
             AcJournalMaster ajm = context.AcJournalMasters.Find(id);
             AcBankDetail abank = (from a in context.AcBankDetails where a.AcJournalID == id select a).FirstOrDefault();
+            v.TransactionNo = ajm.TransactionNo;
             v.transdate = ajm.TransDate.Value;
-            v.AcHead = (from c in context.AcJournalDetails where c.AcJournalID == ajm.AcJournalID select c.AcHeadID).FirstOrDefault().Value;
+            v.SelectedAcHead = (from c in context.AcJournalDetails where c.AcJournalID == ajm.AcJournalID select c.AcHead).FirstOrDefault().AcHeadID;
             v.remarks = ajm.Remarks;
             v.reference = ajm.Reference;
             v.VoucherType = ajm.VoucherType;
@@ -1010,6 +1023,8 @@ namespace TrueBooksMVC.Controllers
             v.TransactionType = v.VoucherType;
             v.paytype = Convert.ToInt16(ajm.PaymentType);
             v.transtype = Convert.ToInt32(ajm.TransType);
+
+            
 
             if (abank != null)
             {
@@ -1150,7 +1165,7 @@ namespace TrueBooksMVC.Controllers
 
             ac.AcJournalID = ajm.AcJournalID;
             ac.AcJournalDetailID = maxAcJDetailID + 1;
-            ac.AcHeadID = v.AcHead;
+            ac.AcHeadID = v.SelectedAcHead;
             if (StatusTrans == "P")
             {
                 ac.Amount = -(TotalAmt);

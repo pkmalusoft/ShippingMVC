@@ -7,13 +7,13 @@ namespace TrueBooksMVC.Models
 {
     public class AcBookVM
     {
+        public string TransactionNo { get; set; }
         public int transtype { get; set; }
-
         public string TransactionType { get; set; }
-
         public short paytype { get; set; }
         public DateTime transdate { get; set; }
-        public int AcHead { get; set; }
+        public string AcHead { get; set; }
+        public int SelectedAcHead { get; set; }
         public string reference { get; set; }
         public string remarks { get; set; }
         public string bankname { get; set; }
@@ -21,7 +21,8 @@ namespace TrueBooksMVC.Models
         public DateTime chequedate { get; set; }
         public string partyname { get; set; }
 
-        public int ReceivedFrom { get; set; }
+        public string ReceivedFrom { get; set; }
+        public int SelectedReceivedFrom { get; set; }
         public decimal amount { get; set; }
         public string remark1 { get; set; }
         public int TotalAmt { get; set; }

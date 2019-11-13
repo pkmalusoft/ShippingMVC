@@ -155,6 +155,7 @@ warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.AcHeadAssign' does not 
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="AcJournalID" Type="int" Nullable="false" />
           <Property Name="VoucherNo" Type="nvarchar" MaxLength="20" />
+          <Property Name="TransactionNo" Type="nvarchar" MaxLength="100" />
           <Property Name="TransDate" Type="datetime" />
           <Property Name="AcFinancialYearID" Type="int" />
           <Property Name="VoucherType" Type="nvarchar" MaxLength="3" />
@@ -2971,6 +2972,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Parameter Name="AcJournalIDs" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="AcJournalMasterInsertJV">
+            <Parameter Name="TransactionNo" Mode="In" Type="String" />
             <Parameter Name="TransDate" Mode="In" Type="DateTime" />
             <Parameter Name="AcFinancialYearID" Mode="In" Type="Int32" />
             <Parameter Name="VoucherType" Mode="In" Type="String" />
