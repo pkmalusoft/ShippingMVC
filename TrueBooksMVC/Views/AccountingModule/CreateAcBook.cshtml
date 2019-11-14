@@ -5,15 +5,16 @@
 }
 
 <style>
-    #details tr
-    {
-        height:32px;
+    #details tr {
+        height: 32px;
     }
+
     .headinglabel {
         font-family: Calibri;
         font-size: 16px;
         color: #2b2929 !important;
     }
+
     .jobform {
         background-color: #fff;
         box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
@@ -24,13 +25,25 @@
         margin: 0 auto;
         max-width: 900px;
     }
+
     legend {
-    color:#000!important;}
+        color: #000 !important;
+    }
+
+    .Allocate {
+        font-size: 20px;
+    }
+
+    #DeleteNewRow{
+        margin:2px;
+        padding:2px;
+        cursor:pointer;
+    }
 </style>
 
 <script type="text/javascript">
         $(document).ready(function () {
-           
+
             $(function () {
                 $("#transdate").datepicker({
                     dateFormat: 'dd-M-yy',
@@ -48,7 +61,7 @@
 
             $(":text").css({ "border-radius": "5px" });
             $("select").css({ "border-radius": "5px" });
-          
+
 
             $("#bankname").prop('disabled', true);
             $("#chequeno").prop('disabled', true);
@@ -61,7 +74,7 @@
             $("#transtype").change(function () {
                 var v = $("#transtype option:selected").val();
 
-             
+
                 if (v == "1") {
                     $(".label1").html("Received From");
                 }
@@ -120,7 +133,7 @@
                         datatype: "Json",
                         success: function (data) {
                             $("#AcHead").empty();
-                          
+
                             $.each(data, function (index, value) {
                                 $('#AcHead').append('<option value="' + value.AcHeadID + '">' + value.AcHead + '</option>');
                             });
@@ -136,7 +149,7 @@
                         datatype: "Json",
                         success: function (data) {
                             $("#AcHead").empty();
-                         
+
                             $.each(data, function (index, value) {
                                 $('#AcHead').append('<option value="' + value.AcHeadID + '">' + value.AcHead + '</option>');
                             });
@@ -192,7 +205,7 @@
             //        datatype: "Json",
             //        data:{acheadid:$("#AcHead option:selected").val()},
             //        success: function (data) {
-                        
+
             //            $("#balance").html(data.d);
             //        }
             //    });
@@ -200,7 +213,7 @@
 
 
             //$("#btnAdd").click(function () {
-             
+
             //    var str = "";
             //    var totalamt = 0;
             //    $("#details tr:last-child").after('<tr><td>' + $("#ReceivedFrom option:selected").val() + '</td><td>' + $("#ReceivedFrom option:selected").text() + '</td><td>' + $("#amount").val() + '</td><td>' + $("#remark1").val() + '</td></tr>');
@@ -209,7 +222,7 @@
             //        var $tds = $(this).find('td'),
             //          acheadid = $tds.eq(0).text(),
             //           Amount = $tds.eq(2).text(),
-                     
+
             //        Remark = $tds.eq(3).text();
             //        str = str + acheadid + "~" + Amount + "~" + Remark + "~";
             //        totalamt = parseInt(totalamt) + parseInt(Amount);
@@ -223,7 +236,7 @@
 
             $("#btnAdd").click(function () {
 
-                if ($("#ReceivedFrom option:selected").val() == "") {
+                if ($("#SelectedReceivedFrom").val() == "" || $("#SelectedReceivedFrom").val() == "0" || $("#ReceivedFrom").val() == "" ) {
                     alert("Please Select Head");
                     $("#ReceivedFrom").focus();
                     return false;
@@ -234,42 +247,52 @@
                     return false;
                 }
                 else {
-
-
-
+                    debugger;
                     var str = "";
                     var totalamt = 0;
                     var i = $('#details tr').length - 1;
-
-                    $("#details").append('<tr>' + '<td style="padding-left:10px">' + $("#ReceivedFrom option:selected").text() + '<input type="hidden" class=JAcHead value=' + $("#ReceivedFrom option:selected").val() + ' name="AcJDetailVM[' + i + '].AcHeadID"><input type="hidden" value=' + $("#ReceivedFrom option:selected").text() + ' name="AcJDetailVM[' + i + '].AcHead"></td>' +
-                        '<td class=textright style="padding-right:10px">' + parseFloat($("#amount").val()).toFixed(2) + '<input type="hidden" class="JAcAmt" value=' + $("#amount").val() + ' name="AcJDetailVM[' + i + '].Amt"></td>' + '<td style="padding-left:10px">' + $("#remark1").val() + '<input type="hidden" value=' + $("#remark1").val() + ' name="AcJDetailVM[' + i + '].Rem"></td></tr>');
-
-                    $("#ReceivedFrom").val($("#ReceivedFrom option:first").val());
+                    var objHtml = '<tr>' + '<td style="padding-left:10px">' + $("#ReceivedFrom").val() + '<input type="hidden" class=JAcHead value=' + $("#SelectedReceivedFrom").val() + ' name="AcJDetailVM[' + i + '].AcHeadID"><input type="hidden" value=' + $("#ReceivedFrom").val() + ' name="AcJDetailVM[' + i + '].AcHead"></td><td class=textright style="padding-right:10px">' + parseFloat($("#amount").val()).toFixed(2) + '<input type="hidden" class="JAcAmt" value=' + $("#amount").val() + ' name="AcJDetailVM[' + i + '].Amt"></td>' + '<td style="padding-left:10px">' + $("#remark1").val() + '<input type="hidden" value=' + $("#remark1").val() + ' name="AcJDetailVM[' + i + '].Rem"></td>';
+                    objHtml = objHtml + '<td>' + $('#ExpAllocationTable').clone().wrap('<p>').parent().attr("id", i + "_ExpAllocationTable").html() + '</td>';
+                    objHtml = objHtml + '<td><a href="javascript:void(0)" id="DeleteNewRow"><i class="fa fa-times"></i></a></td>';
+                    objHtml = objHtml + '</tr>';
+                    $("#details").append(objHtml);
+                    $("#ExpAllocationTable").children('tr:not(:first)').remove();
+                    $("#ReceivedFrom").val("");
+                    $("#SelectedReceivedFrom").val("0");
                     $("#amount").val('');
                     $("#remark1").val('');
                 }
 
                 //$("#details").find('tr:not(:first-child)').each(function (i, el) {
-                 
+
                 //    Amount = $tds.eq(2).find().text();
-                     
-              
+
+
                 //           totalamt = parseInt(totalamt) + parseInt(Amount);
                 //       });
 
-                   
+
                 //$("#TotalAmt").val(totalamt);
                 //$("#lblamt").text(totalamt);
                 return false;
             });
 
-            $(".Allocate").click(function () {
-                alert("hiii");
+            $('#details').on("click", "#DeleteNewRow", function () {
+                $(this).parent().parent().remove();
             });
 
+            $(".Allocate").on("click", function () {
+                $('#popup').show();
+                $('#popupbackground').show();
+            });
 
+            $("#AllocationClose").on("click", function () {
+                $('#popup').hide();
+                $('#popupbackground').hide();
+            });
+            
             $("#btn1").click(function () {
-          
+
                 alert("Hiii");
                 //var acid=$(this).parent("td").parent("tr").find(".JAcHead").val();
                 //var amt=$(this).parent("td").parent("tr").find(".JAcAmt").val();
@@ -299,7 +322,7 @@
                            //$("#res").html(data.view);
                            $(".modal-body").html(data.view);
                            $("#myModal").modal('show');
-                         
+
                        },
                        error: function () {
                            alert("Failed! Please try again.");
@@ -350,8 +373,8 @@
                     $('#SelectedAcHead').val(i.item.AcHeadID);
                 }
             });
-            
-            
+
+
             $("#ReceivedFrom").autocomplete({
                 source: function (request, response) {
                     $.ajax({
@@ -379,7 +402,7 @@
             });
 
         });
-    </script>
+</script>
 
 
 <section class="content-header">
@@ -395,71 +418,71 @@
         @Html.AntiForgeryToken()
         @Html.ValidationSummary(true)
 
-    <fieldset>
+        <fieldset>
 
-        <div class="row no-margin">
-            <div class="col-md-4">
-                <label class="headinglabel">Transaction No.</label>
-                <input type="text" name="TransactionNo" id="TransactionNo" readonly="readonly" />
+            <div class="row no-margin">
+                <div class="col-md-4">
+                    <label class="headinglabel">Transaction No.</label>
+                    <input type="text" name="TransactionNo" id="TransactionNo" readonly="readonly" class="form-control" />
+                </div>
+                <div class="col-md-4">
+                    <label class="headinglabel">Transaction Type</label>
+                    @Html.DropDownListFor(model => model.transtype, ViewBag.transtypes as SelectList, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.transtype)
+                    @Html.HiddenFor(Model => Model.TransactionType)
+
+                </div>
+                <div class="col-md-4">
+                    <label class="headinglabel">Payment Type</label>
+                    @Html.DropDownListFor(model => model.paytype, ViewBag.paytypes as SelectList, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.paytype)
+
+                </div>
             </div>
-            <div class="col-md-4">
-                <label class="headinglabel">Transaction Type</label>
-                @Html.DropDownListFor(model => model.transtype, ViewBag.transtypes as SelectList, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.transtype)
-                @Html.HiddenFor(Model => Model.TransactionType)
+            <div class="row no-margin">
+                <div class="col-md-4">
+                    <label class="headinglabel">Transaction Date</label>
+                    @Html.TextBoxFor(model => model.transdate, new { @class = "form-control", autocomplete = "off" })
+                    @Html.ValidationMessageFor(model => model.transdate)
 
+                </div>
+
+                <div class="col-md-4">
+                    <label class="headinglabel">Account Head</label>
+                    <input type="text" id="AcHead" value="" class="form-control" autocomplete="off" />
+                    @Html.HiddenFor(model => model.SelectedAcHead, new { Value = "0", id = "SelectedAcHead" })
+                </div>
+                <div class="col-md-4">
+                    <label class="headinglabel">Reference</label>
+                    @Html.TextBoxFor(model => model.reference, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.reference)
+
+                </div>
             </div>
-            <div class="col-md-4">
-                <label class="headinglabel">Payment Type</label>
-                @Html.DropDownListFor(model => model.paytype, ViewBag.paytypes as SelectList, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.paytype)
 
-            </div>
-        </div>
-        <div class="row no-margin">
-            <div class="col-md-4">
-                <label class="headinglabel">Transaction Date</label>
-                @Html.TextBoxFor(model => model.transdate, new { @class = "form-control", autocomplete = "off" })
-                @Html.ValidationMessageFor(model => model.transdate)
-
+            <div class="row no-margin" style="padding-top:10px">
+                <div class="col-md-6">
+                    <label class="headinglabel">Remarks</label>
+                    @Html.TextAreaFor(model => model.remarks, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.remarks)
+                    <span id="balance"></span>
+                </div>
             </div>
 
-            <div class="col-md-4">
-                <label class="headinglabel">Account Head</label>
-                <input type="text" id="AcHead" value="" class="form-control" autocomplete="off" />
-                @Html.HiddenFor(model => model.SelectedAcHead, new { Value = "0", id = "SelectedAcHead" })
-            </div>
-            <div class="col-md-4">
-                <label class="headinglabel">Reference</label>
-                @Html.TextBoxFor(model => model.reference, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.reference)
 
-            </div>
-        </div>
+            @*   <div class="row no-margin" style="padding-top:10px">
+                    <div class="col-md-12">
 
-        <div class="row no-margin" style="padding-top:10px">
-            <div class="col-md-6">
-                <label class="headinglabel">Remarks</label>
-                @Html.TextAreaFor(model => model.remarks, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.remarks)
-                <span id="balance"></span>
-            </div>
-        </div>
+                            <input type="submit"  value="Save"  class="btn btn-primary btnwidth" />
+
+                        &nbsp;
+                                       <a href='@Url.Action("IndexAcBook", "AccountingModule", new { id = 0 })' class="btn btn-primary btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+
+                    </div>
+                </div>*@
 
 
-        @*   <div class="row no-margin" style="padding-top:10px">
-            <div class="col-md-12">
-
-                    <input type="submit"  value="Save"  class="btn btn-primary btnwidth" />
-
-                &nbsp;
-                               <a href='@Url.Action("IndexAcBook", "AccountingModule", new { id = 0 })' class="btn btn-primary btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
-
-            </div>
-        </div>*@
-
-
-    </fieldset>
+        </fieldset>
 
         <br />
         <fieldset>
@@ -481,7 +504,7 @@
                 </div>
                 <div class="col-md-6">
                     <label class="headinglabel">Cheque Date</label>
-                    @Html.TextBoxFor(model => model.chequedate, new { @class = "form-control",autocomplete="off" })
+                    @Html.TextBoxFor(model => model.chequedate, new { @class = "form-control", autocomplete = "off" })
                     @Html.ValidationMessageFor(model => model.chequedate)
 
                 </div>
@@ -501,39 +524,31 @@
         <br />
         <fieldset>
             <legend style="color:white">Add Details</legend>
-
             <div class="row no-margin">
-
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <label class="headinglabel label1">Received From</label>
-                    <input type="text" id="ReceivedFrom" value="" class="form-control" autocomplete="off" />
+                    <input autocomplete="off" type="text" id="ReceivedFrom" name="ReceivedFrom" class="form-control" />
                     @Html.HiddenFor(model => model.SelectedReceivedFrom, new { Value = "0", id = "SelectedReceivedFrom" })
                 </div>
-
-
-                <div class="col-md-4">
+                <div class="col-md-2">
                     <label class="headinglabel">Amount</label>
-                    @Html.TextBoxFor(model => model.amount, new { @class = "form-control" })
+                    @Html.TextBoxFor(model => model.amount, new { @class = "form-control textright" })
                     @Html.ValidationMessageFor(model => model.amount)
-
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-5">
                     <label class="headinglabel">Remark</label>
                     @Html.TextAreaFor(model => model.remark1, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.remark1)
-
                 </div>
-
-
+                <div class="col-md-2">
+                    <label class="headinglabel">Exp. Allocation</label>
+                    <a href="javascript:void(0)" class="Allocate"><i class="fa fa-bars"></i></a>
+                </div>
                 <div class="col-md-12">
                     <br />
                     <input type="button" class="btn btn-primary" value="Add" id="btnAdd">
-
                 </div>
             </div>
-
-
-
 
             <div class="row no-margin" style="padding-top:10px">
                 <table class="table table-bordered table-responsive" id="details" style="background-color:white">
@@ -543,7 +558,8 @@
                     <th>AcHead</th>
                     <th>Amount</th>
                     <th>Remark</th>
-
+                    <th>Exp. Allocation</th>
+                    <th>Delete</th>
                     </thead>
 
                 </table>
@@ -562,28 +578,92 @@
                 </div>
             </div>
         </fieldset>
+        <div style="width:100%;height:3000px; color:black;opacity:0.6;z-index:5;display:none;background-color: black;position:absolute;top:0;left:0;" id="popupbackground">
 
+        </div>
+        <div style="width:400px;position:absolute;top:600px;left:30%;z-index:10;display:none;background-color:white;padding:10px" id="popup">
+            <div class="col-md-6">
+                <label class="headinglabel">Analysis Head</label>
+                <select id="AcHeadAllocation" style="height:27px;">
+                    <option value="1">Phone | Reception Telephone</option>
+                    <option value="2">Phone | CEO Telephone</option>
+                    <option value="3">Fuel | Jeep</option>
+                    <option value="4">Fuel | Van</option>
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label class="headinglabel">Amount</label>
+                <input type="text" class="text-right form-control txtNum" id="ExpAmount" value="0" />
+            </div>
+            <div class="row">
+                <div class="col-md-12 text-right">
+                    <input type="button" value="Add" class="btn btn-primary" style="margin:10px;" id="AddExpAllocation" />
+                    <input type="button" value="Close" class="btn btn-primary" style="margin:10px;" id="AllocationClose" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <input type="hidden" value="0" id="RowCount" />
+                    <table id="ExpAllocationTable" class="table table-bordered table-responsive">
+                        <tr>
+                            <td>Analysis Head</td>
+                            <td>Amount</td>
+                            <td>Delete</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    $('#AddExpAllocation').click(function () {
+                        var RowCount = $('#RowCount').val();
+                        var RowHtml = '<tr><td>' + $('#AcHeadAllocation option:selected').text() + '<input type="hidden" name="' + RowCount + '_AcHead" value="' + $('#AcHeadAllocation option:selected').val() + '"/></td>';
+                        RowHtml = RowHtml + '<td>' + $('#ExpAmount').val() + '<input type="hidden" name="' + RowCount + '_Amount" value="' + $('#ExpAmount').val() + '"/></td>';
+                        RowHtml = RowHtml + '<td><a href="javascript:void(0)" id="DeleteAllocationRow"><i class="fa fa-times"></i></a></td>';
+                        RowHtml = RowHtml + '</tr>';
+                        $('#ExpAllocationTable').append(RowHtml);
+                        $('#RowCount').val(RowCount + 1);
+                    });
+
+                    $('.txtNum').blur(function () {
+                        if (isNaN(parseInt($(this).val()))) {
+                            $(this).val('0.00');
+                        } else {
+                            var amt = parseFloat($(this).val());
+                            $(this).val(amt.toFixed(2));
+                        }
+                    });
+
+                    $('#ExpAllocationTable').on("click","#DeleteAllocationRow", function () {
+                        $(this).parent().parent().remove();
+                    });
+                });
+            </script>
+            <div>
+
+            </div>
+        </div>
     }
 </section>
 
 @*Popup code*@
 
-  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title" id="myModalLabel">Report</h4>
-                    </div>
-                    <div class="modal-body">
-                       
-                    </div>
-                    <div class="modal-footer">
-                     
-                        <button type="button" class="btn btn-primary" id="btnsubmitforreport">Submit</button>
-                    </div>
-                </div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Report</h4>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-primary" id="btnsubmitforreport">Submit</button>
             </div>
         </div>
+    </div>
+</div>
 
 @* End Popup *@
