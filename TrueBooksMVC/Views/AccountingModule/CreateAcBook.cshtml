@@ -252,17 +252,18 @@
                     var totalamt = 0;
                     var i = $('#details tr').length - 1;
                     var objHtml = '<tr>' + '<td style="padding-left:10px">' + $("#ReceivedFrom").val() + '<input type="hidden" class=JAcHead value=' + $("#SelectedReceivedFrom").val() + ' name="AcJDetailVM[' + i + '].AcHeadID"><input type="hidden" value=' + $("#ReceivedFrom").val() + ' name="AcJDetailVM[' + i + '].AcHead"></td><td class=textright style="padding-right:10px">' + parseFloat($("#amount").val()).toFixed(2) + '<input type="hidden" class="JAcAmt" value=' + $("#amount").val() + ' name="AcJDetailVM[' + i + '].Amt"></td>' + '<td style="padding-left:10px">' + $("#remark1").val() + '<input type="hidden" value=' + $("#remark1").val() + ' name="AcJDetailVM[' + i + '].Rem"></td>';
-                    objHtml = objHtml + '<td>' + $('#ExpAllocationTable').clone().wrap('<p>').parent().attr("id", i + "_ExpAllocationTable").html() + '</td>';
+                    objHtml = objHtml + '<td><img src="/Content/img/details_open.png" id="plus_minus" style="cursor: pointer;" class="open" />' + $('#ExpAllocationTable').clone().attr("id", i + "_ExpAllocationTable").css('display', 'none').addClass('CostAllocationDetail').wrap('<p>').parent().html() + '</td>';
                     objHtml = objHtml + '<td><a href="javascript:void(0)" id="DeleteNewRow"><i class="fa fa-times"></i></a></td>';
                     objHtml = objHtml + '</tr>';
                     $("#details").append(objHtml);
-                    $("#ExpAllocationTable").children('tr:not(:first)').remove();
+                    $("#ExpAllocationTable").find("tr:gt(0)").remove();
                     $("#ReceivedFrom").val("");
                     $("#SelectedReceivedFrom").val("0");
                     $("#amount").val('');
                     $("#remark1").val('');
                 }
 
+                
                 //$("#details").find('tr:not(:first-child)').each(function (i, el) {
 
                 //    Amount = $tds.eq(2).find().text();
@@ -275,6 +276,21 @@
                 //$("#TotalAmt").val(totalamt);
                 //$("#lblamt").text(totalamt);
                 return false;
+            });
+
+            $('#details').on("click", "#plus_minus", function () {
+                
+                if ($(this).hasClass('open')) {
+                    $(this).parent().find('.CostAllocationDetail').show();
+                    $(this).attr('src', '/Content/img/details_close.png');
+                    $(this).removeClass('open');
+                    $(this).addClass('Close');
+                } else {
+                    $(this).parent().find('.CostAllocationDetail').hide();
+                    $(this).attr('src', '/Content/img/details_open.png');
+                    $(this).addClass('open');
+                    $(this).removeClass('Close');
+                }
             });
 
             $('#details').on("click", "#DeleteNewRow", function () {
@@ -552,16 +568,13 @@
 
             <div class="row no-margin" style="padding-top:10px">
                 <table class="table table-bordered table-responsive" id="details" style="background-color:white">
-
-                    <thead>
-
-                    <th>AcHead</th>
-                    <th>Amount</th>
-                    <th>Remark</th>
-                    <th>Exp. Allocation</th>
-                    <th>Delete</th>
-                    </thead>
-
+                    <tr>
+                    <td>AcHead</td>
+                    <td>Amount</td>
+                    <td>Remark</td>
+                    <td>Exp. Allocation</td>
+                    <td>Delete</td>
+                    </tr>
                 </table>
                 @Html.HiddenFor(model => model.AcJournalDetail)
                 @Html.HiddenFor(model => model.TotalAmt)
@@ -635,6 +648,10 @@
                     });
 
                     $('#ExpAllocationTable').on("click","#DeleteAllocationRow", function () {
+                        $(this).parent().parent().remove();
+                    });
+
+                    $('#details').on("click", "#DeleteAllocationRow", function () {
                         $(this).parent().parent().remove();
                     });
                 });
