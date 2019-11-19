@@ -24,7 +24,6 @@ namespace DAL
         public Nullable<System.DateTime> TransDate { get; set; }
         public Nullable<int> AcFinancialYearID { get; set; }
         public string VoucherType { get; set; }
-        public string TransactionNo { get; set; }
         public Nullable<short> TransType { get; set; }
         public Nullable<bool> StatusDelete { get; set; }
         public string Remarks { get; set; }
@@ -34,6 +33,7 @@ namespace DAL
         public string Reference { get; set; }
         public Nullable<int> PaymentType { get; set; }
         public Nullable<bool> Lock { get; set; }
+        public string TransactionNo { get; set; }
         public int ID { get; set; }
     
         public virtual ICollection<AcJournalDetail> AcJournalDetails { get; set; }

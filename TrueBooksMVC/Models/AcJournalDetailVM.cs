@@ -13,5 +13,6 @@ namespace TrueBooksMVC.Models
         public decimal Amt { get; set; }
 
         public int AcJournalDetID { get; set; }
+        public List<AcExpenseAllocationVM> AcExpAllocationVM { get; set; }
     }
 }

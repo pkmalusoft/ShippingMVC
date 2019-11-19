@@ -5,8 +5,6 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="SHIPPING_FinalModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.AcAnalysisHeadAllocation' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="AcAnalysisHeadAllocation">
           <Key>
             <PropertyRef Name="AcAnalysisHeadAllocationID" />
@@ -155,7 +153,6 @@ warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.AcHeadAssign' does not 
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="AcJournalID" Type="int" Nullable="false" />
           <Property Name="VoucherNo" Type="nvarchar" MaxLength="20" />
-          <Property Name="TransactionNo" Type="nvarchar" MaxLength="100" />
           <Property Name="TransDate" Type="datetime" />
           <Property Name="AcFinancialYearID" Type="int" />
           <Property Name="VoucherType" Type="nvarchar" MaxLength="3" />
@@ -168,6 +165,7 @@ warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.AcHeadAssign' does not 
           <Property Name="Reference" Type="nvarchar" MaxLength="100" />
           <Property Name="PaymentType" Type="int" />
           <Property Name="Lock" Type="bit" />
+          <Property Name="TransactionNo" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="AcMemoBankDetails">
           <Key>
@@ -1290,6 +1288,9 @@ warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.qrySupplierOutstanding'
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="AcAnalysisHeadAllocationDelete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="AcAnalysisHeadAllocationIDs" Type="nvarchar(max)" Mode="In" />
+        </Function>
         <Function Name="AcAnalysisHeadAllocationInsert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="AcJournalDetailID" Type="int" Mode="In" />
           <Parameter Name="AnalysisHeadID" Type="int" Mode="In" />
@@ -2326,6 +2327,7 @@ warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.qrySupplierOutstanding'
         <Function Name="SupStatement" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="YTDSummary" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="SHIPPING_FinalModelStoreContainer">
+          <EntitySet Name="AcAnalysisHeadAllocation" EntityType="Self.AcAnalysisHeadAllocation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AcCategory" EntityType="Self.AcCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AcCompany" EntityType="Self.AcCompany" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AcFinancialYear" EntityType="Self.AcFinancialYear" Schema="dbo" store:Type="Tables" />
@@ -2388,14 +2390,6 @@ warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.qrySupplierOutstanding'
           <EntitySet Name="Validity" EntityType="Self.Validity" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Vessel" EntityType="Self.Vessel" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Voyage" EntityType="Self.Voyage" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="AcAnalysisHeadAllocation" EntityType="Self.AcAnalysisHeadAllocation" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-[AcAnalysisHeadAllocation].[AcAnalysisHeadAllocationID] AS [AcAnalysisHeadAllocationID], 
-[AcAnalysisHeadAllocation].[AcjournalDetailID] AS [AcjournalDetailID], 
-[AcAnalysisHeadAllocation].[AnalysisHeadID] AS [AnalysisHeadID], 
-[AcAnalysisHeadAllocation].[Amount] AS [Amount]
-FROM [dbo].[AcAnalysisHeadAllocation] AS [AcAnalysisHeadAllocation]</DefiningQuery>
-          </EntitySet>
           <EntitySet Name="AcBankDetails" EntityType="Self.AcBankDetails" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
 [AcBankDetails].[AcBankDetailID] AS [AcBankDetailID], 
@@ -2998,7 +2992,6 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
             <Parameter Name="UserID" Mode="In" Type="Int32" />
             <Parameter Name="Reference" Mode="In" Type="String" />
           </FunctionImport>
-          <EntitySet Name="AcAnalysisHeadAllocations" EntityType="SHIPPING_FinalModel.AcAnalysisHeadAllocation" />
           <FunctionImport Name="GetBankReconciliation" ReturnType="Collection(SHIPPING_FinalModel.GetBankReconciliation_Result)">
             <Parameter Name="FyearID" Mode="In" Type="Int32" />
             <Parameter Name="BranchID" Mode="In" Type="Int32" />
@@ -3854,6 +3847,10 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
             <End Role="AnalysisHead" EntitySet="AnalysisHeads" />
           </AssociationSet>
           <EntitySet Name="ProductServices" EntityType="SHIPPING_FinalModel.ProductService" />
+          <FunctionImport Name="AcAnalysisHeadAllocationDelete">
+          <Parameter Name="AcAnalysisHeadAllocationIDs" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="AcAnalysisHeadAllocations" EntityType="SHIPPING_FinalModel.AcAnalysisHeadAllocation" />
           </EntityContainer>
         <ComplexType Name="SP_GetUserDetailForEdit_Result">
           <Property Type="Int32" Name="UserID" Nullable="false" />
@@ -4837,15 +4834,6 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Type="Int32" Name="AcHeadID" Nullable="true" />
           <Property Type="Int32" Name="PaymentType" Nullable="true" />
         </ComplexType>
-        <EntityType Name="AcAnalysisHeadAllocation">
-          <Key>
-            <PropertyRef Name="AcAnalysisHeadAllocationID" />
-          </Key>
-          <Property Type="Int32" Name="AcAnalysisHeadAllocationID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="Int32" Name="AcjournalDetailID" />
-          <Property Type="Int32" Name="AnalysisHeadID" />
-          <Property Type="Decimal" Name="Amount" Precision="19" Scale="4" />
-        </EntityType>
         <ComplexType Name="GetBankReconciliation_Result">
           <Property Type="Int32" Name="AcJournalID" Nullable="false" />
           <Property Type="Int32" Name="AcBankDetailID" Nullable="false" />
@@ -5660,6 +5648,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Type="String" Name="Reference" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="PaymentType" />
           <Property Type="Boolean" Name="Lock" />
+          <Property Type="String" Name="TransactionNo" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="AcJournalDetails" Relationship="SHIPPING_FinalModel.FK_AcJournalDetail_AcJournalMaster" FromRole="AcJournalMaster" ToRole="AcJournalDetail" />
           <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
         </EntityType>
@@ -7007,6 +6996,15 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Name="SpecialPrice" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="Status" Type="Int32" />
         </EntityType>
+        <EntityType Name="AcAnalysisHeadAllocation">
+          <Key>
+            <PropertyRef Name="AcAnalysisHeadAllocationID" />
+          </Key>
+          <Property Name="AcAnalysisHeadAllocationID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AcjournalDetailID" Type="Int32" />
+          <Property Name="AnalysisHeadID" Type="Int32" />
+          <Property Name="Amount" Type="Decimal" Precision="19" Scale="4" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -8212,16 +8210,6 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="AcJournalMasterUpdateJV" FunctionName="SHIPPING_FinalModel.Store.AcJournalMasterUpdateJV" />
-          <EntitySetMapping Name="AcAnalysisHeadAllocations">
-            <EntityTypeMapping TypeName="SHIPPING_FinalModel.AcAnalysisHeadAllocation">
-              <MappingFragment StoreEntitySet="AcAnalysisHeadAllocation">
-                <ScalarProperty Name="Amount" ColumnName="Amount" />
-                <ScalarProperty Name="AnalysisHeadID" ColumnName="AnalysisHeadID" />
-                <ScalarProperty Name="AcjournalDetailID" ColumnName="AcjournalDetailID" />
-                <ScalarProperty Name="AcAnalysisHeadAllocationID" ColumnName="AcAnalysisHeadAllocationID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="GetBankReconciliation" FunctionName="SHIPPING_FinalModel.Store.GetBankReconciliation">
             <ResultMapping>
               <ComplexTypeMapping TypeName="SHIPPING_FinalModel.GetBankReconciliation_Result">
@@ -9129,6 +9117,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <EntitySetMapping Name="AcJournalMasters">
             <EntityTypeMapping TypeName="SHIPPING_FinalModel.AcJournalMaster">
               <MappingFragment StoreEntitySet="AcJournalMaster">
+                <ScalarProperty Name="TransactionNo" ColumnName="TransactionNo" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Lock" ColumnName="Lock" />
                 <ScalarProperty Name="PaymentType" ColumnName="PaymentType" />
@@ -10432,6 +10421,26 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
                 <ScalarProperty Name="ProductName" ColumnName="ProductName" />
                 <ScalarProperty Name="ProductID" ColumnName="ProductID" />
               </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="AcAnalysisHeadAllocationDelete" FunctionName="SHIPPING_FinalModel.Store.AcAnalysisHeadAllocationDelete" />
+          <EntitySetMapping Name="AcAnalysisHeadAllocations">
+            <EntityTypeMapping TypeName="SHIPPING_FinalModel.AcAnalysisHeadAllocation">
+              <MappingFragment StoreEntitySet="AcAnalysisHeadAllocation">
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="AnalysisHeadID" ColumnName="AnalysisHeadID" />
+                <ScalarProperty Name="AcjournalDetailID" ColumnName="AcjournalDetailID" />
+                <ScalarProperty Name="AcAnalysisHeadAllocationID" ColumnName="AcAnalysisHeadAllocationID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="SHIPPING_FinalModel.AcAnalysisHeadAllocation">
+              <ModificationFunctionMapping>
+                <InsertFunction FunctionName="SHIPPING_FinalModel.Store.AcAnalysisHeadAllocationInsert">
+                  <ScalarProperty Name="AcjournalDetailID" ParameterName="AcJournalDetailID" />
+                  <ScalarProperty Name="Amount" ParameterName="Amount" />
+                  <ScalarProperty Name="AnalysisHeadID" ParameterName="AnalysisHeadID" />
+                </InsertFunction>
+              </ModificationFunctionMapping>
             </EntityTypeMapping>
           </EntitySetMapping>
          

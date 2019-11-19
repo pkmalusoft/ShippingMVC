@@ -1520,8 +1520,12 @@ namespace DAL
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AcJournalMasterDelete", acJournalIDsParameter);
         }
     
-        public virtual int AcJournalMasterInsertJV(Nullable<System.DateTime> transDate, Nullable<int> acFinancialYearID, string voucherType, Nullable<short> transType, string remark, Nullable<int> userID, Nullable<int> branchID, string reference, string acJournalDetail, string acAnalysisHeadDetail)
+        public virtual int AcJournalMasterInsertJV(string transactionNo, Nullable<System.DateTime> transDate, Nullable<int> acFinancialYearID, string voucherType, Nullable<short> transType, string remark, Nullable<int> userID, Nullable<int> branchID, string reference, string acJournalDetail, string acAnalysisHeadDetail)
         {
+            var transactionNoParameter = transactionNo != null ?
+              new ObjectParameter("TransactionNo", transactionNo) :
+              new ObjectParameter("TransactionNo", typeof(string));
+
             var transDateParameter = transDate.HasValue ?
                 new ObjectParameter("TransDate", transDate) :
                 new ObjectParameter("TransDate", typeof(System.DateTime));
@@ -1562,7 +1566,7 @@ namespace DAL
                 new ObjectParameter("AcAnalysisHeadDetail", acAnalysisHeadDetail) :
                 new ObjectParameter("AcAnalysisHeadDetail", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AcJournalMasterInsertJV", transDateParameter, acFinancialYearIDParameter, voucherTypeParameter, transTypeParameter, remarkParameter, userIDParameter, branchIDParameter, referenceParameter, acJournalDetailParameter, acAnalysisHeadDetailParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AcJournalMasterInsertJV", transactionNoParameter, transDateParameter, acFinancialYearIDParameter, voucherTypeParameter, transTypeParameter, remarkParameter, userIDParameter, branchIDParameter, referenceParameter, acJournalDetailParameter, acAnalysisHeadDetailParameter);
         }
     
         public virtual ObjectResult<AcJournalMasterSelectAllJV_Result> AcJournalMasterSelectAllJV(Nullable<int> fYearID, Nullable<int> branchID)
@@ -1662,23 +1666,7 @@ namespace DAL
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<AcOpeningMasterSelectAll_Result>("AcOpeningMasterSelectAll", fyearIDParameter, companyIDParameter);
         }
-    
-        public virtual int AcAnalysisHeadAllocationInsert(Nullable<int> acJournalDetailID, Nullable<int> analysisHeadID, Nullable<decimal> amount)
-        {
-            var acJournalDetailIDParameter = acJournalDetailID.HasValue ?
-                new ObjectParameter("AcJournalDetailID", acJournalDetailID) :
-                new ObjectParameter("AcJournalDetailID", typeof(int));
-    
-            var analysisHeadIDParameter = analysisHeadID.HasValue ?
-                new ObjectParameter("AnalysisHeadID", analysisHeadID) :
-                new ObjectParameter("AnalysisHeadID", typeof(int));
-    
-            var amountParameter = amount.HasValue ?
-                new ObjectParameter("Amount", amount) :
-                new ObjectParameter("Amount", typeof(decimal));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AcAnalysisHeadAllocationInsert", acJournalDetailIDParameter, analysisHeadIDParameter, amountParameter);
-        }
+   
     
         public virtual ObjectResult<AcBankDetailsByAcJournalID_Result> AcBankDetailsByAcJournalID(Nullable<int> acJournalID)
         {
@@ -3882,6 +3870,32 @@ namespace DAL
         public virtual ObjectResult<SP_GetAllProductServices_Result> SP_GetAllProductServices()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GetAllProductServices_Result>("SP_GetAllProductServices");
+        }
+
+        public virtual int AcAnalysisHeadAllocationInsert(Nullable<int> acJournalDetailID, Nullable<int> analysisHeadID, Nullable<decimal> amount)
+        {
+            var acJournalDetailIDParameter = acJournalDetailID.HasValue ?
+                new ObjectParameter("AcJournalDetailID", acJournalDetailID) :
+                new ObjectParameter("AcJournalDetailID", typeof(int));
+
+            var analysisHeadIDParameter = analysisHeadID.HasValue ?
+                new ObjectParameter("AnalysisHeadID", analysisHeadID) :
+                new ObjectParameter("AnalysisHeadID", typeof(int));
+
+            var amountParameter = amount.HasValue ?
+                new ObjectParameter("Amount", amount) :
+                new ObjectParameter("Amount", typeof(decimal));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AcAnalysisHeadAllocationInsert", acJournalDetailIDParameter, analysisHeadIDParameter, amountParameter);
+        }
+
+        public virtual int AcAnalysisHeadAllocationDelete(string acAnalysisHeadAllocationIDs)
+        {
+            var acAnalysisHeadAllocationIDsParameter = acAnalysisHeadAllocationIDs != null ?
+                new ObjectParameter("AcAnalysisHeadAllocationIDs", acAnalysisHeadAllocationIDs) :
+                new ObjectParameter("AcAnalysisHeadAllocationIDs", typeof(string));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AcAnalysisHeadAllocationDelete", acAnalysisHeadAllocationIDsParameter);
         }
     }
 }

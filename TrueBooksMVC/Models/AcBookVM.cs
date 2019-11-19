@@ -35,5 +35,6 @@ namespace TrueBooksMVC.Models
         public string VoucherType { get; set; }
         public string VoucherNo { get; set; }
         public List<AcJournalDetailVM> AcJDetailVM { get; set; }
+        
     }
 }

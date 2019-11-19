@@ -936,7 +936,9 @@ namespace TrueBooksMVC.Controllers
                 acbankDetails.StatusTrans = StatusTrans;
                 acbankDetails.StatusReconciled = false;
                 context.AcBankDetails.Add(acbankDetails);
+                context.Entry(acbankDetails).State = EntityState.Added;
                 context.SaveChanges();
+                context.Entry(acbankDetails).State = EntityState.Detached;
             }
 
             decimal TotalAmt=0;
@@ -949,33 +951,34 @@ namespace TrueBooksMVC.Controllers
             }
 
 
-            AcJournalDetail ac = new AcJournalDetail();
+         //   AcJournalDetail ac = new AcJournalDetail();
+        //    int maxAcJDetailID = 0;
+       //     maxAcJDetailID = (from c in context.AcJournalDetails orderby c.AcJournalDetailID descending select c.AcJournalDetailID).FirstOrDefault();
+
+        //    ac.AcJournalDetailID = maxAcJDetailID + 1;
+       //     ac.AcJournalID = ajm.AcJournalID;
+        //    ac.AcHeadID = v.SelectedAcHead;
+       //     if (StatusTrans == "P")
+         //   {
+         //       ac.Amount = -(TotalAmt);
+         //   }
+         //   else
+         //   {
+          //      ac.Amount = TotalAmt;
+           // }
+         //   ac.Remarks = v.AcJDetailVM[0].Rem;
+          //  ac.BranchID = Convert.ToInt32(Session["AcCompanyID"].ToString());
+
+         //   context.AcJournalDetails.Add(ac);
+        //    context.SaveChanges();
+
+
             int maxAcJDetailID = 0;
-            maxAcJDetailID = (from c in context.AcJournalDetails orderby c.AcJournalDetailID descending select c.AcJournalDetailID).FirstOrDefault();
-
-            ac.AcJournalDetailID = maxAcJDetailID + 1;
-            ac.AcJournalID = ajm.AcJournalID;
-            ac.AcHeadID = v.SelectedAcHead;
-            if (StatusTrans == "P")
-            {
-                ac.Amount = -(TotalAmt);
-            }
-            else
-            {
-                ac.Amount = TotalAmt;
-            }
-            ac.Remarks = v.AcJDetailVM[0].Rem;
-            ac.BranchID = Convert.ToInt32(Session["AcCompanyID"].ToString());
-
-            context.AcJournalDetails.Add(ac);
-            context.SaveChanges();
-
-
-
+            
             for (int i = 0; i < v.AcJDetailVM.Count; i++)
             {
                 AcJournalDetail acJournalDetail = new AcJournalDetail();
-               
+                
                 maxAcJDetailID = (from c in context.AcJournalDetails orderby c.AcJournalDetailID descending select c.AcJournalDetailID).FirstOrDefault();
 
                 acJournalDetail.AcJournalDetailID = maxAcJDetailID + 1;
@@ -995,9 +998,24 @@ namespace TrueBooksMVC.Controllers
                 }
 
                 context.AcJournalDetails.Add(acJournalDetail);
+              //  context.Entry(acJournalDetail).State = EntityState.Added;
                 context.SaveChanges();
+                context.Entry(acJournalDetail).State = EntityState.Detached;
+
+                for (int j = 0; j < v.AcJDetailVM[i].AcExpAllocationVM.Count; j++)
+                {
+                    AcAnalysisHeadAllocation objAcAnalysisHeadAllocation = new AcAnalysisHeadAllocation();
+                    objAcAnalysisHeadAllocation.AcjournalDetailID = acJournalDetail.AcJournalDetailID;
+                    objAcAnalysisHeadAllocation.AnalysisHeadID = v.AcJDetailVM[i].AcExpAllocationVM[j].AcHead;
+                    objAcAnalysisHeadAllocation.Amount = v.AcJDetailVM[i].AcExpAllocationVM[j].ExpAllocatedAmount;
+                    context.AcAnalysisHeadAllocations.Add(objAcAnalysisHeadAllocation);
+                    context.SaveChanges();
+                    context.Entry(objAcAnalysisHeadAllocation).State = EntityState.Detached;
+                }
 
             }
+
+           
 
 
             ViewBag.SuccessMsg = "You have successfully added Record";

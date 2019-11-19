@@ -237,7 +237,7 @@
             $("#btnAdd").click(function () {
 
                 if ($("#SelectedReceivedFrom").val() == "" || $("#SelectedReceivedFrom").val() == "0" || $("#ReceivedFrom").val() == "" ) {
-                    alert("Please Select Head");
+                    alert('Please Select "Received From"');
                     $("#ReceivedFrom").focus();
                     return false;
                 }
@@ -251,8 +251,11 @@
                     var str = "";
                     var totalamt = 0;
                     var i = $('#details tr').length - 1;
+                    var s = 'name="AcExpAllocationVM';
+                    var ExpTableHtml = $('#ExpAllocationTable').clone().attr("id", i + "_ExpAllocationTable").css('display', 'none').addClass('CostAllocationDetail').wrap('<p>').parent().html();
+                    ExpTableHtml = ExpTableHtml.replace(/name="AcExpAllocationVM/g, 'name="AcJDetailVM[' + i + '].AcExpAllocationVM');
                     var objHtml = '<tr>' + '<td style="padding-left:10px">' + $("#ReceivedFrom").val() + '<input type="hidden" class=JAcHead value=' + $("#SelectedReceivedFrom").val() + ' name="AcJDetailVM[' + i + '].AcHeadID"><input type="hidden" value=' + $("#ReceivedFrom").val() + ' name="AcJDetailVM[' + i + '].AcHead"></td><td class=textright style="padding-right:10px">' + parseFloat($("#amount").val()).toFixed(2) + '<input type="hidden" class="JAcAmt" value=' + $("#amount").val() + ' name="AcJDetailVM[' + i + '].Amt"></td>' + '<td style="padding-left:10px">' + $("#remark1").val() + '<input type="hidden" value=' + $("#remark1").val() + ' name="AcJDetailVM[' + i + '].Rem"></td>';
-                    objHtml = objHtml + '<td><img src="/Content/img/details_open.png" id="plus_minus" style="cursor: pointer;" class="open" />' + $('#ExpAllocationTable').clone().attr("id", i + "_ExpAllocationTable").css('display', 'none').addClass('CostAllocationDetail').wrap('<p>').parent().html() + '</td>';
+                    objHtml = objHtml + '<td><img src="/Content/img/details_open.png" id="plus_minus" style="cursor: pointer;" class="open" />' + ExpTableHtml + '</td>';
                     objHtml = objHtml + '<td><a href="javascript:void(0)" id="DeleteNewRow"><i class="fa fa-times"></i></a></td>';
                     objHtml = objHtml + '</tr>';
                     $("#details").append(objHtml);
@@ -262,19 +265,6 @@
                     $("#amount").val('');
                     $("#remark1").val('');
                 }
-
-                
-                //$("#details").find('tr:not(:first-child)').each(function (i, el) {
-
-                //    Amount = $tds.eq(2).find().text();
-
-
-                //           totalamt = parseInt(totalamt) + parseInt(Amount);
-                //       });
-
-
-                //$("#TotalAmt").val(totalamt);
-                //$("#lblamt").text(totalamt);
                 return false;
             });
 
@@ -346,8 +336,6 @@
                    });
             });
 
-
-
             $("#btnsave").click(function () {
                 if ($("#transdate").val() == "") {
                     alert("Please Select Transaction Date");
@@ -362,7 +350,6 @@
                     return true;
                 }
             });
-
 
             $("#AcHead").autocomplete({
                 source: function (request, response) {
@@ -423,7 +410,6 @@
 
 <section class="content-header">
     <h1 class="headingfont">Cash and Bank Book</h1>
-
 </section>
 
 
@@ -435,7 +421,6 @@
         @Html.ValidationSummary(true)
 
         <fieldset>
-
             <div class="row no-margin">
                 <div class="col-md-4">
                     <label class="headinglabel">Transaction No.</label>
@@ -446,13 +431,11 @@
                     @Html.DropDownListFor(model => model.transtype, ViewBag.transtypes as SelectList, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.transtype)
                     @Html.HiddenFor(Model => Model.TransactionType)
-
                 </div>
                 <div class="col-md-4">
                     <label class="headinglabel">Payment Type</label>
                     @Html.DropDownListFor(model => model.paytype, ViewBag.paytypes as SelectList, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.paytype)
-
                 </div>
             </div>
             <div class="row no-margin">
@@ -460,9 +443,7 @@
                     <label class="headinglabel">Transaction Date</label>
                     @Html.TextBoxFor(model => model.transdate, new { @class = "form-control", autocomplete = "off" })
                     @Html.ValidationMessageFor(model => model.transdate)
-
                 </div>
-
                 <div class="col-md-4">
                     <label class="headinglabel">Account Head</label>
                     <input type="text" id="AcHead" value="" class="form-control" autocomplete="off" />
@@ -472,10 +453,8 @@
                     <label class="headinglabel">Reference</label>
                     @Html.TextBoxFor(model => model.reference, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.reference)
-
                 </div>
             </div>
-
             <div class="row no-margin" style="padding-top:10px">
                 <div class="col-md-6">
                     <label class="headinglabel">Remarks</label>
@@ -484,8 +463,6 @@
                     <span id="balance"></span>
                 </div>
             </div>
-
-
             @*   <div class="row no-margin" style="padding-top:10px">
                     <div class="col-md-12">
 
@@ -496,21 +473,15 @@
 
                     </div>
                 </div>*@
-
-
         </fieldset>
-
         <br />
         <fieldset>
             <legend style="color:white">Bank Details</legend>
-
             <div class="row no-margin">
-
                 <div class="col-md-6">
                     <label class="headinglabel">Bank Name</label>
                     @Html.TextBoxFor(model => model.bankname, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.bankname)
-
                 </div>
                 <div class="col-md-6">
                     <label class="headinglabel">Cheque No</label>
@@ -522,33 +493,26 @@
                     <label class="headinglabel">Cheque Date</label>
                     @Html.TextBoxFor(model => model.chequedate, new { @class = "form-control", autocomplete = "off" })
                     @Html.ValidationMessageFor(model => model.chequedate)
-
                 </div>
-
-
                 <div class="col-md-6">
                     <label class="headinglabel">Party Name</label>
                     @Html.TextBoxFor(model => model.partyname, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.partyname)
-
                 </div>
             </div>
-
-
         </fieldset>
-
         <br />
         <fieldset>
             <legend style="color:white">Add Details</legend>
             <div class="row no-margin">
                 <div class="col-md-3">
                     <label class="headinglabel label1">Received From</label>
-                    <input autocomplete="off" type="text" id="ReceivedFrom" name="ReceivedFrom" class="form-control" />
+                    <input type="text" id="ReceivedFrom" name="ReceivedFrom" class="form-control" autocomplete="off" />
                     @Html.HiddenFor(model => model.SelectedReceivedFrom, new { Value = "0", id = "SelectedReceivedFrom" })
                 </div>
                 <div class="col-md-2">
                     <label class="headinglabel">Amount</label>
-                    @Html.TextBoxFor(model => model.amount, new { @class = "form-control textright" })
+                    @Html.TextBoxFor(model => model.amount, new { @class = "form-control textright txtNum" })
                     @Html.ValidationMessageFor(model => model.amount)
                 </div>
                 <div class="col-md-5">
@@ -629,9 +593,28 @@
             <script type="text/javascript">
                 $(document).ready(function () {
                     $('#AddExpAllocation').click(function () {
-                        var RowCount = $('#RowCount').val();
-                        var RowHtml = '<tr><td>' + $('#AcHeadAllocation option:selected').text() + '<input type="hidden" name="' + RowCount + '_AcHead" value="' + $('#AcHeadAllocation option:selected').val() + '"/></td>';
-                        RowHtml = RowHtml + '<td>' + $('#ExpAmount').val() + '<input type="hidden" name="' + RowCount + '_Amount" value="' + $('#ExpAmount').val() + '"/></td>';
+                        var Total = 0;
+                        var MainTotal = 0;
+                        debugger;
+                        $('input[name^="ExpAllocatedAmount"]').each(function () {
+                            debugger;
+                            if (isNaN(parseFloat($(this).val())) === false) {
+                                Total += parseFloat($(this).val());
+                            }
+                        });
+                        if (isNaN(parseFloat($('#ExpAmount').val())) === false) {
+                            Total += parseFloat($('#ExpAmount').val());
+                        } 
+                        if (isNaN(parseFloat($('#amount').val())) === false) {
+                            MainTotal += parseFloat($('#amount').val());
+                        }
+                        if (Total > MainTotal) {
+                            alert('Amount cannot exceed total allocated amount');
+                            return;
+                        }
+                        var RowCount = parseInt($('#RowCount').val());
+                        var RowHtml = '<tr><td>' + $('#AcHeadAllocation option:selected').text() + '<input type="hidden" name="AcExpAllocationVM[' + RowCount + '].AcHead" value="' + $('#AcHeadAllocation option:selected').val() + '"/></td>';
+                        RowHtml = RowHtml + '<td>' + $('#ExpAmount').val() + '<input type="hidden" id="' + RowCount + '_Amount" name="AcExpAllocationVM[' + RowCount + '].ExpAllocatedAmount" value="' + $('#ExpAmount').val() + '"/></td>';
                         RowHtml = RowHtml + '<td><a href="javascript:void(0)" id="DeleteAllocationRow"><i class="fa fa-times"></i></a></td>';
                         RowHtml = RowHtml + '</tr>';
                         $('#ExpAllocationTable').append(RowHtml);
