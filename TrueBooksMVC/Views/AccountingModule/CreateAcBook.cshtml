@@ -558,7 +558,7 @@
         <div style="width:100%;height:3000px; color:black;opacity:0.6;z-index:5;display:none;background-color: black;position:absolute;top:0;left:0;" id="popupbackground">
 
         </div>
-        <div style="width:400px;position:absolute;top:600px;left:30%;z-index:10;display:none;background-color:white;padding:10px" id="popup">
+        <div style="width:400px;position:absolute;top:500px;left:30%;z-index:10;display:none;background-color:white;padding:10px" id="popup">
             <div class="col-md-6">
                 <label class="headinglabel">Analysis Head</label>
                 <select id="AcHeadAllocation" style="height:27px;">
@@ -596,7 +596,7 @@
                         var Total = 0;
                         var MainTotal = 0;
                         debugger;
-                        $('input[name^="ExpAllocatedAmount"]').each(function () {
+                        $('.ExpAllocatedAmountDetails').each(function () {
                             debugger;
                             if (isNaN(parseFloat($(this).val())) === false) {
                                 Total += parseFloat($(this).val());
@@ -614,7 +614,7 @@
                         }
                         var RowCount = parseInt($('#RowCount').val());
                         var RowHtml = '<tr><td>' + $('#AcHeadAllocation option:selected').text() + '<input type="hidden" name="AcExpAllocationVM[' + RowCount + '].AcHead" value="' + $('#AcHeadAllocation option:selected').val() + '"/></td>';
-                        RowHtml = RowHtml + '<td>' + $('#ExpAmount').val() + '<input type="hidden" id="' + RowCount + '_Amount" name="AcExpAllocationVM[' + RowCount + '].ExpAllocatedAmount" value="' + $('#ExpAmount').val() + '"/></td>';
+                        RowHtml = RowHtml + '<td>' + $('#ExpAmount').val() + '<input type="hidden" id="' + RowCount + '_Amount" name="AcExpAllocationVM[' + RowCount + '].ExpAllocatedAmount" class="ExpAllocatedAmountDetails" value="' + $('#ExpAmount').val() + '"/></td>';
                         RowHtml = RowHtml + '<td><a href="javascript:void(0)" id="DeleteAllocationRow"><i class="fa fa-times"></i></a></td>';
                         RowHtml = RowHtml + '</tr>';
                         $('#ExpAllocationTable').append(RowHtml);
