@@ -264,6 +264,7 @@
                     $("#SelectedReceivedFrom").val("0");
                     $("#amount").val('');
                     $("#remark1").val('');
+                   
                 }
                 return false;
             });
@@ -299,7 +300,7 @@
             
             $("#btn1").click(function () {
 
-                alert("Hiii");
+             //   alert("Hiii");
                 //var acid=$(this).parent("td").parent("tr").find(".JAcHead").val();
                 //var amt=$(this).parent("td").parent("tr").find(".JAcAmt").val();
                 //var ajaxCallURL = '/AccountingModule/ExpAllocation';
@@ -376,7 +377,33 @@
                     $('#SelectedAcHead').val(i.item.AcHeadID);
                 }
             });
-
+            //sp - AnalysisHeadSelectAll
+            $("#AcHeadAllocation").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: '/AutoComplete/AnalysisHeadSelectAll',
+                        datatype: "json",
+                        data: {
+                            term: request.term
+                        },
+                        success: function (data) {
+                            response($.map(data, function (val, item) {
+                                return {
+                                    label: val.AnalysisHead + ' | ' + val.AnalysisCode + ' | ' + val.AnalysisGroup,
+                                    value: val.AnalysisGroupID,
+                                    AnalysisGroupID: val.AnalysisGroupID
+                                }
+                            }))
+                        }
+                    })
+                }, minLength: 1,
+                select: function (e, i) {
+                    e.preventDefault();
+                    $("#AcHeadAllocation").val(i.item.label);
+                    $('#SelectedAcHeadAllocation').val(i.item.AnalysisGroupID);
+                }
+            });
+            
 
             $("#ReceivedFrom").autocomplete({
                 source: function (request, response) {
@@ -524,7 +551,7 @@
                     <label class="headinglabel">Exp. Allocation</label>
                     <a href="javascript:void(0)" class="Allocate"><i class="fa fa-bars"></i></a>
                 </div>
-                <div class="col-md-12">
+                <div class="col-md-12 text-right" style="padding-right:62px;">
                     <br />
                     <input type="button" class="btn btn-primary" value="Add" id="btnAdd">
                 </div>
@@ -561,12 +588,8 @@
         <div style="width:400px;position:absolute;top:500px;left:30%;z-index:10;display:none;background-color:white;padding:10px" id="popup">
             <div class="col-md-6">
                 <label class="headinglabel">Analysis Head</label>
-                <select id="AcHeadAllocation" style="height:27px;">
-                    <option value="1">Phone | Reception Telephone</option>
-                    <option value="2">Phone | CEO Telephone</option>
-                    <option value="3">Fuel | Jeep</option>
-                    <option value="4">Fuel | Van</option>
-                </select>
+                <input type="text" id="AcHeadAllocation" value="" class="form-control" autocomplete="off" style="height:27px;" />
+                <input type="hidden" id="SelectedAcHeadAllocation" value="" class="form-control" autocomplete="off" />
             </div>
             <div class="col-md-6">
                 <label class="headinglabel">Amount</label>
@@ -613,7 +636,7 @@
                             return;
                         }
                         var RowCount = parseInt($('#RowCount').val());
-                        var RowHtml = '<tr><td>' + $('#AcHeadAllocation option:selected').text() + '<input type="hidden" name="AcExpAllocationVM[' + RowCount + '].AcHead" value="' + $('#AcHeadAllocation option:selected').val() + '"/></td>';
+                        var RowHtml = '<tr><td>' + $('#AcHeadAllocation').val() + '<input type="hidden" name="AcExpAllocationVM[' + RowCount + '].AcHead" value="' + $('#SelectedAcHeadAllocation').val() + '"/></td>';
                         RowHtml = RowHtml + '<td>' + $('#ExpAmount').val() + '<input type="hidden" id="' + RowCount + '_Amount" name="AcExpAllocationVM[' + RowCount + '].ExpAllocatedAmount" class="ExpAllocatedAmountDetails" value="' + $('#ExpAmount').val() + '"/></td>';
                         RowHtml = RowHtml + '<td><a href="javascript:void(0)" id="DeleteAllocationRow"><i class="fa fa-times"></i></a></td>';
                         RowHtml = RowHtml + '</tr>';

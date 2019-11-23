@@ -13,7 +13,7 @@ namespace TrueBooksMVC.Models
         public short paytype { get; set; }
         public DateTime transdate { get; set; }
         public string AcHead { get; set; }
-        public int SelectedAcHead { get; set; }
+        public Nullable<int> SelectedAcHead { get; set; }
         public string reference { get; set; }
         public string remarks { get; set; }
         public string bankname { get; set; }

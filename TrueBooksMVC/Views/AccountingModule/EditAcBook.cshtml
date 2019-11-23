@@ -384,6 +384,31 @@
             }
         });
 
+        $("#AcHeadAllocation").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '/AutoComplete/AccountHead',
+                    datatype: "json",
+                    data: {
+                        term: request.term
+                    },
+                    success: function (data) {
+                        response($.map(data, function (val, item) {
+                            return {
+                                label: val.AcHead,
+                                value: val.AcHead,
+                                AcHeadID: val.AcHeadID
+                            }
+                        }))
+                    }
+                })
+            }, minLength: 1,
+            select: function (e, i) {
+                e.preventDefault();
+                $("#AcHeadAllocation").val(i.item.label);
+                $('#SelectedAcHeadAllocation').val(i.item.AcHeadID);
+            }
+        });
 
         $("#ReceivedFrom").autocomplete({
             source: function (request, response) {
@@ -599,12 +624,8 @@
         <div style="width:400px;position:absolute;top:500px;left:30%;z-index:10;display:none;background-color:white;padding:10px" id="popup">
             <div class="col-md-6">
                 <label class="headinglabel">Analysis Head</label>
-                <select id="AcHeadAllocation" style="height:27px;">
-                    <option value="1">Phone | Reception Telephone</option>
-                    <option value="2">Phone | CEO Telephone</option>
-                    <option value="3">Fuel | Jeep</option>
-                    <option value="4">Fuel | Van</option>
-                </select>
+                <input type="text" id="AcHeadAllocation" value="" class="form-control" autocomplete="off" style="height:27px;" />
+                <input type="hidden" id="SelectedAcHeadAllocation" value="" class="form-control" autocomplete="off" />
             </div>
             <div class="col-md-6">
                 <label class="headinglabel">Amount</label>

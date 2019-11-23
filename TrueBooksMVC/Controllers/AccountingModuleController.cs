@@ -902,6 +902,7 @@ namespace TrueBooksMVC.Controllers
             {
                 v.TransactionNo = "PA" + (MaxId + 1).ToString().PadLeft(7, '0');
             }
+            ajm.TransactionNo = v.TransactionNo;
             ajm.AcFinancialYearID = Convert.ToInt32(Session["fyearid"].ToString());
             ajm.VoucherType = v.TransactionType;
             ajm.StatusDelete = false;
@@ -1032,7 +1033,8 @@ namespace TrueBooksMVC.Controllers
             AcBankDetail abank = (from a in context.AcBankDetails where a.AcJournalID == id select a).FirstOrDefault();
             v.TransactionNo = ajm.TransactionNo;
             v.transdate = ajm.TransDate.Value;
-            v.SelectedAcHead = (from c in context.AcJournalDetails where c.AcJournalID == ajm.AcJournalID select c.AcHead).FirstOrDefault().AcHeadID;
+            v.SelectedAcHead = (from c in context.AcJournalDetails where c.AcJournalID == ajm.AcJournalID select c.AcHeadID).FirstOrDefault();
+            v.AcHead = (from c in context.AcHeads where c.AcHeadID == v.SelectedAcHead select c.AcHead1).FirstOrDefault();
             v.remarks = ajm.Remarks;
             v.reference = ajm.Reference;
             v.VoucherType = ajm.VoucherType;

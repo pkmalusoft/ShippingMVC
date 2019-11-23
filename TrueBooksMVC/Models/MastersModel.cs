@@ -224,5 +224,11 @@ namespace TrueBooksMVC.Models
         {
             return Context1.SP_GetAllProductServices().Where(c => c.ProductID.Equals(Id)).OrderBy(x => x.ProductName).ToList();
         }
+
+        public List<AnalysisHeadSelectAll_Result> GetAnalysisHeadSelectList(int BranchId,string Term)
+        {
+            return Context1.AnalysisHeadSelectAll(BranchId).Where(c => c.AnalysisGroup.ToLower().Contains(Term.ToLower())).OrderBy(x => x.AnalysisGroup).ToList();
+        }
+        
     }
 }

@@ -205,5 +205,24 @@ namespace TrueBooksMVC.Models
             ProductList = MM.ProductById(Id);
             return Json(ProductList, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult AnalysisHeadSelectAll(string term)
+        {
+            MastersModel MM = new MastersModel();
+            if (!String.IsNullOrEmpty(term))
+            {
+                List<AnalysisHeadSelectAll_Result> AnalysisHeadSelectList = new List<AnalysisHeadSelectAll_Result>();
+                AnalysisHeadSelectList = MM.GetAnalysisHeadSelectList(Common.ParseInt(Session["branchid"].ToString()),term);
+                return Json(AnalysisHeadSelectList, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                List<AnalysisHeadSelectAll_Result> AnalysisHeadSelectList = new List<AnalysisHeadSelectAll_Result>();
+                AnalysisHeadSelectList = MM.GetAnalysisHeadSelectList(Common.ParseInt(Session["branchid"].ToString()),"");
+                return Json(AnalysisHeadSelectList, JsonRequestBehavior.AllowGet);
+            }
+        }
+        
+
     }
 }
