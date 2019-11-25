@@ -257,6 +257,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AcAnalysisHeadAllocationVM.cs" />
     <Compile Include="Models\AcBookVM.cs" />
     <Compile Include="Models\Accounting.cs" />
     <Compile Include="Models\AccountModels.cs" />

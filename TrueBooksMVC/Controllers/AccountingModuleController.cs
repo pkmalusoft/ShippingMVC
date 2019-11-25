@@ -1390,6 +1390,18 @@ namespace TrueBooksMVC.Controllers
             return Json(AcJDetailVM, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult GetAcJDetailsExpenseAllocation(int AcJournalDetailID)
+        {
+            //  AcAnalysisHeadAllocation objAcAnalysisHeadAllocation = new AcAnalysisHeadAllocation();
+            //       objAcAnalysisHeadAllocation.AcjournalDetailID = acJournalDetail.AcJournalDetailID;
+
+            var acjlist = DAL.GetAcJDetailsExpenseAllocation(AcJournalDetailID);
+
+                //(from a in context.AcAnalysisHeadAllocations where a.AcjournalDetailID == AcJournalDetailID select a).ToList();
+
+
+            return Json(acjlist, JsonRequestBehavior.AllowGet);
+        }
 
         public JsonResult GetHeadsForCash()
         {

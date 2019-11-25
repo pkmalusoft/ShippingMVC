@@ -1126,6 +1126,42 @@ namespace TrueBooksMVC
             return objList;
          }
 
+        public static List<AcAnalysisHeadAllocationVM> GetAcJDetailsExpenseAllocation(int AcJournalDetailID)
+        {
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = new SqlConnection(Common.GetConnectionString);
+            cmd.CommandText = "GetAcJDetailsExpenseAllocation";
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.Add("@AcJournalDetailID", SqlDbType.Int);
+            cmd.Parameters["@AcJournalDetailID"].Value = AcJournalDetailID;
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet ds = new DataSet();
+            da.Fill(ds);
+            List<AcAnalysisHeadAllocationVM> objList = new List<AcAnalysisHeadAllocationVM>();
+            AcAnalysisHeadAllocationVM obj;
+            if (ds != null && ds.Tables.Count > 0)
+            {
+                for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                {
+                    obj = new AcAnalysisHeadAllocationVM();
+                    obj.AcAnalysisHeadAllocationID = Common.ParseInt(ds.Tables[0].Rows[i]["AcAnalysisHeadAllocationID"].ToString());
+                    obj.AcjournalDetailID = Common.ParseInt(ds.Tables[0].Rows[i]["AcjournalDetailID"].ToString());
+                    obj.AnalysisHeadID = Common.ParseInt(ds.Tables[0].Rows[i]["AnalysisHeadID"].ToString());
+                    if(ds.Tables[0].Rows[i]["Amount"] == DBNull.Value)
+                    {
+                        obj.Amount = 0;
+                    }
+                    else
+                    {
+                        obj.Amount = Common.ParseDecimal(ds.Tables[0].Rows[i]["Amount"].ToString());
+                    }
+                    obj.AnalysisHead = ds.Tables[0].Rows[i]["AnalysisHead"].ToString();
+                    objList.Add(obj);
+                }
+            }
+            return objList;
+        }
 
     }
 }

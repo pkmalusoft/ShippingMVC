@@ -239,10 +239,18 @@
                 else {
                     var str = "";
                     var totalamt = 0;
-                    var i = $('#details tr').length - 1;
+                    var i = $('#details tr').length - 1;             
+                    var s = 'name="AcExpAllocationVM';
+                    var ExpTableHtml = $('#ExpAllocationTable').clone().attr("id", i + "_ExpAllocationTable").css('display', 'none').addClass('CostAllocationDetail').wrap('<p>').parent().html();
+                    ExpTableHtml = ExpTableHtml.replace(/name="AcExpAllocationVM/g, 'name="AcJDetailVM[' + i + '].AcExpAllocationVM');
+                    var objHtml = '<tr>' + '<td style="padding-left:10px">' + $("#ReceivedFrom").val() + '<input type="hidden" class=JAcHead value=' + $("#SelectedReceivedFrom").val() + ' name="AcJDetailVM[' + i + '].AcHeadID"><input type="hidden" value=' + $("#ReceivedFrom").val() + ' name="AcJDetailVM[' + i + '].AcHead"></td><td class=textright style="padding-right:10px">' + parseFloat($("#amount").val()).toFixed(2) + '<input type="hidden" class="JAcAmt" value=' + $("#amount").val() + ' name="AcJDetailVM[' + i + '].Amt"></td>' + '<td style="padding-left:10px">' + $("#remark1").val() + '<input type="hidden" value=' + $("#remark1").val() + ' name="AcJDetailVM[' + i + '].Rem"></td>';
+                    objHtml = objHtml + '<td><img src="/Content/img/details_open.png" id="plus_minus" style="cursor: pointer;" class="open" />' + ExpTableHtml + '</td>';
+                    objHtml = objHtml + '<td><a href="javascript:void(0)" id="DeleteNewRow"><i class="fa fa-times"></i></a></td>';
+                    objHtml = objHtml + '</tr>';
+                    $("#details").append(objHtml);
 
-                    $("#details").append('<tr>' + '<td>' + $("#ReceivedFrom option:selected").text() + '<input type="hidden" class=JAcHead value=' + $("#ReceivedFrom option:selected").val() + ' name="AcJDetailVM[' + i + '].AcHeadID"><input type="hidden" value=' + $("#ReceivedFrom option:selected").text() + ' name="AcJDetailVM[' + i + '].AcHead"></td>' +
-                        '<td class=textright><input type="textbox" class="JAcAmt" value=' + parseFloat($("#amount").val()).toFixed(2) + ' name="AcJDetailVM[' + i + '].Amt"></td>' + '<td>' + $("#remark1").val() + '<input type="hidden" value=' + $("#remark1").val() + ' name="AcJDetailVM[' + i + '].Rem"></td></tr>');
+                 //   $("#details").append('<tr>' + '<td>' + $("#ReceivedFrom option:selected").text() + '<input type="hidden" class=JAcHead value=' + $("#ReceivedFrom option:selected").val() + ' name="AcJDetailVM[' + i + '].AcHeadID"><input type="hidden" value=' + $("#ReceivedFrom option:selected").text() + ' name="AcJDetailVM[' + i + '].AcHead"></td>' +
+                  //      '<td class=textright><input type="textbox" class="JAcAmt" value=' + parseFloat($("#amount").val()).toFixed(2) + ' name="AcJDetailVM[' + i + '].Amt"></td>' + '<td>' + $("#remark1").val() + '<input type="hidden" value=' + $("#remark1").val() + ' name="AcJDetailVM[' + i + '].Rem"></td></tr>');
 
                     $("#ReceivedFrom").val($("#ReceivedFrom option:first").val());
                     $("#amount").val('');
@@ -351,13 +359,83 @@
                 success: function (data) {
 
                     $.each(data, function (index, value) {
-                        var i = $('#details tr').length - 1;
-                        $("#details").append('<tr>' + '<td>' + value.AcHead + '<input type="hidden" class=JAcHead value=' + value.AcHeadID + ' name="AcJDetailVM[' + i + '].AcHeadID"><input type="hidden" value=' + value.AcHead + ' name="AcJDetailVM[' + i + '].AcHead"><input type="hidden" value=' + value.AcJournalDetID + ' name="AcJDetailVM[' + i + '].AcJournalDetID"></td>' +
-                     '<td class=textright><input type="textbox" class="JAcAmt" value=' + parseFloat(value.Amt).toFixed(2) + ' name="AcJDetailVM[' + i + '].Amt"></td>' + '<td>' + value.Rem + '<input type="hidden" value=' + value.Rem + ' name="AcJDetailVM[' + i + '].Rem"></td></tr>');
+
+                        var ExpenseAllocationData;
+
+                        $.ajax({
+                            type: "POST",
+                            url: "/AccountingModule/GetAcJDetailsExpenseAllocation",
+                            data: { AcJournalDetailID: value.AcJournalDetID },
+                            success: function (data) {
+                                ExpenseAllocationData = data;
+                                var i = $('#details tr').length - 1;
+                                var s = 'name="AcExpAllocationVM';
+                                var ExpTableHtml = '<table id="ExpAllocationTable" class="table table-bordered table-responsive CostAllocationDetail" style="display:none;"><tr><td>Analysis Head</td><td>Amount</td><td>Delete</td></tr>';
+                                $.each(data, function (i, v) {
+                                    debugger;
+                                    var RowCount = parseInt($('#RowCount').val());
+                                    ExpTableHtml = ExpTableHtml + '<tr><td>' + v.AnalysisHead + '<input type="hidden" name="AcExpAllocationVM[' + RowCount + '].AcHead" value="' + v.AnalysisHeadID + '"/></td>';
+                                    ExpTableHtml = ExpTableHtml + '<td>' + v.Amount + '<input type="hidden" id="' + RowCount + '_Amount" name="AcExpAllocationVM[' + RowCount + '].ExpAllocatedAmount" class="ExpAllocatedAmountDetails" value="' + v.Amount + '"/></td>';
+                                    ExpTableHtml = ExpTableHtml + '<td><a href="javascript:void(0)" id="DeleteAllocationRow"><i class="fa fa-times"></i></a></td>';
+                                    ExpTableHtml = ExpTableHtml + '</tr>';
+                                });
+                                ExpTableHtml = ExpTableHtml + '</table>';
+                                $('#ExpAllocationTable').append(ExpTableHtml);
+                                $('#RowCount').val(RowCount + 1);
+
+
+                                ExpTableHtml = ExpTableHtml.replace(/name="AcExpAllocationVM/g, 'name="AcJDetailVM[' + i + '].AcExpAllocationVM');
+
+                                var objHtml = '<tr>' + '<td style="padding-left:10px">' + value.AcHead + '<input type="hidden" class=JAcHead value=' + value.AcHeadID + ' name="AcJDetailVM[' + i + '].AcHeadID"><input type="hidden" value=' + $("#ReceivedFrom").val() + ' name="AcJDetailVM[' + i + '].AcHead"></td><td class=textright style="padding-right:10px">' + parseFloat(value.Amt).toFixed(2) + '<input type="hidden" class="JAcAmt" value=' + parseFloat(value.Amt).toFixed(2) + ' name="AcJDetailVM[' + i + '].Amt"></td>' + '<td style="padding-left:10px">' + value.Rem + '<input type="hidden" value=' + value.Rem + ' name="AcJDetailVM[' + i + '].Rem"></td>';
+                                objHtml = objHtml + '<td><img src="/Content/img/details_open.png" id="plus_minus" style="cursor: pointer;" class="open" />' + ExpTableHtml + '</td>';
+                                objHtml = objHtml + '<td><a href="javascript:void(0)" id="DeleteNewRow"><i class="fa fa-times"></i></a><input type="hidden" name="AcJDetailVM[' + i + '].AcJournalDetID" value=' + value.AcJournalDetID + ' /></td>';
+                                objHtml = objHtml + '</tr>';
+                                $("#details").append(objHtml);
+                            },
+                            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                              //  alert("Status: " + textStatus); alert("Error: " + errorThrown);
+
+                                var i = $('#details tr').length - 1;
+                                var s = 'name="AcExpAllocationVM';
+                                var ExpTableHtml = $('#ExpAllocationTable').clone().attr("id", i + "_ExpAllocationTable").css('display', 'none').addClass('CostAllocationDetail').wrap('<p>').parent().html();
+                                ExpTableHtml = ExpTableHtml.replace(/name="AcExpAllocationVM/g, 'name="AcJDetailVM[' + i + '].AcExpAllocationVM');
+                                var objHtml = '<tr>' + '<td style="padding-left:10px">' + value.AcHead + '<input type="hidden" class=JAcHead value=' + value.AcHeadID + ' name="AcJDetailVM[' + i + '].AcHeadID"><input type="hidden" value=' + $("#ReceivedFrom").val() + ' name="AcJDetailVM[' + i + '].AcHead"></td><td class=textright style="padding-right:10px">' + parseFloat(value.Amt).toFixed(2) + '<input type="hidden" class="JAcAmt" value=' + parseFloat(value.Amt).toFixed(2) + ' name="AcJDetailVM[' + i + '].Amt"></td>' + '<td style="padding-left:10px">' + value.Rem + '<input type="hidden" value=' + value.Rem + ' name="AcJDetailVM[' + i + '].Rem"></td>';
+                                objHtml = objHtml + '<td><img src="/Content/img/details_open.png" id="plus_minus" style="cursor: pointer;" class="open" />' + ExpTableHtml + '</td>';
+                                objHtml = objHtml + '<td><a href="javascript:void(0)" id="DeleteNewRow"><i class="fa fa-times"></i></a><input type="hidden" name="AcJDetailVM[' + i + '].AcJournalDetID" value=' + value.AcJournalDetID + ' /></td>';
+                                objHtml = objHtml + '</tr>';
+                                $("#details").append(objHtml);
+                            }  
+                        });
+
+                       
+
+
+                      //  $("#details").append('<tr>' + '<td>' + value.AcHead + '<input type="hidden" class=JAcHead value=' + value.AcHeadID + ' name="AcJDetailVM[' + i + '].AcHeadID"><input type="hidden" value=' + value.AcHead + ' name="AcJDetailVM[' + i + '].AcHead"><input type="hidden" value=' + value.AcJournalDetID + ' name="AcJDetailVM[' + i + '].AcJournalDetID"></td>' +
+                   //  '<td class=textright><input type="textbox" class="JAcAmt" value=' + parseFloat(value.Amt).toFixed(2) + ' name="AcJDetailVM[' + i + '].Amt"></td>' + '<td>' + value.Rem + '<input type="hidden" value=' + value.Rem + ' name="AcJDetailVM[' + i + '].Rem"></td></tr>');
                     });
                 }
         });
 
+        $('#details').on("click", "#plus_minus", function () {
+
+            if ($(this).hasClass('open')) {
+                $(this).parent().find('.CostAllocationDetail').show();
+                $(this).attr('src', '/Content/img/details_close.png');
+                $(this).removeClass('open');
+                $(this).addClass('Close');
+            } else {
+                $(this).parent().find('.CostAllocationDetail').hide();
+                $(this).attr('src', '/Content/img/details_open.png');
+                $(this).addClass('open');
+                $(this).removeClass('Close');
+            }
+        });
+
+        $('#details').on("click", "#DeleteNewRow", function () {
+            $(this).parent().parent().remove();
+        });
+
+       
         $("#AcHead").autocomplete({
             source: function (request, response) {
                 $.ajax({
