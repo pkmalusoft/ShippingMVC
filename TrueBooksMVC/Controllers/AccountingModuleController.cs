@@ -1025,6 +1025,290 @@ namespace TrueBooksMVC.Controllers
         }
 
 
+        [HttpPost]
+        public ActionResult EditAcBook(AcBookVM v)
+        {
+            string cheque = "";
+            string StatusTrans = "";
+
+            if (v.paytype > 1)
+            {
+                cheque = v.chequeno;
+            }
+            else
+            {
+                cheque = "";
+            }
+
+            AcJournalMaster ajm = new AcJournalMaster();
+            ajm.AcJournalID = v.AcJournalID;
+            ajm.VoucherNo = v.VoucherNo;
+            ajm.TransDate = v.transdate;
+            ajm.TransType = Convert.ToInt16(v.transtype);
+            ajm.AcFinancialYearID = Convert.ToInt32(Session["fyearid"].ToString());
+            ajm.VoucherType = v.TransactionType;
+            ajm.StatusDelete = false;
+            ajm.Remarks = v.remarks;
+            ajm.UserID = Convert.ToInt32(Session["UserID"].ToString());
+            ajm.ShiftID = null;
+            ajm.PaymentType = v.paytype;
+
+            //ajm.AcCompanyID = Convert.ToInt32(Session["AcCompanyID"].ToString());
+            ajm.AcCompanyID = Convert.ToInt32(Session["AcCompanyID"].ToString());
+            ajm.Reference = v.reference;
+
+            context.Entry(ajm).State = EntityState.Modified;
+            context.SaveChanges();
+
+            if (v.TransactionType == "CBR" || v.TransactionType == "BKR")
+                StatusTrans = "R";
+            else if (v.TransactionType == "CBP" || v.TransactionType == "BKP")
+                StatusTrans = "P";
+
+            if (v.chequeno != null)
+            {
+                AcBankDetail acbankDetails = new AcBankDetail();
+                acbankDetails.AcBankDetailID = v.AcBankDetailID;
+                acbankDetails.BankName = v.bankname;
+                acbankDetails.ChequeDate = v.chequedate;
+                acbankDetails.ChequeNo = v.chequeno;
+                acbankDetails.PartyName = v.partyname;
+
+                context.Entry(acbankDetails).State = EntityState.Modified;
+                context.SaveChanges();
+            }
+
+            decimal TotalAmt = 0;
+
+            for (int i = 0; i < v.AcJDetailVM.Count; i++)
+            {
+                TotalAmt = TotalAmt + Convert.ToDecimal(v.AcJDetailVM[i].Amt);
+            }
+
+
+          //  var acjdetails = (from c in context.AcJournalDetails where c.AcJournalID == v.AcJournalID select c).ToList();
+        //  var acjdetails = v.AcJDetailVM
+         //   foreach (var i in acjdetails)
+         //   {
+          //      context.AcJournalDetails.Remove(i);
+          //      context.SaveChanges();
+         //   }
+         //   AcJournalDetail ac = new AcJournalDetail();
+
+            int maxAcJDetailID = 0;
+         //   maxAcJDetailID = (from c in context.AcJournalDetails orderby c.AcJournalDetailID descending select c.AcJournalDetailID).FirstOrDefault();
+
+         //   ac.AcJournalID = ajm.AcJournalID;
+         //   ac.AcJournalDetailID = maxAcJDetailID + 1;
+         //   ac.AcHeadID = v.SelectedAcHead;
+         //   if (StatusTrans == "P")
+          //  {
+           //     ac.Amount = -(TotalAmt);
+           // }
+           // else
+         //   {
+          //      ac.Amount = TotalAmt;
+           // }
+          //  ac.Remarks = v.AcJDetailVM[0].Rem;
+          //  ac.BranchID = Convert.ToInt32(Session["AcCompanyID"].ToString());
+
+         //   context.AcJournalDetails.Add(ac);
+          //  context.SaveChanges();
+
+            for (int i = 0; i < v.AcJDetailVM.Count; i++)
+            {
+                AcJournalDetail acJournalDetail = new AcJournalDetail();
+                int IdExists = 0;
+                IdExists = (from c in context.AcJournalDetails where c.AcJournalDetailID == v.AcJDetailVM[i].AcJournalDetID select c.AcJournalDetailID).FirstOrDefault();
+              //  AcJournalDetID
+                if(IdExists > 0)
+                {
+                    acJournalDetail.AcJournalDetailID = v.AcJDetailVM[i].AcJournalDetID;
+                }
+                else
+                {
+                    maxAcJDetailID = (from c in context.AcJournalDetails orderby c.AcJournalDetailID descending select c.AcJournalDetailID).FirstOrDefault();
+                    acJournalDetail.AcJournalDetailID = maxAcJDetailID + 1;
+                }
+                acJournalDetail.AcHeadID = v.AcJDetailVM[i].AcHeadID;
+                acJournalDetail.BranchID = Convert.ToInt32(Session["AcCompanyID"]);
+                acJournalDetail.AcJournalID = ajm.AcJournalID;
+                acJournalDetail.Remarks = v.AcJDetailVM[i].Rem;
+
+                if (StatusTrans == "P")
+                {
+                    acJournalDetail.Amount = (v.AcJDetailVM[i].Amt);
+                }
+                else
+                {
+                    acJournalDetail.Amount = -v.AcJDetailVM[i].Amt;
+                }
+                if (IdExists > 0)
+                {
+                    context.Entry(acJournalDetail).State = EntityState.Modified;
+                    context.SaveChanges();
+                }
+                else
+                {
+                    context.AcJournalDetails.Add(acJournalDetail);
+                    context.SaveChanges();
+                }
+                
+                for(int k=0; k < v.AcJDetailVM[i].AcExpAllocationVM.Count; k++)
+                {
+                    int AllocationIdExists = 0;
+                    AcAnalysisHeadAllocation objAcAnalysisHeadAllocations = new AcAnalysisHeadAllocation();
+                    if (v.AcJDetailVM[i].AcExpAllocationVM[k].AcAnalysisHeadAllocationID != null)
+                    {
+                        AllocationIdExists = (from c in context.AcAnalysisHeadAllocations where c.AcAnalysisHeadAllocationID == v.AcJDetailVM[i].AcExpAllocationVM[k].AcAnalysisHeadAllocationID select c.AcAnalysisHeadAllocationID).FirstOrDefault();
+                    }
+                    if(AllocationIdExists > 0)
+                    {
+                        objAcAnalysisHeadAllocations.AcAnalysisHeadAllocationID = AllocationIdExists;
+                    }
+                    else
+                    {
+                        objAcAnalysisHeadAllocations.AcAnalysisHeadAllocationID = 0;
+                    }
+                    objAcAnalysisHeadAllocations.AcjournalDetailID = v.AcJDetailVM[i].AcJournalDetID;
+                    objAcAnalysisHeadAllocations.Amount = v.AcJDetailVM[i].AcExpAllocationVM[k].ExpAllocatedAmount;
+                    objAcAnalysisHeadAllocations.AnalysisHeadID = v.AcJDetailVM[i].AcExpAllocationVM[k].AcHead;
+                    if (AllocationIdExists > 0)
+                    {
+                        context.Entry(objAcAnalysisHeadAllocations).State = EntityState.Modified;
+                        context.SaveChanges();
+                    }
+                    else
+                    {
+                        context.AcAnalysisHeadAllocations.Add(objAcAnalysisHeadAllocations);
+                        context.SaveChanges();
+                    }
+                    //  AcJournalDetID
+                }
+
+            }
+
+
+            ViewBag.SuccessMsg = "You have successfully added Record";
+            return View("IndexAcBook", context.AcJournalMasterSelectAll(Convert.ToInt32(Session["fyearid"].ToString()), Convert.ToInt32(Session["AcCompanyID"].ToString())));
+            //string cheque = "";
+            //string StatusTrans = "";
+
+            ////if (v.paytype > 1)
+            ////{
+            ////    cheque = v.chequeno;
+            ////}
+            ////else
+            ////{
+            ////    cheque = "";
+            ////}
+
+
+            ////string voucherno = "B123";
+            ////int voucherno = 0;
+            ////voucherno = (from c in context.AcJournalMasters select c).ToList().Count();
+
+
+
+            //AcJournalMaster ajm = new AcJournalMaster();
+            //ajm.AcJournalID = v.AcJournalID;
+            //ajm.VoucherNo = v.VoucherNo;
+            //ajm.TransDate = v.transdate;
+            //ajm.TransType = Convert.ToInt16(v.transtype);
+            //ajm.AcFinancialYearID = Convert.ToInt32(Session["fyearid"].ToString());
+            ////ajm.VoucherType = v.TransactionType;
+            //ajm.VoucherType = v.VoucherType;
+
+            //ajm.StatusDelete = false;
+            //ajm.Remarks = v.remarks;
+            //ajm.UserID = Convert.ToInt32(Session["UserID"].ToString());
+            //ajm.ShiftID = null;
+
+            ////ajm.AcCompanyID = Convert.ToInt32(Session["AcCompanyID"].ToString());
+            //ajm.AcCompanyID = Convert.ToInt32(Session["AcCompanyID"].ToString());
+            //ajm.Reference = v.reference;
+
+            //context.Entry(ajm).State = EntityState.Modified;
+            //context.SaveChanges();
+
+            ////if (v.TransactionType == "CBR" || v.TransactionType == "BKR")
+            ////    StatusTrans = "R";
+            ////else if (v.TransactionType == "CBP" || v.TransactionType == "BKP")
+            ////    StatusTrans = "P";
+
+            //if (v.VoucherType == "CBR" || v.VoucherType == "BKR")
+            //{
+            //    StatusTrans = "R";
+            //}
+            //else if (v.VoucherType == "CBP" || v.VoucherType == "BKP")
+            //{
+            //    StatusTrans = "P";
+            //}
+
+            //if (v.chequeno != null)
+            //{
+            //    AcBankDetail acbankDetails = new AcBankDetail();
+            //    acbankDetails.AcBankDetailID = v.AcBankDetailID;
+            //    acbankDetails.AcJournalID = ajm.AcJournalID;
+            //    acbankDetails.BankName = v.bankname;
+            //    acbankDetails.ChequeDate = v.chequedate;
+            //    acbankDetails.ChequeNo = v.chequeno;
+            //    acbankDetails.PartyName = v.partyname;
+            //    acbankDetails.StatusTrans = StatusTrans;
+            //    acbankDetails.StatusReconciled = false;
+            //    context.Entry(acbankDetails).State = EntityState.Modified;
+            //    context.SaveChanges();
+            //}
+
+
+
+            ////AcJournalDetail ac = new AcJournalDetail();
+            ////ac.AcJournalID = ajm.AcJournalID;
+            ////ac.AcHeadID = v.AcHead;
+            ////if (StatusTrans == "P")
+            ////{
+            ////    ac.Amount = -(v.TotalAmt);
+            ////}
+            ////else
+            ////{
+            ////    ac.Amount = v.TotalAmt;
+            ////}
+            ////ac.Remarks = v.remarks;
+            ////ac.BranchID = Convert.ToInt32(Session["AcCompanyID"].ToString());
+
+            ////context.AcJournalDetails.Add(ac);
+            ////context.SaveChanges();
+
+
+
+            //for (int i = 0; i < v.AcJDetailVM.Count; i++)
+            //{
+            //    AcJournalDetail acJournalDetail = new AcJournalDetail();
+            //    acJournalDetail.AcHeadID = v.AcJDetailVM[i].AcHeadID;
+            //    acJournalDetail.AcJournalID = ajm.AcJournalID;
+            //    acJournalDetail.BranchID = Convert.ToInt32(Session["AcCompanyID"]);
+            //    acJournalDetail.AcJournalDetailID = v.AcJDetailVM[i].AcJournalDetID;
+            //    acJournalDetail.Remarks = v.AcJDetailVM[i].Rem;
+
+            //    if (StatusTrans == "P")
+            //    {
+            //        acJournalDetail.Amount = -(v.AcJDetailVM[i].Amt);
+            //    }
+            //    else
+            //    {
+            //        acJournalDetail.Amount = v.AcJDetailVM[i].Amt;
+            //    }
+
+            //    context.Entry(acJournalDetail).State = EntityState.Modified;
+            //    context.SaveChanges();
+
+            //}
+
+
+            //ViewBag.SuccessMsg = "You have successfully added Record";
+            //return View("IndexAcBook", context.AcJournalMasterSelectAll(Convert.ToInt32(Session["fyearid"].ToString()), Convert.ToInt32(Session["AcCompanyID"].ToString())));
+        }
+
         public ActionResult EditAcBook(int id)
         {
             AcBookVM v = new AcBookVM();
@@ -1096,258 +1380,7 @@ namespace TrueBooksMVC.Controllers
         }
 
 
-        [HttpPost]
-        public ActionResult EditAcBook(AcBookVM v)
-        {
-            string cheque = "";
-            string StatusTrans = "";
-
-            if (v.paytype > 1)
-            {
-                cheque = v.chequeno;
-            }
-            else
-            {
-                cheque = "";
-            }
-
-
-            //string voucherno = "B123";
-            //int voucherno = 0;
-            //voucherno = (from c in context.AcJournalMasters select c).ToList().Count();
-
-            //int max = 0;
-            //max = (from c in context.AcJournalMasters orderby c.AcJournalID descending select c.AcJournalID).FirstOrDefault();
-
-
-            AcJournalMaster ajm = new AcJournalMaster();
-            ajm.AcJournalID = v.AcJournalID;
-            ajm.VoucherNo = v.VoucherNo;
-            ajm.TransDate = v.transdate;
-            ajm.TransType = Convert.ToInt16(v.transtype);
-            ajm.AcFinancialYearID = Convert.ToInt32(Session["fyearid"].ToString());
-           ajm.VoucherType = v.TransactionType;
-            ajm.StatusDelete = false;
-            ajm.Remarks = v.remarks;
-            ajm.UserID = Convert.ToInt32(Session["UserID"].ToString());
-            ajm.ShiftID = null;
-            ajm.PaymentType = v.paytype;
-
-            ajm.AcCompanyID = Convert.ToInt32(Session["AcCompanyID"].ToString());
-            ajm.AcCompanyID = Convert.ToInt32(Session["AcCompanyID"].ToString());
-            ajm.Reference = v.reference;
-
-            context.Entry(ajm).State = EntityState.Modified;
-            context.SaveChanges();
-
-            if (v.TransactionType == "CBR" || v.TransactionType == "BKR")
-                StatusTrans = "R";
-            else if (v.TransactionType == "CBP" || v.TransactionType == "BKP")
-                StatusTrans = "P";
-
-            if (v.chequeno != null)
-            {
-                AcBankDetail acbankDetails = new AcBankDetail();
-                acbankDetails.AcBankDetailID = v.AcBankDetailID;
-                acbankDetails.BankName = v.bankname;
-                acbankDetails.ChequeDate = v.chequedate;
-                acbankDetails.ChequeNo = v.chequeno;
-                acbankDetails.PartyName = v.partyname;
-
-                context.Entry(acbankDetails).State = EntityState.Modified;
-                context.SaveChanges();
-            }
-
-            decimal TotalAmt = 0;
-
-            for (int i = 0; i < v.AcJDetailVM.Count; i++)
-            {
-
-                TotalAmt = TotalAmt + Convert.ToDecimal(v.AcJDetailVM[i].Amt);
-
-            }
-
-
-            var acjdetails = (from c in context.AcJournalDetails where c.AcJournalID == v.AcJournalID select c).ToList();
-
-            foreach (var i in acjdetails)
-            {
-                context.AcJournalDetails.Remove(i);
-                context.SaveChanges();
-            }
-
-
-
-            AcJournalDetail ac = new AcJournalDetail();
-
-            int maxAcJDetailID = 0;
-            maxAcJDetailID = (from c in context.AcJournalDetails orderby c.AcJournalDetailID descending select c.AcJournalDetailID).FirstOrDefault();
-
-            ac.AcJournalID = ajm.AcJournalID;
-            ac.AcJournalDetailID = maxAcJDetailID + 1;
-            ac.AcHeadID = v.SelectedAcHead;
-            if (StatusTrans == "P")
-            {
-                ac.Amount = -(TotalAmt);
-            }
-            else
-            {
-                ac.Amount = TotalAmt;
-            }
-            ac.Remarks = v.AcJDetailVM[0].Rem;
-            ac.BranchID = Convert.ToInt32(Session["AcCompanyID"].ToString());
-
-            context.AcJournalDetails.Add(ac);
-            context.SaveChanges();
-
-
-
-            for (int i = 0; i < v.AcJDetailVM.Count; i++)
-            {
-                AcJournalDetail acJournalDetail = new AcJournalDetail();
-                maxAcJDetailID = (from c in context.AcJournalDetails orderby c.AcJournalDetailID descending select c.AcJournalDetailID).FirstOrDefault();
-
-                acJournalDetail.AcJournalDetailID = maxAcJDetailID + 1;
-                acJournalDetail.AcHeadID = v.AcJDetailVM[i].AcHeadID;
-
-                acJournalDetail.BranchID = Convert.ToInt32(Session["AcCompanyID"]);
-                acJournalDetail.AcJournalID = ajm.AcJournalID;
-                acJournalDetail.Remarks = v.AcJDetailVM[i].Rem;
-
-                if (StatusTrans == "P")
-                {
-                    acJournalDetail.Amount = (v.AcJDetailVM[i].Amt);
-                }
-                else
-                {
-                    acJournalDetail.Amount = -v.AcJDetailVM[i].Amt;
-                }
-
-                context.AcJournalDetails.Add(acJournalDetail);
-                context.SaveChanges();
-
-            }
-
-
-            ViewBag.SuccessMsg = "You have successfully added Record";
-            return View("IndexAcBook", context.AcJournalMasterSelectAll(Convert.ToInt32(Session["fyearid"].ToString()), Convert.ToInt32(Session["AcCompanyID"].ToString())));
-                                    //string cheque = "";
-                                    //string StatusTrans = "";
-
-                                    ////if (v.paytype > 1)
-                                    ////{
-                                    ////    cheque = v.chequeno;
-                                    ////}
-                                    ////else
-                                    ////{
-                                    ////    cheque = "";
-                                    ////}
-
-
-                                    ////string voucherno = "B123";
-                                    ////int voucherno = 0;
-                                    ////voucherno = (from c in context.AcJournalMasters select c).ToList().Count();
-
-
-
-                                    //AcJournalMaster ajm = new AcJournalMaster();
-                                    //ajm.AcJournalID = v.AcJournalID;
-                                    //ajm.VoucherNo = v.VoucherNo;
-                                    //ajm.TransDate = v.transdate;
-                                    //ajm.TransType = Convert.ToInt16(v.transtype);
-                                    //ajm.AcFinancialYearID = Convert.ToInt32(Session["fyearid"].ToString());
-                                    ////ajm.VoucherType = v.TransactionType;
-                                    //ajm.VoucherType = v.VoucherType;
-
-                                    //ajm.StatusDelete = false;
-                                    //ajm.Remarks = v.remarks;
-                                    //ajm.UserID = Convert.ToInt32(Session["UserID"].ToString());
-                                    //ajm.ShiftID = null;
-
-                                    ////ajm.AcCompanyID = Convert.ToInt32(Session["AcCompanyID"].ToString());
-                                    //ajm.AcCompanyID = Convert.ToInt32(Session["AcCompanyID"].ToString());
-                                    //ajm.Reference = v.reference;
-
-                                    //context.Entry(ajm).State = EntityState.Modified;
-                                    //context.SaveChanges();
-
-                                    ////if (v.TransactionType == "CBR" || v.TransactionType == "BKR")
-                                    ////    StatusTrans = "R";
-                                    ////else if (v.TransactionType == "CBP" || v.TransactionType == "BKP")
-                                    ////    StatusTrans = "P";
-
-                                    //if (v.VoucherType == "CBR" || v.VoucherType == "BKR")
-                                    //{
-                                    //    StatusTrans = "R";
-                                    //}
-                                    //else if (v.VoucherType == "CBP" || v.VoucherType == "BKP")
-                                    //{
-                                    //    StatusTrans = "P";
-                                    //}
-
-                                    //if (v.chequeno != null)
-                                    //{
-                                    //    AcBankDetail acbankDetails = new AcBankDetail();
-                                    //    acbankDetails.AcBankDetailID = v.AcBankDetailID;
-                                    //    acbankDetails.AcJournalID = ajm.AcJournalID;
-                                    //    acbankDetails.BankName = v.bankname;
-                                    //    acbankDetails.ChequeDate = v.chequedate;
-                                    //    acbankDetails.ChequeNo = v.chequeno;
-                                    //    acbankDetails.PartyName = v.partyname;
-                                    //    acbankDetails.StatusTrans = StatusTrans;
-                                    //    acbankDetails.StatusReconciled = false;
-                                    //    context.Entry(acbankDetails).State = EntityState.Modified;
-                                    //    context.SaveChanges();
-                                    //}
-
-
-
-                                    ////AcJournalDetail ac = new AcJournalDetail();
-                                    ////ac.AcJournalID = ajm.AcJournalID;
-                                    ////ac.AcHeadID = v.AcHead;
-                                    ////if (StatusTrans == "P")
-                                    ////{
-                                    ////    ac.Amount = -(v.TotalAmt);
-                                    ////}
-                                    ////else
-                                    ////{
-                                    ////    ac.Amount = v.TotalAmt;
-                                    ////}
-                                    ////ac.Remarks = v.remarks;
-                                    ////ac.BranchID = Convert.ToInt32(Session["AcCompanyID"].ToString());
-
-                                    ////context.AcJournalDetails.Add(ac);
-                                    ////context.SaveChanges();
-
-
-
-                                    //for (int i = 0; i < v.AcJDetailVM.Count; i++)
-                                    //{
-                                    //    AcJournalDetail acJournalDetail = new AcJournalDetail();
-                                    //    acJournalDetail.AcHeadID = v.AcJDetailVM[i].AcHeadID;
-                                    //    acJournalDetail.AcJournalID = ajm.AcJournalID;
-                                    //    acJournalDetail.BranchID = Convert.ToInt32(Session["AcCompanyID"]);
-                                    //    acJournalDetail.AcJournalDetailID = v.AcJDetailVM[i].AcJournalDetID;
-                                    //    acJournalDetail.Remarks = v.AcJDetailVM[i].Rem;
-
-                                    //    if (StatusTrans == "P")
-                                    //    {
-                                    //        acJournalDetail.Amount = -(v.AcJDetailVM[i].Amt);
-                                    //    }
-                                    //    else
-                                    //    {
-                                    //        acJournalDetail.Amount = v.AcJDetailVM[i].Amt;
-                                    //    }
-
-                                    //    context.Entry(acJournalDetail).State = EntityState.Modified;
-                                    //    context.SaveChanges();
-
-                                    //}
-
-
-                                    //ViewBag.SuccessMsg = "You have successfully added Record";
-                                    //return View("IndexAcBook", context.AcJournalMasterSelectAll(Convert.ToInt32(Session["fyearid"].ToString()), Convert.ToInt32(Session["AcCompanyID"].ToString())));
-        }
+      
 
         public JsonResult GetAcJDetails(Nullable<int> id,int? transtype)
         {

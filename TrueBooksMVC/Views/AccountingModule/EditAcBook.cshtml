@@ -374,7 +374,7 @@
                                 $.each(data, function (i, v) {
                                     debugger;
                                     var RowCount = parseInt($('#RowCount').val());
-                                    ExpTableHtml = ExpTableHtml + '<tr><td>' + v.AnalysisHead + '<input type="hidden" name="AcExpAllocationVM[' + RowCount + '].AcHead" value="' + v.AnalysisHeadID + '"/></td>';
+                                    ExpTableHtml = ExpTableHtml + '<tr><td>' + v.AnalysisHead + '<input type="hidden" name="AcExpAllocationVM[' + RowCount + '].AcAnalysisHeadAllocationID" value"' + v.AcAnalysisHeadAllocationID + '" /><input type="hidden" name="AcExpAllocationVM[' + RowCount + '].AcHead" value="' + v.AnalysisHeadID + '"/></td>';
                                     ExpTableHtml = ExpTableHtml + '<td>' + v.Amount + '<input type="hidden" id="' + RowCount + '_Amount" name="AcExpAllocationVM[' + RowCount + '].ExpAllocatedAmount" class="ExpAllocatedAmountDetails" value="' + v.Amount + '"/></td>';
                                     ExpTableHtml = ExpTableHtml + '<td><a href="javascript:void(0)" id="DeleteAllocationRow"><i class="fa fa-times"></i></a></td>';
                                     ExpTableHtml = ExpTableHtml + '</tr>';
