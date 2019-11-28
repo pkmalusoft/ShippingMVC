@@ -250,7 +250,7 @@
                     debugger;
                     var str = "";
                     var totalamt = 0;
-                    var i = $('#details tr').length - 1;
+                    var i = $('#details > tbody > tr').length - 1;
                     var s = 'name="AcExpAllocationVM';
                     var ExpTableHtml = $('#ExpAllocationTable').clone().attr("id", i + "_ExpAllocationTable").css('display', 'none').addClass('CostAllocationDetail').wrap('<p>').parent().html();
                     ExpTableHtml = ExpTableHtml.replace(/name="AcExpAllocationVM/g, 'name="AcJDetailVM[' + i + '].AcExpAllocationVM');
@@ -259,12 +259,12 @@
                     objHtml = objHtml + '<td><a href="javascript:void(0)" id="DeleteNewRow"><i class="fa fa-times"></i></a></td>';
                     objHtml = objHtml + '</tr>';
                     $("#details").append(objHtml);
+                    $('#RowCount').val("0");
                     $("#ExpAllocationTable").find("tr:gt(0)").remove();
                     $("#ReceivedFrom").val("");
                     $("#SelectedReceivedFrom").val("0");
                     $("#amount").val('');
                     $("#remark1").val('');
-                   
                 }
                 return false;
             });
@@ -619,7 +619,7 @@
                         var Total = 0;
                         var MainTotal = 0;
                         debugger;
-                        $('.ExpAllocatedAmountDetails').each(function () {
+                        $('#ExpAllocationTable').find('.ExpAllocatedAmountDetails').each(function () {
                             debugger;
                             if (isNaN(parseFloat($(this).val())) === false) {
                                 Total += parseFloat($(this).val());

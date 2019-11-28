@@ -239,20 +239,21 @@
                 else {
                     var str = "";
                     var totalamt = 0;
-                    var i = $('#details tr').length - 1;             
+                    debugger;
+                    var i = $('#details > tbody > tr').length - 1;  
+                  //  alert(i);
                     var s = 'name="AcExpAllocationVM';
                     var ExpTableHtml = $('#ExpAllocationTable').clone().attr("id", i + "_ExpAllocationTable").css('display', 'none').addClass('CostAllocationDetail').wrap('<p>').parent().html();
                     ExpTableHtml = ExpTableHtml.replace(/name="AcExpAllocationVM/g, 'name="AcJDetailVM[' + i + '].AcExpAllocationVM');
-                    var objHtml = '<tr>' + '<td style="padding-left:10px">' + $("#ReceivedFrom").val() + '<input type="hidden" class=JAcHead value=' + $("#SelectedReceivedFrom").val() + ' name="AcJDetailVM[' + i + '].AcHeadID"><input type="hidden" value=' + $("#ReceivedFrom").val() + ' name="AcJDetailVM[' + i + '].AcHead"></td><td class=textright style="padding-right:10px">' + parseFloat($("#amount").val()).toFixed(2) + '<input type="hidden" class="JAcAmt" value=' + $("#amount").val() + ' name="AcJDetailVM[' + i + '].Amt"></td>' + '<td style="padding-left:10px">' + $("#remark1").val() + '<input type="hidden" value=' + $("#remark1").val() + ' name="AcJDetailVM[' + i + '].Rem"></td>';
+                    var objHtml = '<tr>' + '<td style="padding-left:10px">' + $("#ReceivedFrom").val() + '<input type="hidden" class=JAcHead value=' + $("#SelectedReceivedFrom").val() + ' name="AcJDetailVM[' + i + '].AcHeadID"><input type="hidden" value=' + $("#ReceivedFrom").val() + ' name="AcJDetailVM[' + i + '].AcHead"></td><td class=textright style="padding-right:10px"><input type="text" class="JAcAmt text-right txtNum" value=' + $("#amount").val() + ' name="AcJDetailVM[' + i + '].Amt"></td>' + '<td style="padding-left:10px"><input type="text" value=' + $("#remark1").val() + ' name="AcJDetailVM[' + i + '].Rem" /></td>';
                     objHtml = objHtml + '<td><img src="/Content/img/details_open.png" id="plus_minus" style="cursor: pointer;" class="open" />' + ExpTableHtml + '</td>';
                     objHtml = objHtml + '<td><a href="javascript:void(0)" id="DeleteNewRow"><i class="fa fa-times"></i></a></td>';
                     objHtml = objHtml + '</tr>';
                     $("#details").append(objHtml);
-
-                 //   $("#details").append('<tr>' + '<td>' + $("#ReceivedFrom option:selected").text() + '<input type="hidden" class=JAcHead value=' + $("#ReceivedFrom option:selected").val() + ' name="AcJDetailVM[' + i + '].AcHeadID"><input type="hidden" value=' + $("#ReceivedFrom option:selected").text() + ' name="AcJDetailVM[' + i + '].AcHead"></td>' +
-                  //      '<td class=textright><input type="textbox" class="JAcAmt" value=' + parseFloat($("#amount").val()).toFixed(2) + ' name="AcJDetailVM[' + i + '].Amt"></td>' + '<td>' + $("#remark1").val() + '<input type="hidden" value=' + $("#remark1").val() + ' name="AcJDetailVM[' + i + '].Rem"></td></tr>');
-
-                    $("#ReceivedFrom").val($("#ReceivedFrom option:first").val());
+                    $('#RowCount').val("0");
+                    $("#ExpAllocationTable").find("tr:gt(0)").remove();
+                    $("#ReceivedFrom").val("");
+                    $("#SelectedReceivedFrom").val("0");
                     $("#amount").val('');
                     $("#remark1").val('');
                 }
@@ -370,23 +371,21 @@
                                 ExpenseAllocationData = data;
                                 var i = $('#details tr').length - 1;
                                 var s = 'name="AcExpAllocationVM';
-                                var ExpTableHtml = '<table id="ExpAllocationTable" class="table table-bordered table-responsive CostAllocationDetail" style="display:none;"><tr><td>Analysis Head</td><td>Amount</td><td>Delete</td></tr>';
+                                var ExpTableHtml = '<table id="' + value.AcJournalDetID + '_ExpAllocationTable" class="table table-bordered table-responsive CostAllocationDetail" style="display:none;"><tr><td>Analysis Head</td><td>Amount</td><td>Delete</td></tr>';
                                 $.each(data, function (i, v) {
                                     debugger;
                                     var RowCount = parseInt($('#RowCount').val());
-                                    ExpTableHtml = ExpTableHtml + '<tr><td>' + v.AnalysisHead + '<input type="hidden" name="AcExpAllocationVM[' + RowCount + '].AcAnalysisHeadAllocationID" value"' + v.AcAnalysisHeadAllocationID + '" /><input type="hidden" name="AcExpAllocationVM[' + RowCount + '].AcHead" value="' + v.AnalysisHeadID + '"/></td>';
-                                    ExpTableHtml = ExpTableHtml + '<td>' + v.Amount + '<input type="hidden" id="' + RowCount + '_Amount" name="AcExpAllocationVM[' + RowCount + '].ExpAllocatedAmount" class="ExpAllocatedAmountDetails" value="' + v.Amount + '"/></td>';
+                                    ExpTableHtml = ExpTableHtml + '<tr><td>' + v.AnalysisHead + '<input type="hidden" name="AcExpAllocationVM[' + RowCount + '].AcAnalysisHeadAllocationID" value="' + v.AcAnalysisHeadAllocationID + '" /><input type="hidden" name="AcExpAllocationVM[' + RowCount + '].AcHead" value="' + v.AnalysisHeadID + '"/></td>';
+                                    ExpTableHtml = ExpTableHtml + '<td><input type="text" id="' + RowCount + '_Amount" name="AcExpAllocationVM[' + RowCount + '].ExpAllocatedAmount" class="ExpAllocatedAmountDetails" value="' + v.Amount + '"/></td>';
                                     ExpTableHtml = ExpTableHtml + '<td><a href="javascript:void(0)" id="DeleteAllocationRow"><i class="fa fa-times"></i></a></td>';
                                     ExpTableHtml = ExpTableHtml + '</tr>';
+                                    $('#RowCount').val("0");
                                 });
                                 ExpTableHtml = ExpTableHtml + '</table>';
-                                $('#ExpAllocationTable').append(ExpTableHtml);
-                                $('#RowCount').val(RowCount + 1);
-
-
+                              //  $('#ExpAllocationTable').append(ExpTableHtml);
                                 ExpTableHtml = ExpTableHtml.replace(/name="AcExpAllocationVM/g, 'name="AcJDetailVM[' + i + '].AcExpAllocationVM');
 
-                                var objHtml = '<tr>' + '<td style="padding-left:10px">' + value.AcHead + '<input type="hidden" class=JAcHead value=' + value.AcHeadID + ' name="AcJDetailVM[' + i + '].AcHeadID"><input type="hidden" value=' + $("#ReceivedFrom").val() + ' name="AcJDetailVM[' + i + '].AcHead"></td><td class=textright style="padding-right:10px">' + parseFloat(value.Amt).toFixed(2) + '<input type="hidden" class="JAcAmt" value=' + parseFloat(value.Amt).toFixed(2) + ' name="AcJDetailVM[' + i + '].Amt"></td>' + '<td style="padding-left:10px">' + value.Rem + '<input type="hidden" value=' + value.Rem + ' name="AcJDetailVM[' + i + '].Rem"></td>';
+                                var objHtml = '<tr>' + '<td style="padding-left:10px">' + value.AcHead + '<input type="hidden" class=JAcHead value=' + value.AcHeadID + ' name="AcJDetailVM[' + i + '].AcHeadID"><input type="hidden" value=' + $("#ReceivedFrom").val() + ' name="AcJDetailVM[' + i + '].AcHead"></td><td class=textright style="padding-right:10px"><input type="text" class="JAcAmt text-right txtNum" value=' + parseFloat(value.Amt).toFixed(2) + ' name="AcJDetailVM[' + i + '].Amt"></td>' + '<td style="padding-left:10px"><input type="text" value=' + value.Rem + ' name="AcJDetailVM[' + i + '].Rem"></td>';
                                 objHtml = objHtml + '<td><img src="/Content/img/details_open.png" id="plus_minus" style="cursor: pointer;" class="open" />' + ExpTableHtml + '</td>';
                                 objHtml = objHtml + '<td><a href="javascript:void(0)" id="DeleteNewRow"><i class="fa fa-times"></i></a><input type="hidden" name="AcJDetailVM[' + i + '].AcJournalDetID" value=' + value.AcJournalDetID + ' /></td>';
                                 objHtml = objHtml + '</tr>';
@@ -399,7 +398,7 @@
                                 var s = 'name="AcExpAllocationVM';
                                 var ExpTableHtml = $('#ExpAllocationTable').clone().attr("id", i + "_ExpAllocationTable").css('display', 'none').addClass('CostAllocationDetail').wrap('<p>').parent().html();
                                 ExpTableHtml = ExpTableHtml.replace(/name="AcExpAllocationVM/g, 'name="AcJDetailVM[' + i + '].AcExpAllocationVM');
-                                var objHtml = '<tr>' + '<td style="padding-left:10px">' + value.AcHead + '<input type="hidden" class=JAcHead value=' + value.AcHeadID + ' name="AcJDetailVM[' + i + '].AcHeadID"><input type="hidden" value=' + $("#ReceivedFrom").val() + ' name="AcJDetailVM[' + i + '].AcHead"></td><td class=textright style="padding-right:10px">' + parseFloat(value.Amt).toFixed(2) + '<input type="hidden" class="JAcAmt" value=' + parseFloat(value.Amt).toFixed(2) + ' name="AcJDetailVM[' + i + '].Amt"></td>' + '<td style="padding-left:10px">' + value.Rem + '<input type="hidden" value=' + value.Rem + ' name="AcJDetailVM[' + i + '].Rem"></td>';
+                                var objHtml = '<tr>' + '<td style="padding-left:10px">' + value.AcHead + '<input type="hidden" class=JAcHead value=' + value.AcHeadID + ' name="AcJDetailVM[' + i + '].AcHeadID"><input type="hidden" value=' + $("#ReceivedFrom").val() + ' name="AcJDetailVM[' + i + '].AcHead"></td><td class=textright style="padding-right:10px">' + parseFloat(value.Amt).toFixed(2) + '<input type="text" class="JAcAmt" value=' + parseFloat(value.Amt).toFixed(2) + ' name="AcJDetailVM[' + i + '].Amt"></td>' + '<td style="padding-left:10px">' + value.Rem + '<input type="text" value=' + value.Rem + ' name="AcJDetailVM[' + i + '].Rem"></td>';
                                 objHtml = objHtml + '<td><img src="/Content/img/details_open.png" id="plus_minus" style="cursor: pointer;" class="open" />' + ExpTableHtml + '</td>';
                                 objHtml = objHtml + '<td><a href="javascript:void(0)" id="DeleteNewRow"><i class="fa fa-times"></i></a><input type="hidden" name="AcJDetailVM[' + i + '].AcJournalDetID" value=' + value.AcJournalDetID + ' /></td>';
                                 objHtml = objHtml + '</tr>';
@@ -465,7 +464,7 @@
         $("#AcHeadAllocation").autocomplete({
             source: function (request, response) {
                 $.ajax({
-                    url: '/AutoComplete/AccountHead',
+                    url: '/AutoComplete/AnalysisHeadSelectAll',
                     datatype: "json",
                     data: {
                         term: request.term
@@ -473,9 +472,9 @@
                     success: function (data) {
                         response($.map(data, function (val, item) {
                             return {
-                                label: val.AcHead,
-                                value: val.AcHead,
-                                AcHeadID: val.AcHeadID
+                                label: val.AnalysisHead + ' | ' + val.AnalysisCode + ' | ' + val.AnalysisGroup,
+                                value: val.AnalysisGroupID,
+                                AnalysisGroupID: val.AnalysisGroupID
                             }
                         }))
                     }
@@ -484,7 +483,7 @@
             select: function (e, i) {
                 e.preventDefault();
                 $("#AcHeadAllocation").val(i.item.label);
-                $('#SelectedAcHeadAllocation').val(i.item.AcHeadID);
+                $('#SelectedAcHeadAllocation').val(i.item.AnalysisGroupID);
             }
         });
 
@@ -554,9 +553,10 @@
             <div class="row no-margin">
                 <div class="col-md-3">
                     <label class="headinglabel">Transaction No.</label>
-                    @Html.TextBoxFor(model => model.TransactionNo, new { @class = "form-control", @readonly = "readonly" })
+                    <input type="text" name="TransactionNoROT" value="@Model.TransactionNo" class="form-control" readonly="readonly" />
                 </div>
                 <div class="col-md-3">
+                    @Html.HiddenFor(model => model.TransactionNo)
                     @Html.HiddenFor(model => model.AcJournalID)
                     @Html.HiddenFor(model => model.AcBankDetailID)
                     @Html.HiddenFor(model => model.VoucherType)
@@ -570,7 +570,7 @@
                     <label class="headinglabel">Transaction Type</label>
                     @Html.DropDownListFor(model => model.transtype, ViewBag.transtypes as SelectList, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.transtype)
-                    @Html.HiddenFor(Model => Model.TransactionType)
+                    @Html.HiddenFor(model => model.TransactionType)
 
                 </div>
                 <div class="col-md-3">
@@ -733,16 +733,17 @@
                         var Total = 0;
                         var MainTotal = 0;
                         debugger;
-                        $('.ExpAllocatedAmountDetails').each(function () {
+                        $('#ExpAllocationTable').find('.ExpAllocatedAmountDetails').each(function () {
                             debugger;
-                            if (isNaN(parseFloat($(this).val())) === false) {
+                            if (isNaN(parseInt($(this).val())) === false) {
                                 Total += parseFloat($(this).val());
                             }
                         });
-                        if (isNaN(parseFloat($('#ExpAmount').val())) === false) {
+                        debugger;
+                        if (isNaN(parseInt($('#ExpAmount').val())) === false) {
                             Total += parseFloat($('#ExpAmount').val());
                         }
-                        if (isNaN(parseFloat($('#amount').val())) === false) {
+                        if (isNaN(parseInt($('#amount').val())) === false) {
                             MainTotal += parseFloat($('#amount').val());
                         }
                         if (Total > MainTotal) {
@@ -750,8 +751,8 @@
                             return;
                         }
                         var RowCount = parseInt($('#RowCount').val());
-                        var RowHtml = '<tr><td>' + $('#AcHeadAllocation option:selected').text() + '<input type="hidden" name="AcExpAllocationVM[' + RowCount + '].AcHead" value="' + $('#AcHeadAllocation option:selected').val() + '"/></td>';
-                        RowHtml = RowHtml + '<td>' + $('#ExpAmount').val() + '<input type="hidden" id="' + RowCount + '_Amount" name="AcExpAllocationVM[' + RowCount + '].ExpAllocatedAmount" class="ExpAllocatedAmountDetails" value="' + $('#ExpAmount').val() + '"/></td>';
+                        var RowHtml = '<tr><td>' + $('#AcHeadAllocation').val() + '<input type="hidden" name="AcExpAllocationVM[' + RowCount + '].AcHead" value="' + $('#SelectedAcHeadAllocation').val() + '"/></td>';
+                        RowHtml = RowHtml + '<td><input type="text" id="' + RowCount + '_Amount" name="AcExpAllocationVM[' + RowCount + '].ExpAllocatedAmount" class="ExpAllocatedAmountDetails" value="' + $('#ExpAmount').val() + '"/></td>';
                         RowHtml = RowHtml + '<td><a href="javascript:void(0)" id="DeleteAllocationRow"><i class="fa fa-times"></i></a></td>';
                         RowHtml = RowHtml + '</tr>';
                         $('#ExpAllocationTable').append(RowHtml);
@@ -759,6 +760,15 @@
                     });
 
                     $('.txtNum').blur(function () {
+                        if (isNaN(parseInt($(this).val()))) {
+                            $(this).val('0.00');
+                        } else {
+                            var amt = parseFloat($(this).val());
+                            $(this).val(amt.toFixed(2));
+                        }
+                    });
+
+                    $('#details').on('blur', '.txtNum', function () {
                         if (isNaN(parseInt($(this).val()))) {
                             $(this).val('0.00');
                         } else {

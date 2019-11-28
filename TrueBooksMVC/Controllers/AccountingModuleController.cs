@@ -1041,6 +1041,7 @@ namespace TrueBooksMVC.Controllers
             }
 
             AcJournalMaster ajm = new AcJournalMaster();
+            ajm.TransactionNo = v.TransactionNo;
             ajm.AcJournalID = v.AcJournalID;
             ajm.VoucherNo = v.VoucherNo;
             ajm.TransDate = v.transdate;
@@ -1085,41 +1086,17 @@ namespace TrueBooksMVC.Controllers
                 TotalAmt = TotalAmt + Convert.ToDecimal(v.AcJDetailVM[i].Amt);
             }
 
-
-          //  var acjdetails = (from c in context.AcJournalDetails where c.AcJournalID == v.AcJournalID select c).ToList();
-        //  var acjdetails = v.AcJDetailVM
-         //   foreach (var i in acjdetails)
-         //   {
-          //      context.AcJournalDetails.Remove(i);
-          //      context.SaveChanges();
-         //   }
-         //   AcJournalDetail ac = new AcJournalDetail();
-
             int maxAcJDetailID = 0;
-         //   maxAcJDetailID = (from c in context.AcJournalDetails orderby c.AcJournalDetailID descending select c.AcJournalDetailID).FirstOrDefault();
-
-         //   ac.AcJournalID = ajm.AcJournalID;
-         //   ac.AcJournalDetailID = maxAcJDetailID + 1;
-         //   ac.AcHeadID = v.SelectedAcHead;
-         //   if (StatusTrans == "P")
-          //  {
-           //     ac.Amount = -(TotalAmt);
-           // }
-           // else
-         //   {
-          //      ac.Amount = TotalAmt;
-           // }
-          //  ac.Remarks = v.AcJDetailVM[0].Rem;
-          //  ac.BranchID = Convert.ToInt32(Session["AcCompanyID"].ToString());
-
-         //   context.AcJournalDetails.Add(ac);
-          //  context.SaveChanges();
 
             for (int i = 0; i < v.AcJDetailVM.Count; i++)
             {
                 AcJournalDetail acJournalDetail = new AcJournalDetail();
                 int IdExists = 0;
-                IdExists = (from c in context.AcJournalDetails where c.AcJournalDetailID == v.AcJDetailVM[i].AcJournalDetID select c.AcJournalDetailID).FirstOrDefault();
+                if (v.AcJDetailVM[i].AcJournalDetID > 0)
+                {
+                    //  IdExists = (from c in context.AcJournalDetails where c.AcJournalDetailID == v.AcJDetailVM[i].AcJournalDetID select c.AcJournalDetailID).FirstOrDefault();
+                    IdExists = v.AcJDetailVM[i].AcJournalDetID;
+                }
               //  AcJournalDetID
                 if(IdExists > 0)
                 {
@@ -1145,43 +1122,39 @@ namespace TrueBooksMVC.Controllers
                 }
                 if (IdExists > 0)
                 {
-                    context.Entry(acJournalDetail).State = EntityState.Modified;
-                    context.SaveChanges();
+                    DAL.UpdateAcJournalDetail(acJournalDetail);
                 }
                 else
                 {
-                    context.AcJournalDetails.Add(acJournalDetail);
-                    context.SaveChanges();
+                    DAL.InsertAcJournalDetail(acJournalDetail);
                 }
                 
                 for(int k=0; k < v.AcJDetailVM[i].AcExpAllocationVM.Count; k++)
                 {
-                    int AllocationIdExists = 0;
+                    Nullable<int> AllocationIdExists = 0;
                     AcAnalysisHeadAllocation objAcAnalysisHeadAllocations = new AcAnalysisHeadAllocation();
-                    if (v.AcJDetailVM[i].AcExpAllocationVM[k].AcAnalysisHeadAllocationID != null)
+                    if (v.AcJDetailVM[i].AcExpAllocationVM[k].AcAnalysisHeadAllocationID != null && v.AcJDetailVM[i].AcExpAllocationVM[k].AcAnalysisHeadAllocationID > 0)
                     {
-                        AllocationIdExists = (from c in context.AcAnalysisHeadAllocations where c.AcAnalysisHeadAllocationID == v.AcJDetailVM[i].AcExpAllocationVM[k].AcAnalysisHeadAllocationID select c.AcAnalysisHeadAllocationID).FirstOrDefault();
+                        AllocationIdExists = v.AcJDetailVM[i].AcExpAllocationVM[k].AcAnalysisHeadAllocationID;
                     }
                     if(AllocationIdExists > 0)
                     {
-                        objAcAnalysisHeadAllocations.AcAnalysisHeadAllocationID = AllocationIdExists;
+                        objAcAnalysisHeadAllocations.AcAnalysisHeadAllocationID = (int)AllocationIdExists;
                     }
                     else
                     {
                         objAcAnalysisHeadAllocations.AcAnalysisHeadAllocationID = 0;
                     }
-                    objAcAnalysisHeadAllocations.AcjournalDetailID = v.AcJDetailVM[i].AcJournalDetID;
+                    objAcAnalysisHeadAllocations.AcjournalDetailID = acJournalDetail.AcJournalDetailID;
                     objAcAnalysisHeadAllocations.Amount = v.AcJDetailVM[i].AcExpAllocationVM[k].ExpAllocatedAmount;
                     objAcAnalysisHeadAllocations.AnalysisHeadID = v.AcJDetailVM[i].AcExpAllocationVM[k].AcHead;
                     if (AllocationIdExists > 0)
                     {
-                        context.Entry(objAcAnalysisHeadAllocations).State = EntityState.Modified;
-                        context.SaveChanges();
+                        DAL.UpdateAcAnalysisHeadAllocation(objAcAnalysisHeadAllocations);
                     }
                     else
                     {
-                        context.AcAnalysisHeadAllocations.Add(objAcAnalysisHeadAllocations);
-                        context.SaveChanges();
+                        DAL.InsertAcAnalysisHeadAllocation(objAcAnalysisHeadAllocations);
                     }
                     //  AcJournalDetID
                 }

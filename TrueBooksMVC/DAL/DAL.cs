@@ -1163,5 +1163,153 @@ namespace TrueBooksMVC
             return objList;
         }
 
+        public static int InsertAcJournalDetail(AcJournalDetail ObjectAcJournalDetail)
+        {
+            int iReturn = 0;
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = new SqlConnection(Common.GetConnectionString);
+            cmd.CommandText = "INSERT INTO AcJournalDetail(AcJournalDetailID,AcJournalID,AcHeadID,Amount,Remarks,BranchID) VALUES(@AcJournalDetailID,@AcJournalID,@AcHeadID,@Amount,@Remarks,@BranchID)";
+            cmd.CommandType = CommandType.Text;
+
+            cmd.Parameters.Add("@AcJournalDetailID", SqlDbType.Int);
+            cmd.Parameters["@AcJournalDetailID"].Value = ObjectAcJournalDetail.AcJournalDetailID;
+
+            cmd.Parameters.Add("@AcJournalID", SqlDbType.Int);
+            cmd.Parameters["@AcJournalID"].Value = ObjectAcJournalDetail.AcJournalID;
+
+            cmd.Parameters.Add("@AcHeadID", SqlDbType.Int);
+            cmd.Parameters["@AcHeadID"].Value = ObjectAcJournalDetail.AcHeadID;
+
+         //   cmd.Parameters.Add("@AnalysisHeadID", SqlDbType.Int);
+        //    cmd.Parameters["@AnalysisHeadID"].Value = ObjectAcJournalDetail.AnalysisHeadID;
+
+            cmd.Parameters.Add("@Amount", SqlDbType.Money);
+            cmd.Parameters["@Amount"].Value = ObjectAcJournalDetail.Amount;
+
+            cmd.Parameters.Add("@Remarks", SqlDbType.VarChar);
+            cmd.Parameters["@Remarks"].Value = ObjectAcJournalDetail.Remarks;
+
+            cmd.Parameters.Add("@BranchID", SqlDbType.Int);
+            cmd.Parameters["@BranchID"].Value = ObjectAcJournalDetail.BranchID;
+
+            try
+            {
+                cmd.Connection.Open();
+                iReturn = cmd.ExecuteNonQuery();
+                cmd.Connection.Close();
+            }catch(Exception ex)
+            {
+
+            }
+
+            return iReturn;
+        }
+
+        public static int UpdateAcJournalDetail(AcJournalDetail ObjectAcJournalDetail)
+        {
+            int iReturn = 0;
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = new SqlConnection(Common.GetConnectionString);
+            cmd.CommandText = "UPDARE AcJournalDetail SET AcJournalID=@AcJournalID,AcHeadID=@AcHeadID,AnalysisHeadID=@AnalysisHeadID,Amount=@Amount,Remarks=@Remarks,BranchID=@BranchID WHERE AcJournalDetailID = @AcJournalDetailID";
+            cmd.CommandType = CommandType.Text;
+
+            cmd.Parameters.Add("@AcJournalDetailID", SqlDbType.Int);
+            cmd.Parameters["@AcJournalDetailID"].Value = ObjectAcJournalDetail.AcJournalDetailID;
+
+            cmd.Parameters.Add("@AcJournalID", SqlDbType.Int);
+            cmd.Parameters["@AcJournalID"].Value = ObjectAcJournalDetail.AcJournalID;
+
+            cmd.Parameters.Add("@AcHeadID", SqlDbType.Int);
+            cmd.Parameters["@AcHeadID"].Value = ObjectAcJournalDetail.AcHeadID;
+
+            cmd.Parameters.Add("@AnalysisHeadID", SqlDbType.Int);
+            cmd.Parameters["@AnalysisHeadID"].Value = ObjectAcJournalDetail.AnalysisHeadID;
+
+            cmd.Parameters.Add("@Amount", SqlDbType.Money);
+            cmd.Parameters["@Amount"].Value = ObjectAcJournalDetail.Amount;
+
+            cmd.Parameters.Add("@Remarks", SqlDbType.VarChar);
+            cmd.Parameters["@Remarks"].Value = ObjectAcJournalDetail.Remarks;
+
+            cmd.Parameters.Add("@BranchID", SqlDbType.Int);
+            cmd.Parameters["@BranchID"].Value = ObjectAcJournalDetail.BranchID;
+
+            try
+            {
+                cmd.Connection.Open();
+                iReturn = cmd.ExecuteNonQuery();
+                cmd.Connection.Close();
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return iReturn;
+        }
+
+        public static int InsertAcAnalysisHeadAllocation(AcAnalysisHeadAllocation ObjectAcAnalysisHeadAllocation)
+        {
+            int iReturn = 0;
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = new SqlConnection(Common.GetConnectionString);
+            cmd.CommandText = "INSERT INTO AcAnalysisHeadAllocation(AcjournalDetailID,AnalysisHeadID,Amount) VALUES(@AcjournalDetailID,@AnalysisHeadID,@Amount)";
+            cmd.CommandType = CommandType.Text;
+
+            cmd.Parameters.Add("@AcjournalDetailID", SqlDbType.Int);
+            cmd.Parameters["@AcjournalDetailID"].Value = ObjectAcAnalysisHeadAllocation.AcjournalDetailID;
+
+            cmd.Parameters.Add("@AnalysisHeadID", SqlDbType.Int);
+            cmd.Parameters["@AnalysisHeadID"].Value = ObjectAcAnalysisHeadAllocation.AnalysisHeadID;
+
+            cmd.Parameters.Add("@Amount", SqlDbType.Money);
+            cmd.Parameters["@Amount"].Value = ObjectAcAnalysisHeadAllocation.Amount;
+
+            try
+            {
+                cmd.Connection.Open();
+                iReturn = cmd.ExecuteNonQuery();
+                cmd.Connection.Close();
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return iReturn;
+        }
+
+        public static int UpdateAcAnalysisHeadAllocation(AcAnalysisHeadAllocation ObjectAcAnalysisHeadAllocation)
+        {
+            int iReturn = 0;
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = new SqlConnection(Common.GetConnectionString);
+            cmd.CommandText = "UPDATE AcAnalysisHeadAllocation SET AcjournalDetailID=@AcjournalDetailID,AnalysisHeadID=@AnalysisHeadID,Amount=@Amount WHERE AcAnalysisHeadAllocationID=@AcAnalysisHeadAllocationID";
+            cmd.CommandType = CommandType.Text;
+
+            cmd.Parameters.Add("@AcAnalysisHeadAllocationID", SqlDbType.Int);
+            cmd.Parameters["@AcAnalysisHeadAllocationID"].Value = ObjectAcAnalysisHeadAllocation.AcAnalysisHeadAllocationID;
+
+            cmd.Parameters.Add("@AcjournalDetailID", SqlDbType.Int);
+            cmd.Parameters["@AcjournalDetailID"].Value = ObjectAcAnalysisHeadAllocation.AcjournalDetailID;
+
+            cmd.Parameters.Add("@AnalysisHeadID", SqlDbType.Int);
+            cmd.Parameters["@AnalysisHeadID"].Value = ObjectAcAnalysisHeadAllocation.AnalysisHeadID;
+
+            cmd.Parameters.Add("@Amount", SqlDbType.Money);
+            cmd.Parameters["@Amount"].Value = ObjectAcAnalysisHeadAllocation.Amount;
+
+            try
+            {
+                cmd.Connection.Open();
+                iReturn = cmd.ExecuteNonQuery();
+                cmd.Connection.Close();
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return iReturn;
+        }
+
     }
 }
