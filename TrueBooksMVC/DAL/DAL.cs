@@ -1210,7 +1210,7 @@ namespace TrueBooksMVC
             int iReturn = 0;
             SqlCommand cmd = new SqlCommand();
             cmd.Connection = new SqlConnection(Common.GetConnectionString);
-            cmd.CommandText = "UPDARE AcJournalDetail SET AcJournalID=@AcJournalID,AcHeadID=@AcHeadID,AnalysisHeadID=@AnalysisHeadID,Amount=@Amount,Remarks=@Remarks,BranchID=@BranchID WHERE AcJournalDetailID = @AcJournalDetailID";
+            cmd.CommandText = "UPDATE AcJournalDetail SET AcJournalID=@AcJournalID,AcHeadID=@AcHeadID,AnalysisHeadID=@AnalysisHeadID,Amount=@Amount,Remarks=@Remarks,BranchID=@BranchID WHERE AcJournalDetailID = @AcJournalDetailID";
             cmd.CommandType = CommandType.Text;
 
             cmd.Parameters.Add("@AcJournalDetailID", SqlDbType.Int);
@@ -1245,6 +1245,49 @@ namespace TrueBooksMVC
 
             }
 
+            return iReturn;
+        }
+
+        public static int DeleteAcJournalDetail(int AcJournalDetailID)
+        {
+            int iReturn = 0;
+            SqlCommand cmd2 = new SqlCommand();
+            cmd2.Connection = new SqlConnection(Common.GetConnectionString);
+            cmd2.CommandText = "DELETE FROM AcAnalysisHeadAllocation WHERE AcjournalDetailID = @AcjournalDetailID";
+            cmd2.CommandType = CommandType.Text;
+            cmd2.Parameters.Add("@AcjournalDetailID", SqlDbType.Int);
+            cmd2.Parameters["@AcjournalDetailID"].Value = AcJournalDetailID;
+            try
+            {
+                cmd2.Connection.Open();
+                iReturn = cmd2.ExecuteNonQuery();
+                cmd2.Connection.Close();
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = new SqlConnection(Common.GetConnectionString);
+            cmd.CommandText = "DELETE FROM AcJournalDetail WHERE AcJournalDetailID = @AcJournalDetailID";
+            cmd.CommandType = CommandType.Text;
+
+            cmd.Parameters.Add("@AcJournalDetailID", SqlDbType.Int);
+            cmd.Parameters["@AcJournalDetailID"].Value = AcJournalDetailID;
+
+            try
+            {
+                cmd.Connection.Open();
+                iReturn = cmd.ExecuteNonQuery();
+                cmd.Connection.Close();
+            }
+            catch (Exception ex)
+            {
+
+            }
+            
             return iReturn;
         }
 
@@ -1297,6 +1340,30 @@ namespace TrueBooksMVC
 
             cmd.Parameters.Add("@Amount", SqlDbType.Money);
             cmd.Parameters["@Amount"].Value = ObjectAcAnalysisHeadAllocation.Amount;
+
+            try
+            {
+                cmd.Connection.Open();
+                iReturn = cmd.ExecuteNonQuery();
+                cmd.Connection.Close();
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return iReturn;
+        }
+
+        public static int DeleteAcAnalysisHeadAllocation(int AcAnalysisHeadAllocationID)
+        {
+            int iReturn = 0;
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = new SqlConnection(Common.GetConnectionString);
+            cmd.CommandText = "DELETE FROM AcAnalysisHeadAllocation WHERE AcAnalysisHeadAllocationID=@AcAnalysisHeadAllocationID";
+            cmd.CommandType = CommandType.Text;
+
+            cmd.Parameters.Add("@AcAnalysisHeadAllocationID", SqlDbType.Int);
+            cmd.Parameters["@AcAnalysisHeadAllocationID"].Value = AcAnalysisHeadAllocationID;
 
             try
             {

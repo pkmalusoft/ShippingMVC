@@ -1161,7 +1161,22 @@ namespace TrueBooksMVC.Controllers
 
             }
 
-
+            string DeleteJournalDetails = Request["deletedJournalDetails"];
+            string[] DeleteJournalDetailsArr = DeleteJournalDetails.Split(',');
+            foreach(string JournalDetails in DeleteJournalDetailsArr)
+            {
+                int iDeleteJournalDetails=0;
+                int.TryParse(JournalDetails, out iDeleteJournalDetails);
+                DAL.DeleteAcJournalDetail(iDeleteJournalDetails);
+            }
+            string DeleteAcAnalysisHeadAllocation = Request["deletedExpAllocations"];
+            string[] DeleteAcAnalysisHeadAllocationArr = DeleteAcAnalysisHeadAllocation.Split(',');
+            foreach (string AcAnalysisHeadAllocation in DeleteAcAnalysisHeadAllocationArr)
+            {
+                int iAcAnalysisHeadAllocation = 0;
+                int.TryParse(AcAnalysisHeadAllocation, out iAcAnalysisHeadAllocation);
+                DAL.DeleteAcAnalysisHeadAllocation(iAcAnalysisHeadAllocation);
+            }
             ViewBag.SuccessMsg = "You have successfully added Record";
             return View("IndexAcBook", context.AcJournalMasterSelectAll(Convert.ToInt32(Session["fyearid"].ToString()), Convert.ToInt32(Session["AcCompanyID"].ToString())));
             //string cheque = "";

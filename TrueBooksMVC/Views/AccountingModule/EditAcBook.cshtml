@@ -266,10 +266,6 @@
                 return false;
             });
 
-        $('#details').on("click", "#DeleteNewRow", function () {
-            $(this).parent().parent().remove();
-        });
-
         $(".Allocate").on("click", function () {
             $('#popup').show();
             $('#popupbackground').show();
@@ -375,7 +371,7 @@
                                 $.each(data, function (i, v) {
                                     debugger;
                                     var RowCount = parseInt($('#RowCount').val());
-                                    ExpTableHtml = ExpTableHtml + '<tr><td>' + v.AnalysisHead + '<input type="hidden" name="AcExpAllocationVM[' + RowCount + '].AcAnalysisHeadAllocationID" value="' + v.AcAnalysisHeadAllocationID + '" /><input type="hidden" name="AcExpAllocationVM[' + RowCount + '].AcHead" value="' + v.AnalysisHeadID + '"/></td>';
+                                    ExpTableHtml = ExpTableHtml + '<tr><td>' + v.AnalysisHead + '<input type="hidden" class="AcAnalysisHeadAllocationID" name="AcExpAllocationVM[' + RowCount + '].AcAnalysisHeadAllocationID" value="' + v.AcAnalysisHeadAllocationID + '" /><input type="hidden" name="AcExpAllocationVM[' + RowCount + '].AcHead" value="' + v.AnalysisHeadID + '"/></td>';
                                     ExpTableHtml = ExpTableHtml + '<td><input type="text" id="' + RowCount + '_Amount" name="AcExpAllocationVM[' + RowCount + '].ExpAllocatedAmount" class="ExpAllocatedAmountDetails" value="' + v.Amount + '"/></td>';
                                     ExpTableHtml = ExpTableHtml + '<td><a href="javascript:void(0)" id="DeleteAllocationRow"><i class="fa fa-times"></i></a></td>';
                                     ExpTableHtml = ExpTableHtml + '</tr>';
@@ -387,7 +383,7 @@
 
                                 var objHtml = '<tr>' + '<td style="padding-left:10px">' + value.AcHead + '<input type="hidden" class=JAcHead value=' + value.AcHeadID + ' name="AcJDetailVM[' + i + '].AcHeadID"><input type="hidden" value=' + $("#ReceivedFrom").val() + ' name="AcJDetailVM[' + i + '].AcHead"></td><td class=textright style="padding-right:10px"><input type="text" class="JAcAmt text-right txtNum" value=' + parseFloat(value.Amt).toFixed(2) + ' name="AcJDetailVM[' + i + '].Amt"></td>' + '<td style="padding-left:10px"><input type="text" value=' + value.Rem + ' name="AcJDetailVM[' + i + '].Rem"></td>';
                                 objHtml = objHtml + '<td><img src="/Content/img/details_open.png" id="plus_minus" style="cursor: pointer;" class="open" />' + ExpTableHtml + '</td>';
-                                objHtml = objHtml + '<td><a href="javascript:void(0)" id="DeleteNewRow"><i class="fa fa-times"></i></a><input type="hidden" name="AcJDetailVM[' + i + '].AcJournalDetID" value=' + value.AcJournalDetID + ' /></td>';
+                                objHtml = objHtml + '<td><a href="javascript:void(0)" id="DeleteNewRow"><i class="fa fa-times"></i></a><input type="hidden" class="AcJournalDetID" name="AcJDetailVM[' + i + '].AcJournalDetID" value=' + value.AcJournalDetID + ' /></td>';
                                 objHtml = objHtml + '</tr>';
                                 $("#details").append(objHtml);
                             },
@@ -405,10 +401,6 @@
                                 $("#details").append(objHtml);
                             }  
                         });
-
-                       
-
-
                       //  $("#details").append('<tr>' + '<td>' + value.AcHead + '<input type="hidden" class=JAcHead value=' + value.AcHeadID + ' name="AcJDetailVM[' + i + '].AcHeadID"><input type="hidden" value=' + value.AcHead + ' name="AcJDetailVM[' + i + '].AcHead"><input type="hidden" value=' + value.AcJournalDetID + ' name="AcJDetailVM[' + i + '].AcJournalDetID"></td>' +
                    //  '<td class=textright><input type="textbox" class="JAcAmt" value=' + parseFloat(value.Amt).toFixed(2) + ' name="AcJDetailVM[' + i + '].Amt"></td>' + '<td>' + value.Rem + '<input type="hidden" value=' + value.Rem + ' name="AcJDetailVM[' + i + '].Rem"></td></tr>');
                     });
@@ -430,11 +422,6 @@
             }
         });
 
-        $('#details').on("click", "#DeleteNewRow", function () {
-            $(this).parent().parent().remove();
-        });
-
-       
         $("#AcHead").autocomplete({
             source: function (request, response) {
                 $.ajax({
@@ -515,26 +502,6 @@
 
         });
 </script>
-<script>
-            //$(document).ready(function(){
-            //    function EditData(obj) {
-            //        var tempobj = $(obj).parent("td").parent("tr");
-
-            //        var currentindex = $(tempobj).index('this');
-            //        alert(currentindex);
-            //        $("#currindex").val(currentindex);
-
-            //        var amt = $(tempobj).find("td:eq(1)").find('input[type=hidden]').val();
-
-            //        $("#amount").val(amt);
-
-            //        $("#btnAdd").hide();
-            //        $("#btnUpdate").show();
-            //    }
-            //    });
-
-
-</script>
 
 <section class="content-header">
     <h1 class="headingfont">Cash and Bank Book</h1>
@@ -556,6 +523,8 @@
                     <input type="text" name="TransactionNoROT" value="@Model.TransactionNo" class="form-control" readonly="readonly" />
                 </div>
                 <div class="col-md-3">
+                    <input type="hidden" name="deletedExpAllocations" id="deletedExpAllocations" value="" />
+                    <input type="hidden" name="deletedJournalDetails" id="deletedJournalDetails" value="" />
                     @Html.HiddenFor(model => model.TransactionNo)
                     @Html.HiddenFor(model => model.AcJournalID)
                     @Html.HiddenFor(model => model.AcBankDetailID)
@@ -778,10 +747,52 @@
                     });
 
                     $('#ExpAllocationTable').on("click", "#DeleteAllocationRow", function () {
+                        debugger;
+                        var DeletedAllocatedId = $(this).parent().parent().find('.AcAnalysisHeadAllocationID').val();
+                        var ExistingDelIds = $('#deletedExpAllocations').val();
+                        if (ExistingDelIds != '') {
+                            ExistingDelIds = ExistingDelIds + ',' + DeletedAllocatedId;
+                        } else {
+                            ExistingDelIds = DeletedAllocatedId;
+                        }
+                        $('#deletedExpAllocations').val(ExistingDelIds);
+
+
+                        $(this).parent().parent().remove();
+                    });
+
+                    $('#details').on("click", "#DeleteNewRow", function () {
+                        debugger;
+                        var DeletedAllocatedId = $(this).parent().parent().find('.AcJournalDetID').val();
+                        var ExistingDelIds = $('#deletedJournalDetails').val();
+                        if (ExistingDelIds != '') {
+                            ExistingDelIds = ExistingDelIds + ',' + DeletedAllocatedId;
+                        } else {
+                            ExistingDelIds = DeletedAllocatedId;
+                        }
+                        $('#deletedJournalDetails').val(ExistingDelIds);
                         $(this).parent().parent().remove();
                     });
 
                     $('#details').on("click", "#DeleteAllocationRow", function () {
+                        debugger;
+                        var DeletedAllocatedId = $(this).parent().parent().find('.AcJournalDetID').val();
+                        var ExistingDelIds = $('#deletedJournalDetails').val();
+                        if (ExistingDelIds != '') {
+                            ExistingDelIds = ExistingDelIds + ',' + DeletedAllocatedId;
+                        } else {
+                            ExistingDelIds = DeletedAllocatedId;
+                        }
+                        $('#deletedJournalDetails').val(ExistingDelIds);
+
+                        var DeletedAllocatedId = $(this).parent().parent().find('.AcAnalysisHeadAllocationID').val();
+                        var ExistingDelIds = $('#deletedExpAllocations').val();
+                        if (ExistingDelIds != '') {
+                            ExistingDelIds = ExistingDelIds + ',' + DeletedAllocatedId;
+                        } else {
+                            ExistingDelIds = DeletedAllocatedId;
+                        }
+                        $('#deletedExpAllocations').val(ExistingDelIds);
                         $(this).parent().parent().remove();
                     });
                 });
