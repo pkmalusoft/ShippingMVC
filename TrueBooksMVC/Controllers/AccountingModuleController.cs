@@ -1024,6 +1024,11 @@ namespace TrueBooksMVC.Controllers
 
         }
 
+        public JsonResult AcBookDetails(int DetailId)
+        {
+           var lstAcJournalDetails = DAL.GetAcJournalDetails(DetailId);
+            return Json(lstAcJournalDetails, JsonRequestBehavior.AllowGet);
+        }
 
         [HttpPost]
         public ActionResult EditAcBook(AcBookVM v)

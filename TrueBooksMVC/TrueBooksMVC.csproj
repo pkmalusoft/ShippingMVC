@@ -264,6 +264,7 @@
     <Compile Include="Models\AcExpenseAllocationVM.cs" />
     <Compile Include="Models\AcGroupVM.cs" />
     <Compile Include="Models\AcJournalDetailsList.cs" />
+    <Compile Include="Models\AcJournalDetailsVM.cs" />
     <Compile Include="Models\AcJournalDetailVM.cs" />
     <Compile Include="Models\AcJournalMasterVoucherVM.cs" />
     <Compile Include="Models\AcMemoJournalDetailVM.cs" />

@@ -1378,5 +1378,32 @@ namespace TrueBooksMVC
             return iReturn;
         }
 
+        public static List<AcJournalDetailsVM> GetAcJournalDetails(int AcJournalID)
+        {
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = new SqlConnection(Common.GetConnectionString);
+            cmd.CommandText = "SELECT ah.AcHead,aj.Amount, aj.Remarks FROM AcJournalDetail as aj INNER JOIN AcHead as ah on aj.AcHeadID=ah.AcHeadID WHERE aj.AcJournalID = @AcJournalID";
+            cmd.CommandType = CommandType.Text;
+
+            cmd.Parameters.Add("@AcJournalID", SqlDbType.Int);
+            cmd.Parameters["@AcJournalID"].Value = AcJournalID;
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet ds = new DataSet();
+            da.Fill(ds);
+            List<AcJournalDetailsVM> objList = new List<AcJournalDetailsVM>();
+            AcJournalDetailsVM obj;
+            if (ds != null && ds.Tables.Count > 0)
+            {
+                for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                {
+                    obj = new AcJournalDetailsVM();
+                    obj.AcHead = ds.Tables[0].Rows[i]["AcHead"].ToString();
+                    obj.Amount = Common.ParseDecimal(ds.Tables[0].Rows[i]["Amount"].ToString());
+                    obj.Remarks = ds.Tables[0].Rows[i]["Remarks"].ToString();
+                    objList.Add(obj);
+                }
+            }
+            return objList;
+        }
     }
 }
