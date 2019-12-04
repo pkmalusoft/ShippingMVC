@@ -1003,15 +1003,18 @@ namespace TrueBooksMVC.Controllers
                 context.SaveChanges();
                 context.Entry(acJournalDetail).State = EntityState.Detached;
 
-                for (int j = 0; j < v.AcJDetailVM[i].AcExpAllocationVM.Count; j++)
+                if (v.AcJDetailVM[i].AcExpAllocationVM != null)
                 {
-                    AcAnalysisHeadAllocation objAcAnalysisHeadAllocation = new AcAnalysisHeadAllocation();
-                    objAcAnalysisHeadAllocation.AcjournalDetailID = acJournalDetail.AcJournalDetailID;
-                    objAcAnalysisHeadAllocation.AnalysisHeadID = v.AcJDetailVM[i].AcExpAllocationVM[j].AcHead;
-                    objAcAnalysisHeadAllocation.Amount = v.AcJDetailVM[i].AcExpAllocationVM[j].ExpAllocatedAmount;
-                    context.AcAnalysisHeadAllocations.Add(objAcAnalysisHeadAllocation);
-                    context.SaveChanges();
-                    context.Entry(objAcAnalysisHeadAllocation).State = EntityState.Detached;
+                    for (int j = 0; j < v.AcJDetailVM[i].AcExpAllocationVM.Count; j++)
+                    {
+                        AcAnalysisHeadAllocation objAcAnalysisHeadAllocation = new AcAnalysisHeadAllocation();
+                        objAcAnalysisHeadAllocation.AcjournalDetailID = acJournalDetail.AcJournalDetailID;
+                        objAcAnalysisHeadAllocation.AnalysisHeadID = v.AcJDetailVM[i].AcExpAllocationVM[j].AcHead;
+                        objAcAnalysisHeadAllocation.Amount = v.AcJDetailVM[i].AcExpAllocationVM[j].ExpAllocatedAmount;
+                        context.AcAnalysisHeadAllocations.Add(objAcAnalysisHeadAllocation);
+                        context.SaveChanges();
+                        context.Entry(objAcAnalysisHeadAllocation).State = EntityState.Detached;
+                    }
                 }
 
             }
@@ -1133,35 +1136,38 @@ namespace TrueBooksMVC.Controllers
                 {
                     DAL.InsertAcJournalDetail(acJournalDetail);
                 }
-                
-                for(int k=0; k < v.AcJDetailVM[i].AcExpAllocationVM.Count; k++)
+
+                if (v.AcJDetailVM[i].AcExpAllocationVM != null)
                 {
-                    Nullable<int> AllocationIdExists = 0;
-                    AcAnalysisHeadAllocation objAcAnalysisHeadAllocations = new AcAnalysisHeadAllocation();
-                    if (v.AcJDetailVM[i].AcExpAllocationVM[k].AcAnalysisHeadAllocationID != null && v.AcJDetailVM[i].AcExpAllocationVM[k].AcAnalysisHeadAllocationID > 0)
+                    for (int k = 0; k < v.AcJDetailVM[i].AcExpAllocationVM.Count; k++)
                     {
-                        AllocationIdExists = v.AcJDetailVM[i].AcExpAllocationVM[k].AcAnalysisHeadAllocationID;
+                        Nullable<int> AllocationIdExists = 0;
+                        AcAnalysisHeadAllocation objAcAnalysisHeadAllocations = new AcAnalysisHeadAllocation();
+                        if (v.AcJDetailVM[i].AcExpAllocationVM[k].AcAnalysisHeadAllocationID != null && v.AcJDetailVM[i].AcExpAllocationVM[k].AcAnalysisHeadAllocationID > 0)
+                        {
+                            AllocationIdExists = v.AcJDetailVM[i].AcExpAllocationVM[k].AcAnalysisHeadAllocationID;
+                        }
+                        if (AllocationIdExists > 0)
+                        {
+                            objAcAnalysisHeadAllocations.AcAnalysisHeadAllocationID = (int)AllocationIdExists;
+                        }
+                        else
+                        {
+                            objAcAnalysisHeadAllocations.AcAnalysisHeadAllocationID = 0;
+                        }
+                        objAcAnalysisHeadAllocations.AcjournalDetailID = acJournalDetail.AcJournalDetailID;
+                        objAcAnalysisHeadAllocations.Amount = v.AcJDetailVM[i].AcExpAllocationVM[k].ExpAllocatedAmount;
+                        objAcAnalysisHeadAllocations.AnalysisHeadID = v.AcJDetailVM[i].AcExpAllocationVM[k].AcHead;
+                        if (AllocationIdExists > 0)
+                        {
+                            DAL.UpdateAcAnalysisHeadAllocation(objAcAnalysisHeadAllocations);
+                        }
+                        else
+                        {
+                            DAL.InsertAcAnalysisHeadAllocation(objAcAnalysisHeadAllocations);
+                        }
+                        //  AcJournalDetID
                     }
-                    if(AllocationIdExists > 0)
-                    {
-                        objAcAnalysisHeadAllocations.AcAnalysisHeadAllocationID = (int)AllocationIdExists;
-                    }
-                    else
-                    {
-                        objAcAnalysisHeadAllocations.AcAnalysisHeadAllocationID = 0;
-                    }
-                    objAcAnalysisHeadAllocations.AcjournalDetailID = acJournalDetail.AcJournalDetailID;
-                    objAcAnalysisHeadAllocations.Amount = v.AcJDetailVM[i].AcExpAllocationVM[k].ExpAllocatedAmount;
-                    objAcAnalysisHeadAllocations.AnalysisHeadID = v.AcJDetailVM[i].AcExpAllocationVM[k].AcHead;
-                    if (AllocationIdExists > 0)
-                    {
-                        DAL.UpdateAcAnalysisHeadAllocation(objAcAnalysisHeadAllocations);
-                    }
-                    else
-                    {
-                        DAL.InsertAcAnalysisHeadAllocation(objAcAnalysisHeadAllocations);
-                    }
-                    //  AcJournalDetID
                 }
 
             }
