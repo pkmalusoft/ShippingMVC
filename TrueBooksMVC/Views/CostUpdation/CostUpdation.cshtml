@@ -13,7 +13,9 @@
         padding: 16px;
         margin-top: 21px;
     }
-
+    .form-control{
+        font-size:12px !important;
+    }
     .headinglabel {
         font-family: Calibri;
         font-size: 17px;
@@ -28,7 +30,40 @@
     }
 
     .multiselect-container {
-        width: 250px;
+        width: 237px;
+    }
+    .fullTextTd {
+        padding: 0px !important;
+        border: 1px solid #615757 !important;
+    }
+        .fullTextTd input {
+            width: 100%;
+            line-height: 27px;
+            margin: 0px;
+            padding:4px;
+            border:0px;
+        }
+    button.multiselect {
+        width: 236px;
+        text-align: right;
+    }
+    #DocumentNo{
+        font-weight:bold;
+    }
+    .multiselect-selected-text{
+        font-size:12px;
+    }
+    .checkbox {
+        font-size: 12px;
+    }
+    input.multiselect-search{
+        height:31px !important;
+    }
+    button.multiselect-clear-filter {
+        height: 31px !important;
+    }
+    table.table tr:nth-of-type(1) td{
+        font-weight:normal !important;
     }
 </style>
 <!-- Include the plugin's CSS and JS: -->
@@ -60,10 +95,10 @@
 
         $('#tbl1').on('blur','.txtNum',function () {
             if (isNaN(parseInt($(this).val()))) {
-                $(this).val('0.00');
+                $(this).val('0.0000');
             } else {
                 var amt = parseFloat($(this).val());
-                $(this).val(amt.toFixed(2));
+                $(this).val(amt.toFixed(4));
             }
         });
 
@@ -183,14 +218,14 @@
                     $('#tbl1').append('<tr>' +
                                                '<td>' + data[i].JobCode + ' <input id="" name="CostUpdationDetails[' + i + '].JobCode" value=' + data[i].JobCode + ' type="hidden"></td>' +
                                                '<td>' + data[i].RevenueType + '<input id="" name="CostUpdationDetails[' + i + '].RevenueTypeID" value=' + data[i].RevenueTypeID + ' type="hidden"></td>' +
-                                               '<td>' + data[i].CurrencyName + '<input id="" name="CostUpdationDetails[' + i + '].CurrencyName" value=' + data[i].CurrencyName + ' type="hidden"></td>' +
-                                               '<td>' + data[i].ProvisionExchangeRate + '<input id="" name="CostUpdationDetails[' + i + '].ProvisionExchangeRate" value=' + data[i].ProvisionExchangeRate + ' type="hidden"></td>' +
-                                               '<td>' + data[i].ProvisionForeign + '<input id="" name="CostUpdationDetails[' + i + '].ProvisionForeign" value=' + data[i].ProvisionForeign + ' type="hidden"></td>' +
-                                               '<td>' + data[i].ProvisionHome + '<input id="" name="CostUpdationDetails[' + i + '].ProvisionHome" value=' + data[i].ProvisionHome + ' type="hidden"> <input  name="CostUpdationDetails[' + i + '].ProvisionCurrencyID" value=' + data[i].ProvisionCurrencyID + ' type="hidden" /></td>' +
-                                               '<td>0</td>' +
-                        '<td> <input type="text" id="" class="invamt txtNum textright" onBlur="f1(this)" name="CostUpdationDetails[' + i + '].InvoiceAmount" autocomplete="off" /> <input  name="CostUpdationDetails[' + i + '].SalesCurrencyID" value=' + data[i].SalesCurrencyID + ' type="hidden" /> ' +
+                        '<td>' + data[i].CurrencyName + '<input id="" name="CostUpdationDetails[' + i + '].CurrencyName" value=' + data[i].CurrencyName + ' type="hidden"></td>' +
+                        '<td class="text-right">' + parseFloat(data[i].ProvisionExchangeRate).toFixed(4) + '<input id="" name="CostUpdationDetails[' + i + '].ProvisionExchangeRate" value=' + data[i].ProvisionExchangeRate + ' type="hidden"></td>' +
+                        '<td class="text-right">' + parseFloat(data[i].ProvisionForeign).toFixed(4) + '<input id="" name="CostUpdationDetails[' + i + '].ProvisionForeign" value=' + data[i].ProvisionForeign + ' type="hidden"></td>' +
+                        '<td class="text-right">' + parseFloat(data[i].ProvisionHome).toFixed(4) + '<input id="" name="CostUpdationDetails[' + i + '].ProvisionHome" value=' + data[i].ProvisionHome + ' type="hidden"> <input  name="CostUpdationDetails[' + i + '].ProvisionCurrencyID" value=' + data[i].ProvisionCurrencyID + ' type="hidden" /></td>' +
+                                               '<td class="text-right">0.0000</td>' +
+                        '<td class="fullTextTd"> <input type="text" id="" class="invamt txtNum textright" onBlur="f1(this)" name="CostUpdationDetails[' + i + '].InvoiceAmount" autocomplete="off" /> <input  name="CostUpdationDetails[' + i + '].SalesCurrencyID" value=' + data[i].SalesCurrencyID + ' type="hidden" /> ' +
                                                '</td>' +
-                                               '<td><input type="text" id="" name="CostUpdationDetails[' + i + '].SupplierReference"></input><input id="" name="CostUpdationDetails[' + i + '].SalesExchangeRate" value=' + data[i].SalesExchangeRate + ' type="hidden" /> <input  name="CostUpdationDetails[' + i + '].SalesForeign" value=' + data[i].SalesForeign + ' type="hidden"> <input  name="CostUpdationDetails[' + i + '].SalesHome" value=' + data[i].SalesHome + ' type="hidden" /><input  name="CostUpdationDetails[' + i + '].SupplierID" value=' + data[i].SupplierID + ' type="hidden"><input  name="CostUpdationDetails[' + i + '].JInvoiceID" value=' + data[i].InvoiceID + ' type="hidden"><input  name="CostUpdationDetails[' + i + '].Cost" value=' + data[i].Cost + ' type="hidden"> <input  name="CostUpdationDetails[' + i + '].InvoiceID" value=' + data[i].InvoiceID + ' type="hidden">' +
+                                               '<td class="fullTextTd"><input type="text" id="" name="CostUpdationDetails[' + i + '].SupplierReference"></input><input id="" name="CostUpdationDetails[' + i + '].SalesExchangeRate" value=' + data[i].SalesExchangeRate + ' type="hidden" /> <input  name="CostUpdationDetails[' + i + '].SalesForeign" value=' + data[i].SalesForeign + ' type="hidden"> <input  name="CostUpdationDetails[' + i + '].SalesHome" value=' + data[i].SalesHome + ' type="hidden" /><input  name="CostUpdationDetails[' + i + '].SupplierID" value=' + data[i].SupplierID + ' type="hidden"><input  name="CostUpdationDetails[' + i + '].JInvoiceID" value=' + data[i].InvoiceID + ' type="hidden"><input  name="CostUpdationDetails[' + i + '].Cost" value=' + data[i].Cost + ' type="hidden"> <input  name="CostUpdationDetails[' + i + '].InvoiceID" value=' + data[i].InvoiceID + ' type="hidden">' +
                                                '<input  name="CostUpdationDetails[' + i + '].JobID" value=' + data[i].JobID + ' type="hidden">' +
 
                                                '</td>' +
@@ -352,7 +387,7 @@
                         </div>
                     </div>
                     <div class="row no-margin form-layout" style="padding-top: 10px">
-                        <div class="col-xs-12 col-sm-4">
+                        <div class="col-xs-12 col-sm-3">
                             <div class="form-title">
                                 <label class="headinglabel">Employee</label>
                             </div>
@@ -361,7 +396,7 @@
                                 @Html.ValidationMessageFor(model => model.EmployeeID)
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-4">
+                        <div class="col-xs-12 col-sm-3">
                             <div class="form-title">
                                 <label class="headinglabel">Job No</label>
                             </div>
@@ -369,7 +404,7 @@
                                 @if (Model.CostUpdationID <= 0)
                                 {
                                     <select id="MultiJobID" name="MultiJobID" multiple="multiple"></select>
-                                    <input type="button" onclick="BindCostUpdationDetailsGrid()" value="Search" class="btn btn-primary" />
+                                    <input type="button" onclick="BindCostUpdationDetailsGrid()" value="Select" class="btn btn-primary" />
                                 }
                                 else
                                 {
@@ -495,7 +530,7 @@
 
 
                     <div class="row no-margin buttons spacer9">
-                        <div class="col-xs-12 align-right" style="text-align:center;padding:20px">
+                        <div class="col-xs-12 align-right" style="text-align:right;padding:20px">
                             <input type="submit" class="btn btn-primary btnwid" value="Save" name="Command" />
                             <a href='@Url.Action("CostUpdationDetails", "CostUpdation", new { id = 0 })' class="btn btn-danger btnwid">Cancel</a>
                         </div>
@@ -531,6 +566,8 @@
                         maxDate: ed,
                     });
                 });
+               
+               
                 //$('#InvoiceDate').datepicker({
                 //    format: "dd-mm-yyyy",
                 //    maxDate: '0',
