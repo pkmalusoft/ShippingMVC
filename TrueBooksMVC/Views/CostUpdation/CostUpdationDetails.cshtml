@@ -6,9 +6,10 @@
 }
 
 <style>
-   tfoot {
-    display: table-header-group;
+    tfoot {
+        display: table-header-group;
     }
+
     #tbl1 tr {
         height: 35px;
     }
@@ -20,15 +21,33 @@
     .panel {
         background-color: unset;
     }
+
     .tblbackground {
         background-color: #fff;
         box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
         border-radius: 10px;
-        padding:50px;
+        padding: 50px;
     }
+
     .tblbackgroun {
-        background-color:unset;
-      
+        background-color: unset;
+    }
+
+    .search-controls {
+        padding: 5px;
+        border-radius: 0px;
+    }
+
+    .searchtabs {
+        max-width: 687px !important;
+    }
+
+    .table tfoot tr:nth-child(1) th input {
+        margin-left: -7px;
+    }
+
+    table.dataTable thead th, table.dataTable thead td {
+        padding: 10px 12px !important;
     }
 </style>
 
@@ -38,26 +57,26 @@
 
 @*<script type="text/javascript">
 
-    $(document).ready(function () { 
-        showLoading();
-        $.ajax({
-            url: "@Url.Action("GetAllCOstUpdation", "CostUpdation")",
-       
-               type: "GET",
-               dataType: "json",
-               success: function (data) { 
-                   $("#result").html(data.view);
-                   hideLoading();
-               },
-               error: function () {
-                   alert("Failed! Please try again.");
-               }
-           });
-    
-      
-   
-    });
-</script>*@
+        $(document).ready(function () {
+            showLoading();
+            $.ajax({
+                url: "@Url.Action("GetAllCOstUpdation", "CostUpdation")",
+
+                   type: "GET",
+                   dataType: "json",
+                   success: function (data) {
+                       $("#result").html(data.view);
+                       hideLoading();
+                   },
+                   error: function () {
+                       alert("Failed! Please try again.");
+                   }
+               });
+
+
+
+        });
+    </script>*@
 <script type="text/javascript">
     $(document).ready(function () {
         var startdate = '@Session["FyearFrom"].ToString()';
@@ -124,7 +143,7 @@
 
             var str = new Date(startdate);
 
-         
+
 
             var d = new Date();
             var curr_date = d.getDate();
@@ -141,11 +160,11 @@
 
         var frm = new Date($('#frmdate').val());
         var dto = new Date($('#todate').val());
-         
+
         showLoading();
         $.ajax({
             url: "@Url.Action("GetAllCOstUpdation", "CostUpdation")",
-              
+
                 type: "GET",
                 data: { fdate: $('#frmdate').val(), todate: $('#todate').val()},
                 dataType: "json",
@@ -158,18 +177,18 @@
                     alert("Failed! Please try again.");
                 }
             });
-    
+
 
         $("#btnsearch").click(function () {
 
 
             var frm = new Date($('#frmdate').val());
             var dto = new Date($('#todate').val());
-         
+
             showLoading();
             $.ajax({
                 url: "@Url.Action("GetAllCOstUpdation", "CostUpdation")",
-              
+
                 type: "GET",
                 data: { fdate: $('#frmdate').val(), todate: $('#todate').val()},
                 dataType: "json",
@@ -184,83 +203,78 @@
             });
         });
 
-        $("#frmdate").css("border-radius", "5px");
-        $("#todate").css("border-radius", "5px");
 
-
-     
     });
 </script>
 
 
- @if (ViewBag.SuccessMsg != null)
-                                {
-                                    <script type="text/javascript">
+@if (ViewBag.SuccessMsg != null)
+{
+    <script type="text/javascript">
                                         $(document).ready(function () {
                                             $.notify("@ViewBag.SuccessMsg ", "success");
                                         });
-                                    </script>   
-                                }
+    </script>
+}
 
 <div ng-app="MyApp" ng-controller="MyController">
-    <div class="" dir="ltr" id="main" runat="server"> 
+    <div class="" dir="ltr" id="main" runat="server">
         @using (Html.BeginForm())
         {
             @Html.ValidationSummary(true)
+            <section class="content">
+                <p style="color: white" class="cbtnpadding">
+                    <div id="error" style="display: none; font-family: Calibri; color: red">* From Date must not be Greater than To Date</div>
+                    <table class="searchtabs" id="tbl1">
+                        <tr>
+                            <td colspan="6" style="width:100%;text-align:center;">
+                                <section class="content-header">
+                                    <h1>Cost Updation Details<small></small></h1>
+                                </section>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="searlabel">
+                                From Date
+                            </td>
+                            <td class="searinput">
+                                <input type="text" id="frmdate" class="form-control search-controls" />
+                            </td>
+                            <td class="searlabel">
+                                To Date
+                            </td>
+                            <td class="searinput">
+                                <input type="text" id="todate" class="form-control search-controls" />
+                            </td>
+                            <td>
+                                <input type="button" value="Search" id="btnsearch" class="btn btn-primary btnwidt" />
+                            </td>
+                            <td>
+                                <a href='@Url.Action("CostUpdation", "CostUpdation", new { id = 0 })' class="btn btn-primary" data-toggle="tooltip" data-placement="right" style="width:90px;">Add</a>
+                            </td>
+                        </tr>
 
-            <section class="content-header">
-                <h1>Cost Updation Details<small></small></h1>
 
-            </section> 
-               <div class="row no-margin">
-                    <div class="col-md-12">
-                        <div class="col-md-4" style="padding-left:-15px;">
-                <a href='@Url.Action("CostUpdation", "CostUpdation", new { id = 0 })' class="btn btn-primary" data-toggle="tooltip" data-placement="right" style="width:90px;" >Add</a>
-          </div>
-
-                        </div>
-                          </div>
-                    <section class="content">
-                           <p style="color: white" class="cbtnpadding">
-                <div id="error" style="display: none; font-family: Calibri; color: red">* From Date must not be Greater than To Date</div>
-                <table class="searchtabs" id="tbl1">
-                    <tr>
-                        <td class="searlabel">From Date
-                        </td>
-                        <td class="searinput">
-                            <input type="text" id="frmdate" class="form-control" />
-                        </td>
-                        <td class="searlabel">To Date
-                        </td>
-                        <td class="searinput">
-                            <input type="text" id="todate" class="form-control" />
-                        </td>
-                        <td>
-                            <input type="button" value="Search" id="btnsearch" class="btn btn-primary btnwidt" />
-                        </td>
-                    </tr>
-
-
-                </table>
-            </p>
+                    </table>
+                </p>
                 <div id="divgridJob" class="row" runat="server" style="min-height: 250px; margin-right: auto; margin-left: auto;">
                     <div class="col-md-12">
-                        
-                            
-                          
-          <div class="row no-margin">
-        <div class="col-md-12 tblbackgroun">
-            <div class="row">
-                <div class="col-md-12" id="result">
-                </div>
-            </div>
-        </div>
-    </div>
+
+
+
+                        <div class="row no-margin">
+                            <div class="col-md-12 tblbackgroun">
+                                <div class="row">
+                                    <div class="col-md-12" id="result">
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-               
-            
-            </section> 
+                </div>
+
+
+            </section>
         }
 
     </div>
