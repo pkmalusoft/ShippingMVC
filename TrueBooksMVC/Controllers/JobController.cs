@@ -1023,7 +1023,7 @@ namespace TrueBooksMVC.Controllers
             ArrayList ChargesArray = new ArrayList();
             string DeletedInvoiceIds = ((string[])formCollection.GetValue("DeletedInvoiceIds").RawValue)[0].ToString();
 
-            DeleteJobDetailsByJobID(JobId, DeletedInvoiceIds);
+          //  DeleteJobDetailsByJobID(JobId, DeletedInvoiceIds);
 
             for (int j = 0; j < formCollection.Keys.Count; j++)
             {
@@ -1205,7 +1205,15 @@ namespace TrueBooksMVC.Controllers
                 JCargoDescription Cargo = new JCargoDescription();
                 Cargo.UserID = Session["UserID"].ToString();
                 Cargo.JobID = JobId;
-               // string MarkId = "";
+
+                int CargoDescriptionID = 0;
+                if (formCollection.GetValue("CargoDescriptionID_" + CargoArray[c]) != null)
+                {
+                    strArray = (string[])formCollection.GetValue("CargoDescriptionID_" + CargoArray[c]).RawValue;
+                    int.TryParse(strArray[0].Trim(), out CargoDescriptionID);
+                }
+                Cargo.CargoDescriptionID = CargoDescriptionID;
+                // string MarkId = "";
                 if (formCollection.GetValue("Mark_" + CargoArray[c]) != null)
                 {
                     strArray = (string[])formCollection.GetValue("Mark_" + CargoArray[c]).RawValue;
@@ -1248,7 +1256,7 @@ namespace TrueBooksMVC.Controllers
                     decimal.TryParse(strArray[0].Trim(), out GrossWeight);
                 }
                 Cargo.GrossWeight = GrossWeight;
-                i = J.AddCargo(Cargo, Session["UserID"].ToString());
+                i = J.AddOrUpdateCargo(Cargo, Session["UserID"].ToString());
             }
 
             int ContainerCount = 0;
@@ -1266,6 +1274,14 @@ namespace TrueBooksMVC.Controllers
                 string[] strArray;
                 JContainerDetail ContainerObj = new JContainerDetail();
                 ContainerObj.JobID = JobId;
+                int JContainerDetailID = 0;
+                if (formCollection.GetValue("JContainerDetailID_" + ContainerArray[c]) != null)
+                {
+                    strArray = (string[])formCollection.GetValue("JContainerDetailID_" + ContainerArray[c]).RawValue;
+                    int.TryParse(strArray[0].Trim(), out JContainerDetailID);
+                }
+                ContainerObj.JContainerDetailID = JContainerDetailID;
+
                 int ContainerTypeId = 0;
                 if (formCollection.GetValue("ContainerTypeID_" + ContainerArray[c]) != null)
                 {
@@ -1294,7 +1310,7 @@ namespace TrueBooksMVC.Controllers
                     ContainerDescription = strArray[0].Trim();
                 }
                 ContainerObj.Description = ContainerDescription;
-                AddContainerDetails(ContainerObj);
+                AddOrUpdateContainerDetails(ContainerObj);
             }
 
             int BillOfEntryCount = 0;
@@ -1312,6 +1328,15 @@ namespace TrueBooksMVC.Controllers
                 string[] strArray;
                 JBIllOfEntry objBillOfEntry = new JBIllOfEntry();
                 objBillOfEntry.JobID = JobId;
+
+                int BIllOfEntryID = 0;
+                if (formCollection.GetValue("BIllOfEntryID_" + BillOfEntryArray[c]) != null)
+                {
+                    strArray = (string[])formCollection.GetValue("BIllOfEntryID_" + BillOfEntryArray[c]).RawValue;
+                    int.TryParse(strArray[0].Trim(), out BIllOfEntryID);
+                }
+                objBillOfEntry.BIllOfEntryID = BIllOfEntryID;
+
                 string BIllOfEntry = "";
                 if (formCollection.GetValue("BIllOfEntry_" + BillOfEntryArray[c]) != null)
                 {
@@ -1333,7 +1358,7 @@ namespace TrueBooksMVC.Controllers
                     int.TryParse(strArray[0].Trim(), out ShippingAgentId);
                 }
                 objBillOfEntry.ShippingAgentID = ShippingAgentId;
-                AddBill(objBillOfEntry);
+                AddOrUpdateBill(objBillOfEntry);
             }
             int NotificationCount = 0;
             ArrayList NotificationArray = new ArrayList();
@@ -1350,6 +1375,14 @@ namespace TrueBooksMVC.Controllers
                 JAuditLog objAudit = new JAuditLog();
                 objAudit.JobID = JobId;
                 string[] strArray;
+                int JAuditLogID=0;
+                if (formCollection.GetValue("JAuditLogID_" + NotificationArray[c]) != null)
+                {
+                    strArray = (string[])formCollection.GetValue("JAuditLogID_" + NotificationArray[c]).RawValue;
+                    int.TryParse(strArray[0].Trim(), out JAuditLogID);
+                }
+                objAudit.JAuditLogID = JAuditLogID;
+
                 DateTime NotificationDate;
                 if (formCollection.GetValue("AuditTransDate_" + NotificationArray[c]) != null)
                 {
@@ -1364,7 +1397,7 @@ namespace TrueBooksMVC.Controllers
                     objAudit.Remarks = strArray[0].Trim();
                 }
                 objAudit.JobID = JobId;
-                AddALog(objAudit);
+                AddOrUpdateALog(objAudit);
 
             }
             return true;
@@ -1408,7 +1441,7 @@ namespace TrueBooksMVC.Controllers
                 }
 
 
-                i = J.AddCargo(Cargo, Session["UserID"].ToString());
+                i = J.AddOrUpdateCargo(Cargo, Session["UserID"].ToString());
                 var cargoid = (from t in entity.JCargoDescriptions orderby t.CargoDescriptionID descending select t).FirstOrDefault();
 
                 if (Session["Cargoid"] == null)
@@ -1473,25 +1506,25 @@ namespace TrueBooksMVC.Controllers
             return i.ToString();
         }
 
-        public string AddALog(JAuditLog Audit)
+        public string AddOrUpdateALog(JAuditLog Audit)
         {
             int i = 0;
             if (Session["UserID"] != null)
             {
-                i = J.AddAuditLog(Audit, Session["UserID"].ToString());
+                i = J.AddOrUpdateAuditLog(Audit, Session["UserID"].ToString());
                 var AddLog = (from t in entity.JAuditLogs orderby t.JAuditLogID descending select t).FirstOrDefault();
             }
 
             return i.ToString();
         }
 
-        public string AddBill(JBIllOfEntry Bill)
+        public string AddOrUpdateBill(JBIllOfEntry Bill)
         {
             int i = 0;
             if (Session["UserID"] != null)
             {
               
-                i = J.AddBillOfEntry(Bill, Session["UserID"].ToString());
+                i = J.AddOrUpdateBillOfEntry(Bill, Session["UserID"].ToString());
                 var billEntry = (from t in entity.JBIllOfEntries orderby t.BIllOfEntryID descending select t).FirstOrDefault();
 
                 if (Session["AddBill"] == null)
@@ -1578,7 +1611,7 @@ namespace TrueBooksMVC.Controllers
             return "Success";
         }
 
-        public string AddContainerDetails(JContainerDetail ContainerDetail)
+        public string AddOrUpdateContainerDetails(JContainerDetail ContainerDetail)
         {
             JContainerDetail jJContainerDetail = new JContainerDetail();
 

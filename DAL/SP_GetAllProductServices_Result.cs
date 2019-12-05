@@ -15,6 +15,6 @@ namespace DAL
     {
         public int ProductID { get; set; }
         public string ProductName { get; set; }
-        public string Status { get; set; }
+        public int Status { get; set; }
     }
 }

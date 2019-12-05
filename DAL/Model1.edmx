@@ -1893,12 +1893,14 @@ warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.qrySupplierOutstanding'
         </Function>
         <Function Name="SP_GetUserDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_InsertAuditlog" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="JAuditLogID" Type="int" Mode="In" />
           <Parameter Name="TransDate" Type="datetime" Mode="In" />
           <Parameter Name="Remarks" Type="nvarchar" Mode="In" />
           <Parameter Name="JobID" Type="int" Mode="In" />
           <Parameter Name="UserID" Type="int" Mode="In" />
         </Function>
         <Function Name="SP_InsertBillOfEntry" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="BIllOfEntryID" Type="int" Mode="In" />
           <Parameter Name="BIllOfEntry" Type="nvarchar" Mode="In" />
           <Parameter Name="JobID" Type="int" Mode="In" />
           <Parameter Name="BillofEntryDate" Type="datetime" Mode="In" />
@@ -1906,6 +1908,7 @@ warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.qrySupplierOutstanding'
           <Parameter Name="UserID" Type="int" Mode="In" />
         </Function>
         <Function Name="SP_InsertCargoDescription" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CargoDescriptionID" Type="int" Mode="In" />
           <Parameter Name="JobID" Type="int" Mode="In" />
           <Parameter Name="Mark" Type="nvarchar" Mode="In" />
           <Parameter Name="Description" Type="nvarchar" Mode="In" />
@@ -2557,6 +2560,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <EntitySet Name="JCargoDescriptions" EntityType="SHIPPING_FinalModel.JCargoDescription" />
           <EntitySet Name="RecPays" EntityType="SHIPPING_FinalModel.RecPay" />
           <FunctionImport Name="SP_InsertCargoDescription">
+            <Parameter Name="CargoDescriptionID" Mode="In" Type="Int32" />
             <Parameter Name="JobID" Mode="In" Type="Int32" />
             <Parameter Name="Mark" Mode="In" Type="String" />
             <Parameter Name="Description" Mode="In" Type="String" />
@@ -2571,12 +2575,14 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <EntitySet Name="JBIllOfEntries" EntityType="SHIPPING_FinalModel.JBIllOfEntry" />
           <EntitySet Name="JContainerDetails" EntityType="SHIPPING_FinalModel.JContainerDetail" />
           <FunctionImport Name="SP_InsertAuditlog">
+            <Parameter Name="JAuditLogID" Mode="In" Type="Int32" />
             <Parameter Name="TransDate" Mode="In" Type="DateTime" />
             <Parameter Name="Remarks" Mode="In" Type="String" />
             <Parameter Name="JobID" Mode="In" Type="Int32" />
             <Parameter Name="UserID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_InsertBillOfEntry">
+            <Parameter Name="BIllOfEntryID" Mode="In" Type="Int32" />
             <Parameter Name="BIllOfEntry" Mode="In" Type="String" />
             <Parameter Name="JobID" Mode="In" Type="Int32" />
             <Parameter Name="BillofEntryDate" Mode="In" Type="DateTime" />
@@ -6583,7 +6589,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
         <ComplexType Name="SP_GetAllProductServices_Result">
           <Property Type="Int32" Name="ProductID" Nullable="false" />
           <Property Type="String" Name="ProductName" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="Status" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="Status" Nullable="true" />
         </ComplexType>
         <EntityType Name="PurchaseInvoiceDetail">
           <Key>

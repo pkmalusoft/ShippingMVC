@@ -182,9 +182,9 @@ namespace TrueBooksMVC.Controllers
 
 
                 int JobID = 0;
-                if (formCollection.GetValue("Job_" + InvoiceDetailsArray[c]) != null)
+                if (formCollection.GetValue("JobID_" + InvoiceDetailsArray[c]) != null)
                 {
-                    strArray = (string[])formCollection.GetValue("Job_" + InvoiceDetailsArray[c]).RawValue;
+                    strArray = (string[])formCollection.GetValue("JobID_" + InvoiceDetailsArray[c]).RawValue;
                     int.TryParse(strArray[0], out JobID);
                 }
                 SID.JobID = JobID;

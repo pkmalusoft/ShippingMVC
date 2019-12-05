@@ -489,7 +489,7 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
                 }
                 var AuditObjStr = JSON.stringify(AuditObj);
                 vAuditDet.push(AuditObjStr);
-                var tdString = '<tr><td><div class= "data1" ><input type="text" style="width:100%;border:none" value="' + TransDateStr + '" title="' + TransDateStr + '" name="AuditTransDate_' + vAuditDet.length + '" id="AuditTransDate_' + vAuditDet.length + '" /></div></td>';
+                var tdString = '<tr><td><div class= "data1" ><input type="hidden" name="JAuditLogID_' + vAuditDet.length + '" id="JAuditLogID_' + vAuditDet.length + '" value="' + AuditObj.JAuditLogID  + '" /><input type="text" style="width:100%;border:none" value="' + TransDateStr + '" title="' + TransDateStr + '" name="AuditTransDate_' + vAuditDet.length + '" id="AuditTransDate_' + vAuditDet.length + '" /></div></td>';
                 tdString = tdString + '<td><div class="data2" ><input style="width:100%;border:none" type="text" value="' + AuditObj.Remarks + '" title="' + AuditObj.Remarks + '" name="AuditRemarks_' + vAuditDet.length + '" id="AuditRemarks_' + vAuditDet.length + '" /></div></td>';
                 tdString = tdString + '<td><a href="javascript:void(0)" onclick="angular.element(this).scope().editNotification(' + vAuditDet.length + ')"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="deleteRow(this)"><i class="fa fa-times-circle"></i></a></td>';
                 tdString = tdString + '</tr>';
@@ -508,7 +508,7 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
         debugger;
         var AuditObjStr = JSON.stringify(AuditObj);
         vAuditDet.push(AuditObjStr);
-        var tdString = '<tr><td><div class= "data1" ><input type="text" style="width:100%;border:none;" value="' + AuditObj.TransDate + '" name="AuditTransDate_' + vAuditDet.length + '" id="AuditTransDate_' + vAuditDet.length + '" /></div></td>';
+        var tdString = '<tr><td><div class= "data1" ><input type="hidden" name="JAuditLogID_' + vAuditDet.length + '" id="JAuditLogID_' + vAuditDet.length + '" value="0" /><input type="text" style="width:100%;border:none;" value="' + AuditObj.TransDate + '" name="AuditTransDate_' + vAuditDet.length + '" id="AuditTransDate_' + vAuditDet.length + '" /></div></td>';
         tdString = tdString + '<td><div class="data2" ><input style="width:100%;border:none" type="text" value="' + AuditObj.Remarks + '" name="AuditRemarks_' + vAuditDet.length + '" id="AuditRemarks_' + vAuditDet.length + '" /></div></td>';
         tdString = tdString + '<td><a href="javascript:void(0)" onclick="angular.element(this).scope().editNotification(' + vAuditDet.length + ')"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="deleteRow(this)"><i class="fa fa-times-circle"></i></a></td>';
         tdString = tdString + '</tr>';
@@ -521,6 +521,7 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
 
     $scope.editNotification = function (index) {
         $('#notification_update_index').val(index);
+        $('#JAuditLogID').val($('#JAuditLogID_' + index).val());
         $('#TransDate').val($('#AuditTransDate_' + index).val());
         $('#NotificationRemarks').val($('#AuditRemarks_' + index).val());
         $('#update_notification').show();
@@ -530,6 +531,7 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
 
     $scope.updateNotification = function () {
         var index = $('#notification_update_index').val();
+        $('#JAuditLogID_' + index).val($('#JAuditLogID').val());
         $('#AuditTransDate_' + index).val($('#TransDate').val());
         $('#AuditRemarks_' + index).val($('#NotificationRemarks').val());
         $('#update_notification').hide();
@@ -544,12 +546,14 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
         $('#add_notification').show();
         $('#cancel_edit_notification').hide();
         $('#notification_update_index').val('0');
+        $('#JAuditLogID').val('0');
         ClearNotificationTab();
     };
 
     function ClearNotificationTab() {
         $('#TransDate').val('');
         $('#NotificationRemarks').val('');
+        $('#JAuditLogID').val('0');
     }
 
     var vBillOfEntry = JSON.parse('[]');
@@ -562,7 +566,7 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
         };
         var BillOfEntryStr = JSON.stringify(BillOfEntryObj);
         vBillOfEntry.push(BillOfEntryStr);
-        var tdString = '<tr><td><div class= "data1" ><input type="text" style="width:100%;border:none" value="' + BillOfEntryObj.BIllOfEntry + '" name="BIllOfEntry_' + vBillOfEntry.length + '" id="BIllOfEntry_' + vBillOfEntry.length + '" readonly/></div></td>';
+        var tdString = '<tr><td><div class= "data1" ><input type="hidden" name="BIllOfEntryID_' + vBillOfEntry.length + '" id="BIllOfEntryID_' + vBillOfEntry.length + '" value="0" /><input type="text" style="width:100%;border:none" value="' + BillOfEntryObj.BIllOfEntry + '" name="BIllOfEntry_' + vBillOfEntry.length + '" id="BIllOfEntry_' + vBillOfEntry.length + '" readonly/></div></td>';
         tdString = tdString + '<td><div class="data2" ><input style="width:100%;border:none;" type="text" value="' + BillOfEntryObj.BillofEntryDate + '" name="BillofEntryDate_' + vBillOfEntry.length + '" id="BillofEntryDate_' + vBillOfEntry.length + '" readonly /></div></td>';
         tdString = tdString + '<td><div class="data3"><input type="text" style="width:100%;border:none;" value="' + BillOfEntryObj.ShippingAgentName + '" name="ShippingAgentName_' + vBillOfEntry.length + '" id="ShippingAgentName_' + vBillOfEntry.length + '" readonly/><input type="hidden" value="' + BillOfEntryObj.ShippingAgentID + '" name="ShippingAgentID_' + vBillOfEntry.length + '" id="ShippingAgentID_' + vBillOfEntry.length + '" /></div></td>';
         tdString = tdString + '<td><a href="javascript:void(0)" onclick="angular.element(this).scope().editBillOfEntry(' + vBillOfEntry.length + ')"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="deleteRow(this)"><i class="fa fa-times-circle"></i></a></td>';
@@ -576,6 +580,7 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
 
     $scope.editBillOfEntry = function (index) {
         $('#billofentry_update_index').val(index);
+        $('#BIllOfEntryID').val($('#BIllOfEntryID_' + index).val());
         $('#BillOfEntry').val($('#BIllOfEntry_' + index).val());
         $('#BillofEntryDate').val($('#BillofEntryDate_' + index).val());
         $('#ShippingAgentID').val($('#ShippingAgentID_' + index).val());
@@ -603,7 +608,7 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
                     BOEDateStr = BOEdate.getDate() + '-' + month_names_short[BOEdate.getMonth()] + '-' + BOEdate.getFullYear();
                 }
                 var ShippingAgentName = $("#ShippingAgentID option[value='" + BillOfEntryObj.ShippingAgentID + "']").text();
-                var tdString = '<tr><td><div class= "data1" ><input type="text" style="width:100%;border:none;" value="' + BillOfEntryObj.BIllOfEntry + '" title="' + BillOfEntryObj.BIllOfEntry + '" name="BIllOfEntry_' + vBillOfEntry.length + '" id="BIllOfEntry_' + vBillOfEntry.length + '" readonly/></div></td>';
+                var tdString = '<tr><td><div class= "data1" ><input type="hidden" name="BIllOfEntryID_' + vBillOfEntry.length + '" id="BIllOfEntryID_' + vBillOfEntry.length + '" value="' + BillOfEntryObj.BIllOfEntryID + '" /><input type="text" style="width:100%;border:none;" value="' + BillOfEntryObj.BIllOfEntry + '" title="' + BillOfEntryObj.BIllOfEntry + '" name="BIllOfEntry_' + vBillOfEntry.length + '" id="BIllOfEntry_' + vBillOfEntry.length + '" readonly/></div></td>';
                 tdString = tdString + '<td><div class="data2" ><input style="width:100%;border:none;" type="text" value="' + BOEDateStr + '" title="' + BOEDateStr + '" name="BillofEntryDate_' + vBillOfEntry.length + '" id="BillofEntryDate_' + vBillOfEntry.length + '" readonly /></div></td>';
                 tdString = tdString + '<td><div class="data3"><input type="text" style="width:100%;border:none;" value="' + ShippingAgentName + '" title="' + ShippingAgentName + '" name="ShippingAgentName_' + vBillOfEntry.length + '" id="ShippingAgentName_' + vBillOfEntry.length + '" readonly/><input type="hidden" value="' + BillOfEntryObj.ShippingAgentID + '" name="ShippingAgentID_' + vBillOfEntry.length + '" id="ShippingAgentID_' + vBillOfEntry.length + '" /></div></td>';
                 tdString = tdString + '<td><a href="javascript:void(0)" onclick="angular.element(this).scope().editBillOfEntry(' + vBillOfEntry.length + ')"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="deleteRow(this)"><i class="fa fa-times-circle"></i></a></td>';
@@ -616,6 +621,7 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
 
     $scope.updateBillOfEntry = function () {
         var index = $('#billofentry_update_index').val();
+        $('#BIllOfEntryID_' + index).val($('#BIllOfEntryID').val());
         $('#BIllOfEntry_' + index).val($('#BillOfEntry').val());
         $('#BillofEntryDate_' + index).val($('#BillofEntryDate').val());
         $('#ShippingAgentID_' + index).val($('#ShippingAgentID').val());
@@ -631,6 +637,7 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
         $('#add_bill').show();
         $('#cancel_edit_billofentry').hide();
         $('#billofentry_update_index').val('0');
+        $('#BIllOfEntryID').val('0');
         ClearBillOfEntryTab();
     };
 
@@ -638,6 +645,7 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
         $('#BillOfEntry').val('');
         $('#BillofEntryDate').val('');
         $('#ShippingAgentID').val('');
+        $('#BIllOfEntryID').val('0');
     }
 
     var vContainer = JSON.parse('[]');
@@ -654,7 +662,7 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
                 var ContainerObj = $scope.Containers[i];
                 var ContainerStr = JSON.stringify(ContainerObj);
                 vContainer.push(ContainerStr);
-                var tdString = '<tr><td><div class= "data1" ><input type="text" style="width:100%;border:none" value="' + ContainerObj.ContainerType + '" name="ContainerType_' + vContainer.length + '" id="ContainerType_' + vContainer.length + '" readonly/><input type="hidden" value="' + ContainerObj.ContainerTypeID + '" name="ContainerTypeID_' + vContainer.length + '" id="ContainerTypeID_' + vContainer.length + '" /></div ></td>';
+                var tdString = '<tr><td><div class= "data1" ><input type="hidden" name="JContainerDetailID_' + vContainer.length + '" value="' + ContainerObj.JContainerDetailID + '" /><input type="text" style="width:100%;border:none" value="' + ContainerObj.ContainerType + '" name="ContainerType_' + vContainer.length + '" id="ContainerType_' + vContainer.length + '" readonly/><input type="hidden" value="' + ContainerObj.ContainerTypeID + '" name="ContainerTypeID_' + vContainer.length + '" id="ContainerTypeID_' + vContainer.length + '" /></div ></td>';
                 tdString = tdString + '<td><div class="data2" ><input type="text" style="width:100%;border:none;" value="' + ContainerObj.ContainerNo + '" name="ContainerNo_' + vContainer.length + '" id="ContainerNo_' + vContainer.length + '" readonly/></div></td>';
                 tdString = tdString + '<td><div class="data3"><input type="text" style="width:100%;border:none;" value="' + ContainerObj.SealNo + '" name="SealNo_' + vContainer.length + '" id="SealNo_' + vContainer.length + '" readonly/></div></td>';
                 tdString = tdString + '<td><div class="data" ><input type="text" style="width:100%;border:none;" value="' + ContainerObj.Description + '" name="ContainerDescription_' + vContainer.length + '" id="ContainerDescription_' + vContainer.length + '" readonly/></div></td>';
@@ -677,7 +685,7 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
 
         var ContainerStr = JSON.stringify(ContainerObj);
         vContainer.push(ContainerStr);
-        var tdString = '<tr><td><div class= "data1" ><input type="text" style="width:100%;border:none" value="' + ContainerObj.ContainerTypeName + '" name="ContainerType_' + vContainer.length + '" id="ContainerType_' + vContainer.length + '" readonly/><input type="hidden" value="' + ContainerObj.ContainerTypeID + '" name="ContainerTypeID_' + vContainer.length + '" id="ContainerTypeID_' + vContainer.length + '" /></div ></td>';
+        var tdString = '<tr><td><div class= "data1" ><input type="hidden" id="JContainerDetailID_' + vContainer.length + '" name="JContainerDetailID_' + vContainer.length + '" value="0" /><input type="text" style="width:100%;border:none" value="' + ContainerObj.ContainerTypeName + '" name="ContainerType_' + vContainer.length + '" id="ContainerType_' + vContainer.length + '" readonly/><input type="hidden" value="' + ContainerObj.ContainerTypeID + '" name="ContainerTypeID_' + vContainer.length + '" id="ContainerTypeID_' + vContainer.length + '" /></div ></td>';
         tdString = tdString + '<td><div class="data2" ><input type="text" style="width:100%;border:none" value="' + ContainerObj.ContainerNo + '" name="ContainerNo_' + vContainer.length + '" id="ContainerNo_' + vContainer.length + '" readonly/></div></td>';
         tdString = tdString + '<td><div class="data3"><input type="text" style="width:100%;border:none" value="' + ContainerObj.SealNo + '" name="SealNo_' + vContainer.length + '" id="SealNo_' + vContainer.length + '" readonly/></div></td>';
         tdString = tdString + '<td><div class="data" ><input type="text" style="width:100%;border:none" value="' + ContainerObj.Description + '" name="ContainerDescription_' + vContainer.length + '" id="ContainerDescription_' + vContainer.length + '" readonly/></div></td>';
@@ -689,6 +697,7 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
         $("#AddContainer").show();
         $scope.ContainerTypeID = '';
         $('#ContainerTypeID').val("0");
+        $('#JContainerDetailID').val("0");
         $scope.ContainerNo = '';
         $scope.SealNo = '';
         $scope.ContainerDescription = '';
@@ -697,6 +706,7 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
 
     $scope.editContainerDetails = function (Newindex) {
         $('#container_update_index').val(Newindex);
+        $("#JContainerDetailID").val($("#JContainerDetailID_" + Newindex).val());
         $("#ContainerTypeID").val($("#ContainerTypeID_" + Newindex).val());
         $('#ContainerNo').val($('#ContainerNo_' + Newindex).val());
         $('#SealNo').val($("#SealNo_" + Newindex).val());
@@ -707,6 +717,7 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
     };
 
     function ClearContainerDetailsTab() {
+        $("#JContainerDetailID").val('0');
         $('#ContainerTypeID').val('0');
         $('#ContainerNo').val('');
         $('#SealNo').val('');
@@ -716,6 +727,7 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
     $scope.updateContainerDetails = function () {
         debugger;
         var index = $('#container_update_index').val();
+        $('#JContainerDetailID_' + index).val($('#JContainerDetailID').val());
         $('#ContainerType_' + index).val($('#ContainerTypeID option:selected').text());
         $('#ContainerTypeID_' + index).val($('#ContainerTypeID').val());
         $('#ContainerNo_' + index).val($('#ContainerNo').val());
@@ -728,6 +740,7 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
     };
 
     $scope.cancelEditContainerDetails = function () {
+        $("#JContainerDetailID").val('0');
         $('#container_update_index').val('0');
         ClearContainerDetailsTab();
         $('#update_container').hide();
@@ -748,7 +761,7 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
 
         var CargoDescStr = JSON.stringify(CargoDescObj);
         vCargoDesc.push(CargoDescStr);
-        var tdString = '<tr><td><div class= "data1" ><input type="text" style="width:100%;border:none" value="' + CargoDescObj.Mark + '" name="Mark_' + vCargoDesc.length + '" id="Mark_' + vCargoDesc.length + '" readonly/></div ></td>';
+        var tdString = '<tr><td><div class= "data1" ><input type="hidden" name="CargoDescriptionID_' + vCargoDesc.length + '" value="0" /><input type="text" style="width:100%;border:none" value="' + CargoDescObj.Mark + '" name="Mark_' + vCargoDesc.length + '" id="Mark_' + vCargoDesc.length + '" readonly/></div ></td>';
         tdString = tdString + '<td><div class="data2" ><input type="text" style="width:100%;border:none" value="' + CargoDescObj.Description + '" name="CarDescription_' + vCargoDesc.length + '" id="CarDescription_' + vCargoDesc.length + '" readonly/></div></td>';
         tdString = tdString + '<td><div class="data3" ><input type="text" style="width:100%;border:none" value="' + CargoDescObj.weight + '" name="weight_' + vCargoDesc.length + '" id="weight_' + vCargoDesc.length + '" readonly/></div></td>';
         tdString = tdString + '<td><div class="data5"><input type="text" style="width:100%;border:none;" value="' + CargoDescObj.volume + '" name="volume_' + vCargoDesc.length + '" id="volume_' + vCargoDesc.length + '" readonly/></div></td>';
@@ -762,6 +775,7 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
 
     $scope.editCargo = function (index) {
         $('#cargo_update_index').val(index);
+        $('#CargoDescriptionID').val($('#CargoDescriptionID_' + index).val());
         $('#Mark').val($('#Mark_' + index).val());
         $('#Description').val($('#CarDescription_' + index).val());
         $('#weight').val($('#weight_' + index).val());
@@ -775,6 +789,7 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
 
     $scope.updateCargo = function () {
         var index = $('#cargo_update_index').val();
+        $('#CargoDescriptionID_' + index).val($('#CargoDescriptionID').val());
         $('#Mark_' + index).val($('#Mark').val());
         $('#CarDescription_' + index).val($('#Description').val());
         $('#weight_' + index).val($('#weight').val());
@@ -793,6 +808,7 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
         $('#add_cargo').show();
     };
     function ClearCargoTab() {
+        $('#CargoDescriptionID').val('0');
         $('#Mark').val('');
         $('#Description').val('');
         $('#weight').val('');
@@ -815,7 +831,7 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
                 var CargoDescObj = $scope.CargoDescription[i];
                 var CargoDescStr = JSON.stringify(CargoDescObj);
                 vCargoDesc.push(CargoDescStr);
-                var tdString = '<tr><td><div class= "data1" ><input type="text" style="width:100%;border:none;" value="' + CargoDescObj.Mark + '" name="Mark_' + vCargoDesc.length + '" id="Mark_' + vCargoDesc.length + '" readonly/></div ></td>';
+                var tdString = '<tr><td><div class= "data1" ><input type="hidden" name="CargoDescriptionID_' + vCargoDesc.length + '" value="' + CargoDescObj.CargoDescriptionID + '" /><input type="text" style="width:100%;border:none;" value="' + CargoDescObj.Mark + '" name="Mark_' + vCargoDesc.length + '" id="Mark_' + vCargoDesc.length + '" readonly/></div ></td>';
                 tdString = tdString + '<td><div class="data2" ><input type="text" style="width:100%;border:none;" value="' + CargoDescObj.Description + '" name="CarDescription_' + vCargoDesc.length + '" id="CarDescription_' + vCargoDesc.length + '" readonly/></div></td>';
                 tdString = tdString + '<td><div class="data3" ><input type="text" style="width:100%;border:none" value="' + CargoDescObj.weight + '" name="weight_' + vCargoDesc.length + '" id="weight_' + vCargoDesc.length + '" readonly/></div></td>';
                 tdString = tdString + '<td><div class="data5"><input type="text" style="width:100%;border:none;" value="' + CargoDescObj.volume + '" name="volume_' + vCargoDesc.length + '" id="volume_' + vCargoDesc.length + '" readonly/></div></td>';

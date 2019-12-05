@@ -30,9 +30,9 @@ namespace TrueBooksMVC.Models
             return query;
         }
 
-        public int AddCargo(JCargoDescription JCD, string UserID)
+        public int AddOrUpdateCargo(JCargoDescription JCD, string UserID)
         {
-            int query = Context1.SP_InsertCargoDescription(JCD.JobID, JCD.Mark, JCD.Description, JCD.weight, JCD.volume, JCD.Packages, JCD.GrossWeight, UserID);
+            int query = Context1.SP_InsertCargoDescription(JCD.CargoDescriptionID, JCD.JobID, JCD.Mark, JCD.Description, JCD.weight, JCD.volume, JCD.Packages, JCD.GrossWeight, UserID);
             return query;
         }
 
@@ -50,9 +50,9 @@ namespace TrueBooksMVC.Models
             return query;
         }
 
-        public int AddBillOfEntry(JBIllOfEntry JBE, string UserID)
+        public int AddOrUpdateBillOfEntry(JBIllOfEntry JBE, string UserID)
         {
-            int query = Context1.SP_InsertBillOfEntry(JBE.BIllOfEntry, JBE.JobID, JBE.BillofEntryDate, JBE.ShippingAgentID, Convert.ToInt32(UserID));
+            int query = Context1.SP_InsertBillOfEntry(JBE.BIllOfEntryID, JBE.BIllOfEntry, JBE.JobID, JBE.BillofEntryDate, JBE.ShippingAgentID, Convert.ToInt32(UserID));
             return query;
         }
 
@@ -62,13 +62,13 @@ namespace TrueBooksMVC.Models
         //    return query;
         //}
 
-        public int AddAuditLog(JAuditLog JAL, string UserID)
+        public int AddOrUpdateAuditLog(JAuditLog JAL, string UserID)
         {
             //string userDateTimeString = DTZC.ConvertDateTimeZone(Convert.ToDateTime(JAL.TransDate));
 
             //JAL.TransDate = Convert.ToDateTime(userDateTimeString);
 
-            int query = Context1.SP_InsertAuditlog(JAL.TransDate, JAL.Remarks, JAL.JobID, Convert.ToInt32(UserID));
+            int query = Context1.SP_InsertAuditlog(JAL.JAuditLogID, JAL.TransDate, JAL.Remarks, JAL.JobID, Convert.ToInt32(UserID));
 
             return query;
         }

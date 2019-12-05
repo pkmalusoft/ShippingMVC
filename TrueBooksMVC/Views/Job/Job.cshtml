@@ -1116,6 +1116,7 @@
                                 <div class="row no-margin">
                                     <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
                                         <label class="headinglabel">Mark</label>
+                                        <input type="hidden" id="CargoDescriptionID" value="0" ng-model="CargoDescriptionID" />
                                         <input type="text" tabindex="1" ng-model="Mark" class="form-control txttarget" id="Mark" placeholder="Mark" style="text-align: left" />
                                     </div>
                                     <div class="col-xs-6 col-sm-2 col-md-2 no-padding">
@@ -1177,6 +1178,7 @@
                             <div class="row no-margin">
                                 <div class="col-xs-6 col-sm-3 col-md-3 no-padding">
                                     <label class="headinglabel">Container Type</label>
+                                    <input type="hidden" name="JContainerDetailID" id="JContainerDetailID" value="0" ng-model="JContainerDetailID" />
                                     <select ng-model="ContainerTypeID" id="ContainerTypeID" class="form-control" ng_change="getContainers()">
                                         <option value='0'>Select</option>
                                         <option ng-repeat="b in ContainerTypeList" ng-selected="ContainerTypeID==b.ContainerTypeID" value='{{b.ContainerTypeID}}'>{{b.ContainerType}}</option>
@@ -1339,7 +1341,7 @@
                                 <div class="row no-margin">
                                     <div class="col-xs-6 col-sm-4 no-padding">
                                         <label class="headinglabel">Bill Of Entry</label>
-
+                                        <input type="hidden" name="BIllOfEntryID" id="BIllOfEntryID" value="0" />
                                         @Html.TextBox("BIllOfEntry", "", new { ng_model = "BIllOfEntry", @class = "form-control txttarget", @autocomplete = "off", placeholder = "Bill Of Entry", id = "BillOfEntry" })
                                     </div>
                                     <div class="col-xs-6 col-sm-4 no-padding">

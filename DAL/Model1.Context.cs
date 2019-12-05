@@ -207,8 +207,12 @@ namespace DAL
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GetAllVessels_Result>("SP_GetAllVessels");
         }
     
-        public virtual int SP_InsertCargoDescription(Nullable<int> jobID, string mark, string description, Nullable<decimal> weight, Nullable<decimal> volume, Nullable<decimal> packages, Nullable<decimal> grossWeight, string userID)
+        public virtual int SP_InsertCargoDescription(Nullable<int> CargoDescriptionID,Nullable<int> jobID, string mark, string description, Nullable<decimal> weight, Nullable<decimal> volume, Nullable<decimal> packages, Nullable<decimal> grossWeight, string userID)
         {
+            var CargoDescriptionIDParameter = CargoDescriptionID.HasValue ?
+               new ObjectParameter("CargoDescriptionID", CargoDescriptionID) :
+               new ObjectParameter("CargoDescriptionID", typeof(int));
+
             var jobIDParameter = jobID.HasValue ?
                 new ObjectParameter("JobID", jobID) :
                 new ObjectParameter("JobID", typeof(int));
@@ -241,7 +245,7 @@ namespace DAL
                 new ObjectParameter("UserID", userID) :
                 new ObjectParameter("UserID", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_InsertCargoDescription", jobIDParameter, markParameter, descriptionParameter, weightParameter, volumeParameter, packagesParameter, grossWeightParameter, userIDParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_InsertCargoDescription", CargoDescriptionIDParameter, jobIDParameter, markParameter, descriptionParameter, weightParameter, volumeParameter, packagesParameter, grossWeightParameter, userIDParameter);
         }
     
         public virtual ObjectResult<SP_GetAllContainerTypes_Result> SP_GetAllContainerTypes()
@@ -249,8 +253,13 @@ namespace DAL
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GetAllContainerTypes_Result>("SP_GetAllContainerTypes");
         }
     
-        public virtual int SP_InsertAuditlog(Nullable<System.DateTime> transDate, string remarks, Nullable<int> jobID, Nullable<int> userID)
+        public virtual int SP_InsertAuditlog(Nullable<int> JAuditLogID,Nullable<System.DateTime> transDate, string remarks, Nullable<int> jobID, Nullable<int> userID)
         {
+           
+                var JAuditLogIDParameter = JAuditLogID.HasValue ?
+                new ObjectParameter("JAuditLogID", transDate) :
+                new ObjectParameter("JAuditLogID", typeof(System.Int32));
+
             var transDateParameter = transDate.HasValue ?
                 new ObjectParameter("TransDate", transDate) :
                 new ObjectParameter("TransDate", typeof(System.DateTime));
@@ -267,11 +276,15 @@ namespace DAL
                 new ObjectParameter("UserID", userID) :
                 new ObjectParameter("UserID", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_InsertAuditlog", transDateParameter, remarksParameter, jobIDParameter, userIDParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_InsertAuditlog", JAuditLogIDParameter, transDateParameter, remarksParameter, jobIDParameter, userIDParameter);
         }
     
-        public virtual int SP_InsertBillOfEntry(string bIllOfEntry, Nullable<int> jobID, Nullable<System.DateTime> billofEntryDate, Nullable<int> shippingAgentID, Nullable<int> userID)
+        public virtual int SP_InsertBillOfEntry(Nullable<int> BIllOfEntryID,string bIllOfEntry, Nullable<int> jobID, Nullable<System.DateTime> billofEntryDate, Nullable<int> shippingAgentID, Nullable<int> userID)
         {
+            var BIllOfEntryIDParameter = BIllOfEntryID.HasValue ?
+               new ObjectParameter("BIllOfEntryID", BIllOfEntryID) :
+               new ObjectParameter("BIllOfEntryID", typeof(int));
+
             var bIllOfEntryParameter = bIllOfEntry != null ?
                 new ObjectParameter("BIllOfEntry", bIllOfEntry) :
                 new ObjectParameter("BIllOfEntry", typeof(string));
@@ -292,7 +305,7 @@ namespace DAL
                 new ObjectParameter("UserID", userID) :
                 new ObjectParameter("UserID", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_InsertBillOfEntry", bIllOfEntryParameter, jobIDParameter, billofEntryDateParameter, shippingAgentIDParameter, userIDParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_InsertBillOfEntry", BIllOfEntryIDParameter,bIllOfEntryParameter, jobIDParameter, billofEntryDateParameter, shippingAgentIDParameter, userIDParameter);
         }
     
         public virtual int SP_InsertContainerDetails(Nullable<int> jobID, Nullable<int> containerTypeID, string containerNo, string sealNo, string description, Nullable<int> userID)
