@@ -224,8 +224,8 @@ namespace TrueBooksMVC.Controllers
             SI.DeliveryId = Common.ParseInt(formCollection["SelectedDeliveryId"]);
             SI.QuotationNumber =(formCollection["QuotationNumber"]);
             SI.DiscountType = Common.ParseInt(formCollection["DiscountType"]);
-            SI.DiscountValueLC = Common.ParseDecimal(formCollection["discount"]);
-            SI.DiscountValueFC = Common.ParseDecimal(formCollection["discountFC"]);
+            SI.DiscountValueLC = Common.ParseDecimal(formCollection["DiscountValueLC"]);
+            SI.DiscountValueFC = Common.ParseDecimal(formCollection["DiscountValueFC"]);
 
             BindAllMasters();
             if (Session["UserID"] == null)
