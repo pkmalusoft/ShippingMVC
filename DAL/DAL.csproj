@@ -329,6 +329,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Model11.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model1.edmx</DependentUpon>
+    </Compile>
     <Compile Include="MonthlySalesRegister_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -676,6 +681,7 @@
     </None>
     <EntityDeploy Include="Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Model11.Designer.cs</LastGenOutput>
     </EntityDeploy>
     <None Include="Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

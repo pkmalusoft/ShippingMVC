@@ -9,8 +9,42 @@ function deleteCharge(obj,InvId) {
     }
     $(obj).closest('tr').remove();
 }
-
-
+function DeletedCargo(obj, CargoId) {
+    var DeletedCargoIds = $('#DeletedCargoIds').val();
+    if (DeletedCargoIds == '') {
+        $('#DeletedCargoIds').val(CargoId);
+    } else {
+        $('#DeletedCargoIds').val(DeletedCargoIds + ',' + CargoId);
+    }
+    $(obj).closest('tr').remove();
+}
+function DeletedContainer(obj, ContainerId) {
+    var DeletedContainerIds = $('#DeletedContainerIds').val();
+    if (DeletedContainerIds == '') {
+        $('#DeletedContainerIds').val(ContainerId);
+    } else {
+        $('#DeletedContainerIds').val(DeletedContainerIds + ',' + ContainerId);
+    }
+    $(obj).closest('tr').remove();
+}
+function DeletedBillOfEntry(obj, BillOfEntryId) {
+    var DeletedBillOfEntryIds = $('#DeletedBillOfEntryIds').val();
+    if (DeletedBillOfEntryIds == '') {
+        $('#DeletedBillOfEntryIds').val(BillOfEntryId);
+    } else {
+        $('#DeletedBillOfEntryIds').val(DeletedBillOfEntryIds + ',' + BillOfEntryId);
+    }
+    $(obj).closest('tr').remove();
+}
+function DeletedAuditLogID(obj, AuditLogID) {
+    var DeletedAuditLogIDs = $('#DeletedAuditLogIDs').val();
+    if (DeletedAuditLogIDs == '') {
+        $('#DeletedAuditLogIDs').val(AuditLogID);
+    } else {
+        $('#DeletedAuditLogIDs').val(DeletedAuditLogIDs + ',' + AuditLogID);
+    }
+    $(obj).closest('tr').remove();
+}
 function deleteRow(obj) {
     debugger;
     $(obj).closest('tr').remove();
@@ -210,6 +244,7 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
         var objRevenueTypeID = $('#RevenueTypeID_' + index).val();
         $('#RevenueTypeID').val(objRevenueTypeID);
         $('#RevenueTypeID').trigger("change");
+        
        // $scope.getSuppliers();
         $('#QTY').val($('#Quantity_' + index).val());
         $('#UnitID').val($('#ItemUnitID_' + index).val());
@@ -230,7 +265,8 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
         $('#update_charges').show();
         $('#add_charges').hide();
         $('#cancel_edit_charges').show();
-        $('#Supplier2').val($('#SupplierID_' + index).val());
+        setTimeout(function () { $('#Supplier2').val($('#SupplierID_' + index).val()); }, 2000);
+        
     };
 
     $scope.cancelEditCharges = function () {
@@ -352,7 +388,7 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
         };
         var ChargeStr = JSON.stringify(ChargeObj);
         vCharges.push(ChargeStr);
-        var tdString = '<tr><td style="width:20%"><div class= "data1" ><input type="hidden" value="0" id="InvoiceID_' + vCharges.length + '" /><input type="text" value="' + ChargeObj.RevenueType + '" title="' + ChargeObj.RevenueType + '" name="RevenueTypeName_' + vCharges.length + '" id="RevenueTypeName_' + vCharges.length + '" style="width:100%;border:none" readonly /><input type="hidden" value="' + ChargeObj.RevenueTypeID + '" name="RevenueTypeID_' + vCharges.length + '" id="RevenueTypeID_' + vCharges.length + '" /><input type="hidden" value="' + ChargeObj.RevenueTaxPercentage + '" name="RevenueTaxPercentage_' + vCharges.length + '" id="RevenueTaxPercentage_' + vCharges.length + '" /></div ></td>';
+        var tdString = '<tr><td style="width:20%"><div class= "data1" ><input type="hidden" value="0" name="InvoiceID_' + vCharges.length + '" id="InvoiceID_' + vCharges.length + '" /><input type="text" value="' + ChargeObj.RevenueType + '" title="' + ChargeObj.RevenueType + '" name="RevenueTypeName_' + vCharges.length + '" id="RevenueTypeName_' + vCharges.length + '" style="width:100%;border:none" readonly /><input type="hidden" value="' + ChargeObj.RevenueTypeID + '" name="RevenueTypeID_' + vCharges.length + '" id="RevenueTypeID_' + vCharges.length + '" /><input type="hidden" value="' + ChargeObj.RevenueTaxPercentage + '" name="RevenueTaxPercentage_' + vCharges.length + '" id="RevenueTaxPercentage_' + vCharges.length + '" /></div ></td>';
         tdString = tdString + '<td style="width:20%;><div class="data2" ><input type="text" value="' + ChargeObj.SupplierName + '" title="' + ChargeObj.SupplierName + '" name="SupplierName_' + vCharges.length + '" id="SupplierName_' + vCharges.length + '" style="width:100%;border:none"  readonly/><input type="hidden" value="' + ChargeObj.SupplierID + '" name="SupplierID_' + vCharges.length + '" id="SupplierID_' + vCharges.length + '" /></div></td>';
         tdString = tdString + '<td><div class="data4" ><input type="text" value="' + ChargeObj.Quantity + '" title="' + ChargeObj.Quantity + '" name="Quantity_' + vCharges.length + '" id="Quantity_' + vCharges.length + '" style="width:100px;border:none" readonly/></div></td>';
         tdString = tdString + '<td><div class="data2" ><input type="text" value="' + ChargeObj.ItemUnit + '" title="' + ChargeObj.ItemUnit + '" name="ItemUnit_' + vCharges.length + '" id="ItemUnit_' + vCharges.length + '" style="width:100px;border:none" readonly /><input type="hidden" value="' + ChargeObj.ItemUnitID + '" name="ItemUnitID_' + vCharges.length + '" id="ItemUnitID_' + vCharges.length + '" /></div></td>';
@@ -446,7 +482,7 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
                 var ChargeObj = $scope.Charges[i];
                 var ChargeStr = JSON.stringify(ChargeObj);
                 vCharges.push(ChargeStr);
-                var tdString = '<tr><td style="width:20%"><div class= "data1" ><input type="hidden" value="' + ChargeObj.InvoiceID + '" id="InvoiceID_' + vCharges.length + '" /> <input type="text" value="' + ChargeObj.RevenueType + '" title="' + ChargeObj.RevenueType + '" name="RevenueTypeName_' + vCharges.length + '" id="RevenueTypeName_' + vCharges.length + '" style="width:100%;border:none"readonly /><input type="hidden" value="' + ChargeObj.RevenueTypeID + '" name="RevenueTypeID_' + vCharges.length + '" id="RevenueTypeID_' + vCharges.length + '" /></div ></td>';
+                var tdString = '<tr><td style="width:20%"><div class= "data1" ><input type="hidden" value="' + ChargeObj.InvoiceID + '" name="InvoiceID_' + vCharges.length + '" id="InvoiceID_' + vCharges.length + '" /> <input type="text" value="' + ChargeObj.RevenueType + '" title="' + ChargeObj.RevenueType + '" name="RevenueTypeName_' + vCharges.length + '" id="RevenueTypeName_' + vCharges.length + '" style="width:100%;border:none"readonly /><input type="hidden" value="' + ChargeObj.RevenueTypeID + '" name="RevenueTypeID_' + vCharges.length + '" id="RevenueTypeID_' + vCharges.length + '" /></div ></td>';
                 tdString = tdString + '<td style="width:20%"><div class="data2" ><input type="text" value="' + ChargeObj.SupplierName + '" title="' + ChargeObj.SupplierName + '" name="SupplierName_' + vCharges.length + '" id="SupplierName_' + vCharges.length + '" style="width:100%;border:none" readonly/><input type="hidden" value="' + ChargeObj.SupplierID + '" name="SupplierID_' + vCharges.length + '" id="SupplierID_' + vCharges.length + '" /></div></td>';
                 tdString = tdString + '<td><div class="data4" ><input type="text" value="' + ChargeObj.Quantity + '" title="' + ChargeObj.Quantity + '" name="Quantity_' + vCharges.length + '" id="Quantity_' + vCharges.length + '" style="width:100%;border:none" readonly /></div></td>';
                 tdString = tdString + '<td><div class="data2" ><input type="text" value="' + (ChargeObj.ItemUnit == null ? '' : ChargeObj.ItemUnit) + '" title="' + (ChargeObj.ItemUnit == null ? '' : ChargeObj.ItemUnit) + '" name="ItemUnit_' + vCharges.length + '" id="ItemUnit_' + vCharges.length + '" style="width:100%;border:none" readonly /><input type="hidden" value="' + (ChargeObj.ItemUnitID == null ? 0 : ChargeObj.ItemUnitID) + '" name="ItemUnitID_' + vCharges.length + '" id="ItemUnitID_' + vCharges.length + '" /></div></td>';
@@ -491,7 +527,7 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
                 vAuditDet.push(AuditObjStr);
                 var tdString = '<tr><td><div class= "data1" ><input type="hidden" name="JAuditLogID_' + vAuditDet.length + '" id="JAuditLogID_' + vAuditDet.length + '" value="' + AuditObj.JAuditLogID  + '" /><input type="text" style="width:100%;border:none" value="' + TransDateStr + '" title="' + TransDateStr + '" name="AuditTransDate_' + vAuditDet.length + '" id="AuditTransDate_' + vAuditDet.length + '" /></div></td>';
                 tdString = tdString + '<td><div class="data2" ><input style="width:100%;border:none" type="text" value="' + AuditObj.Remarks + '" title="' + AuditObj.Remarks + '" name="AuditRemarks_' + vAuditDet.length + '" id="AuditRemarks_' + vAuditDet.length + '" /></div></td>';
-                tdString = tdString + '<td><a href="javascript:void(0)" onclick="angular.element(this).scope().editNotification(' + vAuditDet.length + ')"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="deleteRow(this)"><i class="fa fa-times-circle"></i></a></td>';
+                tdString = tdString + '<td><a href="javascript:void(0)" onclick="angular.element(this).scope().editNotification(' + vAuditDet.length + ')"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="DeletedAuditLogID(this,' + AuditObj.JAuditLogID + ')"><i class="fa fa-times-circle"></i></a></td>';
                 tdString = tdString + '</tr>';
                 debugger;
                 $("#audit_table").append(tdString);
@@ -611,7 +647,7 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
                 var tdString = '<tr><td><div class= "data1" ><input type="hidden" name="BIllOfEntryID_' + vBillOfEntry.length + '" id="BIllOfEntryID_' + vBillOfEntry.length + '" value="' + BillOfEntryObj.BIllOfEntryID + '" /><input type="text" style="width:100%;border:none;" value="' + BillOfEntryObj.BIllOfEntry + '" title="' + BillOfEntryObj.BIllOfEntry + '" name="BIllOfEntry_' + vBillOfEntry.length + '" id="BIllOfEntry_' + vBillOfEntry.length + '" readonly/></div></td>';
                 tdString = tdString + '<td><div class="data2" ><input style="width:100%;border:none;" type="text" value="' + BOEDateStr + '" title="' + BOEDateStr + '" name="BillofEntryDate_' + vBillOfEntry.length + '" id="BillofEntryDate_' + vBillOfEntry.length + '" readonly /></div></td>';
                 tdString = tdString + '<td><div class="data3"><input type="text" style="width:100%;border:none;" value="' + ShippingAgentName + '" title="' + ShippingAgentName + '" name="ShippingAgentName_' + vBillOfEntry.length + '" id="ShippingAgentName_' + vBillOfEntry.length + '" readonly/><input type="hidden" value="' + BillOfEntryObj.ShippingAgentID + '" name="ShippingAgentID_' + vBillOfEntry.length + '" id="ShippingAgentID_' + vBillOfEntry.length + '" /></div></td>';
-                tdString = tdString + '<td><a href="javascript:void(0)" onclick="angular.element(this).scope().editBillOfEntry(' + vBillOfEntry.length + ')"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="deleteRow(this)"><i class="fa fa-times-circle"></i></a></td>';
+                tdString = tdString + '<td><a href="javascript:void(0)" onclick="angular.element(this).scope().editBillOfEntry(' + vBillOfEntry.length + ')"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="DeletedBillOfEntry(this,' + BillOfEntryObj.BIllOfEntryID + ')"><i class="fa fa-times-circle"></i></a></td>';
                 tdString = tdString + '</tr>';
                 $("#bill_of_entry_table").append(tdString);
             }
@@ -666,7 +702,7 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
                 tdString = tdString + '<td><div class="data2" ><input type="text" style="width:100%;border:none;" value="' + ContainerObj.ContainerNo + '" name="ContainerNo_' + vContainer.length + '" id="ContainerNo_' + vContainer.length + '" readonly/></div></td>';
                 tdString = tdString + '<td><div class="data3"><input type="text" style="width:100%;border:none;" value="' + ContainerObj.SealNo + '" name="SealNo_' + vContainer.length + '" id="SealNo_' + vContainer.length + '" readonly/></div></td>';
                 tdString = tdString + '<td><div class="data" ><input type="text" style="width:100%;border:none;" value="' + ContainerObj.Description + '" name="ContainerDescription_' + vContainer.length + '" id="ContainerDescription_' + vContainer.length + '" readonly/></div></td>';
-                tdString = tdString + '<td><a href="javascript:void(0)" onclick="angular.element(this).scope().editContainerDetails(' + vContainer.length + ')"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="deleteRow(this)"><i class="fa fa-times-circle"></i></a></td>';
+                tdString = tdString + '<td><a href="javascript:void(0)" onclick="angular.element(this).scope().editContainerDetails(' + vContainer.length + ')"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="DeletedContainer(this,' + ContainerObj.JContainerDetailID + ')"><i class="fa fa-times-circle"></i></a></td>';
                 tdString = tdString + '</tr>';
                 $("#container_table").append(tdString);
             }
@@ -837,7 +873,7 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
                 tdString = tdString + '<td><div class="data5"><input type="text" style="width:100%;border:none;" value="' + CargoDescObj.volume + '" name="volume_' + vCargoDesc.length + '" id="volume_' + vCargoDesc.length + '" readonly/></div></td>';
                 tdString = tdString + '<td><div class="data6"><input type="text" style="width:100%;border:none;" value="' + CargoDescObj.Packages + '" name="Packages_' + vCargoDesc.length + '" id="Packages_' + vCargoDesc.length + '" readonly/></div></td>';
                 tdString = tdString + '<td><div class="data6"><input type="text" style="width:100%;border:none" value="' + CargoDescObj.GrossWeight + '" name="GrossWeight_' + vCargoDesc.length + '" id="GrossWeight_' + vCargoDesc.length + '" readonly/></div></td>';
-                tdString = tdString + '<td><a href="javascript:void(0)" onclick="angular.element(this).scope().editCargo(' + vCargoDesc.length + ')"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="deleteRow(this)"><i class="fa fa-times-circle"></i></a></td>';
+                tdString = tdString + '<td><a href="javascript:void(0)" onclick="angular.element(this).scope().editCargo(' + vCargoDesc.length + ')"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="DeletedCargo(this,' + CargoDescObj.CargoDescriptionID + ')"><i class="fa fa-times-circle"></i></a></td>';
                 tdString = tdString + '</tr>';
                 $("#cargo_table").append(tdString);
             }

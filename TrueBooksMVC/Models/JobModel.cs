@@ -44,9 +44,9 @@ namespace TrueBooksMVC.Models
             return query;
         }
 
-        public int AddContainerDetails(JContainerDetail JConD, string UserID)
+        public int AddOrUpdateContainerDetails(JContainerDetail JConD, string UserID)
         {
-            int query = Context1.SP_InsertContainerDetails(JConD.JobID, JConD.ContainerTypeID, JConD.ContainerNo, JConD.SealNo, JConD.Description, Convert.ToInt32(UserID));
+            int query = Context1.SP_InsertContainerDetails(JConD.JContainerDetailID, JConD.JobID, JConD.ContainerTypeID, JConD.ContainerNo, JConD.SealNo, JConD.Description, Convert.ToInt32(UserID));
             return query;
         }
 
@@ -254,9 +254,9 @@ namespace TrueBooksMVC.Models
             return i;
         }
 
-        public int DeleteJobDetailsByJobID(int JobID,string InvoiceIds)
+        public int DeleteJobDetailsByJobID(int JobID,string InvoiceIds,string DeletedCargoIds,string DeletedContainerIds,string DeletedBillOfEntryIds,string DeletedAuditLogIDs)
         {
-            int i = Context1.SP_DeleteJobDetailsByJobID(JobID, InvoiceIds);
+            int i = Context1.SP_DeleteJobDetailsByJobID(JobID, InvoiceIds, DeletedCargoIds, DeletedContainerIds, DeletedBillOfEntryIds, DeletedAuditLogIDs);
             return i;
         }
 

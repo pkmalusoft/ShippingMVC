@@ -257,7 +257,7 @@ namespace DAL
         {
            
                 var JAuditLogIDParameter = JAuditLogID.HasValue ?
-                new ObjectParameter("JAuditLogID", transDate) :
+                new ObjectParameter("JAuditLogID", JAuditLogID) :
                 new ObjectParameter("JAuditLogID", typeof(System.Int32));
 
             var transDateParameter = transDate.HasValue ?
@@ -308,8 +308,12 @@ namespace DAL
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_InsertBillOfEntry", BIllOfEntryIDParameter,bIllOfEntryParameter, jobIDParameter, billofEntryDateParameter, shippingAgentIDParameter, userIDParameter);
         }
     
-        public virtual int SP_InsertContainerDetails(Nullable<int> jobID, Nullable<int> containerTypeID, string containerNo, string sealNo, string description, Nullable<int> userID)
+        public virtual int SP_InsertContainerDetails(Nullable<int> JContainerDetailID,Nullable<int> jobID, Nullable<int> containerTypeID, string containerNo, string sealNo, string description, Nullable<int> userID)
         {
+            var JContainerDetailIDParameter = JContainerDetailID.HasValue ?
+               new ObjectParameter("JContainerDetailID", JContainerDetailID) :
+               new ObjectParameter("JContainerDetailID", typeof(int));
+
             var jobIDParameter = jobID.HasValue ?
                 new ObjectParameter("JobID", jobID) :
                 new ObjectParameter("JobID", typeof(int));
@@ -334,7 +338,7 @@ namespace DAL
                 new ObjectParameter("UserID", userID) :
                 new ObjectParameter("UserID", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_InsertContainerDetails", jobIDParameter, containerTypeIDParameter, containerNoParameter, sealNoParameter, descriptionParameter, userIDParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_InsertContainerDetails", JContainerDetailIDParameter, jobIDParameter, containerTypeIDParameter, containerNoParameter, sealNoParameter, descriptionParameter, userIDParameter);
         }
     
         public virtual ObjectResult<SP_GetAllRecieptsDetails_Result> SP_GetAllRecieptsDetails()
@@ -590,7 +594,7 @@ namespace DAL
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_DeleteContainerbyJobIDandUser", jContainerDetailIDParameter);
         }
 
-        public virtual int SP_DeleteJobDetailsByJobID(Nullable<int> JobID,string InvoiceIds)
+        public virtual int SP_DeleteJobDetailsByJobID(Nullable<int> JobID,string InvoiceIds, string DeletedCargoIds, string DeletedContainerIds, string DeletedBillOfEntryIds, string DeletedAuditLogIDs)
         {
             var jobIDParameter = JobID.HasValue ?
                  new ObjectParameter("JobID", JobID) :
@@ -598,9 +602,25 @@ namespace DAL
 
             var invoiceIdsParameter = InvoiceIds != null ?
                 new ObjectParameter("InvoiceIds", InvoiceIds) :
+                new ObjectParameter("InvoiceIds", typeof(string));
 
-                new ObjectParameter("JobID", typeof(int));
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_DeleteJobDetailsByJobID", jobIDParameter, invoiceIdsParameter);
+            var DeletedCargoIdsParameter = DeletedCargoIds != null ?
+               new ObjectParameter("DeletedCargoIds", DeletedCargoIds) :
+               new ObjectParameter("DeletedCargoIds", typeof(string));
+
+            var DeletedContainerIdsParameter = DeletedContainerIds != null ?
+              new ObjectParameter("DeletedContainerIds", DeletedContainerIds) :
+              new ObjectParameter("DeletedContainerIds", typeof(string));
+
+            var DeletedBillOfEntryIdsParameter = DeletedBillOfEntryIds != null ?
+            new ObjectParameter("DeletedBillOfEntryIds", DeletedBillOfEntryIds) :
+            new ObjectParameter("DeletedBillOfEntryIds", typeof(string));
+
+            var DeletedAuditLogIDsParameter = DeletedAuditLogIDs != null ?
+          new ObjectParameter("DeletedAuditLogIDs", DeletedAuditLogIDs) :
+          new ObjectParameter("DeletedAuditLogIDs", typeof(string));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_DeleteJobDetailsByJobID", jobIDParameter, invoiceIdsParameter, DeletedCargoIdsParameter, DeletedContainerIdsParameter, DeletedBillOfEntryIdsParameter, DeletedAuditLogIDsParameter);
         }
         
 

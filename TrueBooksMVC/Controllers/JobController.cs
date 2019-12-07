@@ -1022,8 +1022,12 @@ namespace TrueBooksMVC.Controllers
             int ChargesCount = 0;
             ArrayList ChargesArray = new ArrayList();
             string DeletedInvoiceIds = ((string[])formCollection.GetValue("DeletedInvoiceIds").RawValue)[0].ToString();
+            string DeletedCargoIds= ((string[])formCollection.GetValue("DeletedCargoIds").RawValue)[0].ToString();
+            string DeletedContainerIds = ((string[])formCollection.GetValue("DeletedContainerIds").RawValue)[0].ToString();
+            string DeletedBillOfEntryIds = ((string[])formCollection.GetValue("DeletedBillOfEntryIds").RawValue)[0].ToString();
+            string DeletedAuditLogIDs = ((string[])formCollection.GetValue("DeletedAuditLogIDs").RawValue)[0].ToString();
 
-          //  DeleteJobDetailsByJobID(JobId, DeletedInvoiceIds);
+            DeleteJobDetailsByJobID(JobId, DeletedInvoiceIds, DeletedCargoIds, DeletedContainerIds, DeletedBillOfEntryIds, DeletedAuditLogIDs);
 
             for (int j = 0; j < formCollection.Keys.Count; j++)
             {
@@ -1485,7 +1489,7 @@ namespace TrueBooksMVC.Controllers
 
 
 
-                i = J.AddContainerDetails(Conta, Session["UserID"].ToString());
+                i = J.AddOrUpdateContainerDetails(Conta, Session["UserID"].ToString());
                 var container = (from t in entity.JContainerDetails orderby t.JContainerDetailID descending select t).FirstOrDefault();
 
                 if (Session["ContainerID"] == null)
@@ -1576,16 +1580,16 @@ namespace TrueBooksMVC.Controllers
                     Charges.JobID = 0;
                 }
 
-                if (Charges.InvoiceID <= 0)
-                {
+             //   if (Charges.InvoiceID <= 0)
+               // {
 
                     int i = J.AddOrUpdateCharges(Charges, Session["UserID"].ToString());
-                }
-                else
-                {
-                    entity.Entry(Charges).State = EntityState.Modified;
-                    entity.SaveChanges();
-                }
+              //  }
+             //   else
+              //  {
+              //      entity.Entry(Charges).State = EntityState.Modified;
+                //    entity.SaveChanges();
+              //  }
 
                 var charges = (from t in entity.JInvoices orderby t.InvoiceID descending select t).FirstOrDefault();
 
@@ -1623,15 +1627,16 @@ namespace TrueBooksMVC.Controllers
             //}
             if (Session["UserID"] != null)
             {
-                if (ContainerDetail.JContainerDetailID <= 0)
-                {
-                    int i = J.AddContainerDetails(ContainerDetail, Session["UserID"].ToString());
-                }
-                else
-                {
-                    entity.Entry(ContainerDetail).State = EntityState.Modified;
-                    entity.SaveChanges();
-                }
+              //  if (ContainerDetail.JContainerDetailID <= 0)
+              //  {
+                    int i = J.AddOrUpdateContainerDetails(ContainerDetail, Session["UserID"].ToString());
+             //   }
+               // else
+             //   {
+                  //  entity.Entry(ContainerDetail).State = EntityState.Modified;
+               //     entity.SaveChanges();
+               //     entity.Entry(ContainerDetail).State = EntityState.Detached;
+               // }
                 var containers = (from t in entity.JContainerDetails orderby t.JContainerDetailID descending select t).FirstOrDefault();
             }
 
@@ -1760,9 +1765,9 @@ namespace TrueBooksMVC.Controllers
 
         }
 
-        public bool DeleteJobDetailsByJobID(int JobID,string InvoiceIds)
+        public bool DeleteJobDetailsByJobID(int JobID,string InvoiceIds, string DeletedCargoIds, string DeletedContainerIds, string DeletedBillOfEntryIds, string DeletedAuditLogIDs)
         {
-            J.DeleteJobDetailsByJobID(JobID, InvoiceIds);
+            J.DeleteJobDetailsByJobID(JobID, InvoiceIds, DeletedCargoIds, DeletedContainerIds, DeletedBillOfEntryIds, DeletedAuditLogIDs);
             return true;
         }
 

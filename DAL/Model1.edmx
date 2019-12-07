@@ -1716,6 +1716,10 @@ warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.qrySupplierOutstanding'
         <Function Name="SP_DeleteJobDetailsByJobID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="JobID" Type="int" Mode="In" />
           <Parameter Name="InvoiceIds" Type="varchar" Mode="In" />
+          <Parameter Name="DeletedCargoIds" Type="varchar" Mode="In" />
+          <Parameter Name="DeletedContainerIds" Type="varchar" Mode="In" />
+          <Parameter Name="DeletedBillOfEntryIds" Type="varchar" Mode="In" />
+          <Parameter Name="DeletedAuditLogIDs" Type="varchar" Mode="In" />
         </Function>
         <Function Name="SP_DeletePurchaseInvoice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="PurchaseInvoiceId" Type="int" Mode="In" />
@@ -1947,6 +1951,7 @@ warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.qrySupplierOutstanding'
           <Parameter Name="Margin" Type="numeric" Mode="In" />
         </Function>
         <Function Name="SP_InsertContainerDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="JContainerDetailID" Type="int" Mode="In" />
           <Parameter Name="JobID" Type="int" Mode="In" />
           <Parameter Name="ContainerTypeID" Type="int" Mode="In" />
           <Parameter Name="ContainerNo" Type="nvarchar" Mode="In" />
@@ -2590,6 +2595,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
             <Parameter Name="UserID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_InsertContainerDetails">
+            <Parameter Name="JContainerDetailID" Mode="In" Type="Int32" />
             <Parameter Name="JobID" Mode="In" Type="Int32" />
             <Parameter Name="ContainerTypeID" Mode="In" Type="Int32" />
             <Parameter Name="ContainerNo" Mode="In" Type="String" />
@@ -2672,6 +2678,10 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <FunctionImport Name="SP_DeleteJobDetailsByJobID">
             <Parameter Name="JobID" Mode="In" Type="Int32" />
             <Parameter Name="InvoiceIds" Mode="In" Type="String" />
+            <Parameter Name="DeletedCargoIds" Mode="In" Type="String" />
+            <Parameter Name="DeletedContainerIds" Mode="In" Type="String" />
+            <Parameter Name="DeletedBillOfEntryIds" Mode="In" Type="String" />
+            <Parameter Name="DeletedAuditLogIDs" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="SP_GetAuditbyJobIDandUser" ReturnType="Collection(SHIPPING_FinalModel.SP_GetAuditbyJobIDandUser_Result)">
             <Parameter Name="JobId" Mode="In" Type="Int32" />
