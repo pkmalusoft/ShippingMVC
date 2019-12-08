@@ -381,6 +381,27 @@
             maxDate: ed,
         });
 
+        $("#drop").hide();
+        $("#SubJob").attr('checked', false);
+
+        $("#SubJob").change(function () {
+            debugger;
+            if ($("#SubJob").is(':checked')) {
+                $("#drop").show();
+            }
+            else {
+                $("#drop").hide();
+            }
+        });
+
+        debugger;
+        if ($('#SelectedMainJobID').val() != '' && $('#SelectedMainJobID').val() != '0') {
+            if (parseInt($('#SelectedMainJobID').val()) > 0) {
+                $('#SubJob').prop('checked', true);
+                $('#drop').show();
+                $('#MainJobId').val($('#SelectedMainJobID').val());
+            }
+        }
 
         //$("#btnSave").click(function () {
         //    $.ajax({
@@ -502,17 +523,7 @@
 
         });
 
-        $("#drop").hide();
-        $("#SubJob").attr('checked', false);
-
-        $("#SubJob").change(function () {
-            if ($("#SubJob").is(':checked')) {
-                $("#drop").show();
-            }
-            else {
-                $("#drop").hide();
-            }
-        });
+       
     });
 
     function AddInvoiceNumber() {
@@ -715,7 +726,7 @@
             <div class="col-md-3">
                 <label class="required headinglabel">Job Type</label>
                 @{
-                                if (Model.JobID > 0)
+                    if (Model.JobID > 0)
                     {
                         @Html.DropDownListFor(model => model.JobTypeID, (SelectList)ViewBag.JobType, "Select", new { @class = "form-control", required = "required" })
                     }
@@ -735,7 +746,8 @@
                 <input type="checkbox" id="SubJob" name="SubJob" style="height: 12px; width: 12px; margin-bottom: 0px" />
                 <label class="headinglabel" style="margin-bottom: 3px">SubJob</label>
                 <div id="drop">
-                    @Html.DropDownListFor(model => model.MainJobID, new SelectList(ViewBag.MainJobId, "JobID", "JobCode"), "Select Main Job", new { @class = "form-control" })
+                    @Html.DropDownListFor(model => model.MainJobID, new SelectList(ViewBag.MainJobId, "JobID", "JobCode"), "Select Main Job", new { @class = "form-control", @id = "MainJobId" })
+                    <input type="hidden" value="@Model.MainJobID" name="SelectedMainJobID" id="SelectedMainJobID" />
                 </div>
             </div>
 
@@ -746,16 +758,16 @@
 
 
                 @{
-                    if (Model.JobID > 0)
-                    {
-                        @Html.TextBoxFor(model => model.JobCode, new { @class = "form-control", @id = "txtJobCode", required = "required" })
-                    }
-                    else
-                    {
-                        @Html.TextBoxFor(model => model.JobCode, new { ng_model = "JobCode", @class = "form-control", required = "required" })
-                    }
-                }
-                @Html.ValidationMessageFor(model => model.JobCode)
+                                if (Model.JobID > 0)
+                                {
+                                    @Html.TextBoxFor(model => model.JobCode, new { @class = "form-control", @id = "txtJobCode", required = "required" })
+                                }
+                                else
+                                {
+                                    @Html.TextBoxFor(model => model.JobCode, new { ng_model = "JobCode", @class = "form-control", required = "required" })
+                                }
+                            }
+                            @Html.ValidationMessageFor(model => model.JobCode)
 
             </div>
 
@@ -838,7 +850,7 @@
         <div class="row no-margin" style="padding-top: 10px">
             <div class="col-md-3">
                 <label class=" headinglabel">Staff</label>
-                @Html.DropDownListFor(model => model.EmployeeID, (SelectList)ViewBag.Employees, "Select", new { @class = "form-control", @readonly = "readonly" })
+                @Html.DropDownListFor(model => model.EmployeeID, (SelectList)ViewBag.Employees, "Select", new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.EmployeeID)
 
             </div>

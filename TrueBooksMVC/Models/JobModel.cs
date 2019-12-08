@@ -89,6 +89,7 @@ namespace TrueBooksMVC.Models
                 JG1.JobCode = item.JobCode;
                 JG1.JobDate = item.JobDate.Value;
                 JG1.JobTypeID = item.JobTypeID;
+                JG1.MainJobID = item.MainJobID;
                 JG1.JobID = item.JobID;
                 JG1.ArrivalDate = item.ArrivalDate;
                 JG1.InvoiceToID = item.InvoiceToID;

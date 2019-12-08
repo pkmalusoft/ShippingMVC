@@ -213,7 +213,7 @@ namespace TrueBooksMVC.Controllers
                 JM.InvoiceNo = 0;
                 JobId = Convert.ToInt32(J.MaxJobID()) - 1;
                 //  JM.JobID = JobId;
-
+              //  JM.EmployeeID = Convert.ToInt32(Session["UserID"]);
                 i = J.AddJob(JM);
                 JobId = i;
 
