@@ -80,13 +80,16 @@ namespace TrueBooksMVC.Models
                 CostUp.EmployeeID = item.EmployeeID;
                 CostUp.JobID = item.JobID;
                 CostUp.CostUpdationID = item.CostUpdationID;
-                if (item.JobCode.StartsWith(","))
+                if (item.JobCode != null)
                 {
-                    CostUp.JobCode = item.JobCode.Substring(1);
-                }
-                else
-                {
-                    CostUp.JobCode = item.JobCode;
+                    if (item.JobCode.StartsWith(","))
+                    {
+                        CostUp.JobCode = item.JobCode.Substring(1);
+                    }
+                    else
+                    {
+                        CostUp.JobCode = item.JobCode;
+                    }
                 }
                 CostUp.SupplierName = item.SupplierName;
                 CostUp.SupplierID = item.SupplierID;

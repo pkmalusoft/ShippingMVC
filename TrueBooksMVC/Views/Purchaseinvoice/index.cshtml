@@ -108,17 +108,13 @@
         box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
         border-radius: 10px;
     }
+  
 </style>
 
 <script src="@Url.Content("~/Scripts/angular.js")"></script>
 <script src="@Url.Content("~/MyJsFiles/CustomerRecieptDetails.js")"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.20/datatables.min.css" />
-
 <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.20/datatables.min.js"></script>
-
-
-
-
 
 @if (ViewBag.SuccessMsg != null)
 {
@@ -126,14 +122,10 @@
         $(document).ready(function () {$.notify("@ViewBag.SuccessMsg ", "success");});
     </script>
 }
-    <a href="/purchaseInvoice/invoice/0"><button class="btn btn-primary btnwidth" style="margin:10px"> Create</button></a>
-
+    
 <div ng-app="MyApp" ng-controller="MyController">
     <div class="" dir="ltr" id="main" runat="server">
-        <section class="content-header">
-            <h1 class="headingfont">Purchase Invoice<small></small></h1>
-
-        </section>
+       
         <p class="cbtnpadding">
             @{
 
@@ -151,7 +143,15 @@
         <section class="content">
             <p style="color: white" class="cbtnpadding">
                 <div id="error" style="display: none; font-family: 'Montserrat', sans-serif !important; color: red">* From Date must not be Greater than To Date</div>
+
                 <table class="searchtabs tabsser" id="tbl1">
+                    <tr>
+                        <td colspan="6" style="text-align:center;">
+                            <section class="content-header">
+                                <h1 class="headingfont">Purchase Invoice<small></small></h1>
+                            </section>
+                        </td>
+                    </tr>
                     <tr>
                         <td class="searlabel ">
                             From Date
@@ -165,8 +165,11 @@
                         <td class="searinput">
                             <input type="text" id="todate" class="form-control" />
                         </td>
-                        <td>
+                        <td style="padding-left:10px;">
                             <input type="button" value="Search" id="btnsearch" class="btn btn-primary btnwidt fa fa-search" />
+                        </td>
+                        <td>
+                            <a href="/purchaseInvoice/invoice/0"><button class="btn btn-primary btnwidth" style="margin:10px"> Add</button></a>
                         </td>
                     </tr>
                 </table>
@@ -179,7 +182,6 @@
                             <input type="text" id="frmdate" class="form-control" />
                         </td>
                     </tr>
-                    <br />
                     <tr>
                         <td class="searlabel">
                             To Date
@@ -188,7 +190,6 @@
                             <input type="text" id="todate" class="form-control" />
                         </td>
                     </tr>
-                    <br />
                     <tr>
                         <td></td>
                         <td style="text-align:center">

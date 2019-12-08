@@ -198,6 +198,13 @@
             }
         });
 
+        $('.LoadedInvoiceAmount').each(function (i, obj) {
+            if ($(obj).val() == '0' || $(obj).val() == '') {
+                $(obj).val('0.00');
+            }
+        });
+
+        
     });
 
     function BindCostUpdationDetailsGrid() {
@@ -507,7 +514,7 @@
                                                     <div class="data8">
                                                         <div class="data7">
                                                             <div class="data6">
-                                                                @Html.TextBoxFor(item => @Model.CostUpdationDetails[i].InvoiceAmount, new { @class = "amt txtNum textright", autocomplete = "off" })
+                                                                @Html.TextBoxFor(item => @Model.CostUpdationDetails[i].InvoiceAmount, new { @class = "amt txtNum textright LoadedInvoiceAmount", autocomplete = "off" })
                                                             </div>
                                                         </div>
                                                     </div>
