@@ -225,13 +225,6 @@ namespace TrueBooksMVC.Models
                 {
                     CostUpdationDetail objCostUpdationDetail = new CostUpdationDetail();
                     var maxValue = Context1.CostUpdations.Max(x => x.CostUpdationID);
-                    int MaxcostupdationdetailsID = (from c in Context1.CostUpdationDetails orderby c.CostUpdationDetailID descending select c.CostUpdationDetailID).FirstOrDefault();
-
-                    if (Convert.ToInt32(MaxcostupdationdetailsID) <= 0)
-                        MaxcostupdationdetailsID = 1;
-                    else
-                        MaxcostupdationdetailsID = MaxcostupdationdetailsID + 1;
-                    objCostUpdationDetail.CostUpdationDetailID = MaxcostupdationdetailsID;
                     objCostUpdationDetail.RevenueTypeID = costupdationdetailsid.RevenueTypeID;
                     objCostUpdationDetail.ProvisionCurrencyID = costupdationdetailsid.ProvisionCurrencyID;
                     objCostUpdationDetail.ProvisionExchangeRate = costupdationdetailsid.ProvisionExchangeRate;
@@ -278,7 +271,7 @@ namespace TrueBooksMVC.Models
                     objCostUpdationDetail.CostUpdationID = costUpdationID;
 
                     //Context1.CostUpdationDetails.Add(objCostUpdationDetail);
-                    Context1.SP_InsertCostUpdationDetails(objCostUpdationDetail.CostUpdationDetailID, objCostUpdationDetail.CostUpdationID, objCostUpdationDetail.RevenueTypeID
+                        Context1.SP_InsertCostUpdationDetails(objCostUpdationDetail.CostUpdationDetailID, objCostUpdationDetail.CostUpdationID, objCostUpdationDetail.RevenueTypeID
                         , objCostUpdationDetail.ProvisionCurrencyID, objCostUpdationDetail.ProvisionExchangeRate, objCostUpdationDetail.ProvisionForeign,
                         objCostUpdationDetail.ProvisionHome, objCostUpdationDetail.SalesCurrencyID, objCostUpdationDetail.SalesExchangeRate,
                         objCostUpdationDetail.SalesForeign, objCostUpdationDetail.SalesHome, objCostUpdationDetail.Variance,
