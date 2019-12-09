@@ -224,7 +224,8 @@ namespace TrueBooksMVC.Models
                 if (costupdationdetailsid.InvoiceAmount > 0)
                 {
                     CostUpdationDetail objCostUpdationDetail = new CostUpdationDetail();
-                    var maxValue = Context1.CostUpdations.Max(x => x.CostUpdationID);
+                    // var maxValue = Context1.CostUpdations.Max(x => x.CostUpdationID);
+                    objCostUpdationDetail.CostUpdationDetailID = costupdationdetailsid.CostUpdationDetailID;
                     objCostUpdationDetail.RevenueTypeID = costupdationdetailsid.RevenueTypeID;
                     objCostUpdationDetail.ProvisionCurrencyID = costupdationdetailsid.ProvisionCurrencyID;
                     objCostUpdationDetail.ProvisionExchangeRate = costupdationdetailsid.ProvisionExchangeRate;
