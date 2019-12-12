@@ -25,8 +25,6 @@
 <script type="text/javascript">
     $(document).ready(function () {
 
-
-
         $(":text").css({ "border-radius": "5px" });
         $("select").css({ "border-radius": "5px" });
         $("textarea").css({ "border-radius": "5px" });
@@ -38,8 +36,6 @@
         var wt = $("#EXRate").val();
         $("#EXRate").val(parseFloat(wt).toFixed(2));
 
-
-
         $("#EXRate").blur(function () {
             var wt = $(this).val();
             $("#EXRate").val(parseFloat(wt).toFixed(2));
@@ -49,7 +45,6 @@
             var wt = $(this).val();
             $("#FMoney").val(parseFloat(wt).toFixed(2));
         });
-
 
         $(".chkAllocate").click(function () {
             if ($(".chkAllocate").is(':checked')) {
@@ -65,8 +60,6 @@
                 $(".textamt").show();
             }
         });
-
-      
 
         //$.ajax({
         //    type: "POST",
@@ -102,7 +95,6 @@
                 allocateamt = 0;
             }
 
-          
             if (allocateamt > amt) {
                 $(curror).find("td").eq(3).find("div").find(".amt").val(amt);
          
@@ -111,10 +103,6 @@
                 $(curror).find("td").eq(3).find("div").find(".amt").val(allocateamt);
             }
         });
-
-
-
-
 
         $(".aamt").blur(function () {
           
@@ -125,8 +113,6 @@
                 var a = $(this).find("td").eq(5).text();
                 if (a == "")
                     a = 0;
-
-
                 if (a < amt && f == 0) {
 
                     $(this).find("td").eq(6).find(".amt").val(parseFloat(a).toFixed(2));
@@ -135,17 +121,11 @@
                 else {
                     f = 1;
                 }
-
-
-
             });
-
-           
         });
 
 
             $(".aeamt").blur(function () {
-
                 var amt = parseFloat($(this).val());
                 var f = 0;
                 $("#tbl1 tr").not(":first").each(function () {
@@ -153,48 +133,28 @@
                     var a = $(this).find("td").eq(2).find("div").find('input[type=hidden]').val();
                     if (a == "")
                         a = 0;
-
-
                     if (a < amt && f == 0) {
                        {
                             $(this).find("td").eq(3).find("div").find(".amt").val(parseFloat(a).toFixed(2));
                             amt = amt - parseFloat(a);
                         }
-                      
                     }
                     else {
                         f = 1;
                     }
-
-
-
                 });
-
-              
-
             });
 
 
             if ($("#RecPayID").val() > 0) {
-
-             
                 if ($("#StatusEntry").val() == "BK") {
                     $("#Bank").prop('checked', true);
                     $("#Cash").prop('checked', false);
-
                     $("#Bank").trigger("click");
-
-                
-                
-
                 }
                 else if ($("#StatusEntry").val() == "CS") {
-
-                 
                     $("#Cash").prop('checked', true);
                     $("#Bank").prop('checked', false);
-
-                  
                     $("#Cash").trigger("click");
                 }
 
@@ -206,9 +166,17 @@
                 $("#ExRate").val(exrate.toFixed(2));
             }
 
-
             Comma($(".aeamt").val());
-          
+
+        $('.txtNum').blur(function () {
+            if (isNaN(parseInt($(this).val()))) {
+                $(this).val('0.00');
+            } else {
+                var amt = parseFloat($(this).val());
+                $(this).val(amt.toFixed(2));
+            }
+        });
+
     });
 </script>
 
@@ -229,15 +197,16 @@
 
 <script type="text/javascript">
     function CheckAmt(x) {
+        debugger;
         var curror = $(x).parent("td").parent("tr");
         var amt = parseFloat($(curror).find("td").eq(5).text());
         var allocateamt = parseFloat($(curror).find("td").eq(6).find(".amt").val());
 
         if (allocateamt > amt) {
-            $(curror).find("td").eq(6).find(".amt").val(amt);
+            $(curror).find("td").eq(6).find(".amt").val(amt.toFixed(2));
         }
         else {
-            $(curror).find("td").eq(6).find(".amt").val(allocateamt);
+            $(curror).find("td").eq(6).find(".amt").val(allocateamt.toFixed(2));
         }
     }
 </script>
@@ -505,10 +474,10 @@
                                                 </div>
                                             </td>
 
-                                            <td style="text-align: right;">
+                                            <td>
                                                 <div class="data1">
                                                     @*@Model.CostUpdationDetails[i].JobCode*@
-                                                @Html.TextBoxFor(item => @Model.CustomerRcieptChildVM[i].Amount, string.Format("{0:n2}", @Model.CustomerRcieptChildVM[i].Amount), new { @Class = "amt" })
+                                                @Html.TextBoxFor(item => @Model.CustomerRcieptChildVM[i].Amount, string.Format("{0:n2}", @Model.CustomerRcieptChildVM[i].Amount), new { @Class = "amt txtNum text-right" })
 
 
                                             </div>

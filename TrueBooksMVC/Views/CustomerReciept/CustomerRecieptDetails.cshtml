@@ -29,6 +29,15 @@
     {
         background-color:unset;
     }
+    .btnwidt{
+        margin:5px;
+    }
+    .searchtabs {
+        max-width: 687px !important;
+        box-shadow:unset !important;
+        border-radius:unset !important;
+    }
+
 </style>
 
 <script src="@Url.Content("~/Scripts/angular.js")"></script>
@@ -67,11 +76,7 @@
             changeYear: true, changeMonth: true,
             minDate: sd,
             maxDate: ed,
-
         });
-
-
-
 
         $("#todate").datepicker({
             dateFormat: 'dd-M-yy',
@@ -84,8 +89,6 @@
         $("#frmdate").val(GetCurrentDate());
         $("#todate").val(GetEndDate());
 
-
-
         function GetCurrentDate() {
             var m_names = new Array("Jan", "Feb", "Mar",
     "Apr", "May", "Jun", "Jul", "Aug", "Sep",
@@ -95,17 +98,12 @@
             var enddate = '@Session["FyearTo"].ToString()';
             var sd = new Date(startdate);
             var ed = new Date(enddate);
-
             var str = new Date(startdate);
-
-
             var d = new Date();
             var curr_date = d.getDate();
             var curr_month = d.getMonth();
             var curr_year = str.getFullYear();
             return ("01" + "-" + m_names[curr_month] + "-" + str.getFullYear());
-
-
         }
 
         function GetEndDate() {
@@ -117,19 +115,12 @@
             var enddate = '@Session["FyearTo"].ToString()';
             var sd = new Date(startdate);
             var ed = new Date(enddate);
-
             var str = new Date(startdate);
-       
-
             var d = new Date();
             var curr_date = d.getDate();
             var curr_month = d.getMonth();
             var curr_year = str.getFullYear();
-           
-
             return (d.getDate() + "-" + m_names[curr_month] + "-" + str.getFullYear());
-
-
         }
 
 
@@ -157,8 +148,6 @@
 
   
         $("#btnsearch").click(function () {
-           
-
             var frm = new Date($('#frmdate').val());
             var dto = new Date($('#todate').val());
             var fYearID = '@Session["fyearid"].ToString()';
@@ -196,8 +185,6 @@
                 }
             });
         });
-      
-       
      });
 </script>
 
@@ -217,64 +204,66 @@
         {
             @Html.ValidationSummary(true)
 
-            <section class="content-header">
-                <h1>Customer Receipt<small></small></h1>
-
-            </section>
+           
             
               <div class="row no-margin">
                     <div class="col-md-12 col-lg-12 col-sm-12">
                         <div class="col-md-4" style="padding-left:-15px;">
-               
-                             <a href='@Url.Action("CustomerReciept", "CustomerReciept", new { id = 0 })' class="btn btn-primary  btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Add</a>
                         </div>
+                     </div>
+               </div>
+              <section class="content">
+                  
+                  <div id="divgridJob" class="row" runat="server" style="min-height: 250px; padding: 5px; margin-right: auto; margin-left: auto;">
+                      <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 padding_none">
+                          <div class="row no-margin">
+                              <div class="col-md-12 tblbackground">
+                                  <p style="color: white" class="cbtnpadding">
+                                      <div id="error" style="display: none; font-family: Calibri; color: red">* From Date must not be Greater than To Date</div>
+                                      <table class="searchtabs" id="tbl1">
+                                          <tr>
+                                              <td colspan="6" class="text-center">
+                                                  <section class="content-header">
+                                                      <h1>Customer Receipt<small></small></h1>
+                                                  </section>
+                                              </td>
+                                          </tr>
+                                          <tr>
+                                              <td class="searlabel">
+                                                  From Date
+                                              </td>
+                                              <td class="searinput">
+                                                  <input type="text" id="frmdate" class="form-control" />
+                                              </td>
+                                              <td class="searlabel">
+                                                  To Date
+                                              </td>
+                                              <td class="searinput">
+                                                  <input type="text" id="todate" class="form-control" />
+                                              </td>
+                                              <td>
+                                                  <input type="button" value="Search" id="btnsearch" class="btn btn-primary btnwidt" />
+                                              </td>
+                                              <td>
+                                                  <a href='@Url.Action("CustomerReciept", "CustomerReciept", new { id = 0 })' class="btn btn-primary  btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Add</a>
+                                              </td>
+                                          </tr>
+                                      </table>
+                                  </p>
+                                  <div class="row">
+                                      <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 padding_none" id="result">
+                                      </div>
+                                  </div>
+                              </div>
                           </div>
+
+                          <div class="box-footer">
+                          </div>
+
+                      </div>
                   </div>
-            <section class="content">
 
-                <p style="color: white" class="cbtnpadding">
-                <div id="error" style="display: none; font-family: Calibri; color: red">* From Date must not be Greater than To Date</div>
-                <table class="searchtabs" id="tbl1">
-                    <tr>
-                        <td  class="searlabel">From Date
-                        </td>
-                        <td class="searinput">
-                            <input type="text" id="frmdate" class="form-control" />
-                        </td>
-                        <td class="searlabel">To Date
-                        </td>
-                        <td class="searinput">
-                            <input type="text" id="todate" class="form-control" />
-                        </td>
-                        <td>
-                            <input type="button" value="Search" id="btnsearch" class="btn btn-primary btnwidt" />
-                        </td>
-                    </tr>
-
-
-                </table>
-            </p>
-                <div id="divgridJob" class="row" runat="server" style="min-height: 250px; padding: 5px; margin-right: auto; margin-left: auto;">
-                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 padding_none">
-                        
-                            <div class="row no-margin">
-
-
-        <div class="col-md-12 tblbackground">
-            <div class="row">
-                <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 padding_none" id="result">
-                </div>
-            </div>
-        </div>
-    </div>
-                          
-                            <div class="box-footer">
-                            </div>
-                      
-                    </div>
-                </div>
-
-            </section>
+              </section>
          }
                   
 

@@ -157,10 +157,10 @@
         var allocateamt = parseFloat($(curror).find("td").eq(5).find(".amt").val());
 
         if (allocateamt > amt) {
-            $(curror).find("td").eq(5).find(".amt").val(amt);
+            $(curror).find("td").eq(5).find(".amt").val(amt.toFixed(2));
         }
         else {
-            $(curror).find("td").eq(5).find(".amt").val(allocateamt);
+            $(curror).find("td").eq(5).find(".amt").val(allocateamt.toFixed(2));
         }
     }
 </script>
@@ -459,7 +459,7 @@
                                             <td style="text-align: right;">
                                                 <div class="data1">
 
-                                                    @Html.TextBoxFor(item => @Model.CustomerRcieptChildVM[i].Amount, string.Format("{0:n2}", @Model.CustomerRcieptChildVM[i].Amount), new { @class = "amt" })
+                                                    @Html.TextBoxFor(item => @Model.CustomerRcieptChildVM[i].Amount, string.Format("{0:n2}", @Model.CustomerRcieptChildVM[i].Amount), new { @class = "amt txtNum text-right" })
                                                     @*  @string.Format("{0:n2}", @Model.CustomerRcieptChildVM[i].Amount)*@
                                                 </div>
                                             </td>

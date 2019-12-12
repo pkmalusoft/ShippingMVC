@@ -116,7 +116,7 @@ myapp.controller('MyController', function ($scope, $http, ngservice) {
                                            '<td>' + parseFloat(data[i].AmtPaidTillDate).toFixed(2) + '<input id="" name="CustomerRcieptChildVM[' + i + '].AmtPaidTillDate" value=' + data[i].AmtPaidTillDate + ' type="hidden"></td>' +
                                            '<td>' + parseFloat(data[i].Balance).toFixed(2) + '<input id="" name="CustomerRcieptChildVM[' + i + '].Balance" value=' + data[i].Balance + ' type="hidden"><input id="" name="CustomerRcieptChildVM[' + i + '].InvoiceNo" value=' + data[i].InvoiceNo + ' type="hidden"></td>' +
                                             //'<td>' + data[i].Amount + '<input id="" name="customerRcieptVM[' + i + '].Amount" value=' + data[i].Amount + ' type="hidden"></td>' +
-                                           '<td> <input type="text" onBlur="CheckAmt(this)"  class="amt" name=CustomerRcieptChildVM[' + i + '].Amount>' +
+                                           '<td> <input type="text" onBlur="CheckAmt(this)"  class="amt txtNum text-right" name=CustomerRcieptChildVM[' + i + '].Amount>' +
 
                                            '<tr>');
                 //hideLoading();

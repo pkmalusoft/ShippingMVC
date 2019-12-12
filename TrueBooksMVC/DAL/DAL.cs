@@ -1405,5 +1405,94 @@ namespace TrueBooksMVC
             }
             return objList;
         }
+
+        public static int InsertOrUpdateAcBankDetails(AcBankDetail ObjectAcBankDetail)
+        {
+            int iReturn = 0;
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = new SqlConnection(Common.GetConnectionString);
+            cmd.CommandText = "SP_InsertOrUpdateAcBankDetails";
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.Add("@AcBankDetailID", SqlDbType.Int);
+            cmd.Parameters["@AcBankDetailID"].Value = ObjectAcBankDetail.AcBankDetailID;
+
+            cmd.Parameters.Add("@AcJournalID", SqlDbType.Int);
+            cmd.Parameters["@AcJournalID"].Value = ObjectAcBankDetail.AcJournalID;
+
+            cmd.Parameters.Add("@BankName", SqlDbType.NVarChar);
+            cmd.Parameters["@BankName"].Value = ObjectAcBankDetail.BankName;
+
+            cmd.Parameters.Add("@ChequeNo", SqlDbType.NVarChar);
+            cmd.Parameters["@ChequeNo"].Value = ObjectAcBankDetail.ChequeNo;
+
+            if (ObjectAcBankDetail.ChequeDate != null)
+            {
+                cmd.Parameters.Add("@ChequeDate", SqlDbType.DateTime);
+                cmd.Parameters["@ChequeDate"].Value = ObjectAcBankDetail.ChequeDate;
+            }
+            cmd.Parameters.Add("@PartyName", SqlDbType.NVarChar);
+            cmd.Parameters["@PartyName"].Value = ObjectAcBankDetail.PartyName;
+
+            cmd.Parameters.Add("@StatusTrans", SqlDbType.NVarChar);
+            cmd.Parameters["@StatusTrans"].Value = ObjectAcBankDetail.StatusTrans;
+            if (ObjectAcBankDetail.StatusReconciled != null)
+            {
+                cmd.Parameters.Add("@StatusReconciled", SqlDbType.Bit);
+                cmd.Parameters["@StatusReconciled"].Value = ObjectAcBankDetail.StatusReconciled;
+            }
+            if (ObjectAcBankDetail.ValueDate != null)
+            {
+                cmd.Parameters.Add("@ValueDate", SqlDbType.DateTime);
+                cmd.Parameters["@ValueDate"].Value = ObjectAcBankDetail.ValueDate;
+            }
+            try
+            {
+                cmd.Connection.Open();
+                iReturn = cmd.ExecuteNonQuery();
+                cmd.Connection.Close();
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return iReturn;
+        }
+
+        public static List<CustomerRcieptChildVM> GetCustomerReciept(int RecPayID)
+        {
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = new SqlConnection(Common.GetConnectionString);
+            cmd.CommandText = "select r.RecPayID,r.RecPayDate,p.InvoiceID,s.SalesHome,p.Amount,s.SalesHome,p.RecPayDetailID,p.CurrencyID from RecPay as r inner join RecPayDetails as p on p.RecPayID = r.RecPayID left join JobGeneration as t on t.InvoiceNo = p.InvoiceID left join JInvoice as s on t.JobID = s.JobID where r.RecPayID = @RecPayID and p.InvoiceID <> 0 and p.InvoiceID is not null";
+            cmd.CommandType = CommandType.Text;
+
+            cmd.Parameters.Add("@RecPayID", SqlDbType.Int);
+            cmd.Parameters["@RecPayID"].Value = RecPayID;
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet ds = new DataSet();
+            da.Fill(ds);
+            List<CustomerRcieptChildVM> objList = new List<CustomerRcieptChildVM>();
+            CustomerRcieptChildVM obj;
+            if (ds != null && ds.Tables.Count > 0)
+            {
+                for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                {
+                    obj = new CustomerRcieptChildVM();
+                    if(ds.Tables[0].Rows[i]["RecPayDate"] != DBNull.Value)
+                    {
+                        obj.InvoiceDate = Convert.ToDateTime(ds.Tables[0].Rows[i]["RecPayDate"]);
+                    }
+                    obj.InvoiceID = Common.ParseInt(ds.Tables[0].Rows[i]["InvoiceID"].ToString());
+                    obj.AmountToBeRecieved = Common.ParseDecimal(ds.Tables[0].Rows[i]["SalesHome"].ToString());
+                    obj.Amount = Common.ParseDecimal(ds.Tables[0].Rows[i]["Amount"].ToString());
+                    obj.Amount = -obj.Amount;
+                    obj.Balance = Common.ParseDecimal(ds.Tables[0].Rows[i]["SalesHome"].ToString());
+                    obj.RecPayDetailID = Common.ParseInt(ds.Tables[0].Rows[i]["RecPayDetailID"].ToString());
+                    obj.CurrencyId = Common.ParseInt(ds.Tables[0].Rows[i]["CurrencyId"].ToString());
+                    objList.Add(obj);
+                }
+            }
+            return objList;
+        }
     }
 }

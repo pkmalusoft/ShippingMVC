@@ -926,9 +926,7 @@ namespace TrueBooksMVC.Controllers
             if (v.chequeno!=null)
             {
                 AcBankDetail acbankDetails = new AcBankDetail();
-                int maxacbid=0;
-                maxacbid = (from c in context.AcBankDetails orderby c.AcBankDetailID descending select c.AcBankDetailID).FirstOrDefault();
-                acbankDetails.AcBankDetailID = maxacbid + 1;
+                acbankDetails.AcBankDetailID = 0;
                 acbankDetails.AcJournalID = ajm.AcJournalID;
                 acbankDetails.BankName = v.bankname;
                 acbankDetails.ChequeDate = v.chequedate;
@@ -936,10 +934,7 @@ namespace TrueBooksMVC.Controllers
                 acbankDetails.PartyName = v.partyname;
                 acbankDetails.StatusTrans = StatusTrans;
                 acbankDetails.StatusReconciled = false;
-                context.AcBankDetails.Add(acbankDetails);
-                context.Entry(acbankDetails).State = EntityState.Added;
-                context.SaveChanges();
-                context.Entry(acbankDetails).State = EntityState.Detached;
+               DAL.InsertOrUpdateAcBankDetails(acbankDetails);
             }
 
             decimal TotalAmt=0;
@@ -1082,9 +1077,10 @@ namespace TrueBooksMVC.Controllers
                 acbankDetails.ChequeDate = v.chequedate;
                 acbankDetails.ChequeNo = v.chequeno;
                 acbankDetails.PartyName = v.partyname;
-
-                context.Entry(acbankDetails).State = EntityState.Modified;
-                context.SaveChanges();
+                acbankDetails.AcJournalID = ajm.AcJournalID;
+                acbankDetails.StatusTrans = StatusTrans;
+                acbankDetails.StatusReconciled = false;
+                DAL.InsertOrUpdateAcBankDetails(acbankDetails);
             }
 
             decimal TotalAmt = 0;
