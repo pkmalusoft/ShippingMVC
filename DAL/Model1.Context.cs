@@ -3623,7 +3623,7 @@ namespace DAL
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GetSupplierCostDetailsForPayment_Result>("SP_GetSupplierCostDetailsForPayment", supplierIDParameter);
         }
     
-        public virtual int SP_InsertRecPayDetailsForSupplier(Nullable<int> recPayID, Nullable<int> invoiceID, Nullable<decimal> amount, string remarks, string statusInvoice, Nullable<bool> statusAdvance, string statusReceipt, string invDate, string invNo, Nullable<int> currencyID, Nullable<int> invoiceStatus)
+        public virtual int SP_InsertRecPayDetailsForSupplier(Nullable<int> recPayID, Nullable<int> invoiceID, Nullable<decimal> amount, string remarks, string statusInvoice, Nullable<bool> statusAdvance, string statusReceipt, string invDate, string invNo, Nullable<int> currencyID, Nullable<int> invoiceStatus, Nullable<int> JobID)
         {
             var recPayIDParameter = recPayID.HasValue ?
                 new ObjectParameter("RecPayID", recPayID) :
@@ -3668,8 +3668,12 @@ namespace DAL
             var invoiceStatusParameter = invoiceStatus.HasValue ?
                 new ObjectParameter("InvoiceStatus", invoiceStatus) :
                 new ObjectParameter("InvoiceStatus", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_InsertRecPayDetailsForSupplier", recPayIDParameter, invoiceIDParameter, amountParameter, remarksParameter, statusInvoiceParameter, statusAdvanceParameter, statusReceiptParameter, invDateParameter, invNoParameter, currencyIDParameter, invoiceStatusParameter);
+
+            var jobIDStatusParameter = JobID.HasValue ?
+             new ObjectParameter("JobID", JobID) :
+             new ObjectParameter("JobID", typeof(int));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_InsertRecPayDetailsForSupplier", recPayIDParameter, invoiceIDParameter, amountParameter, remarksParameter, statusInvoiceParameter, statusAdvanceParameter, statusReceiptParameter, invDateParameter, invNoParameter, currencyIDParameter, invoiceStatusParameter, jobIDStatusParameter);
         }
     
         public virtual int SP_InsertRecPayDetailsForCustomer1(Nullable<int> recPayID, Nullable<int> invoiceID, Nullable<int> jInvoiceID, Nullable<decimal> amount, string remarks, string statusInvoice, Nullable<bool> statusAdvance, string statusReceipt, string invDate, string invNo, Nullable<int> currencyID, Nullable<int> invoiceStatus)

@@ -54,24 +54,25 @@ namespace TrueBooksMVC.Controllers
 
                     //}).ToList();
 
-                    cust.CustomerRcieptChildVM = (from t in Context1.JobGenerations
-                                                  join p in Context1.RecPayDetails on t.InvoiceNo equals p.InvoiceID
-                                                  join s in Context1.JInvoices on t.JobID equals s.JobID
-                                                  join r in Context1.RecPays on p.RecPayID equals r.RecPayID
-                                                  where (r.RecPayID == id && p.InvoiceID != 0)
-                                                  select new CustomerRcieptChildVM
-                                                  {
-                                                      InvoiceDate = r.RecPayDate,
-                                                      InvoiceID = p.InvoiceID.Value,
-                                                      AmountToBePaid = s.SalesHome.Value,
-                                                      AmtPaidTillDate=(p.Amount),
-                                                      Amount = (p.Amount.Value),
+                    /*   cust.CustomerRcieptChildVM = (from t in Context1.JobGenerations
+                                                     join p in Context1.RecPayDetails on t.InvoiceNo equals p.InvoiceID
+                                                     join s in Context1.JInvoices on t.InvoiceNo equals s.JobID
+                                                     join r in Context1.RecPays on p.RecPayID equals r.RecPayID
+                                                     where (r.RecPayID == id && p.InvoiceID != 0)
+                                                     select new CustomerRcieptChildVM
+                                                     {
+                                                         InvoiceDate = r.RecPayDate,
+                                                         InvoiceID = p.InvoiceID.Value,
+                                                         AmountToBePaid = s.SalesHome.Value,
+                                                         AmtPaidTillDate=(p.Amount),
+                                                         Amount = (p.Amount.Value),
 
-                                                      Balance = (s.SalesHome.Value)-(p.Amount.Value),
-                                                      RecPayDetailID = p.RecPayDetailID,
-                                                      CurrencyId = p.CurrencyID.Value
+                                                         Balance = (s.SalesHome.Value)-(p.Amount.Value),
+                                                         RecPayDetailID = p.RecPayDetailID,
+                                                         CurrencyId = p.CurrencyID.Value
 
-                                                  }).Distinct().OrderBy(x => x.InvoiceDate).ToList();
+                                                     }).Distinct().OrderBy(x => x.InvoiceDate).ToList();*/
+                    cust.CustomerRcieptChildVM = DAL.GetCustomerReceipt(id);
 
                     BindMasters_ForEdit(cust);
                     ViewBag.achead = Context1.AcHeadSelectForCash(Convert.ToInt32(Session["AcCompanyID"].ToString())).OrderBy(x => x.AcHead).ToList();
@@ -292,12 +293,12 @@ namespace TrueBooksMVC.Controllers
                             Advance = item.Amount - item.AmountToBePaid;
                            // DateTime vInvoiceDate = Convert.ToDateTime();
                             string vInvoiceDate1 = (item.InvoiceDate).ToString();
-                            RP.InsertRecpayDetailsForSup(RecP.RecPayID, item.JobID,item.InvoiceID, Convert.ToDecimal(item.Amount), "", "S", false, "", vInvoiceDate1, "", Convert.ToInt32(Currency), 3);
+                            RP.InsertRecpayDetailsForSup(RecP.RecPayID, item.InvoiceID, item.InvoiceID, Convert.ToDecimal(item.Amount), "", "S", false, "", vInvoiceDate1, "", Convert.ToInt32(Currency), 3, item.JobID);
 
                             if (Advance > 0)
                             {
                                 //Advance Amount entry
-                                int k = RP.InsertRecpayDetailsForSup(RecP.RecPayID,0,0, Advance, "", "S", true, "", "", "", Convert.ToInt32(Currency), 4);
+                                int k = RP.InsertRecpayDetailsForSup(RecP.RecPayID,0,0, Advance, "", "S", true, "", "", "", Convert.ToInt32(Currency), 4, item.JobID);
                             }
 
                             TotalAmount = TotalAmount + item.Amount;
@@ -308,7 +309,7 @@ namespace TrueBooksMVC.Controllers
                         //To Balance Invoice AMount
                         if (TotalAmount > 0)
                         {
-                            RP.InsertRecpayDetailsForSup(RecP.RecPayID, 0,0, -TotalAmount, "", "S", false, "", "", "", Convert.ToInt32(Currency), 4);
+                            RP.InsertRecpayDetailsForSup(RecP.RecPayID, 0,0, -TotalAmount, "", "S", false, "", "", "", Convert.ToInt32(Currency), 4,0);
 
                             int fyaerId = Convert.ToInt32(Session["fyearid"].ToString());
                             RP.InsertJournalOfSupplier(RecP.RecPayID, fyaerId);

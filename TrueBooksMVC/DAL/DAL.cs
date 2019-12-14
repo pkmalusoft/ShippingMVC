@@ -1494,5 +1494,43 @@ namespace TrueBooksMVC
             }
             return objList;
         }
+
+        public static List<CustomerRcieptChildVM> GetCustomerReceipt(int RecPayID)
+        {
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = new SqlConnection(Common.GetConnectionString);
+            cmd.CommandText = "select distinct r.RecPayID,r.RecPayDate,p.InvoiceID,s.SalesHome,p.Amount,s.SalesHome,p.RecPayDetailID,p.CurrencyID from RecPay as r inner join RecPayDetails as p on p.RecPayID = r.RecPayID left join JobGeneration as t on t.InvoiceNo = p.InvoiceID left join JInvoice as s on p.InvoiceID = s.InvoiceID where r.RecPayID = @RecPayID and p.InvoiceID <> 0 and p.InvoiceID is not null order by r.RecPayDate desc";
+            cmd.CommandType = CommandType.Text;
+
+            cmd.Parameters.Add("@RecPayID", SqlDbType.Int);
+            cmd.Parameters["@RecPayID"].Value = RecPayID;
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataSet ds = new DataSet();
+            da.Fill(ds);
+            List<CustomerRcieptChildVM> objList = new List<CustomerRcieptChildVM>();
+            CustomerRcieptChildVM obj;
+            if (ds != null && ds.Tables.Count > 0)
+            {
+                for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                {
+                    obj = new CustomerRcieptChildVM();
+                    if (ds.Tables[0].Rows[i]["RecPayDate"] != DBNull.Value)
+                    {
+                        obj.InvoiceDate = Convert.ToDateTime(ds.Tables[0].Rows[i]["RecPayDate"]);
+                    }
+                    obj.InvoiceID = Common.ParseInt(ds.Tables[0].Rows[i]["InvoiceID"].ToString());
+                    obj.AmountToBeRecieved = Common.ParseDecimal(ds.Tables[0].Rows[i]["SalesHome"].ToString());
+                    obj.AmtPaidTillDate = Common.ParseDecimal(ds.Tables[0].Rows[i]["Amount"].ToString());
+                    obj.Amount = Common.ParseDecimal(ds.Tables[0].Rows[i]["Amount"].ToString());
+                    //   obj.Amount = -obj.Amount;
+                    obj.Balance = obj.AmountToBeRecieved - obj.Amount;
+                    obj.RecPayDetailID = Common.ParseInt(ds.Tables[0].Rows[i]["RecPayDetailID"].ToString());
+                    obj.CurrencyId = Common.ParseInt(ds.Tables[0].Rows[i]["CurrencyId"].ToString());
+                    objList.Add(obj);
+                }
+            }
+            return objList;
+        }
+
     }
 }

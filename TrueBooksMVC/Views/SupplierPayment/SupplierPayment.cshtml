@@ -152,8 +152,9 @@
 
 <script type="text/javascript">
     function CheckAmt(x) {
+        debugger;
         var curror = $(x).parent("td").parent("tr");
-        var amt = parseFloat($(curror).find("td").eq(3).text());
+        var amt = parseFloat($(curror).find("td").eq(4).text());
         var allocateamt = parseFloat($(curror).find("td").eq(5).find(".amt").val());
 
         if (allocateamt > amt) {
