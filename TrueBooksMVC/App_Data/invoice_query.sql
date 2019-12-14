@@ -1023,3 +1023,5 @@ ALTER TABLE AcJournalMaster ADD TransactionNo nvarchar(100)
 -- nov 19
 alter table AcAnalysisHeadAllocation add primary key (AcAnalysisHeadAllocationID);
 
+--dec 13
+alter table RecPayDetails ADD JobID int

@@ -1463,7 +1463,7 @@ namespace TrueBooksMVC
         {
             SqlCommand cmd = new SqlCommand();
             cmd.Connection = new SqlConnection(Common.GetConnectionString);
-            cmd.CommandText = "select r.RecPayID,r.RecPayDate,p.InvoiceID,s.SalesHome,p.Amount,s.SalesHome,p.RecPayDetailID,p.CurrencyID from RecPay as r inner join RecPayDetails as p on p.RecPayID = r.RecPayID left join JobGeneration as t on t.InvoiceNo = p.InvoiceID left join JInvoice as s on t.JobID = s.JobID where r.RecPayID = @RecPayID and p.InvoiceID <> 0 and p.InvoiceID is not null";
+            cmd.CommandText = "select r.RecPayID,r.RecPayDate,p.InvoiceID,s.SalesHome,p.Amount,s.SalesHome,p.RecPayDetailID,p.CurrencyID from RecPay as r inner join RecPayDetails as p on p.RecPayID = r.RecPayID left join JobGeneration as t on t.InvoiceNo = p.InvoiceID left join JInvoice as s on p.InvoiceID = s.InvoiceID where r.RecPayID = @RecPayID and p.InvoiceID <> 0 and p.InvoiceID is not null";
             cmd.CommandType = CommandType.Text;
 
             cmd.Parameters.Add("@RecPayID", SqlDbType.Int);

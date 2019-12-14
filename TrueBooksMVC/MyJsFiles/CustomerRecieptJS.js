@@ -109,7 +109,7 @@ myapp.controller('MyController', function ($scope, $http, ngservice) {
                 var tempdate = new Date(date).getDate() + '/' +( new Date(date).getMonth()+1) + '/' + new Date(date).getFullYear();
                
                 $('#tbl1').append('<tr>' +
-                                           '<td>' + data[i].JobID + ' <input id="" name="CustomerRcieptChildVM[' + i + '].JobID" value=' + data[i].JobID + ' type="hidden"><input id="" name="CustomerRcieptChildVM[' + i + '].InvoiceID" value=' + data[i].InvoiceID + ' type="hidden"></td>' +
+                    '<td>' + data[i].InvoiceID + ' <input id="" name="CustomerRcieptChildVM[' + i + '].JobID" value=' + data[i].JobID + ' type="hidden"><input id="" name="CustomerRcieptChildVM[' + i + '].InvoiceID" value=' + data[i].InvoiceID + ' type="hidden"></td>' +
                                            '<td>' + data[i].JobCode + '<input id="" name="CustomerRcieptChildVM[' + i + '].JobCode" value=' + data[i].JobCode + ' type="hidden"></td>' +
                                            '<td>' + tempdate + '<input id="" name="CustomerRcieptChildVM[' + i + '].InvoiceDate" value=' + tempdate + ' type="hidden"></td>' +
                                            '<td>' + parseFloat(data[i].AmountToBeRecieved).toFixed(2) + '<input id="" name="CustomerRcieptChildVM[' + i + '].AmountToBeRecieved" value=' + data[i].AmountToBeRecieved + ' type="hidden"></td>' +

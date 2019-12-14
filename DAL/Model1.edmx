@@ -2145,6 +2145,7 @@ warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.qrySupplierOutstanding'
           <Parameter Name="InvNo" Type="nvarchar" Mode="In" />
           <Parameter Name="CurrencyID" Type="int" Mode="In" />
           <Parameter Name="InvoiceStatus" Type="int" Mode="In" />
+          <Parameter Name="JobID" Type="int" Mode="In" />
         </Function>
         <Function Name="SP_InsertRecPayDetailsForSupplier" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="RecPayID" Type="int" Mode="In" />
@@ -3657,6 +3658,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
             <Parameter Name="InvNo" Mode="In" Type="String" />
             <Parameter Name="CurrencyID" Mode="In" Type="Int32" />
             <Parameter Name="InvoiceStatus" Mode="In" Type="Int32" />
+            <Parameter Name="JobID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="JobRegisterReport" ReturnType="Collection(SHIPPING_FinalModel.JobRegisterReport_Result)">
             <Parameter Name="fromdate" Mode="In" Type="DateTime" />

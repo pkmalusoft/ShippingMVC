@@ -219,11 +219,8 @@ namespace TrueBooksMVC.Controllers
             //    RP.EditCustomerRecPay(RecP, Session["UserID"].ToString());
             //    RP.EditCustomerRecieptDetails(RecP.recPayDetail, RecP.RecPayID);
             //}
-           
-            {
                 if (RecP.CashBank != null)
                 {
-                   
                     RecP.StatusEntry = "CS";
                     int acheadid=Convert.ToInt32(RecP.CashBank);
                      var achead=(from t in Context1.AcHeads where t.AcHeadID==acheadid select t.AcHead1).FirstOrDefault();
@@ -231,7 +228,6 @@ namespace TrueBooksMVC.Controllers
                 }
                 else
                 {
-                   
                     RecP.StatusEntry = "BK";
                      int acheadid=Convert.ToInt32(RecP.ChequeBank);
                      var achead=(from t in Context1.AcHeads where t.AcHeadID==acheadid select t.AcHead1).FirstOrDefault();
@@ -251,7 +247,6 @@ namespace TrueBooksMVC.Controllers
                     }
 
                     RecP.FMoney = Fmoney;
-
                     RPID = RP.AddCustomerRecieptPayment(RecP, Session["UserID"].ToString());
                     RecP.RecPayID = (from c in Context1.RecPays orderby c.RecPayID descending select c.RecPayID).FirstOrDefault();
                     decimal TotalAmount = 0;
@@ -265,12 +260,12 @@ namespace TrueBooksMVC.Controllers
                             Advance = item.Amount - item.AmountToBeRecieved;
                             DateTime vInvoiceDate = Convert.ToDateTime(item.InvoiceDate);
                             string vInvoiceDate1 = Convert.ToDateTime(vInvoiceDate).ToString("yyyy-MM-dd h:mm tt");
-                            RP.InsertRecpayDetailsForCust(RecP.RecPayID, item.JobID,item.InvoiceID, Convert.ToDecimal(-item.Amount), "", "C", false, "", vInvoiceDate1, item.InvoiceNo.ToString(), Convert.ToInt32(RecP.CurrencyId), 3);
+                            RP.InsertRecpayDetailsForCust(RecP.RecPayID, item.InvoiceID, item.InvoiceID, Convert.ToDecimal(-item.Amount), "", "C", false, "", vInvoiceDate1, item.InvoiceNo.ToString(), Convert.ToInt32(RecP.CurrencyId), 3, item.JobID);
 
                             if (Advance > 0)
                             {
                                 //Advance Amount entry
-                                RP.InsertRecpayDetailsForCust(RecP.RecPayID, 0,0, Advance, null, "C", true, null, null, null, Convert.ToInt32(RecP.CurrencyId), 4);
+                                RP.InsertRecpayDetailsForCust(RecP.RecPayID, 0,0, Advance, null, "C", true, null, null, null, Convert.ToInt32(RecP.CurrencyId), 4, item.JobID);
                             }
                             TotalAmount = TotalAmount + item.Amount;
                     }
@@ -278,7 +273,7 @@ namespace TrueBooksMVC.Controllers
                     //To Balance Invoice AMount
                     if (TotalAmount > 0)
                     {
-                        int l = RP.InsertRecpayDetailsForCust(RecP.RecPayID, 0,0, TotalAmount, null, "C", false, null, null, null, Convert.ToInt32(RecP.CurrencyId), 4);
+                        int l = RP.InsertRecpayDetailsForCust(RecP.RecPayID, 0,0, TotalAmount, null, "C", false, null, null, null, Convert.ToInt32(RecP.CurrencyId), 4, 0);
                         int fyaerId = Convert.ToInt32(Session["fyearid"].ToString());
                         RP.InsertJournalOfCustomer(RecP.RecPayID, fyaerId);
                     }
@@ -294,7 +289,6 @@ namespace TrueBooksMVC.Controllers
                     RecPay recpay = new RecPay();
                     recpay.RecPayDate = RecP.RecPayDate;
                     recpay.RecPayID = RecP.RecPayID;
-
                     recpay.AcJournalID = RecP.AcJournalID;
                     recpay.BankName = RecP.BankName;
                     recpay.ChequeDate = RecP.ChequeDate;
@@ -309,7 +303,6 @@ namespace TrueBooksMVC.Controllers
                     //recpay.SupplierID = RecP.SupplierID;
                     Context1.Entry(recpay).State = EntityState.Modified;
                     Context1.SaveChanges();
-
 
                     foreach (var item in RecP.CustomerRcieptChildVM)
                     {
@@ -338,25 +331,15 @@ namespace TrueBooksMVC.Controllers
 
                         Context1.Entry(recpd).State = EntityState.Modified;
                         Context1.SaveChanges();
-                       
-                       
-
-
-
                     }
                     int editrecPay = 0;
                     var sumOfAmount = Context1.RecPayDetails.Where(m => m.RecPayID == RecP.RecPayID && m.InvoiceID != 0).Sum(c => c.Amount);
                     editrecPay = editfu.EditRecpayDetailsCustR(RecP.RecPayID, Convert.ToInt32(sumOfAmount));
                     int editAcJdetails = editfu.EditAcJDetails(RecP.AcJournalID.Value, Convert.ToInt32(sumOfAmount));
-                    
                 }
-            } 
+            
             BindAllMasters();
-
-
             return RedirectToAction("CustomerRecieptDetails", "CustomerReciept", new { ID = RecP.RecPayID });
-
-
         }
 
 

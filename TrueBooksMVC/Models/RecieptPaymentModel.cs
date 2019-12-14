@@ -101,13 +101,12 @@ namespace TrueBooksMVC.Models
             return AdvanceAmt;
         }
 
-        public int InsertRecpayDetailsForCust(int RecPayID, int InvoiceID,int JInvoiceID, decimal Amount, string Remarks, string StatusInvoice, bool StatusAdvance, string statusReceip, string InvDate, string InvNo, int CurrencyID, int invoiceStatus)
+        public int InsertRecpayDetailsForCust(int RecPayID, int InvoiceID,int JInvoiceID, decimal Amount, string Remarks, string StatusInvoice, bool StatusAdvance, string statusReceip, string InvDate, string InvNo, int CurrencyID, int invoiceStatus,int JobID)
         {
-            //todo:fix to run by sethu
-            int query = Context1.SP_InsertRecPayDetailsForCustomer(RecPayID, InvoiceID
+            int query = Context1.SP_InsertRecPayDetailsForCustomer(RecPayID, JInvoiceID
                 , Amount, Remarks, StatusInvoice
                 , StatusAdvance, statusReceip, InvDate
-                , InvNo, CurrencyID, invoiceStatus);
+                , InvNo, CurrencyID, invoiceStatus, JobID);
 
             return query;
         }
