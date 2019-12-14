@@ -74,22 +74,29 @@ namespace TrueBooksMVC.Models
             {
                 var obj = (from t in Context1.RecPayDetails where t.RecPayID == recpayid && t.InvoiceID == 0 select t).FirstOrDefault();
                 //var obj = Context1.RecPayDetails.Find(recpayid,0);
-                RecPayDetail recpdetail = new RecPayDetail();
-                recpdetail.RecPayDetailID = obj.RecPayDetailID;
-                recpdetail.Amount = -(amount);
-               // recpdetail.CurrencyID = cueencyid;
-                //recpd.InvDate = item.InvoiceDate.Value;
-                recpdetail.RecPayID = obj.RecPayID;
-               // recpdetail.Remarks = remark;
-                recpdetail.InvoiceID = 0;
-                recpdetail.StatusInvoice = obj.StatusInvoice;
-                recpdetail.InvDate = obj.InvDate;
-                recpdetail.InvNo = obj.InvNo;
-                recpdetail.Lock = false;
-                Context1.Entry(obj).CurrentValues.SetValues(recpdetail);
-               // Context1.Entry(recpdetail).State = EntityState.Modified;
-                Context1.SaveChanges();
-                return 1;
+                if (obj != null)
+                {
+                    RecPayDetail recpdetail = new RecPayDetail();
+                    recpdetail.RecPayDetailID = obj.RecPayDetailID;
+                    recpdetail.Amount = -(amount);
+                    // recpdetail.CurrencyID = cueencyid;
+                    //recpd.InvDate = item.InvoiceDate.Value;
+                    recpdetail.RecPayID = obj.RecPayID;
+                    // recpdetail.Remarks = remark;
+                    recpdetail.InvoiceID = 0;
+                    recpdetail.StatusInvoice = obj.StatusInvoice;
+                    recpdetail.InvDate = obj.InvDate;
+                    recpdetail.InvNo = obj.InvNo;
+                    recpdetail.Lock = false;
+                    Context1.Entry(obj).CurrentValues.SetValues(recpdetail);
+                    // Context1.Entry(recpdetail).State = EntityState.Modified;
+                    Context1.SaveChanges();
+                    return 1;
+                }
+                else
+                {
+                    return 0;
+                }
             }
         }
         }

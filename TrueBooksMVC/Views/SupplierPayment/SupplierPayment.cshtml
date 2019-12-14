@@ -43,18 +43,15 @@
         $("#FMoney").attr("readonly", false);
 
 
-       
-
         $(".amt").blur(function () {
 
             var curror = $(this).parent("div").parent("td").parent("tr");
-            var amt = parseFloat($(curror).find("td").eq(4).find("div").find('input[type=hidden]').val());
+            var amt = parseFloat($(curror).find("td").eq(4).find("div").find('input[type=hidden]').val()).toFixed(2);
 
-            var allocateamt = parseFloat($(curror).find("td").eq(5).find("div").find(".amt").val());
+            var allocateamt = parseFloat($(curror).find("td").eq(5).find("div").find(".amt").val()).toFixed(2);
 
             if (allocateamt > amt) {
                 $(curror).find("td").eq(5).find("div").find(".amt").val(amt);
-
             }
             else {
                 $(curror).find("td").eq(5).find("div").find(".amt").val(allocateamt);
@@ -69,9 +66,9 @@
             $("#tbl1 tr").not(":first").each(function () {
 
                 var a = $(this).find("td").eq(4).text();
-                if (a == "")
+                if (a == "") {
                     a = 0;
-
+                }
 
                 if (a < amt && f == 0) {
 
@@ -81,9 +78,6 @@
                 else {
                     f = 1;
                 }
-
-
-
             });
         });
 
@@ -94,59 +88,82 @@
             $("#tbl1 tr").not(":first").each(function () {
 
                 var a = $(this).find("td").eq(4).find("div").find('input[type=hidden]').val();
-                if (a == "")
+                if (a == "") {
                     a = 0;
-
+                }
 
                 if (a < amt && f == 0) {
-
                     $(this).find("td").eq(5).find("div").find(".amt").val(parseFloat(a).toFixed(2));
                     amt = amt - parseFloat(a);
                 }
                 else {
                     f = 1;
                 }
-
-
-
             });
-
-
         });
 
         if ($("#RecPayID").val() > 0) {
-
-         
             if ($("#StatusEntry").val() == "BK") {
                 alert("Hii");
                 $("#Bank").prop('checked', true);
                 $("#Cash").prop('checked', false);
-
                 $("#Bank").trigger("click");
-
-               
-             
-
-
-
             }
             else if ($("#StatusEntry").val() == "CS") {
-
-
                 $("#Cash").prop('checked', true);
                 $("#Bank").prop('checked', false);
-
-
                 $("#Cash").trigger("click");
             }
-
-
             var money = parseFloat($("#FMoney").val());
             $("#FMoney").val(money.toFixed(2));
-
             var exrate = parseFloat($("#EXRate").val());
             $("#ExRate").val(exrate.toFixed(2));
         }
+
+        function ValidateTotal() {
+            debugger;
+            var TotalAmount = 0;
+            $('#tbl1 tr').not(':first').each(function (i, obj) {
+                debugger;
+                var AmountPaidTillDate = parseFloat($(obj).find('.AmountPaidTillDate').val());
+                var AmountAllocated = parseFloat($(obj).find('.AmountAllocated').val());
+                var BalanceAmount = parseFloat($(obj).find('.BalanceAmount').val());
+
+                if (isNaN(AmountPaidTillDate) == false && isNaN(AmountAllocated) == false && isNaN(BalanceAmount) == false) {
+                    if (AmountAllocated > BalanceAmount) {
+                        $('#msg1').show();
+                        $('#msg1').text('Amount Allocated cannot be greater than Balance.');
+                        return false;
+                    } else {
+                        $('#msg1').hide();
+                    }
+                }
+
+                if (isNaN(AmountAllocated) == false) {
+                    TotalAmount = TotalAmount + AmountAllocated;
+                }
+            });
+            debugger;
+            var TotalInvoiceAmount = parseFloat($('.TotalInvoiceAmount').val());
+            if (TotalAmount > TotalInvoiceAmount) {
+                $('#msg1').show();
+                $('#msg1').text('Sum of Amount Allocated cannot be greater than Total Invoice Amount');
+                return false;
+            } else {
+                return true;
+            }
+        }
+        $('#tbl1').on('blur', '.amt', function () {
+            var result = ValidateTotal();
+        });
+
+        $('form').submit(function (e) {
+            debugger;
+            var result = ValidateTotal();
+            if (result == false) {
+                e.preventDefault();
+            }
+        });
     });
 </script>
 
@@ -165,11 +182,6 @@
         }
     }
 </script>
-
-
-
-
-
 
 
 @using (Html.BeginForm())
@@ -370,7 +382,7 @@
                   </div> *@
                             <div class="col-xs-12 col-sm-4">
                                 <label class="headinglabel">Amount</label>
-                                @Html.TextBoxFor(model => model.FMoney, String.Format("{0:0.00}", Model.FMoney), new { @class = "form-control aeamt textright" })
+                                @Html.TextBoxFor(model => model.FMoney, String.Format("{0:0.00}", Model.FMoney), new { @class = "form-control aeamt textright TotalInvoiceAmount" })
                             </div>
                         }
                     </div>
@@ -379,6 +391,9 @@
                             <label class="headinglabel">Remarks</label>
                             @Html.TextAreaFor(model => model.Remarks, new { @class = "form-control txttarget" })
 
+                        </div>
+                        <div class="col-xs-12 col-sm-8">
+                            <p style="color:red;display:none;font-size: 15px;margin-top: 30px;" id="msg1">Amount Paid TillDate + Amount Allocated cannot be greater than Balance.</p>
                         </div>
                     </div>
                     <div class="row no-margin" style="padding-top: 10px">
@@ -447,20 +462,20 @@
 
                                             <td style="text-align: right;">
                                                 <div class="data1">
-                                                    @Html.HiddenFor(item => @Model.CustomerRcieptChildVM[i].AmtPaidTillDate)
+                                                    @Html.HiddenFor(item => @Model.CustomerRcieptChildVM[i].AmtPaidTillDate , new { @class= "AmountPaidTillDate" })
                                                     @string.Format("{0:n2}", @Model.CustomerRcieptChildVM[i].AmtPaidTillDate)
                                                 </div>
                                             </td>
                                             <td style="text-align: right;">
                                                 <div class="data1">
-                                                    @Html.HiddenFor(item => @Model.CustomerRcieptChildVM[i].Balance)
+                                                    @Html.HiddenFor(item => @Model.CustomerRcieptChildVM[i].Balance, new { @class = "BalanceAmount" })
                                                     @string.Format("{0:n2}", @Model.CustomerRcieptChildVM[i].Balance)
                                                 </div>
                                             </td>
                                             <td style="text-align: right;">
                                                 <div class="data1">
 
-                                                    @Html.TextBoxFor(item => @Model.CustomerRcieptChildVM[i].Amount, string.Format("{0:n2}", @Model.CustomerRcieptChildVM[i].Amount), new { @class = "amt txtNum text-right" })
+                                                    @Html.TextBoxFor(item => @Model.CustomerRcieptChildVM[i].Amount, string.Format("{0:n2}", @Model.CustomerRcieptChildVM[i].Amount), new { @class = "amt txtNum text-right AmountAllocated" })
                                                     @*  @string.Format("{0:n2}", @Model.CustomerRcieptChildVM[i].Amount)*@
                                                 </div>
                                             </td>

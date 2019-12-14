@@ -315,7 +315,7 @@ namespace TrueBooksMVC.Controllers
                         recpd.Remarks = item.Remarks;
                         recpd.InvoiceID = item.InvoiceID;
                         recpd.StatusInvoice = "C";
-                        if (item.AmountToBeRecieved < item.Amount)
+                      /*  if (item.AmountToBeRecieved < item.Amount)
                         {
                             RecPayDetail recpd1 = new RecPayDetail();
                             recpd1.RecPayDetailID = (from c in Context1.RecPayDetails orderby c.RecPayDetailID descending select c.RecPayDetailID).FirstOrDefault();
@@ -327,7 +327,7 @@ namespace TrueBooksMVC.Controllers
                             recpd.StatusInvoice = "C";
                             Context1.Entry(recpd1).State = EntityState.Modified;
                             Context1.SaveChanges();
-                        }
+                        }*/
 
                         Context1.Entry(recpd).State = EntityState.Modified;
                         Context1.SaveChanges();

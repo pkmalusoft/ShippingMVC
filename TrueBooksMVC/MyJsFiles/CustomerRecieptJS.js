@@ -112,11 +112,11 @@ myapp.controller('MyController', function ($scope, $http, ngservice) {
                     '<td>' + data[i].InvoiceID + ' <input id="" name="CustomerRcieptChildVM[' + i + '].JobID" value=' + data[i].JobID + ' type="hidden"><input id="" name="CustomerRcieptChildVM[' + i + '].InvoiceID" value=' + data[i].InvoiceID + ' type="hidden"></td>' +
                                            '<td>' + data[i].JobCode + '<input id="" name="CustomerRcieptChildVM[' + i + '].JobCode" value=' + data[i].JobCode + ' type="hidden"></td>' +
                                            '<td>' + tempdate + '<input id="" name="CustomerRcieptChildVM[' + i + '].InvoiceDate" value=' + tempdate + ' type="hidden"></td>' +
-                                           '<td>' + parseFloat(data[i].AmountToBeRecieved).toFixed(2) + '<input id="" name="CustomerRcieptChildVM[' + i + '].AmountToBeRecieved" value=' + data[i].AmountToBeRecieved + ' type="hidden"></td>' +
+                    '<td>' + parseFloat(data[i].AmountToBeRecieved).toFixed(2) + '<input id="" name="CustomerRcieptChildVM[' + i + '].AmountToBeRecieved" value=' + data[i].AmountToBeRecieved + ' type="hidden" class="AmountToBeRecieved"></td>' +
                                            '<td>' + parseFloat(data[i].AmtPaidTillDate).toFixed(2) + '<input id="" name="CustomerRcieptChildVM[' + i + '].AmtPaidTillDate" value=' + data[i].AmtPaidTillDate + ' type="hidden"></td>' +
                                            '<td>' + parseFloat(data[i].Balance).toFixed(2) + '<input id="" name="CustomerRcieptChildVM[' + i + '].Balance" value=' + data[i].Balance + ' type="hidden"><input id="" name="CustomerRcieptChildVM[' + i + '].InvoiceNo" value=' + data[i].InvoiceNo + ' type="hidden"></td>' +
                                             //'<td>' + data[i].Amount + '<input id="" name="customerRcieptVM[' + i + '].Amount" value=' + data[i].Amount + ' type="hidden"></td>' +
-                                           '<td> <input type="text" onBlur="CheckAmt(this)"  class="amt txtNum text-right" name=CustomerRcieptChildVM[' + i + '].Amount>' +
+                                           '<td> <input type="text" onBlur="CheckAmt(this)"  class="amt txtNum text-right AmountReceived" name=CustomerRcieptChildVM[' + i + '].Amount>' +
 
                                            '<tr>');
                 //hideLoading();

@@ -177,6 +177,51 @@
             }
         });
 
+        function ValidateTotal() {
+            debugger;
+            var TotalAmount = 0;
+            $('#tbl1 tr').not(':first').each(function (i, obj) {
+                debugger;
+                var AmountToBeRecieved = parseFloat($(obj).find('.AmountToBeRecieved').val());
+                var AmountReceived = parseFloat($(obj).find('.AmountReceived').val());
+               
+
+                if (isNaN(AmountToBeRecieved) == false && isNaN(AmountReceived) == false) {
+                    if (AmountReceived > AmountToBeRecieved) {
+                        $('#msg1').show();
+                        $('#msg1').text('Amount cannot be greater than Invoice Amount.');
+                        return false;
+                    } else {
+                        $('#msg1').hide();
+                    }
+                }
+
+                if (isNaN(AmountReceived) == false) {
+                    TotalAmount = TotalAmount + AmountReceived;
+                }
+            });
+
+            var TotalInvoiceAmount = parseFloat($('.TotalInvoiceAmount').val());
+            if (TotalAmount > TotalInvoiceAmount) {
+                $('#msg1').show();
+                $('#msg1').text('Sum of Amount cannot be greater than Total Invoice Amount');
+                return false;
+            } else {
+                return true;
+            }
+        }
+        $('#tbl1').on('blur', '.amt', function () {
+            var result = ValidateTotal();
+        });
+
+        $('form').submit(function (e) {
+            debugger;
+            var result = ValidateTotal();
+            if (result == false) {
+                e.preventDefault();
+            }
+        });
+
     });
 </script>
 
@@ -356,7 +401,7 @@
                     </div>
                                 *@<div class="col-xs-12 col-sm-4">
                                     <label class=" required headinglabel">Amount</label>
-                                    @Html.TextBoxFor(model => model.FMoney, new { ng_model = "Amt", ng_change = "getvalueofamount()", @class = "form-control aamt textright", required = "required" })
+                                    @Html.TextBoxFor(model => model.FMoney, new { ng_model = "Amt", ng_change = "getvalueofamount()", @class = "form-control aamt textright TotalInvoiceAmount", required = "required" })
 
                                 </div>
                             }
@@ -403,6 +448,9 @@
                             <div class="col-xs-12 col-sm-4">
                                 <label class="headinglabel">Remarks</label>
                                 @Html.TextAreaFor(model => model.Remarks, new { @class = "form-control txttarget" })
+                            </div>
+                            <div class="col-xs-12 col-sm-8">
+                                <p style="color:red;display:none;font-size: 15px;margin-top: 30px;" id="msg1">Amount Paid TillDate + Amount Allocated cannot be greater than Balance.</p>
                             </div>
                         </div>
                         <div class="row no-margin" style="padding-top: 10px">
@@ -469,7 +517,7 @@
                                                     <div class="data1">
                                                         @*@Model.CostUpdationDetails[i].JobCode*@
                                                     @*   @Model.recPayDetail[i].Amount*@
-                                                    @Html.HiddenFor(item => @Model.CustomerRcieptChildVM[i].AmountToBeRecieved)
+                                                    @Html.HiddenFor(item => @Model.CustomerRcieptChildVM[i].AmountToBeRecieved , new { @Class = "AmountToBeRecieved" })
                                                     @string.Format("{0:n2}", @Model.CustomerRcieptChildVM[i].AmountToBeRecieved)
                                                 </div>
                                             </td>
@@ -477,7 +525,7 @@
                                             <td>
                                                 <div class="data1">
                                                     @*@Model.CostUpdationDetails[i].JobCode*@
-                                                @Html.TextBoxFor(item => @Model.CustomerRcieptChildVM[i].Amount, string.Format("{0:n2}", @Model.CustomerRcieptChildVM[i].Amount), new { @Class = "amt txtNum text-right" })
+                                                @Html.TextBoxFor(item => @Model.CustomerRcieptChildVM[i].Amount, string.Format("{0:n2}", @Model.CustomerRcieptChildVM[i].Amount), new { @Class = "amt txtNum text-right AmountReceived" })
 
 
                                             </div>
