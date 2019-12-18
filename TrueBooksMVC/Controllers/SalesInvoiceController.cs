@@ -266,8 +266,8 @@ namespace TrueBooksMVC.Controllers
 
         public void BindAllMasters()
         {
-            try
-            {
+         //   try
+         //   {
                 List<SP_GetAllPorts_Result> Ports = new List<SP_GetAllPorts_Result>();
                 List<SP_GetAllEmployees_Result> Employees = new List<SP_GetAllEmployees_Result>();
                 List<SP_GetAllJobType_Result> JobType = new List<SP_GetAllJobType_Result>();
@@ -331,12 +331,12 @@ namespace TrueBooksMVC.Controllers
                             select t;
 
                 ViewBag.MainJobId = query;
-            }
-            catch (Exception)
-            {
+          //  }
+        //    catch (Exception)
+         //   {
 
-                throw;
-            }
+          //      throw;
+         //  }
         }
 
         public JsonResult GetExchangeRte(string ID)

@@ -134,7 +134,7 @@
                                 foreach (var item in parentMenu)
                                 {
                                     <li class="parent">
-                                        <a itemid=@item.MenuID style="color:#fff" class="menutrv">@item.Title</a>
+                                        <a itemid=@item.MenuID style="cursor:pointer;" class="menutrv">@item.Title</a>
                                         @if (menuList.Count(p => p.ParentID == item.MenuID) > 0)
                                         {
                                             @:<ul>
@@ -162,7 +162,7 @@
                             foreach (var item1 in menuList.Where(p => p.ParentID == mi.MenuID))
                             {
                                 @:<li class="parent">
-                                    <a itemid=@item1.MenuID style="color:#fff" class="menutrv">@item1.Title</a>
+                                    <a itemid=@item1.MenuID style="cursor:pointer;" class="menutrv">@item1.Title</a>
                                     if (menuList.Count(p => p.ParentID == item1.MenuID) > 0)
                                     {
                                         @:<ul>
