@@ -32,31 +32,25 @@
 
         $(".parent").find('ul').css('display', 'none');
         $("ul").css('list-style-type', 'disc');
-
         $("#Title").focus();
         $(":text").css({ "border-radius": "5px" });
         $("select").css({ "border-radius": "5px" });
-
 
         $("a.menutrv").click(function () {
             $("a.menutrv").removeClass("selected");
             $("#ParentID").val($(this).attr('itemid'));
             $(this).addClass("selected");
-
-
         });
 
         $('.parent').click(function () {
-
+            event.stopPropagation();
             $(this).find('ul').slideToggle();
         });
-
 
         //$("#btnsave").click(function () {
         //    alert("hii");
         //    $.ajax(
         //     {
-
         //         type: "POST", //HTTP POST Method  
         //         dataType: "json",
         //         contentType: "application/json; charset=utf-8",
@@ -64,38 +58,22 @@
         //           data: "{'Title':'" + $("#Title").val() + "','ParentID': '" + $("#parenthidden").val() + "'}",
         //           success: function (result) {
         //               alert("Success");
-
         //           }
-
-
         //     });
-
         //    return false;
         //});
-        
 
         $("#btnsave").click(function () {
             var title = $("#Title").val();
-          
-
-
-
             if (title == "") {
                 $("#alert").show();
                 return false;
             }
-         
-
             else {
                 $("#alert").hide();
                 return true;
             }
-
-
         });
-
-
-
     });
 </script>
 
@@ -171,24 +149,20 @@
                             <ul>
                                 @if (parentMenu != null)
                                 {
-
-
                                     foreach (var item in parentMenu)
                                     {
-                                    <li class="parent"><a itemid=@item.MenuID  style="color:#fff" class="menutrv">@item.Title</a>
+                                    <li class="parent">
+                                        <a itemid="@item.MenuID"  style="color:#fff;cursor:pointer;" class="menutrv">@item.Title</a>
                                         @if (menuList.Count(p => p.ParentID == item.MenuID) > 0)
                                         {
                                             @:<ul>
-
                                         }
                                         @RenderMenuList(menuList, item)
                              @if (menuList.Count(p => p.ParentID == item.MenuID) > 0)
                              {
-                              @:</ul>
-                                                                                                                                                                                                                
+                              @:</ul>                                                                                                                                                                            
                              }
                                     </li>
-                            
                                     }
                                 }
                             </ul>
@@ -197,7 +171,7 @@
     foreach (var item1 in menuList.Where(p => p.ParentID == mi.MenuID))
     {
                                 @:<li class="parent">
-<a itemid=@item1.MenuID style="color:#fff"  class="menutrv">@item1.Title</a>
+<a itemid="@item1.MenuID" style="color:#fff;cursor:pointer;"  class="menutrv">@item1.Title</a>
         if (menuList.Count(p => p.ParentID == item1.MenuID) > 0)
         {
                                 @:<ul>

@@ -116,44 +116,30 @@
             <div class="col-md-4">
                 <label class="required headinglabel">Parent</label>
                 <ul class="treeview-menu">
-
-
                     @{
                         List<DAL.Menu> menuList = (List<DAL.Menu>)ViewBag.Menu;
                         List<DAL.Menu> parentMenu = new List<DAL.Menu>();
                         if (menuList != null)
                         {
-
                             parentMenu = menuList.Where(p => Convert.ToInt32(p.ParentID) == 0).ToList();
                         }
                         <ul>
                             @if (parentMenu != null)
                             {
-
-
                                 foreach (var item in parentMenu)
                                 {
                                     <li class="parent">
-                                        <a itemid=@item.MenuID style="cursor:pointer;" class="menutrv">@item.Title</a>
+                                        <a itemid="@item.MenuID" style="cursor:pointer;" class="menutrv">@item.Title</a>
                                         @if (menuList.Count(p => p.ParentID == item.MenuID) > 0)
                                         {
                                             @:<ul>
-
-
-
-
                                             }
                                         @RenderMenuList(menuList, item)
                                         @if (menuList.Count(p => p.ParentID == item.MenuID) > 0)
                                         {
                                         @:</ul>
-
-
-
-
                                     }
                                     </li>
-
                                 }
                             }
                         </ul>
