@@ -28,37 +28,37 @@
 
 
         $("a.menutrv").click(function () {
-            $("a.menutrv").removeClass("selected");
+            var SelectedParentId = '';
+            if ($(this).closest('ul') != null) {
+                var selectedParent = $(this).closest('ul').parent().first('a.selected');
+                if (selectedParent != null) {
+                    SelectedParentId = $(selectedParent).attr('itemid');
+                }
+            }
+            if ($("#ParentID").val() != SelectedParentId) {
+                $("a.menutrv").removeClass("selected");
+            }
             $("#ParentID").val($(this).attr('itemid'));
             $(this).addClass("selected");
 
-
         });
 
-        $('.parent').click(function () {
-
+        $('.parent').click(function (event) {
             //$(this).find('ul').slideToggle();
+            event.stopPropagation();
             $(this).children("ul").slideToggle();
         });
 
         $("#btnsave").click(function () {
             var title = $("#Title").val();
-
-
-
-
             if (title == "") {
                 $("#alert").show();
                 return false;
             }
-
-
             else {
                 $("#alert").hide();
                 return true;
             }
-
-
         });
 
 
@@ -68,7 +68,7 @@
 
 <style>
     .selected {
-        display: block;
+        display: inline-block;
         height: 25px;
         padding-left: 3px;
         border-radius: 5px;
@@ -162,7 +162,7 @@
                             foreach (var item1 in menuList.Where(p => p.ParentID == mi.MenuID))
                             {
                                 @:<li class="parent">
-                                    <a itemid=@item1.MenuID style="cursor:pointer;" class="menutrv">@item1.Title</a>
+                                    <a itemid="@item1.MenuID" style="cursor:pointer;" class="menutrv">@item1.Title</a>
                                     if (menuList.Count(p => p.ParentID == item1.MenuID) > 0)
                                     {
                                         @:<ul>
