@@ -728,7 +728,26 @@ namespace TrueBooksMVC.Controllers
             }
             else if (Command == "SaveInvoice")
             {
+                if (Session["JobID"] != null)
+                {
+                    if (Convert.ToInt32(Session["JobID"]) > 0)
+                    {
+                        if (Session["UserID"] != null)
+                        {
+                            //rgm.EditUser(UR);
+                            int k = J.UpdateInvoiceNumber(Convert.ToInt32(Session["JobID"]), Convert.ToInt32(JM.InvoiceNo), Convert.ToDateTime(JM.InvoiceDate), Convert.ToInt32(Session["fyearid"].ToString()));
 
+                            if (k > 0)
+                            {
+                                return RedirectToAction("JobDetails", "Job", new { ID = Session["JobID"].ToString() });
+                            }
+                        }
+                        else
+                        {
+                            return RedirectToAction("Login", "Login");
+                        }
+                    }
+                }
             }
             return View(JM);
         }
