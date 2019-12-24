@@ -25,6 +25,12 @@ namespace ShippingFinal.Controllers
             return View(customer);
         }
 
+        [HttpPost]
+        public ActionResult SearchCustomer(string SearchName)
+        {
+            var customer = objSourceMastersModel.GetCoustomer(SearchName);
+            return View("Index", customer);
+        }
         //
         // GET: /Customer/Details/5
 

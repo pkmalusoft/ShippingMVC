@@ -444,11 +444,17 @@ namespace TrueBooksMVC.Models
         public List<CUSTOMER> GetCoustomer()
         {
 
-            var query = Context1.CUSTOMERs.OrderBy(x => x.Customer1).ToList();
+            var query = Context1.CUSTOMERs.Take(100).OrderBy(x => x.Customer1).ToList();
 
             return query;
         }
+        public List<CUSTOMER> GetCoustomer(string CustomerName)
+        {
 
+            var query = Context1.CUSTOMERs.Where(c=> c.Customer1.Contains(CustomerName)).Take(100).OrderBy(x => x.Customer1).ToList();
+
+            return query;
+        }
         public CUSTOMER GetCustomerById(int id)
         {
 
