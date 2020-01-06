@@ -221,8 +221,6 @@ namespace TrueBooksMVC.Models
                 AnalysisHeadSelectList = MM.GetAnalysisHeadSelectList(Common.ParseInt(Session["branchid"].ToString()),"");
                 return Json(AnalysisHeadSelectList, JsonRequestBehavior.AllowGet);
             }
-        }
-        
-
+        }       
     }
 }

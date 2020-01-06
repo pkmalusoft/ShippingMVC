@@ -92,5 +92,6 @@ namespace DAL
         public string CostUpdatedOrNot { get; set; }
         public Nullable<System.DateTime> DepartingDate { get; set; }
         public Nullable<bool> Lock { get; set; }
+       
     }
 }

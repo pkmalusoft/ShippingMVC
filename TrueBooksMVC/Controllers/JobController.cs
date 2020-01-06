@@ -197,7 +197,7 @@ namespace TrueBooksMVC.Controllers
         public ActionResult Job(FormCollection formCollection, string Command, int id)
         {
             JobGeneration JM = new JobGeneration();
-            UpdateModel<JobGeneration>(JM);
+                UpdateModel<JobGeneration>(JM);
             
             int i;
             int JobId = 0;
@@ -2638,8 +2638,6 @@ namespace TrueBooksMVC.Controllers
                 return View(lst);
             }
         }
-
-
-
+      
     }
 }
