@@ -43,7 +43,6 @@
 
     $(document).ready(function () {
 
-
         $("#frmdate").css("border-radius", "5px");
         $("#todate").css("border-radius", "5px");
 
@@ -104,7 +103,7 @@
             type: "GET",
             dataType: "json",
             success: function (data) {
-
+                
                 $("#result").html(data.view);
                 hideLoading();
             },
@@ -125,15 +124,14 @@
             if (frm > dto) {
 
                 $("#error").show();
+                hideLoading();
                 return false;
+
             }
             else {
                 $("#error").hide();
                 //  f2();
                 //  table.draw();
-
-
-
                 $.ajax({
                     url: "@Url.Action("GetJob", "Job")",
                     data: { fdate: $('#frmdate').val(), tdate: $('#todate').val() },
@@ -167,6 +165,10 @@
 "Oct", "Nov", "Dec");
 
         var startdate = '@Session["FyearFrom"].ToString()';
+        var frdate= startdate.split(" ");
+        var from = frdate[0].split("/");
+        var f = new Date(from[2], from[1] - 1, from[0]);
+
         var enddate = '@Session["FyearTo"].ToString()';
         var sd = new Date(startdate);
         var ed = new Date(enddate);
@@ -177,7 +179,7 @@
         var d = new Date();
         var curr_date = d.getDate();
         var curr_month = d.getMonth();
-        var curr_year = str.getFullYear();
+        var curr_year = f.getFullYear();
         return (curr_date + "-" + m_names[curr_month] + "-" + curr_year);
 
         
@@ -260,7 +262,7 @@ function (settings, data, dataIndex) {
 
 
                 </table>
-                <table class="searchtabs tablserch" id="tbl1">
+                @*<table class="searchtabs tablserch" id="tbl1">
                     <tr>
                         <td class="searlabel">
                             From Date
@@ -285,7 +287,7 @@ function (settings, data, dataIndex) {
                     </tr>
 
 
-                </table>
+                </table>*@
             </p>
 
 

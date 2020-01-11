@@ -337,7 +337,7 @@
                         }
                     }
                     &nbsp;
-                    <a href="@Url.Action("index", "Invoice", new { id = 0 })" class="btn btn-primary btnwidth">Cancel</a>
+                    <a href="@Url.Action("index", "purchaseinvoice", new { id = 0 })" class="btn btn-primary btnwidth">Cancel</a>
                     &nbsp;
                 </div>
             </div>
@@ -420,6 +420,8 @@
                         term: request.term
                     },
                     success: function (data) {
+                        debugger;
+
                         response($.map(data, function (val, item) {
                             return {
                                 label: val.ProductName,
@@ -458,10 +460,11 @@
                 type: "GET",
                 url: "/Job/GetExchangeRte",
                 datatype: "Json",
-                data: { ID: $('#CurrencyID').val() },
+                data: { ID: $('#SelectedCurrencyID').val() },
                 success: function (data) {
                     debugger;
                     $('#ExchangeRate').val(data);
+                    CalculateValue();
                 }
             });
         });
@@ -470,6 +473,8 @@
         var index = 0;
         $("#charges_table").on('click', '.delete', function () {
             $(this).parent().parent().remove();
+            CalculateValue();
+
         });
         function AddNewRow() {
             debugger;
@@ -487,6 +492,8 @@
             $('#AcHead_' + i + '_txt').focus().autocomplete(autocompleteOptions);
             $('#JobID_' + i + '_txt').focus().autocomplete(JobAutoComplete);
             $('#Product_' + i + '_txt').focus().autocomplete(ProductsAutoComplete);
+            $('#SupplierID').focus();
+
             CalculateValue();
         }
         $("#charges_table").on('click', '.addmore', function () {
@@ -534,7 +541,9 @@
                         $('#charges_table').find('#Product_' + i).val(InvoiceDetailsObj.ProductID);
                         $('#AcHead_' + i + '_txt').focus().autocomplete(autocompleteOptions);
                         $('#JobID_' + i + '_txt').focus().autocomplete(JobAutoComplete);
-                        $('#Product_' + i + '_txt').focus().autocomplete(ProductsAutoComplete); 
+                        $('#Product_' + i + '_txt').focus().autocomplete(ProductsAutoComplete);
+                                $('#SupplierID').focus();
+
                     }
                     CalculateValue();
                 }
@@ -590,6 +599,9 @@
             CalculateValue();
         });
 
+        $('.QTY').on('change', function () {
+            CalculateValue();
+        });
         $('.calc').on('click', function () {
             CalculateValue();
         });
@@ -603,7 +615,7 @@
             trCount = trCount + 1;
             var NetValue = 0;
             var Tax = 0;
-            var CurrencyId = $('#CurrencyID').val();
+            var CurrencyId = $('#SelectedCurrencyID').val();
             var BranchLocalCurrencyId = $('#BranchLocalCurrencyId').val();
             var TaxPercentage = 5;
 
@@ -629,10 +641,12 @@
                 if (isNaN(parseInt(RateFC))) {
                     RateFC = 0;
                 }
+                debugger;
                 if (BranchLocalCurrencyId == CurrencyId) {
                     $('.RateFC').attr('readonly', 'readonly');
-                    $('.RateFC').val('0.00');
+                    $('.RateFC').val('0.00');      
                     $('.Rate').removeAttr('readonly');
+                    $('.Rate').val(ExRate);
                     TotalValue = (Qty * Rate);
                     TotalValue = parseFloat(TotalValue).toFixed(2);
                     $('#charges_table tr:nth-child(' + i + ')').find('.Value').val(TotalValue);
@@ -649,15 +663,23 @@
                     NetValue = parseFloat(NetValue).toFixed(2);
                     TotalCount = TotalCount + NetValue;
                     $('#charges_table tr:nth-child(' + i + ')').find('.NetValue').val(NetValue);
+                    $("#TotalFC").attr('readonly', 'readonly');
+                    $(".Tax_FC").attr('readonly', 'readonly');
+                    $("#discountFC").attr('readonly', 'readonly');
+                    $("#TotalLC").removeAttr('readonly');
+                    $(".Tax_LC").removeAttr('readonly');
+                    $("#discountLC").removeAttr('readonly');
                 }
                 else {
                     $('.Rate').attr('readonly', 'readonly');
                     $('.RateFC').removeAttr('readonly');
+                    $('.Rate').val('0.00');
+                    $('.RateFC').val(ExRate);
                     TotalValue = (Qty * RateFC);
                     TotalValue = parseFloat(TotalValue).toFixed(2);
                     $('#charges_table tr:nth-child(' + i + ')').find('.ValueFC').val(TotalValue);
                     TotalValue = parseFloat(TotalValue * ExRate).toFixed(2);
-                    $('#charges_table tr:nth-child(' + i + ')').find('.Value').val(TotalValue);
+                    $('#charges_table tr:nth-child(' + i + ')').find('.Value').val('0.00');
                     Tax = parseFloat(TotalValue * (TaxPercentage / 100)).toFixed(2);
                     if (isNaN(parseInt(Tax))) {
                         Tax = 0.00;
@@ -669,6 +691,12 @@
                     NetValue = parseFloat(TotalValue) + parseFloat(Tax);
                     NetValue = parseFloat(NetValue).toFixed(2);
                     $('#charges_table tr:nth-child(' + i + ')').find('.NetValue').val(NetValue);
+                    $("#TotalLC").attr('readonly', 'readonly');
+                    $(".Tax_LC").attr('readonly', 'readonly');
+                    $("#discountLC").attr('readonly', 'readonly');
+                    $("#TotalFC").removeAttr('readonly');
+                    $(".Tax_FC").removeAttr('readonly');
+                    $("#discountFC").removeAttr('readonly');
                 }
             }
             var TotalValue = 0;
@@ -889,6 +917,7 @@
 
         $('.Job').focus().autocomplete(JobAutoComplete);
         $('.Product').focus().autocomplete(ProductsAutoComplete);
+        $('#SupplierID').focus();
 
     });
 

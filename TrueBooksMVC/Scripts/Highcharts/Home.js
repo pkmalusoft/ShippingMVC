@@ -104,12 +104,14 @@ function loadjobchart() {
 
 //Cost Updation
 function GetCostUpdation() {
+    debugger;
     $.ajax({
 
         url: "/CostUpdation/GetAllCurrencyCostUpdation/",
         type: "GET",
         dataType: "json",
         success: function (data) {
+            debugger;
             costupdationobj = data;
             loadcostupdationchart();
 
@@ -118,10 +120,12 @@ function GetCostUpdation() {
 }
 
 function loadcostupdationchart() {
-    
+    debugger;
     costnameobj = ["Provision", "Updated"];
-    costdataobj.push(costupdationobj[0].Provision);
-    costdataobj.push(costupdationobj[0].Updated);
+    if (costupdationobj.length > 0) {
+        costdataobj.push(costupdationobj[0].Provision);
+        costdataobj.push(costupdationobj[0].Updated);
+    }
     var charts = [],
     $containers = $('#CostUpdationChart'),
     datasets = [{
@@ -197,7 +201,6 @@ function GetReceivable() {
 }
 
 function loadreceivable() {
-    debugger;
     Recievablenameobj = ["Invoiced", "Recieved"];
     Recievabledataobj.push(custRecievableobj[0].Invoiced);
     Recievabledataobj.push(custRecievableobj[0].Recievable);
