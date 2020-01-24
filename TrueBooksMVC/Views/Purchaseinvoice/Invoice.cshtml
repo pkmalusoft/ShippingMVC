@@ -353,6 +353,8 @@
         var enddate = '@Session["FyearTo"].ToString()';
         var sd = new Date(startdate);
         var ed = new Date(enddate);
+        CalculateValue();
+
         var autocompleteOptions = {
             source: function (request, response) {
                 $.ajax({
@@ -542,7 +544,7 @@
                         $('#AcHead_' + i + '_txt').focus().autocomplete(autocompleteOptions);
                         $('#JobID_' + i + '_txt').focus().autocomplete(JobAutoComplete);
                         $('#Product_' + i + '_txt').focus().autocomplete(ProductsAutoComplete);
-                                $('#SupplierID').focus();
+                        $('#invoicedate').focus();
 
                     }
                     CalculateValue();
@@ -855,7 +857,8 @@
                             return {
                                 label: val.EmployeeName,
                                 value: val.EmployeeName,
-                                EmployeeID: val.EmployeeID
+                                EmployeeID: val.EmployeeID                              
+                           
                             }
                         }))
                     }
@@ -865,6 +868,7 @@
                 e.preventDefault();
                 $("#EmployeeID").val(i.item.label);
                 $('#SelectedEmployeeID').val(i.item.EmployeeID);
+                $('#Description_1').focus();
             }
         });
         var SelectedEmployeeID = $('#SelectedEmployeeID').val();
@@ -917,7 +921,7 @@
 
         $('.Job').focus().autocomplete(JobAutoComplete);
         $('.Product').focus().autocomplete(ProductsAutoComplete);
-        $('#SupplierID').focus();
+        $('#invoicedate').focus();
 
     });
 
