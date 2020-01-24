@@ -174,8 +174,8 @@
                 </div>
             </div>
             <div class="form_invoice">
-                <button type="button" class="addmore topbutton">+ Add More</button>
-                <button type="button" class="calc" style="margin:5px;">Calc</button>
+                <button type="button btn" class="addmore topbutton btn btn-primary btnwidth">+ Add More</button>
+                <button type="button btn" class="calc topbutton btn btn-primary btnwidth" style="margin:5px;">Calc</button>
                 <div class="row no-margin" id="AddCharges" style="padding-top: 10px">
                     <div class="col-xs-12 no-padding for-device">
                         <div class="data-table tblsbackground" style="width:100%; padding: 0px;">
@@ -192,16 +192,16 @@
                                         <td width="5%">
                                             Unit
                                         </td>
-                                        <td width="4%" class="hideinsummary">
-                                            Rate
+                                        <td width="4%" class="hideinsummary" title="Local Currency">
+                                            Rate LC
                                         </td>
-                                        <td width="4%" class="hideinsummary">
+                                        <td width="4%" class="hideinsummary" title="Foreign Currency" style="color:yellow!important";>
                                             Rate FC
                                         </td>
-                                        <td width="4%" class="hideinsummary">
-                                            Value
+                                        <td width="4%" class="hideinsummary" title="Local Currency">
+                                            Value LC
                                         </td>
-                                        <td width="4%" class="lc_pro">
+                                        <td width="4%" class="lc_pro" title="Foreign Currency" style="color:yellow!important";>
                                             Value FC
                                         </td>
                                         <td width="3%">
@@ -252,7 +252,7 @@
                                             <input type="text" id="Product_1_txt" name="Product_1_txt" value="" class="Product" style="width:100%;height: 28px;padding:0px 5px;border: none;" />
                                             <input type="hidden" id="Product_1" name="Product_1" value="" />
                                         </td>
-                                        <td><button type="button" onclick="deleteRow(this)">-</button>&nbsp;&nbsp;<button type="button" index="1" class="addmore">+</button></td>
+                                        <td style="display:flex"><button type="button" onclick="deleteRow(this)">-</button>&nbsp;&nbsp;<button type="button" index="1" class="addmore">+</button></td>
                                     </tr>
                                 </table>
                             </div>
@@ -649,6 +649,10 @@
                     $('.RateFC').val('0.00');      
                     $('.Rate').removeAttr('readonly');
                     $('.Rate').val(ExRate);
+                     Rate = $('#charges_table tr:nth-child(' + i + ')').find('.Rate').val();
+                    if (isNaN(parseInt(Rate))) {
+                        Rate = 0;
+                    }
                     TotalValue = (Qty * Rate);
                     TotalValue = parseFloat(TotalValue).toFixed(2);
                     $('#charges_table tr:nth-child(' + i + ')').find('.Value').val(TotalValue);
@@ -677,6 +681,10 @@
                     $('.RateFC').removeAttr('readonly');
                     $('.Rate').val('0.00');
                     $('.RateFC').val(ExRate);
+                     RateFC = $('#charges_table tr:nth-child(' + i + ')').find('.RateFC').val();
+                    if (isNaN(parseInt(RateFC))) {
+                        RateFC = 0;
+                    }
                     TotalValue = (Qty * RateFC);
                     TotalValue = parseFloat(TotalValue).toFixed(2);
                     $('#charges_table tr:nth-child(' + i + ')').find('.ValueFC').val(TotalValue);
@@ -755,6 +763,7 @@
                 $('#TotalValueLC').val(parseFloat((TotalValue + TotalTaxLC) - discount).toFixed(2));
                 $('#TotalValueFC').val(parseFloat(TotalValueFC - discountFC).toFixed(2));
             }
+         
         }
 
         $("#SupplierID").autocomplete({

@@ -44,18 +44,21 @@
         width: 100%;
         margin: 0px !important;
     }
+
     input[type=text]:focus, textarea:focus {
         border-width: 0px !important;
     }
+
     .fulltablewidth {
         max-width: 1371px;
     }
-    .table > tbody > tr > td{
-        line-height:21px;
+
+    .table > tbody > tr > td {
+        line-height: 21px;
         padding: 0px;
         vertical-align: middle;
     }
-    
+
     .table > tfoot > tr > th,
     .table > thead > tr > td,
     .table > thead > tr > th {
@@ -74,11 +77,13 @@
         padding: 7px;
         border: 1px solid #eee;
     }
-    .delete,.addmore{
-        width:22px;
+
+    .delete, .addmore {
+        width: 22px;
     }
-    .topbutton{
-        width:70px !important;
+
+    .topbutton {
+        width: 70px !important;
     }
 </style>
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.20/datatables.min.css" />
@@ -178,51 +183,51 @@
             </div>
 
             <div class="form_invoice">
-                <button type="button" class='addmore topbutton' style="margin:5px;">+ Add More</button>
-                <button type="button" class='calc' style="margin:5px;">Calc</button>
+                <button type="button" class='addmore topbutton btn btn-primary btnwidth' style="margin:5px;">+ Add More</button>
+                <button type="button" class='calc btn btn-primary btnwidth' style="margin:5px;">Calc</button>
                 <div class="row no-margin" id="AddCharges" style="padding-top: 10px">
                     <div class="col-xs-12 no-padding for-device">
                         <div class="data-table tblsbackground" style="width:100%;">
                             <div class="data" style="overflow:auto;">
                                 <table border="1" cellpadding="0" cellspacing="0" class="table table-responsive table-bordered smalltablewidth fulltablewidth " id="charges_table" index="1">
                                     <tr>
-                                        <td width="2%">
+                                        <td width="3%">
                                             S. No
                                         </td>
-                                        <td width="15%" class="lc_pro">
+                                        <td width="12%" class="lc_pro">
                                             Product & Services
                                         </td>
                                         <td width="15%">Description</td>
-                                        <td width="1%">
-                                            Quantity
+                                        <td width="3%">
+                                            Qty
                                         </td>
                                         <td width="4%">
                                             Unit
                                         </td>
-                                        <td width="4%" class="hideinsummary">
+                                        <td width="5%" class="hideinsummary">
                                             Rate Type
                                         </td>
-                                        <td width="4%">
+                                        <td width="6%" title="Local Currency">
                                             Rate LC
                                         </td>
-                                        <td width="4%" class="hideinsummary">
+                                        <td width="6%" class="hideinsummary" title="foreign Currency" style="color:yellow!important" ;>
                                             Rate FC
                                         </td>
-                                        <td width="4%" class="lc_pro">
+                                        <td width="6%" class="lc_pro" title="Local Currency">
                                             Value LC
                                         </td>
-                                        <td width="4%">
+                                        <td width="6%" title="foreign Currency" style="color:yellow!important" ;>
                                             Value FC
                                         </td>
                                         <td width="3%">
                                             Tax
                                         </td>
-                                        <td width="3%">
+                                        <td width="6%">
                                             NetValue
                                         </td>
 
-                                        <td width="10%" class="lc_pro">
-                                            Job
+                                        <td width="2%" class="lc_pro" style="text-align:center!important" ;>
+                                            J
                                         </td>
 
                                         <td width="2%" class="fc_pro">
@@ -236,7 +241,7 @@
                                             <input type="hidden" id="Product_1" name="Product_1" value="" />
                                         </td>
                                         <td><input type='text' id='Description_1' name='Description_1' autocomplete="off" style="width: 100%;border:none;height: 28px;padding: 0px 7px;" /></td>
-                                        <td><input type='text' class="QTY" id='Quantity_1' name='Quantity_1' autocomplete="off" style="width: 100%;border:none;height: 28px;padding: 0px 7px;" /></td>
+                                        <td><input type='text' class="QTY text-right" id='Quantity_1' name='Quantity_1' autocomplete="off" style="width: 100%;border:none;height: 28px;padding: 0px 7px;" /></td>
                                         <td>
                                             @Html.DropDownList("Unit_1", (SelectList)ViewBag.Unit, "Select", new { @class = "Unit", id = "Unit_1", @name = "Unit_1", @style = "width: 100%;border:none;height: 28px;padding: 0px;" })
 
@@ -252,7 +257,7 @@
                                             <input type="text" id="JobID_1_txt" name="JobID_1_txt" autocomplete="off" value="" class="Job" style="width: 100%;border:none; height: 28px;padding: 0px 7px;" />
                                             <input type="hidden" id="JobID_1" name="JobID_1" value="" />
                                         </td>
-                                        <td><button type="button" onclick="deleteRow(this)">-</button>&nbsp;&nbsp;<button type="button" class="addmore">+</button></td>
+                                        <td style="display:flex"><button type="button" onclick="deleteRow(this)">-</button>&nbsp;&nbsp;<button type="button" class="addmore">+</button></td>
                                     </tr>
                                 </table>
                             </div>
@@ -261,60 +266,63 @@
                 </div>
             </div>
             <div class="row no-margin" style="padding-top: 10px">
-                <div class="col-md-6">
+                <div class="col-md-5">
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-7">
                     <div class="col-md-12">
                         <div class="row no-margin" style="padding-top: 10px">
-                            <div class="col-md-3" style="text-align: center;">
+                            <div class="col-md-4" style="text-align: center;">
                                 <label class="headinglabel">Invoice Total :</label>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <input type="text" class="form-control" id="TotalLC" placeholder=" Local Currencey" name="Local" style="display: inline-block; width: 100%;" />
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <input type="text" class="form-control" id="TotalFC" placeholder=" Foreign Currency" name="Foreign" style="display: inline-block; width: 100%;" />
                             </div>
                         </div>
                         <div class="row no-margin" style="padding-top: 10px">
-                            <div class="col-md-3" style="text-align: center;">
+                            <div class="col-md-4" style="text-align: center;">
                                 <label class="headinglabel">Add: Tax :</label>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <input type="text" class="form-control Tax_LC" name="Tax_LC" style="display: inline-block; width: 100%;" />
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <input type="text" class="form-control Tax_FC" name="Tax_FC" style="display: inline-block; width: 100%;" />
                             </div>
 
                         </div>
                         <div class="row no-margin" style="padding-top: 10px">
-                            <div class="col-md-3" style="text-align: center;border: 1px solid;position: relative;">
-                                <div class="lab_dis" style="position: absolute; top: -11px; left: 3px; background-color: #fff; padding: 2px;"><label class="headinglabel">Discount :</label></div>
-                                <div class="row no-margin" style="padding-top: 10px">
-                                    <div class="col-md-6" style="padding:0">
-                                        <label for="DiscountType1">%&nbsp;<input type="radio" id="DiscountType1" name="DiscountType" value="1" @(Model.DiscountType == 1 || Model.SalesInvoiceID == 0 ? "checked='true'" : "" ) /></label>
+                            <div class="col-md-4 discount_block" style="text-align: center;border: 1px solid;position: relative;">
+
+                                <div class="row no-margin">
+                                    <div class="col-md-4" style="padding:0">
+                                        <label style="margin:0" ;>Discount :</label>
                                     </div>
-                                    <div class="col-md-6" style="padding:0">
-                                        <label for="DiscountType2">Amount&nbsp;<input type="radio" id="DiscountType2" value="2" name="DiscountType" @(Model.DiscountType == 2 ? "checked='true'" : "" ) /></label>
+                                    <div class="col-md-4" style="padding:0">
+                                        <label style="margin:0" ; for="DiscountType1">%&nbsp;<input type="radio" id="DiscountType1" name="DiscountType" value="1" @(Model.DiscountType == 1 || Model.SalesInvoiceID == 0 ? "checked='true'" : "" ) /></label>
+                                    </div>
+                                    <div class="col-md-4" style="padding:0">
+                                        <label style="margin:0" ; for="DiscountType2">Amt&nbsp;<input type="radio" id="DiscountType2" value="2" name="DiscountType" @(Model.DiscountType == 2 ? "checked='true'" : "" ) /></label>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-3">
-                                @Html.TextBoxFor(model => model.DiscountValueLC, new { @class = "form-control discountamou", id = "discount", @name="DiscountValueLC", style = "display: inline-block;width: 100%;" })
+                            <div class="col-md-4">
+                                @Html.TextBoxFor(model => model.DiscountValueLC, new { @class = "form-control discountamou", id = "discount", @name = "DiscountValueLC", style = "display: inline-block;width: 100%;" })
 
                             </div>
-                            <div class="col-md-3">
-                                @Html.TextBoxFor(model => model.DiscountValueFC, new { @class = "form-control discountamouFC", id = "discountFC", @name="DiscountValueFC", style = "display: inline-block;width: 100%;" })
+                            <div class="col-md-4">
+                                @Html.TextBoxFor(model => model.DiscountValueFC, new { @class = "form-control discountamouFC", id = "discountFC", @name = "DiscountValueFC", style = "display: inline-block;width: 100%;" })
                             </div>
                         </div>
                         <div class="row no-margin" style="padding-top: 10px">
-                            <div class="col-md-3" style="text-align: center;">
+                            <div class="col-md-4" style="text-align: center;">
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <input type="text" class="form-control TotalValueLC" name="TotalValueLC" id="TotalValueLC" style="display: inline-block;width: 100%;" />
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <input type="text" class="form-control TotalValueFC" name="TotalValueFC" id="TotalValueFC" style="display: inline-block;width: 100%;" />
                             </div>
                         </div>
@@ -322,18 +330,18 @@
                 </div>
             </div>
             <div class="row no-margin buttons" style="padding-top: 10px">
-                <div class="col-md-12 align-right" style="text-align: left">
+                <div class="col-md-12 butdivs">
                     @{ if (Model.SalesInvoiceID > 0)
                         {
                             <input type="submit" name="Command" value="Update" class="btn btn-primary btnwidth" />
                         }
                         else
                         {
-                            <input type="submit" name="Command" value="Save" class="btn btn-primary btnwidth" id="btnSave" />
+                            <input type="submit" name="Command" value="Save" class="btn btn-danger btnwidth" id="btnSave" />
                         }
                     }
                     &nbsp;
-                    <a href="@Url.Action("index", "Invoice", new { id = 0 })" class="btn btn-primary btnwidth">Cancel</a>
+                    <a href="@Url.Action("index", "SalesInvoice", new { id = 0 })" class="btn btn-primary btnwidth">Cancel</a>
                 </div>
             </div>
         }
@@ -404,7 +412,7 @@
                 id = id.replace("_txt", "");
                 $("#" + id).val(i.item.ProductID);
             }
-        }; 
+        };
 
         $("#SalesInvoiceDate").datepicker({
             dateFormat: 'dd-M-yy',
@@ -446,8 +454,9 @@
         if ($('#Product_1_txt').length)
         {
             $('#Product_1_txt').focus().autocomplete(ProductsAutoComplete);
+            $('#SalesInvoiceDate').focus();
         }
-       
+
 
         $("#charges_table").on('click', '.addmore', function () {
             AddNewRow();
@@ -469,6 +478,7 @@
                 success: function (data) {
                     debugger;
                     $('#ExchangeRate').val(data);
+                    CalculateValue();
                 }
             });
         }
@@ -478,7 +488,7 @@
             PopulateExchageRate();
         });
 
-       
+
         debugger;
         var InvoiceId = $('#SalesInvoiceID').val();
         if (InvoiceId != 0 && InvoiceId != "") {
@@ -565,7 +575,9 @@
         $('.calc').on('click', function () {
             CalculateValue();
         });
-
+        $('.QTY').on('change', function () {
+            CalculateValue();
+        });
         function CalculateValue() {
             debugger;
             var trCount = $('#charges_table tr').length;
@@ -575,7 +587,7 @@
             trCount = trCount + 1;
             var NetValue = 0;
             var Tax = 0;
-            var CurrencyId = $('#CurrencyID').val();
+            var CurrencyId = $('#SelectedCurrencyID').val();
             var BranchLocalCurrencyId = $('#BranchLocalCurrencyId').val();
             var TaxPercentage = 5;
 
@@ -600,6 +612,12 @@
                     $('.RateFC').attr('readonly', 'readonly');
                     $('.RateFC').val('0.00');
                     $('.RateLC').removeAttr('readonly');
+                    $('.RateLC').val(ExRate);
+                    RateLC = $('#charges_table tr:nth-child(' + i + ')').find('.RateLC').val();
+
+                    if (isNaN(parseInt(RateLC))) {
+                        RateLC = 0;
+                    }
                     TotalValue = (Qty * RateLC);
                     TotalValue = parseFloat(TotalValue).toFixed(2);
                     $('#charges_table tr:nth-child(' + i + ')').find('.ValueLC').val(TotalValue);
@@ -613,10 +631,23 @@
                     NetValue = parseFloat(NetValue).toFixed(2);
                     TotalCount = TotalCount + NetValue;
                     $('#charges_table tr:nth-child(' + i + ')').find('.NetValue').val(NetValue);
+                    $("#TotalFC").attr('readonly', 'readonly');
+                    $(".Tax_FC").attr('readonly', 'readonly');
+                    $("#discountFC").attr('readonly', 'readonly');
+                  
+                    $("#TotalLC").removeAttr('readonly');
+                    $(".Tax_LC").removeAttr('readonly');
+                    $("#discountLC").removeAttr('readonly');
                 }
                 else {
                     $('.RateLC').attr('readonly', 'readonly');
                     $('.RateFC').removeAttr('readonly');
+                    $('.RateLC').val('0.00');
+                    $('.RateFC').val(ExRate);
+                    RateFC = $('#charges_table tr:nth-child(' + i + ')').find('.RateFC').val();
+                    if (isNaN(parseInt(RateFC))) {
+                        RateFC = 0;
+                    }
                     TotalValue = (Qty * RateFC);
                     TotalValue = parseFloat(TotalValue).toFixed(2);
                     $('#charges_table tr:nth-child(' + i + ')').find('.ValueFC').val(TotalValue);
@@ -631,8 +662,15 @@
                     NetValue = parseFloat(TotalValue) + parseFloat(Tax);
                     NetValue = parseFloat(NetValue).toFixed(2);
                     $('#charges_table tr:nth-child(' + i + ')').find('.NetValue').val(NetValue);
+                    $("#TotalLC").attr('readonly', 'readonly');
+                    $(".Tax_LC").attr('readonly', 'readonly');
+                    $("#discountLC").attr('readonly', 'readonly');                 
+                    $("#TotalFC").removeAttr('readonly');
+                    $(".Tax_FC").removeAttr('readonly');
+                    $("#discountFC").removeAttr('readonly');
                 }
             }
+            debugger;
             var TotalValueLC = 0;
             $('.ValueLC').each(function (i, obj) {
                 var ValueLc = $(this).val();
@@ -664,26 +702,47 @@
                 }
                 TotalTaxLC = TotalTaxLC + parseFloat(ValueTax_LC);
             });
+            var TotalTaxFC = 0;
+            $('.Tax').each(function (i, obj) {
+                var ValueTax_FC = $(this).val();
+                if (isNaN(parseInt(ValueTax_FC))) {
+                    ValueTax_FC = 0;
+                }
+                TotalTaxFC = TotalTaxFC + parseFloat(ValueTax_FC);
+            });
             $('.Tax_LC').val(parseFloat(TotalTaxLC).toFixed(2));
-            $('.Tax_FC').val('0.00');
-
+            $('.Tax_FC').val(parseFloat(TotalTaxFC).toFixed(2));
+           
             var DiscountType = $('input[name=DiscountType]:checked').val();
             var discount = $('#discount').val();
             var discountFC = $('#discountFC').val();
             if (isNaN(parseInt(discount))) {
                 discount = 0;
             }
+
             if (isNaN(parseInt(discountFC))) {
                 discountFC = 0;
             }
             if (DiscountType == 1) {
                 TotalValueLC = TotalValueLC + TotalTaxLC - (TotalValueLC * (discount / 100));
-                TotalValueFC = TotalValueFC + discountFC - (TotalValueFC * (discount / 100));
+                TotalValueFC = TotalValueFC + TotalTaxFC - (TotalValueFC * (parseInt(discountFC) / 100));
                 $('#TotalValueLC').val(parseFloat(TotalValueLC).toFixed(2));
                 $('#TotalValueFC').val(parseFloat(TotalValueFC).toFixed(2));
             } else {
                 $('#TotalValueLC').val(parseFloat((TotalValueLC + TotalTaxLC) - discount).toFixed(2));
-                $('#TotalValueFC').val(parseFloat(TotalValueFC - discountFC).toFixed(2));
+                $('#TotalValueFC').val(parseFloat((TotalValueFC + TotalTaxFC) - parseInt(discountFC)).toFixed(2));
+            }
+            if (BranchLocalCurrencyId == CurrencyId) {
+                $('#TotalValueFC').val('0.00');
+                $('.Tax_FC').val('0.00');
+                $('.discountFC').val('');
+                $('#TotalFC').val('0.00');
+
+            } else {
+                $('#TotalValueLC').val('0.00');
+                $('.Tax_LC').val('0.00');
+                $('#discount').val('')
+                $('#TotalLC').val('0.00');
             }
         }
 
@@ -712,6 +771,7 @@
                 $("#CurrencyID").val(i.item.label);
                 $('#SelectedCurrencyID').val(i.item.CurrencyID);
                // PopulateExchageRate();
+                CalculateValue();
             }
         });
         var SelectedCurrencyID = $('#SelectedCurrencyID').val();
@@ -839,6 +899,7 @@
                 e.preventDefault();
                 $("#EmployeeID").val(i.item.label);
                 $('#SelectedEmployeeID').val(i.item.EmployeeID);
+                $('#Product_1_txt').focus().autocomplete(ProductsAutoComplete);
             }
         });
         var SelectedEmployeeID = $('#SelectedEmployeeID').val();

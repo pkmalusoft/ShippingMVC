@@ -130,7 +130,7 @@
                                         });
     </script>
 }
-    
+
 
 <div ng-app="MyApp" ng-controller="MyController">
     <div class="" dir="ltr" id="main" runat="server">
@@ -149,70 +149,70 @@
             }
         </p>
         <section class="content">
-            <p style="color: white" class="cbtnpadding">
-                <div id="error" style="display: none; font-family: 'Montserrat', sans-serif !important; color: red">* From Date must not be Greater than To Date</div>
-                <table class="searchtabs tabsser" id="tbl1">
-                    <tr>
-                        <td colspan="6" style="text-align:center;">
-                            <section class="content-header">
-                                <h1 class="headingfont">Sales Invoice<small></small></h1>
-                            </section>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="searlabel ">
-                            From Date
-                        </td>
-                        <td class="searinput">
-                            <input type="text" id="frmdate" class="form-control" />
-                        </td>
-                        <td class="searlabel">
-                            To Date
-                        </td>
-                        <td class="searinput">
-                            <input type="text" id="todate" class="form-control" />
-                        </td>
-                        <td style="padding-left:10px;">
-                            <input type="button" value="Search" id="btnsearch" class="btn btn-primary btnwidt fa fa-search" />
-                        </td>
-                        <td>
-                            <a href="/salesInvoice/invoice/0"><button class="btn btn-primary btnwidth" style="margin:10px"> Add</button></a>
-                        </td>
-                    </tr>
-                </table>
-                <table class="searchtabs tablserch" id="tbl1">
-                    <tr>
-                        <td class="searlabel">
-                            From Date
-                        </td>
-                        <td class="searinput">
-                            <input type="text" id="frmdate" class="form-control" />
-                        </td>
-                    </tr>
-                    <br />
-                    <tr>
-                        <td class="searlabel">
-                            To Date
-                        </td>
-                        <td class="searinput">
-                            <input type="text" id="todate" class="form-control" />
-                        </td>
-                    </tr>
-                    <br />
-                    <tr>
-                        <td></td>
-                        <td style="text-align:center">
-                            <input type="button" value="Search" id="btnsearch" class="btn btn-primary btnwid fa fa-search" />
-                        </td>
-                    </tr>
-                </table>
-            </p>
+            <section class="content-header">
+                <h1 class="headingfont">Sales Invoice<small></small></h1>
+            </section>
+
+            @*<table class="searchtabs tablserch" id="tbl1">
+                <tr>
+                    <td class="searlabel">
+                        From Date
+                    </td>
+                    <td class="searinput">
+                        <input type="text" id="frmdate" class="form-control" />
+                    </td>
+                </tr>
+                <br />
+                <tr>
+                    <td class="searlabel">
+                        To Date
+                    </td>
+                    <td class="searinput">
+                        <input type="text" id="todate" class="form-control" />
+                    </td>
+                </tr>
+                <br />
+                <tr>
+                    <td></td>
+                    <td style="text-align:center">
+                        <input type="button" value="Search" id="btnsearch" class="btn btn-primary btnwid fa fa-search" />
+                    </td>
+                </tr>
+            </table>*@
+           
             <div class="row no-margin" style="padding-top: 20px">
                 <div class="col-md-12 col-lg-12 col=xs-12 col-sm-12 tblbackground">
-                    <div class="row">
-                        <div class="col-md-12 col-xs-12 col-sm-12" id="result">
+                    <p style="color: white" class="cbtnpadding">
+                        <div id="error" style="display: none; font-family: 'Montserrat', sans-serif !important; color: red">* From Date must not be Greater than To Date</div>
+                        <div class="search_tabs_right">
+                            <table class="searchtabs tabsser" id="tbl1">
+
+                                <tr>
+                                    <td class="searlabel ">
+                                        From Date
+                                    </td>
+                                    <td class="searinput">
+                                        <input type="text" id="frmdate" class="form-control" />
+                                    </td>
+                                    <td class="searlabel">
+                                        To Date
+                                    </td>
+                                    <td class="searinput">
+                                        <input type="text" id="todate" class="form-control" />
+                                    </td>
+                                    <td style="padding-left:10px;">
+                                        <input type="button" value="Search" id="btnsearch" class="btn btn-primary btnwidt fa fa-search" />
+                                    </td>
+                                    <td>
+                                        <a href="/salesInvoice/invoice/0"><button class="btn btn-primary btnwidth" style="margin:10px"> New</button></a>
+                                    </td>
+                                </tr>
+                            </table>
                         </div>
-                    </div>
+                        <div class="row">
+                            <div class="col-md-12 col-xs-12 col-sm-12" id="result">
+                            </div>
+                        </div>
                 </div>
             </div>
         </section>
