@@ -1,0 +1,327 @@
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video, table
+{
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font-family: 'Open Sans' , sans-serif;
+    text-decoration: none;
+}
+body
+{
+    background: #d8d6d8 url(Images/login/bkg-pat.png);
+    min-width: 320px;
+}
+ol, ul
+{
+    list-style: none;
+}
+.wrapper
+{
+    width: 500px;
+    min-width: 280px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -200px 0 0 -250px;
+}
+.content
+{
+    position: absolute;
+    top: 8.9%;
+}
+h1
+{
+    margin-top: 10px;
+    font-weight: 400;
+    font-size: 30px;
+    float: right;
+    color: #393939;
+    text-shadow: 0 1px 0 #fff;
+}
+.inner
+{
+    width: 460px;
+    margin: auto;
+}
+.logo
+{
+    height: 50px;
+    width: 500px; /*background: url(Images/login/logo.png) no-repeat;*/
+}
+
+.lg-body
+{
+    margin-top: 10px;
+    height: 320px;
+    background: url(Images/login/login-bg.jpg);
+    border-radius: 5px;
+    border: 1px solid #444;
+    border-bottom: 4px solid #333;
+    box-shadow: inset 0 1px 0 0 #999;
+}
+#lg-head
+{
+    height: 26px;
+    margin: 10px 0;
+    background: url(Images/login/login-sprite.png) no-repeat 0 0;
+}
+#lg-head p
+{
+    padding: 6px 0 0 34px;
+    font-size: 17px;
+    color: #d3d3d3;
+    text-shadow: 0 1px 0 #292929;
+}
+.separator
+{
+    height: 2px;
+    background: url(Images/login/separator-dark-hz.png) repeat-x;
+    margin: 14px 0;
+}
+.login
+{
+    width: 460px;
+    margin: auto;
+    padding-top: 5px;
+}
+.login ul li
+{
+    margin-top: 14px;
+}
+#usr-field, #psw-field, #branch-field, #fyear-field
+{
+    background: url(Images/login/nav-hover.png);
+    border-radius: 3px;
+    box-shadow: inset 0px 0px 1px 0px #000;
+    height: 32px;
+    position: relative;
+}
+#usr-field-icon
+{
+    display: block;
+    width: 22px;
+    height: 18px;
+    background: url(Images/login/login-sprite.png) no-repeat 0 -28px;
+    position: absolute;
+    top: 8px;
+    left: 8px;
+}
+#psw-field-icon
+{
+    display: block;
+    width: 22px;
+    height: 25px;
+    background: url(Images/login/login-sprite.png) no-repeat 0 0px;
+    position: absolute;
+    top: 4px;
+    left: 8px;
+}
+#branch-field-icon
+{
+    display: block;
+    width: 22px;
+    height: 20px;
+    background: url(Images/login/login-sprite.png) no-repeat 0 -48px;
+    position: absolute;
+    top: 6px;
+    left: 8px;
+}
+#fyear-field-icon
+{
+    display: block;
+    width: 22px;
+    height: 20px;
+    background: url(Images/login/login-sprite.png) no-repeat 0 -48px;
+    position: absolute;
+    top: 6px;
+    left: 8px;
+}
+.input
+{
+    width: 100%;
+    height: 32px;
+    background-color: #333;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    text-indent: 40px;
+    position: relative;
+    font-size: 12px;
+    color: #ccc;
+    text-shadow: 0 1px 0 #292929;
+}
+.select
+{
+    width: 100%;
+    height: 32px;
+    background-color: #333;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    text-indent: 40px;
+    position: relative;
+    font-size: 12px;
+    color: #ccc;
+    text-shadow: 0 1px 0 #292929;
+}
+#checkbox
+{
+    margin: 16px 0 16px 4px;
+}
+.checkbox-text
+{
+    color: #d3d3d3;
+    margin-left: 6px;
+    font-size: 13px;
+    float: none;
+}
+.submit
+{
+    width: 82px;
+    height: 26px;
+    border: 1px solid #444 !important;
+    font-size: 13px !important;
+    padding: 0;
+}
+#lost-psw
+{
+    float: right;
+    margin-top: -24px;
+}
+#lost-psw a
+{
+    color: #d3d3d3;
+    font-size: 13px;
+}
+label.error
+{
+    width: 22px;
+    height: 22px;
+    display: block;
+    clear: both;
+    text-indent: -9999px;
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    background: url(Images/login/login-sprite.png) no-repeat 0 -68px;
+    border: none;
+    float: none;
+}
+#login-msg
+{
+    margin-top: 10px;
+    padding: 6px 10px;
+    background: url(Images/login/grad-overlay.png) #27abff;
+    border: 1px solid #1290e0;
+    border-radius: 3px;
+    color: #003252;
+    text-shadow: 0 1px 0 #7fcdff;
+    font-size: 12px;
+}
+#light-ver
+{
+    margin-top: 40px;
+    background: url(Images/login/grad-overlay.png) #bbb;
+    border: 1px solid #9f9f9f;
+    border-radius: 3px;
+    text-shadow: 0 1px 0 #ddd;
+    font-size: 12px;
+}
+#light-ver p
+{
+    text-align: center;
+    padding: 10px;
+    color: #292929;
+}
+
+
+/* ADAPTIVE LAYOUT */
+
+@media only screen and (min-width: 0px) and (max-width: 500px)
+{
+    .wrapper
+    {
+        width: 300px;
+        position: relative;
+        top: 0;
+        left: 0;
+        margin: 4px auto !important;
+    }
+    .inner, .login, fieldset, .logo
+    {
+        width: 280px !important;
+        margin: auto;
+    }
+    .logo h1
+    {
+        display: none;
+    }
+    #lg-head
+    {
+        background: none;
+    }
+    #lg-head p
+    {
+        padding: 2px 0 0 2px;
+    }
+    .separator
+    {
+        margin: 6px 0 0 0;
+    }
+}
+.font-bold
+{
+    font-weight: 600;
+}
+
+form
+{
+    display: block;
+}
+.button.green
+{
+    background: url(Images/login/grad-overlay-s.png) #a1b900;
+    border: 1px solid #a1b900;
+}
+
+p
+{
+    font-size: 12px;
+    font-weight: 400;
+    color: #292929;
+}
+p a
+{
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 400;
+    color: #292929;
+}
+p a:hover
+{
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.wrapper1
+{
+    margin: 0px auto;
+}
+.header
+{
+    display: block;
+    height: 60px;
+    width: 100%;
+    position: absolute;
+    z-index: 1999;
+    background: url("Images/header.jpg") left top repeat-x;
+}
+.header .logo1
+{
+    display: block;
+    float: left;
+    padding: 4px 10px;
+}

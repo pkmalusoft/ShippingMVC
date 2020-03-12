@@ -1,0 +1,141 @@
+@charset "utf-8";
+/* CSS Document */
+body
+{margin-bottom:0px;
+ margin-left:0px;
+ margin-right:0px;
+ margin-top:0px;
+ overflow-x: hidden;
+ width:100%;
+
+	}
+.main_header{width: 100%; margin: auto; padding: 0px; float: left; height: 62px; background-image: url(../images/headerbg.png);background-repeat: repeat-x;}
+.logo_part{width: 200px; margin: auto; padding: 0px; float: left;}
+.user_login_part{width: 320px; margin: auto; padding: 0px; float: right;}
+.user_Pic_col{width: 320px; margin: auto; float: left; padding: 0px;}
+.user_profile_pic{width: 68px; margin: auto; padding: 0px; float: left;}
+.user_name{width: 250px; margin: auto; padding:0px 0 0 0; float: right;}
+.change_password{width: 250px; margin: auto; padding: 10px 0 0 0; float:left;}
+.change_password_colleft{width: 160px; margin: auto; padding: 0px; float: left;}
+.logout{width: 70px; margin: auto; padding: 0px; float: left;}
+.menu_nav{width:100%; margin:auto; float:left; padding:0px;}
+.welcome{font-family:Verdana; font-size:13px; color:#007965; text-decoration:none;}
+.user_name_font{font-family:Verdana; color:#232323; font-weight:bold; font-size:13px;}
+.change_password_font{font-family:Verdana; color:#840e0a; font-weight:bold; font-size:13px; text-decoration:none;}
+.change_password_font:hover{font-family:Verdana; color:#232323; font-weight:bold; font-size:13px; text-decoration:none;}
+.maindiv {
+	margin: auto;
+	height: auto;
+	width: 1100px;
+	background-color: #f1f1f1;
+	border: 1px solid #000;
+}
+.footer {
+	height: 30px;
+	width: 1100px;
+	background-color: #3ab54a;
+	clear: both;
+}
+
+.headernew {
+	height: 63px;
+	width: 100%;
+	background-image: url(../images/headerbg.png);
+	background-repeat: repeat-x;
+}
+.pickup {
+	height: 25px;
+	width: 1070px;
+	font-family: Arial;
+	font-size: 14px;
+	font-weight: bold;
+	color: #FFF;
+	background-color: #636164;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	padding-left: 30px;
+	padding-top: 10px;
+}
+.form {
+	height: 670px;
+	width: 500px;
+	background-color: #f3f3f3;
+	float: left;
+	/* [disabled]padding-top: 10px; */
+	padding-left: 50px;
+	font-weight: bold;
+}
+
+
+.logonew {
+	height: 63px;
+	width: 150px;
+	background-image: url(../images/logo.png);
+	float: left;
+	margin:auto;
+	padding:0px;
+}
+
+.PWD {
+	height: auto;
+	width: auto;
+	font-size: 12px;
+	font-weight: bold;
+	float: left;
+	color: #900;
+}
+.login-form {
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: 12px;
+	height: ;
+	width: 300px;
+	float: right;
+}
+
+
+.navbar {
+	height: 25%;
+	width: 100%;
+	background-color: #3ab54a;
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: 13px;
+	color: #FFF;
+}
+.contentnew
+{ 
+width:100%;
+margin-top:30px; padding:0px; float:left; padding:0 5px 0 5px; 
+}
+.password_new{font-family:Verdana; font-size:12px; color:#7d0309; text-decoration:none;}
+
+
+
+.RadMenu_QsfMenu .rmRootGroup
+/*.RadMenu_QsfMenu .rmRootGroup .rmLink:hover,
+.RadMenu_QsfMenu .rmRootGroup .rmFocused,
+.RadMenu_QsfMenu .rmRootGroup .rmExpanded*/
+{
+	background: #52b506 !important;
+    background-repeat: repeat-x;
+    color: #fff !important;
+    font-size:12px;
+    font-weight:bold;
+}
+.RedMenu_Defalut .rmRootGroup{
+ background-repeat: repeat-x !important;
+ background-position:0 -408px !important;
+ background-color:#56b906 !important;
+}
+.RadMenu_Default .RadMenu_Default
+{
+background: #52b506 !important;
+color: White !important;
+}
+.RadMenu_Green .rmRootGroup .rmLink:hover,
+.RadMenu_Green .rmRootGroup .rmFocused,
+.RadMenu_Green .rmRootGroup .rmExpanded
+{ 
+    background-color: green; 
+    color: #aad199;
+    
+}

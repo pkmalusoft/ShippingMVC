@@ -14,10 +14,11 @@
         border-radius: 25px;
         margin-bottom: 27px;
         padding: 20px;
-        width:100%;
-        max-width:1200px;
+        width: 100%;
+        max-width: 1200px;
         margin: 0 auto;
     }
+
     .headinglabel {
         color: #000 !important;
         display: inline;
@@ -31,11 +32,16 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-
+        
+        var startdate = '@Session["FyearFrom"].ToString()';
+        var enddate = '@Session["FyearTo"].ToString()';
+        var sd = new Date(startdate);
+        var ed = new Date(enddate);
 
 
         $('#OPDate').datepicker({
-            dateFormat: 'dd-M-yy', maxDate: '0',
+            dateFormat: 'dd-M-yy', minDate: sd,
+            maxDate: ed,
             changeYear: true, changeMonth: true,
         });
         $('#txtInvoiceDate').datepicker({
@@ -54,7 +60,7 @@
         var fstart = '@Session["FyearFrom"].ToString()';
 
         var d = new Date(fstart);
-        
+
 
 
         function GetCurrentDate() {
@@ -63,14 +69,14 @@
     "Oct", "Nov", "Dec");
 
             var startdate = '@Session["FyearFrom"].ToString()';
-          
+
 
                var str = new Date(startdate);
 
 
-             
+
                var curr_month = str.getMonth();
-              
+
                return (str.getDate() + "-" + m_names[curr_month] + "-" + str.getFullYear());
 
 
@@ -134,14 +140,14 @@
     });
 
     function SaveDetails(data) {
-      
+
         var x = "";
         // if (data.AcJournalID > 0) {
         $("#tbl1").find('tr:not(:first-child,:last-child)').each(function (i, el) {
             var $tds = $(this).find("td");
 
             InvoiceNo = $tds.eq(0).text(),
-         
+
                JobCode = $tds.eq(1).text(),
                InvoiceDate = $tds.eq(2).text();
             LastTransDate = $tds.eq(3).text();
@@ -166,7 +172,7 @@
     // }
 
     function CheckValidation() {
-     
+
         var flag = true;
         var x = 2;
 
@@ -245,122 +251,122 @@
 </script>
 
 
-<section class="conten">
+<section class="conten ">
     @using (Ajax.BeginForm("GetGridData", "OpeningInvoice", new AjaxOptions { HttpMethod = "Post", OnBegin = "return CheckValidation()", OnSuccess = "SaveDetails" }))
     {
-@*  @Html.AntiForgeryToken()
-        @Html.ValidationSummary(true)
-    
-         *@
-    <div class="jobform">
-        <div id="alert" style="color: red; display: none; margin-left: 10px;">*Please fill mandatory fields</div>
-        <fieldset>
+        @*  @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
 
-            <div class="row no-margin">
-                <div class="col-md-12">
+        *@
+        <div class="jobform">
+            <div id="alert" style="color: red; display: none; margin-left: 10px;">*Please fill mandatory fields</div>
+            <fieldset>
 
-                    @Html.RadioButtonFor(model => model.IsCustomerSelected, true, new { @class = "rdCustomer", name = "cust" })<label class="headinglabel">Customer</label>&nbsp;
-                    @Html.RadioButtonFor(model => model.IsCustomerSelected, false, new { @class = "rdSupplier", name = "sup" })<label class="headinglabel">Supplier</label>
+                <div class="row no-margin">
+                    <div class="col-md-12">
+
+                        @Html.RadioButtonFor(model => model.IsCustomerSelected, true, new { @class = "rdCustomer", name = "cust" })<label class="headinglabel">Customer</label>&nbsp;
+                        @Html.RadioButtonFor(model => model.IsCustomerSelected, false, new { @class = "rdSupplier", name = "sup" })<label class="headinglabel">Supplier</label>
 
 
-                </div>
-
-            </div>
-            <div class="row no-margin">
-                <div class="col-md-3 col-xs-12">
-                    <label class="required headinglabel" id="lblCustomer">Customer</label>
-                    @Html.DropDownListFor(model => model.CustomerHeadId, new SelectList(ViewBag.customers, "CustomerID", "Customer1"), "Select", new { @class = "form-control" })
-
-                    <label class=" required headinglabel" id="lblsupplier">Supplier</label>
-                    @Html.DropDownListFor(model => model.SupplierHeadId, new SelectList(ViewBag.supplier, "SupplierID", "SupplierName"), "Select", new { @class = "form-control" })
-
-                    <input type="hidden" />
+                    </div>
 
                 </div>
+                <div class="row no-margin">
+                    <div class="col-md-3 col-xs-12">
+                        <label class="required headinglabel" id="lblCustomer">Customer</label>
+                        @Html.DropDownListFor(model => model.CustomerHeadId, new SelectList(ViewBag.customers, "CustomerID", "Customer1"), "Select", new { @class = "form-control" })
 
-                <div class="col-md-3 col-xs-12">
-                    <label class=" required headinglabel">OP. Date</label>
-                    @Html.TextBox("OPDate", "", new { @class = "form-control" })
+                        <label class=" required headinglabel" id="lblsupplier">Supplier</label>
+                        @Html.DropDownListFor(model => model.SupplierHeadId, new SelectList(ViewBag.supplier, "SupplierID", "SupplierName"), "Select", new { @class = "form-control" })
+
+                        <input type="hidden" />
+
+                    </div>
+
+                    <div class="col-md-3 col-xs-12">
+                        <label class=" required headinglabel">OP. Date</label>
+                        @Html.TextBox("OPDate", "", new { @class = "form-control" })
+                    </div>
+                    @*  <div class="col-md-3">
+                            <label class=" required headinglabel">Invoice</label>
+                            @Html.TextBox("InvoiceAmount", "", new { @class = "form-control"})
+
+                        </div>*@
+                    <div class="col-md-3">
+                        <label class=" required headinglabel">Debit / Credit</label>
+                        @*  @Html.RadioButtonFor(model => model.DebitCreditID, true, "Debit")<label class="headinglabel">Dr</label>&nbsp;&nbsp;&nbsp;
+
+                            @Html.RadioButtonFor(model => model.DebitCreditID, false, "Credit")<label class="headinglabel">cr</label>*@
+                        @Html.DropDownListFor(model => model.DebitCreditID, new List<SelectListItem> { new SelectListItem { Text = "Debit", Value = "true" }, new SelectListItem { Text = "Credit", Value = "false" } }, "Select", new { @class = "form-control" })
+                    </div>
+
+
+                    <div class="col-md-3">
+                        <label class="headinglabel">Remark</label>
+                        @Html.TextArea("Remark", "", new { @class = "form-control" })
+
+                    </div>
+
                 </div>
-                @*  <div class="col-md-3">
-                    <label class=" required headinglabel">Invoice</label>
-                    @Html.TextBox("InvoiceAmount", "", new { @class = "form-control"})
+                <div class="row no-margin form-layout">
+                    <div class="col-xs-12" style="padding-top: 10px">
+                        <div class="data" style="padding-top: 10px;">
+                            <table border="1" class="table table-responsive tblbackground" style="width: 100%" id="tbl1">
+                                <tr style="font-weight: bold">
 
-                </div>*@
-                <div class="col-md-3">
-                    <label class=" required headinglabel">Debit / Credit</label>
-                    @*  @Html.RadioButtonFor(model => model.DebitCreditID, true, "Debit")<label class="headinglabel">Dr</label>&nbsp;&nbsp;&nbsp;
+                                    <th>Invoice NO</th>
+                                    <th>Job Code</th>
+                                    <th>Invoice Date</th>
+                                    <th>
+                                        Last Trans. Date
+                                    </th>
+                                    <th>
+                                        Amount
+                                    </th>
+                                    <th>Action</th>
 
-                    @Html.RadioButtonFor(model => model.DebitCreditID, false, "Credit")<label class="headinglabel">cr</label>*@
-                    @Html.DropDownListFor(model => model.DebitCreditID, new List<SelectListItem> { new SelectListItem { Text = "Debit", Value = "true" }, new SelectListItem { Text = "Credit", Value = "false" } }, "Select", new { @class = "form-control" })
-                </div>
-          
-         
-                <div class="col-md-3">
-                    <label class="headinglabel">Remark</label>
-                    @Html.TextArea("Remark", "", new { @class = "form-control" })
+                                </tr>
+                                <tr>
+                                    <td>
 
-                </div>
+                                        <input type="text" id="txtInoiceNo" class="form-control">
+                                    </td>
+                                    <td>
+                                        <input type="text" id="txtJobCode" class="form-control">
+                                    </td>
+                                    <td>
+                                        <input type="text" id="txtInvoiceDate" class="form-control" />
+                                    </td>
+                                    <td>
+                                        <input type="text" id="txtLastTransDate" class="form-control" />
+                                    </td>
+                                    <td colspan="2">
+                                        <input type="text" id="txtAmount" class="form-control" style="width:90%;display:inline-block; margin-right: 3px;" />&nbsp;<a href="" class="glyphicon glyphicon-plus btnadd"></a>
+                                    </td>
 
-            </div>
-            <div class="row no-margin form-layout">
-                <div class="col-xs-12" style="padding-top: 10px">
-                    <div class="data" style="padding-top: 10px;">
-                        <table border="1" class="table table-responsive tblbackground" style="width: 100%" id="tbl1">
-                            <tr style="font-weight: bold">
-
-                                <th>Invoice NO</th>
-                                <th>Job Code</th>
-                                <th>Invoice Date</th>
-                                <th>
-                                    Last Trans. Date
-                                </th>
-                                <th>
-                                    Amount
-                                </th>
-                                <th>Action</th>
-
-                            </tr>
-                            <tr>
-                                <td>
-
-                                    <input type="text" id="txtInoiceNo">
-                                </td>
-                                <td>
-                                    <input type="text" id="txtJobCode">
-                                </td>
-                                <td>
-                                    <input type="text" id="txtInvoiceDate" />
-                                </td>
-                                <td>
-                                    <input type="text" id="txtLastTransDate" />
-                                </td>
-                                <td colspan="2">
-                                    <input type="text" id="txtAmount" style="text-align:right" />&nbsp;<a href="" class="glyphicon glyphicon-plus btnadd"></a>
-                                </td>
-
-                            </tr>
-                        </table>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="row no-margin" style="padding-top: 10px">
-                <div class="col-md-12">
+                <div class="row no-margin" style="padding-top: 10px">
+                    <div class="col-md-12 butdivs">
 
-                    <input type="submit" value="Save" class="btn btn-primary btnwidth" id="btnsave" />
+                        <input type="submit" value="Save" class="btn btn-primary btnwidth" id="btnsave" />
 
-                    &nbsp;
-                    <a href='@Url.Action("Index", "OpeningInvoice", new { id = 0 })' class="btn btn-primary btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Back To List</a>
+                        &nbsp;
+                        <a href='@Url.Action("Index", "OpeningInvoice", new { id = 0 })' class="btn btn-primary btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Back To List</a>
 
+                    </div>
+
+                    <div id="tmpdata" style="width: 500px; height: 100px; color: white">
+                    </div>
                 </div>
 
-                <div id="tmpdata" style="width: 500px; height: 100px; color: white">
-                </div>
-            </div>
-
-        </fieldset>
-    </div>
+            </fieldset>
+        </div>
     }
 
 </section>

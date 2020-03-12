@@ -22,5 +22,6 @@ namespace DAL
         public Nullable<decimal> Reseller { get; set; }
         public Nullable<decimal> SpecialPrice { get; set; }
         public Nullable<int> Status { get; set; }
+        public Nullable<int> TaxPercent { get; set; }
     }
 }

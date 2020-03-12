@@ -1,0 +1,118 @@
+﻿td.label-txt    
+{
+    text-align: right;
+    width: 175px;
+}
+
+.panel
+{
+    border: 1px solid #eee;
+    border-radius: 4px;
+    margin-bottom: 1em;
+}
+.panel .body
+{
+    padding: .5em .3em;        
+}
+.mainTable1
+{
+    border-spacing: 10px !important; 
+    padding-left: 40px;
+    border-collapse:separate !important;    
+}
+.light-blue
+{
+    color: rgb(0,21,110);
+    background:#eee;
+}
+.textbox
+{
+width:275px !important;
+border: 1px solid lightgray;
+}
+.textboxLarge
+{
+width:335px !important;
+border: 1px solid lightgray;
+}
+.combobox
+{
+width:275px !important;
+}
+.comboboxLarge
+{
+width:335px !important;
+}
+.buttons
+{
+    height: 25px;
+}
+.panel .heading
+{
+    background-color: #eee; 
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 110%;        
+}
+.rptHeader {
+    background:#cecdcd;
+}
+.leftDiv {
+    float: left !important;
+}
+.leftDiv1 {
+    float: left !important; margin-left: 10px;
+}
+.datePicker {
+    width:120px;
+}
+.Clear {
+clear:both;
+}
+em
+{
+color: Red;
+}
+.TotalDiv {
+    margin-left: 156px; 
+    float: left;
+}
+.btnAddOther {
+float: left; 
+margin-left: 5px; 
+margin-top: 22px;
+}
+.btnCloseOther {
+text-align: right; 
+margin-right:60px;
+}
+.PageHeading {
+background-color: #606060; 
+color: #ffffff; 
+font-weight: bold; 
+padding: 5px;
+ width: 100%;
+}
+.WizradTitalPosition
+{
+    vertical-align:top;
+    width:150px;
+   
+}
+    .WizradTitalPosition img {
+    display:none;
+    }
+.WizradText {
+font-size: 14px;
+font-family: 'Open Sans', sans-serif;
+
+}
+.infofinancial div {
+   display:inline-block;
+    margin-left:5px;
+}
+
+.infofinancial{
+    margin-left:100px;
+    padding-top:40px;
+}

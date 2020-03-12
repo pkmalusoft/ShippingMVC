@@ -2336,7 +2336,7 @@ namespace TrueBooksMVC.Controllers
                     success = true,
                     view = view
                 },
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet,MaxJsonLength= Int32.MaxValue
             };
 
         }

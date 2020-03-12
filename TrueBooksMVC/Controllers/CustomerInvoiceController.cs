@@ -169,5 +169,18 @@ namespace TrueBooksMVC.Controllers
 
             return Json(lst, JsonRequestBehavior.AllowGet);
         }
+        public ActionResult DeleteCustmerInvoice(int invoiceNo)
+        {
+            var Jobgeneration = (from d in entity.JobGenerations where d.InvoiceNo == invoiceNo select d).FirstOrDefault();
+            var jinvoice = (from d in entity.JInvoices where d.JobID == Jobgeneration.JobID select d).ToList();
+            entity.JobGenerations.Remove(Jobgeneration);
+            foreach (var item in jinvoice)
+            {
+                entity.JInvoices.Remove(item);
+            }
+            entity.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
     }
 }

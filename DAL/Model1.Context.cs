@@ -96,6 +96,7 @@ namespace DAL
         public DbSet<PurchaseInvoiceDetail> PurchaseInvoiceDetails { get; set; }
         public DbSet<SalesInvoiceDetail> SalesInvoiceDetails { get; set; }
         public DbSet<ProductService> ProductServices { get; set; }
+        public DbSet<SupplierTypeMaster> SupplierTypeMasters { get; set; }
         public virtual int SP_DeleteUser(Nullable<int> uSerID)
         {
             var uSerIDParameter = uSerID.HasValue ?
@@ -3937,6 +3938,18 @@ namespace DAL
                 new ObjectParameter("AcAnalysisHeadAllocationIDs", typeof(string));
 
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AcAnalysisHeadAllocationDelete", acAnalysisHeadAllocationIDsParameter);
+        }
+        public virtual ObjectResult<GetPLOpeningAmount_Result> GetPLOpeningAmount(Nullable<int> acFinancialYearID, Nullable<int> acCompanyID)
+        {
+            var acFinancialYearIDParameter = acFinancialYearID.HasValue ?
+                new ObjectParameter("AcFinancialYearID", acFinancialYearID) :
+                new ObjectParameter("AcFinancialYearID", typeof(int));
+
+            var acCompanyIDParameter = acCompanyID.HasValue ?
+                new ObjectParameter("AcCompanyID", acCompanyID) :
+                new ObjectParameter("AcCompanyID", typeof(int));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetPLOpeningAmount_Result>("GetPLOpeningAmount", acFinancialYearIDParameter, acCompanyIDParameter);
         }
     }
 }

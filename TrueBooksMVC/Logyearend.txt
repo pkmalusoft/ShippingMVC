@@ -1,0 +1,41 @@
+Fyear :01/01/2015
+toyear :31/12/2015
+tnewfyear :01/01/2016 12:00:00 AM
+NewFYearFrom :01/01/2016
+Error :String was not recognized as a valid DateTime.
+Fyear :01/01/2015
+toyear :31/12/2015
+tnewfyear :01/01/2016 12:00:00 AM
+NewFYearFrom :01/01/2016
+Error :String was not recognized as a valid DateTime.
+Fyear :01/01/2015
+toyear :31/12/2015
+tnewfyear :01/01/2016 12:00:00 AM
+NewFYearFrom :01/01/2016
+Error :String was not recognized as a valid DateTime.
+Fyear :01/01/2015
+toyear :31/12/2015
+tnewfyear :01/01/2016 12:00:00 AM
+NewFYearFrom :01/01/2016
+Error :String was not recognized as a valid DateTime.
+Fyear :01/01/2015
+toyear :10/12/2015
+tnewfyear :01/01/2016 12:00:00 AM
+NewFYearFrom :01/01/2016
+tnewtyear :10/12/2016 12:00:00 AM
+tnewtyear :12/10/2016
+Reference :2016-2016
+Fyear :01/01/2015
+toyear :31/12/2015
+tnewfyear :01/01/2016 12:00:00 AM
+NewFYearFrom :01/01/2016
+tnewtyear :12/31/2016 12:00:00 AM
+tnewtyear :31/12/2016
+Reference :2016-2016
+Fyear :01/01/2015
+toyear :31/12/2015
+tnewfyear :01/01/2016 12:00:00 AM
+NewFYearFrom :01/01/2016
+tnewtyear :12/31/2016 12:00:00 AM
+tnewtyear :31/12/2016
+Reference :2016-2016

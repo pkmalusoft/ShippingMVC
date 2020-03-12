@@ -69,8 +69,8 @@ namespace TrueBooksMVC.Controllers
             else if (string.IsNullOrEmpty(UR.Password))
                 status = false;
             else if (UR.BranchID <= 0)
-                  status = false;
-              else if (UR.AcFinancialYearID <= 0)
+                status = false;
+            else if (UR.AcFinancialYearID <= 0)
                 status = false;
 
 
@@ -88,17 +88,20 @@ namespace TrueBooksMVC.Controllers
                     {
                         FormsAuthentication.SetAuthCookie(item.Username, true);
                         int? BranchCurrencyId = (from e in entity.BranchMasters where e.BranchID == UR.BranchID select e.CurrencyID).FirstOrDefault();
-                        string basecurrency = (from t in entity.CurrencyMasters where t.CurrencyID == BranchCurrencyId select t.CurrencyName).FirstOrDefault();
+                        var basecurrency = (from t in entity.CurrencyMasters where t.CurrencyID == BranchCurrencyId select t).FirstOrDefault();
                         Session["BaseCurrencyId"] = BranchCurrencyId;
-                        Session["BaseCurrency"] = basecurrency;
+                        Session["BaseCurrency"] = basecurrency.CurrencyName;
+                        Session["BaseCurrencySymbol"] = basecurrency.Symbol;
                         Session["UserID"] = item.UserID;
                         Session["UserName"] = item.Username;
                         Session["branchid"] = UR.BranchID;
-                        Session["AcCompanyID"] = (from c in entity.AcCompanies select c.AcCompanyID).FirstOrDefault();
+                        var AccompanyId = (from c in entity.AcCompanies select c.AcCompanyID).FirstOrDefault();
+                        Session["AcCompanyID"] = AccompanyId;
                         Session["fyearid"] = UR.AcFinancialYearID;
-
+                        SourceMastersModel objSourceMastersModel = new SourceMastersModel();
+                        Session["Company"] = objSourceMastersModel.GetAcCompaniesById(AccompanyId).AcCompany1;
+                        Session["BranchName"] = entity.BranchMasters.Find(UR.BranchID).BranchName;
                         var fyearFrom = (from t in entity.AcFinancialYears where t.AcFinancialYearID == UR.AcFinancialYearID select t.AcFYearFrom).FirstOrDefault();
-                        
                         Session["FyearFrom"] = fyearFrom;
                         var fyearTo = (from t in entity.AcFinancialYears where t.AcFinancialYearID == UR.AcFinancialYearID select t.AcFYearTo).FirstOrDefault();
 

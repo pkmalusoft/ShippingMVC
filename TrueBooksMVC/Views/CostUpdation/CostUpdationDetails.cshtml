@@ -11,7 +11,6 @@
     }
 
     #tbl1 {
-        width: 674px;
         margin: 0 auto;
     }
 
@@ -129,8 +128,8 @@
 
 
             var d = new Date();
-            var curr_date = d.getDate();
-            var curr_month = d.getMonth();
+            var curr_date = sd.getDate();
+            var curr_month = sd.getMonth();
             var curr_year = str.getFullYear();
             return ("01" + "-" + m_names[curr_month] + "-" + str.getFullYear());
 
@@ -152,10 +151,10 @@
 
 
             var d = new Date();
-            var curr_date = d.getDate();
-            var curr_month = d.getMonth();
-            var curr_year = str.getFullYear();
-            return (d.getDate() + "-" + m_names[curr_month] + "-" + str.getFullYear());
+            var curr_date = ed.getDate();
+            var curr_month = ed.getMonth();
+            var curr_year = ed.getFullYear();
+            return (ed.getDate() + "-" + m_names[curr_month] + "-" + ed.getFullYear());
 
 
         }
@@ -228,45 +227,47 @@
         @using (Html.BeginForm())
         {
             @Html.ValidationSummary(true)
-            <section class="content">
+            <section class="content form_block">
                 <div id="divgridJob" class="row searchtabs" runat="server" style="min-height: 250px; margin-right: auto; margin-left: auto;">
                     <div class="row">
                         <div class="col-md-12">
+                            <section class="content-header">
+                                <h1>Cost Updation Details<small></small></h1>
+                            </section>
                             <p style="color: white" class="cbtnpadding">
                                 <div id="error" style="display: none; font-family: Calibri; color: red">* From Date must not be Greater than To Date</div>
-                                <table class="" id="tbl1">
-                                    <tr>
-                                        <td colspan="6" style="width:100%;text-align:center;">
-                                            <section class="content-header">
-                                                <h1>Cost Updation Details<small></small></h1>
-                                            </section>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="searlabel">
-                                            From Date
-                                        </td>
-                                        <td class="searinput">
-                                            <input type="text" id="frmdate" class="form-control search-controls" />
-                                        </td>
-                                        <td class="searlabel">
-                                            To Date
-                                        </td>
-                                        <td class="searinput">
-                                            <input type="text" id="todate" class="form-control search-controls" />
-                                        </td>
-                                        <td>
-                                            <input type="button" value="Search" id="btnsearch" class="btn btn-primary btnwidt" />
-                                        </td>
-                                        <td>
-                                            <a href='@Url.Action("CostUpdation", "CostUpdation", new { id = 0 })' class="btn btn-primary" data-toggle="tooltip" data-placement="right" style="width:90px;">Add</a>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </p>
+
+
                         </div>
                     </div>
-                    <div class="col-md-12 tblbackgroun">
+                    <div class="col-md-12 tblbackgroun customer_details">
+                        <div class="search_tabs_right">
+                            <table class="" id="tbl1">
+                                <tr>
+                                    <td colspan="6" style="width:100%;text-align:center;"></td>
+                                </tr>
+                                <tr>
+                                    <td class="searlabel">
+                                        <label>  From Date</label>
+                                    </td>
+                                    <td class="searinput">
+                                        <input type="text" id="frmdate" class="form-control search-controls" />
+                                    </td>
+                                    <td class="searlabel">
+                                        <label>  To Date</label>
+                                    </td>
+                                    <td class="searinput">
+                                        <input type="text" id="todate" class="form-control search-controls" />
+                                    </td>
+                                    <td class="searlabel">
+                                        <input type="button" value="Search" id="btnsearch" class="btn btn-primary btnwidt" />
+                                    </td>
+                                    <td>
+                                        <a href='@Url.Action("CostUpdation", "CostUpdation", new { id = 0 })' class="btn btn-primary" data-toggle="tooltip" data-placement="right" style="width:90px;">New</a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
                         <div class="row no-margin">
                             <div class="col-md-12" id="result">
                             </div>

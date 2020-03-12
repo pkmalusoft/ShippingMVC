@@ -103,6 +103,10 @@ namespace TrueBooksMVC.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (productservice.TaxPercent == null)
+                {
+                    productservice.TaxPercent = 0;
+                }
                 objSourceMastersModel.SaveProductById(productservice);
                 ViewBag.SuccessMsg = "You have successfully updated Product.";
                 return View("Index", objSourceMastersModel.GetProduct());

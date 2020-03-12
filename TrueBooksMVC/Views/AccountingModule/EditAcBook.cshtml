@@ -13,6 +13,7 @@
         font-size: 16px;
         color: #2b2929 !important;
     }
+
     .searchdiv {
         background-color: #fff;
         width: 100%;
@@ -23,16 +24,32 @@
         border-radius: 10px;
         box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
     }
+
+    input {
+        height: 40px !important;
+        padding: 0px 15px !important;
+        margin-top: 10px;
+        border-radius: 5px;
+        font-size: 14px !important;
+        border: 1px solid #ccc;
+        font-weight: normal !important
+    }
+
     .jobform {
         background-color: #fff;
         box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
         border-radius: 25px;
         margin-bottom: 27px;
-        padding: 20px;
+        /*padding: 20px;
         width: 100%;
         margin: 0 auto;
-        max-width: 900px;
+        max-width: 900px;*/
+        padding-top: 14px;
+        padding-left: 8px;
+        padding-right: 8px;
+        width: 96%;
     }
+
     legend {
         color: #000 !important;
     }
@@ -46,14 +63,25 @@
         padding: 2px;
         cursor: pointer;
     }
+    .clsreceivedfrom 
+    {
+        width:100%;
+    }
 </style>
 <script type="text/javascript">
     $(document).ready(function () {
+             var startdate = '@Session["FyearFrom"].ToString()';
+        var enddate = '@Session["FyearTo"].ToString()';
 
+        var sd = new Date(startdate);
+        var ed = new Date(enddate);
+        
             $(function () {
                 $("#transdate").datepicker({
                     dateFormat: 'dd-M-yy',
                     changeYear: true, changeMonth: true,
+                    minDate: sd,
+                    maxDate: ed,
                 });
             });
 
@@ -61,18 +89,103 @@
                 $("#chequedate").datepicker({
                     dateFormat: 'dd-M-yy',
                     changeYear: true, changeMonth: true,
+                    minDate: sd,
+                    maxDate: ed,
                 });
-            });
+        });
 
+        //$("#ReceivedFrom").keydown(function (e) {
+        //    if (e.which === 32 || e.which == 46 || e.which == 8) {
+        //        $('#SelectedReceivedFrom').val(0);
+        //    }
+        //    var selectedId = $('#SelectedReceivedFrom').val();
 
+        //    if (selectedId == 0 || selectedId == null) {
+        //        if (e.which === 9) {
+        //            e.preventDefault();
+        //            $("#btnsave").focus();
+        //            //$("#btnsave").trigger('click');
+        //        }
+        //    }
+
+        //});
+        $("#ReceivedFrom").keydown(function (event) {
+            if (event.keyCode == 9) {
+                if ($("#ReceivedFrom").val().length == 0) {
+                    event.preventDefault();
+                    $("#btnsave").focus();
+                }
+            }
+        });
+
+        $("#chequedate").val(GetCurrentDate())
+         function GetCurrentDate() {
+        var m_names = new Array("Jan", "Feb", "Mar","Apr", "May", "Jun", "Jul", "Aug", "Sep","Oct", "Nov", "Dec");
+        var startdate = '@Session["FyearFrom"].ToString()';
+        var sd = new Date(startdate);
+        var curr_date = sd.getDate();
+        var curr_month = sd.getMonth();
+        var curr_year = sd.getFullYear();
+        return (curr_date + "-" + m_names[curr_month] + "-" + curr_year);
+    }
             $(":text").css({ "border-radius": "5px" });
             $("select").css({ "border-radius": "5px" });
 
             $("#bankname").prop('disabled', true);
             $("#chequeno").prop('disabled', true);
             $("#chequedate").prop('disabled', true);
-            $("#partyname").prop('disabled', true);
+        $("#partyname").prop('disabled', true);
 
+           Bankdetails_enable();
+
+        function Bankdetails_enable() {
+            debugger;
+            var rcbpaytype = $("#transtype option:selected").val();
+            var rcbType = $("#paytype option:selected").val();           
+            if (rcbpaytype == "1" && rcbType == "1") {
+                $("#TransactionType").val("CBR");
+                $("#chequeno").prop('disabled', true);
+                $("#chequedate").prop('disabled', true);
+                $("#bankname").prop('disabled', true);
+                $("#partyname").prop('disabled', true);
+                $("#chequeno").val('');
+                $("#bankname").val('');
+                $("#partyname").val('');
+            }
+            else if (rcbpaytype == "1" && rcbType > 1) {
+                $("#TransactionType").val("BKR");
+                $("#bankname").prop('disabled', false);
+                $("#partyname").prop('disabled', false);
+                $("#chequeno").prop('disabled', false);
+                $("#chequedate").prop('disabled', false);
+            }
+            else if (rcbpaytype == "2" && rcbType == "1") {
+                $("#TransactionType").val("CBP");
+                $("#chequeno").prop('disabled', true);
+                $("#chequedate").prop('disabled', true);
+                $("#bankname").prop('disabled', true);
+
+                $("#partyname").prop('disabled', true);
+                $("#chequeno").val('');
+                $("#bankname").val('');
+                $("#partyname").val('')
+            }
+            else if (rcbpaytype == "2" && rcbType > 1) {
+                $("#TransactionType").val("BKP");
+                $("#bankname").prop('disabled', true);
+
+                $("#partyname").prop('disabled', true);
+                $("#chequeno").prop('disabled', false);
+                $("#chequedate").prop('disabled', false);
+                $("#bankname").val('');
+                $("#partyname").val('');
+            } else {
+                $("#bankname").prop('disabled', true);
+                $("#chequeno").prop('disabled', true);
+                $("#chequedate").prop('disabled', true);
+                $("#partyname").prop('disabled', true);
+            }
+        }
             $("#transtype").change(function () {
                 var v = $("#transtype option:selected").val();
                 if (v == "1") {
@@ -81,10 +194,10 @@
                 else {
                     $(".label1").html("Paid To");
                 }
-
+                debugger;
                 var rcbpaytype = $("#transtype option:selected").val();
                 var rcbType = $("#paytype option:selected").val();
-
+            
                 if (rcbpaytype == "1" && rcbType == "1") {
                     $("#TransactionType").val("CBR");
                     $("#chequeno").prop('disabled', true);
@@ -92,7 +205,9 @@
                     $("#bankname").prop('disabled', true);
 
                     $("#partyname").prop('disabled', true);
-
+                    $("#chequeno").val('');
+                    $("#bankname").val('');
+                    $("#partyname").val('');
                 }
                 else if (rcbpaytype == "1" && rcbType > 1) {
                     $("#TransactionType").val("BKR");
@@ -101,6 +216,7 @@
                     $("#partyname").prop('disabled', false);
                     $("#chequeno").prop('disabled', false);
                     $("#chequedate").prop('disabled', false);
+                   
                 }
                 else if (rcbpaytype == "2" && rcbType == "1") {
                     $("#TransactionType").val("CBP");
@@ -109,6 +225,9 @@
                     $("#bankname").prop('disabled', true);
 
                     $("#partyname").prop('disabled', true);
+                    $("#chequeno").val('');
+                    $("#bankname").val('');
+                    $("#partyname").val('')
                 }
                 else if (rcbpaytype == "2" && rcbType > 1) {
                     $("#TransactionType").val("BKP");
@@ -117,11 +236,14 @@
                     $("#partyname").prop('disabled', true);
                     $("#chequeno").prop('disabled', false);
                     $("#chequedate").prop('disabled', false);
+                    $("#bankname").val('');
+                    $("#partyname").val('');
                 }
             });
 
 
-            $("#paytype").change(function () {
+        $("#paytype").change(function () {
+            debugger;
                 var v = $("#paytype option:selected").val();
                 if (v == "1") {
 
@@ -166,6 +288,9 @@
                     $("#bankname").prop('disabled', true);
 
                     $("#partyname").prop('disabled', true);
+                    $("#chequeno").val('');
+                    $("#bankname").val('');
+                    $("#partyname").val('');
                 }
                 else if (rcbpaytype == "1" && rcbType > 1) {
                     $("#TransactionType").val("BKR");
@@ -182,6 +307,9 @@
                     $("#bankname").prop('disabled', true);
 
                     $("#partyname").prop('disabled', true);
+                    $("#chequeno").val('');
+                    $("#bankname").val('');
+                    $("#partyname").val('')
                 }
                 else if (rcbpaytype == "2" && rcbType > 1) {
                     $("#TransactionType").val("BKP");
@@ -190,6 +318,8 @@
                     $("#partyname").prop('disabled', true);
                     $("#chequeno").prop('disabled', false);
                     $("#chequedate").prop('disabled', false);
+                    $("#bankname").val('');
+                    $("#partyname").val('');
                 }
             });
 
@@ -225,8 +355,14 @@
             //    return false;
             //});
 
-            $("#btnAdd").click(function () {
-                if ($("#ReceivedFrom option:selected").val() == "") {
+        $("#btnAdd").click(function () {
+            debugger;
+            if ($("#SelectedReceivedFrom").val() == "" || $("#SelectedReceivedFrom").val() == "0" || $("#ReceivedFrom").val() == "") {
+                alert('Please Select "Received From"');
+                $("#ReceivedFrom").focus();
+                return false;
+            }
+              else  if ($("#ReceivedFrom option:selected").val() == "") {
                     alert("Please Select Head");
                     $("#ReceivedFrom").focus();
                     return false;
@@ -236,16 +372,21 @@
                     $("#amount").focus();
                     return false;
                 }
+                else if (parseInt($("#amount").val()) == 0) {
+                    alert("Please Enter The Amount");
+                    $("#amount").focus();
+                    return false;
+                }
                 else {
                     var str = "";
                     var totalamt = 0;
                     debugger;
-                    var i = $('#details > tbody > tr').length - 1;  
+                    var i = $('#details > tbody > tr').length - 1;
                   //  alert(i);
                     var s = 'name="AcExpAllocationVM';
                     var ExpTableHtml = $('#ExpAllocationTable').clone().attr("id", i + "_ExpAllocationTable").css('display', 'none').addClass('CostAllocationDetail').wrap('<p>').parent().html();
                     ExpTableHtml = ExpTableHtml.replace(/name="AcExpAllocationVM/g, 'name="AcJDetailVM[' + i + '].AcExpAllocationVM');
-                    var objHtml = '<tr>' + '<td style="padding-left:10px">' + $("#ReceivedFrom").val() + '<input type="hidden" class=JAcHead value=' + $("#SelectedReceivedFrom").val() + ' name="AcJDetailVM[' + i + '].AcHeadID"><input type="hidden" value=' + $("#ReceivedFrom").val() + ' name="AcJDetailVM[' + i + '].AcHead"></td><td class=textright style="padding-right:10px"><input type="text" class="JAcAmt text-right txtNum" value=' + $("#amount").val() + ' name="AcJDetailVM[' + i + '].Amt"></td>' + '<td style="padding-left:10px"><input type="text" value=' + $("#remark1").val() + ' name="AcJDetailVM[' + i + '].Rem" /></td>';
+                    var objHtml = '<tr>' + '<td style="padding-left:10px"><input type="hidden" class=JAcHead id="JAcHead_' + i + '" value=' + $("#SelectedReceivedFrom").val() + ' name="AcJDetailVM[' + i + '].AcHeadID"><input type="text" class="clsreceivedfrom" id="ReceivedFrom_' + i +'" value="' + $("#ReceivedFrom").val() + '" name="AcJDetailVM[' + i + '].AcHead"></td><td class=textright style="padding-right:10px"><input type="text" class="JAcAmt text-right txtNum" value=' + $("#amount").val() + ' name="AcJDetailVM[' + i + '].Amt"></td>' + '<td style="padding-left:10px"><input type="text"  value="' + $("#remark1").val() +'"  name="AcJDetailVM[' + i + '].Rem"></td>';
                     objHtml = objHtml + '<td><img src="/Content/img/details_open.png" id="plus_minus" style="cursor: pointer;" class="open" />' + ExpTableHtml + '</td>';
                     objHtml = objHtml + '<td><a href="javascript:void(0)" id="DeleteNewRow"><i class="fa fa-times"></i></a></td>';
                     objHtml = objHtml + '</tr>';
@@ -256,6 +397,33 @@
                     $("#SelectedReceivedFrom").val("0");
                     $("#amount").val('');
                     $("#remark1").val('');
+                    $("#ReceivedFrom_" + i).autocomplete({
+                        source: function (request, response) {
+                            $.ajax({
+                                url: '/AutoComplete/AccountHead',
+                                datatype: "json",
+                                data: {
+                                    term: request.term
+                                },
+                                success: function (data) {
+                                    response($.map(data, function (val, item) {
+                                        return {
+                                            label: val.AcHead,
+                                            value: val.AcHead,
+                                            AcHeadID: val.AcHeadID
+                                        }
+                                    }))
+                                }
+                            })
+                        }, minLength: 1,
+                        select: function (e, a) {
+                            e.preventDefault();
+                            $("#ReceivedFrom_" + i).val(a.item.label);
+                            $("#JAcHead_" + i).val(a.item.AcHeadID);
+
+                        }
+
+                    });
                 }
                 //$("#details").find('tr:not(:first-child)').each(function (i, el) {
                 //    Amount = $tds.eq(2).find().text();
@@ -270,6 +438,7 @@
             $('#popup').show();
             $('#popupbackground').show();
         });
+      
 
         $("#AllocationClose").on("click", function () {
             $('#popup').hide();
@@ -278,7 +447,7 @@
 
             $("#btn1").click(function () {
 
-                alert("Hiii");
+                //alert("Hiii");
                 //var acid=$(this).parent("td").parent("tr").find(".JAcHead").val();
                 //var amt=$(this).parent("td").parent("tr").find(".JAcAmt").val();
                 //var ajaxCallURL = '/AccountingModule/ExpAllocation';
@@ -316,7 +485,8 @@
             });
 
 
-            $("#btnsave").click(function () {
+        $("#btnsave").click(function () {
+            debugger;
                 if ($("#transdate").val() == "") {
                     alert("Please Select Transaction Date");
                     return false;
@@ -331,10 +501,9 @@
                 }
             });
 
-            $("#btnUpdate").click(function () {
+        $("#btnUpdate").click(function () {
                 var ind = $("#currindex").val();
                 var amt = $("#amount").val();
-                alert(ind);
                 $("#details").find("tr:eq('" + ind + "')").find("td:eq(1)").empty();
                 $("#details").find("tr:eq('" + ind + "')").find("td:eq(1)").html(amt + '<input type="hidden" class="JAcAmt" value=' + amt + ' name="AcJDetailVM[' + ind + '].Amt">');
 
@@ -345,18 +514,16 @@
 
             });
 
-
             var v = $("#transtype option:selected").val();
-
+        var innerTblcount = 1;
+        var xcountval = 0;
             $.ajax({
                 type: "POST",
                 url: "/AccountingModule/GetAcJDetails",
                 datatype: "Json",
                 data: { id: $("#AcJournalID").val(), transtype: v },
                 success: function (data) {
-
                     $.each(data, function (index, value) {
-
                         var ExpenseAllocationData;
 
                         $.ajax({
@@ -365,31 +532,64 @@
                             data: { AcJournalDetailID: value.AcJournalDetID },
                             success: function (data) {
                                 ExpenseAllocationData = data;
-                                var i = $('#details tr').length - 1;
+                                var incountval = 0;
+                                  var i = $('#details tr').length - innerTblcount;
                                 var s = 'name="AcExpAllocationVM';
                                 var ExpTableHtml = '<table id="' + value.AcJournalDetID + '_ExpAllocationTable" class="table table-bordered table-responsive CostAllocationDetail" style="display:none;"><tr><td>Analysis Head</td><td>Amount</td><td>Delete</td></tr>';
                                 $.each(data, function (i, v) {
-                                    debugger;
+                                    innerTblcount = innerTblcount + 1;
+                                   
                                     var RowCount = parseInt($('#RowCount').val());
-                                    ExpTableHtml = ExpTableHtml + '<tr><td>' + v.AnalysisHead + '<input type="hidden" class="AcAnalysisHeadAllocationID" name="AcExpAllocationVM[' + RowCount + '].AcAnalysisHeadAllocationID" value="' + v.AcAnalysisHeadAllocationID + '" /><input type="hidden" name="AcExpAllocationVM[' + RowCount + '].AcHead" value="' + v.AnalysisHeadID + '"/></td>';
-                                    ExpTableHtml = ExpTableHtml + '<td><input type="text" id="' + RowCount + '_Amount" name="AcExpAllocationVM[' + RowCount + '].ExpAllocatedAmount" class="ExpAllocatedAmountDetails" value="' + v.Amount + '"/></td>';
+                                    ExpTableHtml = ExpTableHtml + '<tr><td><input type="text" class="AcAnalysisHeadAllocationtxt" id="Allocationtxt_' + xcountval + '" value="' + v.AnalysisHead + '" /><input type="hidden" class="AcAnalysisHeadAllocationID" name="AcExpAllocationVM[' + incountval + '].AcAnalysisHeadAllocationID" value="' + v.AcAnalysisHeadAllocationID + '" /><input type="hidden" id="newallocationHead_' + xcountval + '" name="AcExpAllocationVM[' + incountval + '].AcHead" value="' + v.AnalysisHeadID + '"/></td>';
+                                    ExpTableHtml = ExpTableHtml + '<td><input type="text" id="' + incountval + '_Amount" name="AcExpAllocationVM[' + incountval + '].ExpAllocatedAmount" class="ExpAllocatedAmountDetails" value="' + v.Amount + '"/></td>';
                                     ExpTableHtml = ExpTableHtml + '<td><a href="javascript:void(0)" id="DeleteAllocationRow"><i class="fa fa-times"></i></a></td>';
                                     ExpTableHtml = ExpTableHtml + '</tr>';
                                     $('#RowCount').val("0");
+                                    incountval = incountval + 1;
+                                    xcountval = xcountval + 1;
                                 });
+                                innerTblcount = innerTblcount + 1;
                                 ExpTableHtml = ExpTableHtml + '</table>';
                               //  $('#ExpAllocationTable').append(ExpTableHtml);
                                 ExpTableHtml = ExpTableHtml.replace(/name="AcExpAllocationVM/g, 'name="AcJDetailVM[' + i + '].AcExpAllocationVM');
-
-                                var objHtml = '<tr>' + '<td style="padding-left:10px">' + value.AcHead + '<input type="hidden" class=JAcHead value=' + value.AcHeadID + ' name="AcJDetailVM[' + i + '].AcHeadID"><input type="hidden" value=' + $("#ReceivedFrom").val() + ' name="AcJDetailVM[' + i + '].AcHead"></td><td class=textright style="padding-right:10px"><input type="text" class="JAcAmt text-right txtNum" value=' + parseFloat(value.Amt).toFixed(2) + ' name="AcJDetailVM[' + i + '].Amt"></td>' + '<td style="padding-left:10px"><input type="text" value="' + value.Rem + '" name="AcJDetailVM[' + i + '].Rem"></td>';
+                                var objHtml = '<tr>' + '<td style="padding-left:10px"><input type="hidden" class=JAcHead id="JAcHead_' + i +'" value=' + value.AcHeadID + ' name="AcJDetailVM[' + i + '].AcHeadID"><input type="text" class="clsreceivedfrom" id="ReceivedFrom_'+i+'" value=" ' + value.AcHead + '" name="AcJDetailVM[' + i + '].AcHead"></td><td class=textright style="padding-right:10px"><input type="text" class="JAcAmt text-right txtNum" value=' + parseFloat(value.Amt).toFixed(2) + ' name="AcJDetailVM[' + i + '].Amt"></td>' + '<td style="padding-left:10px"><input type="text" value="' + value.Rem + '" name="AcJDetailVM[' + i + '].Rem"></td>';
                                 objHtml = objHtml + '<td><img src="/Content/img/details_open.png" id="plus_minus" style="cursor: pointer;" class="open" />' + ExpTableHtml + '</td>';
                                 objHtml = objHtml + '<td><a href="javascript:void(0)" id="DeleteNewRow"><i class="fa fa-times"></i></a><input type="hidden" class="AcJournalDetID" name="AcJDetailVM[' + i + '].AcJournalDetID" value=' + value.AcJournalDetID + ' /></td>';
                                 objHtml = objHtml + '</tr>';
                                 $("#details").append(objHtml);
+                            
+
+                                $("#ReceivedFrom_"+i).autocomplete({
+                                    source: function (request, response) {
+                                        $.ajax({
+                                            url: '/AutoComplete/AccountHead',
+                                            datatype: "json",
+                                            data: {
+                                                term: request.term
+                                            },
+                                            success: function (data) {
+                                                response($.map(data, function (val, item) {
+                                                    return {
+                                                        label: val.AcHead,
+                                                        value: val.AcHead,
+                                                        AcHeadID: val.AcHeadID
+                                                    }
+                                                }))
+                                            }
+                                        })
+                                    }, minLength: 1,
+                                    select: function (e, a) {
+                                        e.preventDefault();
+                                        $("#ReceivedFrom_" + i).val(a.item.label);
+                                        $("#JAcHead_" + i).val(a.item.AcHeadID);
+                                        
+                                    }
+
+                                });
+                               
                             },
                             error: function (XMLHttpRequest, textStatus, errorThrown) {
                               //  alert("Status: " + textStatus); alert("Error: " + errorThrown);
-
                                 var i = $('#details tr').length - 1;
                                 var s = 'name="AcExpAllocationVM';
                                 var ExpTableHtml = $('#ExpAllocationTable').clone().attr("id", i + "_ExpAllocationTable").css('display', 'none').addClass('CostAllocationDetail').wrap('<p>').parent().html();
@@ -399,16 +599,20 @@
                                 objHtml = objHtml + '<td><a href="javascript:void(0)" id="DeleteNewRow"><i class="fa fa-times"></i></a><input type="hidden" name="AcJDetailVM[' + i + '].AcJournalDetID" value=' + value.AcJournalDetID + ' /></td>';
                                 objHtml = objHtml + '</tr>';
                                 $("#details").append(objHtml);
-                            }  
+                            }
                         });
                       //  $("#details").append('<tr>' + '<td>' + value.AcHead + '<input type="hidden" class=JAcHead value=' + value.AcHeadID + ' name="AcJDetailVM[' + i + '].AcHeadID"><input type="hidden" value=' + value.AcHead + ' name="AcJDetailVM[' + i + '].AcHead"><input type="hidden" value=' + value.AcJournalDetID + ' name="AcJDetailVM[' + i + '].AcJournalDetID"></td>' +
                    //  '<td class=textright><input type="textbox" class="JAcAmt" value=' + parseFloat(value.Amt).toFixed(2) + ' name="AcJDetailVM[' + i + '].Amt"></td>' + '<td>' + value.Rem + '<input type="hidden" value=' + value.Rem + ' name="AcJDetailVM[' + i + '].Rem"></td></tr>');
-                    });
+                    });                   
+                
                 }
         });
-
+        //$('#details').on("change keyup paste", ".txtNum", function () {
+        //    alert(this.value)
+        //});
+       
         $('#details').on("click", "#plus_minus", function () {
-
+            debugger;
             if ($(this).hasClass('open')) {
                 $(this).parent().find('.CostAllocationDetail').show();
                 $(this).attr('src', '/Content/img/details_close.png');
@@ -420,6 +624,34 @@
                 $(this).addClass('open');
                 $(this).removeClass('Close');
             }
+            $(".AcAnalysisHeadAllocationtxt").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: '/AutoComplete/AnalysisHeadSelectAll',
+                        datatype: "json",
+                        data: {
+                            term: request.term
+                        },
+                        success: function (data) {
+                            response($.map(data, function (val, item) {
+                                return {
+                                    label: val.AnalysisHead + ' - ' + val.AnalysisGroup,
+                                    value: val.AnalysisGroupID,
+                                    AnalysisGroupID: val.AnalysisHeadID
+                                }
+                            }))
+                        }
+                    })
+                }, minLength: 1,
+                select: function (e, i) {
+                    e.preventDefault();
+                    var getrowval = this.id.split('_');
+                    $(this).val(i.item.label);
+                    //$("#Allocationtxt_" + xcountval).val(i.item.label);
+                    $('#newallocationHead_' + getrowval[1]).val(i.item.AnalysisGroupID);
+                }
+
+            });
         });
 
         $("#AcHead").autocomplete({
@@ -459,21 +691,31 @@
                     success: function (data) {
                         response($.map(data, function (val, item) {
                             return {
-                                label: val.AnalysisHead + ' | ' + val.AnalysisCode + ' | ' + val.AnalysisGroup,
+                                label: val.AnalysisHead + ' - ' + val.AnalysisGroup,
                                 value: val.AnalysisGroupID,
-                                AnalysisGroupID: val.AnalysisGroupID
+                                AnalysisGroupID: val.AnalysisHeadID
                             }
                         }))
                     }
                 })
             }, minLength: 1,
+            autoFocus: true, 
             select: function (e, i) {
                 e.preventDefault();
                 $("#AcHeadAllocation").val(i.item.label);
                 $('#SelectedAcHeadAllocation').val(i.item.AnalysisGroupID);
             }
         });
-
+        //clsreceivedfrom
+        $("#AcHeadAllocation").keydown(function (event) {
+            if (event.keyCode == 9) {
+                if ($("#AcHeadAllocation").val().length == 0) {
+                    event.preventDefault();
+                    $("#AllocationClose").focus();
+                }
+            }
+        });
+     
         $("#ReceivedFrom").autocomplete({
             source: function (request, response) {
                 $.ajax({
@@ -493,6 +735,7 @@
                     }
                 })
             }, minLength: 1,
+            autoFocus: true,  
             select: function (e, i) {
                 e.preventDefault();
                 $("#ReceivedFrom").val(i.item.label);
@@ -518,11 +761,11 @@
 
         <fieldset class="">
             <div class="row no-margin">
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <label class="headinglabel">Transaction No.</label>
                     <input type="text" name="TransactionNoROT" value="@Model.TransactionNo" class="form-control" readonly="readonly" />
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <input type="hidden" name="deletedExpAllocations" id="deletedExpAllocations" value="" />
                     <input type="hidden" name="deletedJournalDetails" id="deletedJournalDetails" value="" />
                     @Html.HiddenFor(model => model.TransactionNo)
@@ -530,9 +773,9 @@
                     @Html.HiddenFor(model => model.AcBankDetailID)
                     @Html.HiddenFor(model => model.VoucherType)
                     @Html.HiddenFor(model => model.VoucherNo)
-                    @Html.HiddenFor(model => model.TransactionType)
+                    @*@Html.HiddenFor(model => model.TransactionType)*@
                     @*              @Html.HiddenFor(model => model.transtype)*@
-                    @Html.HiddenFor(model => model.paytype)
+                    @*@Html.HiddenFor(model => model.paytype)*@
 
                     <input type="hidden" id="currindex" />
 
@@ -542,26 +785,39 @@
                     @Html.HiddenFor(model => model.TransactionType)
 
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <label class="headinglabel">Payment Type</label>
                     @Html.DropDownListFor(model => model.paytype, ViewBag.paytypes as SelectList, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.paytype)
+                    @Html.HiddenFor(model => model.paytype)
 
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <label class="headinglabel">Transaction Date</label>
                     @Html.TextBoxFor(model => model.transdate, String.Format("{0:dd-MMM-yyyy}", this.Model.transdate), new { @class = "form-control", autocomplete = "off" })
                     @Html.ValidationMessageFor(model => model.transdate)
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <label class="headinglabel">Account Head</label>
                     @Html.TextBoxFor(model => model.AcHead, new { @id = "AcHead", @class = "form-control", autocomplete = "off" })
-                    @Html.HiddenFor(model => model.SelectedAcHead, new { Value = "0", id = "SelectedAcHead" })
+                    @Html.HiddenFor(model => model.SelectedAcHead, new { @*Value = "0"*@ id = "SelectedAcHead" })
+                </div>
+                <div class="col-md-4">
+                    <label class="headinglabel">Reference</label>
+                    @Html.TextBoxFor(model => model.reference, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.reference)
+
+                </div>
+                <div class="col-md-4">
+                    <label class="headinglabel">Remarks</label>
+                    @Html.TextAreaFor(model => model.remarks, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.remarks)
+                    <span id="balance"></span>
                 </div>
             </div>
 
-            <div class="row no-margin" style="padding-top:10px">
+            @*<div class="row no-margin" style="padding-top:10px">
                 <div class="col-md-3">
                     <label class="headinglabel">Reference</label>
                     @Html.TextBoxFor(model => model.reference, new { @class = "form-control" })
@@ -574,7 +830,7 @@
                     @Html.ValidationMessageFor(model => model.remarks)
                     <span id="balance"></span>
                 </div>
-            </div>
+            </div>*@
             @*   <div class="row no-margin" style="padding-top:10px">
                     <div class="col-md-12">
 
@@ -613,6 +869,7 @@
                 </div>
             </div>
         </fieldset>
+        <br />
         <fieldset>
             <legend style="">Add Details</legend>
             <div class="row no-margin">
@@ -626,7 +883,7 @@
                     @Html.TextBoxFor(model => model.amount, new { @class = "form-control textright txtNum" })
                     @Html.ValidationMessageFor(model => model.amount)
                 </div>
-                <div class="col-md-5">
+                <div class="col-md-4">
                     <label class="headinglabel">Remark</label>
                     @Html.TextAreaFor(model => model.remark1, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.remark1)
@@ -635,12 +892,19 @@
                     <label class="headinglabel">Exp. Allocation</label>
                     <a href="javascript:void(0)" class="Allocate"><i class="fa fa-bars"></i></a>
                 </div>
-                <div class="col-md-12">
-                    <br />
-                    <input type="button" class="btn btn-primary" value="Add" id="btnAdd">
-                    <input type="button" class="btn btn-primary" value="Update" id="btnUpdate" style="display:none;">
+                <div class="col-md-1">
+                    <label class="headinglabel">Action</label>
+                    <button type="button" style="height: 25px !important;margin-top:14px; vertical-align: middle;" onclick="ClearData()">-</button>&nbsp;&nbsp;
+                    <button type="button" style="height: 25px !important;margin-top:14px; vertical-align: middle;" index="1" id="btnAdd" class="addmore">+</button>
                 </div>
+                @*<div class="col-md-12 butdivs">
+                <br />
+                <button type="button" class="btn btn-primary btnwidth" id="btnAdd">Add</button>
+                <input type="button" class="btn btn-primary" value="Update" id="btnUpdate" style="display:none;">
+            </div>*@
             </div>
+            <br />
+
             <div class="row no-margin" style="padding-top:10px">
                 <table class="table table-bordered table-responsive" id="details" style="background-color:white">
                     <tr>
@@ -660,148 +924,183 @@
                 </div>
             </div>
             <div class="row no-margin" style="padding-top:10px">
-                @*   <input type="button" id="btn1" value="add" />*@
-                <input type="submit" value="Update" class="btn btn-primary btnwidth" id="btnsave" /> &nbsp;&nbsp;<a href='@Url.Action("IndexAcBook", "AccountingModule", new { id = 0 })' class="btn btn-primary btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+                <div class="col-md-12 butdivs">
+                    @*   <input type="button" id="btn1" value="add" />*@
+                    <button type="submit" class="btn btn-primary btnwidth" id="btnsave">Update</button>
+                    &nbsp;&nbsp;
+                    <a href='@Url.Action("IndexAcBook", "AccountingModule", new { id = 0 })' class="btn btn-danger btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+                </div>
             </div>
         </fieldset>
 
-        <div style="width:100%;height:3000px; color:black;opacity:0.6;z-index:5;display:none;background-color: black;position:absolute;top:0;left:0;" id="popupbackground">
+        <div  style="width:100%;height:3000px; color:black;opacity:0.6;z-index:5;display:none;background-color: black;position:absolute;top:0;left:0;" id="popupbackground">
 
         </div>
-        <div style="width:400px;position:absolute;top:500px;left:30%;z-index:10;display:none;background-color:white;padding:10px" id="popup">
-            <div class="col-md-6">
-                <label class="headinglabel">Analysis Head</label>
-                <input type="text" id="AcHeadAllocation" value="" class="form-control" autocomplete="off" style="height:27px;" />
-                <input type="hidden" id="SelectedAcHeadAllocation" value="" class="form-control" autocomplete="off" />
-            </div>
-            <div class="col-md-6">
-                <label class="headinglabel">Amount</label>
-                <input type="text" class="text-right form-control txtNum" id="ExpAmount" value="0" />
-            </div>
+        <div class="col-md-6 col-md-offset-3" data-keyboard="false" style="position:absolute;top:500px;z-index:10;display:none;background-color:white;padding:10px" id="popup">
+
             <div class="row">
-                <div class="col-md-12 text-right">
-                    <input type="button" value="Add" class="btn btn-primary" style="margin:10px;" id="AddExpAllocation" />
-                    <input type="button" value="Close" class="btn btn-primary" style="margin:10px;" id="AllocationClose" />
+                <div class="col-md-5">
+                    <label class="headinglabel">Analysis Head</label>
+                    <input type="text" id="AcHeadAllocation" value="" class="form-control" autocomplete="off" style="height:27px;" />
+                    <input type="hidden" id="SelectedAcHeadAllocation" value="" class="form-control" autocomplete="off" />
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <input type="hidden" value="0" id="RowCount" />
-                    <table id="ExpAllocationTable" class="table table-bordered table-responsive">
-                        <tr>
-                            <td>Analysis Head</td>
-                            <td>Amount</td>
-                            <td>Delete</td>
-                        </tr>
-                    </table>
+                <div class="col-md-5">
+                    <label class="headinglabel">Amount</label>
+                    <input type="text" class="text-right form-control txtNum" id="ExpAmount" value="0" />
                 </div>
-            </div>
-            <script type="text/javascript">
-                $(document).ready(function () {
-                    $('#AddExpAllocation').click(function () {
-                        var Total = 0;
-                        var MainTotal = 0;
-                        debugger;
-                        $('#ExpAllocationTable').find('.ExpAllocatedAmountDetails').each(function () {
+                <div class="col-md-2">
+                    <label class="headinglabel">Action</label>
+                    <button type="button" style="height: 25px !important;margin-top:14px; vertical-align: middle;" index="1" id="AddExpAllocation" class="addmore">+</button>&nbsp;&nbsp;
+                    <button type="button" style="height: 25px !important;margin-top:14px; vertical-align: middle;border:none" id="AllocationClose"><i style="font-size:21px" class="fa fa-times"></i></button>
+
+
+                </div>
+                </div>
+            <br />
+                @*<div class="row">
+                    <div class="col-md-12 text-right">
+                        <input type="button" value="Add" class="btn btn-primary" style="margin:10px;" id="AddExpAllocation" />
+                        <input type="button" value="Close" class="btn btn-danger" style="margin:10px;" id="AllocationClose" />
+                    </div>
+                </div>*@
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="hidden" value="0" id="RowCount" />
+                        <table id="ExpAllocationTable" class="table table-bordered table-responsive">
+                            <tr>
+                                <td>Analysis Head</td>
+                                <td>Amount</td>
+                                <td>Delete</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <script type="text/javascript">
+                    $(document).ready(function () {
+                        $('#AddExpAllocation').click(function () {
+                            var Total = 0;
+                            var MainTotal = 0;
                             debugger;
-                            if (isNaN(parseInt($(this).val())) === false) {
-                                Total += parseFloat($(this).val());
+                            var selectedval = $("#SelectedAcHeadAllocation").val();
+                            if (selectedval == 0) {
+                                alert('Please select analysis head!');
+                                return;
+                            }
+                            $('#ExpAllocationTable').find('.ExpAllocatedAmountDetails').each(function () {
+                                debugger;
+                                if (isNaN(parseInt($(this).val())) === false) {
+                                    Total += parseFloat($(this).val());
+                                }
+                            });
+                            debugger;
+                            if (isNaN(parseInt($('#ExpAmount').val())) === false) {
+                                Total += parseFloat($('#ExpAmount').val());
+                            }
+                            if (isNaN(parseInt($('#amount').val())) === false) {
+                                MainTotal += parseFloat($('#amount').val());
+                            }
+                            if (Total > MainTotal) {
+                                alert('Amount cannot exceed total allocated amount');
+                                return;
+                            }
+                            var RowCount = parseInt($('#RowCount').val());
+                            var RowHtml = '<tr><td>' + $('#AcHeadAllocation').val() + '<input type="hidden" name="AcExpAllocationVM[' + RowCount + '].AcHead" value="' + $('#SelectedAcHeadAllocation').val() + '"/></td>';
+                            RowHtml = RowHtml + '<td><input type="text" id="' + RowCount + '_Amount" name="AcExpAllocationVM[' + RowCount + '].ExpAllocatedAmount" class="ExpAllocatedAmountDetails" value="' + $('#ExpAmount').val() + '"/></td>';
+                            RowHtml = RowHtml + '<td><a href="javascript:void(0)" id="DeleteAllocationRow"><i class="fa fa-times"></i></a></td>';
+                            RowHtml = RowHtml + '</tr>';
+                            $('#ExpAllocationTable').append(RowHtml);
+                            $('#RowCount').val(RowCount + 1);
+                            $("#AcHeadAllocation").val('');
+                            $("#SelectedAcHeadAllocation").val(0);
+                            $("#ExpAmount").val(0);
+                            $('#AcHeadAllocation').focus()
+
+                        });
+
+                        $('.txtNum').blur(function () {
+                            if (isNaN(parseInt($(this).val()))) {
+                                $(this).val('0.00');
+                            } else {
+                                var amt = parseFloat($(this).val());
+                                $(this).val(amt.toFixed(2));
                             }
                         });
-                        debugger;
-                        if (isNaN(parseInt($('#ExpAmount').val())) === false) {
-                            Total += parseFloat($('#ExpAmount').val());
-                        }
-                        if (isNaN(parseInt($('#amount').val())) === false) {
-                            MainTotal += parseFloat($('#amount').val());
-                        }
-                        if (Total > MainTotal) {
-                            alert('Amount cannot exceed total allocated amount');
-                            return;
-                        }
-                        var RowCount = parseInt($('#RowCount').val());
-                        var RowHtml = '<tr><td>' + $('#AcHeadAllocation').val() + '<input type="hidden" name="AcExpAllocationVM[' + RowCount + '].AcHead" value="' + $('#SelectedAcHeadAllocation').val() + '"/></td>';
-                        RowHtml = RowHtml + '<td><input type="text" id="' + RowCount + '_Amount" name="AcExpAllocationVM[' + RowCount + '].ExpAllocatedAmount" class="ExpAllocatedAmountDetails" value="' + $('#ExpAmount').val() + '"/></td>';
-                        RowHtml = RowHtml + '<td><a href="javascript:void(0)" id="DeleteAllocationRow"><i class="fa fa-times"></i></a></td>';
-                        RowHtml = RowHtml + '</tr>';
-                        $('#ExpAllocationTable').append(RowHtml);
-                        $('#RowCount').val(RowCount + 1);
+
+                        $('#details').on('blur', '.txtNum', function () {
+                            if (isNaN(parseInt($(this).val()))) {
+                                $(this).val('0.00');
+                            } else {
+                                var amt = parseFloat($(this).val());
+                                $(this).val(amt.toFixed(2));
+                            }
+                        });
+
+                        $('#ExpAllocationTable').on("click", "#DeleteAllocationRow", function () {
+                            debugger;
+                            var DeletedAllocatedId = $(this).parent().parent().find('.AcAnalysisHeadAllocationID').val();
+                            var ExistingDelIds = $('#deletedExpAllocations').val();
+                            if (ExistingDelIds != '') {
+                                ExistingDelIds = ExistingDelIds + ',' + DeletedAllocatedId;
+                            } else {
+                                ExistingDelIds = DeletedAllocatedId;
+                            }
+                            $('#deletedExpAllocations').val(ExistingDelIds);
+
+
+                            $(this).parent().parent().remove();
+                        });
+
+                        $('#details').on("click", "#DeleteNewRow", function () {
+                            debugger;
+                            var DeletedAllocatedId = $(this).parent().parent().find('.AcJournalDetID').val();
+                            var ExistingDelIds = $('#deletedJournalDetails').val();
+                            if (ExistingDelIds != '') {
+                                ExistingDelIds = ExistingDelIds + ',' + DeletedAllocatedId;
+                            } else {
+                                ExistingDelIds = DeletedAllocatedId;
+                            }
+                            $('#deletedJournalDetails').val(ExistingDelIds);
+                            $(this).parent().parent().remove();
+                        });
+
+                        $('#details').on("click", "#DeleteAllocationRow", function () {
+                            debugger;
+                            var DeletedAllocatedId = $(this).parent().parent().find('.AcJournalDetID').val();
+                            var ExistingDelIds = $('#deletedJournalDetails').val();
+                            if (ExistingDelIds != '') {
+                                ExistingDelIds = ExistingDelIds + ',' + DeletedAllocatedId;
+                            } else {
+                                ExistingDelIds = DeletedAllocatedId;
+                            }
+                            $('#deletedJournalDetails').val(ExistingDelIds);
+
+                            var DeletedAllocatedId = $(this).parent().parent().find('.AcAnalysisHeadAllocationID').val();
+                            var ExistingDelIds = $('#deletedExpAllocations').val();
+                            if (ExistingDelIds != '') {
+                                ExistingDelIds = ExistingDelIds + ',' + DeletedAllocatedId;
+                            } else {
+                                ExistingDelIds = DeletedAllocatedId;
+                            }
+                            $('#deletedExpAllocations').val(ExistingDelIds);
+                            $(this).parent().parent().remove();
+                        });
                     });
+                    function ClearData() {
+                        $("#ReceivedFrom").val('');
+                        $("#SelectedReceivedFrom").val(0);
+                        $("#amount").val('');
+                        $("#remark1").val('');
+                        $("#AcHeadAllocation").val('');
+                        $("#SelectedAcHeadAllocation").val(0);
+                        $("#ExpAmount").val('');
+                        $("#ExpAllocationTable").find("tr:gt(0)").remove();
+                    }
+                </script>
+                <div>
 
-                    $('.txtNum').blur(function () {
-                        if (isNaN(parseInt($(this).val()))) {
-                            $(this).val('0.00');
-                        } else {
-                            var amt = parseFloat($(this).val());
-                            $(this).val(amt.toFixed(2));
-                        }
-                    });
-
-                    $('#details').on('blur', '.txtNum', function () {
-                        if (isNaN(parseInt($(this).val()))) {
-                            $(this).val('0.00');
-                        } else {
-                            var amt = parseFloat($(this).val());
-                            $(this).val(amt.toFixed(2));
-                        }
-                    });
-
-                    $('#ExpAllocationTable').on("click", "#DeleteAllocationRow", function () {
-                        debugger;
-                        var DeletedAllocatedId = $(this).parent().parent().find('.AcAnalysisHeadAllocationID').val();
-                        var ExistingDelIds = $('#deletedExpAllocations').val();
-                        if (ExistingDelIds != '') {
-                            ExistingDelIds = ExistingDelIds + ',' + DeletedAllocatedId;
-                        } else {
-                            ExistingDelIds = DeletedAllocatedId;
-                        }
-                        $('#deletedExpAllocations').val(ExistingDelIds);
-
-
-                        $(this).parent().parent().remove();
-                    });
-
-                    $('#details').on("click", "#DeleteNewRow", function () {
-                        debugger;
-                        var DeletedAllocatedId = $(this).parent().parent().find('.AcJournalDetID').val();
-                        var ExistingDelIds = $('#deletedJournalDetails').val();
-                        if (ExistingDelIds != '') {
-                            ExistingDelIds = ExistingDelIds + ',' + DeletedAllocatedId;
-                        } else {
-                            ExistingDelIds = DeletedAllocatedId;
-                        }
-                        $('#deletedJournalDetails').val(ExistingDelIds);
-                        $(this).parent().parent().remove();
-                    });
-
-                    $('#details').on("click", "#DeleteAllocationRow", function () {
-                        debugger;
-                        var DeletedAllocatedId = $(this).parent().parent().find('.AcJournalDetID').val();
-                        var ExistingDelIds = $('#deletedJournalDetails').val();
-                        if (ExistingDelIds != '') {
-                            ExistingDelIds = ExistingDelIds + ',' + DeletedAllocatedId;
-                        } else {
-                            ExistingDelIds = DeletedAllocatedId;
-                        }
-                        $('#deletedJournalDetails').val(ExistingDelIds);
-
-                        var DeletedAllocatedId = $(this).parent().parent().find('.AcAnalysisHeadAllocationID').val();
-                        var ExistingDelIds = $('#deletedExpAllocations').val();
-                        if (ExistingDelIds != '') {
-                            ExistingDelIds = ExistingDelIds + ',' + DeletedAllocatedId;
-                        } else {
-                            ExistingDelIds = DeletedAllocatedId;
-                        }
-                        $('#deletedExpAllocations').val(ExistingDelIds);
-                        $(this).parent().parent().remove();
-                    });
-                });
-            </script>
-            <div>
-
+                </div>
             </div>
-        </div>
-    }
+            }
 </section>
 
 @*Popup code*@

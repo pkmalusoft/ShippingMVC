@@ -26,5 +26,6 @@ namespace DAL
         public string InvNo { get; set; }
         public Nullable<int> CurrencyID { get; set; }
         public Nullable<bool> Lock { get; set; }
+        public Nullable<int> JobID { get; set; }
     }
 }

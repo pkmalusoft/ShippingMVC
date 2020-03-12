@@ -67,7 +67,7 @@
         <EntityTypeShape EntityType="SHIPPING_FinalModel.SalesInvoice" Width="1.5" PointX="14.375" PointY="0.75" />
         <EntityTypeShape EntityType="SHIPPING_FinalModel.PurchaseInvoice" Width="2.375" PointX="12.375" PointY="11.75" />
         <EntityTypeShape EntityType="SHIPPING_FinalModel.SalesInvoiceDetail" Width="2.875" PointX="14.375" PointY="6.75" />
-        <EntityTypeShape EntityType="SHIPPING_FinalModel.PurchaseInvoiceDetail" Width="1.5" PointX="18.25" PointY="7.875" />
+        <EntityTypeShape EntityType="SHIPPING_FinalModel.PurchaseInvoiceDetail" Width="2.125" PointX="18.25" PointY="7.875" />
         <EntityTypeShape EntityType="SHIPPING_FinalModel.CountryMaster" Width="1.5" PointX="0.75" PointY="10.5" />
         <EntityTypeShape EntityType="SHIPPING_FinalModel.Location" Width="1.5" PointX="0.75" PointY="0.875" />
         <EntityTypeShape EntityType="SHIPPING_FinalModel.CurrencyMaster" Width="1.5" PointX="16.375" PointY="1" />
@@ -90,6 +90,7 @@
         <AssociationConnector Association="SHIPPING_FinalModel.FK_AnalysisHead_AcCompany" />
         <EntityTypeShape EntityType="SHIPPING_FinalModel.ProductService" Width="1.5" PointX="6.375" PointY="10.75" />
         <EntityTypeShape EntityType="SHIPPING_FinalModel.AcAnalysisHeadAllocation" Width="2.25" PointX="18.375" PointY="0.75" />
+        <EntityTypeShape EntityType="SHIPPING_FinalModel.SupplierTypeMaster" Width="1.5" PointX="18.375" PointY="3.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

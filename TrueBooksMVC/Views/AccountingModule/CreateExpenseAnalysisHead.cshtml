@@ -1,7 +1,9 @@
 ﻿@model DAL.AnalysisHead
 @{
-    ViewBag.Title = "AnalysisGroup";
-    Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
+                /**/
+
+                ViewBag.Title = "AnalysisGroup";
+                Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
 }
 <style>
     .searchdiv {
@@ -22,42 +24,42 @@
     }
 </style>
 <script type="text/javascript">
-        $(document).ready(function () {
-           
-            $(":text").css({ "border-radius": "5px" });
-            $("select").css({ "border-radius": "5px" });
+    $(document).ready(function () {
+
+        $(":text").css({ "border-radius": "5px" });
+        $("select").css({ "border-radius": "5px" });
 
 
-            $("#btnsave").click(function () {
-                var acgroup = $("#AnalysisGroupID option:selected").val();
-                var head = $("#AnalysisHead1").val();
-                var code = $("#AnalysisCode").val();
-             
+        $("#btnsave").click(function () {
+            var acgroup = $("#AnalysisGroupID option:selected").val();
+            var head = $("#AnalysisHead1").val();
+            var code = $("#AnalysisCode").val();
 
 
 
-                if (acgroup == "") {
-                    $("#alert").show();
-                    return false;
-                }
-                else if (head == "") {
-                    $("#alert").show();
-                    return false;
-                }
-                else if (code == "") {
-                    $("#alert").show();
-                    return false;
-                }
-             
-                else {
-                    $("#alert").hide();
-                    return true;
-                }
-            });
 
-          
+            if (acgroup == "") {
+                $("#alert").show();
+                return false;
+            }
+            else if (head == "") {
+                $("#alert").show();
+                return false;
+            }
+            else if (code == "") {
+                $("#alert").show();
+                return false;
+            }
+
+            else {
+                $("#alert").hide();
+                return true;
+            }
         });
-    </script>
+
+
+    });
+</script>
 <section class="content-header">
     <h1 class="headingfont">Analysis Head</h1>
 
@@ -66,51 +68,61 @@
 
 <section class="content">
 
-@using (Html.BeginForm()) {
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true)
-       
-    <div class="searchdiv">
-        <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
-        <fieldset>
+    @using (Html.BeginForm())
+    {
+@Html.AntiForgeryToken()
+@Html.ValidationSummary(true)
 
-            <div class="row no-margin">
+<div class="searchdiv">
+    <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
+    <fieldset>
 
-                <div class="col-md-4">
-                    <label class="required headinglabel">Analysis Group</label>
-                    @Html.DropDownListFor(model => model.AnalysisGroupID, new SelectList(ViewBag.groups, "AnalysisGroupID", "AnalysisGroup"), "Select", new { @class = "form-control txttarget" })
-                    @Html.ValidationMessageFor(model => model.AnalysisGroupID)
+        <div class="row no-margin">
 
-                </div>
-                <div class="col-md-4">
-                    <label class="required headinglabel">Analysis Head</label>
-                    @Html.TextBoxFor(model => model.AnalysisHead1, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.AnalysisHead1)
+            <div class="col-md-12">
+                <label class="required headinglabel">Analysis Group</label>
+                @Html.DropDownListFor(model => model.AnalysisGroupID, new SelectList(ViewBag.groups, "AnalysisGroupID", "AnalysisGroup"), "Select", new { @class = "form-control txttarget" })
+                @Html.ValidationMessageFor(model => model.AnalysisGroupID)
 
-                </div>
-                <div class="col-md-4">
-                    <label class="required headinglabel">Analysis Code</label>
-                    @Html.TextBoxFor(model => model.AnalysisCode, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.AnalysisCode)
+            </div>
+        </div>
+        <div class="row no-margin" style="padding-top:10px">
+            <div class="col-md-12">
+                <label class="required headinglabel">Analysis Head</label>
+                @Html.TextBoxFor(model => model.AnalysisHead1, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.AnalysisHead1)
 
-                </div>
+            </div>
+        </div>
+        <div class="row no-margin" style="padding-top:10px">
+            <div class="col-md-12">
+                <label class="required headinglabel">Analysis Code</label>
+                @Html.TextBoxFor(model => model.AnalysisCode, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.AnalysisCode)
 
             </div>
 
+        </div>
 
-            <div class="row no-margin" style="padding-top:10px">
-                <div class="col-md-12 butdivs">
+        <div class="form-group">
+            @if (ViewBag.ErrorMsg != null)
+            {
+                <span class="text-danger">@ViewBag.ErrorMsg</span>
+            }
+        </div>
+        <div class="row no-margin" style="padding-top:10px">
+            <div class="col-md-12 butdivs">
 
-                    <input type="submit" value="Save" class="btn btn-primary btnwid" id="btnsave" />
+                <input type="submit" value="Save" class="btn btn-primary btnwid" id="btnsave" />
 
-                    &nbsp;
-                    <a href='@Url.Action("IndexExpenseAnalysisHead", "AccountingModule", new { id = 0 })' class="btn btn-danger btnwid" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+                &nbsp;
+                <a href='@Url.Action("IndexExpenseAnalysisHead", "AccountingModule", new { id = 0 })' class="btn btn-danger btnwid" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
 
-                </div>
             </div>
+        </div>
 
 
-        </fieldset>
-    </div>
+    </fieldset>
+</div>
 }
-    </section>
+</section>

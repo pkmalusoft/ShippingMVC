@@ -208,7 +208,8 @@ namespace TrueBooksMVC.Controllers
             SI.Reference = (formCollection["Reference"]);
             SI.LPOReference = (formCollection["LPOReference"]);
             SI.CustomerID = Common.ParseInt(formCollection["SelectedCustomerID"]);
-            SI.EmployeeID = Common.ParseInt(formCollection["EmployeeeID"]);
+            //SI.EmployeeID = Common.ParseInt(formCollection["EmployeeeID"]);
+            SI.EmployeeID = Common.ParseInt(formCollection["SelectedEmployeeID"]);
             SI.CurrencyID = Common.ParseInt(formCollection["SelectedCurrencyID"]);
             SI.ExchangeRate = Common.ParseDecimal(formCollection["ExchangeRate"]);
             SI.CreditDays = 0;
@@ -235,8 +236,15 @@ namespace TrueBooksMVC.Controllers
 
             if (Command == "Save")
             {
-                SI.SalesInvoiceDate = System.DateTime.UtcNow;
-                 int i = 0;
+                //SI.SalesInvoiceDate = System.DateTime.UtcNow;
+                var context = new SHIPPING_FinalEntities();
+               var salesinvoiceId = (from c in context.SalesInvoices orderby c.SalesInvoiceID descending select c.SalesInvoiceID).FirstOrDefault();
+                salesinvoiceId = salesinvoiceId + 1;
+                var Gen_salesno= salesinvoiceId.ToString("00000");
+
+                var salesNo = "SI-" + Gen_salesno;
+                SI.SalesInvoiceNo = salesNo;
+                int i = 0;
                 i = SM.AddSalesInvoice(SI);
                 SI.SalesInvoiceID = i;
                 DeleteAndInsertRecords(formCollection, i);
@@ -244,7 +252,9 @@ namespace TrueBooksMVC.Controllers
                 {                                              
                     Session["SalesInvoiceID"] = i;
                     SI.SalesInvoiceID = i;
-                    return RedirectToAction("Invoice", "SalesInvoice", new { ID = i });
+                    //return RedirectToAction("Invoice", "SalesInvoice", new { ID = i });
+                    return RedirectToAction("Index", "SalesInvoice");
+
                 }
             }
             else if (Command == "Update")
@@ -253,13 +263,17 @@ namespace TrueBooksMVC.Controllers
                 SI.SalesInvoiceID = id;
                 int k = SM.UpdateSalesInvoice(SI);
                 DeleteAndInsertRecords(formCollection, id);
-                return RedirectToAction("Invoice", "SalesInvoice", new { ID = SI.SalesInvoiceID });                                          
+                return RedirectToAction("Index", "SalesInvoice");
+
+                //return RedirectToAction("Invoice", "SalesInvoice", new { ID = SI.SalesInvoiceID });                                          
             }
             else if (Command == "SaveInvoice")
             {
 
             }
-            return View(SI);
+            return RedirectToAction("Index", "SalesInvoice");
+
+            //return View(SI);
         }
 
        
@@ -401,6 +415,29 @@ namespace TrueBooksMVC.Controllers
             };
 
         }
+
+
+        public JsonResult GetProductInfo(int ID)
+        {
+            SourceMastersModel SM1 = new SourceMastersModel();
+
+            var Product = SM1.GetProductById(ID);
+
+            return Json(Product, JsonRequestBehavior.AllowGet);
+        }
+           public JsonResult GetCreditDays(int ID)
+        {
+            SourceMastersModel SM1 = new SourceMastersModel();
+            int? CreditDays = 0;
+            var Product = SM1.GetCustomerById(ID);
+            if(Product.MaxCreditDays != null)
+            {
+                CreditDays = Product.MaxCreditDays;
+            }
+
+            return Json(CreditDays, JsonRequestBehavior.AllowGet);
+        }
+
 
     }
 }

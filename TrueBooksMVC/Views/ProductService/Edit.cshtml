@@ -2,8 +2,8 @@
 
 @{
     ViewBag.Title = "Edit";
-     Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
-     }
+    Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
+}
 <style>
     .searchdiv {
         background-color: #fff;
@@ -17,45 +17,62 @@
     }
 </style>
 <script type="text/javascript">
-        $(document).ready(function () {
-            $("#CountryName").focus();
-            $(":text").css({ "border-radius": "5px" });
-            $("select").css({ "border-radius": "5px" });
+    $(document).ready(function () {
+        $("#CountryName").focus();
+        $(":text").css({ "border-radius": "5px" });
+        $("select").css({ "border-radius": "5px" });
+        $('.txtNum').blur(function () {
+            if (isNaN(parseInt($(this).val()))) {
+                $(this).val('0.00');
+                if (this.id == "TaxPercent") {
+                    $(this).val('0');
 
-            $("#btnsave").click(function () {
-                var conname = $("#CountryName").val();
-                var concode = $("#CountryCode").val();
-
-
-
-                if (conname == "") {
-                    $("#alert").show();
-                    return false;
                 }
-                else if (concode == "") {
-                    $("#alert").show();
-                    return false;
+            } else {
+
+                if (this.id == "TaxPercent") {
+
+                } else {
+                    var amt = parseFloat($(this).val());
+                    $(this).val(amt.toFixed(2));
                 }
-
-                else {
-                    $("#alert").hide();
-                    return true;
-                }
-
-
-            });
+            }
         });
-    </script>
+        $("#btnsave").click(function () {
+            var conname = $("#CountryName").val();
+            var concode = $("#CountryCode").val();
+
+
+
+            if (conname == "") {
+                $("#alert").show();
+                return false;
+            }
+            else if (concode == "") {
+                $("#alert").show();
+                return false;
+            }
+
+            else {
+                $("#alert").hide();
+                return true;
+            }
+
+
+        });
+    });
+</script>
 
 <section class="content-header">
     <h1 class="headingfont">Product & Service</h1>
 </section>
 
 <section class="content-header">
-@using (Html.BeginForm()) {
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true)
-        
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+
     <fieldset class="searchdiv">
         <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
 
@@ -100,27 +117,38 @@
                 <label class="headinglabel">Special Price</label>
                 @Html.TextBoxFor(model => model.SpecialPrice, new { @class = "form-control textright txtNum" })
                 @Html.ValidationMessageFor(model => model.SpecialPrice)
+                <input id="Status" name="Status" type="hidden" value="1" />
+
                 <!-- <input type="text" name="country_prefix" class="form-control txttarget">-->
             </div>
         </div>
-
         <div class="row no-margin" style="padding-top:10px">
-            <div class="col-md-6">
+            <div class="col-md-4">
+                <label class="headinglabel">Tax Percent</label>
+                @Html.TextBoxFor(model => model.TaxPercent, new { @class = "form-control textright txtNum" })
+                @Html.ValidationMessageFor(model => model.TaxPercent)
 
-                <input type="submit" value="Update" class="btn btn-primary btnwidth" id="btnsave" />
-
-                &nbsp;
-                <a href='@Url.Action("Index", "ProductService", new { id = 0 })' class="btn btn-primary btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
 
             </div>
         </div>
 
+            <div class="row no-margin" style="padding-top:10px">
+                <div class="col-md-12 butdivs">
+
+                    <input type="submit" value="Update" class="btn btn-primary btnwidth" id="btnsave" />
+
+                    &nbsp;
+                    <a href='@Url.Action("Index", "ProductService", new { id = 0 })' class="btn btn-danger btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+
+                </div>
+            </div>
+
 
     </fieldset>
-}
+    }
 
 </section>
 
 @*@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}*@
+        @Scripts.Render("~/bundles/jqueryval")
+    }*@

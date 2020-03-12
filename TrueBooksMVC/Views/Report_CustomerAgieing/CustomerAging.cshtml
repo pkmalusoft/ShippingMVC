@@ -29,21 +29,21 @@
         color: #2b2929 !important;
     }
 </style>
-   <script type="text/javascript">
+<script type="text/javascript">
 
 
 
-       function printDiv(divName) {
-           var printContents = document.getElementById(divName).innerHTML;
-           var originalContents = document.body.innerHTML;
+    function printDiv(divName) {
+        var printContents = document.getElementById(divName).innerHTML;
+        var originalContents = document.body.innerHTML;
 
-           document.body.innerHTML = printContents;
+        document.body.innerHTML = printContents;
 
-           window.print();
+        window.print();
 
-           document.body.innerHTML = originalContents;
-       }
-    </script>
+        document.body.innerHTML = originalContents;
+    }
+</script>
 <script>
     $(function () {
 
@@ -86,15 +86,27 @@
             return (curr_date + "-" + m_names[curr_month]
             + "-" + curr_year);
         }
+          function GetEndDate() {
+            var m_names = new Array("Jan", "Feb", "Mar",
+    "Apr", "May", "Jun", "Jul", "Aug", "Sep",
+    "Oct", "Nov", "Dec");
+
+            var d = new Date("@Session["FyearTo"].ToString()");
+            var curr_date = d.getDate();
+            var curr_month = d.getMonth();
+            var curr_year = d.getFullYear();
+            return (curr_date + "-" + m_names[curr_month]
+            + "-" + curr_year);
+        }
 
         $("#txtfrom").val(GetStartDate());
-        $("#txtto").val(GetCurrentDate());
+        $("#txtto").val(GetEndDate());
 
         $("#btnsearch").click(function () {
             debugger;
             var from = $("#txtfrom").val();
             var dto = $("#txtto").val();
-          
+
             if (from == "") {
                 $("#error").show();
                 return false;
@@ -111,7 +123,7 @@
                 $("#error").hide();
                 showLoading();
                 var custid = $("#CustomerID option:selected").val();
-               
+
 
                 $.ajax({
                     url: "@Url.Action("GetCustomerAgingData", "Report_CustomerAgieing")",
@@ -134,12 +146,12 @@
         $("select").css({ "border-radius": "5px" });
 
 
-      
+
 
     });
 
 
-   
+
 
 </script>
 
@@ -156,11 +168,11 @@
         <div class="row no-margin">
             <div class="col-md-4">
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-12">
                         <label class="headinglabel required">From:</label>
 
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-12">
                         <input type="text" class="datepicker form-control" id="txtfrom" />
                     </div>
                 </div>
@@ -170,11 +182,11 @@
             <div class="col-md-4">
 
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-12">
                         <label class="headinglabel required">To:</label>
 
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-12">
                         <input type="text" class="datepicker form-control" id="txtto" />
                     </div>
                 </div>
@@ -185,17 +197,17 @@
             <div class="col-md-4">
 
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-12">
                         <label class="required headinglabel">Customer:</label>
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-12">
                         @Html.DropDownList("CustomerID", ViewBag.customers as SelectList, "Select", new { @class = "form-control" })
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="row no-margin" style="padding-top: 20px">
+        <div class="row no-margin" style="padding-top: 10px">
 
 
 
@@ -205,19 +217,19 @@
             </div>
 
         </div>
-        </div>
+    </div>
 
 
 
 
-        <div class="row no-margin" style="padding-top: 20px">
-            <div class="col-md-12 tblbackground">
-                <div class="row">
-                    <div class="col-md-12" id="result">
-                    </div>
+    <div class="row no-margin" style="padding-top: 20px">
+        <div class="col-md-12 tblbackground">
+            <div class="row">
+                <div class="col-md-12" id="result">
                 </div>
             </div>
         </div>
+    </div>
 
 
 

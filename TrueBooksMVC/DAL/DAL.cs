@@ -1406,7 +1406,7 @@ namespace TrueBooksMVC
             return objList;
         }
 
-        public static int InsertOrUpdateAcBankDetails(AcBankDetail ObjectAcBankDetail)
+        public static int InsertOrUpdateAcBankDetails(AcBankDetail ObjectAcBankDetail,int isupdate)
         {
             int iReturn = 0;
             SqlCommand cmd = new SqlCommand();
@@ -1436,6 +1436,9 @@ namespace TrueBooksMVC
 
             cmd.Parameters.Add("@StatusTrans", SqlDbType.NVarChar);
             cmd.Parameters["@StatusTrans"].Value = ObjectAcBankDetail.StatusTrans;
+
+            cmd.Parameters.Add("@IsUpdate", SqlDbType.Int);
+            cmd.Parameters["@IsUpdate"].Value = isupdate;
             if (ObjectAcBankDetail.StatusReconciled != null)
             {
                 cmd.Parameters.Add("@StatusReconciled", SqlDbType.Bit);

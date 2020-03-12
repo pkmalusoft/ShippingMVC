@@ -212,13 +212,13 @@ namespace TrueBooksMVC.Models
             if (!String.IsNullOrEmpty(term))
             {
                 List<AnalysisHeadSelectAll_Result> AnalysisHeadSelectList = new List<AnalysisHeadSelectAll_Result>();
-                AnalysisHeadSelectList = MM.GetAnalysisHeadSelectList(Common.ParseInt(Session["branchid"].ToString()),term);
+                AnalysisHeadSelectList = MM.GetAnalysisHeadSelectList(Common.ParseInt(Session["AcCompanyID"].ToString()),term);
                 return Json(AnalysisHeadSelectList, JsonRequestBehavior.AllowGet);
             }
             else
             {
                 List<AnalysisHeadSelectAll_Result> AnalysisHeadSelectList = new List<AnalysisHeadSelectAll_Result>();
-                AnalysisHeadSelectList = MM.GetAnalysisHeadSelectList(Common.ParseInt(Session["branchid"].ToString()),"");
+                AnalysisHeadSelectList = MM.GetAnalysisHeadSelectList(Common.ParseInt(Session["AcCompanyID"].ToString()),"");
                 return Json(AnalysisHeadSelectList, JsonRequestBehavior.AllowGet);
             }
         }       

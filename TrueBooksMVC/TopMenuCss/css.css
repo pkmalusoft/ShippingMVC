@@ -1,0 +1,433 @@
+
+@import url('font-face.css');
+
+/* Web Layout Start */
+html, body
+{
+    min-height: 100%;
+    height: 100%;
+}
+body
+{
+    background: #fff;
+}
+.Wrapper
+{
+    display: block;
+    width: 100%;
+    min-height: 100%;
+    height: auto !important;
+    margin: 0 auto -65px;
+}
+.Container
+{
+    display: block;
+    width: 1170px;
+    margin: 0 auto;
+}
+
+/*********************************
+ Top Container Start
+**********************************/
+
+.Top_Container
+{
+    display: block;
+    width: 100%;
+    margin: 38px 0 8px;
+    float: left;
+}
+.Top_Container a.True-Books-Logo
+{
+    float: left;
+    width: 159px;
+    height: 40px;
+    text-indent: -999999px;
+    background: url(../images/true-books-logo.png) no-repeat 0 0;
+}
+.Top_Container nav
+{
+    float: right;
+}
+.Top_Container nav ul
+{
+    display: block;
+    margin: 0;
+    padding: 0;
+}
+.Top_Container nav ul li
+{
+    float: left;
+    margin-left: 15px;
+}
+.Top_Container nav ul li:first-child
+{
+    margin-left: 0;
+}
+.Top_Container nav ul li a
+{
+    display: block;
+    font: normal 14px/40px 'open_sanslight';
+    padding: 0 10px;
+    color: #a7b3c0;
+    text-decoration: none;
+    -webkit-transition: color 700ms linear;
+    -moz-transition: color 700ms linear;
+    -o-transition: color 700ms linear;
+    -ms-transition: color 700ms linear;
+    transition: color 700ms linear;
+}
+.Top_Container nav ul li a:hover
+{
+    color: #6e7781;
+}
+.Top_Container nav ul li a.Live-Chat
+{
+    color: #ffffff;
+    background: #fe5214 url(../images/live-chat-icon.png) no-repeat 10px 50%;
+    padding-left: 40px;
+    font-size: 16px;
+    -webkit-transition: background-color 700ms linear;
+    -moz-transition: background-color 700ms linear;
+    -o-transition: background-color 700ms linear;
+    -ms-transition: background-color 700ms linear;
+    transition: background-color 700ms linear;
+}
+.Top_Container nav ul li a.Live-Chat:hover
+{
+    background-color: #d34310;
+}
+
+/*********************************
+ Top Container End
+**********************************/
+
+/*********************************
+ Section Start
+**********************************/
+section
+{
+    display: block;
+    clear: both;
+    width: 100%;
+}
+section article
+{
+    float: left;
+}
+section aside
+{
+    float: right;
+}
+section h1
+{
+    display: block;
+    font: normal 35px 'open_sanslight';
+    color: #485564;
+    margin: 0;
+    padding: 0;
+}
+section p
+{
+    display: block;
+    font: normal 18px/30px 'open_sanslight';
+    color: #485564;
+}
+.Home_Content
+{
+    display: block;
+    clear: both;
+    width: 100%;
+}
+.Home_Content article
+{
+    width: 480px;
+}
+.Home_Content article h1
+{
+    margin-bottom: 35px;
+    margin-top: 140px;
+}
+.Home_Content p
+{
+    margin-bottom: 40px;
+}
+.Home_Content .Readmore
+{
+    display: block;
+    clear: both;
+    float: left;
+    height: 60px;
+    padding: 0 30px;
+    font: normal 20px/60px 'open_sanslight';
+    color: #fff;
+    background: #fe5214;
+    -webkit-transition: background-color 700ms ease-in;
+    -moz-transition: background-color 700ms ease-in;
+    -o-transition: background-color 700ms ease-in;
+    -ms-transition: background-color 700ms ease-in;
+    text-decoration: none;
+    transition: background-color 700ms ease-in;
+}
+.Home_Content .Readmore:hover
+{
+    background: #d34310;
+}
+.Home_Content aside
+{
+    width: 546px;
+    min-height: 785px;
+    margin-right: 70px;
+    background: url(../images/home-bg-drop.png) no-repeat 0 0;
+}
+.Home_Content aside .SignInForm
+{
+    display: block;
+    margin: 235px auto 0;
+    width: 375px;
+}
+.SignInForm form
+{
+    display: block;
+}
+.SignInForm h2
+{
+    display: block;
+    font: normal 32px 'open_sanslight';
+    color: #b6cbd6;
+    text-align: center;
+    margin: 0 0 35px;
+}
+.SignInForm fieldset
+{
+    display: block;
+    margin: 0 0 10px;
+}
+.SignInForm fieldset label
+{
+    float: left;
+    width: 85px;
+    min-height: 38px;
+    font: normal 14px/39px 'open_sanslight';
+    color: #707d85;
+    margin-right: 22px;
+}
+.SignInForm fieldset input
+{
+    width: 255px;
+    height: 48px;
+    font: normal 14px/38px 'open_sanslight';
+    color: #707d85;
+    background: url(../Images/txt.png) top center no-repeat;
+    border: none;
+    outline: 0;
+    text-indent: 10px;
+}
+
+
+.SignInForm fieldset select
+{
+    width: 255px;
+    height: 48px;
+    font: normal 14px/38px 'open_sanslight';
+    color: #707d85;
+    background: url(../Images/txt.png) top center no-repeat;
+    border: none;
+    outline: 0;
+}
+
+
+.SignInForm fieldset .dropdown
+{
+    width: 255px;
+    height: 48px;
+    float: left;
+    background: url(../images/txt.png) top center no-repeat;
+    border: none;
+    padding: 0;
+    font: normal 14px/38px 'open_sanslight';
+    color: #707d85;
+    outline: 0;
+}
+
+.SignInForm fieldset .dropdown select
+{
+    background: transparent;
+    border: none;
+    position: relative;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    outline-color: #FFFFFF;
+    overflow: hidden;
+    appearance: none;
+}
+
+.SignInForm fieldset .dropdown .dropdownArrow
+{
+    background: url("../images/ddl1.png") no-repeat transparent;
+    height: 48px;
+    width: 23px;
+    z-index: 1000;
+    position: relative;
+    pointer-events: none;
+    top: -51px;
+    right: -232px;
+}
+
+.RadComboBoxDropDown
+{
+    background-color: #ffffff;
+    position: absolute;
+    cursor: default;
+    font: normal 14px/38px 'open_sanslight';
+    color: #707d85;
+    border: none;
+}
+.RadComboBoxDropDown_Default
+{
+    border-color: #ccc;
+}
+
+.RadComboBoxDropDown .rcbList
+{
+    list-style: none outside;
+    position: relative;
+    margin: 0;
+    border: none;
+    padding: 0;
+}
+.RadComboBoxDropDown .rcbList .rcbItem
+{
+    font: normal 14px/38px 'open_sanslight';
+    color: #707d85;
+}
+.RadComboBoxDropDown .rcbList .rcbHovered
+{
+    background-color: #237116;
+    font: normal 14px/38px 'open_sanslight';
+    color: #ffffff;
+}
+
+
+.SignInForm fieldset.Login
+{
+    display: block;
+    margin: 0 0 35px;
+}
+.SignInForm fieldset.Login input
+{
+    width: 152px;
+    height: 60px;
+    font: normal 20px/60px 'open_sansregular';
+    color: #fff;
+    background: #fe5214;
+    -webkit-transition: background-color 700ms ease-in;
+    -moz-transition: background-color 700ms ease-in;
+    -o-transition: background-color 700ms ease-in;
+    -ms-transition: background-color 700ms ease-in;
+    text-decoration: none;
+    transition: background-color 700ms ease-in;
+    cursor: pointer;
+    float: right;
+    border: none;
+    margin-right: 5px;
+}
+.SignInForm fieldset.Login input:hover
+{
+    background: #d34310;
+}
+.SignInForm fieldset.Login .Powered-By
+{
+    float: left;
+    height: 40px;
+    position: relative;
+    margin-top: 15px;
+}
+.SignInForm fieldset.Login .Powered-By span
+{
+    font: normal 9px/40px 'open_sanslight';
+    display: block;
+}
+.SignInForm fieldset.Login .Powered-By img
+{
+    position: absolute;
+    right: -20px;
+    top: 5px;
+}
+.SignInForm fieldset.Last
+{
+    text-align: center;
+}
+/*********************************
+ Section End 
+**********************************/
+
+
+/*********************************
+ Footer start
+**********************************/
+
+
+.push
+{
+    height: 65px;
+}
+footer
+{
+    background-color: rgb(72,85,100);
+    font-family: 'open_sanslight';
+    height: 65px;
+    font-size: 16px;
+    letter-spacing: 0pt;
+    line-height: 65px;
+    color: rgb(136,152,170);
+    text-align: left;
+    display: block;
+    clear: both;
+}
+footer .FooterInn
+{
+    width: 1170px;
+    margin: 0 auto;
+}
+footer a
+{
+    color: rgb(136,152,170);
+    text-decoration: none;
+}
+footer p
+{
+    float: left;
+    width: 650px;
+    margin: 0;
+}
+footer ul
+{
+    float: right;
+    margin-top: -48px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+footer ul li
+{
+    float: left;
+}
+footer a:hover
+{
+    opacity: 0.6;
+    text-decoration: none;
+}
+footer a
+{
+    transition: 0.1s linear;
+    -webkit-transition: 0.1s linear;
+    -o-transition: 0.1s linear;
+    -moz-transition: 0.1s linear;
+    -ms-transition: 0.1s linear;
+}
+
+/*********************************
+ Footer End
+**********************************/

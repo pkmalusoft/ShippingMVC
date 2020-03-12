@@ -1,245 +1,257 @@
 ﻿@model IEnumerable<DAL.Report_Ledger_Result>
 
-@{
+    @{
     ViewBag.Title = "Ledgerreport";
     Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
-}
-
-
-
-
-
-<style>
-    tfoot
-    {
-        display: table-header-group;
     }
 
-    #tbl1 tr
-    {
-        height:35px;
-    }
-    .searchdiv {
-        background-color: #fff;
-        width: 100%;
-        margin: 0 auto;
-        max-width: 500px;
-        padding: 20px;
-        margin-top: 50px;
-        border-radius: 10px;
-        box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
-    }
-    .tblbackground {
-        background-color: #fff;
-        box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
-        border-radius: 10px;
-    }
-    .headinglabel {
-        font-family: Calibri;
-        font-size: 16px;
-        color: #2b2929 !important;
-    }
-</style>
-
-<script src="@Url.Content("~/Scripts/angular.js")"></script>
-<script src="@Url.Content("~/MyJsFiles/PrintReportInvoices.js")"></script>
-   <script type="text/javascript">
 
 
 
-       function printDiv(divName) {
-           var printContents = document.getElementById(divName).innerHTML;
-           var originalContents = document.body.innerHTML;
 
-           document.body.innerHTML = printContents;
+    <style>
+        tfoot {
+            display: table-header-group;
+        }
 
-           window.print();
+        #tbl1 tr {
+            height: 35px;
+        }
 
-           document.body.innerHTML = originalContents;
-       }
+        .searchdiv {
+            background-color: #fff;
+            width: 100%;
+            margin: 0 auto;
+            max-width: 500px;
+            padding: 20px;
+            margin-top: 50px;
+            border-radius: 10px;
+            box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
+        }
+
+        .tblbackground {
+            background-color: #fff;
+            box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
+            border-radius: 10px;
+        }
+
+        .headinglabel {
+            font-family: Calibri;
+            font-size: 16px;
+            color: #2b2929 !important;
+        }
+    </style>
+
+    <script src="@Url.Content(" ~/Scripts/angular.js")"></script>
+    <script src="@Url.Content(" ~/MyJsFiles/PrintReportInvoices.js")"></script>
+    <script type="text/javascript">
+
+
+
+        function printDiv(divName) {
+            var printContents = document.getElementById(divName).innerHTML;
+            var originalContents = document.body.innerHTML;
+
+            document.body.innerHTML = printContents;
+
+            window.print();
+
+            document.body.innerHTML = originalContents;
+        }
     </script>
-  
-<script type="text/javascript">
 
-    $(document).ready(function () {
+    <script type="text/javascript">
 
-        var startdate = '@Session["FyearFrom"].ToString()';
-        var enddate = '@Session["FyearTo"].ToString()';
-        var sd = new Date(startdate);
-        var ed = new Date(enddate);
+        $(document).ready(function () {
 
-
-        function GetCurrentDate() {
-            var m_names = new Array("Jan", "Feb", "Mar",
-    "Apr", "May", "Jun", "Jul", "Aug", "Sep",
-    "Oct", "Nov", "Dec");
-
-            var d = new Date();
-            var curr_date = d.getDate();
-            var curr_month = d.getMonth();
-            var curr_year = d.getFullYear();
-            return (curr_date + "-" + m_names[curr_month]
-            + "-" + curr_year);
-        }
-
-        function GetStartDate() {
-            var m_names = new Array("Jan", "Feb", "Mar",
-    "Apr", "May", "Jun", "Jul", "Aug", "Sep",
-    "Oct", "Nov", "Dec");
-
-            var d = new Date("@Session["FyearFrom"].ToString()");
-            var curr_date = d.getDate();
-            var curr_month = d.getMonth();
-            var curr_year = d.getFullYear();
-            return (curr_date + "-" + m_names[curr_month]
-            + "-" + curr_year);
-        }
-
-        $("#frmdate").val(GetStartDate());
-        $("#todate").val(GetCurrentDate());
+            var startdate = '@Session["FyearFrom"].ToString()';
+            var enddate = '@Session["FyearTo"].ToString()';
+            var sd = new Date(startdate);
+            var ed = new Date(enddate);
 
 
-        $("#frmdate").css("border-radius", "5px");
-        $("#todate").css("border-radius", "5px");
+            function GetCurrentDate() {
+                var m_names = new Array("Jan", "Feb", "Mar",
+                    "Apr", "May", "Jun", "Jul", "Aug", "Sep",
+                    "Oct", "Nov", "Dec");
 
-        $("#frmdate").datepicker({
-            dateFormat: 'dd-M-yy',
-            changeYear: true, changeMonth: true,
-            minDate: sd,
-            maxDate: ed,
+                var d = new Date();
+                var curr_date = d.getDate();
+                var curr_month = d.getMonth();
+                var curr_year = d.getFullYear();
+                return (curr_date + "-" + m_names[curr_month]
+                    + "-" + curr_year);
+            }
+
+            function GetStartDate() {
+                var m_names = new Array("Jan", "Feb", "Mar",
+                    "Apr", "May", "Jun", "Jul", "Aug", "Sep",
+                    "Oct", "Nov", "Dec");
+
+                var d = new Date("@Session["FyearFrom"].ToString()");
+                var curr_date = d.getDate();
+                var curr_month = d.getMonth();
+                var curr_year = d.getFullYear();
+                return (curr_date + "-" + m_names[curr_month]
+                    + "-" + curr_year);
+            }
+              function GetEndDate() {
+                var m_names = new Array("Jan", "Feb", "Mar",
+                    "Apr", "May", "Jun", "Jul", "Aug", "Sep",
+                    "Oct", "Nov", "Dec");
+
+                var d = new Date("@Session["FyearTo"].ToString()");
+                var curr_date = d.getDate();
+                var curr_month = d.getMonth();
+                var curr_year = d.getFullYear();
+                return (curr_date + "-" + m_names[curr_month]
+                    + "-" + curr_year);
+            }
+            $("#frmdate").val(GetStartDate());
+            $("#todate").val(GetEndDate());
+
+
+            $("#frmdate").css("border-radius", "5px");
+            $("#todate").css("border-radius", "5px");
+
+            $("#frmdate").datepicker({
+                dateFormat: 'dd-M-yy',
+                changeYear: true, changeMonth: true,
+                minDate: sd,
+                maxDate: ed,
+
+            });
+
+
+
+            $("#todate").datepicker({
+                dateFormat: 'dd-M-yy',
+                changeYear: true, changeMonth: true,
+                minDate: sd,
+                maxDate: ed,
+            });
+
+
+
+
+            $("#frmdate").css("border-radius", "5px");
+            $("#AcHeadID").css("border-radius", "5px");
+            $("#btnsearch").click(function () {
+                var frm = $("#frmdate").val();
+                var dto = $("#todate").val();
+                var acid = $("#AcHeadID option:selected").val();
+                var from = new Date($('#frmdate').val());
+                var to = new Date($('#todate').val());
+
+                if (frm == "") {
+
+                    $("#alert").show();
+                    return false;
+                }
+                else if (dto == "") {
+                    $("#alert").show();
+                    return false;
+                }
+                else if (acid == "") {
+                    $("#alert").show();
+                    return false;
+                }
+                else if (from > to) {
+                    $("#date").show();
+                    return false;
+                }
+
+                else {
+                    $("#alert").hide();
+                    $("#date").hide();
+                    showLoading();
+                    //  vaif(rf newfrom = from.getDay() + "/" + from.getMonth() + "/" + from.getFullYear();
+                    //  var newto = dto.getDay() + "/" + dto.getMonth() + "/" + dto.getFullYear();
+                    //alert(newfrom);
+                    //alert(newto);
+
+
+                    $.ajax({
+                        url: "@Url.Action("GetLedgerreport", "AccountingReport")",
+                        data: { fdate: frm, tdate: dto, acheadid: acid },
+                        type: "GET",
+                        dataType: "json",
+                        success: function (data) {
+                            hideLoading();
+                            $("#result").css("display", "block");
+
+
+                            $("#result").html(data.view);
+
+                        },
+                        error: function () {
+                            $("#result").css("display", "none");
+
+                        }
+                    });
+                }
+            });
+
+
 
         });
-      
-       
-
-        $("#todate").datepicker({
-            dateFormat: 'dd-M-yy',
-            changeYear: true, changeMonth: true,
-            minDate: sd,
-            maxDate: ed,
-        });
-
-   
-
-   
-        $("#frmdate").css("border-radius", "5px");
-        $("#AcHeadID").css("border-radius", "5px");
-         $("#btnsearch").click(function () {
-             var frm = $("#frmdate").val();
-             var dto = $("#todate").val();
-             var acid = $("#AcHeadID option:selected").val();
-               var from = new Date($('#frmdate').val());
-              var to = new Date($('#todate').val());
-             
-             if (frm == "") {
-
-                 $("#alert").show();
-                 return false;
-             }
-             else if (dto == "") {
-                 $("#alert").show();
-                 return false;
-             }
-             else if (acid == "") {
-                 $("#alert").show();
-                 return false;
-             }
-                    else if (from > to) {
-                         $("#date").show();
-                         return false;
-                    }
-
-             else {
-                 $("#alert").hide();
-                 $("#date").hide();
-                 showLoading();
-                 //  vaif(rf newfrom = from.getDay() + "/" + from.getMonth() + "/" + from.getFullYear();
-                 //  var newto = dto.getDay() + "/" + dto.getMonth() + "/" + dto.getFullYear();
-                 //alert(newfrom);
-                 //alert(newto);
-
-
-                 $.ajax({
-                     url: "@Url.Action("GetLedgerreport", "AccountingReport")",
-                     data: { fdate: frm, tdate: dto, acheadid: acid },
-                     type: "GET",
-                     dataType: "json",
-                     success: function (data) {
-                         hideLoading();
-                         $("#result").css("display", "block");
-                      
-                      
-                             $("#result").html(data.view);
-                       
-                     },
-                     error: function () {
-                         $("#result").css("display", "none");
-                       
-                     }
-                 });
-             }
-        });
 
 
 
-});
+    </script>
 
+    <section class="content-header">
+        <h1 class="headingfont">Ledger Report<small></small></h1>
 
+    </section>
 
-</script>
-
-        <section class="content-header">
-            <h1 class="headingfont">Ledger Report<small></small></h1>
-
-        </section>
-      
-        <section class="content">
-            <div class="searchdiv">
-             <div id="date" style="color:red;display:none;margin-left:10px;">*Please select valid date</div>
-                  <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
-             <div class="row no-margin">
-                   <div class="col-md-4">   
-                      <label class="headinglabel required">Account Head</label>
-                      @Html.DropDownList("AcHeadID", new SelectList(ViewBag.legherhead, "AcHeadID", "AcHead1"),"Select", new { @class = "form-control" })
+    <section class="content">
+        <div class="searchdiv">
+            <div id="date" style="color:red;display:none;margin-left:10px;">*Please select valid date</div>
+            <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
+            <div class="row no-margin">
+                <div class="col-md-4">
+                    <label class="headinglabel required">Account Head</label>
+                    @Html.DropDownList("AcHeadID", new SelectList(ViewBag.legherhead, "AcHeadID", "AcHead1"),"Select", new { @class = "form-control" })
 
                 </div>
 
-                 <div class="col-md-4">
-                       <label class="headinglabel required">From Date</label>
-                       
-                            <input type="text" id="frmdate" class="form-control"  />
-                    
-                 </div>  
-                 <div class="col-md-4">   
-                           <label class="headinglabel required">To Date</label>
-                     
-                            <input type="text" id="todate" class="form-control"  />
-                  </div>   
+                <div class="col-md-4">
+                    <label class="headinglabel required">From Date</label>
+
+                    <input type="text" id="frmdate" class="form-control" />
+
+                </div>
+                <div class="col-md-4">
+                    <label class="headinglabel required">To Date</label>
+
+                    <input type="text" id="todate" class="form-control" />
+                </div>
 
             </div>
 
             <div class="row no-margin" style="padding-top:10px">
                 <div class="col-md-12 butdivs">
-                     <button id="btnsearch" class="btn btn-primary btnwid sidebar-toggle" data-toggle="offcanvas">Generate</button>
+                    <button id="btnsearch" class="btn btn-primary btnwid sidebar-toggle" data-toggle="offcanvas">Generate</button>
                 </div>
             </div>
-                </div>
-<hr />
-    <div class="row no-margin" style="padding-top:10px">
-         <div id="result" class="col-md-12">
+        </div>
+        <hr />
+        <div class="row no-margin" style="padding-top:10px">
+            <div id="result" class="col-md-12">
 
-         </div>
+            </div>
 
-          <div id="error" class="col-md-12" style="display:none;background-color:white;color:red;padding:10px">
+            <div id="error" class="col-md-12" style="display:none;background-color:white;color:red;padding:10px">
                 <h1>No Records Found</h1>
-         </div>
-    </div>
+            </div>
+        </div>
 
-    
-         
-         
-     
 
-        </section>
-  
+
+
+
+
+    </section>
+
 

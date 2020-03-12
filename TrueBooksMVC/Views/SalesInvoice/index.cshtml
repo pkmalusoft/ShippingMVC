@@ -327,6 +327,7 @@
 
  $("#frmdate").css("border-radius", "5px");
     function GetCurrentDate() {
+        debugger;
         var m_names = new Array("Jan", "Feb", "Mar","Apr", "May", "Jun", "Jul", "Aug", "Sep","Oct", "Nov", "Dec");
         var startdate = '@Session["FyearFrom"].ToString()';
         var enddate = '@Session["FyearTo"].ToString()';
@@ -334,8 +335,8 @@
         var ed = new Date(enddate);
         var str = new Date(startdate);
         var d = new Date();
-        var curr_date = d.getDate();
-        var curr_month = d.getMonth();
+        var curr_date = sd.getDate();
+        var curr_month = sd.getMonth();
         var curr_year = str.getFullYear();
         return (curr_date + "-" + m_names[curr_month] + "-" + curr_year);
     }

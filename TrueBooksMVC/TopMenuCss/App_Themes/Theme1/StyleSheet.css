@@ -1,0 +1,20 @@
+﻿.txtCommon
+{
+    font: normal 14px/32px 'open_sanslight';
+    color: #000000;
+    height: 32px;    
+}
+.textBoxCapital
+{
+    text-transform: capitalize;
+}
+
+.textBoxUpper
+{
+    text-transform: uppercase;
+}
+
+.textBoxLower
+{
+    text-transform: lowercase;
+}

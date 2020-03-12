@@ -43,6 +43,9 @@ namespace TrueBooksMVC.Controllers
         {
             ViewBag.country = DropDownList<CountryMaster>.LoadItems(
                 ObjectSourceModel.GetCountry(), "CountryID", "CountryName");
+            var supplierMasterTypes = (from d in db.SupplierTypeMasters  select d).ToList();
+            ViewBag.SupplierType = DropDownList<SupplierTypeMaster>.LoadItems(
+                supplierMasterTypes, "SupplierTypeID", "SupplierType");
             var data = db.RevenueTypes.ToList();
             ViewBag.revenue = data;
             return View();
@@ -65,6 +68,9 @@ namespace TrueBooksMVC.Controllers
             {
                 ViewBag.country = DropDownList<CountryMaster>.LoadItems(
                     ObjectSourceModel.GetCountry(), "CountryID", "CountryName");
+                var supplierMasterTypes = (from d in db.SupplierTypeMasters  select d).ToList();
+                ViewBag.SupplierType = DropDownList<SupplierTypeMaster>.LoadItems(
+                    supplierMasterTypes, "SupplierTypeID", "SupplierType");
                 var query = (from t in db.Suppliers where t.SupplierName == supplier.SupplierName select t).ToList();
 
                 if (query.Count > 0)
@@ -98,6 +104,9 @@ namespace TrueBooksMVC.Controllers
             {
                 return HttpNotFound();
             }
+            var supplierMasterTypes = (from d in db.SupplierTypeMasters  select d).ToList();
+            ViewBag.SupplierType = DropDownList<SupplierTypeMaster>.LoadItems(
+                supplierMasterTypes, "SupplierTypeID", "SupplierType");
             ViewBag.country = new SelectList(ObjectSourceModel.GetCountry(), "CountryID", "CountryName", supplier.CountryID);
             return View(supplier);
         }
@@ -177,5 +186,72 @@ namespace TrueBooksMVC.Controllers
             }
             return Json(lst, JsonRequestBehavior.AllowGet);
         }
+        public ActionResult SupplierType()
+        {
+            return View(db.SupplierTypeMasters.OrderBy(x => x.SupplierType).ToList());
+        }
+        public ActionResult CreateSupplierType()
+        {
+            return View();
+        }
+
+       
+        [HttpPost]
+        public ActionResult CreateSupplierType(SupplierTypeMaster suppliertypemaster)
+        {
+            if (ModelState.IsValid)
+            {
+                var query = (from t in db.SupplierTypeMasters where t.SupplierType == suppliertypemaster.SupplierType select t).ToList();
+
+                if (query.Count > 0)
+                {
+
+                    ViewBag.SuccessMsg = "Supplier Type already exist";
+                    return View();
+                }
+                db.SupplierTypeMasters.Add(suppliertypemaster);
+                db.SaveChanges();
+                ViewBag.SuccessMsg = "You have successfully added SupplierType.";
+                return View("SupplierType", db.SupplierTypeMasters.ToList());
+            }
+
+            return View(suppliertypemaster);
+        }
+        public ActionResult EditSupplierType(int id = 0)
+        {
+            SupplierTypeMaster Supmaster = db.SupplierTypeMasters.Find(id);
+            if (Supmaster == null)
+            {
+                return HttpNotFound();
+            }
+            return View(Supmaster);
+        }
+
+    
+
+        [HttpPost]
+        public ActionResult EditSupplierType(SupplierTypeMaster SupplierTypemaster)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(SupplierTypemaster).State = EntityState.Modified;
+                db.SaveChanges();
+                ViewBag.SuccessMsg = "You have successfully updated Role.";
+                return View("SupplierType", db.SupplierTypeMasters.ToList());
+            }
+            return View(SupplierTypemaster);
+        }
+
+     
+        public ActionResult DeletesupplierTypeConfirmed(int id)
+        {
+            SupplierTypeMaster suppliertype = db.SupplierTypeMasters.Find(id);
+            db.SupplierTypeMasters.Remove(suppliertype);
+            db.SaveChanges();
+            ViewBag.SuccessMsg = "You have successfully deleted Supplier Type.";
+            return View("SupplierType", db.SupplierTypeMasters.ToList());
+        }
+
+        //CreateSupplierType
     }
 }

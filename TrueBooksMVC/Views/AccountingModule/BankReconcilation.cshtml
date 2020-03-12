@@ -7,6 +7,7 @@
     tfoot {
         display: table-header-group;
     }
+
     .tblbackground {
         background-color: #fff;
         box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
@@ -29,15 +30,16 @@
         font-size: 16px;
         color: #2b2929 !important;
     }
-
-
 </style>
 
 <script type="text/javascript">
- 
+
 
     $(document).ready(function () {
-
+          var startdate = '@Session["FyearFrom"].ToString()';
+        var enddate = '@Session["FyearTo"].ToString()';
+        var sd = new Date(startdate);
+        var ed = new Date(enddate);
         function GetCurrentDate() {
             var m_names = new Array("Jan", "Feb", "Mar",
     "Apr", "May", "Jun", "Jul", "Aug", "Sep",
@@ -65,17 +67,19 @@
         }
 
         $("#frmdate").val(GetStartDate());
-        $("#todate").val(GetCurrentDate());
+        $("#todate").val(GetStartDate());
 
 
 
 
         $("#frmdate").css("border-radius", "5px");
         $("#todate").css("border-radius", "5px");
-     
+
         $("#frmdate").datepicker({
             dateFormat: 'dd-M-yy',
             changeYear: true, changeMonth: true,
+            minDate: sd,
+            maxDate: ed,
 
 
         });
@@ -85,6 +89,8 @@
         $("#todate").datepicker({
             dateFormat: 'dd-M-yy',
             changeYear: true, changeMonth: true,
+            minDate: sd,
+            maxDate: ed,
 
         });
 
@@ -133,7 +139,7 @@
                         alert("Failed! Please try again.");
                     }
                 });
-            
+
          });
 
     });
@@ -155,30 +161,31 @@
         </div>
     }
     <div class="searchdiv">
-    <div class="row no-margin">
-        <div class="col-md-3">
-            <label class="required headinglabel">
-                Bank Account
-            </label>
-            @Html.DropDownList("BankHead", new SelectList(@ViewBag.Data, "AcHeadID", "AcHead"), "Select", new { @class = "form-control" })
+        <div class="row no-margin">
+            <div class="col-md-12">
+                <label class="required headinglabel">
+                    Bank Account
+                </label>
+                @Html.DropDownList("BankHead", new SelectList(@ViewBag.Data, "AcHeadID", "AcHead"), "Select", new { @class = "form-control" })
+            </div>
         </div>
+        <div class="row no-margin" style="padding-top:10px">
 
-        
-
-           <div class="col-md-3">
-                            <label class="headinglabel required"> From Date</label>
-                             <input type="text" id="frmdate" class="form-control"  />
-                 </div>
-                    <div class="col-md-3">
-                            <label class="headinglabel required"> To Date</label>
-                             <input type="text" id="todate"  class="form-control"  />
-                 </div>
-
-          <div class="col-md-3" style="padding-top: 26px;text-align: center;">
-              <input type="button" id="btnsearch" value="Search" class="btn btn-primary btnwidth" />
-              </div>
+            <div class="col-md-6">
+                <label class="headinglabel required"> From Date</label>
+                <input type="text" id="frmdate" class="form-control" />
+            </div>
+            <div class="col-md-6">
+                <label class="headinglabel required"> To Date</label>
+                <input type="text" id="todate" class="form-control" />
+            </div>
+        </div>
+        <div class="row no-margin" style="padding-top:10px">
+            <div class="col-md-12 butdivs">
+                <input type="button" id="btnsearch" value="Search" class="btn btn-primary btnwidth" />
+            </div>
+        </div>
     </div>
-  </div>
 
     <div class="row no-margin" style="padding-top:20px">
         <div class="col-md-12 " id="result" style="padding-top:20px">

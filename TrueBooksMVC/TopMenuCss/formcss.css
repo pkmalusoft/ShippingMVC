@@ -1,0 +1,1113 @@
+@import url('font-face.css');
+/* Web Layout Start */
+html, body
+{
+    min-height: 100%;
+    height: 100%;
+}
+body
+{
+    background: #fff;
+}
+.Wrapper
+{
+    display: block;
+    width: 100%;
+    min-height: 100%;
+    height: auto !important;
+    margin: 0 auto -65px;
+}
+.Container
+{
+    display: block;
+    width: 100%;
+    margin: 0 auto;
+}
+.group:before, .group:after
+{
+    content: "";
+    display: table;
+}
+.group:after
+{
+    content: "";
+    display: table;
+    clear: both;
+}
+.group
+{
+    zoom: 1; /* For IE 6/7 (trigger hasLayout) */
+}
+
+/*********************************
+ Top Container Start
+**********************************/
+
+.Top_Container
+{
+    display: block;
+    width: 1060px;
+    margin: 38px auto 0;
+}
+.Top_Container a.True-Books-Logo
+{
+    float: left;
+    width: 159px;
+    height: 40px;
+    text-indent: -999999px;
+    background: url(../images/true-books-logo.png) no-repeat 0 0;
+}
+.Top_Container nav
+{
+    float: right;
+}
+.Top_Container nav ul
+{
+    display: block;
+    margin: 0;
+    padding: 0;
+}
+.Top_Container nav ul li
+{
+    float: left;
+    margin-left: 15px;
+}
+.Top_Container nav ul li:first-child
+{
+    margin-left: 0;
+}
+.Top_Container nav ul li a
+{
+    display: block;
+    font: normal 14px 'open_sanslight';
+    padding: 0 10px;
+    color: #a7b3c0;
+    text-decoration: none;
+    -webkit-transition: color 700ms linear;
+    -moz-transition: color 700ms linear;
+    -o-transition: color 700ms linear;
+    -ms-transition: color 700ms linear;
+    transition: color 700ms linear;
+}
+.Top_Container nav ul li a:hover
+{
+    color: #6e7781;
+}
+.Top_Container nav ul li a.Live-Chat
+{
+    color: #ffffff;
+    background: #fe5214 url(../images/live-chat-icon.png) no-repeat 10px 50%;
+    padding-left: 40px;
+    font-size: 16px;
+    -webkit-transition: background-color 700ms linear;
+    -moz-transition: background-color 700ms linear;
+    -o-transition: background-color 700ms linear;
+    -ms-transition: background-color 700ms linear;
+    transition: background-color 700ms linear;
+}
+.Top_Container nav ul li a.Live-Chat:hover
+{
+    background-color: #d34310;
+}
+
+.Top_Container nav ul li .select_Wrapper
+{
+    float: left;
+    width: auto; /*height:30px; 	overflow:hidden;*/
+    background: #fff url(../images/select-drop-arrow.png) no-repeat 95% 70%;
+    color: #65788c;
+    font: 14px 'open_sanslight';
+    padding: 0 0;
+}
+
+.Top_Container nav ul li .select_Wrapper .sbHolder
+{
+    background-color: #fff;
+    border: none;
+    font: 14px 'open_sanslight';
+    font-weight: normal;
+    height: 38px;
+    position: relative;
+    width: 130px;
+}
+.Top_Container nav ul li .select_Wrapper .sbHolder:focus .sbSelector
+{
+}
+.Top_Container nav ul li .select_Wrapper .sbSelector
+{
+    display: block;
+    height: 38px;
+    left: 0;
+    line-height: 38px;
+    outline: none;
+    overflow: hidden;
+    position: absolute;
+    text-indent: 10px;
+    top: 0;
+    width: 130px;
+    padding: 0;
+}
+.Top_Container nav ul li .select_Wrapper .sbSelector:link, .sbSelector:visited, .sbSelector:hover
+{
+    color: #65788c;
+    outline: none;
+    text-decoration: none;
+}
+.Top_Container nav ul li .select_Wrapper .sbToggle
+{
+    background: url(../images/select-drop-arrow.png) 0 50% no-repeat;
+    display: block;
+    height: 38px;
+    outline: none;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 20px;
+    padding: 0;
+}
+.Top_Container nav ul li .select_Wrapper .sbToggle:hover
+{
+    background: url(../images/select-drop-arrow.png) 0 50% no-repeat;
+}
+.Top_Container nav ul li .select_Wrapper .sbToggleOpen
+{
+    background: url(../images/select-drop-arrow.png) 0 50% no-repeat;
+}
+.Top_Container nav ul li .select_Wrapper .sbToggleOpen:hover
+{
+    background: url(../images/select-drop-arrow.png) 0 50% no-repeat;
+}
+.Top_Container nav ul li .select_Wrapper .sbHolderDisabled
+{
+    background-color: #3C3C3C;
+    border: solid 1px #515151;
+}
+.Top_Container nav ul li .select_Wrapper .sbHolderDisabled .sbHolder
+{
+}
+.Top_Container nav ul li .select_Wrapper .sbHolderDisabled .sbToggle
+{
+}
+.Top_Container nav ul li .select_Wrapper .sbOptions
+{
+    background-color: #fff;
+    border: solid 1px #dedee7;
+    list-style: none;
+    left: -1px;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 30px;
+    width: 130px;
+    z-index: 1;
+    overflow-y: auto;
+}
+.Top_Container nav ul li .select_Wrapper .sbOptions li
+{
+    padding: 0 7px;
+    margin: 0;
+    float: none;
+}
+.Top_Container nav ul li .select_Wrapper .sbOptions a
+{
+    border-bottom: dotted 1px #515151;
+    display: block;
+    outline: none;
+    padding: 7px 0 7px 3px;
+}
+.Top_Container nav ul li .select_Wrapper .sbOptions a:link, .sbOptions a:visited
+{
+    color: #65788c;
+    text-decoration: none;
+}
+.Top_Container nav ul li .select_Wrapper .sbOptions a:hover, .Top_Container nav ul li .select_Wrapper .sbOptions a:focus, .Top_Container nav ul li .select_Wrapper .sbOptions a.sbFocus
+{
+    color: #c1cc2c;
+}
+.Top_Container nav ul li .select_Wrapper .sbOptions li.last a
+{
+    border-bottom: none;
+}
+.Top_Container nav ul li .select_Wrapper .sbOptions .sbDisabled
+{
+    border-bottom: dotted 1px #515151;
+    color: #999;
+    display: block;
+    padding: 7px 0 7px 3px;
+}
+.Top_Container nav ul li .select_Wrapper .sbOptions .sbGroup
+{
+    border-bottom: dotted 1px #515151;
+    color: #EBB52D;
+    display: block;
+    font-weight: bold;
+    padding: 7px 0 7px 3px;
+}
+.Top_Container nav ul li .select_Wrapper .sbOptions .sbSub
+{
+    padding-left: 17px;
+}
+
+
+
+/*********************************
+ Top Container End
+**********************************/
+
+/*********************************
+ Main Navigation Start
+**********************************/
+nav.MainNav
+{
+    width: 100%;
+    float: left;
+    height: 65px;
+    background: #485564;
+    color: #fff;
+    margin: 0px 0 0;
+}
+nav.MainNav ul
+{
+    display: block;
+    width: 1060px;
+    margin: 0 auto;
+    padding: 0;
+}
+nav.MainNav ul li
+{
+    float: left;
+    border-left: 1px #556170 solid;
+}
+nav.MainNav ul li:first-child
+{
+    border: none;
+}
+nav.MainNav ul li a
+{
+    display: block;
+    text-align: center;
+    font: normal 16px/65px 'open_sansregular';
+    color: #fff;
+    padding: 0 16px;
+    text-decoration: none;
+    background: none;
+    transition: background 500ms ease-in-out;
+    -webkit-transition: background 500ms ease-in-out;
+    -moz-transition: background 500ms ease-in-out;
+    -o-transition: background 500ms ease-in-out;
+    -ms-transition: background 500ms ease-in-out;
+}
+nav.MainNav ul li a:hover, nav.MainNav ul li a.Selected
+{
+    background: #c1cc2c;
+}
+/*********************************
+ Main Navigation End
+**********************************/
+
+/*********************************
+ Bradcrumb Block start
+**********************************/
+.Bradcrumb
+{
+    width: 100%;
+    float: left;
+}
+.Bradcrumb ul
+{
+    display: block;
+    width: 1060px;
+    margin: 0 auto;
+    padding: 35px 0 25px;
+}
+.Bradcrumb ul li
+{
+    list-style: none;
+    float: left;
+    background: url(../images/brad-arrow.png) no-repeat 100% 54%;
+    margin-right: 15px;
+}
+.Bradcrumb ul li a
+{
+    text-decoration: none;
+    color: #c9c7d7;
+    margin-right: 20px;
+    display: block;
+    font: normal 12px 'open_sansregular';
+    transition: color 500ms ease-in-out;
+    -webkit-transition: color 500ms ease-in-out;
+    -moz-transition: color 500ms ease-in-out;
+    -o-transition: color 500ms ease-in-out;
+    -ms-transition: color 500ms ease-in-out;
+}
+.Bradcrumb ul li a:hover, .Bradcrumb ul li a.Selected
+{
+    color: #475464;
+}
+/*********************************
+ Bradcrumb Block end
+**********************************/
+
+
+/*********************************
+ Section Start
+**********************************/
+section
+{
+    display: block;
+    clear: both;
+    width: 1060px;
+    margin: 0 auto;
+}
+section article
+{
+    float: left;
+}
+section aside
+{
+    float: right;
+}
+section h1
+{
+    display: block;
+    font: normal 35px 'open_sanslight';
+    color: #485564;
+    margin: 0;
+    padding: 0;
+}
+section p
+{
+    display: block;
+    font: normal 18px/30px 'open_sanslight';
+    color: #485564;
+}
+.Dashboard
+{
+    display: block;
+    clear: both;
+    width: 100%;
+    float: left;
+}
+.Dashboard h1
+{
+    margin: 25px 0 25px;
+}
+
+/* Pickup Request Form */
+.PickupRequestFOrm
+{
+    float: left;
+    width: 100%;
+    min-height: 100%;
+    height: 100%;
+    margin: 0 0 50px;
+}
+.PickupRequestFOrm .Row
+{
+    float: left;
+    width: 100%;
+    margin: 0 0 20px;
+}
+.PickupRequestFOrm .Colum
+{
+    float: left;
+    width: 339px; /*min-height: 100%;     height: 100%;*/
+    margin: 0 0 0 20px;
+}
+.PickupRequestFOrm .Colum:first-child
+{
+    margin: 0;
+}
+.PickupRequestFOrm .PickUp_Block
+{
+    display: block;
+    width: 97%;
+    padding: 1.5%;
+    background: #f4f4f4;
+}
+.PickupRequestFOrm .Row .Colum .PickUp_Block
+{
+    width: 90.4%;
+    padding: 4.8%;
+    min-height: 710px;
+}
+.PickUp_Block fieldset
+{
+    display: inline-block;
+    vertical-align: top;
+    position: relative;
+}
+.PickupRequestFOrm .Row fieldset
+{
+    margin-left: 50px;
+    width: 306px;
+}
+.PickupRequestFOrm .Row fieldset:first-child
+{
+    margin-left: 0;
+}
+.PickupRequestFOrm .Row .Colum fieldset
+{
+    margin-left: 0;
+    min-height: 60px;
+    margin-bottom: 20px;
+}
+.PickUp_Block fieldset label
+{
+    display: block;
+    float: left;
+    width: 100%;
+    margin: 0 0 5px;
+    font: 14px 'open_sanslight';
+    text-align: left;
+}
+.PickUp_Block fieldset input
+{
+    color: #65788c;
+    font: 14px/38px 'open_sanslight'; /*     float: left;     width: 236px;     height: 38px;     background: #fff;     color: #65788c;     font: 12px/38px 'open_sanslight';     padding: 0 12px;     border: 1px #dedee7 solid;     outline: none; */
+}
+.PickUp_Block fieldset .select_Wrapper
+{
+    float: left;
+    width: 260px;
+    height: 38px;
+}
+
+/* CUSTOM SELECT START */
+/*
+.select_Wrapper .sbHolder
+{
+    background-color: #fff;
+    border: solid 1px #dedee7;
+    font: 12px 'open_sanslight';
+    font-weight: normal;
+    height: 38px;
+    position: relative;
+    width: 260px;
+    outline: none;
+}
+.select_Wrapper .sbHolder:focus .sbSelector
+{
+}
+.select_Wrapper .sbSelector
+{
+    display: block;
+    height: 38px;
+    left: 0;
+    line-height: 38px;
+    outline: none;
+    overflow: hidden;
+    position: absolute;
+    text-indent: 10px;
+    top: 0;
+    width: 260px;
+}
+.select_Wrapper .sbSelector:link, .sbSelector:visited, .sbSelector:hover
+{
+    color: #65788c;
+    outline: none;
+    text-decoration: none;
+}
+.select_Wrapper .sbToggle
+{
+    background: url(../images/select-drop-arrow.png) 0 50% no-repeat;
+    display: block;
+    height: 38px;
+    outline: none;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 20px;
+}
+.select_Wrapper .sbToggle:hover
+{
+    background: url(../images/select-drop-arrow.png) 0 50% no-repeat;
+}
+.select_Wrapper .sbToggleOpen
+{
+    background: url(../images/select-drop-arrow.png) 0 50% no-repeat;
+}
+.select_Wrapper .sbToggleOpen:hover
+{
+    background: url(../images/select-drop-arrow.png) 0 50% no-repeat;
+}
+.select_Wrapper .sbHolderDisabled
+{
+    background-color: #3C3C3C;
+    border: solid 1px #515151;
+}
+.select_Wrapper .sbHolderDisabled .sbHolder
+{
+}
+.select_Wrapper .sbHolderDisabled .sbToggle
+{
+}
+.select_Wrapper .sbOptions
+{
+    background-color: #fff;
+    border: solid 1px #dedee7;
+    list-style: none;
+    left: -1px;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 30px;
+    width: 260px;
+    z-index: 1;
+    overflow-y: auto;
+}
+.select_Wrapper .sbOptions li
+{
+    padding: 0 7px;
+}
+.select_Wrapper .sbOptions a
+{
+    border-bottom: dotted 1px #515151;
+    display: block;
+    outline: none;
+    padding: 7px 0 7px 3px;
+}
+.select_Wrapper .sbOptions a:link, .sbOptions a:visited
+{
+    color: #65788c;
+    text-decoration: none;
+}
+.select_Wrapper .sbOptions a:hover, .select_Wrapper .sbOptions a:focus, .select_Wrapper .sbOptions a.sbFocus
+{
+    color: #c1cc2c;
+}
+.select_Wrapper .sbOptions li.last a
+{
+    border-bottom: none;
+}
+.select_Wrapper .sbOptions .sbDisabled
+{
+    border-bottom: dotted 1px #515151;
+    color: #999;
+    display: block;
+    padding: 7px 0 7px 3px;
+}
+.select_Wrapper .sbOptions .sbGroup
+{
+    border-bottom: dotted 1px #515151;
+    color: #EBB52D;
+    display: block;
+    font-weight: bold;
+    padding: 7px 0 7px 3px;
+}
+.select_Wrapper .sbOptions .sbSub
+{
+    padding-left: 17px;
+}
+
+
+.Half .select_Wrapper .sbHolder
+{
+    width: 90px;
+}
+.Half .select_Wrapper .sbSelector
+{
+    width: 90px;
+}
+.Half .select_Wrapper .sbToggle
+{
+    background: url(../images/select-drop-arrow-dual.png) 0 50% no-repeat;
+}
+.Half .select_Wrapper .sbToggle:hover
+{
+    background: url(../images/select-drop-arrow-dual.png) 0 50% no-repeat;
+}
+.Half .select_Wrapper .sbToggleOpen
+{
+    background: url(../images/select-drop-arrow-dual.png) 0 50% no-repeat;
+}
+.Half .select_Wrapper .sbToggleOpen:hover
+{
+    background: url(../images/select-drop-arrow-dual.png) 0 50% no-repeat;
+}
+.Half .select_Wrapper .sbHolderDisabled
+{
+    background-color: #3C3C3C;
+    border: solid 1px #515151;
+}
+.Half .select_Wrapper .sbHolderDisabled .sbHolder
+{
+}
+.Half .select_Wrapper .sbHolderDisabled .sbToggle
+{
+}
+.Half .select_Wrapper .sbOptions
+{
+    background-color: #fff;
+    border: solid 1px #dedee7;
+    list-style: none;
+    left: -1px;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 30px;
+    width: 90px;
+    z-index: 1;
+    overflow-y: auto;
+}
+.Half .select_Wrapper .sbOptions li
+{
+    padding: 0 7px;
+}
+.Half .select_Wrapper .sbOptions a
+{
+    border-bottom: dotted 1px #515151;
+    display: block;
+    outline: none;
+    padding: 7px 0 7px 3px;
+}
+.Half .select_Wrapper .sbOptions a:link, .sbOptions a:visited
+{
+    color: #65788c;
+    text-decoration: none;
+}
+.Half .select_Wrapper .sbOptions a:hover, .Half .select_Wrapper .sbOptions a:focus, .Half .select_Wrapper .sbOptions a.sbFocus
+{
+    color: #c1cc2c;
+}
+.Half .select_Wrapper .sbOptions li.last a
+{
+    border-bottom: none;
+}
+.Half .select_Wrapper .sbOptions .sbDisabled
+{
+    border-bottom: dotted 1px #515151;
+    color: #999;
+    display: block;
+    padding: 7px 0 7px 3px;
+}
+.Half .select_Wrapper .sbOptions .sbGroup
+{
+    border-bottom: dotted 1px #515151;
+    color: #EBB52D;
+    display: block;
+    font-weight: bold;
+    padding: 7px 0 7px 3px;
+}
+.Half .select_Wrapper .sbOptions .sbSub
+{
+    padding-left: 17px;
+}
+*/
+/* CUSTOM SELECT END */
+
+
+
+
+.PickUp_Block fieldset textarea
+{
+    float: left;
+    width: 236px;
+    height: 74px;
+    background: #fff;
+    color: #65788c;
+    font: 12px 'open_sanslight';
+    padding: 12px 12px;
+    border: 1px #dedee7 solid;
+    outline: none;
+}
+.PickUp_Block fieldset .Contact_Number
+{
+    display: block;
+    clear: both;
+}
+.PickUp_Block fieldset .Contact_Number input.Region-Code
+{
+    float: left;
+    width: 26px;
+    height: 38px;
+    background: #fff;
+    color: #65788c;
+    font: 12px/38px 'open_sanslight';
+    padding: 0 12px;
+    border: 1px #dedee7 solid;
+    border-right: none;
+}
+.PickUp_Block fieldset .Contact_Number input.Area-Code
+{
+    float: left;
+    width: 26px;
+    height: 38px;
+    background: #fff;
+    color: #65788c;
+    font: 12px/38px 'open_sanslight';
+    padding: 0 12px;
+    border: 1px #dedee7 solid;
+    border-right: none;
+}
+.PickUp_Block fieldset .Contact_Number input.Number
+{
+    float: left;
+    width: 136px;
+    height: 38px;
+    background: #fff;
+    color: #65788c;
+    font: 12px/38px 'open_sanslight';
+    padding: 0 12px;
+    border: 1px #dedee7 solid;
+}
+.PickUp_Block fieldset.Half
+{
+    width: 140px;
+    margin-left: 0;
+}
+.PickUp_Block fieldset.Half + fieldset.Half
+{
+    /*margin-left: 22px;*/
+}
+.PickUp_Block fieldset.Half + fieldset.Half + fieldset.Half
+{
+    margin-left: 0;
+}
+.PickUp_Block fieldset.Half + fieldset.Half + fieldset.Half + fieldset.Half
+{
+    /*margin-left: 22px;*/
+}
+
+.PickUp_Block fieldset.Half .select_Wrapper
+{
+    float: left;
+    width: 90px;
+    height: 38px; /*overflow:hidden;*/ /*     background: #fff url(../images/select-drop-arrow-dual.png) no-repeat 95% 50%; */
+    color: #65788c;
+    font: 14px/38px 'open_sanslight';
+    padding: 0 0; /*border: 1px #dedee7 solid;*/
+}
+.PickUp_Block fieldset.Half select
+{
+    float: left;
+    width: 120px;
+    height: 38px;
+    background: transparent;
+    color: #65788c;
+    font: 14px 'open_sanslight';
+    padding: 0 12px;
+    padding: 0 0 \o/8;
+    border: 0;
+    border-radius: 0;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -o-appearance: none;
+    -ms-appearance: none;
+}
+
+.PickUp_Block fieldset.Error label
+{
+    color: #fe5214;
+}
+.PickUp_Block fieldset.Error input, .PickUp_Block fieldset.Error .sbHolder, .PickUp_Block fieldset.Error textarea
+{
+   /* color: #fe5214;
+    border: 1px #fe5214 solid ;*/
+}
+.PickUp_Block fieldset.Error select option
+{
+    color: #65788c;
+}
+.PickUp_Block fieldset .Error-Msg
+{
+    display: none;
+}
+.PickUp_Block fieldset.Error .Error-Msg
+{
+    display: block;
+    clear: both;
+    text-align: right;
+    font: 12px 'open_sanslight';
+    color: #fe5214;
+    width: 260px;
+    position: absolute;
+    left: 0;
+    bottom: -20px;
+}
+.PickUp_Block fieldset .Hint-Icon
+{
+    /*float: left;     margin-left: 12px;     position: relative;*/
+}
+.Hint-Icon a
+{
+    text-decoration: none;
+    float: right;
+    position: relative;
+    margin-top: 500px;
+}
+.Hint-Icon a .TipBox
+{
+    display: none;
+    width: 105px;
+    position: absolute;
+    top: -50px;
+    left: 50%;
+    margin-left: -53px;
+}
+.Hint-Icon a:hover .TipBox
+{
+    display: block;
+    z-index: 9999;
+}
+.Hint-Icon a .TipBox p
+{
+    display: block;
+    clear: both;
+    padding: 0 6px;
+    text-align: center;
+    font: 12px/36px 'open_sanslight';
+    background: #485564;
+    color: #fff;
+    margin: 0;
+}
+.Hint-Icon a .TipBox span
+{
+    display: block;
+    margin: 0 auto;
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid #485564;
+}
+.Hint-Icon a.DatePicker
+{
+    width: 32px;
+    height: 32px;
+    background: url(../images/calendar-icon.png) no-repeat 0 0;
+    margin: 5px 0 0;
+}
+.Hint-Icon a.DatePicker:hover
+{
+    background: url(../images/calendar-icon.png) no-repeat 0 -32px;
+}
+.Hint-Icon a.TimePicker
+{
+    width: 17px;
+    height: 25px;
+    background: url(../images/timepicker-icon.png) no-repeat 0 0;
+    margin: 8px 0 0;
+}
+.Hint-Icon a.TimePicker:hover
+{
+    background: url(../images/timepicker-icon.png) no-repeat 0 -25px;
+}
+
+
+.Hint-Icon a.AddMore
+{
+    /* width: 26px;     height: 26px;     background: url(../images/add-icon.png) no-repeat 0 0;     margin: 8px 0 0;*/
+    width: 26px;
+    height: 26px;
+    background: url(../images/add-icon.png) no-repeat 0 0;
+    margin: -33px 0 0 258px;
+    float: left;
+}
+.Hint-Icon a.AddMore:hover
+{
+    background: url(../images/add-icon.png) no-repeat 0 -26px;
+}
+
+.PickupRequestFOrm fieldset.Action-Buttons
+{
+    display: block;
+    clear: both;
+    float: left;
+    margin-bottom: 20px;
+    text-align: right;
+    width: 100%;
+}
+.PickupRequestFOrm fieldset.Action-Buttons input.Cancel
+{
+    width: 150px;
+    height: 60px;
+    background: #dedee7;
+    text-align: center;
+    font: normal 20px 'open_sansregular';
+    color: #fff;
+    transition: background 700ms ease-in;
+    -webkit-transition: background 700ms ease-in;
+    -moz-transition: background 700ms ease-in;
+    -o-transition: background 700ms ease-in;
+    -ms-transition: background 700ms ease-in;
+    cursor: pointer;
+    border: none;
+    display: inline-block;
+}
+.PickupRequestFOrm fieldset.Action-Buttons input.Cancel:hover
+{
+    background: #a7a7b1;
+}
+.PickupRequestFOrm fieldset.Action-Buttons input.Submit
+{
+    width: 150px;
+    height: 60px;
+    background: #fe5214;
+    text-align: center;
+    font: normal 20px 'open_sansregular';
+    color: #fff;
+    cursor: pointer;
+    transition: background 700ms ease-in;
+    -webkit-transition: background 700ms ease-in;
+    -moz-transition: background 700ms ease-in;
+    -o-transition: background 700ms ease-in;
+    -ms-transition: background 700ms ease-in;
+    border: none;
+    display: inline-block;
+    margin-left: 10px;
+}
+.PickupRequestFOrm fieldset.Action-Buttons input.Submit:hover
+{
+    background: #d34310;
+}
+/* Pickup Request Form end */
+
+/*********************************
+ Section End 
+**********************************/
+
+
+/*********************************
+ Footer start
+**********************************/
+
+
+.push
+{
+    height: 65px;
+}
+footer
+{
+    background-color: rgb(72,85,100);
+    font-family: "Open Sans";
+    height: 65px;
+    font-size: 16px;
+    letter-spacing: 0pt;
+    line-height: 65px;
+    color: rgb(136,152,170);
+    text-align: left;
+    display: block;
+    clear: both;
+}
+footer .FooterInn
+{
+    width: 1060px;
+    margin: 0 auto;
+}
+footer a
+{
+    color: rgb(136,152,170);
+    text-decoration: none;
+}
+footer p
+{
+    float: left;
+    width: 650px;
+    margin: 0;
+}
+footer ul
+{
+    float: right; /*margin-top: -48px; margin: 0; */
+    list-style: none;
+    padding: 0;
+}
+
+footer ul li
+{
+    float: left;
+}
+footer a:hover
+{
+    opacity: 0.6;
+    text-decoration: none;
+}
+footer a
+{
+    transition: 0.1s linear;
+    -webkit-transition: 0.1s linear;
+    -o-transition: 0.1s linear;
+    -moz-transition: 0.1s linear;
+    -ms-transition: 0.1s linear;
+}
+
+/*********************************
+ Footer End
+**********************************/
+
+
+
+
+/*
+div.RadComboBox_Default .rcbInputCellLeft,
+div.RadComboBox_Default .rcbInputCellRight,
+div.RadComboBox_Default .rcbArrowCellLeft,
+div.RadComboBox_Default .rcbArrowCellRight
+{
+background:none;
+
+}
+.RadComboBox table td.rcbInputCell, .RadComboBox .rcbInputCell .rcbInput {
+padding-left: 2px;
+font: normal 14px/38px 'open_sanslight';
+}
+*/
+/*
+fieldset .select
+{
+width: 255px;
+height:38px;
+font: normal 14px/38px 'open_sanslight';
+color: #707d85;
+border:1px solid #ccc;
+outline: 0;
+z-index:1000;
+}
+
+.RadComboBoxDropDown .rcbList
+{
+    list-style: none outside;
+    position: relative;
+    margin: 0;
+    border: none;    
+    padding: 0;
+}
+.RadComboBoxDropDown .rcbList .rcbItem
+{
+    font: normal 14px/38px 'open_sanslight';
+    color: #707d85;
+    border:none;
+}
+.RadComboBoxDropDown .rcbList .rcbHovered
+{
+    background-color: #237116;
+    font: normal 14px/38px 'open_sanslight';
+    color: #ffffff;
+}
+*/
+html body .riSingle .riTextBox, html body .riSingle
+{
+    font-family: 'open_sanslight' !important;
+    font-size: 14px !important;
+    vertical-align: middle !important;
+    /*width: 250px !important;
+    height: 42px !important;*/
+}
+/*
+html body .RadPicker  .rcSingle .rcInputCell span
+{
+    font-family: 'open_sanslight' !important;
+    font-size: 14px !important;
+    vertical-align: middle !important;
+  width: 250px !important;
+    height: 42px !important;
+}*/
+.riDisplay
+{
+    vertical-align: middle !important;
+    font-family: 'open_sanslight' !important;
+    font-size: 14px !important;
+}
+
+

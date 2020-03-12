@@ -1,313 +1,176 @@
 ﻿@model DAL.UserRegistration
+
 @{
-    ViewBag.Title = "Login";
     Layout = null;
 }
+<style>
+    h3.frie_forw {
+        color: #07a7e3;
+        text-transform: uppercase;
+        font-size: 22px;
+        font-weight: 700 !important;
+        font-family: Calibri;
+    }
+    .lice_con {
+        text-align: center;
+        margin-top: 21px;
+    }
 
+    .copy_sys {
+        padding: 8px;
+    }
+    p.fries_forw {
+        text-align: center;
+        color: #6d6969;
+        font-size: 10px;
+    }
+    p.head_secti {
+        font-size: 13px;
+        font-weight: 800;
+    }
+
+    p.lice_forw {
+        font-size: 12px;
+        font-weight: 800;
+    }
+</style>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Triangle | Loging</title>
-    <link rel="shortcut icon" href="/Content/img/fav.png" type="image/x-icon">
-    <link rel="icon" href="/Content/img/fav.png" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="~/favicon.ico">
+    <title>Truebooksoft | Login</title>
 
-    <!-- Bootstrap -->
-    @*<link href="css/bootstrap.min.css" rel="stylesheet">*@
-    <link href="/Content/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="/Content/login/style.css" rel="stylesheet" />
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700&amp;subset=latin-ext" rel="stylesheet">
 
-    <link href="https://fonts.googleapis.com/css?family=Nunito|Roboto:400,700" rel="stylesheet">
-    <link href="css/owl.carousel.css" rel="stylesheet" />
+    @Styles.Render("~/assets/fonts/batch-icons/css/batch-icons.css")
+    @Styles.Render("~/assets/css/bootstrap/bootstrap.min.css")
+    @Styles.Render("~/assets/css/bootstrap/mdb.min.css")
+    @Styles.Render("~/assets/plugins/custom-scrollbar/jquery.mCustomScrollbar.min.css")
+    @Styles.Render("~/assets/css/hamburgers/hamburgers.css")
+    @Styles.Render("~/assets/fonts/font-awesome/css/font-awesome.min.css")
+    @Styles.Render("~/assets/plugins/jvmaps/jqvmap.min.css")
+    @Styles.Render("~/assets/css/quillpro/quillpro.css")
+</head>
 
-    <style>
-        .bg-dark {
-            background-color: #122f3b !important;
-        }
-        .right-column {
-            width: 100%;
-            -webkit-transition: margin-left 0.225s ease-in-out !important;
-            -moz-transition: margin-left 0.225s ease-in-out !important;
-            -o-transition: margin-left 0.225s ease-in-out !important;
-            transition: margin-left 0.225s ease-in-out !important;
-        }
-        .tex_field {
-         
-            float: right;
-         padding:0;
-            min-height: 716px;
-            text-align: left;
-        }
+<body>
+    @using (Html.BeginForm("", "", FormMethod.Post, new { @class = "login clearfix", @role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="container-fluid">
+            <div class="row">
+                <div class="right-column sisu">
+                    <div class="row mx-0">
+                        <div class="col-md-7 order-md-2 signin-right-column px-5 bg-dark" data-qp-bg-image="courierboy.png">
+                            <a class="signin-logo d-sm-block d-md-none" href="#">
+                                <img src="/Content/img/logo_truebook.png" height="32.5" alt="QuillPro">
+                                <h3 style="color:#07a7e3;text-transform: uppercase;font-size: 30px;font-weight: 700 !important;font-family: Calibri;"> Financial Accounting System</h3>
 
+                            </a>
+                            <h1 class="display-4">Sign In To get Started</h1>
+                            <p class="lead mb-5">
+                                Big data latte SpaceTeam unicorn cortado hacker physical computing paradigm.
+                            </p>
+                        </div>
+                        <div class="col-md-5 order-md-1 signin-left-column bg-white px-5" style="padding-top:3rem !important">
+                            <a class="signin-logo d-sm-none d-md-block" href="#" style="text-align:center">
+                                <img src="/Content/img/logo_truebook.png" height="70" alt="QuillPro">
+                                <h3 class="frie_forw"> Financial Accounting System</h3>
 
+                            </a>
+                          
 
-        .display-4 {
-            font-size: 3.5rem;
-            text-transform: uppercase;
-            font-weight: 400 !important;
-            line-height: 1.2;
-            color: #fff;
-            letter-spacing: 0.03em;
-        }
-        .lead {
-            font-size: 1.25rem;
-            font-weight: 300;
-            color: #fff;
-            letter-spacing: 0.03em;
-        }
-        .signin-left-column {
-            padding-top: 4rem;
-            padding-right: 10rem !important;
-            padding-left: 10rem !important;
-            min-height: 717px;
-        }
-        .text-center {
-            text-align: center !important;
-        }
-        .profile-picture.profile-picture-lg {
-            width: 150px;
-            height: 150px;
-            margin: 0 auto;
-            display:none;
-        }
-        .profile-picture {
-            width: 48px;
-            height: 48px;
-            padding-top: 2px;
-            -webkit-border-radius: 50%;
-            -moz-border-radius: 50%;
-            -ms-border-radius: 50%;
-            -o-border-radius: 50%;
-            border-radius: 50%;
-            position: relative;
-        }
-        .bg-gradient {
-            color: #FFFFFF !important;
-            background: #07a7e3;
-            background: -moz-linear-gradient(-45deg, #07a7e3 0%, #32dac3 100%);
-            background: -webkit-linear-gradient(-45deg, #07a7e3 0%, #32dac3 100%);
-            background: linear-gradient(135deg, #07a7e3 0%, #32dac3 100%);
-            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr=$qp-color-1, endColorstr=$qp-color-2,GradientType=1 );
-            -webkit-transition: opacity 0.2s ease-out;
-            -moz-transition: opacity 0.2s ease-out;
-            -o-transition: opacity 0.2s ease-out;
-            transition: opacity 0.2s ease-out;
-        }
-
-        .bg-primary {
-            color: #FFFFFF;
-            background-color: #07a7e3 !important;
-        }
-        .image_user {
-            border-radius: 50%;
-            /* margin: 0 auto; */
-            text-align: center;
-            margin-left: 2px;
-            margin-top: 1px;
-        }
-        a:not(.btn) {
-            color: #07a7e3;
-            -webkit-transition: color 0.225s ease-in-out, background-color 0.225s ease-in-out;
-            -moz-transition: color 0.225s ease-in-out, background-color 0.225s ease-in-out;
-            -o-transition: color 0.225s ease-in-out, background-color 0.225s ease-in-out;
-            transition: color 0.225s ease-in-out, background-color 0.225s ease-in-out;
-        }
-        .loginbox {
-            padding: 10px;
-        }
-        .form-control {
-            display: block;
-            width: 100%;
-            height: 40px;
-            border: 1px solid #d2d2d2;
-            box-shadow:unset;
-        }
-        input:focus {
-            background-color: #2472c5 !important;
-        }
-        .input-group .form-control:first-child, .input-group-addon:first-child, .input-group-btn:first-child > .btn, .input-group-btn:first-child > .btn-group > .btn, .input-group-btn:first-child > .dropdown-toggle, .input-group-btn:last-child > .btn-group:not(:last-child) > .btn, .input-group-btn:last-child > .btn:not(:last-child):not(.dropdown-toggle) {
-            border-top-right-radius: unset !important;
-            border-bottom-right-radius: unset !important;
-        }
-            .input-group .form-control:last-child, .input-group-addon:last-child, .input-group-btn:first-child > .btn-group:not(:first-child) > .btn, .input-group-btn:first-child > .btn:not(:first-child), .input-group-btn:last-child > .btn, .input-group-btn:last-child > .btn-group > .btn, .input-group-btn:last-child > .dropdown-toggle {
-                border-top-left-radius: unset !important;
-                border-bottom-left-radius: unset !important;
-            }
-            .login .form-control {
-            border: unset !important;
-            border-bottom: 1px solid !important;
-        }
-                .login .form-control.login, .login .form-control.pwd, .login .form-control.branch, .login .form-control.year {
-                    background: unset !important;
-                }
-        .from-group {
-            margin-bottom: 20px;
-        }
-        .login .form-control {
-            height: 25px;
-            width: 100%;
-            display: block;
-            border-radius: 4px !important;
-            padding: 0px 0px;
-            font-size: 10px;
-            color: #2f4357;                
-            padding-left: 4px;
-            margin-bottom: 0;
-           
-        }
-        .login .input-group {
-            margin-bottom: 12px;
-            width: 100%;
-        }
-        .btn-primary.btn-gradient:after {
-            background: #32dac3;
-            background: -moz-linear-gradient(-45deg, #32dac3 0%, #32dac3 100%);
-            background: -webkit-linear-gradient(-45deg, #32dac3 0%, #32dac3 100%);
-            background: linear-gradient(135deg, #32dac3 0%, #32dac3 100%);
-            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr=$qp-color-1, endColorstr=$qp-color-2,GradientType=1 );
-            -webkit-transition: opacity 0.2s ease-out;
-            -moz-transition: opacity 0.2s ease-out;
-            -o-transition: opacity 0.2s ease-out;
-            transition: opacity 0.2s ease-out;
-        }
-        .btn-primary, .btn-primary.dropdown-toggle {
-            background-color: #07a7e3 !important;
-        }
-        .no_row {        
-        margin:0;}
-        .padding_none {
-        padding:0;}
-
-       .top_log {
-            /*background-color: #fff;*/
-            height: 292px;
-            padding: 20px;
-           /* border: 4px solid;*/
-        }
-        ul.list_lics {
-            padding: 7px;
-        }
-        li.itenm_lice {
-            list-style-type: none;
-        }
-        img.log_optc {
-            width: 100%;
-        }
-        .lo_images {
-            margin-top: 18%;
-        }
-        .forwad_sys {
-            padding-top: 17%;
-            padding-bottom:14%;
-        }
-        h3.frie_forw {
-            color: #07a7e3;
-            text-align: center;
-            text-transform: uppercase;
-            font-size: 25px;
-            font-weight: 700;
-            font-family: Calibri;
-        }
-        p.fries_forw {
-            text-align: center;
-            color: #6d6969;
-            margin-bottom: 0;
-        }
-            .lice_con {
-            text-align: center;
-            /* margin: 13px; */
-            margin-top: 21px;
-        }
-       
-        .copy_sys {
-            padding: 8px;
-        }
-        p.fries_forw {
-            text-align: center;
-            color: #6d6969;
-            font-size: 10px;
-           
-        }
-        /*.bg_images {
-            background-image: url(../Content/img/rightbg.png);
-            background-position:center;
-            background-size:cover;
-            background-repeat:no-repeat;
-        }*/
-        .login .loginbtn {
-            width: 26%;
-            text-align: center;
-            padding: 0px 0px;
-            height: 36px;
-            background: #2472c5;
-            font-weight: 700;
-            text-transform: uppercase;
-            font-size: 13px;
-            color: #FFF;
-            border: none;
-            border-radius: 4px;
-            -moz-transition-duration: 0.5s;
-            -o-transition-duration: 0.5s;
-            -webkit-transition-duration: 0.5s;
-            transition-duration: 0.5s;
-            cursor: pointer;
-        }
-        h4.log_head {
-            font-size: 11px;
-            font-weight: 700;
-        }
-        .login_template {
-            background-image: url(../Content/img/ship_logo.png);
-            background-position: center;
-            background-size: cover;
-            background-repeat: no-repeat;
-            overflow:hidden;
-        }
-        form.login.clearfix {
-           
-            padding-left: 20px;
-        }
-        .login_screen {
-            background-color: #fff;
-            margin: 60px 16px 201px 45px;
-            width: 30%;
-            /* padding: 32px; */
-            padding: 19px 23px 19px 23px;
-        }
-        .logo_pag {
-            text-align: center;
-        }
-        .form-control:focus {
-            box-shadow:unset!important;
-        }
-        p.head_secti {
-            font-size: 12px;
-            font-weight:800;
-        }
-        p.lice_forw {
-              font-size: 12px;
-            font-weight: 800;
-        }
-    </style>
+                            <form>
 
 
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">User Name</label>
+                                    @Html.TextBoxFor(model => model.UserName, new { @class = "form-control login", @placeholder = "User Name:" })
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">Password</label>
+                                    @Html.PasswordFor(model => model.Password, new { @class = "form-control pwd", @placeholder = "Password:" })
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">Branch</label>
+                                    @Html.DropDownListFor(model => model.BranchID, new SelectList(ViewBag.Branch, "BranchID", "BranchName"), "Select Branch", new { @class = "form-control" })
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">Year</label>
+                                    @Html.DropDownListFor(model => model.AcFinancialYearID, new SelectList(ViewBag.fyears, "AcFinancialYearID", "FYearName"), "Select Year", new { @class = "form-control" })
+                                </div>
+                                <div class="form-group">
+                                    @if (ViewBag.ErrorMessage != null)
+                                    {
+                                        <span class="text-danger">@ViewBag.ErrorMessage</span>
+                                    }
+                                </div>
+                                <button type="submit" value="Login" class="btn btn-primary btn-gradient btn-block">
+                                    <i class="batch-icon batch-icon-key"></i>
+                                    Sign In
+                                </button>
+                                <hr>
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-    <script src="/Content/NewCSS/plugins/jQuery/jQuery-2.2.0.min.js"></script>
-    <script src="/Content/login/owl.carousel.min.js"></script>
+                                <div class="lice_con">
+                                    <p class="head_secti">Licenced</p>
+                                    <p class="lice_forw"> Malusoft India </p>
+                                </div>
 
+                                <div class="copy_sys">
+                                    <p class="fries_forw"> All rights reserved: Malusoft &vert; Bangalore &vert; India &vert;</p>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
 
-
-
-    <script type="text/javascript">
+    @Scripts.Render("~/assets/js/jquery/jquery-3.1.1.min.js")
+    @Scripts.Render("~/assets/js/bootstrap/popper.min.js")
+    @Scripts.Render("~/assets/js/bootstrap/bootstrap.min.js")
+    @Scripts.Render("~/assets/js/bootstrap/mdb.min.js")
+    @Scripts.Render("~/assets/plugins/velocity/velocity.min.js")
+    @Scripts.Render("~/assets/plugins/velocity/velocity.ui.min.js")
+    @Scripts.Render("~/assets/plugins/custom-scrollbar/jquery.mCustomScrollbar.concat.min.js")
+    @Scripts.Render("~/assets/plugins/jquery_visible/jquery.visible.min.js")
+    @Scripts.Render("~/assets/plugins/jquery_visible/jquery.visible.min.js")
+    @Scripts.Render("~/assets/js/misc/ie10-viewport-bug-workaround.js")
+    @Scripts.Render("~/assets/plugins/chartjs/chart.bundle.min.js")
+    @Scripts.Render("~/assets/plugins/jvmaps/jquery.vmap.min.js")
+    @Scripts.Render("~/assets/plugins/jvmaps/maps/jquery.vmap.usa.js")
+    @Scripts.Render("~/assets/js/misc/holder.min.js")
+    @Scripts.Render("~/assets/js/scripts.js")
+    <script>
         $(document).ready(function () {
+            debugger;
+            var brId = $('#BranchID').val();
+            if (isNaN(brId)) {
+              
+            } else {
+                $('#AcFinancialYearID').empty();
+                $('#AcFinancialYearID').append('<option value="0">Select Year</option>');
+                $.ajax({
+                    type: "POST",
+                    url: "/Login/GetFYear",
+                    datatype: "Json",
+                    data: { id: $('#BranchID').val() },
+                    success: function (data) {
+                        $('#AcFinancialYearID').empty();
+                        $.each(data, function (index, value) {
+                            $('#AcFinancialYearID').append('<option value="' + value.AcFinancialYearID + '">' + value.FYearName + '</option>');
+                        });
+                    }
+
+                });
+           
+            }
             $('#BranchID').change(function () {
                 $('#AcFinancialYearID').empty();
                 $('#AcFinancialYearID').append('<option value="0">Select Year</option>');
@@ -322,135 +185,12 @@
                             $('#AcFinancialYearID').append('<option value="' + value.AcFinancialYearID + '">' + value.FYearName + '</option>');
                         });
                     }
-                      
+
                 });
             });
         });
     </script>
-
-</head>
-<body class="login_template">
-    <div class="container-fluid padding_none fulbg_images">
-        <div class="row no_row">
-            <div class="right-column sisu">
-                <div class="row no_row">
-                   
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 login_screen">
-
-                        <div class="logo_pag">
-
-                            <a class="signin-logo d-sm-none d-md-block text-center" href="#">
-                                <img src="/Content/img/logo_truebook.png"  alt="TrueBook" style="
-    width: 50%;
-" />
-                                
-                            </a>
-
-                        </div>
-
-                        <div class="comp_name">
-                            <h3 class="frie_forw"> Freight Forwading System</h3>
-                        </div>
-
-                        
-                        <div class="loginbox">
-                            <h4 class="log_head">Sign In</h4>
-
-                            @using (@Html.BeginForm("", "", FormMethod.Post, new { @class = "login clearfix", @role = "form" }))
-                            {
-                                <div class="input-group">
-
-                                    @Html.TextBoxFor(model => model.UserName, new { @class = "form-control login", @placeholder = "User Name:" })
-                                </div>
-
-                                <div class="input-group">
-                                    @Html.PasswordFor(model => model.Password, new { @class = "form-control pwd", @placeholder = "Password:" })
-                                </div>
-                                <div class="input-group">
-
-
-                                    @Html.DropDownListFor(model => model.BranchID, new SelectList(ViewBag.Branch, "BranchID", "BranchName"), "Select Branch", new { @class = "form-control" })
-
-                                </div>
-
-                                <div class="input-group">
-                                    @Html.DropDownListFor(model => model.AcFinancialYearID, new SelectList(ViewBag.fyears, "AcFinancialYearID", "FYearName"), "Select Year", new { @class = "form-control" })
-                                </div>
-
-                                <span class="submit" style="display: block;
-    text-align: right;">
-                                    <input class="loginbtn" type="submit" value="Log in">
-                                </span>
-                                <span id="errormessage">
-                                    @if (ViewBag.ErrorMessage != null)
-                                    {
-                                        <span style="color: red; font-family: Calibri;">
-                                            * @ViewBag.ErrorMessage
-                                        </span>
-                                    }
-                                </span>
-
-
-
-                            }
-                        </div>
-
-
-
-
-                        <div class="lice_con">
-                            <p class="head_secti">Licenced</p>
-                            <p class="lice_forw"> Opal Shipping LLc &vert; Dubai &vert; U.A.E &vert; </p>
-                        </div>
-
-                        <div class="copy_sys">
-                            <p class="fries_forw"> All rights reserved: Malusoft &vert; Bangalore &vert; India &vert;</p>
-                        </div>
-
-
-
-                    </div>
-
-
-
-
-                </div>
-            </div>
-        </div>
-    </div>
-
-    @*<script src="js/bootstrap.min.js"></script>*@
-
-
-
-
-
-
-    <script>
-        $('.owl-carousel').owlCarousel({
-            loop: true,
-            margin: 10,
-            responsiveClass: true,
-            responsive: {
-                0: {
-                    items: 1,
-                    nav: true
-                },
-                370: {
-                    items: 2,
-                    nav: true
-                },
-                600: {
-                    items: 3,
-                    nav: false
-                },
-                1000: {
-                    items: 4,
-                    nav: true,
-                    loop: true
-                }
-            }
-        })
-    </script>
 </body>
 </html>
+
+

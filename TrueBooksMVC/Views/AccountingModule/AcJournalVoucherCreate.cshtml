@@ -24,7 +24,10 @@
 </style>
 <script type="text/javascript">
     $(document).ready(function () {
-
+            var startdate = '@Session["FyearFrom"].ToString()';
+        var enddate = '@Session["FyearTo"].ToString()';
+        var sd = new Date(startdate);
+        var ed = new Date(enddate);
         $(":text").css({ "border-radius": "5px" });
         $("select").css({ "border-radius": "5px" });
 
@@ -34,6 +37,8 @@
             $(".datepicker").datepicker({
                 dateFormat: 'dd-M-yy',
                 changeYear: true, changeMonth: true,
+                minDate: sd,
+                maxDate: ed,
             });
         });
 
@@ -93,7 +98,7 @@
             <div class="row no-margin">
                 <div class="col-md-4">
                     <label class="required headinglabel" id="lblTransDate">Transaction Date</label>
-                    @Html.TextBoxFor(model => model.TransDate, new { @class = "form-control datepicker " })
+                    @Html.TextBoxFor(model => model.TransDate, new { @class = "form-control datepicker ", placeholder = "dd-mmm-yyyy" })
                 </div>
                 <div class="col-md-4">
                     <label class="headinglabel" id="lblReference">Reference</label>
@@ -106,7 +111,7 @@
             </div>
 
             <section class="content-header">
-                <h1 class="headingfont">Add Voucher Details</h1>
+                <h2 class="headingfont" style="margin-top:5px; margin-bottom:10px;">Add Voucher Details</h2>
 
             </section>
 
@@ -178,4 +183,4 @@
             </div>
         }
     </fieldset>
-    </div>
+</div>

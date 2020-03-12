@@ -10,15 +10,14 @@
 
 
 <style>
-    tfoot
-    {
+    tfoot {
         display: table-header-group;
     }
 
-    #tbl1 tr
-    {
-        height:35px;
+    #tbl1 tr {
+        height: 35px;
     }
+
     .searchdiv {
         background-color: #fff;
         width: 100%;
@@ -38,22 +37,22 @@
 </style>
 
 <script src="~/Content/jquery.dataTables.min.js"></script>
- <script src="@Url.Content("~/MyJsFiles/PrintReportInvoices.js")"></script>
-   <script type="text/javascript">
+<script src="@Url.Content("~/MyJsFiles/PrintReportInvoices.js")"></script>
+<script type="text/javascript">
 
 
 
-       function printDiv(divName) {
-           var printContents = document.getElementById(divName).innerHTML;
-           var originalContents = document.body.innerHTML;
+    function printDiv(divName) {
+        var printContents = document.getElementById(divName).innerHTML;
+        var originalContents = document.body.innerHTML;
 
-           document.body.innerHTML = printContents;
+        document.body.innerHTML = printContents;
 
-           window.print();
+        window.print();
 
-           document.body.innerHTML = originalContents;
-       }
-    </script>
+        document.body.innerHTML = originalContents;
+    }
+</script>
 <script type="text/javascript">
 
     $(document).ready(function () {
@@ -88,12 +87,21 @@
             return (curr_date + "-" + m_names[curr_month]
             + "-" + curr_year);
         }
+         function GetEndDate() {
+            var m_names = new Array("Jan", "Feb", "Mar",
+    "Apr", "May", "Jun", "Jul", "Aug", "Sep",
+    "Oct", "Nov", "Dec");
+
+            var d = new Date('@Session["FyearTo"].ToString()');
+            var curr_date = d.getDate();
+            var curr_month = d.getMonth();
+            var curr_year = d.getFullYear();
+            return (curr_date + "-" + m_names[curr_month]
+            + "-" + curr_year);
+        }
 
         $("#frmdate").val(GetStartDate());
-        $("#todate").val(GetCurrentDate());
-
-
-
+        $("#todate").val(GetEndDate());
 
         $("#frmdate").css("border-radius", "5px");
         $("#todate").css("border-radius", "5px");
@@ -105,8 +113,8 @@
             maxDate:ed,
 
         });
-      
-       
+
+
 
         $("#todate").datepicker({
             dateFormat: 'dd-M-yy',
@@ -115,17 +123,17 @@
             maxDate: ed,
         });
 
-   
 
-   
+
+
         $("#frmdate").css("border-radius", "5px");
-  
+
          $("#btnsearch").click(function () {
              var from = $("#frmdate").val();
              var dto = $("#todate").val();
              var acid = $("#AcHeadID option:selected").val();
-          
-            
+
+
             //  vaif(rf newfrom = from.getDay() + "/" + from.getMonth() + "/" + from.getFullYear();
             //  var newto = dto.getDay() + "/" + dto.getMonth() + "/" + dto.getFullYear();
             //alert(newfrom);
@@ -157,12 +165,12 @@
                      success: function (data) {
                          hideLoading();
                          $("#result").css("display", "block");
-                       
+
                          $("#result").html(data.view);
                      },
                      error: function () {
                          $("#result").css("display", "none");
-                        
+
                      }
                  });
              }
@@ -180,45 +188,45 @@
             <h1 class="headingfont">Bank Book Report<small></small></h1>
 
         </section>
-      
+
         <section class="content">
-           <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
+            <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
             <div class="searchdiv">
-             <div class="row no-margin">
-                 <div class="col-md-4">
-                            <label class="headinglabel required">Account Head</label>
-                             @Html.DropDownList("AcHeadID", new SelectList(ViewBag.bankhead, "AcHeadID", "AcHead"),"Select", new { @class = "form-control" })
-                 </div>
-
-                  <div class="col-md-4">
-                            <label class="headinglabel required"> From Date</label>
-                             <input type="text" id="frmdate" class="form-control"  />
-                 </div>
+                <div class="row no-margin">
                     <div class="col-md-4">
-                            <label class="headinglabel required"> To Date</label>
-                             <input type="text" id="todate"  class="form-control"  />
-                 </div>
-                    
-         
-             </div>
+                        <label class="headinglabel required">Account Head</label>
+                        @Html.DropDownList("AcHeadID", new SelectList(ViewBag.bankhead, "AcHeadID", "AcHead"), "Select", new { @class = "form-control" })
+                    </div>
 
-            <div class="row no-margin" style="padding-top:10px">
-                 <div class="col-md-12" style="padding-top:25px;text-align:center;">
-                          <button id="btnsearch" class="btn btn-primary btnwid sidebar-toggle" data-toggle="offcanvas">Generate</button>
-                 </div>         
-              
-                     </div>
-               
+                    <div class="col-md-4">
+                        <label class="headinglabel required"> From Date</label>
+                        <input type="text" id="frmdate" class="form-control" />
+                    </div>
+                    <div class="col-md-4">
+                        <label class="headinglabel required"> To Date</label>
+                        <input type="text" id="todate" class="form-control" />
+                    </div>
+
+
+                </div>
+
+                <div class="row no-margin" style="padding-top:10px">
+                    <div class="col-md-12 butdivs">
+                        <button id="btnsearch" class="btn btn-primary btnwid sidebar-toggle" data-toggle="offcanvas">Generate</button>
+                    </div>
+
+                </div>
+
             </div>
-         <div class="row" style="padding-top:20px">
-             <div class="col-md-12" id="result">
+            <div class="row" style="padding-top:20px">
+                <div class="col-md-12" id="result">
 
-             </div>
-              
-         </div>
+                </div>
+
+            </div>
 
         </section>
-  
+
 
     </div>
 </div>

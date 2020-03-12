@@ -1,6 +1,8 @@
 ﻿@{
-    ViewBag.Title = "CustomerStatement";
-    Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
+                /**/
+
+                ViewBag.Title = "CustomerStatement";
+                Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
 }
 @*<link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">*@
 @*<link rel="stylesheet" href="/resources/demos/style.css">*@
@@ -10,8 +12,8 @@
 @*<link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="/resources/demos/style.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>*@
- <style>
-     .tblbackground {
+<style>
+    .tblbackground {
         background-color: #fff;
         box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
         border-radius: 10px;
@@ -21,7 +23,7 @@
         background-color: #fff;
         width: 100%;
         margin: 0 auto;
-      /*  max-width: 765px;*/
+        /*  max-width: 765px;*/
         padding: 20px;
         margin-top: 50px;
         border-radius: 10px;
@@ -94,9 +96,21 @@
             return (curr_date + "-" + m_names[curr_month]
             + "-" + curr_year);
         }
+        
+        function GetEndDate() {
+            var m_names = new Array("Jan", "Feb", "Mar",
+    "Apr", "May", "Jun", "Jul", "Aug", "Sep",
+    "Oct", "Nov", "Dec");
 
+            var d = new Date("@Session["FyearTo"].ToString()");
+            var curr_date = d.getDate();
+            var curr_month = d.getMonth();
+            var curr_year = d.getFullYear();
+            return (curr_date + "-" + m_names[curr_month]
+            + "-" + curr_year);
+        }
         $("#txtfrom").val(GetStartDate());
-      $("#txtto").val(GetCurrentDate());
+        $("#txtto").val(GetEndDate());
 
 
       var from = $("#txtfrom").val();
@@ -187,11 +201,11 @@
         <div class="row no-margin">
             <div class="col-md-4">
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-12">
                         <label class="headinglabel required">From:</label>
 
                     </div>
-                    <div class="col-md-9">
+                    <div class="col-md-12">
                         <input type="text" class="datepicker form-control" id="txtfrom" />
                     </div>
                 </div>
@@ -201,11 +215,11 @@
             <div class="col-md-4">
 
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-12">
                         <label class="headinglabel required">To:</label>
 
                     </div>
-                    <div class="col-md-9">
+                    <div class="col-md-12">
                         <input type="text" class="datepicker form-control" id="txtto" />
                     </div>
                 </div>
@@ -216,17 +230,17 @@
             <div class="col-md-4">
 
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-12">
                         <label class="required headinglabel">Customer:</label>
                     </div>
-                    <div class="col-md-9">
+                    <div class="col-md-12">
                         @Html.DropDownList("CustomerID", ViewBag.customers as SelectList, "Select", new { @class = "form-control" })
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="row no-margin" style="padding-top: 20px">
+        <div class="row no-margin" style="padding-top: 10px">
 
 
 
@@ -236,18 +250,18 @@
 
         </div>
 
-        </div>
+    </div>
 
 
 
-            <div class="row no-margin" style="padding-top: 20px">
-                <div class="col-md-12 tblbackground">
-                    <div class="row">
-                        <div class="col-md-12" id="result">
-                        </div>
-                    </div>
+    <div class="row no-margin" style="padding-top: 20px">
+        <div class="col-md-12 tblbackground">
+            <div class="row">
+                <div class="col-md-12" id="result">
                 </div>
             </div>
+        </div>
+    </div>
 
 
 

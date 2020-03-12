@@ -7,6 +7,11 @@
 
 }
 <style>
+    .row div[class*=divisorColumn] {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
     .form-control2 {
         -webkit-appearance: none;
         margin-top: 10px;
@@ -37,17 +42,6 @@
         width: 70px;
     }
 
-    .reve_wid {
-        width: 11.6% !important;
-    }
-
-    .reve_rate {
-        width: 10.9% !important;
-    }
-
-    .rev_uni {
-        width: 5% !important;
-    }
 
     .ico_cla {
         text-align: right;
@@ -126,50 +120,17 @@
         text-align: left;
     }
 
-    div#tabs-8 {
-        width: 83% !important;
-    }
+
 
     .ui-widget.ui-widget-content {
         border: 1px solid #c5c5c5;
         width: 100% !important;
     }
 
-    .ui-widget-content.ui-autocomplete {
-        width: auto !important;
-    }
 
-    div#tabs-1 {
-        width: 90%;
-        padding-left: 1px;
-    }
-
-    div#tabs-2 {
-        width: 83% !important;
-    }
-
-    div#tabs-3 {
-        width: 83% !important;
-    }
-
-    div#tabs-4 {
-        width: 83% !important;
-    }
-
-    div#tabs-5 {
-        width: 83% !important;
-    }
-
-    div#tabs-6 {
-        width: 83% !important;
-    }
-
-    div#tabs-7 {
-        width: 83% !important;
-    }
 
     .no-padding {
-        padding: 4px !important;
+        padding: 5px 6px !important;
     }
 
     .float-right {
@@ -199,15 +160,14 @@
 
     .shadowbr {
         background-color: #fff;
-        box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
         border-radius: 25px;
         margin-bottom: 27px;
-        padding: 20px;
+        padding: 20px 0;
     }
 
     .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
         background: unset !important;
-        background: linear-gradient(135deg, #07a7e3 0%, #32dac3 100%) !important;
+        background: #35b8eb !important;
     }
 
     .ui-widget-header {
@@ -252,81 +212,39 @@
     textarea#CollectionInstructions {
         height: 91px !important;
     }
+
+    .reve_wid {
+        width: 14% !important;
+    }
+
+    body .headinglabel {
+        font-size: 14px !important;
+    }
+
+    .rev_uni {
+        width: 7% !important;
+    }
+
+    .reve_rate {
+        width: 8.8%;
+    }
+
+    .rev_unit {
+        max-width: 96px;
+    }
+
+    .reve_rates {
+        max-width: 15%;
+    }
+
+    @@media (min-width: 1700px) {
+        body .jobform {
+            min-width: 95% !important;
+        }
 </style>
 <script type="text/javascript">
     // When the document is ready
     $(document).ready(function () {
-
-        var jobid = '@Session["JobID"]';
-        if (jobid != "0") {
-            var consigneeId = '@Model.ConsigneeID';
-            var consignerID = '@Model.ConsignerID';
-            var invoiceToID = '@Model.InvoiceToID';
-            var shipperID = '@Model.ShipperID';
-            var loadport='@Model.LoadPortID';
-            var destinationPortID='@Model.DestinationPortID';
-            var receiptPlaceID='@Model.ReceiptPlaceID';
-            var deliveryPlaceID='@Model.DeliveryPlaceID';
-            var employeeId='@Model.EmployeeID';
-
-            var array = @Html.Raw(Json.Encode(@ViewBag.Customer));
-            for (var i = 0; i < array.length; i++) {
-                if (parseInt(consigneeId) == array[i].Value) {
-                    $("#Consigneeid").val(array[i].Text);
-                    $('#SelectedConsigneeid').val('@Model.ConsigneeID');
-
-                }
-                if (parseInt(consignerID) == array[i].Value) {
-                    $("#Consignerid").val(array[i].Text);
-                    $('#SelectedConsignerid').val('@Model.ConsignerID');
-
-                }
-                if (parseInt(shipperID) == array[i].Value) {
-                    $("#ShipperId").val(array[i].Text);
-                    $('#SelectedShipperId').val('@Model.ShipperID');
-
-                }
-                if (parseInt(invoiceToID) == array[i].Value) {
-                    $("#InvoiceToid").val(array[i].Text);
-                    $('#SelectedInvoiceToid').val('@Model.InvoiceToID');
-
-                }
-            }
-            var ArrPorts = @Html.Raw(Json.Encode(@ViewBag.Ports));
-            for (var i = 0; i < ArrPorts.length; i++) {
-                if (parseInt(loadport) == ArrPorts[i].Value) {
-                    $("#LoadPortId").val(ArrPorts[i].Text);
-                    $('#SelectedLoadPortId').val('@Model.LoadPortID');
-
-                }
-                if (parseInt(destinationPortID) == ArrPorts[i].Value) {
-                    $("#DestinationPortId").val(ArrPorts[i].Text);
-                    $('#SelectedConsignerid').val('@Model.DestinationPortID');
-
-                }
-                if (parseInt(receiptPlaceID) == ArrPorts[i].Value) {
-                    $("#ReceiptPlaceId").val(ArrPorts[i].Text);
-                    $('#SelectedReceiptPlaceId').val('@Model.ReceiptPlaceID');
-
-                }
-                if (parseInt(deliveryPlaceID) == ArrPorts[i].Value) {
-                    $("#DeliveryPlaceId").val(ArrPorts[i].Text);
-                    $('#SelectedDeliveryPlaceId').val('@Model.DeliveryPlaceID');
-
-                }
-              
-                }
-              var EmpArray = @Html.Raw(Json.Encode(@ViewBag.Employees));
-                for (var i = 0; i < EmpArray.length; i++) {
-                    if (parseInt(employeeId) == EmpArray[i].Value) {
-                        $("#EmployeeId").val(EmpArray[i].Text);
-                        $('#SelectedEmployeeId').val('@Model.EmployeeID');
-                        break;
-
-                }
-            }
-
-        }
 
         $('.txtNum').blur(function () {
             if (isNaN(parseInt($(this).val()))) {
@@ -475,240 +393,8 @@
                 $("#drop").hide();
             }
         });
-        //shipper
-        $("#Consignerid").autocomplete({
-            source: function (request, response) {
-                $.ajax({
-                    url: '/AutoComplete/Customer',
-                    datatype: "json",
-                    data: {
-                        term: request.term
-                    },
-                    success: function (data) {
-                        response($.map(data, function (val, item) {
-                            return {
-                                label: val.Customer,
-                                value: val.Customer,
-                                CustomerId: val.CustomerID
-                            }
-                        }))
-                    }
-                })
-            }, minLength: 1,
-            select: function (e, i) {
-                e.preventDefault();
-                $("#Consignerid").val(i.item.label);
-                $('#SelectedConsignerid').val(i.item.CustomerId);
-            }
-        });
-        //consignee
-        $("#Consigneeid").autocomplete({
-            source: function (request, response) {
-                $.ajax({
-                    url: '/AutoComplete/Customer',
-                    datatype: "json",
-                    data: {
-                        term: request.term
-                    },
-                    success: function (data) {
-                        response($.map(data, function (val, item) {
-                            return {
-                                label: val.Customer,
-                                value: val.Customer,
-                                CustomerId: val.CustomerID
-                            }
-                        }))
-                    }
-                })
-            }, minLength: 1,
-            select: function (e, i) {
-                e.preventDefault();
-                $("#Consigneeid").val(i.item.label);
-                $('#SelectedConsigneeid').val(i.item.CustomerId);
-            }
-        });
-        //invoiceTo
-        $("#InvoiceToid").autocomplete({
-            source: function (request, response) {
-                $.ajax({
-                    url: '/AutoComplete/Customer',
-                    datatype: "json",
-                    data: {
-                        term: request.term
-                    },
-                    success: function (data) {
-                        response($.map(data, function (val, item) {
-                            return {
-                                label: val.Customer,
-                                value: val.Customer,
-                                CustomerId: val.CustomerID
-                            }
-                        }))
-                    }
-                })
-            }, minLength: 1,
-            select: function (e, i) {
-                e.preventDefault();
-                $("#InvoiceToid").val(i.item.label);
-                $('#SelectedInvoiceToid').val(i.item.CustomerId);
-            }
-        });
-        //NotifyTo
-        $("#ShipperId").autocomplete({
-            source: function (request, response) {
-                $.ajax({
-                    url: '/AutoComplete/Customer',
-                    datatype: "json",
-                    data: {
-                        term: request.term
-                    },
-                    success: function (data) {
-                        response($.map(data, function (val, item) {
-                            return {
-                                label: val.Customer,
-                                value: val.Customer,
-                                CustomerId: val.CustomerID
-                            }
-                        }))
-                    }
-                })
-            }, minLength: 1,
-            select: function (e, i) {
-                e.preventDefault();
-                $("#ShipperId").val(i.item.label);
-                $('#SelectedShipperId').val(i.item.CustomerId);
-            }
-        });
-        //Loadport
-        $("#LoadPortId").autocomplete({
-            source: function (request, response) {
-                $.ajax({
-                    url: '/AutoComplete/Ports',
-                    datatype: "json",
-                    data: {
-                        term: request.term
-                    },
-                    success: function (data) {
-                        response($.map(data, function (val, item) {
-                            return {
-                                label: val.Port,
-                                value: val.Port,
-                                PortId: val.PortID
-                            }
-                        }))
-                    }
-                })
-            }, minLength: 1,
-            select: function (e, i) {
-                e.preventDefault();
-                $("#LoadPortId").val(i.item.label);
-                $('#SelectedLoadPortId').val(i.item.PortId);
-            }
-        });
-        //Destination Port
-        $("#DestinationPortId").autocomplete({
-            source: function (request, response) {
-                $.ajax({
-                    url: '/AutoComplete/Ports',
-                    datatype: "json",
-                    data: {
-                        term: request.term
-                    },
-                    success: function (data) {
-                        response($.map(data, function (val, item) {
-                            return {
-                                label: val.Port,
-                                value: val.Port,
-                                PortId: val.PortID
-                            }
-                        }))
-                    }
-                })
-            }, minLength: 1,
-            select: function (e, i) {
-                e.preventDefault();
-                $("#DestinationPortId").val(i.item.label);
-                $('#SelectedDestinationPortId').val(i.item.PortId);
-            }
-        });
-        //placeofreceipt
-        $("#ReceiptPlaceId").autocomplete({
-            source: function (request, response) {
-                $.ajax({
-                    url: '/AutoComplete/Ports',
-                    datatype: "json",
-                    data: {
-                        term: request.term
-                    },
-                    success: function (data) {
-                        response($.map(data, function (val, item) {
-                            return {
-                                label: val.Port,
-                                value: val.Port,
-                                PortId: val.PortID
-                            }
-                        }))
-                    }
-                })
-            }, minLength: 1,
-            select: function (e, i) {
-                e.preventDefault();
-                $("#ReceiptPlaceId").val(i.item.label);
-                $('#SelectedReceiptPlaceId').val(i.item.PortId);
-            }
-        });
-        //Place of Delivery
-        $("#DeliveryPlaceId").autocomplete({
-            source: function (request, response) {
-                $.ajax({
-                    url: '/AutoComplete/Ports',
-                    datatype: "json",
-                    data: {
-                        term: request.term
-                    },
-                    success: function (data) {
-                        response($.map(data, function (val, item) {
-                            return {
-                                label: val.Port,
-                                value: val.Port,
-                                PortId: val.PortID
-                            }
-                        }))
-                    }
-                })
-            }, minLength: 1,
-            select: function (e, i) {
-                e.preventDefault();
-                $("#DeliveryPlaceId").val(i.item.label);
-                $('#SelectedDeliveryPlaceId').val(i.item.PortId);
-            }
-        });
-        //staff
-        $("#EmployeeId").autocomplete({
-            source: function (request, response) {
-                $.ajax({
-                    url: '/AutoComplete/Employee',
-                    datatype: "json",
-                    data: {
-                        term: request.term
-                    },
-                    success: function (data) {
-                        response($.map(data, function (val, item) {
-                            return {
-                                label: val.EmployeeName,
-                                value: val.EmployeeName,
-                                EmployeeId: val.EmployeeID
-                            }
-                        }))
-                    }
-                })
-            }, minLength: 1,
-            select: function (e, i) {
-                e.preventDefault();
-                $("#EmployeeId").val(i.item.label);
-                $('#SelectedEmployeeId').val(i.item.EmployeeId);
-            }
-        });
+
+        debugger;
         if ($('#SelectedMainJobID').val() != '' && $('#SelectedMainJobID').val() != '0') {
             if (parseInt($('#SelectedMainJobID').val()) > 0) {
                 $('#SubJob').prop('checked', true);
@@ -716,7 +402,6 @@
                 $('#MainJobId').val($('#SelectedMainJobID').val());
             }
         }
-
 
         //$("#btnSave").click(function () {
         //    $.ajax({
@@ -887,8 +572,6 @@
 
         .ui-tabs-vertical .ui-tabs-panel {
             padding: 1em;
-            float: right;
-            width: 40em;
         }
 
     .fc_sal {
@@ -899,9 +582,7 @@
         color: #1e60d8 !important;
     }
 
-    .note_ls {
-        width: 23% !important;
-    }
+
 
     .lc_pro {
         color: #0b1be2;
@@ -1036,6 +717,22 @@
             <input type="hidden" id="DeletedContainerIds" name="DeletedContainerIds" value="" />
             <input type="hidden" id="DeletedBillOfEntryIds" name="DeletedBillOfEntryIds" value="" />
             <input type="hidden" id="DeletedAuditLogIDs" name="DeletedAuditLogIDs" value="" />
+            if (ViewBag.IsInvoiveGenerated != null)
+            {
+                if ((bool)ViewBag.IsInvoiveGenerated == true)
+                {
+                    <input type="hidden" id="IsInvoiveGenerated" name="IsInvoiveGenerated" value="true" />
+                }
+                else
+                {
+                    <input type="hidden" id="IsInvoiveGenerated" name="IsInvoiveGenerated" value="false" />
+                }
+            }
+            else
+            {
+                <input type="hidden" id="IsInvoiveGenerated" name="IsInvoiveGenerated" value="false" />
+            }
+
             <section class="content jobform">
                 <div class="row no-margin">
                     <div class="col-md-3">
@@ -1057,9 +754,11 @@
                         @Html.ValidationMessageFor(model => model.JobTypeID)
 
                     </div>
-                    <div class="col-md-3">
-                        <input type="checkbox" id="SubJob" name="SubJob" style="height: 12px; width: 12px; margin-bottom: 0px" />
-                        <label class="headinglabel" style="margin-bottom: 3px">SubJob</label>
+                    <div class="col-md-3 checkbox_align">
+                        <label class="headinglabel" style="margin-bottom: 3px">
+                            <input type="checkbox" id="SubJob" name="SubJob" style="height: 12px; width: 12px; margin-bottom: 0px" />
+                            SubJob
+                        </label>
                         <div id="drop">
                             @Html.DropDownListFor(model => model.MainJobID, new SelectList(ViewBag.MainJobId, "JobID", "JobCode"), "Select Main Job", new { @class = "form-control", @id = "MainJobId" })
                             <input type="hidden" value="@Model.MainJobID" name="SelectedMainJobID" id="SelectedMainJobID" />
@@ -1099,44 +798,35 @@
                 <div class="row no-margin" style="padding-top: 10px">
 
 
-                    <div class="col-md-3">
+                    <div class="col-md-3 form-group">
                         <label class=" headinglabel">Shipper</label>
-
-                        <input type="text" id="Consignerid" value="" class="form-control" autocomplete="off" />
-                        @Html.HiddenFor(model => model.ConsignerID, new { Value = "0", id = "SelectedConsignerid" })
+                        @Html.DropDownListFor(model => model.ConsignerID, (SelectList)ViewBag.Customer, "Select", new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.ConsignerID)
+
 
 
                     </div>
 
                     <div class="col-md-3 form-group">
                         <label class="headinglabel">Consignee</label>
-                        <input type="text" id="Consigneeid" value="" class="form-control" autocomplete="off" />
-
-                        @Html.HiddenFor(model => model.ConsigneeID, new { Value = "0", id = "SelectedConsigneeid" })
+                        @Html.DropDownListFor(model => model.ConsigneeID, (SelectList)ViewBag.Customer, "Select", new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.ConsigneeID)
-
 
                     </div>
 
 
                     <div class="col-md-3">
                         <label class=" headinglabel">Invoice To</label>
-
-                        <input type="text" id="InvoiceToid" value="" class="form-control" autocomplete="off" />
-
-                        @Html.HiddenFor(model => model.InvoiceToID, new { Value = "0", id = "SelectedInvoiceToid" })
+                        @Html.DropDownListFor(model => model.InvoiceToID, (SelectList)ViewBag.Customer, "Select", new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.InvoiceToID)
 
                     </div>
 
                     <div class="col-md-3">
                         <label class=" headinglabel">Notify To</label>
-
-                        <input type="text" id="ShipperId" value="" class="form-control" autocomplete="off" />
-
-                        @Html.HiddenFor(model => model.ShipperID, new { Value = "0", id = "SelectedShipperId" })
+                        @Html.DropDownListFor(model => model.ShipperID, (SelectList)ViewBag.Customer, "Select", new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.ShipperID)
+
 
 
                     </div>
@@ -1145,41 +835,28 @@
                 <div class="row no-margin" style="padding-top: 10px">
                     <div class="col-md-3">
                         <label class="headinglabel">Load Port</label>
-
-                        <input type="text" id="LoadPortId" value="" class="form-control" autocomplete="off" />
-
-                        @Html.HiddenFor(model => model.LoadPortID, new { Value = "0", id = "SelectedLoadPortId" })
+                        @Html.DropDownListFor(model => model.LoadPortID, (SelectList)ViewBag.Ports, "Select", new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.LoadPortID)
+
                     </div>
 
                     <div class="col-md-3">
                         <label class=" headinglabel">Destination Port</label>
-
-                        <input type="text" id="DestinationPortId" value="" class="form-control" autocomplete="off" />
-
-                        @Html.HiddenFor(model => model.DestinationPortID, new { Value = "0", id = "SelectedDestinationPortId" })
+                        @Html.DropDownListFor(model => model.DestinationPortID, (SelectList)ViewBag.Ports, "Select", new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.DestinationPortID)
 
                     </div>
 
                     <div class="col-md-3">
                         <label class="headinglabel">Place of Receipt</label>
-
-                        <input type="text" id="ReceiptPlaceId" value="" class="form-control" autocomplete="off" />
-
-                        @Html.HiddenFor(model => model.ReceiptPlaceID, new { Value = "0", id = "SelectedReceiptPlaceId" })
+                        @Html.DropDownListFor(model => model.ReceiptPlaceID, (SelectList)ViewBag.Ports, "Select", new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.ReceiptPlaceID)
-
                     </div>
 
                     <div class="col-md-3">
                         <label class="headinglabel">Place of Delivery</label>
-
-                        <input type="text" id="DeliveryPlaceId" value="" class="form-control" autocomplete="off" />
-
-                        @Html.HiddenFor(model => model.DeliveryPlaceID, new { Value = "0", id = "SelectedDeliveryPlaceId" })
+                        @Html.DropDownListFor(model => model.DeliveryPlaceID, (SelectList)ViewBag.Ports, "Select", new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.DeliveryPlaceID)
-
 
                     </div>
 
@@ -1187,9 +864,7 @@
                 <div class="row no-margin" style="padding-top: 10px">
                     <div class="col-md-3">
                         <label class=" headinglabel">Staff</label>
-
-                        <input type="text" id="EmployeeId" value="" class="form-control" autocomplete="off" />
-                        @Html.HiddenFor(model => model.EmployeeID, new { Value = "0", id = "SelectedEmployeeId" })
+                        @Html.DropDownListFor(model => model.EmployeeID, (SelectList)ViewBag.Employees, "Select", new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.EmployeeID)
 
                     </div>
@@ -1218,118 +893,130 @@
                         <div class="panel-body shadowbr">
                             <div class="inner-tab-content">
                                 <div class="row no-margin">
-                                    <div class="col-xs-6 col-sm-2 col-md-2  reve_wid no-padding">
-                                        <label class="headinglabel">Revenue Type</label>
-                                        @*    @Html.DropDownList("RevenueType", (SelectList)ViewBag.RevenueT, "Select", new {ng_model = "RevenueTypeID", ng_change = "getSuppliers()", @class = "form-control" })*@
-                                        <input type="hidden" class="form-control textright" ng-model="InvoiceID" name="InvoiceID" id="InvoiceID" />
-                                        <select ng-model="RevenueTypeID" id="RevenueTypeID" class="form-control" tabindex="1" ng_change="getSuppliers()">
-                                            <option value='0'>Select</option>
-                                            <option ng-repeat="b in RevenueTypeList" tp="{{b.TaxPercentage}}" ng-selected="RevenueTypeID==b.RevenueTypeID" value='{{b.RevenueTypeID}}'>{{b.RevenueType}}</option>
-                                        </select>
+                                    <div class="col-sm-5 divisorColumn">
+                                        <div class="col-xs-6 col-sm-4 col-md-4   no-padding">
+                                            <label class="headinglabel">Revenue Type</label>
+                                            @*    @Html.DropDownList("RevenueType", (SelectList)ViewBag.RevenueT, "Select", new {ng_model = "RevenueTypeID", ng_change = "getSuppliers()", @class = "form-control" })*@
+                                            <input type="hidden" class="form-control textright" ng-model="InvoiceID" name="InvoiceID" id="InvoiceID" />
+                                            <select ng-model="RevenueTypeID" id="RevenueTypeID" class="form-control" tabindex="1" ng_change="getSuppliers()">
+                                                <option value='0'>Select</option>
+                                                <option ng-repeat="b in RevenueTypeList" tp="{{b.TaxPercentage}}" ng-selected="RevenueTypeID==b.RevenueTypeID" value='{{b.RevenueTypeID}}'>{{b.RevenueType}}</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-xs-6 col-sm-4 col-md-4  no-padding">
+                                            <label class="headinglabel">Supplier</label>
+                                            <select ng-model="Supplier2" id="Supplier2" class="form-control" tabindex="2" ng_change="getSupplierID()">
+                                                <option value='0'>Select</option>
+                                                <option ng-repeat="b in Sup" ng-selected="Supplier2==b.SupplierID" value='{{b.SupplierID}}'>{{b.SupplierName}}</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-xs-6 col-sm-2 col-md-2  no-padding">
+                                            <label class="headinglabel">QTY</label>
+                                            <input type="number" class="form-control textright" min="1" ng-model="Quantity" tabindex="3" id="QTY" placeholder="QTY" ng_change="qtyChanged()" />
+                                        </div>
+                                        <div class="col-xs-6 col-sm-2 col-md-2  no-padding">
+                                            <label class="headinglabel">Unit</label>
+                                            @Html.DropDownList("UnitID", (SelectList)ViewBag.Unit, "Select", new { @class = "form-control", tabindex = "4", id = "UnitID" })
+                                        </div>
                                     </div>
-                                    <div class="col-xs-6 col-sm-2 col-md-2 reve_wid no-padding">
-                                        <label class="headinglabel">Supplier</label>
-                                        <select ng-model="Supplier2" id="Supplier2" class="form-control" tabindex="2" ng_change="getSupplierID()">
-                                            <option value='0'>Select</option>
-                                            <option ng-repeat="b in Sup" ng-selected="Supplier2==b.SupplierID" value='{{b.SupplierID}}'>{{b.SupplierName}}</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-xs-6 col-sm-1 col-md-1 rev_uni no-padding">
-                                        <label class="headinglabel">QTY</label>
-                                        <input type="number" class="form-control textright" min="1" ng-model="Quantity" tabindex="3" id="QTY" placeholder="QTY" ng_change="qtyChanged()" />
-                                    </div>
-                                    <div class="col-xs-6 col-sm-1 col-md-1 rev_uni no-padding">
-                                        <label class="headinglabel">Unit</label>
-                                        @Html.DropDownList("UnitID", (SelectList)ViewBag.Unit, "Select", new { @class = "form-control", tabindex = "4", id = "UnitID" })
-                                    </div>
-                                    <div class="col-xs-6 col-sm-2 col-md-2 reve_rate no-padding">
-                                        <label class="headinglabel">Provision Rate</label>
-                                        <input type="number" class="form-control textright txtNum" ng-model="ProRate" id="ProRate" tabindex="5" placeholder="Rate" ng_change="CalcProvForeign()" />
-                                    </div>
-                                    <div class="col-xs-6 col-sm-2 col-md-2 reve_rate no-padding">
-                                        <label class="headinglabel">Provision Currency</label>
-                                        @*Html.DropDownList("ProvisionCurrency", (SelectList)ViewBag.Curency, "Select", new { id = "ProvisionExR", tabindex = "6", ng_selected = "ProvisionCurrencyID1", @ng_model = "ProvisionExR", @ng_change = "getProvisionCurEx()", @class = "form-control" })*@
-                                        <select ng-model="ProvisionExR" id="ProvisionExR" class="form-control" tabindex="6" ng_change="getProvisionCurEx()">
-                                            <option value='0'>Select</option>
-                                            <option ng-repeat="b in CurrencyList" ng-selected="ProvisionExR==b.CurrencyID" value='{{b.CurrencyID}}'>{{b.CurrencyName}}</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-xs-6 col-sm-2 col-md-2  reve_rate no-padding">
-                                        <label class="headinglabel">Provision Ex. Rate</label>
-                                        <input type="text" ng_model="ProexChangeRate" class="form-control textright four-decimals" tabindex="7" id="ProvisionExRate" placeholder="Provision Ex Rate" ng_change="CalcProvForeign()" />
-                                    </div>
-                                    <div class="col-xs-6 col-sm-2 col-md-2 reve_rate no-padding">
-                                        <label class="headinglabel lc_sal">Provision (LC)</label>
-                                        <input type="text" ng-model="ProvisionDomestic" class="form-control textright txtNum" tabindex="8" id="ProvisiDomestic" placeholder="Provision Domestic" />
-                                    </div>
-                                    <div class="col-xs-6 col-sm-2 col-md-2  reve_rate no-padding">
-                                        <label class="headinglabel fc_sal">Provision (FC)</label>
-                                        <input type="text" ng-model="ProvisionForeign" class="form-control textright txtNum" tabindex="9" id="ProvisionForeign" placeholder="Provision Foreign" />
-                                    </div>
+                                    <div class="col-sm-7 divisorColumnNext">
+                                        <div class="col-xs-6 col-sm-4 col-md-4 reve_rates no-padding">
+                                            <label class="headinglabel">Provision Rate</label>
+                                            <input type="number" class="form-control textright txtNum" ng-model="ProRate" id="ProRate" tabindex="5" placeholder="Rate" ng_change="CalcProvForeign()" />
+                                        </div>
+                                        <div class="col-xs-6 col-sm-4 col-md-4 reve_rates no-padding">
+                                            <label class="headinglabel">Prov. Currency</label>
+                                            @*Html.DropDownList("ProvisionCurrency", (SelectList)ViewBag.Curency, "Select", new { id = "ProvisionExR", tabindex = "6", ng_selected = "ProvisionCurrencyID1", @ng_model = "ProvisionExR", @ng_change = "getProvisionCurEx()", @class = "form-control" })*@
+                                            <select ng-model="ProvisionExR" id="ProvisionExR" class="form-control" tabindex="6" ng_change="getProvisionCurEx()">
+                                                <option value='0'>Select</option>
+                                                <option ng-repeat="b in CurrencyList" ng-selected="ProvisionExR==b.CurrencyID" value='{{b.CurrencyID}}'>{{b.CurrencyName}}</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-xs-6 col-sm-4 col-md-4  reve_rates no-padding">
+                                            <label class="headinglabel">Provision Ex. Rate</label>
+                                            <input type="text" ng_model="ProexChangeRate" class="form-control textright four-decimals" tabindex="7" id="ProvisionExRate" placeholder="Provision Ex Rate" ng_change="CalcProvForeign()" />
+                                        </div>
+                                        <div class="col-xs-6 col-sm-4 col-md-4 reve_rates no-padding">
+                                            <label class="headinglabel lc_sal">Provision (LC)</label>
+                                            <input type="text" ng-model="ProvisionDomestic" class="form-control textright txtNum" tabindex="8" id="ProvisiDomestic" placeholder="Provision Domestic" />
+                                        </div>
+                                        <div class="col-xs-6 col-sm-4 col-md-4  reve_rates no-padding">
+                                            <label class="headinglabel fc_sal">Provision (FC)</label>
+                                            <input type="text" ng-model="ProvisionForeign" class="form-control textright txtNum" tabindex="9" id="ProvisionForeign" placeholder="Provision Foreign" />
+                                        </div>
 
-                                    <div class="col-xs-6 col-sm-2 col-md-2 reve_wid no-padding">
-                                        <label class="headinglabel">Margin</label>
-                                        <input type="number" class="form-control textright bg-gray" ng-model="margin" id="margin" placeholder="Margin" readonly />
+                                        <div class="col-xs-6 col-sm-4 col-md-4 reve_wid no-padding">
+                                            <label class="headinglabel">Margin</label>
+                                            <input type="number" class="form-control textright bg-gray" ng-model="margin" id="margin" placeholder="Margin" readonly />
+                                        </div>
                                     </div>
                                 </div>
 
-                                <div class="row no-margin" style="padding-top: 10px">
-                                    <div class="col-xs-6 col-sm-3 col-md-3 note_ls no-padding">
-                                        <div class="notice">
-                                            <ul>
-                                                <li>
-                                                    <p class="lc_pro"> (LC) - Local Currency</p>
-                                                </li>
-                                                <li>
-                                                    <p class="fc_pro"> (FC) - Foreign Currency</p>
-                                                </li>
-                                            </ul>
+                                <div class="row no-margin" style="padding-top: 10px;">
+                                    <div class="col-sm-5 divisorColumn">
+                                        <div class=" note_ls no-padding">
+                                            <div class="notice">
+                                                <ul>
+                                                    <li>
+                                                        <p class="lc_pro"> (LC) - Local Currency</p>
+                                                    </li>
+                                                    <li>
+                                                        <p class="fc_pro"> (FC) - Foreign Currency</p>
+                                                    </li>
+                                                </ul>
 
+                                            </div>
                                         </div>
                                     </div>
+                                    <div class="col-sm-7 divisorColumnNext">
 
-                                    <div class="col-xs-6 col-sm-1 col-md-1 rev_uni no-padding">
-                                        <label class="headinglabel">Tax%</label>
-                                        <input type="number" class="form-control textright" ng-model="tax" id="tax" placeholder="TAX" ng_change="changeTax()" />
-                                    </div>
-                                    <div class="col-xs-6 col-sm-1 col-md-1 rev_uni no-padding">
-                                        <label class="headinglabel">Tax Amt.</label>
-                                        <input type="text" class="form-control textright bg-gray" ng-model="taxamt" id="taxamt" placeholder="Tax Amount" value="0.00" readonly />
-                                    </div>
+                                        <div class="right_side_job" style="display:flex; flex-wrap:wrap;">
+                                            <div class=" reve_rates no-padding">
+                                                <label class="headinglabel">Sales Rate</label>
+                                                <input type="text" class="form-control textright txtNum salrate" tabindex="10" id="SaleRate" value="0.00" ng-model="SaleRate" placeholder="Rate" ng_change="CalcSaleForeign()" />
+                                            </div>
 
-                                    <div class="col-xs-6 col-sm-2 col-md-2 reve_rate no-padding">
-                                        <label class="headinglabel">Sales Rate</label>
-                                        <input type="text" class="form-control textright txtNum salrate" tabindex="10" id="SaleRate" value="0.00" ng-model="SaleRate" placeholder="Rate" ng_change="CalcSaleForeign()" />
-                                    </div>
+                                            <div class="reve_rates  no-padding">
+                                                <label class="headinglabel">Sales Currency</label>
+                                                @*     @Html.DropDownList("SalesCurrency", (SelectList)ViewBag.Curency, "", new { ng_selected = "SalesCurrencyID1", ng_model = "SalesExR", ng_change = "getSalesCurEx()", @class = "form-control" })*@
+                                                <select ng-model="SalesExR" id="SalesExR" class="form-control" tabindex="11" ng_change="getSalesCurEx()">
+                                                    <option value='0'>Select</option>
+                                                    @* <option ng-repeat="b in CurrencyList" value='{{b.CurrencyID}}'>{{b.CurrencyName}}</option>*@
+                                                    <option ng-repeat="b in CurrencyList" ng-selected="SalesCurrencyID==b.CurrencyID" value='{{b.CurrencyID}}'>{{b.CurrencyName}}</option>
+                                                </select>
 
-                                    <div class="col-xs-6 col-sm-2 col-md-2 reve_rate  no-padding">
-                                        <label class="headinglabel">Sales Currency</label>
-                                        @*     @Html.DropDownList("SalesCurrency", (SelectList)ViewBag.Curency, "", new { ng_selected = "SalesCurrencyID1", ng_model = "SalesExR", ng_change = "getSalesCurEx()", @class = "form-control" })*@
-                                        <select ng-model="SalesExR" id="SalesExR" class="form-control" tabindex="11" ng_change="getSalesCurEx()">
-                                            <option value='0'>Select</option>
-                                            @* <option ng-repeat="b in CurrencyList" value='{{b.CurrencyID}}'>{{b.CurrencyName}}</option>*@
-                                            <option ng-repeat="b in CurrencyList" ng-selected="SalesCurrencyID==b.CurrencyID" value='{{b.CurrencyID}}'>{{b.CurrencyName}}</option>
-                                        </select>
+                                            </div>
 
+                                            <div class=" reve_rates no-padding">
+                                                <label class="headinglabel">Sales Ex. Rate</label>
+                                                <input type="text" ng-model="SaleexChangeRate" class="form-control textright four-decimals" tabindex="12" id="SalesExRate" placeholder="Sales Ex Rate" ng_change="CalcSaleForeign()" />
+                                            </div>
+                                            <div class=" reve_rates no-padding">
+                                                <label class="headinglabel lc_sal">Sales (LC)</label>
+                                                <input type="text" ng-model="SalesDomestic" ng-bind={{SaleRate}} class="form-control textright txtNum " tabindex="13" id="SalesDomestic" placeholder="Sales Domestic" />
+                                            </div>
+                                            <div class=" reve_rates no-padding">
+                                                <label class="headinglabel fc_sal">Sales (FC)</label>
+                                                <input type="text" ng-model="SalesForeign" class="form-control textright txtNum" tabindex="14" id="SalesForeign" placeholder="Sales Foreign" />
+                                            </div>
+                                            <div class=" rev_unit no-padding">
+                                                <label class="headinglabel">Tax%</label>
+                                                <input type="number" class="form-control textright" ng-model="tax" id="tax" placeholder="TAX" ng_change="changeTax()" />
+                                            </div>
+                                            <div class=" rev_unit no-padding">
+                                                <label class="headinglabel">Tax Amt.</label>
+                                                <input type="text" class="form-control textright bg-gray" ng-model="taxamt" id="taxamt" placeholder="Tax Amount" value="0.00" readonly />
+                                            </div>
+                                        </div>
                                     </div>
+                                    <div class="col-md-12">
 
-                                    <div class="col-xs-6 col-sm-2 col-md-2 reve_rate no-padding">
-                                        <label class="headinglabel">Sales Ex. Rate</label>
-                                        <input type="text" ng-model="SaleexChangeRate" class="form-control textright four-decimals" tabindex="12" id="SalesExRate" placeholder="Sales Ex Rate" ng_change="CalcSaleForeign()" />
-                                    </div>
-                                    <div class="col-xs-6 col-sm-2 col-md-2 reve_rate no-padding">
-                                        <label class="headinglabel lc_sal">Sales (LC)</label>
-                                        <input type="text" ng-model="SalesDomestic" ng-bind={{SaleRate}} class="form-control textright txtNum " tabindex="13" id="SalesDomestic" placeholder="Sales Domestic" />
-                                    </div>
-                                    <div class="col-xs-6 col-sm-2 col-md-2 reve_rate no-padding">
-                                        <label class="headinglabel fc_sal">Sales (FC)</label>
-                                        <input type="text" ng-model="SalesForeign" class="form-control textright txtNum" tabindex="14" id="SalesForeign" placeholder="Sales Foreign" />
-                                    </div>
-                                    <div class="col-xs-6 col-sm-2 col-md-2 rev_uni  no-padding" style="text-align: right; margin-top: 21px;">
-                                        <input type="hidden" id="charges_update_index" value="0" />
-                                        <input type="button" id="update_charges" ng-click="updateCharges()" value="Update" style="display:none;margin-top:2px;" class="btn btn-primary btnwidth" />
-                                        <input type="button" id="cancel_edit_charges" ng-click="cancelEditCharges()" value="Cancel" style="display:none;margin-top:2px;" class="btn btn-primary btnwidth" />
-                                        <input type="button" id="add_charges" ng-click="addCharges()" value="Add" class="btn btn-primary btnwidth" />
+                                        <div class="col-xs-6 col-sm-12 col-md-12 butdivs   no-padding" style="text-align: right; margin-top:10px;">
+                                            <input type="hidden" id="charges_update_index" value="0" />
+                                            <input type="button" id="update_charges" ng-click="updateCharges()" value="Update" style="display:none;margin-top:2px;" class="btn btn-primary btnwidth" />
+                                            <input type="button" id="cancel_edit_charges" ng-click="cancelEditCharges()" value="Cancel" style="display:none;margin-top:2px;" class="btn btn-primary btnwidth" />
+                                            <input type="button" id="add_charges" ng-click="addCharges()" value="New" class="btn btn-primary btnwidth" />
+                                        </div>
                                     </div>
                                 </div>
                                 <script>
@@ -1500,7 +1187,7 @@
                             <div class="row no-margin border1px" style="padding-top: 10px">
                                 <div class="col-xs-12 no-padding" style="text-align: right">
                                     <input type="hidden" id="cargo_update_index" value="0">
-                                    <input type="button" id="add_cargo" data-ng-click="addCargoDesc()" value="Add" class="btn btn-primary btnwidth" />
+                                    <input type="button" id="add_cargo" data-ng-click="addCargoDesc()" value="New" class="btn btn-primary btnwidth" />
                                     <input type="button" id="update_cargo" data-ng-click="updateCargo()" value="Update" style="display:none;" class="btn btn-primary btnwidth" />
                                     <input type="button" id="cancel_edit_cargo" data-ng-click="cancelEditCargo()" value="Cancel" style="display:none;" class="btn btn-primary btnwidth" />
                                 </div>
@@ -1555,7 +1242,7 @@
                             </div>
                             <div class="row no-margin border1px" style="padding-top: 10px">
                                 <div class="col-xs-12 no-padding" style="text-align: right">
-                                    <input type="button" id="add_container" data-ng-click="addContainerDetails()" value="Add" class="btn btn-primary btnwidth" />
+                                    <input type="button" id="add_container" data-ng-click="addContainerDetails()" value="New" class="btn btn-primary btnwidth" />
                                     <input type="hidden" id="container_update_index" value="0">
                                     <input type="button" id="update_container" data-ng-click="updateContainerDetails()" value="Update" style="display:none;" class="btn btn-primary btnwidth" />
                                     <input type="button" id="cancel_edit_container" data-ng-click="cancelEditContainerDetails()" value="Cancel" style="display:none;" class="btn btn-primary btnwidth" />
@@ -1712,7 +1399,7 @@
                                 </div>
                                 <div class="row no-margin border1px" style="padding-top: 10px">
                                     <div class="col-xs-12 no-padding" style="text-align: right">
-                                        <input type="button" id="add_bill" value="Add" ng-click="addBillOfEntry()" class="btn btn-primary btnwidth" />
+                                        <input type="button" id="add_bill" value="New" ng-click="addBillOfEntry()" class="btn btn-primary btnwidth" />
                                         <input type="hidden" id="billofentry_update_index" value="0">
                                         <input type="button" id="update_billofentry" data-ng-click="updateBillOfEntry()" value="Update" style="display:none;" class="btn btn-primary btnwidth" />
                                         <input type="button" id="cancel_edit_billofentry" data-ng-click="cancelBillOfEntry()" value="Cancel" style="display:none;" class="btn btn-primary btnwidth" />
@@ -1896,7 +1583,7 @@
                             </div>
                             <div class="row no-margin border1px" style="padding-top: 10px">
                                 <div class="col-xs-12 no-padding" style="text-align: right">
-                                    <input type="button" id="add_notification" data-ng-click="addAuditDet()" value="Add" class="btn btn-primary btnwidth" />
+                                    <input type="button" id="add_notification" data-ng-click="addAuditDet()" value="New" class="btn btn-primary btnwidth" />
                                     <input type="hidden" id="notification_update_index" value="0">
                                     <input type="button" id="update_notification" data-ng-click="updateNotification()" value="Update" style="display:none;" class="btn btn-primary btnwidth" />
                                     <input type="button" id="cancel_edit_notification" data-ng-click="cancelNotification()" value="Cancel" style="display:none;" class="btn btn-primary btnwidth" />
@@ -1943,7 +1630,7 @@
 
                 </div>
                 <div class="row no-margin buttons" style="padding-top: 10px">
-                    <div class="col-md-12 align-right" style="text-align: left">
+                    <div class="col-md-12 butdivs">
                         @{ if (Model.JobID > 0)
                             {
                                 <input type="submit" name="Command" value="Update" class="btn btn-primary btnwidth" />
@@ -1955,7 +1642,7 @@
 
                         }
                         &nbsp;
-                        <a href='@Url.Action("JobDetails", "Job", new { id = 0 })' class="btn btn-primary btnwidth">Cancel</a>
+                        <a href='@Url.Action("JobDetails", "Job", new { id = 0 })' class="btn btn-danger btnwidth">Cancel</a>
                         &nbsp;
                         @{ if (Model.JobID > 0)
                             {
@@ -1974,7 +1661,6 @@
                                 }
                             }
                         }
-
 
 
                     </div>

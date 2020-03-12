@@ -417,9 +417,20 @@ namespace TrueBooksMVC.Controllers
         [HttpPost]
         public ActionResult CreateExpenseAnalysisHead(AnalysisHead a)
         {
-            context.AnalysisHeadInsert(a.AnalysisCode, a.AnalysisHead1, a.AnalysisGroupID, Convert.ToInt32(Session["AcCompanyID"].ToString()));
-            ViewBag.SuccessMsg = "You have successfully added Analysis Head.";
-            return View("IndexExpenseAnalysisHead", context.AnalysisHeadSelectAll(Convert.ToInt32(Session["AcCompanyID"].ToString())));
+            var analysisCode = context.AnalysisHeadSelectAll(Convert.ToInt32(Session["AcCompanyID"].ToString()));
+            var codeIsexist = analysisCode.Where(d => d.AnalysisCode == a.AnalysisCode).FirstOrDefault();
+            if (codeIsexist == null)
+            {
+                context.AnalysisHeadInsert(a.AnalysisCode, a.AnalysisHead1, a.AnalysisGroupID, Convert.ToInt32(Session["AcCompanyID"].ToString()));
+                ViewBag.SuccessMsg = "You have successfully added Analysis Head.";
+                return View("IndexExpenseAnalysisHead", context.AnalysisHeadSelectAll(Convert.ToInt32(Session["AcCompanyID"].ToString())));
+            }
+            else
+            {
+                ViewBag.groups = context.AnalysisGroupSelectAll().ToList();
+                ViewBag.ErrorMsg = "Analysis Code Already Exist.";
+                return View();
+            }
         }
 
 
@@ -434,11 +445,23 @@ namespace TrueBooksMVC.Controllers
         [HttpPost]
         public ActionResult EditExpenseAnalysisHead(AnalysisHeadSelectByID_Result a)
         {
+            var analysisCode = context.AnalysisHeadSelectAll(Convert.ToInt32(Session["AcCompanyID"].ToString()));
+            var codeIsexist = analysisCode.Where(d => d.AnalysisCode == a.AnalysisCode && d.AnalysisHeadID != a.AnalysisHeadID).FirstOrDefault();
+            if (codeIsexist == null)
+            {
+                context.AnalysisHeadUpdate(a.AnalysisHeadID, a.AnalysisCode, a.AnalysisHead, a.AnalysisGroupID);
 
-            context.AnalysisHeadUpdate(a.AnalysisHeadID, a.AnalysisCode, a.AnalysisHead, a.AnalysisGroupID);
+                ViewBag.SuccessMsg = "You have successfully updated Analysis Head.";
+                return View("IndexExpenseAnalysisHead", context.AnalysisHeadSelectAll(Convert.ToInt32(Session["AcCompanyID"].ToString())));
+            }
+            else
+            {
+                var result = context.AnalysisHeadSelectByID(a.AnalysisHeadID);
+                ViewBag.groups = context.AnalysisGroupSelectAll().ToList();
+                ViewBag.ErrorMsg = "Analysis Code Already Exist.";
 
-            ViewBag.SuccessMsg = "You have successfully updated Analysis Head.";
-            return View("IndexExpenseAnalysisHead", context.AnalysisHeadSelectAll(Convert.ToInt32(Session["AcCompanyID"].ToString())));
+                return View(result.FirstOrDefault());
+            }
         }
 
 
@@ -822,7 +845,8 @@ namespace TrueBooksMVC.Controllers
                                                 new { ID = "5", pay = "Bank Deposit" },
                                         }, "ID", "pay", 1);
 
-
+            var paymentterms = (from d in context.PaymentTerms select d).ToList();
+            var paytypes1 = new SelectList(paymentterms, "PaymentTermID", "PaymentTerm1");
             ViewBag.transtypes = transtypes;
             ViewBag.paytypes = paytypes;
             //ViewBag.heads = context.AcHeadSelectForCash(Convert.ToInt32(Session["AcCompanyID"].ToString()));
@@ -925,8 +949,12 @@ namespace TrueBooksMVC.Controllers
 
             if (v.chequeno!=null)
             {
+
+                var bankdetailid = (from c in context.AcBankDetails orderby c.AcBankDetailID descending select c.AcBankDetailID).FirstOrDefault();
+                
+
                 AcBankDetail acbankDetails = new AcBankDetail();
-                acbankDetails.AcBankDetailID = 0;
+                acbankDetails.AcBankDetailID = bankdetailid + 1; 
                 acbankDetails.AcJournalID = ajm.AcJournalID;
                 acbankDetails.BankName = v.bankname;
                 acbankDetails.ChequeDate = v.chequedate;
@@ -934,7 +962,15 @@ namespace TrueBooksMVC.Controllers
                 acbankDetails.PartyName = v.partyname;
                 acbankDetails.StatusTrans = StatusTrans;
                 acbankDetails.StatusReconciled = false;
-               DAL.InsertOrUpdateAcBankDetails(acbankDetails);
+                if (acbankDetails.BankName == null)
+                {
+                    acbankDetails.BankName = "B";
+                }
+                if (acbankDetails.PartyName == null)
+                {
+                    acbankDetails.PartyName = "P";
+                }
+                DAL.InsertOrUpdateAcBankDetails(acbankDetails,0);
             }
 
             decimal TotalAmt=0;
@@ -947,29 +983,29 @@ namespace TrueBooksMVC.Controllers
             }
 
 
-         //   AcJournalDetail ac = new AcJournalDetail();
-        //    int maxAcJDetailID = 0;
-       //     maxAcJDetailID = (from c in context.AcJournalDetails orderby c.AcJournalDetailID descending select c.AcJournalDetailID).FirstOrDefault();
-
-        //    ac.AcJournalDetailID = maxAcJDetailID + 1;
-       //     ac.AcJournalID = ajm.AcJournalID;
-        //    ac.AcHeadID = v.SelectedAcHead;
-       //     if (StatusTrans == "P")
-         //   {
-         //       ac.Amount = -(TotalAmt);
-         //   }
-         //   else
-         //   {
-          //      ac.Amount = TotalAmt;
-           // }
-         //   ac.Remarks = v.AcJDetailVM[0].Rem;
-          //  ac.BranchID = Convert.ToInt32(Session["AcCompanyID"].ToString());
-
-         //   context.AcJournalDetails.Add(ac);
-        //    context.SaveChanges();
-
-
+            AcJournalDetail ac = new AcJournalDetail();
             int maxAcJDetailID = 0;
+            maxAcJDetailID = (from c in context.AcJournalDetails orderby c.AcJournalDetailID descending select c.AcJournalDetailID).FirstOrDefault();
+
+            ac.AcJournalDetailID = maxAcJDetailID + 1;
+            ac.AcJournalID = ajm.AcJournalID;
+            ac.AcHeadID = v.SelectedAcHead;
+            if (StatusTrans == "P")
+            {
+                ac.Amount = -(TotalAmt);
+            }
+            else
+            {
+                ac.Amount = TotalAmt;
+            }
+            ac.Remarks = v.AcJDetailVM[0].Rem;
+            ac.BranchID = Convert.ToInt32(Session["branchid"].ToString());
+
+            context.AcJournalDetails.Add(ac);
+            context.SaveChanges();
+
+
+            //int maxAcJDetailID = 0;
             
             for (int i = 0; i < v.AcJDetailVM.Count; i++)
             {
@@ -980,7 +1016,7 @@ namespace TrueBooksMVC.Controllers
                 acJournalDetail.AcJournalDetailID = maxAcJDetailID + 1;
                 acJournalDetail.AcHeadID = v.AcJDetailVM[i].AcHeadID;
 
-                acJournalDetail.BranchID = Convert.ToInt32(Session["AcCompanyID"]);
+                acJournalDetail.BranchID = Convert.ToInt32(Session["branchid"]);
                 acJournalDetail.AcJournalID = ajm.AcJournalID;
                 acJournalDetail.Remarks = v.AcJDetailVM[i].Rem;
 
@@ -1068,9 +1104,24 @@ namespace TrueBooksMVC.Controllers
                 StatusTrans = "R";
             else if (v.TransactionType == "CBP" || v.TransactionType == "BKP")
                 StatusTrans = "P";
+            int maxBankDetailID = 0;
+            int isexistbankdetail = 0;
 
             if (v.chequeno != null)
             {
+               
+                if (v.AcBankDetailID > 0)
+                {
+                    maxBankDetailID = v.AcBankDetailID;
+                    isexistbankdetail = 1;
+                }
+                else
+                {
+                  var  bankdetailid = (from c in context.AcBankDetails orderby c.AcBankDetailID descending select c.AcBankDetailID).FirstOrDefault();
+                    v.AcBankDetailID = bankdetailid + 1;
+                    isexistbankdetail = 0;
+
+                }
                 AcBankDetail acbankDetails = new AcBankDetail();
                 acbankDetails.AcBankDetailID = v.AcBankDetailID;
                 acbankDetails.BankName = v.bankname;
@@ -1079,8 +1130,20 @@ namespace TrueBooksMVC.Controllers
                 acbankDetails.PartyName = v.partyname;
                 acbankDetails.AcJournalID = ajm.AcJournalID;
                 acbankDetails.StatusTrans = StatusTrans;
-                acbankDetails.StatusReconciled = false;
-                DAL.InsertOrUpdateAcBankDetails(acbankDetails);
+                acbankDetails.StatusReconciled = false;   
+                if(acbankDetails.BankName==null)
+                {
+                    acbankDetails.BankName = "B";
+                }
+                if (acbankDetails.PartyName == null)
+                {
+                    acbankDetails.PartyName = "P";
+                }
+                DAL.InsertOrUpdateAcBankDetails(acbankDetails, isexistbankdetail);
+            }
+            else
+            {
+               
             }
 
             decimal TotalAmt = 0;
@@ -1089,6 +1152,23 @@ namespace TrueBooksMVC.Controllers
             {
                 TotalAmt = TotalAmt + Convert.ToDecimal(v.AcJDetailVM[i].Amt);
             }
+            var ac = (from c in context.AcJournalDetails where c.AcJournalID == ajm.AcJournalID select c).FirstOrDefault();
+            ac.AcJournalDetailID = ac.AcJournalDetailID;
+            ac.AcJournalID = ajm.AcJournalID;
+            ac.AcHeadID = v.SelectedAcHead;
+            if (StatusTrans == "P")
+            {
+                ac.Amount = -(TotalAmt);
+            }
+            else
+            {
+                ac.Amount = TotalAmt;
+            }
+            ac.Remarks = v.AcJDetailVM[0].Rem;
+            ac.BranchID = Convert.ToInt32(Session["branchid"].ToString());
+
+            context.Entry(ac).State = EntityState.Modified;
+            context.SaveChanges();
 
             int maxAcJDetailID = 0;
 
@@ -1112,10 +1192,9 @@ namespace TrueBooksMVC.Controllers
                     acJournalDetail.AcJournalDetailID = maxAcJDetailID + 1;
                 }
                 acJournalDetail.AcHeadID = v.AcJDetailVM[i].AcHeadID;
-                acJournalDetail.BranchID = Convert.ToInt32(Session["AcCompanyID"]);
+                acJournalDetail.BranchID = Convert.ToInt32(Session["branchid"]);
                 acJournalDetail.AcJournalID = ajm.AcJournalID;
                 acJournalDetail.Remarks = v.AcJDetailVM[i].Rem;
-
                 if (StatusTrans == "P")
                 {
                     acJournalDetail.Amount = (v.AcJDetailVM[i].Amt);
@@ -1123,6 +1202,10 @@ namespace TrueBooksMVC.Controllers
                 else
                 {
                     acJournalDetail.Amount = -v.AcJDetailVM[i].Amt;
+                }
+                if(acJournalDetail.AnalysisHeadID==null)
+                {
+                    acJournalDetail.AnalysisHeadID = 0;
                 }
                 if (IdExists > 0)
                 {
@@ -1343,7 +1426,6 @@ namespace TrueBooksMVC.Controllers
                                            
                                         },
            "ID", "trans", 1);
-
             var paytypes = new SelectList(new[]{
                                             new { ID = "1", pay = "Cash" },
                                              new { ID = "2", pay = "Cheque" },
@@ -1351,8 +1433,8 @@ namespace TrueBooksMVC.Controllers
                                                new { ID = "4", pay = "Bank Transfer" },
                                                 new { ID = "5", pay = "Bank Deposit" },
                                         }, "ID", "pay", 1);
-
-
+            var paymentterms = (from d in context.PaymentTerms select d).ToList();
+            var paytypes1 = new SelectList(paymentterms, "PaymentTermID", "PaymentTerm1");
             ViewBag.transtypes = transtypes;
             ViewBag.paytypes = paytypes;
             if (v.VoucherType == "CBR" || v.VoucherType == "CBP")
@@ -2085,19 +2167,51 @@ namespace TrueBooksMVC.Controllers
         public JsonResult GetNewFYear(string cFyearFrom,string cFyearTo)
         {
             YearEndProcessVM v = new YearEndProcessVM();
-          
-            v.CurrentFYearFrom = cFyearFrom;
-            v.CurrentFYearTo = cFyearTo;
+            //using (StreamWriter _logData = new StreamWriter(System.Web.Hosting.HostingEnvironment.MapPath("~/Logyearend.txt"), true))
+            //{
+                //try
+                //{
+                    //_logData.WriteLine("Fyear :" + cFyearFrom);
+                    //_logData.WriteLine("toyear :" + cFyearTo);
 
-            DateTime tnewfyear = Convert.ToDateTime(cFyearFrom).AddYears(1);
 
+                    v.CurrentFYearFrom = cFyearFrom;
+                    v.CurrentFYearTo = cFyearTo;
 
-            v.NewFYearFrom = tnewfyear.ToString("dd/MM/yyyy");
+                    var fdate = cFyearFrom.Split('/');
+                    var tdate = cFyearTo.Split('/');
+                    if(Convert.ToInt32(fdate[0])>12)
+                    {
+                        cFyearFrom = fdate[1] + "/" + fdate[0] + "/" + fdate[2];
 
-            DateTime tnewtyear = Convert.ToDateTime(cFyearTo).AddYears(1);
-            v.NewFYearTo = tnewtyear.ToString("dd/MM/yyyy");
-            v.Reference = tnewfyear.Year + "-" + tnewtyear.Year;
+                    }
+                    if (Convert.ToInt32(tdate[0]) > 12)
+                    {
+                        cFyearTo = tdate[1] + "/" + tdate[0] + "/" + tdate[2];
 
+                    }
+                    DateTime tnewfyear = Convert.ToDateTime(cFyearFrom).AddYears(1);
+
+                    //_logData.WriteLine("tnewfyear :" + tnewfyear);
+                    v.NewFYearFrom = tnewfyear.ToString("dd/MM/yyyy");
+                    //_logData.WriteLine("NewFYearFrom :" + v.NewFYearFrom);
+
+                    DateTime tnewtyear = Convert.ToDateTime(cFyearTo).AddYears(1);
+                    //_logData.WriteLine("tnewtyear :" + tnewtyear);
+
+                    v.NewFYearTo = tnewtyear.ToString("dd/MM/yyyy");
+                    //_logData.WriteLine("tnewtyear :" + v.NewFYearTo);
+
+                    v.Reference = tnewfyear.Year + "-" + tnewtyear.Year;
+                    //_logData.WriteLine("Reference :" + v.Reference);
+
+                //}
+                //catch(Exception ex)
+                //{
+                //    _logData.WriteLine("Error :" +ex.Message.ToString());
+
+                //}
+            //}
             return Json(v, JsonRequestBehavior.AllowGet);
         }
 
@@ -2111,21 +2225,184 @@ namespace TrueBooksMVC.Controllers
                 {
                     NewFYearID = a.AcFinancialYearID;
                 }
+            var fdate = NewYearFrom.Split('/');
+            var tdate = NewYearTo.Split('/');
+            if (Convert.ToInt32(fdate[0]) > 12)
+            {
+                NewYearFrom = fdate[1] + "/" + fdate[0] + "/" + fdate[2];
 
-              //bool result = ESS.SOP.BLL.AcFinancialYear.SaveNewFinancialYear(Convert.ToInt32(Session["fyearid"]), Convert.ToInt32(Session["AcCompanyID"]), Convert.ToDateTime(dpNewFyearFrom.SelectedDate), Convert.ToDateTime(dpNewFyearTo.SelectedDate), txtReferenceName.Text, Convert.ToInt32(Session["userid"]), newFinancialYearID);
+            }
+            if (Convert.ToInt32(tdate[0]) > 12)
+            {
+                NewYearTo = tdate[1] + "/" + tdate[0] + "/" + tdate[2];
 
-              //int res = context1.SaveFinancialYear(Convert.ToInt32(Session["fyearid"].ToString()), Convert.ToInt32(Session["AcCompanyID"].ToString()), Convert.ToDateTime(NewYearFrom), Convert.ToDateTime(NewYearTo), ref1, Convert.ToInt32(Session["UserdID"].ToString()), NewFYearID);
-                int res = 10;
-              return Json( res, JsonRequestBehavior.AllowGet);
+            }
+            //bool result = ESS.SOP.BLL.AcFinancialYear.SaveNewFinancialYear(Convert.ToInt32(Session["fyearid"]), Convert.ToInt32(Session["AcCompanyID"]), Convert.ToDateTime(dpNewFyearFrom.SelectedDate), Convert.ToDateTime(dpNewFyearTo.SelectedDate), txtReferenceName.Text, Convert.ToInt32(Session["userid"]), newFinancialYearID);
+
+            int res = context1.SaveFinancialYear(Convert.ToInt32(Session["fyearid"].ToString()), Convert.ToInt32(Session["AcCompanyID"].ToString()), Convert.ToDateTime(NewYearFrom), Convert.ToDateTime(NewYearTo), ref1, Convert.ToInt32(Session["UserID"].ToString()), NewFYearID);
+            var Openbal = context1.GetOpeningBalanceForYE(Convert.ToInt32(Session["fyearid"].ToString()), Convert.ToInt32(Session["AcCompanyID"].ToString()));
+            int res1 = 10;
+              return Json(Openbal, JsonRequestBehavior.AllowGet);
         }
+        public JsonResult BindPLOpenBalance()
+        {
+            SHIPPING_FinalEntities context1 = new SHIPPING_FinalEntities();
+              var Openbal = context1.GetPLOpeningAmount(Convert.ToInt32(Session["fyearid"].ToString()), Convert.ToInt32(Session["AcCompanyID"].ToString()));
+            return Json(Openbal, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult BindPLOpenBalanceFinish(string reference)
+        {
+            SHIPPING_FinalEntities context1 = new SHIPPING_FinalEntities();
+            try
+            {
+                Yearend(reference);
+            }
+            catch (Exception ex)
+            {
+                var Openbal = context1.GetPLOpeningAmount(Convert.ToInt32(Session["fyearid"].ToString()), Convert.ToInt32(Session["AcCompanyID"].ToString()));
+
+                return Json(new { success = false, message = ex.Message.ToString(), bal = Openbal }, JsonRequestBehavior.AllowGet);
+
+            }
+            var Openbal1 = context1.GetPLOpeningAmount(Convert.ToInt32(Session["fyearid"].ToString()), Convert.ToInt32(Session["AcCompanyID"].ToString()));
+
+            return Json(new { success = true, message = "Year end process completed successfully.", bal = Openbal1 }, JsonRequestBehavior.AllowGet);
+        }
+        public void Yearend(string ref1)
+        {
+
+            var lstAcHead = context.AcHeadSelectAll(Convert.ToInt32(Session["AcCompanyID"].ToString()));
+            var lstAcJournalMaster = new List<AcJournalMaster>();
+            var acJournalMaster=new AcJournalMaster();
+            List<AcJournalDetail> lstAcJournalDetail=new List<AcJournalDetail>();
+            AcJournalDetail acJournalDetail = new AcJournalDetail(); ;
+            var Openbal = context.GetPLOpeningAmount(Convert.ToInt32(Session["fyearid"].ToString()), Convert.ToInt32(Session["AcCompanyID"].ToString()));
+
+            foreach (var item in Openbal)
+            {
+                lstAcJournalDetail = new List<AcJournalDetail>();
+                decimal Amount = Convert.ToDecimal(item.Balance);
+                if(item.Balance==null)
+                {
+                    Amount = 0;
+                }
+
+                if (Amount != 0)
+                {
+                    //Add YearEnd in AcJournalMaster
+                    int maxAcJDetailID = 0;
+                    maxAcJDetailID = (from c in context.AcJournalDetails orderby c.AcJournalDetailID descending select c.AcJournalDetailID).FirstOrDefault();
+
+                    acJournalMaster = new AcJournalMaster();
+
+                    acJournalMaster.VoucherNo = "";
+                    acJournalMaster.TransDate = DateTime.Now; ;
+                    acJournalMaster.AcFinancialYearID = Convert.ToInt32(Session["fyearid"]);
+                    acJournalMaster.VoucherType = "YE";
+                    acJournalMaster.TransType = 1;
+                    acJournalMaster.StatusDelete = false;
+                    acJournalMaster.UserID = Convert.ToInt32(Session["userid"]);
+
+                    //Add Year End in AcJournalDetail
+                    acJournalDetail = new AcJournalDetail();
+                    acJournalDetail.AcJournalDetailID = maxAcJDetailID + 1;
+
+                    acJournalDetail.AcHeadID = item.AcHeadID;
+                    acJournalDetail.Amount = Amount * -1;
+                    acJournalDetail.Remarks = "Closing Adjustment";
+                    lstAcJournalDetail.Add(acJournalDetail);
+
+                    acJournalDetail = new AcJournalDetail();
+                    var achead = (from d in  context.AcHeads where d.AcHeadID==30 select d).FirstOrDefault();
+                    acJournalDetail.AcHeadID = achead.AcHeadID;
+                    acJournalDetail.Amount = Amount;
+                    acJournalDetail.Remarks = "";
+                    acJournalDetail.AcJournalDetailID = maxAcJDetailID + 2;
+                    lstAcJournalDetail.Add(acJournalDetail);
+
+                    acJournalMaster.AcJournalDetails = lstAcJournalDetail;
+                    lstAcJournalMaster.Add(acJournalMaster);
+                }
+            }
+            foreach (var item in lstAcJournalMaster.ToList())
+            {
+                SHIPPING_FinalEntities c1 = new SHIPPING_FinalEntities();
+                c1.AcJournalMasters.Add(item);
+                c1.SaveChanges();
+            }
+          
+            AddInAcOpeningMaster(lstAcHead.ToList(),ref1);
+
+        }
+        private void AddInAcOpeningMaster(List<AcHeadSelectAll_Result> lstAcHead,string ref1)
+        {
+            //AcOpening enter Assets and expenses
+            List<AcOpeningMaster> lstAcOpeningMaster = new List<AcOpeningMaster>();
+            Int32 acFinancialYearID = (from c in context.AcFinancialYears where c.ReferenceName == ref1 select c.AcFinancialYearID).FirstOrDefault(); ;
+            if(acFinancialYearID==0)
+            {
+                acFinancialYearID = Convert.ToInt32(Session["fyearid"]);
+            }
+            var acOpeningMaster=new AcOpeningMaster();
+            var Openbal = context.GetPLOpeningAmount(Convert.ToInt32(Session["fyearid"].ToString()), Convert.ToInt32(Session["AcCompanyID"].ToString()));
+
+            foreach (var item in Openbal)
+            {
+                decimal Amount = Convert.ToDecimal(item.Balance);
+                if (item.Balance == null)
+                {
+                    Amount = 0;
+                }
+                if (Amount != 0)
+                {
+                    acOpeningMaster = new AcOpeningMaster();
+                    acOpeningMaster.AcFinancialYearID = acFinancialYearID;
+                    acOpeningMaster.OPDate = DateTime.Now;
+                    acOpeningMaster.AcHeadID =item.AcHeadID;
+                    acOpeningMaster.Amount = Amount;
+                    acOpeningMaster.UserID = Convert.ToInt32(Session["userid"]);
+                    lstAcOpeningMaster.Add(acOpeningMaster);
+                }
+
+            }
+            //Enter PLAccount in AcOpening With New Financial Year ID
+            acOpeningMaster = new AcOpeningMaster();
+            if (ref1 != string.Empty)
+            {
+                acOpeningMaster.AcFinancialYearID = acFinancialYearID; //ESS.SOP.BLL.AcFinancialYear.GetNewFinancialYearID(txtReferenceName.Text);
+            }
+            //acOpeningMaster.OPDate
+            var profitlossAccountID = (from d in context.AcHeads where d.AcHeadID == 30 select d).FirstOrDefault();
+            acOpeningMaster.AcHeadID = profitlossAccountID.AcHeadID;
+            acOpeningMaster.OPDate = DateTime.Now; ;
+            var abc = (from p in context.AcJournalDetails
+                       join l in context.AcJournalMasters on p.AcJournalID equals l.AcJournalID
+                       where l.VoucherType == "YE" && l.TransType == 1 && p.AcHeadID == profitlossAccountID.AcHeadID
+                       select p).ToList();
+            decimal? plAmount = abc.Sum(i => i.Amount);
+            acOpeningMaster.Amount = plAmount;
+
+            acOpeningMaster.UserID = Convert.ToInt32(Session["userid"]);
+            lstAcOpeningMaster.Add(acOpeningMaster);
+            Int32 ID = -1;
+            foreach (var item in lstAcOpeningMaster.ToList())
+            {
+                item.AcOpeningID = ID;
+                context.AcOpeningMasters.Add(item);
+                ID = ID - 1;
+            }
+           var  sresult = context.SaveChanges();
+            context.Dispose();
+
+           
+        }
+
 
 
     }
 
 
 
-
-   
 }
 public static class MvcHelpers
 {

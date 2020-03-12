@@ -17,67 +17,67 @@
     }
 </style>
 <script type="text/javascript">
-        $(document).ready(function () {
-            $("#CountryName").focus();
-            $(":text").css({ "border-radius": "5px" });
-            $("select").css({ "border-radius": "5px" });
+    $(document).ready(function () {
+        $("#CountryName").focus();
+        $(":text").css({ "border-radius": "5px" });
+        $("select").css({ "border-radius": "5px" });
 
-            $("#btnsave").click(function () {
-                var cur = $("#CurrencyName").val();
-                var sym = $("#Symbol").val();
-                var nod = $("#NoOfDecimals").val();
-                var mod = $("#MonetaryUnit").val();
-                var cou = $("#CountryID option:selected").val();
-                var exc = $("#ExchangeRate").val();
-
-
-                if (cur == "") {
-                    $("#alert").show();
-                    return false;
-                }
-                else if (sym == "") {
-                    $("#alert").show();
-                    return false;
-                }
-                else if (nod == "") {
-                    $("#alert").show();
-                    return false;
-                }
-                else if (mod == "") {
-
-                    $("#alert").show();
-                    return false;
-                }
-                else if (cou == "") {
-
-                    $("#alert").show();
-                    return false;
-                }
-                else if (exc == "") {
-
-                    $("#alert").show();
-                    return false;
-                }
-                else {
-                    $("#alert").hide();
-                    return true;
-                }
+        $("#btnsave").click(function () {
+            var cur = $("#CurrencyName").val();
+            var sym = $("#Symbol").val();
+            var nod = $("#NoOfDecimals").val();
+            var mod = $("#MonetaryUnit").val();
+            var cou = $("#CountryID option:selected").val();
+            var exc = $("#ExchangeRate").val();
 
 
-            });
+            if (cur == "") {
+                $("#alert").show();
+                return false;
+            }
+            else if (sym == "") {
+                $("#alert").show();
+                return false;
+            }
+            else if (nod == "") {
+                $("#alert").show();
+                return false;
+            }
+            else if (mod == "") {
+
+                $("#alert").show();
+                return false;
+            }
+            else if (cou == "") {
+
+                $("#alert").show();
+                return false;
+            }
+            else if (exc == "") {
+
+                $("#alert").show();
+                return false;
+            }
+            else {
+                $("#alert").hide();
+                return true;
+            }
+
 
         });
-    </script>
+
+    });
+</script>
 
 <section class="content-header">
     <h1 class="headingfont">Currency</h1>
 </section>
 
 <section class="content-header">
-@using (Html.BeginForm()) {
-     @Html.AntiForgeryToken()
+    @using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
-    
+
     <fieldset class="searchdiv">
         <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
         <div class="row no-margin">
@@ -113,22 +113,23 @@
 
         </div>
         <div class="row no-margin" style="padding-top:10px">
-            <div class="col-md-3">
+            <div class="col-md-6">
                 <label class="required headinglabel">Monetary Unit</label>
 
                 @Html.TextBoxFor(model => model.MonetaryUnit, new { @class = "form-control txttarget" })
                 @Html.ValidationMessageFor(model => model.MonetaryUnit)
             </div>
 
-            <div class="col-md-3">
+            <div class="col-md-6">
                 <label class="required headinglabel">Currency Symbol</label>
 
                 @Html.TextBoxFor(model => model.Symbol, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Symbol)
 
             </div>
-
-            <div class="col-md-3">
+        </div>
+        <div class="row no-margin" style="padding-top:10px">
+            <div class="col-md-6">
                 <label class="required headinglabel">Exchange Rate</label>
                 @Html.TextBoxFor(model => model.ExchangeRate, new { @class = "form-control textright" })
                 @Html.ValidationMessageFor(model => model.ExchangeRate)
@@ -137,34 +138,34 @@
 
 
             <div class="row no-margin" style="padding-top:25px">
+                @*<input id="StatusBaseCurrency" name="StatusBaseCurrency" type="hidden" value="false" />*@
+
                 <div class="col-md-3">
 
-                    @Html.CheckBox("StatusBaseCurrency", new { @name = "StatusBaseCurrency" }) &nbsp <label class="headinglabel">Status Base Currency</label>
-                    @Html.ValidationMessageFor(model => model.StatusBaseCurrency)
-                </div>
-            </div>
+            <label class="headinglabel text-center">  @Html.CheckBox("StatusBaseCurrency", new { @name = "StatusBaseCurrency" }) &nbsp Status Base Currency</label>
+            @Html.ValidationMessageFor(model => model.StatusBaseCurrency)
         </div>
-        <div class="row no-margin" style="padding-top:10px">
+        <div class="col-md-3">
 
-            <div class="col-md-4" style="padding-top:15px">
+            <label class="headinglabel text-center"> @Html.CheckBox("StatusBaseCurrency", new { @name = "StatusBaseCurrency" }) &nbsp Status Base Currency</label>
+            @Html.ValidationMessageFor(model => model.StatusBaseCurrency)
 
-                @Html.CheckBox("StatusBaseCurrency", new { @name = "StatusBaseCurrency" }) &nbsp <label class="headinglabel">Status Base Currency</label>
-                @Html.ValidationMessageFor(model => model.StatusBaseCurrency)
-
+        </div>
             </div>
         </div>
 
+
         <div class="row no-margin" style="padding-top:10px">
-            <div class="col-md-12">
+            <div class="col-md-12 butdivs">
                 <input type="submit" value="Update" class="btn btn-primary btnwidth" id="btnsave" />
                 &nbsp;
-                <a href='@Url.Action("Index", "CurrencyMaster", new { id = 0 })' class="btn btn-primary btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+                <a href='@Url.Action("Index", "CurrencyMaster", new { id = 0 })' class="btn btn-danger btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
             </div>
         </div>
     </fieldset>
-}
+    }
 
-    </section>
+</section>
 
 
 @*@section Scripts {

@@ -227,7 +227,7 @@ namespace TrueBooksMVC.Models
 
         public List<AnalysisHeadSelectAll_Result> GetAnalysisHeadSelectList(int BranchId,string Term)
         {
-            return Context1.AnalysisHeadSelectAll(BranchId).Where(c => c.AnalysisGroup.ToLower().Contains(Term.ToLower())).OrderBy(x => x.AnalysisGroup).ToList();
+            return Context1.AnalysisHeadSelectAll(BranchId).Where(c => c.AnalysisHead.ToLower().Contains(Term.ToLower())).OrderBy(x => x.AnalysisGroup).ToList();
         }
         
     }

@@ -29,9 +29,18 @@
         $('.txtNum').blur(function () {
             if (isNaN(parseInt($(this).val()))) {
                 $(this).val('0.00');
+                if (this.id == "TaxPercent") {
+                    $(this).val('0');
+
+                }
             } else {
-                var amt = parseFloat($(this).val());
-                $(this).val(amt.toFixed(2));
+                
+                if (this.id == "TaxPercent") {                   
+
+                } else {
+                    var amt = parseFloat($(this).val());
+                    $(this).val(amt.toFixed(2));
+                }
             }
         });
 
@@ -84,12 +93,12 @@
                       <div class="row no-margin">
                           <div class="col-md-4">
                               <label class="required headinglabel">Product</label>
-                              @Html.TextBoxFor(model => model.ProductName, new { @class = "form-control txttarget" , required= "required" })
+                              @Html.TextBoxFor(model => model.ProductName, new { @class = "form-control txttarget", required = "required" })
                               @Html.ValidationMessageFor(model => model.ProductName)
                           </div>
                           <div class="col-md-4">
                               <label class="required headinglabel">Product Code</label>
-                              @Html.TextBoxFor(model => model.ProductCode, new { @class = "form-control" , required = "required" })
+                              @Html.TextBoxFor(model => model.ProductCode, new { @class = "form-control", required = "required" })
                               @Html.ValidationMessageFor(model => model.ProductCode)
                           </div>
                           <div class="col-md-4">
@@ -116,10 +125,20 @@
                               <label class="headinglabel">Special Price</label>
                               @Html.TextBoxFor(model => model.SpecialPrice, new { @class = "form-control textright txtNum" })
                               @Html.ValidationMessageFor(model => model.SpecialPrice)
+                              <input id="Status" name="Status" type="hidden" value="1" />
+
                               <!-- <input type="text" name="country_prefix" class="form-control txttarget">-->
                           </div>
                       </div>
+                      <div class="row no-margin" style="padding-top:10px">
+                          <div class="col-md-4">
+                              <label class="headinglabel">Tax Percent</label>
+                              @Html.TextBoxFor(model => model.TaxPercent, new { @class = "form-control textright txtNum" })
+                              @Html.ValidationMessageFor(model => model.TaxPercent)
 
+
+                          </div>
+                      </div>
 
 
                       <div class="row no-margin" style="padding-top:10px">

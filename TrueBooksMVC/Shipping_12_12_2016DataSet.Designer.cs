@@ -16701,6 +16701,8 @@ namespace TrueBooksMVC {
             
             private global::System.Data.DataColumn columnDescription;
             
+            private global::System.Data.DataColumn columnTaxPercent;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             public SalesInvoiceDetailsDataTable() {
@@ -16832,6 +16834,14 @@ namespace TrueBooksMVC {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public global::System.Data.DataColumn TaxPercentColumn {
+                get {
+                    return this.columnTaxPercent;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -16867,7 +16877,7 @@ namespace TrueBooksMVC {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public SalesInvoiceDetailsRow AddSalesInvoiceDetailsRow(string ProductName, int Quantity, string ItemUnit, string RateType, decimal RateLC, decimal RateFC, decimal ValueLC, decimal ValueFC, decimal Tax, decimal NetValue, string JobCode, string Description) {
+            public SalesInvoiceDetailsRow AddSalesInvoiceDetailsRow(string ProductName, int Quantity, string ItemUnit, string RateType, decimal RateLC, decimal RateFC, decimal ValueLC, decimal ValueFC, decimal Tax, decimal NetValue, string JobCode, string Description, string TaxPercent) {
                 SalesInvoiceDetailsRow rowSalesInvoiceDetailsRow = ((SalesInvoiceDetailsRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         ProductName,
@@ -16881,7 +16891,8 @@ namespace TrueBooksMVC {
                         Tax,
                         NetValue,
                         JobCode,
-                        Description};
+                        Description,
+                        TaxPercent};
                 rowSalesInvoiceDetailsRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowSalesInvoiceDetailsRow);
                 return rowSalesInvoiceDetailsRow;
@@ -16916,6 +16927,7 @@ namespace TrueBooksMVC {
                 this.columnNetValue = base.Columns["NetValue"];
                 this.columnJobCode = base.Columns["JobCode"];
                 this.columnDescription = base.Columns["Description"];
+                this.columnTaxPercent = base.Columns["TaxPercent"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -16945,6 +16957,8 @@ namespace TrueBooksMVC {
                 base.Columns.Add(this.columnJobCode);
                 this.columnDescription = new global::System.Data.DataColumn("Description", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnDescription);
+                this.columnTaxPercent = new global::System.Data.DataColumn("TaxPercent", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTaxPercent);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -17547,6 +17561,10 @@ namespace TrueBooksMVC {
             
             private global::System.Data.DataColumn columnDescription;
             
+            private global::System.Data.DataColumn columnTaxPercent;
+            
+            private global::System.Data.DataColumn columnAcHead;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             public PurchaseInvoiceDetailsDataTable() {
@@ -17678,6 +17696,22 @@ namespace TrueBooksMVC {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public global::System.Data.DataColumn TaxPercentColumn {
+                get {
+                    return this.columnTaxPercent;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public global::System.Data.DataColumn AcHeadColumn {
+                get {
+                    return this.columnAcHead;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -17713,7 +17747,7 @@ namespace TrueBooksMVC {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public PurchaseInvoiceDetailsRow AddPurchaseInvoiceDetailsRow(string ProductName, int Quantity, string ItemUnit, string RateType, decimal RateLC, decimal RateFC, decimal ValueLC, decimal ValueFC, decimal Tax, decimal NetValue, string JobCode, string Description) {
+            public PurchaseInvoiceDetailsRow AddPurchaseInvoiceDetailsRow(string ProductName, int Quantity, string ItemUnit, string RateType, decimal RateLC, decimal RateFC, decimal ValueLC, decimal ValueFC, decimal Tax, decimal NetValue, string JobCode, string Description, string TaxPercent, string AcHead) {
                 PurchaseInvoiceDetailsRow rowPurchaseInvoiceDetailsRow = ((PurchaseInvoiceDetailsRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         ProductName,
@@ -17727,7 +17761,9 @@ namespace TrueBooksMVC {
                         Tax,
                         NetValue,
                         JobCode,
-                        Description};
+                        Description,
+                        TaxPercent,
+                        AcHead};
                 rowPurchaseInvoiceDetailsRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowPurchaseInvoiceDetailsRow);
                 return rowPurchaseInvoiceDetailsRow;
@@ -17762,6 +17798,8 @@ namespace TrueBooksMVC {
                 this.columnNetValue = base.Columns["NetValue"];
                 this.columnJobCode = base.Columns["JobCode"];
                 this.columnDescription = base.Columns["Description"];
+                this.columnTaxPercent = base.Columns["TaxPercent"];
+                this.columnAcHead = base.Columns["AcHead"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -17791,6 +17829,10 @@ namespace TrueBooksMVC {
                 base.Columns.Add(this.columnJobCode);
                 this.columnDescription = new global::System.Data.DataColumn("Description", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnDescription);
+                this.columnTaxPercent = new global::System.Data.DataColumn("TaxPercent", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTaxPercent);
+                this.columnAcHead = new global::System.Data.DataColumn("AcHead", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnAcHead);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -30320,6 +30362,22 @@ namespace TrueBooksMVC {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public string TaxPercent {
+                get {
+                    try {
+                        return ((string)(this[this.tableSalesInvoiceDetails.TaxPercentColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'TaxPercent\' in table \'SalesInvoiceDetails\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSalesInvoiceDetails.TaxPercentColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             public bool IsProductNameNull() {
                 return this.IsNull(this.tableSalesInvoiceDetails.ProductNameColumn);
             }
@@ -30460,6 +30518,18 @@ namespace TrueBooksMVC {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             public void SetDescriptionNull() {
                 this[this.tableSalesInvoiceDetails.DescriptionColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public bool IsTaxPercentNull() {
+                return this.IsNull(this.tableSalesInvoiceDetails.TaxPercentColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public void SetTaxPercentNull() {
+                this[this.tableSalesInvoiceDetails.TaxPercentColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -31106,6 +31176,38 @@ namespace TrueBooksMVC {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public string TaxPercent {
+                get {
+                    try {
+                        return ((string)(this[this.tablePurchaseInvoiceDetails.TaxPercentColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'TaxPercent\' in table \'PurchaseInvoiceDetails\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablePurchaseInvoiceDetails.TaxPercentColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public string AcHead {
+                get {
+                    try {
+                        return ((string)(this[this.tablePurchaseInvoiceDetails.AcHeadColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'AcHead\' in table \'PurchaseInvoiceDetails\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablePurchaseInvoiceDetails.AcHeadColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             public bool IsProductNameNull() {
                 return this.IsNull(this.tablePurchaseInvoiceDetails.ProductNameColumn);
             }
@@ -31246,6 +31348,30 @@ namespace TrueBooksMVC {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             public void SetDescriptionNull() {
                 this[this.tablePurchaseInvoiceDetails.DescriptionColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public bool IsTaxPercentNull() {
+                return this.IsNull(this.tablePurchaseInvoiceDetails.TaxPercentColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public void SetTaxPercentNull() {
+                this[this.tablePurchaseInvoiceDetails.TaxPercentColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public bool IsAcHeadNull() {
+                return this.IsNull(this.tablePurchaseInvoiceDetails.AcHeadColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public void SetAcHeadNull() {
+                this[this.tablePurchaseInvoiceDetails.AcHeadColumn] = global::System.Convert.DBNull;
             }
         }
         

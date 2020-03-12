@@ -1,8 +1,10 @@
 ﻿@model DAL.RoleMaster
 
 @{
-    ViewBag.Title = "Edit";
-    Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
+                /**/
+
+                ViewBag.Title = "Edit";
+                Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
 }
 <style>
     .searchdiv {
@@ -17,24 +19,24 @@
     }
 </style>
 <script type="text/javascript">
-        $(document).ready(function () {
-            $("#CountryName").focus();
-            $(":text").css({ "border-radius": "5px" });
-            $("select").css({ "border-radius": "5px" });
+    $(document).ready(function () {
+        $("#CountryName").focus();
+        $(":text").css({ "border-radius": "5px" });
+        $("select").css({ "border-radius": "5px" });
 
-            $("#btnsave").click(function () {
-                if ($("#RoleName").val() == "") {
-                    $("#alert").show();
-                    return false;
+        $("#btnsave").click(function () {
+            if ($("#RoleName").val() == "") {
+                $("#alert").show();
+                return false;
 
-                }
-                else {
-                    $("#alert").hide();
-                    return true;
-                }
-            });
+            }
+            else {
+                $("#alert").hide();
+                return true;
+            }
         });
-    </script>
+    });
+</script>
 
 <section class="content-header">
     <h1 class="headingfont">Role</h1>
@@ -42,33 +44,34 @@
 
 <section class="content-header">
 
-@using (Html.BeginForm()) {
-    @Html.ValidationSummary(true)
-      <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
-    <fieldset class="searchdiv">
-        
+    @using (Html.BeginForm())
+    {
+@Html.ValidationSummary(true)
+<div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
+<fieldset class="searchdiv">
 
-     <div class="row no-margin">
+
+    <div class="row no-margin">
         <div class="col-md-12">
-             @Html.HiddenFor(model=>model.RoleID)
-           <label class="headinglabel">Role Name</label>
-        
+            @Html.HiddenFor(model => model.RoleID)
+            <label class="headinglabel">Role Name</label>
+
             @Html.TextBoxFor(model => model.RoleName, new { @class = "form-control txttarget" })
             @Html.ValidationMessageFor(model => model.RoleName)
         </div>
     </div>
-        
-     <div class="row no-margin" style="padding-top:10px;">
-        <div class="col-md-6">
-            <input type="submit" value="Update" class="btn btn-primary btnwidth" id="btnsave" />&nbsp; <a href='@Url.Action("Index", "RoleMaster", new { id = 0 })' class="btn btn-primary btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
-       
+
+    <div class="row no-margin" style="padding-top:10px;">
+        <div class="col-md-12 butdivs">
+            <input type="submit" value="Update" class="btn btn-primary btnwidth" id="btnsave" />&nbsp; <a href='@Url.Action("Index", "RoleMaster", new { id = 0 })' class="btn btn-danger btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+
         </div>
     </div>
-    </fieldset>
+</fieldset>
 }
 
-    </section>
+</section>
 
 @*@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}*@
+        @Scripts.Render("~/bundles/jqueryval")
+    }*@

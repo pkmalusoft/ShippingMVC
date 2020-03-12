@@ -34,25 +34,25 @@
 <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
 <script src="@Url.Content("~/Scripts/angular.js")"></script>
 <script src="@Url.Content("~/MyJsFiles/PrintReportInvoices.js")"></script>
-   <script type="text/javascript">
+<script type="text/javascript">
 
 
 
-       function printDiv(divName) {
-           var printContents = document.getElementById(divName).innerHTML;
-           var originalContents = document.body.innerHTML;
+    function printDiv(divName) {
+        var printContents = document.getElementById(divName).innerHTML;
+        var originalContents = document.body.innerHTML;
 
-           document.body.innerHTML = printContents;
+        document.body.innerHTML = printContents;
 
-           window.print();
+        window.print();
 
-           document.body.innerHTML = originalContents;
-       }
-    </script>
+        document.body.innerHTML = originalContents;
+    }
+</script>
 <script type="text/javascript">
 
     $(document).ready(function(){
-        
+
         $(":text").css({ "border-radius": "5px" });
         $("select").css({ "border-radius": "5px" });
 
@@ -95,9 +95,20 @@
             return (curr_date + "-" + m_names[curr_month]
             + "-" + curr_year);
         }
+              function GetEndDate() {
+                var m_names = new Array("Jan", "Feb", "Mar",
+        "Apr", "May", "Jun", "Jul", "Aug", "Sep",
+        "Oct", "Nov", "Dec");
 
+                var d = new Date("@Session["FyearTo"].ToString()");
+            var curr_date = d.getDate();
+            var curr_month = d.getMonth();
+            var curr_year = d.getFullYear();
+            return (curr_date + "-" + m_names[curr_month]
+            + "-" + curr_year);
+        }
             $("#txtfrom").val(GetStartDate());
-            $("#txtto").val(GetCurrentDate());
+            $("#txtto").val(GetEndDate());
 
         });
 
@@ -115,7 +126,7 @@
             }
             else {
                 $("#error").hide();
-              
+
                 var custid = $("#CustomerID option:selected").val();
                 var jobTypeid = $("#JobTypeID option:selected").val();
                 var employee = $("#EmployeeID option:selected").val();
@@ -149,7 +160,7 @@
                 });
             }
          });
-   
+
 
         $("#btnprint").click(function () {
             var from = $("#txtfrom").val();
@@ -223,11 +234,11 @@
         <div class="row no-margin">
             <div class="col-md-6">
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-12">
                         <label class="headinglabel required">From:</label>
 
                     </div>
-                    <div class="col-md-9">
+                    <div class="col-md-12">
                         <input type="text" class="datepicker form-control" id="txtfrom" />
                     </div>
                 </div>
@@ -237,11 +248,11 @@
             <div class="col-md-6">
 
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-12">
                         <label class="headinglabel required">To:</label>
 
                     </div>
-                    <div class="col-md-9">
+                    <div class="col-md-12">
                         <input type="text" class="datepicker form-control" id="txtto" />
                     </div>
                 </div>
@@ -289,12 +300,9 @@
 
 
             </div>*@
-        <br />
-        <br />
 
 
-        <br />
-        <div class="row no-margin">
+        <div class="row no-margin" style="padding-top:10px">
             <div class="col-md-12 butdivs">
                 <button id="btnsearch" class="btn btn-primary btnwid">Generate</button>
                 <button id="btnprint" class="btn btn-primary btnwid">Print</button>

@@ -38,13 +38,13 @@
 
             $("#FromDate").datepicker({
                 dateFormat: 'dd-M-yy',
-             
+
                 changeYear: true,
                 changeMonth: true
             });
             $('#ToDate').datepicker({
                 dateFormat: 'dd-M-yy',
-              
+
                 changeYear: true,
                 changeMonth: true,
             });
@@ -101,16 +101,16 @@
         });
 
     });
-        </script>
+</script>
 
 <section class="content-header">
     <h1 class="headingfont">Branch</h1>
 
 </section>
 @if (ViewBag.SuccessMsg != null)
-    {
-      
-    }
+{
+
+}
 <script type="text/javascript">
 
 
@@ -120,17 +120,17 @@
         $(":text").css({ "border-radius": "5px" });
         $("select").css({ "border-radius": "5px" });
 
-    
 
-          });
-                                                </script>
+
+    });
+</script>
 <section class="content">
     @using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()
         @Html.ValidationSummary(true)
         <div class="searchdiv">
-           
+
             <fieldset>
                 <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
 
@@ -146,10 +146,11 @@
                         <label class="required headinglabel">Contact Person</label>
                         @Html.TextBoxFor(model => model.ContactPerson, new { @class = "form-control txttarget" })
                         @Html.ValidationMessageFor(model => model.ContactPerson)
-                     
+
 
                     </div>
-
+                </div>
+                <div class="row no-margin" style="padding-top:10px;">
                     <div class="col-md-6">
                         <label class="headinglabel required">Address</label>
                         @Html.TextBoxFor(model => model.Address, new { @class = "form-control txttarget" })
@@ -159,7 +160,7 @@
 
                     <div class="col-md-6">
                         <label class=" headinglabel required">Phone</label>
-                        @Html.TextBoxFor(model => model.phone, new { @class = "form-control txttarget" })
+                        @Html.TextBoxFor(model => model.phone, new { @class = "form-control txttarget", placeholder = "(123)103030100" })
                         @Html.ValidationMessageFor(model => model.phone)
 
                     </div>
@@ -168,40 +169,44 @@
                 </div>
                 <div class="row no-margin" style="padding-top:10px;">
 
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <label class=" headinglabel required">City</label>
                         @Html.TextBoxFor(model => model.City, new { @class = "form-control txttarget" })
                         @Html.ValidationMessageFor(model => model.City)
 
                     </div>
 
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <label class=" headinglabel required">Country</label>
                         @Html.DropDownList("CountryID", ViewBag.CountryID as SelectList, "Select", new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.CountryID)
 
                     </div>
-                    <div class="col-md-4">
+                </div>
+                <div class="row no-margin" style="padding-top:10px;">
+                    <div class="col-md-6">
                         <label class=" headinglabel required">Currency</label>
                         @Html.DropDownList("currencyId", ViewBag.CurrencyID as SelectList, "Select", new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.currencyId)
 
                     </div>
-                </div>
-                <div class="row no-margin" style="padding-top:10px;">
-                    <div class="col-md-4">
+
+
+                    <div class="col-md-6">
                         <label class=" headinglabel">Email</label>
-                        @Html.TextBoxFor(model => model.Email, new { @class = "form-control txttarget" })
+                        @Html.TextBoxFor(model => model.Email, new { @class = "form-control txttarget", placeholder = "example@domain.com" })
                         @Html.ValidationMessageFor(model => model.Email)
 
                     </div>
-                    <div class="col-md-4">
+                </div>
+                <div class="row no-margin" style="padding-top:10px;">
+                    <div class="col-md-6">
                         <label class=" headinglabel required">Website</label>
                         @Html.TextBoxFor(model => model.Website, new { @class = "form-control txttarget" })
                         @Html.ValidationMessageFor(model => model.Website)
                     </div>
 
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <label class="headinglabel required">Company Name</label>
                         @Html.DropDownList("CompanyId", ViewBag.Company as SelectList, "Select", new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.CompanyId)
@@ -209,16 +214,16 @@
                     </div>
                 </div>
                 <div class="row no-margin" style="padding-top:10px;">
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <label class="headinglabel required">Period From:</label>
                         @*<input type="text" class="datepicker form-control" id="txtfrom" />*@
-                        @Html.TextBoxFor(model => model.FromDate, new { @class = "form-control datepicker " })
+                        @Html.TextBoxFor(model => model.FromDate, new { @class = "form-control datepicker ", placeholder = "dd-mmm-yyy" })
                     </div>
 
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <label class="headinglabel required">Period To:</label>
                         @* <input type="text" class="datepicker form-control" id="txtto" />*@
-                        @Html.TextBoxFor(model => model.ToDate, new { @class = "form-control datepicker " })
+                        @Html.TextBoxFor(model => model.ToDate, new { @class = "form-control datepicker ", placeholder = "dd-mmm-yyy" })
                     </div>
                 </div>
                 <div class="row no-margin" style="padding-top: 10px">
@@ -234,14 +239,14 @@
 
 
             </fieldset>
-            </div>
-    
-    
+        </div>
+
+
     }
 
 </section>
 
 
- 
+
 
 

@@ -10,15 +10,14 @@
 
 
 <style>
-    tfoot
-    {
+    tfoot {
         display: table-header-group;
     }
 
-    #tbl1 tr
-    {
+    #tbl1 tr {
         height: 35px;
     }
+
     .tblbackground {
         background-color: #fff;
         box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
@@ -41,36 +40,37 @@
         font-size: 16px;
         color: #2b2929 !important;
     }
+
     .jobform {
         background-color: #fff;
         box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
         border-radius: 25px;
         margin-bottom: 27px;
         padding: 20px;
-        width:100%;
+        width: 100%;
         margin: 0 auto;
         max-width: 700px;
     }
 </style>
 
 <script src="@Url.Content("~/Scripts/angular.js")"></script>
- <script src="@Url.Content("~/MyJsFiles/PrintReportInvoices.js")"></script>
-   <script type="text/javascript">
+<script src="@Url.Content("~/MyJsFiles/PrintReportInvoices.js")"></script>
+<script type="text/javascript">
 
 
 
-       function printDiv(divName) {
-           var printContents = document.getElementById(divName).innerHTML;
-           var originalContents = document.body.innerHTML;
+    function printDiv(divName) {
+        var printContents = document.getElementById(divName).innerHTML;
+        var originalContents = document.body.innerHTML;
 
-           document.body.innerHTML = printContents;
+        document.body.innerHTML = printContents;
 
-           window.print();
+        window.print();
 
-           document.body.innerHTML = originalContents;
-       }
-    </script>
-  
+        document.body.innerHTML = originalContents;
+    }
+</script>
+
 
 <script type="text/javascript">
 
@@ -108,7 +108,7 @@
         }
 
         $("#frmdate").val(GetStartDate());
-        $("#todate").val(GetCurrentDate());
+        $("#todate").val(GetStartDate());
 
 
 
@@ -151,14 +151,14 @@
                 ac = 0;
             else
                 ac = acid;
-            
+
             var rentflag = $("#Opr").val();
             var montlyrent1 = $("#famount").val();
             var montlyrent2 = $("#tamount").val();
             var frm = new Date($('#frmdate').val());
                 var to = new Date($('#todate').val());
 
-              
+
 
             if (from == "") {
                 $("#alert").show();
@@ -176,7 +176,7 @@
                 $("#alert").hide();
                 $("#date").hide();
 
-                
+
                 showLoading();
                 $.ajax({
                     url: "@Url.Action("GetDayBookreport", "AccountingReport")",
@@ -211,107 +211,86 @@
 </script>
 
 
-        <section class="content-header">
-            <h1 class="headingfont">Day Book Report<small></small></h1>
+<section class="content-header">
+    <h1 class="headingfont">Day Book Report<small></small></h1>
 
-        </section>
-   
-        <section class="content jobform">
-            <div id="date" style="color:red;display:none;margin-left:10px;">*Please select valid date</div>
-            <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
-            <div class="row no-margin">
+</section>
 
-                <div class="col-md-4">
+<section class="content jobform">
+    <div id="date" style="color:red;display:none;margin-left:10px;">*Please select valid date</div>
+    <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
+    <div class="row no-margin">
 
-                    <label class="headinglabel required">From Date</label>
+        <div class="col-md-6">
 
-                    <input type="text" id="frmdate" class="form-control" />
+            <label class="headinglabel required">From Date</label>
 
-                </div>
-                <div class="col-md-4">
-                    <label class="headinglabel required">To Date</label>
+            <input type="text" id="frmdate" class="form-control" />
+
+        </div>
+        <div class="col-md-6">
+            <label class="headinglabel required">To Date</label>
 
 
-                    <input type="text" id="todate" class="form-control" />
+            <input type="text" id="todate" class="form-control" />
 
-                </div>
+        </div>
 
-                <div class="col-md-4">
-                    <label class="headinglabel">Account</label>
+    </div>
 
-                    @Html.DropDownList("AcHeadID", new SelectList(ViewBag.daybook, "AcHeadID", "AcHead1"), "Select", new { @class = "form-control" })
 
-                </div>
+    <div class="row no-margin" style="padding-top:10px;">
+        <div class="col-md-6">
+            <label class="headinglabel">Account</label>
 
-            </div>
+            @Html.DropDownList("AcHeadID", new SelectList(ViewBag.daybook, "AcHeadID", "AcHead1"), "Select", new { @class = "form-control" })
 
-            <div class="row no-margin" style="padding-top:10px;">
-                <div class="col-md-4">
+        </div>
+        <div class="col-md-6">
+            <label class="headinglabel">Operator</label>
 
-                </div>
-                <div class="col-md-4">
+            @Html.DropDownList("Opr", new List<SelectListItem> { new SelectListItem { Text = "All", Value = "0" }, new SelectListItem { Text = "Greater Then", Value = "1" }, new SelectListItem { Text = "Less Then", Value = "2" }, new SelectListItem { Text = "Between", Value = "3" } }, new { @class = "form-control" })
 
-                </div>
+        </div>
 
-                <div class="col-md-4">
-                    <label class="headinglabel">Opreator</label>
 
-                    @Html.DropDownList("Opr", new List<SelectListItem> { new SelectListItem { Text = "All", Value = "0" }, new SelectListItem { Text = "Greater Then", Value = "1" }, new SelectListItem { Text = "Less Then", Value = "2" }, new SelectListItem { Text = "Between", Value = "3" } }, new { @class = "form-control" })
 
-                </div>
-            </div>
+    </div>
 
-            <div class="row no-margin" style="padding-top:10px;">
-                <div class="col-md-4">
+    <div class="row no-margin" style="padding-top:10px">
+        <div class="col-md-6" ">
+            <label class="headinglabel">Amount from</label>
+            <input type="text" id=famount" class="form-control" />
+        </div>
+        <div class="col-md-6">
+            <label class="headinglabel">Amount To</label>
+            <input type="text" id="tamount" class="form-control" />
 
-                </div>
-                <div class="col-md-4">
+        </div>
+    </div>
+    <div class="row no-margin" style="padding-top:10px">
+        <div class="col-md-12 butdivs">
+            <button id="btnsearch" class="btn btn-primary btnwid sidebar-toggle" data-toggle="offcanvas">Generate</button>
+        </div>
 
-                </div>
 
-                <div class="col-md-4" ">
-                    <label class="headinglabel">Amount from</label>
-                    <input type="text" id=famount" class="form-control" />
-                </div>
-            </div>
 
-            <div class="row no-margin" style="padding-top:10px">
-                <div class="col-md-4">
-                   
-                </div>
-
-                <div class="col-md-4">
-
-                </div>
-                <div class="col-md-4">
-                    <label class="headinglabel">Amount To</label>
-                    <input type="text" id="tamount" class="form-control" />
-
-                </div>
-            </div>
-            <div class="row no-margin" style="padding-top:10px">
-                <div class="col-md-12 butdivs">
-                    <button id="btnsearch" class="btn btn-primary btnwid sidebar-toggle" data-toggle="offcanvas">Generate</button>
-                </div>
-
-                
-                
-            </div>
+    </div>
 
 
 
 
-            <hr />
+    <hr />
 
 
 
-            <div class="row">
-                <div class="col-md-11" id="result">
+    <div class="row">
+        <div class="col-md-11" id="result">
 
-                </div>
-            </div>
-        </section>
-   
+        </div>
+    </div>
+</section>
 
-   
+
+
 

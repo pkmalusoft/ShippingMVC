@@ -109,8 +109,8 @@ namespace TrueBooksMVC.Controllers
                         int.TryParse(strArray[0], out UnitTypeID);
                     }
                     PID.ItemUnitID = UnitTypeID;
-
-                    decimal Rate = 0;
+             
+                decimal Rate = 0;
                     if (formCollection.GetValue("Rate_" + InvoiceDetailsArray[c]) != null)
                     {
                         strArray = (string[])formCollection.GetValue("Rate_" + InvoiceDetailsArray[c]).RawValue;
@@ -234,7 +234,15 @@ namespace TrueBooksMVC.Controllers
 
             if (Command == "Save")
             {
-                PI.PurchaseInvoiceDate = System.DateTime.UtcNow;
+                //PI.PurchaseInvoiceDate = System.DateTime.UtcNow;
+                var context = new SHIPPING_FinalEntities();
+
+                var PurchaseinvoiceId = (from c in context.PurchaseInvoices orderby c.PurchaseInvoiceID descending select c.PurchaseInvoiceID).FirstOrDefault();
+                PurchaseinvoiceId = PurchaseinvoiceId + 1;
+                var Gen_Pno = PurchaseinvoiceId.ToString("00000");
+
+                var PNo = "PI-" + Gen_Pno;
+                PI.PurchaseInvoiceNo = PNo;
                 int i = 0;
                 i = PM.AddPurchaseInvoice(PI);
                 PI.PurchaseInvoiceID = i;
@@ -243,7 +251,7 @@ namespace TrueBooksMVC.Controllers
                 {
                     Session["PurchaseInvoiceID"] = i;
                     PI.PurchaseInvoiceID = i;
-                    return RedirectToAction( "Invoice", "PurchaseInvoice", new { ID = i });
+                    return RedirectToAction("Index", "PurchaseInvoice");
                 }
             }
             else if (Command == "Update")
@@ -251,13 +259,15 @@ namespace TrueBooksMVC.Controllers
                     PI.PurchaseInvoiceID = id;
                     int k = PM.UpdatePurchaseInvoice(PI);
                     DeleteAndInsertRecords(formCollection, id);
-                return RedirectToAction("Invoice", "PurchaseInvoice", new { ID = PI.PurchaseInvoiceID });
+                return RedirectToAction("Index", "PurchaseInvoice");
             }
             else if (Command == "SaveInvoice")
             {
 
             }
-            return View(PI);
+            return RedirectToAction("Index", "PurchaseInvoice");
+
+            //return View(PI);
         }
 
         public void BindAllMasters()
@@ -314,9 +324,6 @@ namespace TrueBooksMVC.Controllers
                     { new SelectListItem() { Text = "SURRENDERED", Selected = false, Value = "SURRENDERED"}
                      , new SelectListItem() { Text = "WAY BILL", Selected = false, Value = "WAY BILL"}
                      , new SelectListItem() { Text = "OBL REQUIRED", Selected = false, Value = "OBL REQUIRED"}};
-
-
-              
 
                 var query = from t in entity.PurchaseInvoices
                             where t.PurchaseInvoiceID == null
@@ -395,9 +402,7 @@ namespace TrueBooksMVC.Controllers
 
         }
 
-
-
     }
-   
+
 }
 

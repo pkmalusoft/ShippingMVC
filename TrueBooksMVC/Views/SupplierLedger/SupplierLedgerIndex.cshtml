@@ -10,14 +10,12 @@
         box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
         border-radius: 10px;
     }
-    .form-control {
-        margin-top: -3px;
-    }
+
     .searchdiv {
         background-color: #fff;
         width: 100%;
         margin: 0 auto;
-         max-width: 765px;
+        max-width: 765px;
         padding: 20px;
         margin-top: 50px;
         border-radius: 10px;
@@ -31,23 +29,25 @@
 </style>
 <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
 
-   @*  <script src="~/Content/jQuery-2.1.3.min.js"></script>*@
-    <script src="@Url.Content("~/MyJsFiles/PrintReportInvoices.js")"></script>
-   <script type="text/javascript">
+@*  <script src="~/Content/jQuery-2.1.3.min.js"></script>*@
+<script src="@Url.Content("~/Scripts/angular.js")"></script>
+
+<script src="@Url.Content("~/MyJsFiles/PrintReportInvoices.js")"></script>
+<script type="text/javascript">
 
 
 
-       function printDiv(divName) {
-           var printContents = document.getElementById(divName).innerHTML;
-           var originalContents = document.body.innerHTML;
+    function printDiv(divName) {
+        var printContents = document.getElementById(divName).innerHTML;
+        var originalContents = document.body.innerHTML;
 
-           document.body.innerHTML = printContents;
+        document.body.innerHTML = printContents;
 
-           window.print();
+        window.print();
 
-           document.body.innerHTML = originalContents;
-       }
-    </script>
+        document.body.innerHTML = originalContents;
+    }
+</script>
 <script>
     $(function () {
 
@@ -89,9 +89,21 @@
             return (curr_date + "-" + m_names[curr_month]
             + "-" + curr_year);
         }
+            function GetEndDate() {
+            var m_names = new Array("Jan", "Feb", "Mar",
+    "Apr", "May", "Jun", "Jul", "Aug", "Sep",
+    "Oct", "Nov", "Dec");
+
+            var d = new Date("@Session["FyearTo"].ToString()");
+            var curr_date = d.getDate();
+            var curr_month = d.getMonth();
+            var curr_year = d.getFullYear();
+            return (curr_date + "-" + m_names[curr_month]
+            + "-" + curr_year);
+        }
 
         $("#txtfrom").val(GetStartDate());
-      $("#txtto").val(GetCurrentDate());
+        $("#txtto").val(GetEndDate());
 
         $(":text").css({ "border-radius": "5px" });
         $("select").css({ "border-radius": "5px" });
@@ -99,7 +111,7 @@
         $("#btnsearch").click(function () {
             var from = $("#txtfrom").val();
             var dto = $("#txtto").val();
-          
+
             if (from == "") {
                 $("#error").show();
                 return false;
@@ -135,12 +147,12 @@
         });
 
 
-      
+
 
     });
 
 
-   
+
 
 </script>
 
@@ -157,11 +169,11 @@
         <div class="row no-margin">
             <div class="col-md-4">
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-12">
                         <label class="headinglabel required">From:</label>
 
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-12">
                         <input type="text" class="datepicker form-control" id="txtfrom" />
                     </div>
                 </div>
@@ -171,11 +183,11 @@
             <div class="col-md-4">
 
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-12">
                         <label class="headinglabel required">To:</label>
 
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-12">
                         <input type="text" class="datepicker form-control" id="txtto" />
                     </div>
                 </div>
@@ -186,17 +198,17 @@
             <div class="col-md-4">
 
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-12">
                         <label class="required headinglabel">Supplier:</label>
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-12">
                         @Html.DropDownList("SupplierID", ViewBag.supplier as SelectList, "Select", new { @class = "form-control" })
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="row no-margin" style="padding-top: 20px">
+        <div class="row no-margin" style="padding-top: 10px">
 
 
 

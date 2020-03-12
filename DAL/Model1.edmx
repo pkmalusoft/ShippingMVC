@@ -15,7 +15,7 @@
           <Property Name="Amount" Type="money" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.AcBankDetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'malusoft_shipping.dbo.AcBankDetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="AcBankDetails">
           <Key>
             <PropertyRef Name="AcBankDetailID" />
@@ -66,7 +66,7 @@ warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.AcBankDetails' does not
           <Property Name="CurrencyID" Type="int" />
           <Property Name="AreaID" Type="int" />
           <Property Name="ContactPerson" Type="nvarchar" MaxLength="100" />
-          <Property Name="logo" Type="nvarchar(max)" />
+          <Property Name="logo" Type="nvarchar" MaxLength="500" />
         </EntityType>
         <EntityType Name="AcFinancialYear">
           <Key>
@@ -115,7 +115,7 @@ warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.AcBankDetails' does not
           <Property Name="StatusControlAc" Type="bit" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.AcHeadAssign' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'malusoft_shipping.dbo.AcHeadAssign' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="AcHeadAssign">
           <Key>
             <PropertyRef Name="ID" />
@@ -353,8 +353,8 @@ warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.AcHeadAssign' does not 
           <Property Name="SupplierPaymentStatus" Type="char" MaxLength="2" />
           <Property Name="UserID" Type="int" />
           <Property Name="Lock" Type="bit" />
-          <Property Name="InvoiceAmount" Type="decimal" Precision="18" Scale="2" />
           <Property Name="TransactionDate" Type="datetime" />
+          <Property Name="InvoiceAmount" Type="decimal" Precision="18" Scale="2" />
         </EntityType>
         <EntityType Name="CostUpdationDetails">
           <Key>
@@ -774,6 +774,7 @@ warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.AcHeadAssign' does not 
           <Property Name="Reseller" Type="decimal" Precision="18" Scale="2" />
           <Property Name="SpecialPrice" Type="decimal" Precision="18" Scale="2" />
           <Property Name="Status" Type="int" />
+          <Property Name="TaxPercent" Type="int" />
         </EntityType>
         <EntityType Name="PurchaseInvoice">
           <Key>
@@ -804,7 +805,7 @@ warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.AcHeadAssign' does not 
           <Property Name="DiscountValueFC" Type="decimal" Precision="18" Scale="2" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.PurchaseInvoiceDetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'malusoft_shipping.dbo.PurchaseInvoiceDetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="PurchaseInvoiceDetails">
           <Key>
             <PropertyRef Name="PurchaseInvoiceDetailID" />
@@ -865,6 +866,7 @@ warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.PurchaseInvoiceDetails'
           <Property Name="InvNo" Type="nvarchar" MaxLength="100" />
           <Property Name="CurrencyID" Type="int" />
           <Property Name="Lock" Type="bit" />
+          <Property Name="JobID" Type="int" />
         </EntityType>
         <EntityType Name="Remarks">
           <Key>
@@ -991,6 +993,8 @@ warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.PurchaseInvoiceDetails'
           <Property Name="statusInventory" Type="bit" />
           <Property Name="RevenuTypeIds" Type="nvarchar(max)" />
           <Property Name="CountryID" Type="int" />
+          <Property Name="City" Type="nvarchar" MaxLength="100" />
+          <Property Name="ExportCode" Type="int" />
           <Property Name="CityID" Type="int" />
           <Property Name="CurrencyID" Type="int" />
           <Property Name="AcCompanyID" Type="int" />
@@ -998,8 +1002,15 @@ warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.PurchaseInvoiceDetails'
           <Property Name="LocationID" Type="int" />
           <Property Name="BranchID" Type="int" />
           <Property Name="SupplierTypeID" Type="int" />
-          <Property Name="City" Type="nvarchar" MaxLength="100" />
-          <Property Name="ExportCode" Type="int" />
+        </EntityType>
+        <EntityType Name="SupplierTypeMaster">
+          <Key>
+            <PropertyRef Name="SupplierTypeID" />
+          </Key>
+          <Property Name="SupplierTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SupplierCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="SupplierType" Type="nvarchar" MaxLength="100" />
+          <Property Name="BranchId" Type="int" />
         </EntityType>
         <EntityType Name="Transporter">
           <Key>
@@ -1047,8 +1058,8 @@ warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.PurchaseInvoiceDetails'
           <Property Name="IsActive" Type="bit" />
           <Property Name="RoleID" Type="int" />
           <Property Name="EmployeeID" Type="int" Nullable="false" />
-          <Property Name="BranchID" Type="int" />
           <Property Name="AcFinancialYearID" Type="int" />
+          <Property Name="BranchID" Type="int" />
         </EntityType>
         <EntityType Name="Validity">
           <Key>
@@ -1073,7 +1084,7 @@ warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.PurchaseInvoiceDetails'
           <Property Name="Voyage" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.qryCustomerStatement' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'malusoft_shipping.dbo.qryCustomerStatement' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="qryCustomerStatement">
           <Key>
             <PropertyRef Name="InvoiceID" />
@@ -1091,7 +1102,7 @@ warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.qryCustomerStatement' d
           <Property Name="EmployeeID" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.qrySupplierOutstanding' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'malusoft_shipping.dbo.qrySupplierOutstanding' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="qrySupplierOutstanding">
           <Key>
             <PropertyRef Name="InvoiceID" />
@@ -1546,6 +1557,10 @@ warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.qrySupplierOutstanding'
           <Parameter Name="Flag" Type="int" Mode="In" />
           <Parameter Name="BranchID" Type="int" Mode="In" />
         </Function>
+        <Function Name="GetPLOpeningAmount" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="AcFinancialYearID" Type="int" Mode="In" />
+          <Parameter Name="AcCompanyID" Type="int" Mode="In" />
+        </Function>
         <Function Name="JobAnalysisReport" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="fromdate" Type="datetime" Mode="In" />
           <Parameter Name="todate" Type="datetime" Mode="In" />
@@ -1756,9 +1771,7 @@ warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.qrySupplierOutstanding'
           <Parameter Name="JobID" Type="nvarchar" Mode="In" />
         </Function>
         <Function Name="SP_GetAllItemUnit" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
-        <Function Name="SP_GetAllJobsDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="JobDescription" Type="nvarchar" Mode="In" />
-        </Function>
+        <Function Name="SP_GetAllJobsDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_GetAllJobsDetailsByDate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="fdate" Type="datetime" Mode="In" />
           <Parameter Name="tdate" Type="datetime" Mode="In" />
@@ -2394,6 +2407,7 @@ warning 6002: The table/view 'DB_9F57C4_ShippingTest.dbo.qrySupplierOutstanding'
           <EntitySet Name="SalesInvoiceDetails" EntityType="Self.SalesInvoiceDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ShippingAgent" EntityType="Self.ShippingAgent" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Supplier" EntityType="Self.Supplier" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SupplierTypeMaster" EntityType="Self.SupplierTypeMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Transporter" EntityType="Self.Transporter" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserProfile" EntityType="Self.UserProfile" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserRegistration" EntityType="Self.UserRegistration" Schema="dbo" store:Type="Tables" />
@@ -2607,7 +2621,6 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           </FunctionImport>
           <FunctionImport Name="SP_GetAllRecieptsDetails" ReturnType="Collection(SHIPPING_FinalModel.SP_GetAllRecieptsDetails_Result)" />
           <FunctionImport Name="SP_GetAllJobsDetails" ReturnType="Collection(SHIPPING_FinalModel.SP_GetAllJobsDetails_Result)" >
-          <Parameter Name="JobDescription" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="SP_GetMaxRVID" ReturnType="Collection(String)" />
           <FunctionImport Name="SP_GetCurrency" ReturnType="Collection(SHIPPING_FinalModel.SP_GetCurrency_Result)" />
@@ -3871,6 +3884,11 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Parameter Name="AcAnalysisHeadAllocationIDs" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="AcAnalysisHeadAllocations" EntityType="SHIPPING_FinalModel.AcAnalysisHeadAllocation" />
+          <EntitySet Name="SupplierTypeMasters" EntityType="SHIPPING_FinalModel.SupplierTypeMaster" />
+          <FunctionImport Name="GetPLOpeningAmount" ReturnType="Collection(SHIPPING_FinalModel.GetPLOpeningAmount_Result)">
+            <Parameter Name="AcFinancialYearID" Mode="In" Type="Int32" />
+            <Parameter Name="AcCompanyID" Mode="In" Type="Int32" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="SP_GetUserDetailForEdit_Result">
           <Property Type="Int32" Name="UserID" Nullable="false" />
@@ -5859,6 +5877,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Type="String" Name="InvNo" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="CurrencyID" />
           <Property Type="Boolean" Name="Lock" />
+          <Property Name="JobID" Type="Int32" />
         </EntityType>
         <ComplexType Name="SP_GetAllJobsDetailsByDate_Result">
           <Property Type="Int32" Name="JobID" Nullable="false" />
@@ -6910,7 +6929,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Name="CurrencyID" Type="Int32" />
           <Property Name="AreaID" Type="Int32" />
           <Property Name="ContactPerson" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="logo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="logo" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="CountryMaster" Relationship="SHIPPING_FinalModel.FK_AcCompany_CountryMaster" FromRole="AcCompany" ToRole="CountryMaster" />
           <NavigationProperty Name="CurrencyMaster" Relationship="SHIPPING_FinalModel.FK_AcCompany_CurrencyMaster" FromRole="AcCompany" ToRole="CurrencyMaster" />
           <NavigationProperty Name="Designation" Relationship="SHIPPING_FinalModel.FK_AcCompany_Designation" FromRole="AcCompany" ToRole="Designation" />
@@ -7015,6 +7034,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Name="Reseller" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="SpecialPrice" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="Status" Type="Int32" />
+          <Property Name="TaxPercent" Type="Int32" />
         </EntityType>
         <EntityType Name="AcAnalysisHeadAllocation">
           <Key>
@@ -7025,6 +7045,20 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Name="AnalysisHeadID" Type="Int32" />
           <Property Name="Amount" Type="Decimal" Precision="19" Scale="4" />
         </EntityType>
+        <EntityType Name="SupplierTypeMaster">
+          <Key>
+            <PropertyRef Name="SupplierTypeID" />
+          </Key>
+          <Property Name="SupplierTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SupplierCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SupplierType" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="BranchId" Type="Int32" />
+        </EntityType>
+        <ComplexType Name="GetPLOpeningAmount_Result">
+          <Property Type="Int32" Name="AcHeadID" Nullable="false" />
+          <Property Type="String" Name="AcHead" Nullable="true" MaxLength="50" />
+          <Property Type="Decimal" Name="Balance" Nullable="true" Precision="19" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -9307,6 +9341,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <EntitySetMapping Name="RecPayDetails">
             <EntityTypeMapping TypeName="SHIPPING_FinalModel.RecPayDetail">
               <MappingFragment StoreEntitySet="RecPayDetails">
+                <ScalarProperty Name="JobID" ColumnName="JobID" />
                 <ScalarProperty Name="Lock" ColumnName="Lock" />
                 <ScalarProperty Name="CurrencyID" ColumnName="CurrencyID" />
                 <ScalarProperty Name="InvNo" ColumnName="InvNo" />
@@ -10432,6 +10467,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <EntitySetMapping Name="ProductServices">
             <EntityTypeMapping TypeName="SHIPPING_FinalModel.ProductService">
               <MappingFragment StoreEntitySet="ProductServices">
+                <ScalarProperty Name="TaxPercent" ColumnName="TaxPercent" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="SpecialPrice" ColumnName="SpecialPrice" />
                 <ScalarProperty Name="Reseller" ColumnName="Reseller" />
@@ -10463,6 +10499,25 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
               </ModificationFunctionMapping>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="SupplierTypeMasters">
+            <EntityTypeMapping TypeName="SHIPPING_FinalModel.SupplierTypeMaster">
+              <MappingFragment StoreEntitySet="SupplierTypeMaster">
+                <ScalarProperty Name="BranchId" ColumnName="BranchId" />
+                <ScalarProperty Name="SupplierType" ColumnName="SupplierType" />
+                <ScalarProperty Name="SupplierCode" ColumnName="SupplierCode" />
+                <ScalarProperty Name="SupplierTypeID" ColumnName="SupplierTypeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetPLOpeningAmount" FunctionName="SHIPPING_FinalModel.Store.GetPLOpeningAmount">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SHIPPING_FinalModel.GetPLOpeningAmount_Result">
+                <ScalarProperty Name="AcHeadID" ColumnName="AcHeadID" />
+                <ScalarProperty Name="AcHead" ColumnName="AcHead" />
+                <ScalarProperty Name="Balance" ColumnName="Balance" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
          
           </EntityContainerMapping>
       </Mapping>

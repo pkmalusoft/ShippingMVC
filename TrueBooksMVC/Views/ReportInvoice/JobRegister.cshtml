@@ -5,15 +5,15 @@
 @*<link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">*@
 @*<link rel="stylesheet" href="/resources/demos/style.css">*@
 @*<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>*@
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>*@
 
 @{
     ViewBag.Title = "JobRegister";
     Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
 }
 @*<link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
-<link rel="stylesheet" href="/resources/demos/style.css">
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>*@
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>*@
 <style>
     tfoot {
         display: table-header-group;
@@ -100,9 +100,20 @@
             return (curr_date + "-" + m_names[curr_month]
             + "-" + curr_year);
         }
+        function GetEndDate() {
+            var m_names = new Array("Jan", "Feb", "Mar",
+                "Apr", "May", "Jun", "Jul", "Aug", "Sep",
+                "Oct", "Nov", "Dec");
 
+            var d = new Date(enddate);
+            var curr_date = d.getDate();
+            var curr_month = d.getMonth();
+            var curr_year = d.getFullYear();
+            return (curr_date + "-" + m_names[curr_month]
+                + "-" + curr_year);
+        }
         $("#txtfrom").val(GetStartDate());
-        $("#txtto").val(GetCurrentDate());
+        $("#txtto").val(GetEndDate());
 
 
      @*   showLoading();
@@ -216,7 +227,7 @@
             var path = '@System.Configuration.ConfigurationManager.AppSettings["spath"].ToString()';
 
             var src = path + "/Reports/JobCostReport.aspx?fromdate=" + from + "&todate=" + dto + "&custid=" + vcustid + "&jobid=" + vjobid + "&status=" + status;
-            
+
             window.open(src, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=0,left=0,width=1000,height=1200");
 
             //  vaif(r newfrom = from.getDay() + "/" + from.getMonth() + "/" + from.getFullYear();
@@ -267,11 +278,11 @@
         <div class="row no-margin">
             <div class="col-md-6">
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-12">
                         <label class="headinglabel required">From:</label>
 
                     </div>
-                    <div class="col-md-9">
+                    <div class="col-md-12">
                         <input type="text" class="datepicker form-control" id="txtfrom" />
                     </div>
                 </div>
@@ -281,11 +292,11 @@
             <div class="col-md-6">
 
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-12">
                         <label class="headinglabel required">To:</label>
 
                     </div>
-                    <div class="col-md-9">
+                    <div class="col-md-12">
                         <input type="text" class="datepicker form-control" id="txtto" />
                     </div>
                 </div>
@@ -294,7 +305,7 @@
             </div>
         </div>
 
-        <div class="row no-margin" style="padding-top: 20px">
+        <div class="row no-margin" style="padding-top: 10px">
             <div class="col-md-4">
 
 
@@ -325,36 +336,36 @@
         </div>
         @* <div class="col-md-3">
 
-            <div class="row">
-                <div class="col-md-3">
-                    <label class="headinglabel">Currency:</label>
+                <div class="row">
+                    <div class="col-md-3">
+                        <label class="headinglabel">Currency:</label>
+                    </div>
+                    <div class="col-md-9">
+                        @Html.DropDownList("CurrencyID", ViewBag.Currency as SelectList, "Select", new { @class = "form-control" })
+                    </div>
                 </div>
-                <div class="col-md-9">
-                    @Html.DropDownList("CurrencyID", ViewBag.Currency as SelectList, "Select", new { @class = "form-control" })
-                </div>
-            </div>
-        </div>*@
-        <div class="row no-margin" style="padding-top: 20px">
-            <div class="col-md-12 butdivs" style="padding-top: 10px">
+            </div>*@
+        <div class="row no-margin" style="padding-top: 10px">
+            <div class="col-md-12 butdivs">
                 <button id="btnsearch" class="btn btn-primary btnwid">Generate</button>&nbsp;
                 <button id="btnprint" class="btn btn-primary btnwid">Print</button>
             </div>
-            </div>
         </div>
+    </div>
 
 
 
 
 
-        <div class="row no-margin" style="padding-top: 20px">
-            <div class="col-md-12 tblbackground">
-                <div class="row">
-                    <div class="col-md-12" id="result">
-                    </div>
+    <div class="row no-margin" style="padding-top: 20px">
+        <div class="col-md-12 tblbackground">
+            <div class="row">
+                <div class="col-md-12" id="result">
                 </div>
-
             </div>
+
         </div>
+    </div>
 
 
 

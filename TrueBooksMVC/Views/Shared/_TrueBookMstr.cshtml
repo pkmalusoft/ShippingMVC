@@ -15,8 +15,8 @@
     @*      @Scripts.Render("~/NewDesignFiles/jquery.min.js")*@
 
     @*<link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">*@
-      <link href="~/Content/jquery-ui.css" rel="stylesheet" />
-    
+    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+
     @*<link rel="stylesheet" href="/resources/demos/style.css">*@
 
 
@@ -27,7 +27,7 @@
     <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
     <script src="~/Content/jquery-ui.js"></script>
     <script src="~/Content/NewCSS/bootstrap/js/bootstrap.min.js"></script>
-    
+
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
     <script src="~/Content/NewCSS/js/app.min.js"></script>
     <script src="~/Content/jquery.dataTables.min.js"></script>
@@ -47,11 +47,17 @@
         /*.panel-body {
             background-color:silver !important;
         }*/
-        html, button, input, optgroup, select, textarea {font-family: 'Montserrat', sans-serif !important;}
+        html, button, input, optgroup, select, textarea {
+            font-family: 'Montserrat', sans-serif !important;
+        }
 
-        .field-validation-error {color: #ff0000;}
+        .field-validation-error {
+            color: #ff0000;
+        }
 
-        .field-validation-valid {display: none;}
+        .field-validation-valid {
+            display: none;
+        }
 
         .input-validation-error {
             border: 1px solid #ff0000;
@@ -184,9 +190,10 @@
         table.dataTable thead th {
             border-right: 0px;
             border-left: 0px;
+            border-bottom: 0 !important;
         }
 
-        table.dataTable tfoot th, table.dataTable tfoot td {
+        table.dataTable tfoot td {
             padding: 10px 18px 6px 18px;
             border-top: 1px solid #111 !important;
         }
@@ -207,13 +214,13 @@
             font-weight: bold !important;
             color: #333 !important;
             font: 90%/1.45em "Helvetica Neue", HelveticaNeue, Helvetica, Arial, sans-serif !important;
-            font-size: 14.4px !important;
+            font-size: 16px !important;
             font-weight: 700 !important;
         }
 
         table.dataTable tbody td {
             color: #333 !important;
-            font-size: 14.4px !important;
+            font-size: 16px !important;
             font: "Helvetica Neue", HelveticaNeue, Helvetica, Arial, sans-serif !important;
             border-top: 1px solid #ddd !important;
         }
@@ -222,7 +229,7 @@
             border-bottom: 1px solid #e4e4e4 !important;
         }
 
-        div#dataTables-example_info {  
+        div#dataTables-example_info {
             font-size: 14.4px !important;
             font-weight: normal !important;
             font: "Helvetica Neue", HelveticaNeue, Helvetica, Arial, sans-serif !important;
@@ -242,20 +249,25 @@
             background-color: #fafafa !important;
         }
 
-        .sorting_1, .sorting_2, .sorting_3 {
+        /*  .sorting_1, .sorting_2, .sorting_3 {
             background-color: #fafafa !important;
-        }
-        table.dataTable thead th, table.dataTable thead td {
+        }*/
+
+        table.dataTable thead td {
             padding: 10px 18px;
             border-bottom: 1px solid #e8e3e3 !important;
         }
 
-
-        .dataTables_wrapper .dataTables_paginate .paginate_button {
-            background-color: #e4e4e4 !important;
-            color: #0a0a0a !important;
+        table.dataTable tbody th, table.dataTable tbody td {
+            padding-left: 18px;
+            padding: right:18px;
         }
 
+        .dataTables_wrapper .dataTables_paginate .paginate_button {
+            background-color: #f9f9f9 !important;
+            !important;
+            color: #0a0a0a !important;
+        }
     </style>
 
     <style>
@@ -327,6 +339,7 @@
             padding: 9px;
             font-size: 12px;
         }
+     
     </style>
 
     <script>
@@ -370,8 +383,7 @@
                     $("#AcFYearID option[value='" + fy + "']").attr("selected", "selected");
                 }
             });
-
-
+           
             $(".txttarget").change(function () {
                 var x = $(this);
                 var str = "";
@@ -450,10 +462,10 @@
         });*@
     </script>
 </head>
-@{ 
+@{
     string UserName = "";
     var AcYearList = new List<DAL.AcFinancialYearSelect_Result>();
-   // var AcYearList1 = new List<DAL.AcFinancialYearSelect_Result>();
+    // var AcYearList1 = new List<DAL.AcFinancialYearSelect_Result>();
     AcYearList.Where(item => item.AcFinancialYearID == Convert.ToInt32(Session["fyearid"]));
     if (Session["UserName"] != null)
     {
@@ -466,33 +478,33 @@
     }
 }
 @{ Boolean IsUserAdmin = false;
-   if (Session["IsAdmin"] != null)
-   {
-       IsUserAdmin = Convert.ToBoolean(Session["IsAdmin"]);
-   }
+    if (Session["IsAdmin"] != null)
+    {
+        IsUserAdmin = Convert.ToBoolean(Session["IsAdmin"]);
+    }
 }
 <body class="hold-transition sidebar-mini ">
     <div class="modalloader" style="display: none">
-    <div class="center">
-        <img src="~/Images/loader.gif" />      
+        <div class="center">
+            <img src="~/Images/loader.gif" />
+        </div>
     </div>
-</div>
     <div class="se-pre-con"></div>
     <div class="wrapper">
 
         <!-- Main Header -->
         <header class="main-header">
 
-           
+
 
             <!-- Header Navbar -->
             <nav class="navbar navbar-static-top" role="navigation">
                 <!-- Sidebar toggle button-->
                 <a href="index2.html" class="logoimages">
                     <!-- mini logo for sidebar mini 50x50 pixels -->
-                                  <!-- logo for regular state and mobile devices -->
+                    <!-- logo for regular state and mobile devices -->
                     <span class="logosmall">
-                        <img class="img-responsive logonav" src="~/Content/img/logo_truebook.png" alt="logolarge">
+                        <img class="img-responsive logonav" src="~/Content/img/TrueBook_white.png" alt="logolarge">
                     </span>
                 </a>
                 <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button"><span class="sr-only">Toggle navigation</span> </a>
@@ -501,7 +513,17 @@
                         <div class="col-md-12" style="display:flex">
                             <label class="final_per">Financial Period</label>
                             @Html.DropDownList("AcFYearID", new SelectList(AcYearList, "AcFinancialYearID", "FYearName"), new { @class = "form-control fin_pre" })
+
                         </div>
+                    </div>
+                </div>
+                <div style="display: inline-block;padding-bottom:7px;padding-top:9px;margin-top: 6px;">
+                    <div class="row">
+                        <div class="col-md-12" style="display:flex">
+                            <label class="final_per">@Session["Company"] - @Session["BranchName"] - @Session["BaseCurrencySymbol"]</label>
+
+                        </div>
+
                     </div>
                 </div>
                 <!-- Navbar Right Menu -->
@@ -548,46 +570,30 @@
                 <a href="index2.html" class="logo">
                     <!-- mini logo for sidebar mini 50x50 pixels -->
                     <span class="logo-mini">
-                        <img class="img-responsive" src="~/Content/img/truebooks_logo.png" alt="logosmall">
+                        <img class="img-responsive" src="~/Content/img/TrueBook101.png" alt="logosmall">
                     </span>
-                    </a>
-                    <!-- Sidebar Menu -->
-                    <ul class="nav nav-pills flex-column" style="margin-top: 20px">
-                        @{
-                            TrueBooksMVC.Models.SourceMastersModel obj = new TrueBooksMVC.Models.SourceMastersModel();
+                </a>
+                <!-- Sidebar Menu -->
+                <ul class="nav nav-pills flex-column" style="margin-top: 20px">
+                    @{
+                        TrueBooksMVC.Models.SourceMastersModel obj = new TrueBooksMVC.Models.SourceMastersModel();
 
-                            List<DAL.Menu> menuList = (List<DAL.Menu>)Session["Menu"];
-                            List<DAL.Menu> parentMenu = new List<DAL.Menu>();
-                            if (menuList != null)
-                            {
-                                parentMenu = menuList.Where(p => Convert.ToInt32(p.ParentID) == 0).ToList();
-                            }
+                        List<DAL.Menu> menuList = (List<DAL.Menu>)Session["Menu"];
+                        List<DAL.Menu> parentMenu = new List<DAL.Menu>();
+                        if (menuList != null)
+                        {
+                            parentMenu = menuList.Where(p => Convert.ToInt32(p.ParentID) == 0).ToList();
+                        }
 
-                            if (parentMenu != null)
+                        if (parentMenu != null)
+                        {
+                            foreach (var item in parentMenu)
                             {
-                                foreach (var item in parentMenu)
+                                List<int> RoleId = (List<int>)Session["RoleID"];
+                                int menuid = Convert.ToInt32(item.MenuID);
+                                if (item.PermissionRequired.HasValue && item.PermissionRequired.Value)
                                 {
-                                    List<int> RoleId = (List<int>)Session["RoleID"];
-                                    int menuid = Convert.ToInt32(item.MenuID);
-                                    if (item.PermissionRequired.HasValue && item.PermissionRequired.Value)
-                                    {
-                                        if (obj.IsAccessibleMenu(menuid, RoleId))
-                                        {
-                                            <li class="nav-item">
-                                                <a id="@item.MenuID" class="nav-link nav-parent" href=@item.Link><i class="@item.imgclass"></i><span>@item.Title</span></a>
-                                                @if (menuList.Count(p => p.ParentID == item.MenuID) > 0)
-                                                {
-                                                    @:<ul class="nav nav-pills flex-column">
-                                                    }
-                                                @RenderMenuList(menuList, item)
-                                                @if (menuList.Count(p => p.ParentID == item.MenuID) > 0)
-                                                {
-                                                @:</ul>
-                                            }
-                                            </li>
-                                        }
-                                    }
-                                    else
+                                    if (obj.IsAccessibleMenu(menuid, RoleId))
                                     {
                                         <li class="nav-item">
                                             <a id="@item.MenuID" class="nav-link nav-parent" href=@item.Link><i class="@item.imgclass"></i><span>@item.Title</span></a>
@@ -602,16 +608,32 @@
                                         }
                                         </li>
                                     }
-
                                 }
-                            }
-
-                            @helper RenderMenuList(List<DAL.Menu> menuList, DAL.Menu mi)
-                            {
-                                foreach (var item1 in menuList.Where(p => p.ParentID == mi.MenuID))
+                                else
                                 {
-                                    @:<li class="nav-item">
-                                        <a class="nav-link" id="
+                                    <li class="nav-item">
+                                        <a id="@item.MenuID" class="nav-link nav-parent" href=@item.Link><i class="@item.imgclass"></i><span>@item.Title</span></a>
+                                        @if (menuList.Count(p => p.ParentID == item.MenuID) > 0)
+                                        {
+                                            @:<ul class="nav nav-pills flex-column">
+                                            }
+                                        @RenderMenuList(menuList, item)
+                                        @if (menuList.Count(p => p.ParentID == item.MenuID) > 0)
+                                        {
+                                        @:</ul>
+                                    }
+                                    </li>
+                                }
+
+                            }
+                        }
+
+                        @helper RenderMenuList(List<DAL.Menu> menuList, DAL.Menu mi)
+                        {
+                            foreach (var item1 in menuList.Where(p => p.ParentID == mi.MenuID))
+                            {
+                                @:<li class="nav-item">
+                                    <a class="nav-link" id="
                             @item1.MenuID" href=@item1.Link><i class="@item1.imgclass"></i><span>@item1.Title</span></a>
                             if (menuList.Count(p => p.ParentID == item1.MenuID) > 0)
                             {
@@ -627,15 +649,15 @@
                             @:</li>
                         }
                     }
-                            }
-
                         }
-                        <!-- Optionally, you can add icons to the links -->
+
+                    }
+                    <!-- Optionally, you can add icons to the links -->
 
 
-                    </ul>
+                </ul>
 
-                    <!-- /.sidebar-menu -->
+                <!-- /.sidebar-menu -->
             </section>
             <!-- /.sidebar -->
         </aside>
@@ -648,11 +670,9 @@
             @RenderBody()
         </div>
         <!-- /.content-wrapper -->
-
         <!-- Main Footer -->
         <footer class="main-footer">
             <!-- To the right -->
-
             <!-- Default to the left -->
             Copyright &copy; 2016 <a href="#" class="comname">Malusoft</a>. All rights reserved.
         </footer>

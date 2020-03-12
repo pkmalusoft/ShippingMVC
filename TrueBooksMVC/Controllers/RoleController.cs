@@ -26,8 +26,9 @@ namespace TrueBooksMVC.Controllers
                              {
                                  Name = t1.RoleName,
                                  Title = t2.Title,
-                                 MenuAccessID = t.MenuAccessID
-
+                                 MenuAccessID = t.MenuAccessID,
+                                 MenuID=t.MenuID
+                                
                                  //    MenuAccessID = Convert.ToInt32(t1.Id),
 
                              }).ToList();
@@ -135,6 +136,12 @@ namespace TrueBooksMVC.Controllers
             return RedirectToAction("List");
         }
 
+        public JsonResult GetSubmenuByParentId(int ParentId)
+        {
+            var submenus = (from d in entity.Menus where d.ParentID == ParentId select d).ToList();
+            //var lstAcJournalDetails = DAL.GetAcJournalDetails(ParentId);
+            return Json(submenus, JsonRequestBehavior.AllowGet);
+        }
 
     }
 }
