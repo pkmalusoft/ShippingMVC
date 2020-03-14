@@ -2,6 +2,14 @@
 @{
     ViewBag.Title = "CustomerRecieptDetails";
     Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
+    var isadd = true;
+    string path = Request.Url.AbsolutePath.ToLower();
+
+    if (Convert.ToInt32(Session["UserRoleID"]) > 1)
+    {
+        TrueBooksMVC.Models.SourceMastersModel obj = new TrueBooksMVC.Models.SourceMastersModel();
+        isadd = obj.GetAddpermission(Convert.ToInt32(Session["UserRoleID"]), path);
+    }
 }
 
 <style>
@@ -116,9 +124,9 @@
             var str = new Date(startdate);
             var d = new Date();
             var curr_date = ed.getDate();
-            var curr_month = ed.getMonth();
+            var curr_month = sd.getMonth();
             var curr_year = ed.getFullYear();
-            return (d.getDate() + "-" + m_names[curr_month] + "-" + ed.getFullYear());
+            return (sd.getDate() + "-" + m_names[curr_month] + "-" + sd.getFullYear());
         }
 
 
@@ -240,8 +248,11 @@
                                                     <input type="button" value="Search" id="btnsearch" class="btn btn-primary btnwidt" />
                                                 </td>
                                                 <td>
+                                                    @if (isadd)
+                                                    {
                                                     <a href='@Url.Action("CustomerReciept", "CustomerReciept", new { id = 0 })' class="btn btn-primary  btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">New</a>
-                                                </td>
+
+                                                    }</td>
                                             </tr>
                                         </table>
                                     </div>

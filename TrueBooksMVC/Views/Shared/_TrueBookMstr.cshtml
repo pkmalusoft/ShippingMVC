@@ -591,10 +591,10 @@
                             {
                                 List<int> RoleId = (List<int>)Session["RoleID"];
                                 int menuid = Convert.ToInt32(item.MenuID);
-                                if (item.PermissionRequired.HasValue && item.PermissionRequired.Value)
-                                {
-                                    if (obj.IsAccessibleMenu(menuid, RoleId))
-                                    {
+                                //if (item.PermissionRequired.HasValue && item.PermissionRequired.Value)
+                                //{
+                                //    if (obj.IsAccessibleMenu(menuid, RoleId))
+                                //    {
                                         <li class="nav-item">
                                             <a id="@item.MenuID" class="nav-link nav-parent" href=@item.Link><i class="@item.imgclass"></i><span>@item.Title</span></a>
                                             @if (menuList.Count(p => p.ParentID == item.MenuID) > 0)
@@ -607,7 +607,7 @@
                                             @:</ul>
                                         }
                                         </li>
-                                    }
+                                    @*}
                                 }
                                 else
                                 {
@@ -623,7 +623,7 @@
                                         @:</ul>
                                     }
                                     </li>
-                                }
+                                }*@
 
                             }
                         }

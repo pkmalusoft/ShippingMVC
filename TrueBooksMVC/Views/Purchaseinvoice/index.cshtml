@@ -5,11 +5,20 @@
     @using DAL;
 
     @{
-    ViewBag.Title = "Purchase Invoice";
-    //Layout = "~/Views/Shared/_Layout.cshtml";
-    Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
+        ViewBag.Title = "Purchase Invoice";
+        Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
 
-    SHIPPING_FinalEntities entity = new SHIPPING_FinalEntities();
+        SHIPPING_FinalEntities entity = new SHIPPING_FinalEntities();
+        var isadd = true;
+
+        string path = Request.Url.AbsolutePath.ToLower();
+
+        if (Convert.ToInt32(Session["UserRoleID"]) > 1)
+        {
+            TrueBooksMVC.Models.SourceMastersModel obj = new TrueBooksMVC.Models.SourceMastersModel();
+            isadd = obj.GetAddpermission(Convert.ToInt32(Session["UserRoleID"]), path);
+
+        }
     }
 
     <style>
@@ -182,7 +191,10 @@
                                 <input type="button" value="Search" id="btnsearch" class="btn btn-primary btnwidt fa fa-search" />
                             </td>
                             <td>
+                                @if (isadd)
+                                {
                                 <a href="/purchaseInvoice/invoice/0"><button class="btn btn-primary btnwidth" style="margin:10px"> New</button></a>
+                                }
                             </td>
                         </tr>
                     </table>
@@ -340,7 +352,7 @@
             var ed = new Date(enddate);
             var str = new Date(startdate);
             var d = new Date();
-            var curr_date =sd.getDate();
+            var curr_date = sd.getDate();
             var curr_month = sd.getMonth();
             var curr_year = str.getFullYear();
             return (curr_date + "-" + m_names[curr_month] + "-" + curr_year);

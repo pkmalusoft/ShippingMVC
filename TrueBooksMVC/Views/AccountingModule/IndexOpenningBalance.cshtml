@@ -3,6 +3,18 @@
 @{
     ViewBag.Title = "IndexOpenningBalance";
     Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
+    var isadd = true;
+    var ismodify = true;
+
+    string path = Request.Url.AbsolutePath.ToLower();
+
+    if (Convert.ToInt32(Session["UserRoleID"]) > 1)
+    {
+        TrueBooksMVC.Models.SourceMastersModel obj = new TrueBooksMVC.Models.SourceMastersModel();
+        isadd = obj.GetAddpermission(Convert.ToInt32(Session["UserRoleID"]), path);
+        ismodify = obj.GetModifypermission(Convert.ToInt32(Session["UserRoleID"]), path);
+
+    }
 }
 
 <style>
@@ -121,7 +133,15 @@
                 }
                 <tr>
                     <td colspan="2">
-                        <input type="submit" class="btn btn-primary btnwidth" value="Save" />
+                        @if (isadd || ismodify)
+                        {
+                            <input type="submit" class="btn btn-primary btnwidth" value="Save" />
+                        }
+                        else
+                        {
+                            <input type="submit" class="btn btn-primary btnwidth" value="Save" disabled />
+
+                        }
                     </td>
                 </tr>
                       

@@ -745,6 +745,11 @@ warning 6002: The table/view 'malusoft_shipping.dbo.AcHeadAssign' does not have 
           <Property Name="ModifiedOn" Type="datetime" />
           <Property Name="IsActive" Type="int" />
           <Property Name="ParentID" Type="int" />
+          <Property Name="IsView" Type="bit" />
+          <Property Name="IsAdd" Type="bit" />
+          <Property Name="IsModify" Type="bit" />
+          <Property Name="IsDelete" Type="bit" />
+          <Property Name="Isprint" Type="bit" />
         </EntityType>
         <EntityType Name="PaymentTerms">
           <Key>
@@ -4548,6 +4553,11 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Type="DateTime" Name="ModifiedOn" Precision="3" />
           <Property Type="Int32" Name="IsActive" />
           <Property Type="Int32" Name="ParentID" />
+          <Property Name="IsView" Type="Boolean" />
+          <Property Name="IsAdd" Type="Boolean" />
+          <Property Name="IsModify" Type="Boolean" />
+          <Property Name="IsDelete" Type="Boolean" />
+          <Property Name="Isprint" Type="Boolean" />
         </EntityType>
         <EntityType Name="ContainerType">
           <Key>
@@ -7860,6 +7870,11 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <EntitySetMapping Name="MenuAccessLevels">
             <EntityTypeMapping TypeName="SHIPPING_FinalModel.MenuAccessLevel">
               <MappingFragment StoreEntitySet="MenuAccessLevel">
+                <ScalarProperty Name="Isprint" ColumnName="Isprint" />
+                <ScalarProperty Name="IsDelete" ColumnName="IsDelete" />
+                <ScalarProperty Name="IsModify" ColumnName="IsModify" />
+                <ScalarProperty Name="IsAdd" ColumnName="IsAdd" />
+                <ScalarProperty Name="IsView" ColumnName="IsView" />
                 <ScalarProperty Name="ParentID" ColumnName="ParentID" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />

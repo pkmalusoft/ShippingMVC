@@ -40,7 +40,7 @@ namespace TrueBooksMVC.Controllers
 
                 ViewBag.Payble = SupplierPayble;
 
-            Session["Menu"] = Query;
+            //Session["Menu"] = Query;
 
             var a = entity.AcFinancialYearSelect(Convert.ToInt32(Session["branchid"])).ToList();
             ViewBag.AcFyear = a.ToList();

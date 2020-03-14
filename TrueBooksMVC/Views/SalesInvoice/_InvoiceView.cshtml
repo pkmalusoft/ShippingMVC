@@ -7,6 +7,20 @@
 @{
     Layout = null;
     SHIPPING_FinalEntities entity = new SHIPPING_FinalEntities();
+    var ismodify = true;
+    var isdelete = true;
+    var isprint = true;
+
+    string path = "/salesinvoice/index";
+
+    if (Convert.ToInt32(Session["UserRoleID"]) > 1)
+    {
+        TrueBooksMVC.Models.SourceMastersModel obj = new TrueBooksMVC.Models.SourceMastersModel();
+        ismodify = obj.GetModifypermission(Convert.ToInt32(Session["UserRoleID"]), path);
+        isdelete = obj.GetDeletepermission(Convert.ToInt32(Session["UserRoleID"]), path);
+        isprint = obj.GetPrintpermission(Convert.ToInt32(Session["UserRoleID"]), path);
+
+    }
 
 }
 <script type="text/javascript">
@@ -76,12 +90,22 @@
                                                 <td class="tdtarget">@Html.DisplayFor(modelItem => item.DueDate, "{0:dd/MMM/yyyy}")</td>
                                                 <td class="tdtarget">@Html.DisplayFor(modelItem => item.Remarks)</td>
                                                 <td style="width: 10%">
-                                                    <a href='@Url.Action("Invoice", "SalesInvoice", new { id = item.SalesInvoiceID })' data-toggle="tooltip" data-placement="right" title="Edit"><i class="fa fa-pencil"></i></a> &vert;&nbsp;&nbsp;&nbsp;
+                                                    @if (ismodify)
+                                                    {
+                                                    <a href='@Url.Action("Invoice", "SalesInvoice", new { id = item.SalesInvoiceID })' data-toggle="tooltip" data-placement="right" title="Edit"><i class="fa fa-pencil"></i></a>
+                                                    } &vert;&nbsp;
                                                     @*<a href='@Url.Action("DeleteJob", "Job", new { id = item.JobID })' data-toggle="tooltip" data-placement="right" title="Delete"><i class="fa fa-times-circle"></i></a>| *@
-                                                    <a href="#" onclick="DeleteInvoice(InvoiceId=@item.SalesInvoiceID)"><i class="fa fa-times"></i></a>&vert;&nbsp;&nbsp;&nbsp;
+                                                    @if (isdelete)
+                                                    {
+                                                    <a href="#" onclick="DeleteInvoice(InvoiceId=@item.SalesInvoiceID)"><i class="fa fa-times"></i></a>
+                                                    }
+                                                    &vert;&nbsp;
                                                     @if (item.SalesInvoiceID > 0)
                                                     {
+                                                        if (isprint)
+                                                        {
                                                         <a href="/Reports/SalesInvoiceReport.aspx?id=@item.SalesInvoiceID" target="_blank" id = "@item.SalesInvoiceID" data-toggle="tooltip" data-placement="right" title="Print"><i class="fa fa-print"></i></a>
+                                                        }
                                                     }
                                                 </td>
                                             </tr>

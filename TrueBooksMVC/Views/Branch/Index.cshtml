@@ -3,6 +3,20 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
+    var isadd = true;
+    var ismodify = true;
+    var isdelete = true;
+
+    string path = Request.Url.AbsolutePath.ToLower();
+
+    if (Convert.ToInt32(Session["UserRoleID"]) > 1)
+    {
+        TrueBooksMVC.Models.SourceMastersModel obj = new TrueBooksMVC.Models.SourceMastersModel();
+        isadd = obj.GetAddpermission(Convert.ToInt32(Session["UserRoleID"]), path);
+        ismodify = obj.GetModifypermission(Convert.ToInt32(Session["UserRoleID"]), path);
+        isdelete = obj.GetDeletepermission(Convert.ToInt32(Session["UserRoleID"]), path);
+
+    }
 }
 @*<script type="text/javascript">
        $(document).ready(function () {
@@ -42,7 +56,10 @@
 </section>
 
 <p class="indexbtnpadding">
+    @if (isadd)
+    {
     @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary btnwidth" })
+    }
 </p>
 <section class="content">
     @if (TempData["SuccessMsg"] != null)
@@ -202,10 +219,14 @@
                                 @Html.DisplayFor(modelItem => item.StatusAssociate)
                             </td>*@
                         <td>
-                            <a href="@Url.Action("Edit", new { id = item.BranchID })"><i class="fa fa-pencil"></i></a> |
+                            @if (ismodify) {
+                            <a href="@Url.Action("Edit", new { id = item.BranchID })"><i class="fa fa-pencil"></i></a>
+                            } |
                             @*<a href="@Url.Action("Delete", new { id = item.AcCompanyID })"><i class="fa fa-times"></i></a>*@
-
+                            @if (isdelete)
+                            {
                             <a href="#" onclick="DeleteBranch(branchID=@item.BranchID)"><i class="fa fa-times"></i></a>
+                            }
                         </td>
                     </tr>
                 }

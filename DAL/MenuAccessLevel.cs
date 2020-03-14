@@ -23,5 +23,10 @@ namespace DAL
         public Nullable<System.DateTime> ModifiedOn { get; set; }
         public Nullable<int> IsActive { get; set; }
         public Nullable<int> ParentID { get; set; }
+        public Nullable<bool> IsView { get; set; }
+        public Nullable<bool> IsAdd { get; set; }
+        public Nullable<bool> IsModify { get; set; }
+        public Nullable<bool> IsDelete { get; set; }
+        public Nullable<bool> Isprint { get; set; }
     }
 }

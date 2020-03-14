@@ -2,7 +2,13 @@
 @model IEnumerable<DAL.JobRegisterReport_Result>
 @{
     Layout = null;
-    
+    var isprint = true;
+    var path = "/ReportInvoice/JobRegister";
+    if (Convert.ToInt32(Session["UserRoleID"]) > 1)
+    {
+        TrueBooksMVC.Models.SourceMastersModel obj = new TrueBooksMVC.Models.SourceMastersModel();
+        isprint = obj.GetPrintpermission(Convert.ToInt32(Session["UserRoleID"]), path);
+    }
 }
 
 <style>
@@ -168,7 +174,11 @@
                         @string.Format("{0:n2}", @item.Profit)
 
                     </th>
-                  <th><button class="btnprint">Print</button></th>
+                  <th>
+                    @if(isprint){
+                        <button class="btnprint">Print</button>
+                    }
+                  </th>
                 </tr>
             }
         </tbody>

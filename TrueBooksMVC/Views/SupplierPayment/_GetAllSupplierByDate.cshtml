@@ -2,6 +2,18 @@
 
 @{
     Layout = null;
+    var ismodify = true;
+    var isdelete = true;
+
+    string path = "/SupplierPayment/SupplierPaymentDetails/0";
+
+    if (Convert.ToInt32(Session["UserRoleID"]) > 1)
+    {
+        TrueBooksMVC.Models.SourceMastersModel obj = new TrueBooksMVC.Models.SourceMastersModel();
+        ismodify = obj.GetModifypermission(Convert.ToInt32(Session["UserRoleID"]), path);
+        isdelete = obj.GetDeletepermission(Convert.ToInt32(Session["UserRoleID"]), path);
+
+    }
 }
 
 <script type="text/javascript">
@@ -80,10 +92,16 @@
                                                                                 <td>@Html.DisplayFor(modelItem => item.Currency)</td>
 
                                                                                 <td>
-                                                                                    <a href='@Url.Action("SupplierPayment", "SupplierPayment", new { id = item.RecPayID })' data-toggle="tooltip" data-placement="left" title="Click here"><i class="fa fa-pencil"></i></a>|
+                                                                                @if (ismodify) {
+                                                                                    <a href='@Url.Action("SupplierPayment", "SupplierPayment", new { id = item.RecPayID })' data-toggle="tooltip" data-placement="left" title="Click here"><i class="fa fa-pencil"></i></a>
+                                                                                }
+                                                                                |
                                                                           
                                                                               @*  <a href='@Url.Action("DeleteSupplierDet", "SupplierPayment", new { id = item.RecPayID })' data-toggle="tooltip" data-placement="right" title="Click here"><i class="fa fa-times-circle"></i></a>*@
-                                                                                         <a href="#" onclick="Delete(ID=@item.RecPayID)"><i class="fa fa-times"></i></a>
+                                                                                @if (isdelete)
+                                                                                {
+                                                                                <a href="#" onclick="Delete(ID=@item.RecPayID)"><i class="fa fa-times"></i></a>
+                                                                                }
                                                                                     @*                                           @Html.ActionLink("Edit", "", new { id = item.RecPayID }) |
           
                                                                         @Html.ActionLink("Delete", "", new { id = item.RecPayID })*@</td>

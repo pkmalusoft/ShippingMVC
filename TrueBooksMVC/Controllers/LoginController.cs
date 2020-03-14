@@ -45,7 +45,7 @@ namespace TrueBooksMVC.Controllers
 
 
         public JsonResult GetFYear(int id)
-                {
+        {
             var x = entity.AcFinancialYearSelect(id).ToList();
 
             return Json(x, JsonRequestBehavior.AllowGet);
@@ -109,14 +109,37 @@ namespace TrueBooksMVC.Controllers
                         var query = (from t in entity.UserRegistrations
                                      where t.UserID == item.UserID && t.RoleID.HasValue
                                      select t.RoleID.Value).ToList();
+                        var UserRoleID = (from t in entity.UserRegistrations
+                                     where t.UserID == item.UserID select t.RoleID).FirstOrDefault();
+                        Session["UserRoleID"] = UserRoleID;
                         if (query != null)
                         {
                             Session["RoleID"] = query;
+                            if (query[0] == 1)
+                            {
+                                var menuaccesslevels = new List<MenuAccessLevel>();
+                                var menus = (from t in entity.Menus where t.IsAccountMenu.Value == false orderby t.MenuOrder select t).ToList();
+
+                                Session["Menu"] = menus;
+                            }
+                            else
+                            {
+                                Int32 roleid = query[0];
+                                var menudata = (from t in entity.MenuAccessLevels
+                                                join s in entity.Menus on t.MenuID equals s.MenuID
+                                                where t.RoleID == roleid && t.IsView == true
+                                                orderby s.MenuOrder
+                                                select s).ToList();
+                                Session["menu"] = menudata;
+                            }
                         }
                         else
                         {
                             Session["RoleID"] = new List<int>();
                         }
+
+
+
                     }
 
                     return RedirectToAction("Home", "Home");
@@ -156,7 +179,7 @@ namespace TrueBooksMVC.Controllers
         public ActionResult GetChangeFyear(int FyearId)
         {
             Session["fyearid"] = FyearId.ToString();
-            int fid =Convert.ToInt32( Session["fyearid"]);
+            int fid = Convert.ToInt32(Session["fyearid"]);
             var fyearFrom = (from t in entity.AcFinancialYears where t.AcFinancialYearID == fid select t.AcFYearFrom).FirstOrDefault();
 
             Session["FyearFrom"] = fyearFrom;
@@ -165,7 +188,7 @@ namespace TrueBooksMVC.Controllers
 
             Session["FyearTo"] = fyearTo;
             return RedirectToAction("Home", "Home");
-           // return Json(new { Url = "Home/Home" });
+            // return Json(new { Url = "Home/Home" });
 
         }
 

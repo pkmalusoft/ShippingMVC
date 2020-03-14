@@ -1,7 +1,14 @@
 ﻿@model IEnumerable<TrueBooksMVC.Models.CustomerJournalVM>
 @{
     Layout = null;
-    
+    var isdelete = true;
+    string path = "/CustomerInvoice/Index/";
+
+    if (Convert.ToInt32(Session["UserRoleID"]) > 1)
+    {
+        TrueBooksMVC.Models.SourceMastersModel obj = new TrueBooksMVC.Models.SourceMastersModel();
+        isdelete = obj.GetDeletepermission(Convert.ToInt32(Session["UserRoleID"]), path);
+    }
 }
 
 <style>
@@ -101,8 +108,10 @@
                 <td class="tdtarget">
                    @*<a href="@Url.Action("Edit", new { id = item.AcJournalDetailID })"><i class="fa fa-pencil"></i></a> |*@
                     @*<a href="@Url.Action("Delete", new { id = item.AcCompanyID })"><i class="fa fa-times"></i></a>*@
-
+                    @if (isdelete)
+                    {
                     <a href="#" onclick="Delete(ID=@item.AcJournalDetailID)"><i class="fa fa-times"></i></a>
+                    }
                 </td>
             </tr>
         }

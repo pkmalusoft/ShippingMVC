@@ -10,7 +10,7 @@ using TrueBooksMVC.Models;
 
 namespace TrueBooksMVC.Controllers
 {
-     [Authorize]
+    [Authorize]
     public class MenuCreationController : Controller
     {
         private SHIPPING_FinalEntities db = new SHIPPING_FinalEntities();
@@ -63,15 +63,42 @@ namespace TrueBooksMVC.Controllers
                 return View();
             }
 
-                menu.MenuID = objectSourceMaster.GetMaxNumberMenu();
-                menu.IsAccountMenu = false;
-                db.Menus.Add(menu);
-                db.SaveChanges();
-                ViewBag.SuccessMsg = "You have successfully added Menu Creation.";
-                return View("Index", db.Menus.ToList());
-           
-           
-           
+            menu.MenuID = objectSourceMaster.GetMaxNumberMenu();
+            menu.IsAccountMenu = false;
+            db.Menus.Add(menu);
+            db.SaveChanges();
+            if (menu.ParentID != null || menu.ParentID > 0)
+            {
+                var roles = (from d in db.RoleMasters select d).ToList();
+                foreach (var item in roles)
+                {
+                    var menuaccess = (from d in db.MenuAccessLevels where d.ParentID == menu.ParentID && d.RoleID==item.RoleID select d).ToList();
+                    if (menuaccess.Count > 0)
+                    {
+                        var menuaccesslevel = new MenuAccessLevel();
+                        menuaccesslevel.MenuID = menu.MenuID;
+                        menuaccesslevel.RoleID = item.RoleID;
+                        menuaccesslevel.CreatedBy = Convert.ToString(Session["UserName"]);
+                        menuaccesslevel.CreatedOn = DateTime.Now;
+                        menuaccesslevel.ParentID = menu.ParentID;
+                        menuaccesslevel.IsActive = 1;
+                        menuaccesslevel.ModifiedBy = Convert.ToString(Session["UserName"]);
+                        menuaccesslevel.ModifiedOn = DateTime.Now;
+                        menuaccesslevel.IsView = false;
+                        menuaccesslevel.IsAdd = false;
+                        menuaccesslevel.IsDelete = false;
+                        menuaccesslevel.IsModify = false;
+                        menuaccesslevel.Isprint = false;
+                        db.MenuAccessLevels.Add(menuaccesslevel);
+                        db.SaveChanges();
+                    }
+                }
+            }
+            ViewBag.SuccessMsg = "You have successfully added Menu Creation.";
+            return View("Index", db.Menus.ToList());
+
+
+
         }
 
         //

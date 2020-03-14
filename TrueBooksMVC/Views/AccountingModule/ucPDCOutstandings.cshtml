@@ -1,5 +1,18 @@
 ﻿@model List<TrueBooksMVC.Models.PDCOutstandingVM>
+@{ 
+    var isadd = true;
+    var ismodify = true;
 
+    string path = "AccountingModule/IndexPDCOutstandings";
+
+    if (Convert.ToInt32(Session["UserRoleID"]) > 1)
+    {
+        TrueBooksMVC.Models.SourceMastersModel obj = new TrueBooksMVC.Models.SourceMastersModel();
+        isadd = obj.GetAddpermission(Convert.ToInt32(Session["UserRoleID"]), path);
+        ismodify = obj.GetModifypermission(Convert.ToInt32(Session["UserRoleID"]), path);
+
+    }
+}
 <div id="divPDCReminderList"></div>
 <script type="text/javascript">
     $(function () {
@@ -65,7 +78,14 @@
 
                 <tr>
                     <td colspan="7">
-                         <input type="submit" value="Save" class="btn btn-primary" />
+                        @if (isadd || ismodify)
+                        {
+                            <input type="submit" value="Save" class="btn btn-primary" />
+                        }
+                        else
+                        {
+                            <input type="submit" value="Save" class="btn btn-primary" disabled />
+                        }
                     </td>
                 </tr>
 

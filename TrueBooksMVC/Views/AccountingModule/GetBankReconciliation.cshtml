@@ -2,6 +2,18 @@
 
 @{
     Layout = null;
+    var isadd = true;
+    var ismodify = true;
+
+    string path = "/AccountingModule/BankReconcilation";
+
+    if (Convert.ToInt32(Session["UserRoleID"]) > 1)
+    {
+        TrueBooksMVC.Models.SourceMastersModel obj = new TrueBooksMVC.Models.SourceMastersModel();
+        isadd = obj.GetAddpermission(Convert.ToInt32(Session["UserRoleID"]), path);
+        ismodify = obj.GetModifypermission(Convert.ToInt32(Session["UserRoleID"]), path);
+
+    }
 }
 
 
@@ -138,7 +150,14 @@
                     }
                      <tr>
                     <td colspan="10">
+                        @if (isadd || ismodify)
+                        {
                         <input type="submit" class="btn btn-primary" value="Save" />
+                        }
+                        else
+                        {
+                            <input type="submit" class="btn btn-primary" value="Save" disabled />
+                        }
                     </td>
                 </tr>
 

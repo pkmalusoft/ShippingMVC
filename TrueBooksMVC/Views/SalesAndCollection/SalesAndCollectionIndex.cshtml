@@ -1,6 +1,16 @@
 ﻿@{
     ViewBag.Title = "SalesAndCollection";
     Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
+    var isprint = true;
+   
+    string path = Request.Url.AbsolutePath.ToLower();
+
+    if (Convert.ToInt32(Session["UserRoleID"]) > 1)
+    {
+        TrueBooksMVC.Models.SourceMastersModel obj = new TrueBooksMVC.Models.SourceMastersModel();
+        isprint = obj.GetPrintpermission(Convert.ToInt32(Session["UserRoleID"]), path);
+       
+    }
 }
 
 <style>
@@ -254,7 +264,10 @@
 
             <div class="col-md-12 butdivs">
                 <button id="btnsearch" class="btn btn-primary btnwid">search</button>
+               @if (isprint)
+               {
                 <button id="btnprint" class="btn btn-primary btnwid">Print</button>
+               }
             </div>
 
         </div>

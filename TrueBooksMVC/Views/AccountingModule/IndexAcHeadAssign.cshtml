@@ -2,18 +2,31 @@
 @{
     ViewBag.Title = "Index Ac Head";
     Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
+    var isadd = true;
+    var ismodify = true;
+
+    string path = Request.Url.AbsolutePath.ToLower();
+
+    if (Convert.ToInt32(Session["UserRoleID"]) > 1)
+    {
+        TrueBooksMVC.Models.SourceMastersModel obj = new TrueBooksMVC.Models.SourceMastersModel();
+        isadd = obj.GetAddpermission(Convert.ToInt32(Session["UserRoleID"]), path);
+        ismodify = obj.GetModifypermission(Convert.ToInt32(Session["UserRoleID"]), path);
+
+    }
 }
 
 <style>
-     tfoot {
-            display: table-header-group;
-     }
+    tfoot {
+        display: table-header-group;
+    }
+
     .tblbackground {
         background-color: #fff;
         box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
         border-radius: 10px;
     }
-        </style>
+</style>
 
 
 <script type="text/javascript">
@@ -48,80 +61,86 @@
 
 </section>
 <p class="indexbtnpadding">
-    @Html.ActionLink("Create New", "CreateAcHeadAssign",null,new {@class="btn btn-primary btnwidth"})
+    @if (isadd)
+    {
+    @Html.ActionLink("Create New", "CreateAcHeadAssign", null, new { @class = "btn btn-primary btnwidth" })
+    }
 </p>
 <section class="content">
     @if (ViewBag.SuccessMsg != null)
     {
-     <script type="text/javascript">
+        <script type="text/javascript">
          $(document).ready(function () {
              $.notify("@ViewBag.SuccessMsg ", "success");
          });
-                                                </script>
+        </script>
     }
-<div class="table-responsive tblbackground" style="padding:15px">
-<table class="table table-responsive table-bordered tblfont" id="dataTables-example">
-    <thead>
-    <tr>
-        
-      <th>Provision Cost</th>
-      <th>Accrued Cost Control</th>
-      <th>Open Job Revenue</th>
-      <th>Customer Control</th>  
-      <th>Cash Control</th>
-      <th>Supplier Control</th>
-      <th>Action</th>
-    </tr>
-</thead>
+    <div class="table-responsive tblbackground" style="padding:15px">
+        <table class="table table-responsive table-bordered tblfont" id="dataTables-example">
+            <thead>
+                <tr>
 
-     <tfoot>
-    <tr>
-        
-      <th>Provision Cost</th>
-      <th>Accrued Cost Control</th>
-      <th>Open Job Revenue</th>
-      <th>Customer Control</th>  
-      <th>Cash Control</th>
-      <th>Supplier Control</th>
-      <th style="display:none">Action</th>
-    </tr>
-</tfoot>
+                    <th>Provision Cost</th>
+                    <th>Accrued Cost Control</th>
+                    <th>Open Job Revenue</th>
+                    <th>Customer Control</th>
+                    <th>Cash Control</th>
+                    <th>Supplier Control</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tfoot>
+                <tr>
+
+                    <th>Provision Cost</th>
+                    <th>Accrued Cost Control</th>
+                    <th>Open Job Revenue</th>
+                    <th>Customer Control</th>
+                    <th>Cash Control</th>
+                    <th>Supplier Control</th>
+                    <th style="display:none">Action</th>
+                </tr>
+            </tfoot>
 
 
-    <tbody>
-@foreach (var item in Model) {
-    <tr>
-      
-        <td>@item.ProvisionCostControl</td>
-        <td>@item.AccruedCostControl</td>
-        <td>@item.OpenJobRevenue</td>
-        <td>@item.CustomerControl</td>
-        <td>@item.CashControl</td>
-        <td>@item.SupplierControl</td>
-       
-        <td>
-           @*  @Html.ActionLink("Edit", "Edit", new { id=item.CountryID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.CountryID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.CountryID })*@
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
 
-            <a href="@Url.Action("EditAcHeadAssign", new { id = item.ID })"><i class="fa fa-pencil"></i></a> 
-@*<a href="@Url.Action("Delete", new { id = item.CountryID })"><i class="fa fa-times"></i></a>*@
-           @* <a href="#" onclick="Delete(ID=@item.AcGroupID)"><i class="fa fa-times"></i></a>*@
+                        <td>@item.ProvisionCostControl</td>
+                        <td>@item.AccruedCostControl</td>
+                        <td>@item.OpenJobRevenue</td>
+                        <td>@item.CustomerControl</td>
+                        <td>@item.CashControl</td>
+                        <td>@item.SupplierControl</td>
 
-        </td>
-    </tr>
-}
-<//tbody>
-</table>
-</div>
-    </section>
+                        <td>
+                            @*  @Html.ActionLink("Edit", "Edit", new { id=item.CountryID }) |
+                                @Html.ActionLink("Details", "Details", new { id=item.CountryID }) |
+                                @Html.ActionLink("Delete", "Delete", new { id=item.CountryID })*@
+                            @if (ismodify)
+                            {
+                            <a href="@Url.Action("EditAcHeadAssign", new { id = item.ID })"><i class="fa fa-pencil"></i></a>
+                            }
+                            @*<a href="@Url.Action("Delete", new { id = item.CountryID })"><i class="fa fa-times"></i></a>*@
+                            @* <a href="#" onclick="Delete(ID=@item.AcGroupID)"><i class="fa fa-times"></i></a>*@
+
+                        </td>
+                    </tr>
+                }
+                <//tbody>
+        </table>
+    </div>
+</section>
 
 
 @*<script type="text/javascript">
-    function Delete(ID) {
-        if (confirm("Are you sure? You want to Delete Country?")) {
-            window.location.href = "/AccountingModule/DeleteAcGroup/?id=" + ID;
+        function Delete(ID) {
+            if (confirm("Are you sure? You want to Delete Country?")) {
+                window.location.href = "/AccountingModule/DeleteAcGroup/?id=" + ID;
+            }
         }
-    }
-</script>
+    </script>
 *@

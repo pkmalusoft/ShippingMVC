@@ -10,6 +10,8 @@
     Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
 
     SHIPPING_FinalEntities entity = new SHIPPING_FinalEntities();
+    
+
 }
 
 <style>
@@ -20,19 +22,20 @@
     #tbl1 tr {
         height: 35px;
     }
+
     .panel-body {
         padding: 0px;
     }
+
     .panel {
         background-color: unset;
     }
+
     .tblbackground {
         background-color: #fff;
         box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
         border-radius: 10px;
     }
-
-    
 </style>
 
 <script src="@Url.Content("~/Scripts/angular.js")"></script>
@@ -103,7 +106,7 @@
             type: "GET",
             dataType: "json",
             success: function (data) {
-                
+
                 $("#result").html(data.view);
                 hideLoading();
             },
@@ -155,7 +158,7 @@
 
 
     $("#frmdate").css("border-radius", "5px");
-   
+
 
 
 
@@ -182,7 +185,7 @@
         var curr_year = f.getFullYear();
         return (curr_date + "-" + m_names[curr_month] + "-" + curr_year);
 
-        
+
     }
 
     function f2() {
@@ -212,7 +215,7 @@ function (settings, data, dataIndex) {
         $(document).ready(function () {
             $.notify("@ViewBag.SuccessMsg ", "success");
                                         });
-    </script>   
+    </script>
 }
 
 
@@ -225,15 +228,15 @@ function (settings, data, dataIndex) {
         <p class="cbtnpadding">
 
             @{
-                
+
                 DateTime x = DateTime.Now;
                 DateTime fs = Convert.ToDateTime(Session["FyearFrom"].ToString());
                 DateTime to = Convert.ToDateTime(Session["FyearTo"].ToString());
 
                 if (x >= fs && x <= to)
                 {
-                <a href='@Url.Action("Job", "Job", new { id = 0 })' class="btn btn-primary btnwidth" data-toggle="tooltip" data-placement="right" style="margin-left:-6px;">Add </a>
-                <input type="hidden" id="hdnEditJobID" />
+                    <a href='@Url.Action("Job", "Job", new { id = 0 })' class="btn btn-primary btnwidth" data-toggle="tooltip" data-placement="right" style="margin-left:-6px;">Add </a>
+                    <input type="hidden" id="hdnEditJobID" />
                 }
             }
 
@@ -263,31 +266,31 @@ function (settings, data, dataIndex) {
 
                 </table>
                 @*<table class="searchtabs tablserch" id="tbl1">
-                    <tr>
-                        <td class="searlabel">
-                            From Date
-                        </td>
-                        <td class="searinput">
-                            <input type="text" id="frmdate" class="form-control" />
-                        </td>
-                        </tr><br />
-                    <tr>
-                        <td class="searlabel">
-                            To Date
-                        </td>
-                        <td class="searinput">
-                            <input type="text" id="todate" class="form-control" />
-                        </td>
-                        </tr><br />
-                    <tr>
-                        <td></td>
-                        <td style="text-align:center">
-                            <input type="button" value="Search" id="btnsearch" class="btn btn-primary btnwid fa fa-search" />
-                        </td>
-                    </tr>
+                        <tr>
+                            <td class="searlabel">
+                                From Date
+                            </td>
+                            <td class="searinput">
+                                <input type="text" id="frmdate" class="form-control" />
+                            </td>
+                            </tr><br />
+                        <tr>
+                            <td class="searlabel">
+                                To Date
+                            </td>
+                            <td class="searinput">
+                                <input type="text" id="todate" class="form-control" />
+                            </td>
+                            </tr><br />
+                        <tr>
+                            <td></td>
+                            <td style="text-align:center">
+                                <input type="button" value="Search" id="btnsearch" class="btn btn-primary btnwid fa fa-search" />
+                            </td>
+                        </tr>
 
 
-                </table>*@
+                    </table>*@
             </p>
 
 

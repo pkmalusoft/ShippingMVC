@@ -3,6 +3,20 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
+    var isadd = true;
+    var ismodify = true;
+    var isdelete = true;
+
+    string path = Request.Url.AbsolutePath.ToLower();
+
+    if (Convert.ToInt32(Session["UserRoleID"]) > 1)
+    {
+        TrueBooksMVC.Models.SourceMastersModel obj = new TrueBooksMVC.Models.SourceMastersModel();
+        isadd = obj.GetAddpermission(Convert.ToInt32(Session["UserRoleID"]), path);
+        ismodify = obj.GetModifypermission(Convert.ToInt32(Session["UserRoleID"]), path);
+        isdelete = obj.GetDeletepermission(Convert.ToInt32(Session["UserRoleID"]), path);
+
+    }
 }
 
 <style>
@@ -51,7 +65,10 @@
 
 </section>
 <p class="indexbtnpadding">
-    @Html.ActionLink("Create New", "Create",null,new {@class="btn btn-primary btnwidth"})
+    @if (isadd)
+    {
+    @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary btnwidth" })
+    }
 </p>
 <section class="content">
      @if (ViewBag.SuccessMsg != null)
@@ -96,11 +113,14 @@
             @*@Html.ActionLink("Edit", "Edit", new { id=item.DesignationID }) |*@ 
            @* @Html.ActionLink("Details", "Details", new { id=item.DesignationID }) |*@
             @*@Html.ActionLink("Delete", "Delete", new { id=item.DesignationID })*@
-
-            <a href="@Url.Action("Edit", new { id = item.DesignationID })"><i class="fa fa-pencil"></i></a> |
+            @if (ismodify) {
+            <a href="@Url.Action("Edit", new { id = item.DesignationID })"><i class="fa fa-pencil"></i></a>
+            } |
 @*<a href="@Url.Action("Delete", new { id = item.DesignationID })"><i class="fa fa-times"></i></a>*@
-
+            @if (isdelete)
+            {
             <a href="#" onclick="Delete(ID=@item.DesignationID)"><i class="fa fa-times"></i></a>
+            }
         </td>
     </tr>
 }

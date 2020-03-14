@@ -3,14 +3,28 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
+    var isadd = true;
+    var ismodify = true;
+    var isdelete = true;
+
+    string path = Request.Url.AbsolutePath.ToLower();
+
+    if (Convert.ToInt32(Session["UserRoleID"]) > 1)
+    {
+        TrueBooksMVC.Models.SourceMastersModel obj = new TrueBooksMVC.Models.SourceMastersModel();
+        isadd = obj.GetAddpermission(Convert.ToInt32(Session["UserRoleID"]), path);
+        ismodify = obj.GetModifypermission(Convert.ToInt32(Session["UserRoleID"]), path);
+        isdelete = obj.GetDeletepermission(Convert.ToInt32(Session["UserRoleID"]), path);
+
+    }
 }
 
 
 <style>
-     tfoot {
-            display: table-header-group;
-     }
-        </style>
+    tfoot {
+        display: table-header-group;
+    }
+</style>
 
 <script type="text/javascript">
     $(document).ready(function () {
@@ -36,7 +50,7 @@
         });
     });
 
- </script>
+</script>
 
 <section class="content-header">
     <h1 class="headingfont">Payment Terms</h1>
@@ -44,62 +58,69 @@
 </section>
 
 <p class="indexbtnpadding">
-    @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary btnwidth" })
+    @if (isadd)
+    {
+        @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary btnwidth" })
+    }
 </p>
 
 <section class="content">
-      @if (TempData["SuccessMsg"] != null)
+    @if (TempData["SuccessMsg"] != null)
     {
-  
-             <script type="text/javascript">
+
+        <script type="text/javascript">
                  $(document).ready(function () {
                      $.notify("@TempData["SuccessMsg"]", "success");
                  });
-                                                </script>
+        </script>
     }
 
 
     <div class="table-responsive tblbackground" style="padding:15px">
-<table class="table table-responsive table-bordered tblfont" id="dataTables-example">
-   <thead>
-        <tr>
-        <th>
-            @Html.Label("Payment Terms")
-        </th>
-        <th>@Html.Label("Action")</th>
-    </tr>
+        <table class="table table-responsive table-bordered tblfont" id="dataTables-example">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.Label("Payment Terms")
+                    </th>
+                    <th>@Html.Label("Action")</th>
+                </tr>
 
-   </thead>
-    <tfoot>
-            <tr>
-        <th>
-            @Html.Label("Payment Terms")
-        </th>
-        <th style="display:none">@Html.Label("Action")</th>
-    </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th>
+                        @Html.Label("Payment Terms")
+                    </th>
+                    <th style="display:none">@Html.Label("Action")</th>
+                </tr>
 
-    </tfoot>
+            </tfoot>
 
-    <tbody>
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.PaymentTerm)
-        </td>
-        <td>
-          
-            <a href="@Url.Action("Edit", new { id = item.PaymentTermID })"><i class="fa fa-pencil"></i></a> |
-        
-            
-            <a href="#" onclick="Delete(ID=@item.PaymentTermID)"><i class="fa fa-times"></i></a>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PaymentTerm)
+                        </td>
+                        <td>
+                            @if (ismodify)
+                            {
+                                <a href="@Url.Action("Edit", new { id = item.PaymentTermID })"><i class="fa fa-pencil"></i></a>} |
 
-        </td>
-    </tr>
-}
-</tbody>
-</table>
-</div>
-    </section>
+                            @if (isdelete)
+                            {
+                                <a href="#" onclick="Delete(ID=@item.PaymentTermID)"><i class="fa fa-times"></i></a>
+                            }
+
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</section>
 
 <script type="text/javascript">
     function Delete(ID) {

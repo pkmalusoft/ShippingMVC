@@ -2,6 +2,16 @@
 @{
     ViewBag.Title = "JobAnalysisReport";
     Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
+   
+    var isprint = true;
+    string path = Request.Url.AbsolutePath.ToLower();
+
+    if (Convert.ToInt32(Session["UserRoleID"]) > 1)
+    {
+        TrueBooksMVC.Models.SourceMastersModel obj = new TrueBooksMVC.Models.SourceMastersModel();
+      
+        isprint = obj.GetPrintpermission(Convert.ToInt32(Session["UserRoleID"]), path);
+    }
 }
 <style>
     tfoot {
@@ -305,8 +315,11 @@
         <div class="row no-margin" style="padding-top:10px">
             <div class="col-md-12 butdivs">
                 <button id="btnsearch" class="btn btn-primary btnwid">Generate</button>
+                @if (isprint)
+                {
                 <button id="btnprint" class="btn btn-primary btnwid">Print</button>
-                @*<button id="btnprint" class="btn btn-primary btnwidth">Print</button>*@
+                }
+                else {<button id="btnprint" class="btn btn-primary btnwid" disabled>Print</button> }@*<button id="btnprint" class="btn btn-primary btnwidth">Print</button>*@
             </div>
         </div>
 
