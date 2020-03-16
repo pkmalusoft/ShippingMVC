@@ -79,7 +79,7 @@
             });
         });
 
-    
+
 
     function format(d) {
         // `d` is the original data object for the row
@@ -87,6 +87,8 @@
         var RoleId = d[4];
         var Role = d[1];
         var DataHtml = '';
+
+
         $.ajax({
             type: "POST",
             url: "/Role/GetSubmenuByParentId",
@@ -125,12 +127,12 @@
 
                 DataHtml = DataHtml + '</table>';
                 $('#pr_' + JournalDetailId + '_' + RoleId).append(DataHtml);
-                table1 = $("#SubMenutable_" + JournalDetailId + "_" + RoleId).DataTable({ "bPaginate": false, "bFilter": false, "bInfo": false });
-                var tid = "#SubMenutable_" + JournalDetailId + "_" + RoleId;
-                
+                table1 = $('#SubMenutable_' + JournalDetailId + '_' + RoleId).DataTable({ "bPaginate": false, "bFilter": false, "bInfo": false });
+                var tid = '#SubMenutable_' + JournalDetailId + '_' + RoleId;
+
                 $(tid+' tbody').on('click', 'td.details-control1', function () {
                     var tr = $(this).closest('tr');
-                    var trid = tr;
+                    //var trid = tr[0].id;
                     var row = table1.row(tr);
                     if (row.child.isShown()) {
                         // This row is already open - close it
@@ -145,16 +147,39 @@
                         $(this).find('img').attr('src', '/Content/img/details_close.png');
                     }
                 });
+                var array = @Html.Raw(Json.Encode(@ViewBag.Roles));
+                for (var a = 0; a < array.length; a++) {
+            if (RoleId == array[a].RoleID) {
+
+            } else {
+                var rowid = RoleId + ' _' + JournalDetailId;
+                $('#dataTables-example > tbody  > tr.parentrow').each(function () {
+                    if (this.id == rowid) {
+
+                    } else {
+                        var hascls = $(this).hasClass('shown');
+                        if (hascls) {
+                          
+                            var nexttr = $(this).closest('tr').next('tr');
+                            nexttr.hide();
+                            $(this).removeClass('shown');
+                            $(this).find('img').attr('src', '/Content/img/details_open.png');
+                        }
+                    }
+                });
+
+
+                        }
+        }
             }
         });
 
         return '<p id="pr_' + JournalDetailId + '_' + RoleId +'"></p>';
         }
 
-        function format1(d) {
+        function format1(d,trid) {
             var JournalDetailId = d[7];
             var RoleId1 = d[8];
-          
             var Role = d[1];
             var DataHtml = '';
             $.ajax({
@@ -284,7 +309,7 @@
 <p class="indexbtnpadding">
     @if (isadd)
     {
-    @Html.ActionLink("Create New", "Index", null, new { @class = "btn btn-primary btnwidth" })
+        @Html.ActionLink("Create New", "Index", null, new { @class = "btn btn-primary btnwidth" })
     }
 </p>
 
@@ -334,40 +359,40 @@
             <tbody>
                 @foreach (var item in Model)
                 {
-                <tr id="@item.RoleId _@item.MenuID">
+                    <tr id="@item.RoleId _@item.MenuID" class="parentrow">
 
-                    <td class="details-control">
-                        <img src="/Content/img/details_open.png" id="plus_minus" style="cursor: pointer;" />
+                        <td class="details-control">
+                            <img src="/Content/img/details_open.png" id="plus_minus" style="cursor: pointer;" />
 
-                        @Html.DisplayFor(modelItem => item.Title)
-                    </td>
-                    <td class="tdtarget">
+                            @Html.DisplayFor(modelItem => item.Title)
+                        </td>
+                        <td class="tdtarget">
 
-                        @Html.DisplayFor(modelItem => item.Name)
-                    </td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
 
-                    <td>
-                        @*   @Html.ActionLink("Edit", "Edit", new { id = item.MenuAccessID }) |*@
-                        @* @Html.ActionLink("Details", "Details", new { id=item.Id }) |*@
-                        @*  @Html.ActionLink("Delete", "Delete", new { id = item.MenuAccessID})*@
-                        @if (ismodify)
-                        {
-                            <a href="@Url.Action("Edit", new { id = item.MenuAccessID })"><i class="fa fa-pencil"></i></a>
-                        }
-                        |
-                        @*<a href="@Url.Action("Delete", new { id = item.MenuAccessID })"><i class="fa fa-times"></i></a>*@
-                        @if (isdelete)
-                        {
-                            <a href="#" onclick="Delete(ID=@item.MenuAccessID)"><i class="fa fa-times"></i></a>
-                        }
-                    </td>
-                    <td style="display:none;">
-                        @item.MenuID
-                    </td>
-                    <td style="display:none;">
-                        @item.RoleId
-                    </td>
-                </tr>
+                        <td>
+                            @*   @Html.ActionLink("Edit", "Edit", new { id = item.MenuAccessID }) |*@
+                            @* @Html.ActionLink("Details", "Details", new { id=item.Id }) |*@
+                            @*  @Html.ActionLink("Delete", "Delete", new { id = item.MenuAccessID})*@
+                            @if (ismodify)
+                            {
+                                <a href="@Url.Action("Edit", new { id = item.MenuAccessID })"><i class="fa fa-pencil"></i></a>
+                            }
+                            |
+                            @*<a href="@Url.Action("Delete", new { id = item.MenuAccessID })"><i class="fa fa-times"></i></a>*@
+                            @if (isdelete)
+                            {
+                                <a href="#" onclick="Delete(ID=@item.MenuAccessID)"><i class="fa fa-times"></i></a>
+                            }
+                        </td>
+                        <td style="display:none;">
+                            @item.MenuID
+                        </td>
+                        <td style="display:none;">
+                            @item.RoleId
+                        </td>
+                    </tr>
                 }
             </tbody>
 
