@@ -265,8 +265,11 @@
 
         .dataTables_wrapper .dataTables_paginate .paginate_button {
             background-color: #f9f9f9 !important;
-            !important;
             color: #0a0a0a !important;
+        }
+
+        .sidebar > ul > li > ul > li > a {
+            border-bottom: none !important;
         }
     </style>
 
@@ -339,7 +342,6 @@
             padding: 9px;
             font-size: 12px;
         }
-     
     </style>
 
     <script>
@@ -383,7 +385,7 @@
                     $("#AcFYearID option[value='" + fy + "']").attr("selected", "selected");
                 }
             });
-           
+
             $(".txttarget").change(function () {
                 var x = $(this);
                 var str = "";
@@ -482,6 +484,8 @@
     {
         IsUserAdmin = Convert.ToBoolean(Session["IsAdmin"]);
     }
+  
+
 }
 <body class="hold-transition sidebar-mini ">
     <div class="modalloader" style="display: none">
@@ -494,13 +498,10 @@
 
         <!-- Main Header -->
         <header class="main-header">
-
-
-
             <!-- Header Navbar -->
             <nav class="navbar navbar-static-top" role="navigation">
                 <!-- Sidebar toggle button-->
-                <a href="index2.html" class="logoimages">
+                <a href="/Home/Home" class="logoimages">
                     <!-- mini logo for sidebar mini 50x50 pixels -->
                     <!-- logo for regular state and mobile devices -->
                     <span class="logosmall">
@@ -520,7 +521,17 @@
                 <div style="display: inline-block;padding-bottom:7px;padding-top:9px;margin-top: 6px;">
                     <div class="row">
                         <div class="col-md-12" style="display:flex">
-                            <label class="final_per">@Session["Company"] - @Session["BranchName"] - @Session["BaseCurrencySymbol"]</label>
+                            @{
+                                string txttitle = Session["Company"] + " - " + Session["BranchName"] + " - " + Session["BaseCurrencySymbol"];
+                                var res = txttitle;
+                                if (txttitle.Length>40)
+                                {
+                                    res = txttitle.Substring(0, 38) +"...";
+
+                                }
+
+                            }  
+                            <label class="final_per" title="@Session["Company"] - @Session["BranchName"] - @Session["BaseCurrencySymbol"]">@res</label>
 
                         </div>
 
@@ -567,7 +578,7 @@
 
             <!-- sidebar: style can be found in sidebar.less -->
             <section class="sidebar">
-                <a href="index2.html" class="logo">
+                <a href="/Home/Home" class="logo">
                     <!-- mini logo for sidebar mini 50x50 pixels -->
                     <span class="logo-mini">
                         <img class="img-responsive" src="~/Content/img/TrueBook101.png" alt="logosmall">
@@ -595,6 +606,32 @@
                                 //{
                                 //    if (obj.IsAccessibleMenu(menuid, RoleId))
                                 //    {
+                    <li class="nav-item">
+                        @if (@item.Link == "/Home/Home")
+                        {
+                            <a id="@item.MenuID" class="nav-link "  href=@item.Link><i class="@item.imgclass"></i><span>@item.Title</span></a>
+
+                        }
+                        else
+                        {
+                            <a id="@item.MenuID" class="nav-link nav-parent collapsed" data-toggle="collapse" href=@item.Link><i class="@item.imgclass"></i><span>@item.Title</span></a>
+
+                        }
+
+                        @if (menuList.Count(p => p.ParentID == item.MenuID) > 0)
+                        {
+                            @:<ul class="nav nav-pills collapse">
+                            }
+                        @RenderMenuList(menuList, item)
+                        @if (menuList.Count(p => p.ParentID == item.MenuID) > 0)
+                        {
+                        @:</ul>
+                    }
+                    </li>
+                                @*}
+                                    }
+                                    else
+                                    {
                                         <li class="nav-item">
                                             <a id="@item.MenuID" class="nav-link nav-parent" href=@item.Link><i class="@item.imgclass"></i><span>@item.Title</span></a>
                                             @if (menuList.Count(p => p.ParentID == item.MenuID) > 0)
@@ -607,37 +644,30 @@
                                             @:</ul>
                                         }
                                         </li>
-                                    @*}
-                                }
-                                else
-                                {
-                                    <li class="nav-item">
-                                        <a id="@item.MenuID" class="nav-link nav-parent" href=@item.Link><i class="@item.imgclass"></i><span>@item.Title</span></a>
-                                        @if (menuList.Count(p => p.ParentID == item.MenuID) > 0)
-                                        {
-                                            @:<ul class="nav nav-pills flex-column">
-                                            }
-                                        @RenderMenuList(menuList, item)
-                                        @if (menuList.Count(p => p.ParentID == item.MenuID) > 0)
-                                        {
-                                        @:</ul>
-                                    }
-                                    </li>
-                                }*@
+                                    }*@
 
                             }
                         }
 
                         @helper RenderMenuList(List<DAL.Menu> menuList, DAL.Menu mi)
                         {
-                            foreach (var item1 in menuList.Where(p => p.ParentID == mi.MenuID))
-                            {
+foreach (var item1 in menuList.Where(p => p.ParentID == mi.MenuID))
+{
+
+    var haschilds = "";
+    var haschilds1 = "";
+
+    if (menuList.Count(p => p.ParentID == item1.MenuID) > 0)
+    {
+        haschilds = "nav-parent collapsed";
+        haschilds1 = "data-toggle=collapse";
+
+    }
                                 @:<li class="nav-item">
-                                    <a class="nav-link" id="
-                            @item1.MenuID" href=@item1.Link><i class="@item1.imgclass"></i><span>@item1.Title</span></a>
+                                    <a class="nav-link @haschilds" @haschilds1  id="@item1.MenuID" href=@item1.Link><i class="@item1.imgclass"></i><span>@item1.Title</span></a>
                             if (menuList.Count(p => p.ParentID == item1.MenuID) > 0)
                             {
-                                @:<ul class="nav nav-pills flex-column">
+                                @:<ul class="nav nav-pills collapse">
                                 }
                                 @RenderMenuList(menuList, item1)
                                 if (menuList.Count(p => p.ParentID == item1.MenuID) > 0)

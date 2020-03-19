@@ -224,7 +224,7 @@ namespace TrueBooksMVC.Controllers
                         }
                     }
 
-                }
+                }              
             }
 
             ViewBag.SuccessMsg = "You have successfully added Menu Role List.";
@@ -274,6 +274,40 @@ namespace TrueBooksMVC.Controllers
                             select new { menu=s,access=d }).ToList();
             //var lstAcJournalDetails = DAL.GetAcJournalDetails(ParentId);
             return Json(submenus, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult SubmitMenuAccess(string selected)
+        {
+            var strarr = selected.Split(',');
+            foreach(var item in strarr)
+            {
+                var data = item.Split('_');
+                var menuaccess = entity.MenuAccessLevels.Find(Convert.ToInt32(data[1]));              
+                if (data[0] == "Add")
+                {
+                    menuaccess.IsAdd =Convert.ToBoolean(data[2]);
+                }
+                else if (data[0] == "View")
+                {
+                    menuaccess.IsView = Convert.ToBoolean(data[2]);
+                }
+                else if (data[0] == "Modify")
+                {
+                    menuaccess.IsModify = Convert.ToBoolean(data[2]);
+                }
+                else if (data[0] == "Delete")
+                {
+                    menuaccess.IsDelete = Convert.ToBoolean(data[2]);
+                }
+                else if (data[0] == "Print")
+                {
+                    menuaccess.Isprint = Convert.ToBoolean(data[2]);
+                }
+                menuaccess.ModifiedBy = Convert.ToString(Session["UserName"]);
+                menuaccess.ModifiedOn = DateTime.Now;
+                entity.SaveChanges();
+            }
+            return Json(new { success = true }, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult SubmitMenuAccessPermission(int MenuAccessId,string Permission,bool value)

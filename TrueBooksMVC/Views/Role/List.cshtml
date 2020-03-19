@@ -51,6 +51,14 @@
         padding: 5px;
         /* background: url('/Content/img/details_close.png') no-repeat center center; */
     }
+
+    .btn-sm {
+        font-size: 13px !important;
+        height: 28px !important;
+        line-height: 27px !important;
+        padding: 0 !important;
+        min-width: 65px !important;
+    }
 </style>
 
 <script type="text/javascript">
@@ -96,7 +104,7 @@
             data: { ParentId: JournalDetailId, RoleId: RoleId },
             success: function (data) {
                 DataHtml = '<table class="table table-striped table-bordered tblfont subtable" id=SubMenutable_' + JournalDetailId + '_' + RoleId+'>';
-                DataHtml = DataHtml + '<thead><tr><th style=width:20%>Menu</th><th style=width:20%>Role</th><th style=width:10%>View</th><th style=width:10%>Add</th><th style=width:10%>Modify</th><th style=width:10%>Delete</th><th style=width:10%>Print</th><th style=display:none></th><th style=display:none></th></tr></thead>';
+                DataHtml = DataHtml + '<thead><tr><th style=width:20%>Menu</th><th style=width:20%>Role</th><th style=width:10%>View</th><th style=width:10%>Add</th><th style=width:10%>Modify</th><th style=width:10%>Delete</th><th style=width:40%>Print</th><th style=display:none></th><th style=display:none></th></tr></thead>';
                 DataHtml = DataHtml + '<tbody>';
                 $.each(data, function (index, value) {
                     var isview = "";
@@ -119,7 +127,7 @@
                     if (value.access.Isprint) {
                         isprint = "checked";
                     }
-                    DataHtml = DataHtml + '<tr id=Tr_' + value.menu.MenuID + '_' + RoleId + '><td class="details-control1"><img src="/Content/img/details_open.png" id="plus_minus" style="cursor: pointer;" />' + value.menu.Title + '</td><td>' + Role + '</td><td><input type=checkbox id=View_' + value.access.MenuAccessID + ' onclick=IsView(' + value.access.MenuAccessID + ') ' + isview + ' /></td><td><input type=checkbox id=Add_' + value.access.MenuAccessID + ' onclick=IsAdd(' + value.access.MenuAccessID + ') ' + isadd + ' /></td><td><input type=checkbox id=Modify_' + value.access.MenuAccessID + ' onclick=IsModify(' + value.access.MenuAccessID + ') ' + ismodify + ' /></td><td><input type=checkbox id=Delete_' + value.access.MenuAccessID + ' onclick=IsDelete(' + value.access.MenuAccessID + ') ' + isdelete + ' /></td><td><input type=checkbox id=Print_' + value.access.MenuAccessID + ' onclick=IsPrint(' + value.access.MenuAccessID + ') ' + isprint + ' /></td><td style=display:none>' + value.menu.MenuID + '</td><td style=display:none>' + value.access.RoleID + '</td></tr>';
+                    DataHtml = DataHtml + '<tr id=Tr_' + value.menu.MenuID + '_' + RoleId + '><td class="details-control1"><img src="/Content/img/details_open.png" id="plus_minus" style="cursor: pointer;" />' + value.menu.Title + '</td><td>' + Role + '</td><td><input type=checkbox class=View onclick=IsparentView(' + value.menu.MenuID + ',' + RoleId + ') id=View_' + value.access.MenuAccessID + '  ' + isview + ' /></td><td><input type=checkbox class=Add onclick=IsparentAdd(' + value.menu.MenuID + ',' + RoleId + ')  id=Add_' + value.access.MenuAccessID + '  ' + isadd + ' /></td><td><input type=checkbox class=Modify onclick=IsparentModify(' + value.menu.MenuID + ',' + RoleId + ')  id=Modify_' + value.access.MenuAccessID + '  ' + ismodify + ' /></td><td><input type=checkbox class=Delete onclick=IsparentDelete(' + value.menu.MenuID + ',' + RoleId + ')  id=Delete_' + value.access.MenuAccessID + '  ' + isdelete + ' /></td><td><input type=checkbox class=Print onclick=IsparentPrint(' + value.menu.MenuID + ',' + RoleId + ')  id=Print_' + value.access.MenuAccessID + '  ' + isprint + ' />  &nbsp;<button type=button onclick=ClearAll(' + value.menu.MenuID + ',' + RoleId + ') class=\"btn btn-danger btn-sm\" >Clear All</button> &nbsp;<button type=button style=display:none id=SaveAll_' + value.menu.MenuID + '_' + RoleId + ' onclick=SaveAll(' + value.menu.MenuID + ',' + RoleId + ') class=\"btn btn-primary btn-sm\" >Save</button><button type=button style=display:none id=CloseAll_' + value.menu.MenuID + '_' + RoleId + ' onclick=CloseAll(' + value.menu.MenuID + ',' + RoleId + ') class=\"btn btn-primary btn-sm\" >Close</button></td><td style=display:none>' + value.menu.MenuID + '</td><td style=display:none>' + value.access.RoleID + '</td></tr>';
 
 
                 });
@@ -137,8 +145,11 @@
                     if (row.child.isShown()) {
                         // This row is already open - close it
                         row.child.hide();
+                        var rdata = row.data();
                         tr.removeClass('shown');
                         $(this).find('img').attr('src', '/Content/img/details_open.png');
+                        document.getElementById("CloseAll_" + rdata[7] + '_' + rdata[8]).style.display = 'none';
+
                     }
                     else {
                         // Open this row
@@ -159,7 +170,7 @@
                     } else {
                         var hascls = $(this).hasClass('shown');
                         if (hascls) {
-                          
+
                             var nexttr = $(this).closest('tr').next('tr');
                             nexttr.hide();
                             $(this).removeClass('shown');
@@ -177,7 +188,7 @@
         return '<p id="pr_' + JournalDetailId + '_' + RoleId +'"></p>';
         }
 
-        function format1(d,trid) {
+        function format1(d) {
             var JournalDetailId = d[7];
             var RoleId1 = d[8];
             var Role = d[1];
@@ -193,6 +204,9 @@
                         DataHtml = DataHtml + '<thead><tr><th style=width:20%>Menu</th><th style=width:20%>Role</th><th style=width:10%>View</th><th style=width:10%>Add</th><th style=width:10%>Modify</th><th style=width:10%>Delete</th><th style=width:10%>Print</th><th style=display:none></th><th style=display:none></th></tr></thead>';
                         DataHtml = DataHtml + '<tbody>';
                         $.each(data, function (index, value) {
+                            document.getElementById("CloseAll_" + JournalDetailId + '_' + RoleId1).style.display = 'inline';
+
+                            //$("#CloseAll_" + JournalDetailId + '_' + RoleId1).css('display', 'block');
                             var isview = "";
                             var isadd = "";
                             var ismodify = "";
@@ -213,7 +227,7 @@
                             if (value.access.Isprint) {
                                 isprint = "checked";
                             }
-                            DataHtml = DataHtml + '<tr id=Tr_' + value.menu.MenuID + '_' + RoleId1 + '><td>' + value.menu.Title + '</td><td>' + Role + '</td><td><input type=checkbox id=View_' + value.access.MenuAccessID + ' onclick=IsView(' + value.access.MenuAccessID + ') ' + isview + '  /></td><td><input type=checkbox id=Add_' + value.access.MenuAccessID + ' onclick=IsAdd(' + value.access.MenuAccessID + ') ' + isadd + '  /></td><td><input type=checkbox id=Modify_' + value.access.MenuAccessID + ' onclick=IsModify(' + value.access.MenuAccessID + ') ' + ismodify + '  /></td><td><input type=checkbox id=Delete_' + value.access.MenuAccessID + ' onclick=IsDelete(' + value.access.MenuAccessID + ') ' + isdelete + '  /></td><td><input type=checkbox id=Print_' + value.access.MenuAccessID + ' onclick=IsPrint(' + value.access.MenuAccessID + ') ' + isprint + '  /></td><td style=display:none>' + value.menu.MenuID + '</td><td style=display:none>' + value.access.RoleID + '</td></tr>';
+                            DataHtml = DataHtml + '<tr id=Tr_' + value.menu.MenuID + '_' + RoleId1 + '><td>' + value.menu.Title + '</td><td>' + Role + '</td><td><input type=checkbox class=View id=View_' + value.access.MenuAccessID + ' onclick=IsView(' + JournalDetailId + ',' + RoleId1 + ',' + value.access.MenuAccessID + ') ' + isview + '  /></td><td><input type=checkbox class=Add id=Add_' + value.access.MenuAccessID + ' onclick=IsAdd(' + JournalDetailId + ',' + RoleId1 + ',' + value.access.MenuAccessID + ',' + value.access.MenuAccessID + ') ' + isadd + '  /></td><td><input type=checkbox class=Modify id=Modify_' + value.access.MenuAccessID + ' onclick=IsModify(' + JournalDetailId + ',' + RoleId1 + ',' + value.access.MenuAccessID + ') ' + ismodify + '  /></td><td><input type=checkbox class=Delete id=Delete_' + value.access.MenuAccessID + ' onclick=IsDelete(' + JournalDetailId + ',' + RoleId1 + ',' + value.access.MenuAccessID + ') ' + isdelete + '  /></td><td><input type=checkbox class=Print id=Print_' + value.access.MenuAccessID + ' onclick=IsPrint(' + JournalDetailId + ',' + RoleId1 + ',' + value.access.MenuAccessID + ') ' + isprint + '  /></td><td style=display:none>' + value.menu.MenuID + '</td><td style=display:none>' + value.access.RoleID + '</td></tr>';
                         });
                         DataHtml = DataHtml + '</tbody>';
 
@@ -232,7 +246,8 @@
             // This row is already open - close it
             row.child.hide();
             tr.removeClass('shown');
-            $(this).find('img').attr('src', '/Content/img/details_open.png');
+            $(this).find('img').attr('src', '/Content/img/details_open.png');         
+
         }
         else {
             // Open this row
@@ -243,61 +258,278 @@
         });
 
     });
-    function IsView(id) {
+    function IsView(MenuId, roleid, id) {
+     
+        document.getElementById("CloseAll_" + MenuId + '_' + roleid).style.display = 'none';
+        document.getElementById("SaveAll_" + MenuId + '_' + roleid).style.display = 'inline';
+
         var checked = $('#View_' + id).prop('checked');
-        $.ajax({
-            type: "POST",
-            url: "/Role/SubmitMenuAccessPermission",
-            datatype: "Json",
-            data: { MenuAccessId: id, Permission: "View", value: checked },
-            success: function (data) {
+        if (checked) {
+            $('#Tr_' + MenuId + '_' + roleid + ' td input[type="checkbox"][class=View]').prop('checked', true);
+
+        } else {
+            var grid = document.getElementById("SecSubMenutable_" + MenuId + "_" + roleid);
+            if (grid != null) {
+                var checkedvals = $("#SecSubMenutable_" + MenuId + "_" + roleid + " input[type='checkbox'][class=View]:checked");
+                if (checkedvals.length == 0) {
+                    $('#Tr_' + MenuId + '_' + roleid + ' td input[type="checkbox"][class=View]').prop('checked', false);
+
+                }
             }
-        });
+        }
+        //$.ajax({
+        //    type: "POST",
+        //    url: "/Role/SubmitMenuAccessPermission",
+        //    datatype: "Json",
+        //    data: { MenuAccessId: id, Permission: "View", value: checked },
+        //    success: function (data) {
+        //    }
+        //});
+
+
 
     }
-    function IsAdd(id) {
+    function IsparentView(menuid, Roleid) {
+        document.getElementById("CloseAll_" + menuid + '_' + Roleid).style.display = 'none';
+        document.getElementById("SaveAll_" + menuid + '_' + Roleid).style.display = 'inline';
+        var parentchk = $('#Tr_' + menuid + '_' + Roleid + ' td input[type="checkbox"][class=View]').prop('checked');
+        if (parentchk) {
+
+        } else {
+            var grid = document.getElementById("SecSubMenutable_" + menuid + "_" + Roleid);
+            if (grid != null) {
+                $("#SecSubMenutable_" + menuid + "_" + Roleid + " input[type='checkbox'][class=View]").prop('checked', false);
+
+            }
+        }
+    }
+    function IsAdd(MenuId, roleid, id) {
+        document.getElementById("CloseAll_" + MenuId + '_' + roleid).style.display = 'none';
+        document.getElementById("SaveAll_" + MenuId + '_' + roleid).style.display = 'inline';
         var checked = $('#Add_' + id).prop('checked');
-        $.ajax({
-            type: "POST",
-            url: "/Role/SubmitMenuAccessPermission",
-            datatype: "Json",
-            data: { MenuAccessId: id, Permission: "Add", value: checked },
-            success: function (data) {
+        if (checked) {
+            $('#Tr_' + MenuId + '_' + roleid + ' td input[type="checkbox"][class=Add]').prop('checked', true);
+
+        } else {
+            var grid = document.getElementById("SecSubMenutable_" + MenuId + "_" + roleid);
+            if (grid != null) {
+                var checkedvals = $("#SecSubMenutable_" + MenuId + "_" + roleid + " input[type='checkbox'][class=Add]:checked");
+                if (checkedvals.length == 0) {
+                    $('#Tr_' + MenuId + '_' + roleid + ' td input[type="checkbox"][class=Add]').prop('checked', false);
+
+                }
             }
-        });
+        }
+        //$.ajax({
+        //    type: "POST",
+        //    url: "/Role/SubmitMenuAccessPermission",
+        //    datatype: "Json",
+        //    data: { MenuAccessId: id, Permission: "Add", value: checked },
+        //    success: function (data) {
+        //    }
+        //});
     }
-    function IsModify(id) {
+    function IsparentAdd(menuid, Roleid) {
+        document.getElementById("CloseAll_" + menuid + '_' + Roleid).style.display = 'none';
+        document.getElementById("SaveAll_" + menuid + '_' + Roleid).style.display = 'inline';
+        var parentchk = $('#Tr_' + menuid + '_' + Roleid + ' td input[type="checkbox"][class=Add]').prop('checked');
+        if (parentchk) {
+
+        } else {
+            var grid = document.getElementById("SecSubMenutable_" + menuid + "_" + Roleid);
+            if (grid != null) {
+                $("#SecSubMenutable_" + menuid + "_" + Roleid + " input[type='checkbox'][class=Add]").prop('checked', false);
+
+            }
+        }
+    }
+    function IsModify(MenuId, roleid, id) {
+        document.getElementById("CloseAll_" + MenuId + '_' + roleid).style.display = 'none';
+        document.getElementById("SaveAll_" + MenuId + '_' + roleid).style.display = 'inline';
         var checked = $('#Modify_' + id).prop('checked');
-        $.ajax({
-            type: "POST",
-            url: "/Role/SubmitMenuAccessPermission",
-            datatype: "Json",
-            data: { MenuAccessId: id, Permission: "Modify", value: checked },
-            success: function (data) {
+        if (checked) {
+            $('#Tr_' + MenuId + '_' + roleid + ' td input[type="checkbox"][class=Modify]').prop('checked', true);
+
+        } else {
+            var grid = document.getElementById("SecSubMenutable_" + MenuId + "_" + roleid);
+            if (grid != null) {
+                var checkedvals = $("#SecSubMenutable_" + MenuId + "_" + roleid + " input[type='checkbox'][class=Modify]:checked");
+                if (checkedvals.length == 0) {
+                    $('#Tr_' + MenuId + '_' + roleid + ' td input[type="checkbox"][class=Modify]').prop('checked', false);
+
+                }
             }
-        });
+        }
+        //$.ajax({
+        //    type: "POST",
+        //    url: "/Role/SubmitMenuAccessPermission",
+        //    datatype: "Json",
+        //    data: { MenuAccessId: id, Permission: "Modify", value: checked },
+        //    success: function (data) {
+        //    }
+        //});
     }
-    function IsDelete(id) {
+    function IsparentModify(menuid, Roleid) {
+        document.getElementById("CloseAll_" + menuid + '_' + Roleid).style.display = 'none';
+        document.getElementById("SaveAll_" + menuid + '_' + Roleid).style.display = 'inline';
+        var parentchk = $('#Tr_' + menuid + '_' + Roleid + ' td input[type="checkbox"][class=Modify]').prop('checked');
+        if (parentchk) {
+
+        } else {
+            var grid = document.getElementById("SecSubMenutable_" + menuid + "_" + Roleid);
+            if (grid != null) {
+                $("#SecSubMenutable_" + menuid + "_" + Roleid + " input[type='checkbox'][class=Modify]").prop('checked', false);
+
+            }
+        }
+    }
+    function IsDelete(MenuId, roleid, id) {
+        document.getElementById("CloseAll_" + MenuId + '_' + roleid).style.display = 'none';
+        document.getElementById("SaveAll_" + MenuId + '_' + roleid).style.display = 'inline';
         var checked = $('#Delete_' + id).prop('checked');
-        $.ajax({
-            type: "POST",
-            url: "/Role/SubmitMenuAccessPermission",
-            datatype: "Json",
-            data: { MenuAccessId: id, Permission: "Delete", value: checked },
-            success: function (data) {
+        if (checked) {
+            $('#Tr_' + MenuId + '_' + roleid + ' td input[type="checkbox"][class=Delete]').prop('checked', true);
+
+        } else {
+            var grid = document.getElementById("SecSubMenutable_" + MenuId + "_" + roleid);
+            if (grid != null) {
+                var checkedvals = $("#SecSubMenutable_" + MenuId + "_" + roleid + " input[type='checkbox'][class=Delete]:checked");
+                if (checkedvals.length == 0) {
+                    $('#Tr_' + MenuId + '_' + roleid + ' td input[type="checkbox"][class=Delete]').prop('checked', false);
+
+                }
             }
-        });
+        }
+        //$.ajax({
+        //    type: "POST",
+        //    url: "/Role/SubmitMenuAccessPermission",
+        //    datatype: "Json",
+        //    data: { MenuAccessId: id, Permission: "Delete", value: checked },
+        //    success: function (data) {
+        //    }
+        //});
     }
-    function IsPrint(id) {
+    function IsparentDelete(menuid, Roleid) {
+        document.getElementById("CloseAll_" + menuid + '_' + Roleid).style.display = 'none';
+        document.getElementById("SaveAll_" + menuid + '_' + Roleid).style.display = 'inline';
+        var parentchk = $('#Tr_' + menuid + '_' + Roleid + ' td input[type="checkbox"][class=Delete]').prop('checked');
+        if (parentchk) {
+
+        } else {
+            var grid = document.getElementById("SecSubMenutable_" + menuid + "_" + Roleid);
+            if (grid != null) {
+                $("#SecSubMenutable_" + menuid + "_" + Roleid + " input[type='checkbox'][class=Delete]").prop('checked', false);
+
+            }
+        }
+    }
+    function IsPrint(MenuId, roleid, id) {
+        document.getElementById("CloseAll_" + MenuId + '_' + roleid).style.display = 'none';
+        document.getElementById("SaveAll_" + MenuId + '_' + roleid).style.display = 'inline';
         var checked = $('#Print_' + id).prop('checked');
-        $.ajax({
+        if (checked) {
+            $('#Tr_' + MenuId + '_' + roleid + ' td input[type="checkbox"][class=Print]').prop('checked', true);
+
+        } else {
+            var grid = document.getElementById("SecSubMenutable_" + MenuId + "_" + roleid);
+            if (grid != null) {
+                var checkedvals = $("#SecSubMenutable_" + MenuId + "_" + roleid + " input[type='checkbox'][class=Print]:checked");
+                if (checkedvals.length == 0) {
+                    $('#Tr_' + MenuId + '_' + roleid + ' td input[type="checkbox"][class=Print]').prop('checked', false);
+
+                }
+            }
+        }
+
+    }
+    function IsparentPrint(menuid, Roleid) {
+       
+        document.getElementById("CloseAll_" + menuid + '_' + Roleid).style.display = 'none';
+        document.getElementById("SaveAll_" + menuid + '_' + Roleid).style.display = 'inline';
+        var parentchk = $('#Tr_' + menuid + '_' + Roleid + ' td input[type="checkbox"][class=Print]').prop('checked');
+        if (parentchk) {
+
+        } else {
+            var grid = document.getElementById("SecSubMenutable_" + menuid + "_" + Roleid);
+            if (grid != null) {
+                $("#SecSubMenutable_" + menuid + "_" + Roleid + " input[type='checkbox'][class=Print]").prop('checked', false);
+
+            }
+        }
+    }
+
+    function SaveAll(ParentMenuId, RoleId) {
+
+        var Chkboxes = $("#SecSubMenutable_" + ParentMenuId + "_" + RoleId + " input[type='checkbox']");
+        var Trchk = $("#Tr_" + ParentMenuId + "_" + RoleId + " input[type='checkbox']");
+        var selected = "";
+        for (var i = 0; i < Chkboxes.length; i++) {
+            var checkboxid = Chkboxes[i].id;
+            var val = $('#' + checkboxid).prop('checked');
+            var data = checkboxid + "_" + val;
+            if (selected == "") {
+                selected = data;
+            } else {
+                selected = selected+','+ data;
+
+            }
+        }
+        for (var i = 0; i < Trchk.length; i++) {
+            var checkboxid = Trchk[i].id;
+            var val = $('#' + checkboxid).prop('checked');
+            var data = checkboxid + "_" + val;
+            if (selected == "") {
+                selected = data;
+            } else {
+                selected = selected + ',' + data;
+
+            }
+        }
+
+        if (selected != "") {
+            $.ajax({
             type: "POST",
-            url: "/Role/SubmitMenuAccessPermission",
+            url: "/Role/SubmitMenuAccess",
             datatype: "Json",
-            data: { MenuAccessId: id, Permission: "Print", value: checked },
-            success: function (data) {
+                data: { selected: selected },
+                success: function (res) {
+                    if (res.success == true) {
+                    
+                        document.getElementById("CloseAll_" + ParentMenuId + '_' + RoleId).style.display = 'in;line';
+                        document.getElementById("SaveAll_" + MenuId + '_' + RoleId).style.display = 'none';
+                           var nexttr = $("#Tr_" + ParentMenuId + "_" + RoleId).closest('tr').next('tr');
+                            nexttr.hide();
+                           $("#Tr_" + ParentMenuId + "_" + RoleId ).removeClass('shown');
+                        $("#Tr_" + ParentMenuId + "_" + RoleId ).find('img').attr('src', '/Content/img/details_open.png');
+                        
+                    }
             }
         });
+        }
+    }
+
+    function ClearAll(ParentMenuId, RoleId) {      
+        document.getElementById("CloseAll_" + ParentMenuId + '_' + RoleId).style.display = 'none';
+        document.getElementById("SaveAll_" + ParentMenuId + '_' + RoleId).style.display = 'inline';
+        var grid = document.getElementById("SecSubMenutable_" + ParentMenuId + "_" + RoleId);
+        $('#Tr_' + ParentMenuId + '_' + RoleId + ' td input[type="checkbox"]').prop('checked', false);
+
+        if (grid != null) {
+            var checkBoxes = grid.getElementsByTagName("input");
+            var checkedvals = $("#SecSubMenutable_" + ParentMenuId + "_" + RoleId + " input[type='checkbox']:checked");
+
+            $('#SecSubMenutable_' + ParentMenuId + '_' + RoleId+' tbody tr td input[type="checkbox"]').prop('checked', false);
+
+        }
+    }
+    function CloseAll(ParentMenuId, RoleId) {
+        document.getElementById("CloseAll_" + ParentMenuId + '_' + RoleId).style.display = 'none';
+        var nexttr = $("#Tr_" + ParentMenuId + "_" + RoleId).closest('tr').next('tr');
+        nexttr.hide();
+        $("#Tr_" + ParentMenuId + "_" + RoleId).removeClass('shown');
+        $("#Tr_" + ParentMenuId + "_" + RoleId).find('img').attr('src', '/Content/img/details_open.png');
+
+
     }
 </script>
 

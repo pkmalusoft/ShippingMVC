@@ -189,9 +189,15 @@ namespace TrueBooksMVC.Controllers
                 }
                 SID.JobID = JobID;
 
+                if (SID.ProductID == 0 && SID.NetValue == 0 && (SID.ValueFC == 0 || SID.ValueLC == 0))
+                {
 
+                }
+                else
+                {
 
-                int iCharge = DAL.AddSalesInvoiceDetails(SID);
+                    int iCharge = DAL.AddSalesInvoiceDetails(SID);
+                }
             }
             return true;
         }
