@@ -484,7 +484,7 @@
     {
         IsUserAdmin = Convert.ToBoolean(Session["IsAdmin"]);
     }
-  
+
 
 }
 <body class="hold-transition sidebar-mini ">
@@ -524,13 +524,13 @@
                             @{
                                 string txttitle = Session["Company"] + " - " + Session["BranchName"] + " - " + Session["BaseCurrencySymbol"];
                                 var res = txttitle;
-                                if (txttitle.Length>40)
+                                if (txttitle.Length > 40)
                                 {
-                                    res = txttitle.Substring(0, 38) +"...";
+                                    res = txttitle.Substring(0, 38) + "...";
 
                                 }
 
-                            }  
+                            }
                             <label class="final_per" title="@Session["Company"] - @Session["BranchName"] - @Session["BaseCurrencySymbol"]">@res</label>
 
                         </div>
@@ -606,28 +606,28 @@
                                 //{
                                 //    if (obj.IsAccessibleMenu(menuid, RoleId))
                                 //    {
-                    <li class="nav-item">
-                        @if (@item.Link == "/Home/Home")
-                        {
-                            <a id="@item.MenuID" class="nav-link "  href=@item.Link><i class="@item.imgclass"></i><span>@item.Title</span></a>
+                                <li class="nav-item">
+                                    @if (@item.Link == "/Home/Home")
+                                    {
+                                        <a id="@item.MenuID" class="nav-link " style="font-size:15px" href=@item.Link><i class="@item.imgclass"></i><span><b>@item.Title</b></span></a>
 
-                        }
-                        else
-                        {
-                            <a id="@item.MenuID" class="nav-link nav-parent collapsed" data-toggle="collapse" href=@item.Link><i class="@item.imgclass"></i><span>@item.Title</span></a>
+                                    }
+                                    else
+                                    {
+                                        <a id="@item.MenuID" class="nav-link nav-parent collapsed" style="font-size:15px" data-toggle="collapse" href=@item.Link><i class="@item.imgclass"></i><span><b>@item.Title</b></span></a>
 
-                        }
+                                    }
 
-                        @if (menuList.Count(p => p.ParentID == item.MenuID) > 0)
-                        {
-                            @:<ul class="nav nav-pills collapse">
-                            }
-                        @RenderMenuList(menuList, item)
-                        @if (menuList.Count(p => p.ParentID == item.MenuID) > 0)
-                        {
-                        @:</ul>
-                    }
-                    </li>
+                                    @if (menuList.Count(p => p.ParentID == item.MenuID) > 0)
+                                    {
+                                        @:<ul class="nav nav-pills collapse">
+                                        }
+                                    @RenderMenuList(menuList, item)
+                                    @if (menuList.Count(p => p.ParentID == item.MenuID) > 0)
+                                    {
+                                    @:</ul>
+                                }
+                                </li>
                                 @*}
                                     }
                                     else
@@ -651,34 +651,35 @@
 
                         @helper RenderMenuList(List<DAL.Menu> menuList, DAL.Menu mi)
                         {
-foreach (var item1 in menuList.Where(p => p.ParentID == mi.MenuID))
-{
-
-    var haschilds = "";
-    var haschilds1 = "";
-
-    if (menuList.Count(p => p.ParentID == item1.MenuID) > 0)
-    {
-        haschilds = "nav-parent collapsed";
-        haschilds1 = "data-toggle=collapse";
-
-    }
-                                @:<li class="nav-item">
-                                    <a class="nav-link @haschilds" @haschilds1  id="@item1.MenuID" href=@item1.Link><i class="@item1.imgclass"></i><span>@item1.Title</span></a>
-                            if (menuList.Count(p => p.ParentID == item1.MenuID) > 0)
+                            foreach (var item1 in menuList.Where(p => p.ParentID == mi.MenuID))
                             {
-                                @:<ul class="nav nav-pills collapse">
-                                }
-                                @RenderMenuList(menuList, item1)
+
+                                var haschilds = "";
+                                var haschilds1 = "";
+                                var fontweight = "";
+
                                 if (menuList.Count(p => p.ParentID == item1.MenuID) > 0)
                                 {
-                                @:</ul>
+                                    haschilds = "nav-parent collapsed";
+                                    haschilds1 = "data-toggle=collapse";
+                                    fontweight = "font-weight:bold;color:beige;font-size:15px";
+                                }
+                                @:<li class="nav-item">
+                                    <a class="nav-link @haschilds" @haschilds1 style="@fontweight" id="@item1.MenuID" href=@item1.Link><i class="@item1.imgclass"></i><span>@item1.Title</span></a>
+                                    if (menuList.Count(p => p.ParentID == item1.MenuID) > 0)
+                                    {
+                                        @:<ul class="nav nav-pills collapse">
+                                        }
+                                        @RenderMenuList(menuList, item1)
+                                        if (menuList.Count(p => p.ParentID == item1.MenuID) > 0)
+                                        {
+                                        @:</ul>
+                                    }
+                                    else
+                                    {
+                                    @:</li>
+                                }
                             }
-                            else
-                            {
-                            @:</li>
-                        }
-                    }
                         }
 
                     }
