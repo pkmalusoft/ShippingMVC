@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace TrueBooksMVC.Controllers
 {
-     [Authorize]
+    [Authorize]
     public class ErrorsController : Controller
     {
         //
@@ -15,6 +15,10 @@ namespace TrueBooksMVC.Controllers
         public ActionResult Errors()
         {
 
+            return View();
+        }
+        public ActionResult SessionTimeOut()
+        {
             return View();
         }
 

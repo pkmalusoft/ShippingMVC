@@ -13,6 +13,7 @@ using TrueBooksMVC.Models;
 
 namespace TrueBooksMVC.Controllers
 {
+    [SessionExpire]
     [Authorize]
     [InitializeSimpleMembership]
     public class AccountController : Controller

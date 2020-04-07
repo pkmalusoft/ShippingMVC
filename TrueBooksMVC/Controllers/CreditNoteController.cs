@@ -8,7 +8,7 @@ using DAL;
 
 namespace TrueBooksMVC.Controllers
 {
-   
+    [SessionExpire]
     public class CreditNoteController : Controller
     {
 

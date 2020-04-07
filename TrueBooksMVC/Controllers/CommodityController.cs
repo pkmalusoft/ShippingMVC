@@ -9,7 +9,8 @@ using System.Data;
 
 namespace TrueBooksMVC.Controllers
 {
-     [Authorize]
+    [SessionExpire]
+    [Authorize]
     public class CommodityController : Controller
     {
         SHIPPING_FinalEntities context = new SHIPPING_FinalEntities();

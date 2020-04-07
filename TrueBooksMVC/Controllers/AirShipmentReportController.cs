@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace TrueBooksMVC.Controllers
 {
+    [SessionExpire]
     public class AirShipmentReportController : Controller
     {
         public ActionResult Index()

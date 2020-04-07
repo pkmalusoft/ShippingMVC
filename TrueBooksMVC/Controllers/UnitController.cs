@@ -9,6 +9,7 @@ using System.Data;
 
 namespace TrueBooksMVC.Controllers
 {
+    [SessionExpire]
     [Authorize]
     public class UnitController : Controller
     {

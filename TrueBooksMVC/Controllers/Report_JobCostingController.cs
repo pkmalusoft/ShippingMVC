@@ -9,7 +9,8 @@ using System.IO;
 
 namespace TrueBooksMVC.Controllers
 {
-     [Authorize]
+    [SessionExpire]
+    [Authorize]
     public class Report_JobCostingController : Controller
     {
         SHIPPING_FinalEntities db = new SHIPPING_FinalEntities();

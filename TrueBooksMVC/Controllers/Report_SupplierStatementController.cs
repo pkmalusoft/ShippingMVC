@@ -9,6 +9,7 @@ using DAL;
 
 namespace TrueBooksMVC.Controllers
 {
+    [SessionExpire]
     [Authorize]
     public class Report_SupplierStatementController : Controller
     {

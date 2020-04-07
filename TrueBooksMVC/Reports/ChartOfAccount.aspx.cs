@@ -9,6 +9,7 @@ using DAL;
 using Microsoft.Reporting.WebForms;
 namespace TrueBooksMVC.Reports
 {
+    [SessionExpire]
     public partial class ChartOfAccount : System.Web.UI.Page
     {
       SHIPPING_FinalEntities entity = new SHIPPING_FinalEntities();

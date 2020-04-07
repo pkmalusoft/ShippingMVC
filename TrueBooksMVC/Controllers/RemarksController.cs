@@ -9,7 +9,8 @@ using System.Data;
 
 namespace TrueBooksMVC.Controllers
 {
-     [Authorize]
+    [SessionExpire]
+    [Authorize]
     public class RemarksController : Controller
     {
         SHIPPING_FinalEntities db = new SHIPPING_FinalEntities();

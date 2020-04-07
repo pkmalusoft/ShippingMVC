@@ -8,7 +8,8 @@ using DAL;
 
 namespace TrueBooksMVC.Controllers
 {
-     [Authorize]
+    [SessionExpire]
+    [Authorize]
     public class SupplierLedgerController : Controller
     {
         SHIPPING_FinalEntities db = new SHIPPING_FinalEntities();

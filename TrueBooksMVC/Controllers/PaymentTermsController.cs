@@ -9,7 +9,8 @@ using System.Data;
 
 namespace TrueBooksMVC.Controllers
 {
-     [Authorize]
+    [SessionExpire]
+    [Authorize]
     public class PaymentTermsController : Controller
     {
  

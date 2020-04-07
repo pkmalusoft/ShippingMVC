@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.Data;
 namespace TrueBooksMVC.Controllers
 {
+    [SessionExpire]
     public class ContainerReportController : Controller
     {
         //

@@ -7,6 +7,7 @@ using System.Web.Mvc;
 
 namespace TrueBooksMVC.Models
 {
+    [SessionExpire]
     public class AutoCompleteController : Controller
     {
         //

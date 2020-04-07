@@ -11,17 +11,19 @@ using System.Globalization;
 using System.Collections;
 namespace TrueBooksMVC.Controllers
 {
+    [SessionExpire]
     public class PurchaseInvoiceController : Controller
     {
         SHIPPING_FinalEntities entity = new SHIPPING_FinalEntities();
         MastersModel MM = new MastersModel();
 
         PurchaseInvoiceModel PM = new PurchaseInvoiceModel();
+        SourceMastersModel objectSourceModel = new SourceMastersModel();
 
 
         // GET: /PurchaseInvoice/
 
-     
+
         public string getPurchaseInvoiceID()
         {
             string ID = "";
@@ -44,7 +46,7 @@ namespace TrueBooksMVC.Controllers
 
             return ID;
         }
-       
+
         [HttpGet]
         public ActionResult Invoice(string Command, int id)
         {
@@ -66,10 +68,69 @@ namespace TrueBooksMVC.Controllers
 
             return View(AllInvoices);
         }
+        private bool DeleteorInsertAcJounalDetails(int? AcMasterId, int PurchaseInvoiceId)
+        {
+            var deleteolddetails = (from d in entity.AcJournalDetails where d.AcJournalID == AcMasterId select d).ToList();
+            foreach (var item in deleteolddetails)
+            {
+                entity.AcJournalDetails.Remove(item);
+                entity.SaveChanges();
+            }
 
+            var Purchaseinvoicedetails = (from d in entity.PurchaseInvoiceDetails where d.PurchaseInvoiceID == PurchaseInvoiceId select d).ToList();
+
+            var totalamount = Purchaseinvoicedetails.Sum(d => d.NetValue) - Purchaseinvoicedetails.Sum(d => d.Tax);
+            var totaltax = Purchaseinvoicedetails.Sum(d => d.Tax);
+            var salesval = totalamount + totaltax;
+            var Cos = totalamount * 10 / 100;
+            //saleskt
+            var acjournaldetails = new AcJournalDetail();
+            int maxAcJDetailID = 0;
+            maxAcJDetailID = (from c in entity.AcJournalDetails orderby c.AcJournalDetailID descending select c.AcJournalDetailID).FirstOrDefault();
+            acjournaldetails.AcJournalDetailID = maxAcJDetailID + 1;
+            acjournaldetails.AcHeadID = (from d in entity.AcHeads where d.AcHead1.ToLower() == "sales kt" select d.AcHeadID).FirstOrDefault();//SalesKt
+            acjournaldetails.AcJournalID = AcMasterId;
+            acjournaldetails.Amount = totalamount * -1;
+            entity.AcJournalDetails.Add(acjournaldetails);
+            entity.SaveChanges();
+            //Vat payable
+            var acjournaldetails1 = new AcJournalDetail();
+            acjournaldetails1.AcJournalDetailID = maxAcJDetailID + 2;
+            acjournaldetails1.AcHeadID = (from d in entity.AcHeads where d.AcHead1.ToLower() == "vat payable" select d.AcHeadID).FirstOrDefault();//vatpayable
+            acjournaldetails1.AcJournalID = AcMasterId;
+            acjournaldetails1.Amount = totaltax * -1;
+            entity.AcJournalDetails.Add(acjournaldetails1);
+            entity.SaveChanges();
+            //Customercontrolamt
+            var acjournaldetails2 = new AcJournalDetail();
+            acjournaldetails2.AcJournalDetailID = maxAcJDetailID + 3;
+            acjournaldetails2.AcHeadID = (from d in entity.AcHeads where d.AcHead1.ToLower() == "customer control accounts" select d.AcHeadID).FirstOrDefault();//customercontrolaccounts
+            acjournaldetails2.AcJournalID = AcMasterId;
+            acjournaldetails2.Amount = salesval;
+            entity.AcJournalDetails.Add(acjournaldetails2);
+            entity.SaveChanges();
+            //costofsales
+            var acjournaldetails3 = new AcJournalDetail();
+            acjournaldetails3.AcJournalDetailID = maxAcJDetailID + 4;
+            acjournaldetails3.AcHeadID = (from d in entity.AcHeads where d.AcHead1.ToLower() == "cost of sales" select d.AcHeadID).FirstOrDefault();//costofsales
+            acjournaldetails3.AcJournalID = AcMasterId;
+            acjournaldetails3.Amount = Cos;
+            entity.AcJournalDetails.Add(acjournaldetails3);
+            entity.SaveChanges();
+            //inventorycontrolaccounts
+
+            var acjournaldetails4 = new AcJournalDetail();
+            acjournaldetails4.AcJournalDetailID = maxAcJDetailID + 5;
+            acjournaldetails4.AcHeadID = (from d in entity.AcHeads where d.AcHead1.ToLower() == "inventory control accounts" select d.AcHeadID).FirstOrDefault();//costofsales
+            acjournaldetails4.AcJournalID = AcMasterId;
+            acjournaldetails4.Amount = Cos * -1;
+            entity.AcJournalDetails.Add(acjournaldetails4);
+            entity.SaveChanges();
+            return true;
+        }
         private bool DeleteAndInsertRecords(FormCollection formCollection, int InvoiceId)
         {
-           
+
             DAL.SP_DeletePurchaseInvoiceDetails(InvoiceId);
             int i = 0;
             int InvoiceDetailsCount = 0;
@@ -83,117 +144,117 @@ namespace TrueBooksMVC.Controllers
                 }
             }
 
-          
-                for (int c = 0; c < InvoiceDetailsCount; c++)
+
+            for (int c = 0; c < InvoiceDetailsCount; c++)
+            {
+                string[] strArray;
+                PurchaseInvoiceDetail PID = new PurchaseInvoiceDetail();
+                PID.PurchaseInvoiceID = InvoiceId;
+
+                if (formCollection.GetValue("Description_" + InvoiceDetailsArray[c]) != null)
                 {
-                    string[] strArray;
-                    PurchaseInvoiceDetail PID = new PurchaseInvoiceDetail();
-                    PID.PurchaseInvoiceID = InvoiceId;
-
-                    if (formCollection.GetValue("Description_" + InvoiceDetailsArray[c]) != null)
-                    {
-                        strArray = (string[])formCollection.GetValue("Description_" + InvoiceDetailsArray[c]).RawValue;
-                        PID.Description = strArray[0].Trim();
-                    }
-                    int Quantity = 0;
-                    if (formCollection.GetValue("Quantity_" + InvoiceDetailsArray[c]) != null)
-                    {
-                        strArray = (string[])formCollection.GetValue("Quantity_" + InvoiceDetailsArray[c]).RawValue;
-                        int.TryParse(strArray[0], out Quantity);
-                    }
-                    PID.Quantity = Quantity;
-                    int UnitTypeID = 0;
-                    if (formCollection.GetValue("Unit_" + InvoiceDetailsArray[c]) != null)
-                    {
-                        strArray = (string[])formCollection.GetValue("Unit_" + InvoiceDetailsArray[c]).RawValue;
-                        int.TryParse(strArray[0], out UnitTypeID);
-                    }
-                    PID.ItemUnitID = UnitTypeID;
-             
-                decimal Rate = 0;
-                    if (formCollection.GetValue("Rate_" + InvoiceDetailsArray[c]) != null)
-                    {
-                        strArray = (string[])formCollection.GetValue("Rate_" + InvoiceDetailsArray[c]).RawValue;
-                        decimal.TryParse(strArray[0], out Rate);
-                    }
-                    PID.Rate = Rate;
-
-                    decimal RateFC = 0;
-                    if (formCollection.GetValue("RateFC_" + InvoiceDetailsArray[c]) != null)
-                    {
-                        strArray = (string[])formCollection.GetValue("RateFC_" + InvoiceDetailsArray[c]).RawValue;
-                        decimal.TryParse(strArray[0], out RateFC);
-                    }
-                    PID.RateFC = RateFC;
-
-                    decimal Value = 0;
-                    if (formCollection.GetValue("Value_" + InvoiceDetailsArray[c]) != null)
-                    {
-                        strArray = (string[])formCollection.GetValue("Value_" + InvoiceDetailsArray[c]).RawValue;
-                        decimal.TryParse(strArray[0], out Value);
-                    }
-                    PID.Value = Value;
-
-
-                    decimal ValueFC = 0;
-                    if (formCollection.GetValue("ValueFC_" + InvoiceDetailsArray[c]) != null)
-                    {
-                        strArray = (string[])formCollection.GetValue("ValueFC_" + InvoiceDetailsArray[c]).RawValue;
-                        decimal.TryParse(strArray[0], out ValueFC);
-                    }
-                    PID.ValueFC = ValueFC;
-
-                    decimal Taxprec = 0;
-                    if (formCollection.GetValue("Taxpre_" + InvoiceDetailsArray[c]) != null)
-                    {
-                        strArray = (string[])formCollection.GetValue("Taxpre_" + InvoiceDetailsArray[c]).RawValue;
-                        decimal.TryParse(strArray[0], out Taxprec);
-                    }
-                    PID.Taxprec = Taxprec;
-
-                    decimal Tax = 0;
-                    if (formCollection.GetValue("Tax_" + InvoiceDetailsArray[c]) != null)
-                    {
-                        strArray = (string[])formCollection.GetValue("Tax_" + InvoiceDetailsArray[c]).RawValue;
-                        decimal.TryParse(strArray[0], out Tax);
-                    }
-                    PID.Tax = Tax;
-
-                    decimal NetValue = 0;
-                    if (formCollection.GetValue("NetValue_" + InvoiceDetailsArray[c]) != null)
-                    {
-                        strArray = (string[])formCollection.GetValue("NetValue_" + InvoiceDetailsArray[c]).RawValue;
-                        decimal.TryParse(strArray[0], out NetValue);
-                    }
-                    PID.NetValue = NetValue;
-
-                    int AcHeadID = 0;
-                    if (formCollection.GetValue("AcHead_" + InvoiceDetailsArray[c]) != null)
-                    {
-                        strArray = (string[])formCollection.GetValue("AcHead_" + InvoiceDetailsArray[c]).RawValue;
-                        int.TryParse(strArray[0], out AcHeadID);
-                    }
-                    PID.AcHeadID = AcHeadID;
-
-                    int JobID = 0;
-                    if (formCollection.GetValue("JobID_" + InvoiceDetailsArray[c]) != null)
-                    {
-                        strArray = (string[])formCollection.GetValue("JobID_" + InvoiceDetailsArray[c]).RawValue;
-                        int.TryParse(strArray[0], out JobID);
-                    }
-                    PID.JobID = JobID;
-                    int ProductID = 0;
-                    if (formCollection.GetValue("Product_" + InvoiceDetailsArray[c]) != null)
-                    {
-                        strArray = (string[])formCollection.GetValue("Product_" + InvoiceDetailsArray[c]).RawValue;
-                        int.TryParse(strArray[0], out ProductID);
-                    }
-                    PID.ProductID = ProductID;
-
-
-                    int iCharge = DAL.AddPurchaseInvoiceDetail(PID);
+                    strArray = (string[])formCollection.GetValue("Description_" + InvoiceDetailsArray[c]).RawValue;
+                    PID.Description = strArray[0].Trim();
                 }
-            
+                int Quantity = 0;
+                if (formCollection.GetValue("Quantity_" + InvoiceDetailsArray[c]) != null)
+                {
+                    strArray = (string[])formCollection.GetValue("Quantity_" + InvoiceDetailsArray[c]).RawValue;
+                    int.TryParse(strArray[0], out Quantity);
+                }
+                PID.Quantity = Quantity;
+                int UnitTypeID = 0;
+                if (formCollection.GetValue("Unit_" + InvoiceDetailsArray[c]) != null)
+                {
+                    strArray = (string[])formCollection.GetValue("Unit_" + InvoiceDetailsArray[c]).RawValue;
+                    int.TryParse(strArray[0], out UnitTypeID);
+                }
+                PID.ItemUnitID = UnitTypeID;
+
+                decimal Rate = 0;
+                if (formCollection.GetValue("Rate_" + InvoiceDetailsArray[c]) != null)
+                {
+                    strArray = (string[])formCollection.GetValue("Rate_" + InvoiceDetailsArray[c]).RawValue;
+                    decimal.TryParse(strArray[0], out Rate);
+                }
+                PID.Rate = Rate;
+
+                decimal RateFC = 0;
+                if (formCollection.GetValue("RateFC_" + InvoiceDetailsArray[c]) != null)
+                {
+                    strArray = (string[])formCollection.GetValue("RateFC_" + InvoiceDetailsArray[c]).RawValue;
+                    decimal.TryParse(strArray[0], out RateFC);
+                }
+                PID.RateFC = RateFC;
+
+                decimal Value = 0;
+                if (formCollection.GetValue("Value_" + InvoiceDetailsArray[c]) != null)
+                {
+                    strArray = (string[])formCollection.GetValue("Value_" + InvoiceDetailsArray[c]).RawValue;
+                    decimal.TryParse(strArray[0], out Value);
+                }
+                PID.Value = Value;
+
+
+                decimal ValueFC = 0;
+                if (formCollection.GetValue("ValueFC_" + InvoiceDetailsArray[c]) != null)
+                {
+                    strArray = (string[])formCollection.GetValue("ValueFC_" + InvoiceDetailsArray[c]).RawValue;
+                    decimal.TryParse(strArray[0], out ValueFC);
+                }
+                PID.ValueFC = ValueFC;
+
+                decimal Taxprec = 0;
+                if (formCollection.GetValue("Taxpre_" + InvoiceDetailsArray[c]) != null)
+                {
+                    strArray = (string[])formCollection.GetValue("Taxpre_" + InvoiceDetailsArray[c]).RawValue;
+                    decimal.TryParse(strArray[0], out Taxprec);
+                }
+                PID.Taxprec = Taxprec;
+
+                decimal Tax = 0;
+                if (formCollection.GetValue("Tax_" + InvoiceDetailsArray[c]) != null)
+                {
+                    strArray = (string[])formCollection.GetValue("Tax_" + InvoiceDetailsArray[c]).RawValue;
+                    decimal.TryParse(strArray[0], out Tax);
+                }
+                PID.Tax = Tax;
+
+                decimal NetValue = 0;
+                if (formCollection.GetValue("NetValue_" + InvoiceDetailsArray[c]) != null)
+                {
+                    strArray = (string[])formCollection.GetValue("NetValue_" + InvoiceDetailsArray[c]).RawValue;
+                    decimal.TryParse(strArray[0], out NetValue);
+                }
+                PID.NetValue = NetValue;
+
+                int AcHeadID = 0;
+                if (formCollection.GetValue("AcHead_" + InvoiceDetailsArray[c]) != null)
+                {
+                    strArray = (string[])formCollection.GetValue("AcHead_" + InvoiceDetailsArray[c]).RawValue;
+                    int.TryParse(strArray[0], out AcHeadID);
+                }
+                PID.AcHeadID = AcHeadID;
+
+                int JobID = 0;
+                if (formCollection.GetValue("JobID_" + InvoiceDetailsArray[c]) != null)
+                {
+                    strArray = (string[])formCollection.GetValue("JobID_" + InvoiceDetailsArray[c]).RawValue;
+                    int.TryParse(strArray[0], out JobID);
+                }
+                PID.JobID = JobID;
+                int ProductID = 0;
+                if (formCollection.GetValue("Product_" + InvoiceDetailsArray[c]) != null)
+                {
+                    strArray = (string[])formCollection.GetValue("Product_" + InvoiceDetailsArray[c]).RawValue;
+                    int.TryParse(strArray[0], out ProductID);
+                }
+                PID.ProductID = ProductID;
+
+
+                int iCharge = DAL.AddPurchaseInvoiceDetail(PID);
+            }
+
             return true;
         }
 
@@ -214,7 +275,7 @@ namespace TrueBooksMVC.Controllers
             PI.ExchangeRate = Common.ParseDecimal(formCollection["ExchangeRate"]);
             PI.CreditDays = Common.ParseInt(formCollection["CreditDays"]);
             PI.DueDate = Common.ParseDate(formCollection["DueDate"]);
-            PI.AcJournalID =0;
+            PI.AcJournalID = 0;
             PI.BranchID = Common.ParseInt(Session["branchid"].ToString());
             PI.Discount = 0;
             PI.StatusDiscountAmt = false;
@@ -246,7 +307,32 @@ namespace TrueBooksMVC.Controllers
                 int i = 0;
                 i = PM.AddPurchaseInvoice(PI);
                 PI.PurchaseInvoiceID = i;
-               DeleteAndInsertRecords(formCollection, i);
+                DeleteAndInsertRecords(formCollection, i);
+                AcJournalMaster acJournalMaster = new AcJournalMaster();
+                acJournalMaster.AcFinancialYearID = Convert.ToInt32(Session["fyearid"].ToString());
+                acJournalMaster.AcJournalID = objectSourceModel.GetMaxNumberAcJournalMasters();
+                acJournalMaster.VoucherType = "PI";
+
+                int max = (from c in context.AcJournalMasters select c).ToList().Count();
+
+                acJournalMaster.VoucherNo = PNo; //(max + 1).ToString();
+                acJournalMaster.UserID = Convert.ToInt32(Session["UserID"].ToString());
+                acJournalMaster.TransDate = PI.PurchaseInvoiceDate;
+                acJournalMaster.StatusDelete = false;
+                acJournalMaster.ShiftID = null;
+                acJournalMaster.Remarks = PI.Remarks;
+                acJournalMaster.AcCompanyID = Convert.ToInt32(Session["AcCompanyID"].ToString());
+                acJournalMaster.Reference = PI.Reference;
+                context.AcJournalMasters.Add(acJournalMaster);
+                context.SaveChanges();
+
+                var acmasterid = acJournalMaster.AcJournalID;
+                PI.AcJournalID = acmasterid;
+                PM.UpdatePurchaseInvoice(PI);
+                if (acmasterid > 0)
+                {
+                    DeleteorInsertAcJounalDetails(acmasterid, i);
+                }
                 if (i > 0)
                 {
                     Session["PurchaseInvoiceID"] = i;
@@ -256,9 +342,19 @@ namespace TrueBooksMVC.Controllers
             }
             else if (Command == "Update")
             {
-                    PI.PurchaseInvoiceID = id;
-                    int k = PM.UpdatePurchaseInvoice(PI);
-                    DeleteAndInsertRecords(formCollection, id);
+                PI.PurchaseInvoiceID = id;
+                var pinvoice = (from d in entity.PurchaseInvoices where d.PurchaseInvoiceID == id select d).FirstOrDefault();
+                PI.AcJournalID = pinvoice.AcJournalID;
+                if (PI.AcJournalID == null)
+                {
+                    PI.AcJournalID = 0;
+                }
+                int k = PM.UpdatePurchaseInvoice(PI);
+                DeleteAndInsertRecords(formCollection, id);
+                if (PI.AcJournalID > 0)
+                {
+                    DeleteorInsertAcJounalDetails(PI.AcJournalID, id);
+                }
                 return RedirectToAction("Index", "PurchaseInvoice");
             }
             else if (Command == "SaveInvoice")
@@ -286,13 +382,13 @@ namespace TrueBooksMVC.Controllers
                 List<SP_GetAllSupplier_Result> Supplier = new List<SP_GetAllSupplier_Result>();
                 List<SP_GetShippingAgents_Result> ShippingAgent = new List<SP_GetShippingAgents_Result>();
                 List<SP_GetAllItemUnit_Result> Unit = new List<SP_GetAllItemUnit_Result>();
-              //  List<SP_GetAllJobsDetails_Result> Job = new List<SP_GetAllJobsDetails_Result>();
-             //   List<SP_GetAllProductServices_Result> Product = new List<SP_GetAllProductServices_Result>();
-             //  List<AcHeadSelectAll_Result>AccountHead = new List<AcHeadSelectAll_Result>();
+                //  List<SP_GetAllJobsDetails_Result> Job = new List<SP_GetAllJobsDetails_Result>();
+                //   List<SP_GetAllProductServices_Result> Product = new List<SP_GetAllProductServices_Result>();
+                //  List<AcHeadSelectAll_Result>AccountHead = new List<AcHeadSelectAll_Result>();
 
 
-             //  AccountHead = MM.AcHeadSelectAll(Common.ParseInt(Session["branchid"].ToString()));
-             //   Product = MM.GetAllProductServices();
+                //  AccountHead = MM.AcHeadSelectAll(Common.ParseInt(Session["branchid"].ToString()));
+                //   Product = MM.GetAllProductServices();
                 Employees = MM.GetAllEmployees();
                 JobType = MM.GetJobTypeS();
                 Carriers = MM.GetAllCarrier();
@@ -304,11 +400,11 @@ namespace TrueBooksMVC.Controllers
                 Supplier = MM.GetAllSupplier();
                 ShippingAgent = MM.GetShippingAgents();
                 Unit = MM.GetItemUnit();
-           //     Job = MM.GetAllJobsDetails();
+                //     Job = MM.GetAllJobsDetails();
 
-            //   ViewBag.AccountHead = new SelectList(AccountHead, "AcHeadID", "AcHead");
-              //  ViewBag.Product = new SelectList(Product, "ProductID", "ProductName");
-             //   ViewBag.Job = new SelectList(Job, "JobID", "JobCode");
+                //   ViewBag.AccountHead = new SelectList(AccountHead, "AcHeadID", "AcHead");
+                //  ViewBag.Product = new SelectList(Product, "ProductID", "ProductName");
+                //   ViewBag.Job = new SelectList(Job, "JobID", "JobCode");
                 ViewBag.Customer = new SelectList(Customers, "CustomerID", "Customer");
                 ViewBag.Employees = new SelectList(Employees, "EmployeeID", "EmployeeName");
                 ViewBag.Countries = new SelectList(Countries, "CountryID", "CountryName");
@@ -320,7 +416,7 @@ namespace TrueBooksMVC.Controllers
                 ViewBag.Curency = new SelectList(Currency, "CurrencyID", "CurrencyName");
                 ViewBag.Suplier = new SelectList(Supplier, "SupplierID", "SupplierName");
                 ViewBag.ShippingA = new SelectList(ShippingAgent.OrderBy(x => x.AgentName).ToList(), "ShippingAgentID", "AgentName");
-                               List<SelectListItem> objBLStatusList = new List<SelectListItem>
+                List<SelectListItem> objBLStatusList = new List<SelectListItem>
                     { new SelectListItem() { Text = "SURRENDERED", Selected = false, Value = "SURRENDERED"}
                      , new SelectListItem() { Text = "WAY BILL", Selected = false, Value = "WAY BILL"}
                      , new SelectListItem() { Text = "OBL REQUIRED", Selected = false, Value = "OBL REQUIRED"}};
@@ -401,8 +497,34 @@ namespace TrueBooksMVC.Controllers
             };
 
         }
+        public ActionResult DeleteInvoice(int id)
+        {
+            var purchaseinvoice = (from d in entity.PurchaseInvoices where d.PurchaseInvoiceID == id select d).FirstOrDefault();
+            // var purchaseinoiceDetails = (from d in entity.PurchaseInvoiceDetails where d.PurchaseInvoiceID == purchaseinvoice.PurchaseInvoiceID select d).ToList();
+            var acjournalmaster = (from d in entity.AcJournalMasters where d.AcJournalID == purchaseinvoice.AcJournalID select d).FirstOrDefault();
+            var acjournalDetails = (from d in entity.AcJournalDetails where d.AcJournalID == purchaseinvoice.AcJournalID select d).ToList();
+            entity.PurchaseInvoices.Remove(purchaseinvoice);
+            if (acjournalmaster != null)
+            {
+                entity.AcJournalMasters.Remove(acjournalmaster);
+            }
+            DAL.SP_DeletePurchaseInvoiceDetails(id);
+            //foreach (var item in purchaseinoiceDetails)
+            //{
+            //    entity.PurchaseInvoiceDetails.Remove(item);
+            //}
+            foreach (var item in acjournalDetails)
+            {
+                entity.AcJournalDetails.Remove(item);
+            }
+            entity.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+
 
     }
+
 
 }
 

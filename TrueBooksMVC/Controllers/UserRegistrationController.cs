@@ -12,7 +12,7 @@ using System.Diagnostics;
 
 namespace TrueBooksMVC.Controllers
 {
-    
+    [SessionExpire]
     public class UserRegistrationController : Controller
     {
         private SHIPPING_FinalEntities db = new SHIPPING_FinalEntities();

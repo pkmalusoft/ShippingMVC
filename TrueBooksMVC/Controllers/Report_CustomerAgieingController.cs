@@ -8,7 +8,8 @@ using DAL;
 
 namespace TrueBooksMVC.Controllers
 {
-     [Authorize]
+    [SessionExpire]
+    [Authorize]
     public class Report_CustomerAgieingController : Controller
     {
         SHIPPING_FinalEntities entity = new SHIPPING_FinalEntities();

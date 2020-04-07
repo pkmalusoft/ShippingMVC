@@ -8,7 +8,8 @@ using TrueBooksMVC.Models;
 
 namespace TrueBooksMVC.Controllers
 {
-     [Authorize]
+    [SessionExpire]
+    [Authorize]
     public class ReportCollectionDomesticController : Controller
     {
         SHIPPING_FinalEntities entity = new SHIPPING_FinalEntities();

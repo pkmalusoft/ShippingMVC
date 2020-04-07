@@ -10,6 +10,7 @@ using System.Web.UI.WebControls;
 
 namespace TrueBooksMVC.Reports
 {
+    [SessionExpire]
     public partial class DeliveryNote : System.Web.UI.Page
     {
         SHIPPING_FinalEntities entity = new SHIPPING_FinalEntities();

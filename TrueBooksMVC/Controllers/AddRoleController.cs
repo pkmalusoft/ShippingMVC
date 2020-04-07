@@ -10,7 +10,8 @@ using TrueBooksMVC.Models;
 
 namespace TrueBooksMVC.Controllers
 {
-     [Authorize]
+    [SessionExpire]
+    [Authorize]
     public class AddRoleController : Controller
     {
         SourceMastersModel objSourceMastersModel = new SourceMastersModel();

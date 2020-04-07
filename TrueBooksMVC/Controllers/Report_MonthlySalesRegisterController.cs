@@ -7,6 +7,7 @@ using TrueBooksMVC.Models;
 using DAL;
 namespace TrueBooksMVC.Controllers
 {
+    [SessionExpire]
     public class Report_MonthlySalesRegisterController : Controller
     {
         SHIPPING_FinalEntities db = new SHIPPING_FinalEntities();

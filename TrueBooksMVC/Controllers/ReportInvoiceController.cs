@@ -9,6 +9,7 @@ using System.IO;
 
 namespace TrueBooksMVC.Controllers
 {
+    [SessionExpire]
     [Authorize]
     public class ReportInvoiceController : Controller
     {

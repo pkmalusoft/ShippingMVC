@@ -9,6 +9,7 @@ using DAL;
 using Microsoft.Reporting.WebForms;
 namespace TrueBooksMVC.Reports
 {
+    [SessionExpire]
     public partial class CustomerInvoiceReportFormatted : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)

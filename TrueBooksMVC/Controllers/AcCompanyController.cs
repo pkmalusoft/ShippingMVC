@@ -11,6 +11,7 @@ using TrueBooksMVC.Models;
 
 namespace ShippingFinal.Controllers
 {
+    [SessionExpire]
      [Authorize]
     public class AcCompanyController : Controller
     {

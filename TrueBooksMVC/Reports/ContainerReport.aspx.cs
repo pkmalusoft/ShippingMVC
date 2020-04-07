@@ -11,6 +11,7 @@ using Microsoft.Reporting.WebForms;
 
 namespace TrueBooksMVC.Reports
 {
+    [SessionExpire]
     public partial class ContainerReport : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)

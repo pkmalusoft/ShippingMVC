@@ -10,7 +10,8 @@ using TrueBooksMVC.Models;
 
 namespace ShippingFinal.Controllers
 {
-   [Authorize]
+    [SessionExpire]
+    [Authorize]
     public class CountryController : Controller
     {
         SourceMastersModel objSourceMastersModel = new SourceMastersModel();

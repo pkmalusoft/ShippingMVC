@@ -8,9 +8,10 @@ using System.Web.Mvc;
 using DAL;
 
 namespace TrueBooksMVC.Controllers
-   
+
 {
-      [Authorize]
+    [SessionExpire]
+    [Authorize]
     public class RoleMasterController : Controller
     {
         private SHIPPING_FinalEntities db = new SHIPPING_FinalEntities();

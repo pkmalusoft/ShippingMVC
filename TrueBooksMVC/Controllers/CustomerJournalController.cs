@@ -9,6 +9,7 @@ using TrueBooksMVC.Models;
 
 namespace TrueBooksMVC.Controllers
 {
+    [SessionExpire]
     [Authorize]
     public class CustomerJournalController : Controller
     {

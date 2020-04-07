@@ -10,6 +10,7 @@ using System.Data;
 
 namespace TrueBooksMVC.Views.Report_SupplierStatement
 {
+    [SessionExpire]
     public partial class SupplierStatement : System.Web.UI.Page
     {
         SHIPPING_FinalEntities entity = new SHIPPING_FinalEntities();

@@ -13,6 +13,7 @@ using System.Data.SqlClient;
 
 namespace TrueBooksMVC.Controllers
 {
+    [SessionExpire]
      [Authorize]
     public class AccountingModuleController : Controller
     {
@@ -2403,6 +2404,20 @@ namespace TrueBooksMVC.Controllers
 
 
 
+}
+public class SessionExpireAttribute : ActionFilterAttribute
+{
+    public override void OnActionExecuting(ActionExecutingContext filterContext)
+    {
+        HttpContext ctx = HttpContext.Current;
+        // check  sessions here
+        if (HttpContext.Current.Session["UserID"] == null)
+        {
+            filterContext.Result = new RedirectResult("~/Errors/SessionTimeOut");
+            return;
+        }
+        base.OnActionExecuting(filterContext);
+    }
 }
 public static class MvcHelpers
 {

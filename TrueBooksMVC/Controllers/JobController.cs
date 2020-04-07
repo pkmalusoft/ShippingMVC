@@ -12,6 +12,7 @@ using System.Collections;
 
 namespace TrueBooksMVC.Controllers
 {
+    [SessionExpire]
     [Authorize]
     public class JobController : Controller
     {

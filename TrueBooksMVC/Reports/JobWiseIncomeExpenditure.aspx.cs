@@ -10,6 +10,7 @@ using System.Data;
 
 namespace TrueBooksMVC.Reports
 {
+    [SessionExpire]
     public partial class JobWiseIncomeExpenditure : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)

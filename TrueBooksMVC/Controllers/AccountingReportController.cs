@@ -7,6 +7,7 @@ using TrueBooksMVC.Models;
 using DAL;
 namespace TrueBooksMVC.Controllers
 {
+    [SessionExpire]
      [Authorize]
     public class AccountingReportController : Controller
     {

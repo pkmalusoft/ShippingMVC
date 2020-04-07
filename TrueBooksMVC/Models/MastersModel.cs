@@ -12,7 +12,7 @@ namespace TrueBooksMVC.Models
     public class MastersModel
     {
         SHIPPING_FinalEntities Context1 = new SHIPPING_FinalEntities();
-
+        
         public List<SP_GetAllJobType_Result> GetJobTypeS()
         {
 

@@ -10,6 +10,7 @@ using System.Dynamic;
 
 namespace TrueBooksMVC.Controllers
 {
+    [SessionExpire]
     [Authorize]
     public class CostUpdationController : Controller
     {

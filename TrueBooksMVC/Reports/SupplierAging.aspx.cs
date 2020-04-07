@@ -10,6 +10,7 @@ using Microsoft.Reporting.WebForms;
 
 namespace TrueBooksMVC.Reports
 {
+    [SessionExpire]
     public partial class SupplierAging : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)

@@ -10,7 +10,8 @@ using TrueBooksMVC.Models;
 
 namespace TrueBooksMVC.Controllers
 {
-     [Authorize]
+    [SessionExpire]
+    [Authorize]
     public class ContainerTypeController : Controller
     {
         private SHIPPING_FinalEntities db = new SHIPPING_FinalEntities();

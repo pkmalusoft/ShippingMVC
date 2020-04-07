@@ -9,6 +9,7 @@ using System.Web.UI.WebControls;
 using DAL;
 namespace TrueBooksMVC.Reports
 {
+    [SessionExpire]
     public partial class DeliveryNoteFormatted : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)

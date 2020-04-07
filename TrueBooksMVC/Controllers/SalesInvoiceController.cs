@@ -12,11 +12,14 @@ using System.Collections;
 
 namespace TrueBooksMVC.Controllers
 {
+    [SessionExpire]
     public class SalesInvoiceController : Controller
     {
         SHIPPING_FinalEntities entity = new SHIPPING_FinalEntities();
         MastersModel MM = new MastersModel();
         SalesInvoiceModel SM = new SalesInvoiceModel();
+        SourceMastersModel objectSourceModel = new SourceMastersModel();
+
         public string getSalesInvoiceID()
         {
             string ID = "";
@@ -39,15 +42,16 @@ namespace TrueBooksMVC.Controllers
 
             return ID;
         }
-       
+
         public ActionResult Index()
         {
+
             DateTime fdate = Convert.ToDateTime(Session["FyearFrom"]);
             DateTime tdate = Convert.ToDateTime(Session["FyearTo"]);
             List<SalesInvoice> AllInvoices = new List<SalesInvoice>();
             AllInvoices = DAL.SP_GetAllSalesInvoiceByDate(Convert.ToDateTime(fdate), Convert.ToDateTime(tdate)).ToList();
-                      
-        //    var data = (from t in AllJobs where (t.JobDate >= Convert.ToDateTime(Session["FyearFrom"]) && t.JobDate <= Convert.ToDateTime(Session["FyearTo"])) select t).ToList();
+
+            //    var data = (from t in AllJobs where (t.JobDate >= Convert.ToDateTime(Session["FyearFrom"]) && t.JobDate <= Convert.ToDateTime(Session["FyearTo"])) select t).ToList();
 
             return View(AllInvoices);
         }
@@ -60,6 +64,65 @@ namespace TrueBooksMVC.Controllers
             SI = SM.GetSalesInvoiceByID(id);
             BindAllMasters();
             return View(SI);
+        }
+        private bool DeleteorInsertAcJounalDetails(int? AcMasterId, int salesinvoiceid)
+        {
+            var deleteolddetails = (from d in entity.AcJournalDetails where d.AcJournalID == AcMasterId select d).ToList();
+            foreach (var item in deleteolddetails)
+            {
+                entity.AcJournalDetails.Remove(item);
+                entity.SaveChanges();
+            }
+
+            var salesinvoicedetails = (from d in entity.SalesInvoiceDetails where d.SalesInvoiceID == salesinvoiceid select d).ToList();
+
+            var totalamount = salesinvoicedetails.Sum(d => d.NetValue) - salesinvoicedetails.Sum(d => d.Tax);
+            var totaltax = salesinvoicedetails.Sum(d => d.Tax);
+            var salesval = totalamount + totaltax;
+            var Cos = totalamount * 10 / 100;
+            //saleskt
+            var acjournaldetails = new AcJournalDetail();
+            int maxAcJDetailID = 0;
+            maxAcJDetailID = (from c in entity.AcJournalDetails orderby c.AcJournalDetailID descending select c.AcJournalDetailID).FirstOrDefault();
+            acjournaldetails.AcJournalDetailID = maxAcJDetailID + 1;
+            acjournaldetails.AcHeadID = (from d in entity.AcHeads where d.AcHead1.ToLower() == "sales kt" select d.AcHeadID).FirstOrDefault();//SalesKt
+            acjournaldetails.AcJournalID = AcMasterId;
+            acjournaldetails.Amount = totalamount * -1;
+            entity.AcJournalDetails.Add(acjournaldetails);
+            entity.SaveChanges();
+            //Vat payable
+            var acjournaldetails1 = new AcJournalDetail();
+            acjournaldetails1.AcJournalDetailID = maxAcJDetailID + 2;
+            acjournaldetails1.AcHeadID = (from d in entity.AcHeads where d.AcHead1.ToLower() == "vat payable" select d.AcHeadID).FirstOrDefault();//vatpayable
+            acjournaldetails1.AcJournalID = AcMasterId;
+            acjournaldetails1.Amount = totaltax * -1;
+            entity.AcJournalDetails.Add(acjournaldetails1);
+            entity.SaveChanges();
+            //Customercontrolamt
+            var acjournaldetails2 = new AcJournalDetail();
+            acjournaldetails2.AcJournalDetailID = maxAcJDetailID + 3;
+            acjournaldetails2.AcHeadID = (from d in entity.AcHeads where d.AcHead1.ToLower() == "customer control accounts" select d.AcHeadID).FirstOrDefault();//customercontrolaccounts
+            acjournaldetails2.AcJournalID = AcMasterId;
+            acjournaldetails2.Amount = salesval;
+            entity.AcJournalDetails.Add(acjournaldetails2);
+            entity.SaveChanges();            //costofsales
+            var acjournaldetails3 = new AcJournalDetail();
+            acjournaldetails3.AcJournalDetailID = maxAcJDetailID + 4;
+            acjournaldetails3.AcHeadID = (from d in entity.AcHeads where d.AcHead1.ToLower() == "cost of sales" select d.AcHeadID).FirstOrDefault();//costofsales
+            acjournaldetails3.AcJournalID = AcMasterId;
+            acjournaldetails3.Amount = Cos;
+            entity.AcJournalDetails.Add(acjournaldetails3);
+            entity.SaveChanges();
+            //inventorycontrolaccounts
+
+            var acjournaldetails4 = new AcJournalDetail();
+            acjournaldetails4.AcJournalDetailID = maxAcJDetailID + 5;
+            acjournaldetails4.AcHeadID = (from d in entity.AcHeads where d.AcHead1.ToLower() == "inventory control accounts" select d.AcHeadID).FirstOrDefault();//costofsales
+            acjournaldetails4.AcJournalID = AcMasterId;
+            acjournaldetails4.Amount = Cos * -1;
+            entity.AcJournalDetails.Add(acjournaldetails4);
+            entity.SaveChanges();
+            return true;
         }
 
         private bool DeleteAndInsertRecords(FormCollection formCollection, int InvoiceId)
@@ -139,11 +202,11 @@ namespace TrueBooksMVC.Controllers
                 SID.RateFC = RateFC;
 
                 decimal Value = 0;
-              //  if (formCollection.GetValue("Value_" + InvoiceDetailsArray[c]) != null)
-               // {
+                //  if (formCollection.GetValue("Value_" + InvoiceDetailsArray[c]) != null)
+                // {
                 //    strArray = (string[])formCollection.GetValue("Value_" + InvoiceDetailsArray[c]).RawValue;
-                 //   decimal.TryParse(strArray[0], out Value);
-               // }
+                //   decimal.TryParse(strArray[0], out Value);
+                // }
                 SID.Value = Value;
 
 
@@ -220,16 +283,16 @@ namespace TrueBooksMVC.Controllers
             SI.ExchangeRate = Common.ParseDecimal(formCollection["ExchangeRate"]);
             SI.CreditDays = 0;
             SI.DueDate = Common.ParseDate(formCollection["DueDate"]);
-            SI.AcJournalID = 0;
+
             SI.BranchID = Common.ParseInt(Session["branchid"].ToString()); ;
-            SI.Discount =0;
-            SI.StatusDiscountAmt =false;
+            SI.Discount = 0;
+            SI.StatusDiscountAmt = false;
             SI.OtherCharges = 0;
             SI.PaymentTerm = "";
             SI.Remarks = (formCollection["Remarks"]);
             SI.FYearID = Common.ParseInt(Session["fyearid"].ToString());
             SI.DeliveryId = Common.ParseInt(formCollection["SelectedDeliveryId"]);
-            SI.QuotationNumber =(formCollection["QuotationNumber"]);
+            SI.QuotationNumber = (formCollection["QuotationNumber"]);
             SI.DiscountType = Common.ParseInt(formCollection["DiscountType"]);
             SI.DiscountValueLC = Common.ParseDecimal(formCollection["DiscountValueLC"]);
             SI.DiscountValueFC = Common.ParseDecimal(formCollection["DiscountValueFC"]);
@@ -244,18 +307,45 @@ namespace TrueBooksMVC.Controllers
             {
                 //SI.SalesInvoiceDate = System.DateTime.UtcNow;
                 var context = new SHIPPING_FinalEntities();
-               var salesinvoiceId = (from c in context.SalesInvoices orderby c.SalesInvoiceID descending select c.SalesInvoiceID).FirstOrDefault();
+                var salesinvoiceId = (from c in context.SalesInvoices orderby c.SalesInvoiceID descending select c.SalesInvoiceID).FirstOrDefault();
                 salesinvoiceId = salesinvoiceId + 1;
-                var Gen_salesno= salesinvoiceId.ToString("00000");
+                var Gen_salesno = salesinvoiceId.ToString("00000");
 
                 var salesNo = "SI-" + Gen_salesno;
                 SI.SalesInvoiceNo = salesNo;
                 int i = 0;
+                SI.AcJournalID = 0;
                 i = SM.AddSalesInvoice(SI);
                 SI.SalesInvoiceID = i;
                 DeleteAndInsertRecords(formCollection, i);
+
+                AcJournalMaster acJournalMaster = new AcJournalMaster();
+                acJournalMaster.AcFinancialYearID = Convert.ToInt32(Session["fyearid"].ToString());
+                acJournalMaster.AcJournalID = objectSourceModel.GetMaxNumberAcJournalMasters();
+                acJournalMaster.VoucherType = "SI";
+
+                int max = (from c in context.AcJournalMasters select c).ToList().Count();
+
+                acJournalMaster.VoucherNo = salesNo; //(max + 1).ToString();
+                acJournalMaster.UserID = Convert.ToInt32(Session["UserID"].ToString());
+                acJournalMaster.TransDate = SI.SalesInvoiceDate;
+                acJournalMaster.StatusDelete = false;
+                acJournalMaster.ShiftID = null;
+                acJournalMaster.Remarks = SI.Remarks;
+                acJournalMaster.AcCompanyID = Convert.ToInt32(Session["AcCompanyID"].ToString());
+                acJournalMaster.Reference = SI.Reference;
+                context.AcJournalMasters.Add(acJournalMaster);
+                context.SaveChanges();
+
+                var acmasterid = acJournalMaster.AcJournalID;
+                SI.AcJournalID = acmasterid;
+                SM.UpdateSalesInvoice(SI);
+                if (acmasterid > 0)
+                {
+                    DeleteorInsertAcJounalDetails(acmasterid, i);
+                }
                 if (i > 0)
-                {                                              
+                {
                     Session["SalesInvoiceID"] = i;
                     SI.SalesInvoiceID = i;
                     //return RedirectToAction("Invoice", "SalesInvoice", new { ID = i });
@@ -267,8 +357,18 @@ namespace TrueBooksMVC.Controllers
             {
 
                 SI.SalesInvoiceID = id;
+                var salesinvoice = (from d in entity.SalesInvoices where d.SalesInvoiceID == id select d).FirstOrDefault();
+                SI.AcJournalID = salesinvoice.AcJournalID;
+                if (SI.AcJournalID == null)
+                {
+                    SI.AcJournalID = 0;
+                }
                 int k = SM.UpdateSalesInvoice(SI);
                 DeleteAndInsertRecords(formCollection, id);
+                if (SI.AcJournalID > 0)
+                {
+                    DeleteorInsertAcJounalDetails(SI.AcJournalID, id);
+                }
                 return RedirectToAction("Index", "SalesInvoice");
 
                 //return RedirectToAction("Invoice", "SalesInvoice", new { ID = SI.SalesInvoiceID });                                          
@@ -282,62 +382,62 @@ namespace TrueBooksMVC.Controllers
             //return View(SI);
         }
 
-       
+
 
         public void BindAllMasters()
         {
-         //   try
-         //   {
-                List<SP_GetAllPorts_Result> Ports = new List<SP_GetAllPorts_Result>();
-                List<SP_GetAllEmployees_Result> Employees = new List<SP_GetAllEmployees_Result>();
-                List<SP_GetAllJobType_Result> JobType = new List<SP_GetAllJobType_Result>();
-                List<SP_GetAllCarrier_Result> Carriers = new List<SP_GetAllCarrier_Result>();
-                List<SP_GetAllCustomers_Result> Customers = new List<SP_GetAllCustomers_Result>();
-                List<SP_GetAllCountries_Result> Countries = new List<SP_GetAllCountries_Result>();
-                List<SP_GetAllContainerTypes_Result> ContainerTypes = new List<SP_GetAllContainerTypes_Result>();
-                List<SP_GetAllRevenueType_Result> RevenueType = new List<SP_GetAllRevenueType_Result>();
-                List<SP_GetCurrency_Result> Currency = new List<SP_GetCurrency_Result>();
-                List<SP_GetAllSupplier_Result> Supplier = new List<SP_GetAllSupplier_Result>();
-                List<SP_GetShippingAgents_Result> ShippingAgent = new List<SP_GetShippingAgents_Result>();
-                List<SP_GetAllItemUnit_Result> Unit = new List<SP_GetAllItemUnit_Result>();
-                List<SP_GetAllJobsDetails_Result> Job = new List<SP_GetAllJobsDetails_Result>();
-                List<SP_GetAllProductServices_Result> Product = new List<SP_GetAllProductServices_Result>();
-                List<AcHeadSelectAll_Result> AccountHead = new List<AcHeadSelectAll_Result>();
+            //   try
+            //   {
+            List<SP_GetAllPorts_Result> Ports = new List<SP_GetAllPorts_Result>();
+            List<SP_GetAllEmployees_Result> Employees = new List<SP_GetAllEmployees_Result>();
+            List<SP_GetAllJobType_Result> JobType = new List<SP_GetAllJobType_Result>();
+            List<SP_GetAllCarrier_Result> Carriers = new List<SP_GetAllCarrier_Result>();
+            List<SP_GetAllCustomers_Result> Customers = new List<SP_GetAllCustomers_Result>();
+            List<SP_GetAllCountries_Result> Countries = new List<SP_GetAllCountries_Result>();
+            List<SP_GetAllContainerTypes_Result> ContainerTypes = new List<SP_GetAllContainerTypes_Result>();
+            List<SP_GetAllRevenueType_Result> RevenueType = new List<SP_GetAllRevenueType_Result>();
+            List<SP_GetCurrency_Result> Currency = new List<SP_GetCurrency_Result>();
+            List<SP_GetAllSupplier_Result> Supplier = new List<SP_GetAllSupplier_Result>();
+            List<SP_GetShippingAgents_Result> ShippingAgent = new List<SP_GetShippingAgents_Result>();
+            List<SP_GetAllItemUnit_Result> Unit = new List<SP_GetAllItemUnit_Result>();
+            List<SP_GetAllJobsDetails_Result> Job = new List<SP_GetAllJobsDetails_Result>();
+            List<SP_GetAllProductServices_Result> Product = new List<SP_GetAllProductServices_Result>();
+            List<AcHeadSelectAll_Result> AccountHead = new List<AcHeadSelectAll_Result>();
 
 
-                Ports = MM.GetAllPort();
-                Employees = MM.GetAllEmployees();
-                JobType = MM.GetJobTypeS();
-                Carriers = MM.GetAllCarrier();
-                Customers = MM.GetAllCustomer();
-                Countries = MM.GetAllCountries();
-                ContainerTypes = MM.GetAllContainerTypes();
-                //    RevenueType = MM.GetRevenueType();
-                Currency = MM.GetCurrency();
-                Supplier = MM.GetAllSupplier();
-                ShippingAgent = MM.GetShippingAgents();
-                Unit = MM.GetItemUnit();
-                Job = MM.GetAllJobsDetails();
-                AccountHead = MM.AcHeadSelectAll(Common.ParseInt(Session["branchid"].ToString()));
-                Product = MM.GetAllProductServices();
+            Ports = MM.GetAllPort();
+            Employees = MM.GetAllEmployees();
+            JobType = MM.GetJobTypeS();
+            Carriers = MM.GetAllCarrier();
+            Customers = MM.GetAllCustomer();
+            Countries = MM.GetAllCountries();
+            ContainerTypes = MM.GetAllContainerTypes();
+            //    RevenueType = MM.GetRevenueType();
+            Currency = MM.GetCurrency();
+            Supplier = MM.GetAllSupplier();
+            ShippingAgent = MM.GetShippingAgents();
+            Unit = MM.GetItemUnit();
+            Job = MM.GetAllJobsDetails();
+            AccountHead = MM.AcHeadSelectAll(Common.ParseInt(Session["branchid"].ToString()));
+            Product = MM.GetAllProductServices();
 
 
-                ViewBag.AccountHead = new SelectList(AccountHead, "AcHeadID", "AcHead");
-                ViewBag.Product = new SelectList(Product, "ProductID", "ProductName");
-                ViewBag.Job = new SelectList(Job, "JobID", "JobCode");
-                ViewBag.Ports = new SelectList(Ports, "PortID", "Port");
-                ViewBag.Customer = new SelectList(Customers, "CustomerID", "Customer");
-                ViewBag.Employees = new SelectList(Employees, "EmployeeID", "EmployeeName");
-                ViewBag.Countries = new SelectList(Countries, "CountryID", "CountryName");
-                ViewBag.JobType = new SelectList(JobType, "JobTypeID", "JobDescription");
-                ViewBag.Carriers = new SelectList(Carriers, "CarrierID", "Carrier");
-                ViewBag.ContainerTypes = new SelectList(ContainerTypes, "ContainerTypeID", "ContainerType");
-                ViewBag.Unit = new SelectList(Unit, "ItemUnitID", "ItemUnit");
-                // ViewBag.RevenueT = new SelectList(RevenueType, "RevenueTypeID", "RevenueType");
-                ViewBag.Curency = new SelectList(Currency, "CurrencyID", "CurrencyName");
-                ViewBag.Suplier = new SelectList(Supplier, "SupplierID", "SupplierName");
-                ViewBag.ShippingA = new SelectList(ShippingAgent.OrderBy(x => x.AgentName).ToList(), "ShippingAgentID", "AgentName");
-                List<SelectListItem> objBLStatusList = new List<SelectListItem>
+            ViewBag.AccountHead = new SelectList(AccountHead, "AcHeadID", "AcHead");
+            ViewBag.Product = new SelectList(Product, "ProductID", "ProductName");
+            ViewBag.Job = new SelectList(Job, "JobID", "JobCode");
+            ViewBag.Ports = new SelectList(Ports, "PortID", "Port");
+            ViewBag.Customer = new SelectList(Customers, "CustomerID", "Customer");
+            ViewBag.Employees = new SelectList(Employees, "EmployeeID", "EmployeeName");
+            ViewBag.Countries = new SelectList(Countries, "CountryID", "CountryName");
+            ViewBag.JobType = new SelectList(JobType, "JobTypeID", "JobDescription");
+            ViewBag.Carriers = new SelectList(Carriers, "CarrierID", "Carrier");
+            ViewBag.ContainerTypes = new SelectList(ContainerTypes, "ContainerTypeID", "ContainerType");
+            ViewBag.Unit = new SelectList(Unit, "ItemUnitID", "ItemUnit");
+            // ViewBag.RevenueT = new SelectList(RevenueType, "RevenueTypeID", "RevenueType");
+            ViewBag.Curency = new SelectList(Currency, "CurrencyID", "CurrencyName");
+            ViewBag.Suplier = new SelectList(Supplier, "SupplierID", "SupplierName");
+            ViewBag.ShippingA = new SelectList(ShippingAgent.OrderBy(x => x.AgentName).ToList(), "ShippingAgentID", "AgentName");
+            List<SelectListItem> objBLStatusList = new List<SelectListItem>
                     { new SelectListItem() { Text = "SURRENDERED", Selected = false, Value = "SURRENDERED"}
                      , new SelectListItem() { Text = "WAY BILL", Selected = false, Value = "WAY BILL"}
                      , new SelectListItem() { Text = "OBL REQUIRED", Selected = false, Value = "OBL REQUIRED"}};
@@ -345,18 +445,18 @@ namespace TrueBooksMVC.Controllers
 
 
 
-                var query = from t in entity.SalesInvoices
-                            where t.SalesInvoiceID == null
+            var query = from t in entity.SalesInvoices
+                        where t.SalesInvoiceID == null
 
-                            select t;
+                        select t;
 
-                ViewBag.MainJobId = query;
-          //  }
-        //    catch (Exception)
-         //   {
+            ViewBag.MainJobId = query;
+            //  }
+            //    catch (Exception)
+            //   {
 
-          //      throw;
-         //  }
+            //      throw;
+            //  }
         }
 
         public JsonResult GetExchangeRte(string ID)
@@ -370,8 +470,8 @@ namespace TrueBooksMVC.Controllers
 
         public JsonResult GetSalesInvoiceDetailsByInvoiceId(int InvoiceId)
         {
-            DataSet ds= DAL.GetSalesInvoiceDetailsById(InvoiceId);
-            if(ds != null && ds.Tables.Count > 0)
+            DataSet ds = DAL.GetSalesInvoiceDetailsById(InvoiceId);
+            if (ds != null && ds.Tables.Count > 0)
             {
                 List<Models.SalesInvoiceDetail> dtList = ds.Tables[0].AsEnumerable()
         .Select(row => new Models.SalesInvoiceDetail
@@ -431,17 +531,40 @@ namespace TrueBooksMVC.Controllers
 
             return Json(Product, JsonRequestBehavior.AllowGet);
         }
-           public JsonResult GetCreditDays(int ID)
+        public JsonResult GetCreditDays(int ID)
         {
             SourceMastersModel SM1 = new SourceMastersModel();
             int? CreditDays = 0;
             var Product = SM1.GetCustomerById(ID);
-            if(Product.MaxCreditDays != null)
+            if (Product.MaxCreditDays != null)
             {
                 CreditDays = Product.MaxCreditDays;
             }
 
             return Json(CreditDays, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult DeleteInvoice(int id)
+        {
+            var salesinvoice = (from d in entity.SalesInvoices where d.SalesInvoiceID == id select d).FirstOrDefault();
+            var salesinoiceDetails = (from d in entity.SalesInvoiceDetails where d.SalesInvoiceID == salesinvoice.SalesInvoiceID select d).ToList();
+            var acjournalmaster = (from d in entity.AcJournalMasters where d.AcJournalID == salesinvoice.AcJournalID select d).FirstOrDefault();
+            var acjournalDetails = (from d in entity.AcJournalDetails where d.AcJournalID == salesinvoice.AcJournalID select d).ToList();
+            entity.SalesInvoices.Remove(salesinvoice);
+            if (acjournalmaster != null)
+            {
+                entity.AcJournalMasters.Remove(acjournalmaster);
+            }
+            foreach (var item in salesinoiceDetails)
+            {
+                entity.SalesInvoiceDetails.Remove(item);
+            }
+            foreach (var item in acjournalDetails)
+            {
+                entity.AcJournalDetails.Remove(item);
+            }
+            entity.SaveChanges();
+
+            return RedirectToAction("Index");
         }
 
 

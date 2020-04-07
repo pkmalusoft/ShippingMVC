@@ -262,12 +262,12 @@
 
                                         </td>
                                         <td>
-                                        <select id="RateType_1" class="Rate" name="RateType_1"style="width: 100%;border:none;height: 28px;padding:0px" onchange="Getval(1)">
-                                            <option value="">Select</option>
-                                            <option value="1">End User Price</option>
-                                            <option value="2">Reseller Price</option>
-                                            <option value="3">Special Price</option>
-                                        </select>
+                                            <select id="RateType_1" class="Rate" name="RateType_1" style="width: 100%;border:none;height: 28px;padding:0px" onchange="Getval(1)">
+                                                <option value="">Select</option>
+                                                <option value="1">End User Price</option>
+                                                <option value="2">Reseller Price</option>
+                                                <option value="3">Special Price</option>
+                                            </select>
                                         </td>
                                         @*<td><input type='text' class="Rate" id='RateType_1' name='RateType_1' style="width: 100%;border:none;height: 28px;padding:0px" /> </td>*@
                                         <td><input type='text' class="two-decimals RateLC" id='RateLC_1' name='RateLC_1' autocomplete="off" style="width: 100%;border:none;text-align:right;height: 28px;padding: 0px 7px;" /></td>
@@ -391,6 +391,12 @@
     </section>
 </div>
 <script type="text/javascript">
+    var tpL=0;
+    var tpF = 0;
+    var OverallLC = 0;
+    var OverallFC = 0;
+    var value_LC = 0;
+    var value_FC = 0;
     $(document).ready(function () {
         var startdate = '@Session["FyearFrom"].ToString()';
         var enddate = '@Session["FyearTo"].ToString()';
@@ -399,6 +405,7 @@
         var ed = new Date(enddate);
         var LCExRate = 0;
         GetLocalCurrencyvalue();
+        PopulateExchageRate();
         var JobAutoComplete = {
             source: function (request, response) {
                 $.ajax({
@@ -530,20 +537,23 @@
         $(".topbutton").on('click', function () {
             AddNewRow();
         });
-      
-        function PopulateExchageRate() {
-            $("#ExchangeRate").val('');
-            $.ajax({
 
-                type: "GET",
-                url: "/Job/GetExchangeRte",
-                datatype: "Json",
-                data: { ID: $('#SelectedCurrencyID').val() },
-                success: function (data) {
-                    $('#ExchangeRate').val(data);
-                    CalculateValue();
-                }
-            });
+        function PopulateExchageRate() {
+            if ($('#SelectedCurrencyID').val() != "" || $('#SelectedCurrencyID').val() != 0) {
+                $("#ExchangeRate").val('');
+
+                $.ajax({
+
+                    type: "GET",
+                    url: "/Job/GetExchangeRte",
+                    datatype: "Json",
+                    data: { ID: $('#SelectedCurrencyID').val() },
+                    success: function (data) {
+                        $('#ExchangeRate').val(data);
+                        CalculateValue();
+                    }
+                });
+            }
         }
         function GetLocalCurrencyvalue() {
             $.ajax({
@@ -612,6 +622,7 @@
 
                         var CurrencyId = $('#SelectedCurrencyID').val();
                         var BranchLocalCurrencyId = $('#BranchLocalCurrencyId').val();
+                        Getval1(i);
                         if (CurrencyId == BranchLocalCurrencyId) {
                             totalval = totalval + InvoiceDetailsObj.ValueLC;
 
@@ -621,9 +632,8 @@
                         }
                         tottax = tottax + InvoiceDetailsObj.Tax;
                         netval = netval + InvoiceDetailsObj.NetValue;
-                        Getval1(i);
-                        ///////////////////////////////
 
+                        ///////////////////////////////
                     }
 
                     var CurrencyId = $('#SelectedCurrencyID').val();
@@ -655,6 +665,7 @@
                     $('.QTY').on('change', function () {
                         CalculateValue();
                     });
+
                     Edit_calculate();
                     //CalculateValue();
                 }
@@ -662,6 +673,7 @@
         }
 
         function Edit_calculate() {
+
             $('#charges_table').find('.Tax').attr('readonly', 'readonly');
             $('#charges_table').find('.TaxPercent').attr('readonly', 'readonly');
             var trCount = $('#charges_table tr').length;
@@ -735,7 +747,7 @@
                     TotalValueLC = TotalValueLC + TotalTaxLC - (TotalValueLC * (discountFC / 100));
                     $('#discount').val(discountFC);
                 }
-                    
+
                     TotalValueFC = TotalValueFC + TotalTaxFC - (TotalValueFC * (parseInt(discountFC) / 100));
                     $('#TotalValueLC').val(parseFloat(TotalValueLC).toFixed(2));
                     $('#TotalValueFC').val(parseFloat(TotalValueFC).toFixed(2));
@@ -759,8 +771,8 @@
                     $('#discountFC').val('0.00');
                     $('#TotalFC').val('0.00');
 
-                } 
-            
+            }
+
         }
         $("#charges_table").on('change', '.two-decimals', function () {
             var decValue = parseFloat(this.value).toFixed(2);
@@ -827,6 +839,8 @@
         $('.QTY').on('change', function () {
             CalculateValue();
         });
+
+
         $('.Rate').on('change', function () {
             var trCount = $('#charges_table tr').length;
             var CurrencyId = $('#SelectedCurrencyID').val();
@@ -1006,7 +1020,6 @@
             }
         }
         function CalculateValue() {
-            
             var trCount = $('#charges_table tr').length;
             var TotalCount = 0;
             var TotalCounts = 0;
@@ -1070,7 +1083,7 @@
                     TotalValue = parseFloat(TotalValue).toFixed(2);
                     $('#charges_table tr:nth-child(' + i + ')').find('.ValueLC').val(TotalValue);
                     $('#charges_table tr:nth-child(' + i + ')').find('.ValueFC').val('0.00');
-                 
+
                     Tax = parseFloat(TotalValue * (TaxPercentage / 100)).toFixed(2);
                     if (isNaN(parseInt(Tax))) {
                         Tax = 0.00;
@@ -1139,7 +1152,7 @@
                     $('#charges_table tr:nth-child(' + i + ')').find('.ValueFC').val(tval1);
                     //TotalValue = parseFloat(TotalValue * LCExRate).toFixed(2);
                     $('#charges_table tr:nth-child(' + i + ')').find('.ValueLC').val(parseFloat(new_valueLc).toFixed(2));
-                   
+
                     var localtax = parseFloat(new_valueLc * (TaxPercentage / 100)).toFixed(2);
                     Tax = parseFloat(localtax / ExRate).toFixed(2);
                     //Tax = parseFloat(tval1 * (TaxPercentage / 100)).toFixed(2);
@@ -1253,7 +1266,7 @@
                 }
                 $('#TotalValueFC').val(parseFloat((TotalValueFC + TotalTaxFC) - parseInt(discountFC)).toFixed(2));
             }
-            
+
             if (BranchLocalCurrencyId == CurrencyId) {
                 $('#TotalValueFC').val('0.00');
                 $('.Tax_FC').val('0.00');
@@ -1558,11 +1571,63 @@
                             price = parseFloat(data.SpecialPrice)
                         }
                     }
+                    debugger;
                     $('#charges_table').find('#RateTypeValue_' + rowval).val(parseFloat(price).toFixed(2));
                     $('#charges_table').find('#TaxPercent_' + rowval).val(parseFloat(data.TaxPercent).toFixed(2));
-                   
+
+                        var exL = $('#charges_table').find('#ValueLC_' + rowval).val();
+                    value_LC = parseFloat(value_LC) + parseFloat(exL);
+                            var currenttaxvalL = exL * data.TaxPercent / 100;
+                        var netvalL = parseFloat(exL) + parseFloat(currenttaxvalL);
+
+                    tpL = parseFloat(tpL) + parseFloat(currenttaxvalL);
+                    OverallLC = parseFloat(OverallLC) + parseFloat(netvalL);
+                    $('.Tax_LC').val(parseFloat(tpL).toFixed(2));
+
+                    var ex = $('#charges_table').find('#ValueFC_' + rowval).val();
+                    value_FC = parseFloat(value_FC) + parseFloat(ex);
+
+                        var currenttaxval = ex * data.TaxPercent / 100;
+                        var netval = parseFloat(ex) + parseFloat(currenttaxval);
+                    tpF = parseFloat(tpF) + parseFloat(currenttaxval);
+
+                    var CurrencyId = $('#SelectedCurrencyID').val();
+                    var BranchLocalCurrencyId = $('#BranchLocalCurrencyId').val();
+                    if (CurrencyId == BranchLocalCurrencyId) {
+                        $('#charges_table').find('#Tax_' + rowval).val(parseFloat(currenttaxvalL).toFixed(2));
+
+                        $('#charges_table').find('#NetValue_' + rowval).val(parseFloat(netvalL).toFixed(2));
+
+                    } else {
+                        $('#charges_table').find('#Tax_' + rowval).val(parseFloat(currenttaxval).toFixed(2));
+
+                        $('#charges_table').find('#NetValue_' + rowval).val(parseFloat(netval).toFixed(2));
+
+                    }
+                    OverallFC = parseFloat(OverallFC) + parseFloat(netval);
+                    $('.Tax_FC').val(parseFloat(tpF).toFixed(2));
+                      
+                    var DiscountType = $('input[name=DiscountType]:checked').val();
+                    debugger;
+                    var discount = $('#discount').val();
+                    var discountFC = $('#discountFC').val();
+                    if (DiscountType == 1) {
+                        var total = OverallLC - (value_LC * (discount / 100));
+                        var totalFC = OverallFC - discountFC;
+                        $('.TotalValueFC').val(parseFloat(totalFC).toFixed(2));
+                        $('.TotalValueLC').val(parseFloat(total).toFixed(2));
+                    } else {
+                        var total = OverallLC - (value_LC * discount / 100);
+                        var totalFC = OverallFC - discountFC;
+                        $('.TotalValueFC').val(parseFloat(totalFC).toFixed(2));
+                        $('.TotalValueLC').val(parseFloat(total).toFixed(2));
+                    }
+
                 }
             });
+         
+            
+
         }
     }
 </script>

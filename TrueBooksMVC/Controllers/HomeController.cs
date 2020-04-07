@@ -7,6 +7,7 @@ using System.Web.Mvc;
 
 namespace TrueBooksMVC.Controllers
 {
+    [SessionExpire]
     [Authorize]
     public class HomeController : Controller
     {

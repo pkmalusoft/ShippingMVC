@@ -9,6 +9,7 @@ using DAL;
 using Microsoft.Reporting.WebForms;
 namespace TrueBooksMVC.Reports
 {
+    [SessionExpire]
     public partial class BankBook : System.Web.UI.Page
     {
        

@@ -8,6 +8,7 @@ using DAL;
 
 namespace TrueBooksMVC.Controllers
 {
+    [SessionExpire]
     public class DebitNoteController : Controller
     {
         SHIPPING_FinalEntities db = new SHIPPING_FinalEntities();

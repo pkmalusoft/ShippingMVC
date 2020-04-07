@@ -10,6 +10,7 @@ using System.Web.UI.WebControls;
 
 namespace TrueBooksMVC.Reports
 {
+    [SessionExpire]
     public partial class CustomerOutstanding : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)

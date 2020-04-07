@@ -8,6 +8,7 @@ using TrueBooksMVC.Models;
 
 namespace TrueBooksMVC.Controllers
 {
+    [SessionExpire]
     public class JobWiseIncomeExpenditureController : Controller
     {
         SHIPPING_FinalEntities db = new SHIPPING_FinalEntities();

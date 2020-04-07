@@ -7,7 +7,9 @@ using TrueBooksMVC.Models;
 using DAL;
 
 namespace TrueBooksMVC.Controllers
-{ [Authorize]
+{
+    [SessionExpire]
+    [Authorize]
 
     public class OpeningInvoiceController : Controller
     {

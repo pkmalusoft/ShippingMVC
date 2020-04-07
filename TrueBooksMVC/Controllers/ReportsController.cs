@@ -10,12 +10,12 @@ using System.Dynamic;
 
 namespace TrueBooksMVC.Controllers
 {
-     [Authorize]
+    [SessionExpire]
+    [Authorize]
     public class ReportsController : Controller
     {
         MastersModel MM = new MastersModel();
-        ReportModel RM = new ReportModel();
-        //
+        ReportModel RM = new ReportModel();        
         // GET: /Reports/
 
         public ActionResult Reports()

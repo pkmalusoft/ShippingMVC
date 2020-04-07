@@ -10,7 +10,8 @@ using TrueBooksMVC.Models;
 
 namespace ShippingFinal.Controllers
 {
-   [Authorize]
+    [SessionExpire]
+    [Authorize]
     public class DepartmentController : Controller
     {
         SourceMastersModel objSourceMastersModel = new SourceMastersModel();

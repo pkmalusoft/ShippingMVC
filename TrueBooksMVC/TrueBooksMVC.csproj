@@ -3875,6 +3875,7 @@
     <Content Include="Views\Supplier\SupplierType.cshtml" />
     <Content Include="Views\Supplier\CreateSupplierType.cshtml" />
     <Content Include="Views\Supplier\EditSupplierType.cshtml" />
+    <Content Include="Views\Errors\SessionTimeOut.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Logo\" />
