@@ -261,6 +261,7 @@
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\AcExpenseAllocationVM.cs" />
     <Compile Include="Models\AcGroupVM.cs" />
+    <Compile Include="Models\AcHeadControlList.cs" />
     <Compile Include="Models\AcJournalDetailsList.cs" />
     <Compile Include="Models\AcJournalDetailsVM.cs" />
     <Compile Include="Models\AcJournalDetailVM.cs" />
@@ -3876,6 +3877,8 @@
     <Content Include="Views\Supplier\CreateSupplierType.cshtml" />
     <Content Include="Views\Supplier\EditSupplierType.cshtml" />
     <Content Include="Views\Errors\SessionTimeOut.cshtml" />
+    <Content Include="Views\AccountingModule\CreateAcHeadControl.cshtml" />
+    <Content Include="Views\AccountingModule\EditAcHeadControl.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Logo\" />

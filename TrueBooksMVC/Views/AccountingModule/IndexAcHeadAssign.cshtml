@@ -1,4 +1,4 @@
-﻿@model IEnumerable<DAL.AcHeadAssignSelectAll_Result>
+﻿@model IEnumerable<TrueBooksMVC.Models.AcHeadControlList>
 @{
     ViewBag.Title = "Index Ac Head";
     Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
@@ -63,7 +63,7 @@
 <p class="indexbtnpadding">
     @if (isadd)
     {
-    @Html.ActionLink("Create New", "CreateAcHeadAssign", null, new { @class = "btn btn-primary btnwidth" })
+    @Html.ActionLink("Create New", "CreateAcHeadControl", null, new { @class = "btn btn-primary btnwidth" })
     }
 </p>
 <section class="content">
@@ -80,12 +80,12 @@
             <thead>
                 <tr>
 
-                    <th>Provision Cost</th>
-                    <th>Accrued Cost Control</th>
-                    <th>Open Job Revenue</th>
-                    <th>Customer Control</th>
-                    <th>Cash Control</th>
-                    <th>Supplier Control</th>
+                    <th>Page Control</th>
+                    <th>Account Control Head</th>
+                    <th>Account Head</th>
+                    <th>Account Head Id</th>
+                    <th>Account Nature</th>
+                    <th>Field</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -93,12 +93,12 @@
             <tfoot>
                 <tr>
 
-                    <th>Provision Cost</th>
-                    <th>Accrued Cost Control</th>
-                    <th>Open Job Revenue</th>
-                    <th>Customer Control</th>
-                    <th>Cash Control</th>
-                    <th>Supplier Control</th>
+                    <th>Page Control</th>
+                    <th>Account Control Head</th>
+                    <th>Account Head</th>
+                    <th>Account Head Id</th>
+                    <th>Account Nature</th>
+                    <th>Field</th>
                     <th style="display:none">Action</th>
                 </tr>
             </tfoot>
@@ -109,12 +109,12 @@
                 {
                     <tr>
 
-                        <td>@item.ProvisionCostControl</td>
-                        <td>@item.AccruedCostControl</td>
-                        <td>@item.OpenJobRevenue</td>
-                        <td>@item.CustomerControl</td>
-                        <td>@item.CashControl</td>
-                        <td>@item.SupplierControl</td>
+                        <td>@item.PageControlName</td>
+                        <td>@item.AccountName</td>
+                        <td>@item.AccountHeadName</td>
+                        <td>@item.AcHeadId</td>
+                        <td>@item.AccountNature</td>
+                        <td>@item.PageControlFieldName</td>
 
                         <td>
                             @*  @Html.ActionLink("Edit", "Edit", new { id=item.CountryID }) |
@@ -122,7 +122,7 @@
                                 @Html.ActionLink("Delete", "Delete", new { id=item.CountryID })*@
                             @if (ismodify)
                             {
-                            <a href="@Url.Action("EditAcHeadAssign", new { id = item.ID })"><i class="fa fa-pencil"></i></a>
+                            <a href="@Url.Action("EditAcHeadControl", new { id = item.Id })"><i class="fa fa-pencil"></i></a>
                             }
                             @*<a href="@Url.Action("Delete", new { id = item.CountryID })"><i class="fa fa-times"></i></a>*@
                             @* <a href="#" onclick="Delete(ID=@item.AcGroupID)"><i class="fa fa-times"></i></a>*@

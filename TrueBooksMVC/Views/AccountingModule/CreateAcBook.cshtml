@@ -402,6 +402,7 @@
         });
 
         $("#btnsave").click(function () {
+            var tlen = $('#details > tbody > tr').length - 1;
             if ($("#transdate").val() == "") {
                 alert("Please Select Transaction Date");
                 return false;
@@ -409,6 +410,11 @@
             }
             else if ($("#AcHead").val() == "") {
                 alert("Please Select Account Head");
+                return false;
+            }
+            else if (tlen == 0)
+            {
+                alert("Please add Transaction Details");
                 return false;
             }
             else {
@@ -708,6 +714,7 @@
         </div>
         <script type="text/javascript">
             $(document).ready(function () {
+              
                 $('#AddExpAllocation').click(function () {
                     var Total = 0;
                     var MainTotal = 0;

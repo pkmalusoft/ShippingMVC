@@ -101,6 +101,9 @@
     <Compile Include="AcHeadAssignSelectAll_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="AcHeadControl.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="AcHeadSelectAll_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -338,6 +341,12 @@
       <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
     <Compile Include="MonthlySalesRegister_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PageControlField.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PageControlMaster.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="PaymentTerm.cs">

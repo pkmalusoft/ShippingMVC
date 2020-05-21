@@ -97,6 +97,9 @@ namespace DAL
         public DbSet<SalesInvoiceDetail> SalesInvoiceDetails { get; set; }
         public DbSet<ProductService> ProductServices { get; set; }
         public DbSet<SupplierTypeMaster> SupplierTypeMasters { get; set; }
+        public DbSet<AcHeadControl> AcHeadControls { get; set; }
+        public DbSet<PageControlMaster> PageControlMasters { get; set; }
+        public DbSet<PageControlField> PageControlFields { get; set; }
         public virtual int SP_DeleteUser(Nullable<int> uSerID)
         {
             var uSerIDParameter = uSerID.HasValue ?
@@ -1348,8 +1351,8 @@ namespace DAL
                 new ObjectParameter("BranchID", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<AcHeadSelectAll_Result>("AcHeadSelectAll", branchIDParameter);
-        }
-    
+        }      
+
         public virtual ObjectResult<AcHeadSelectByID_Result> AcHeadSelectByID(Nullable<int> acHeadID)
         {
             var acHeadIDParameter = acHeadID.HasValue ?

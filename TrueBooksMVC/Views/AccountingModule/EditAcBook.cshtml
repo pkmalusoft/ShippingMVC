@@ -487,6 +487,7 @@
 
         $("#btnsave").click(function () {
             debugger;
+            var tlen = $('#details > tbody > tr').length - 1;
                 if ($("#transdate").val() == "") {
                     alert("Please Select Transaction Date");
                     return false;
@@ -494,6 +495,10 @@
                 }
                 else if ($("#AcHead").val() == "") {
                     alert("Please Select Account Head");
+                    return false;
+                }
+                else if (tlen == 0) {
+                    alert("Please Add Transaction Details");
                     return false;
                 }
                 else {

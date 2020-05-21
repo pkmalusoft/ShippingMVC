@@ -69,7 +69,7 @@ namespace TrueBooksMVC.Controllers
                     ViewBag.acheadbank = Context1.AcHeadSelectForBank(Convert.ToInt32(Session["AcCompanyID"].ToString())).ToList();
 
                     cust.RecPayDate = System.DateTime.UtcNow;
-                }
+                 }
             }
             else
             {

@@ -14,7 +14,7 @@ using System.Data.SqlClient;
 namespace TrueBooksMVC.Controllers
 {
     [SessionExpire]
-     [Authorize]
+    [Authorize]
     public class AccountingModuleController : Controller
     {
         SHIPPING_FinalEntities context = new SHIPPING_FinalEntities();
@@ -79,22 +79,22 @@ namespace TrueBooksMVC.Controllers
                 {
                     context.AcCategories.Remove(c);
                     context.SaveChanges();
-                  
+
                     ViewBag.SuccessMsg = "You have successfully deleted Account Category";
-                 
+
                 }
                 catch (Exception ex)
                 {
 
-                
-                        ViewBag.ErrorMsg= "Transaction in Use. Can not Delete";
-                       
-                 
+
+                    ViewBag.ErrorMsg = "Transaction in Use. Can not Delete";
+
+
                 }
             }
 
             return View("IndexAcCategory", context.AcCategorySelectAll());
-           
+
         }
 
 
@@ -111,17 +111,17 @@ namespace TrueBooksMVC.Controllers
         public ActionResult CreateAcGroup()
         {
             ViewBag.Category = context.AcCategorySelectAll();
-          
+
             ViewBag.groups = context.AcGroupSelectAll(Convert.ToInt32(Session["AcCompanyID"].ToString()));
 
             int count = (from c in context.AcCompanies select c).ToList().Count();
             ViewBag.IsAuto = count;
-            
+
             return View();
         }
 
 
-      
+
 
         [HttpGet]
         public JsonResult GetGroupsByID(int Category)
@@ -133,24 +133,24 @@ namespace TrueBooksMVC.Controllers
         [HttpPost]
         public ActionResult CreateAcGroup(AcGroupVM c)
         {
-            
-                if (c.AcGroup == 0)
-                {
-                    context.AcGroupInsert(c.AcCategoryID, c.subgroup, null, Convert.ToInt32(Session["AcCompanyID"].ToString()), Convert.ToInt32(Session["UserID"].ToString()), c.IsGroupCodeAuto, c.GroupCode);
-                }
-                else
-                {
-                    context.AcGroupInsert(c.AcCategoryID, c.subgroup, c.AcGroup, Convert.ToInt32(Session["AcCompanyID"].ToString()), Convert.ToInt32(Session["UserID"].ToString()), c.IsGroupCodeAuto, c.GroupCode);
-                }
-                //context.AcGroupInsert(c.AcCategoryID, c.subgroup, c.ParentID, Convert.ToInt32(Session["AcCompanyID"].ToString()), Convert.ToInt32(Session["UserID"].ToString()), c.IsGroupCodeAuto, c.GroupCode);
-             
-                //context.AcGroupInsert(c.AcCategoryID, c.AcGroup1, null, Convert.ToInt32(Session["AcCompanyID"].ToString()), Convert.ToInt32(Session["UserID"].ToString()), null, c.GroupCode);
-                ViewBag.SuccessMsg = "You have successfully added Account Group";
-                return View("IndexAcGroup", context.AcGroupSelectAll(Convert.ToInt32(Session["AcCompanyID"].ToString())));
-          
 
-          
-          
+            if (c.AcGroup == 0)
+            {
+                context.AcGroupInsert(c.AcCategoryID, c.subgroup, null, Convert.ToInt32(Session["AcCompanyID"].ToString()), Convert.ToInt32(Session["UserID"].ToString()), c.IsGroupCodeAuto, c.GroupCode);
+            }
+            else
+            {
+                context.AcGroupInsert(c.AcCategoryID, c.subgroup, c.AcGroup, Convert.ToInt32(Session["AcCompanyID"].ToString()), Convert.ToInt32(Session["UserID"].ToString()), c.IsGroupCodeAuto, c.GroupCode);
+            }
+            //context.AcGroupInsert(c.AcCategoryID, c.subgroup, c.ParentID, Convert.ToInt32(Session["AcCompanyID"].ToString()), Convert.ToInt32(Session["UserID"].ToString()), c.IsGroupCodeAuto, c.GroupCode);
+
+            //context.AcGroupInsert(c.AcCategoryID, c.AcGroup1, null, Convert.ToInt32(Session["AcCompanyID"].ToString()), Convert.ToInt32(Session["UserID"].ToString()), null, c.GroupCode);
+            ViewBag.SuccessMsg = "You have successfully added Account Group";
+            return View("IndexAcGroup", context.AcGroupSelectAll(Convert.ToInt32(Session["AcCompanyID"].ToString())));
+
+
+
+
         }
 
         public ActionResult EditAcGroup(int id)
@@ -193,10 +193,10 @@ namespace TrueBooksMVC.Controllers
         [HttpPost]
         public ActionResult EditAcGroup(AcGroupVM c)
         {
-           
-          
-                context.AcGroupUpdate(c.AcGroupID, c.ParentID, c.subgroup, c.AcCategoryID, 0, c.GroupCode);
-         
+
+
+            context.AcGroupUpdate(c.AcGroupID, c.ParentID, c.subgroup, c.AcCategoryID, 0, c.GroupCode);
+
             ViewBag.SuccessMsg = "You have successfully updated Account Group";
             return View("IndexAcGroup", context.AcGroupSelectAll(Convert.ToInt32(Session["AcCompanyID"].ToString())));
         }
@@ -230,12 +230,12 @@ namespace TrueBooksMVC.Controllers
                 {
 
 
-                    
+
 
 
                 }
             }
-         
+
             return View("IndexAcGroup", context.AcGroupSelectAll(Convert.ToInt32(Session["AcCompanyID"].ToString())));
         }
 
@@ -294,7 +294,7 @@ namespace TrueBooksMVC.Controllers
                 {
                     context.AnalysisGroups.Remove(c);
                     context.SaveChanges();
-               
+
                     ViewBag.SuccessMsg = "You have successfully deleted Expense Analysis Group.";
 
                 }
@@ -307,7 +307,7 @@ namespace TrueBooksMVC.Controllers
 
                 }
             }
-         
+
             return View("IndexExpenseAnalysisGroup", context.AnalysisGroupSelectAll());
         }
 
@@ -357,13 +357,14 @@ namespace TrueBooksMVC.Controllers
 
             int id = 0;
             AcHead x = context.AcHeads.OrderByDescending(item => item.AcHeadID).FirstOrDefault();
-            if(x==null)
+            if (x == null)
             {
 
-                id=1;
+                id = 1;
             }
-            else{
-                id=x.AcHeadID+1;
+            else
+            {
+                id = x.AcHeadID + 1;
             }
             context.AcHeadInsert(id, a.AcHeadKey, a.AcHead1, a.AcGroupID, Convert.ToInt32(Session["AcCompanyID"].ToString()), a.Prefix);
             ViewBag.SuccessMsg = "You have successfully created Account Head.";
@@ -469,10 +470,12 @@ namespace TrueBooksMVC.Controllers
 
         //Methods for AcHeadAssign
 
-        public ActionResult IndexAcHeadAssign()
-        {
-            return View(context.AcHeadAssignSelectAll());
-        }
+        //public ActionResult IndexAcHeadAssign()
+        //{
+        //    return View(context.AcHeadAssignSelectAll());
+        //}
+
+       
 
 
 
@@ -536,11 +539,11 @@ namespace TrueBooksMVC.Controllers
 
         public ActionResult AcJournalVoucherCreate()
         {
-            var DebitAndCr = new SelectList(new[] 
+            var DebitAndCr = new SelectList(new[]
                                         {
                                             new { ID = "1", trans = "Dr" },
                                             new { ID = "2", trans = "Cr" },
-                                           
+
                                         },
                                       "ID", "trans", 1);
             ViewBag.Achead = context.AcHeads.ToList();
@@ -594,7 +597,7 @@ namespace TrueBooksMVC.Controllers
             }
             ViewBag.SuccessMsg = "You have successfully added Journal Voucher.";
             return RedirectToAction("AcJournalVoucherIndex");
-            
+
 
 
         }
@@ -675,7 +678,7 @@ namespace TrueBooksMVC.Controllers
                     acjournalDetails.Amount = (-1) * Convert.ToDecimal(data.acJournalDetailsList[i].Amount);
                 }
 
-        
+
                 acjournalDetails.AcJournalID = obj.AcJournalID;
                 acjournalDetails.AcHeadID = data.acJournalDetailsList[i].acHeadID;
                 acjournalDetails.Remarks = data.acJournalDetailsList[i].AcRemark;
@@ -704,7 +707,7 @@ namespace TrueBooksMVC.Controllers
                 v.acHeadID = item.AcHeadID.Value;
                 v.AcHead = x;
                 v.AcRemark = item.Remarks;
-               
+
                 if (item.Amount < 0)
                 {
                     v.IsDebit = 0;
@@ -736,11 +739,11 @@ namespace TrueBooksMVC.Controllers
 
         public ActionResult IndexOpenningBalance()
         {
-            var list = new SelectList(new[] 
+            var list = new SelectList(new[]
             {
                 new { ID = "1", Name = "Cr" },
                 new { ID = "2", Name = "Dr" },
-               
+
             },
             "ID", "Name", 1);
             ViewBag.crdr = list;
@@ -830,11 +833,11 @@ namespace TrueBooksMVC.Controllers
 
         public ActionResult CreateAcBook()
         {
-            var transtypes = new SelectList(new[] 
+            var transtypes = new SelectList(new[]
                                         {
                                             new { ID = "1", trans = "Receipt" },
                                             new { ID = "2", trans = "Payment" },
-                                           
+
                                         },
             "ID", "trans", 1);
 
@@ -865,7 +868,7 @@ namespace TrueBooksMVC.Controllers
 
 
 
-        public JsonResult ExpAllocation(decimal amount,int acheadid)
+        public JsonResult ExpAllocation(decimal amount, int acheadid)
         {
 
             ViewBag.amt = amount;
@@ -889,6 +892,7 @@ namespace TrueBooksMVC.Controllers
         [HttpPost]
         public ActionResult CreateAcBook(AcBookVM v)
         {
+
             string cheque = "";
             string StatusTrans = "";
 
@@ -919,7 +923,7 @@ namespace TrueBooksMVC.Controllers
             ajm.TransType = Convert.ToInt16(v.transtype);
             if (v.transtype == 1)
             {
-                v.TransactionNo = "RE" + (MaxId + 1).ToString().PadLeft(7,'0');
+                v.TransactionNo = "RE" + (MaxId + 1).ToString().PadLeft(7, '0');
                 //new { ID = "1", trans = "Receipt" },
                 // new { ID = "2", trans = "Payment" },
             }
@@ -948,14 +952,14 @@ namespace TrueBooksMVC.Controllers
             else if (v.TransactionType == "CBP" || v.TransactionType == "BKP")
                 StatusTrans = "P";
 
-            if (v.chequeno!=null)
+            if (v.chequeno != null)
             {
 
                 var bankdetailid = (from c in context.AcBankDetails orderby c.AcBankDetailID descending select c.AcBankDetailID).FirstOrDefault();
-                
+
 
                 AcBankDetail acbankDetails = new AcBankDetail();
-                acbankDetails.AcBankDetailID = bankdetailid + 1; 
+                acbankDetails.AcBankDetailID = bankdetailid + 1;
                 acbankDetails.AcJournalID = ajm.AcJournalID;
                 acbankDetails.BankName = v.bankname;
                 acbankDetails.ChequeDate = v.chequedate;
@@ -971,16 +975,16 @@ namespace TrueBooksMVC.Controllers
                 {
                     acbankDetails.PartyName = "P";
                 }
-                DAL.InsertOrUpdateAcBankDetails(acbankDetails,0);
+                DAL.InsertOrUpdateAcBankDetails(acbankDetails, 0);
             }
 
-            decimal TotalAmt=0;
+            decimal TotalAmt = 0;
 
-             for (int i = 0; i < v.AcJDetailVM.Count; i++)
+            for (int i = 0; i < v.AcJDetailVM.Count; i++)
             {
-              
-                  TotalAmt=TotalAmt + Convert.ToDecimal(v.AcJDetailVM[i].Amt);
-               
+
+                TotalAmt = TotalAmt + Convert.ToDecimal(v.AcJDetailVM[i].Amt);
+
             }
 
 
@@ -1007,11 +1011,11 @@ namespace TrueBooksMVC.Controllers
 
 
             //int maxAcJDetailID = 0;
-            
+
             for (int i = 0; i < v.AcJDetailVM.Count; i++)
             {
                 AcJournalDetail acJournalDetail = new AcJournalDetail();
-                
+
                 maxAcJDetailID = (from c in context.AcJournalDetails orderby c.AcJournalDetailID descending select c.AcJournalDetailID).FirstOrDefault();
 
                 acJournalDetail.AcJournalDetailID = maxAcJDetailID + 1;
@@ -1031,7 +1035,7 @@ namespace TrueBooksMVC.Controllers
                 }
 
                 context.AcJournalDetails.Add(acJournalDetail);
-              //  context.Entry(acJournalDetail).State = EntityState.Added;
+                //  context.Entry(acJournalDetail).State = EntityState.Added;
                 context.SaveChanges();
                 context.Entry(acJournalDetail).State = EntityState.Detached;
 
@@ -1051,9 +1055,6 @@ namespace TrueBooksMVC.Controllers
 
             }
 
-           
-
-
             ViewBag.SuccessMsg = "You have successfully added Record";
             return View("IndexAcBook", context.AcJournalMasterSelectAll(Convert.ToInt32(Session["fyearid"].ToString()), Convert.ToInt32(Session["AcCompanyID"].ToString())));
 
@@ -1061,7 +1062,7 @@ namespace TrueBooksMVC.Controllers
 
         public JsonResult AcBookDetails(int DetailId)
         {
-           var lstAcJournalDetails = DAL.GetAcJournalDetails(DetailId);
+            var lstAcJournalDetails = DAL.GetAcJournalDetails(DetailId);
             return Json(lstAcJournalDetails, JsonRequestBehavior.AllowGet);
         }
 
@@ -1110,7 +1111,7 @@ namespace TrueBooksMVC.Controllers
 
             if (v.chequeno != null)
             {
-               
+
                 if (v.AcBankDetailID > 0)
                 {
                     maxBankDetailID = v.AcBankDetailID;
@@ -1118,7 +1119,7 @@ namespace TrueBooksMVC.Controllers
                 }
                 else
                 {
-                  var  bankdetailid = (from c in context.AcBankDetails orderby c.AcBankDetailID descending select c.AcBankDetailID).FirstOrDefault();
+                    var bankdetailid = (from c in context.AcBankDetails orderby c.AcBankDetailID descending select c.AcBankDetailID).FirstOrDefault();
                     v.AcBankDetailID = bankdetailid + 1;
                     isexistbankdetail = 0;
 
@@ -1131,8 +1132,8 @@ namespace TrueBooksMVC.Controllers
                 acbankDetails.PartyName = v.partyname;
                 acbankDetails.AcJournalID = ajm.AcJournalID;
                 acbankDetails.StatusTrans = StatusTrans;
-                acbankDetails.StatusReconciled = false;   
-                if(acbankDetails.BankName==null)
+                acbankDetails.StatusReconciled = false;
+                if (acbankDetails.BankName == null)
                 {
                     acbankDetails.BankName = "B";
                 }
@@ -1144,7 +1145,7 @@ namespace TrueBooksMVC.Controllers
             }
             else
             {
-               
+
             }
 
             decimal TotalAmt = 0;
@@ -1182,8 +1183,8 @@ namespace TrueBooksMVC.Controllers
                     //  IdExists = (from c in context.AcJournalDetails where c.AcJournalDetailID == v.AcJDetailVM[i].AcJournalDetID select c.AcJournalDetailID).FirstOrDefault();
                     IdExists = v.AcJDetailVM[i].AcJournalDetID;
                 }
-              //  AcJournalDetID
-                if(IdExists > 0)
+                //  AcJournalDetID
+                if (IdExists > 0)
                 {
                     acJournalDetail.AcJournalDetailID = v.AcJDetailVM[i].AcJournalDetID;
                 }
@@ -1204,7 +1205,7 @@ namespace TrueBooksMVC.Controllers
                 {
                     acJournalDetail.Amount = -v.AcJDetailVM[i].Amt;
                 }
-                if(acJournalDetail.AnalysisHeadID==null)
+                if (acJournalDetail.AnalysisHeadID == null)
                 {
                     acJournalDetail.AnalysisHeadID = 0;
                 }
@@ -1254,9 +1255,9 @@ namespace TrueBooksMVC.Controllers
 
             string DeleteJournalDetails = Request["deletedJournalDetails"];
             string[] DeleteJournalDetailsArr = DeleteJournalDetails.Split(',');
-            foreach(string JournalDetails in DeleteJournalDetailsArr)
+            foreach (string JournalDetails in DeleteJournalDetailsArr)
             {
-                int iDeleteJournalDetails=0;
+                int iDeleteJournalDetails = 0;
                 int.TryParse(JournalDetails, out iDeleteJournalDetails);
                 DAL.DeleteAcJournalDetail(iDeleteJournalDetails);
             }
@@ -1407,7 +1408,7 @@ namespace TrueBooksMVC.Controllers
             v.paytype = Convert.ToInt16(ajm.PaymentType);
             v.transtype = Convert.ToInt32(ajm.TransType);
 
-            
+
 
             if (abank != null)
             {
@@ -1420,11 +1421,11 @@ namespace TrueBooksMVC.Controllers
 
 
 
-            var transtypes = new SelectList(new[] 
+            var transtypes = new SelectList(new[]
                                         {
                                             new { ID = "1", trans = "Receipt" },
                                             new { ID = "2", trans = "Payment" },
-                                           
+
                                         },
            "ID", "trans", 1);
             var paytypes = new SelectList(new[]{
@@ -1458,9 +1459,9 @@ namespace TrueBooksMVC.Controllers
         }
 
 
-      
 
-        public JsonResult GetAcJDetails(Nullable<int> id,int? transtype)
+
+        public JsonResult GetAcJDetails(Nullable<int> id, int? transtype)
         {
             //var acjlist = (from c in context.AcJournalDetails where c.AcJournalID == id select c).ToList();
 
@@ -1475,7 +1476,7 @@ namespace TrueBooksMVC.Controllers
             }
 
             var acjlist = context.AcJournalDetailSelectByAcJournalID(id, TransType).ToList();
-            
+
             List<AcJournalDetailVM> AcJDetailVM = new List<AcJournalDetailVM>();
             foreach (var item in acjlist)
             {
@@ -1508,7 +1509,7 @@ namespace TrueBooksMVC.Controllers
 
             var acjlist = DAL.GetAcJDetailsExpenseAllocation(AcJournalDetailID);
 
-                //(from a in context.AcAnalysisHeadAllocations where a.AcjournalDetailID == AcJournalDetailID select a).ToList();
+            //(from a in context.AcAnalysisHeadAllocations where a.AcjournalDetailID == AcJournalDetailID select a).ToList();
 
 
             return Json(acjlist, JsonRequestBehavior.AllowGet);
@@ -1620,7 +1621,7 @@ namespace TrueBooksMVC.Controllers
         //}
 
 
-        public JsonResult ShowBankReconciliation(string acheadid,string from,string to)
+        public JsonResult ShowBankReconciliation(string acheadid, string from, string to)
         {
 
             int vacheadid = 0;
@@ -1684,7 +1685,7 @@ namespace TrueBooksMVC.Controllers
         }
 
 
-    [HttpPost]
+        [HttpPost]
         public ActionResult ShowBankReconciliation(List<TrueBooksMVC.Models.BankReconcilVM> lst)
         {
             var selectedrecords = lst.Where(item => item.IsSelected == true).ToList();
@@ -1769,11 +1770,11 @@ namespace TrueBooksMVC.Controllers
 
         public ActionResult CreatePDCTransaction()
         {
-            var transtypes = new SelectList(new[] 
+            var transtypes = new SelectList(new[]
                                         {
                                             new { ID = "1", trans = "Receipt" },
                                             new { ID = "2", trans = "Payment" },
-                                           
+
                                         },
                                    "ID", "trans", 1);
 
@@ -1883,7 +1884,7 @@ namespace TrueBooksMVC.Controllers
                 {
                     a.Amount = -pdctrans.AcJMDetailVM[i].Amt;
                 }
-            
+
                 a.Remarks = pdctrans.AcJMDetailVM[i].Rem;
                 a.BranchID = Convert.ToInt32(Session["AcCompanyID"].ToString());
 
@@ -1929,11 +1930,11 @@ namespace TrueBooksMVC.Controllers
 
         public ActionResult EditPDC(int id)
         {
-            var transtypes = new SelectList(new[] 
+            var transtypes = new SelectList(new[]
                                         {
                                             new { ID = "1", trans = "Receipt" },
                                             new { ID = "2", trans = "Payment" },
-                                           
+
                                         },
                                  "ID", "trans", 1);
 
@@ -2033,7 +2034,7 @@ namespace TrueBooksMVC.Controllers
 
 
             AcMemoJournalDetail acmd = new AcMemoJournalDetail();
-          
+
             acmd.AcMemoJournalID = acm.AcMemoJournalID;
             acmd.AcHeadID = pdctrans.AcHead;
             acmd.Amount = total * (-1);
@@ -2042,13 +2043,13 @@ namespace TrueBooksMVC.Controllers
             context.AcMemoJournalDetails.Add(acmd);
             context.SaveChanges();
 
-           
+
 
             for (int i = 0; i < pdctrans.AcJMDetailVM.Count; i++)
             {
 
                 AcMemoJournalDetail a = new AcMemoJournalDetail();
-            
+
                 a.AcMemoJournalID = acm.AcMemoJournalID;
                 a.AcHeadID = pdctrans.AcJMDetailVM[i].AcHeadID;
                 a.Amount = pdctrans.AcJMDetailVM[i].Amt;
@@ -2108,7 +2109,7 @@ namespace TrueBooksMVC.Controllers
                 objPDCOutstandingVM.AcMemoJournalID = item.AcMemoJournalID;
                 objPDCOutstandingVM.IsSelected = false;
                 objPDCOutstandingVMList.Add(objPDCOutstandingVM);
-               
+
             }
 
             var view = this.RenderPartialView2("ucPDCOutstandings", objPDCOutstandingVMList);
@@ -2164,68 +2165,68 @@ namespace TrueBooksMVC.Controllers
             return View();
         }
 
-       
-        public JsonResult GetNewFYear(string cFyearFrom,string cFyearTo)
+
+        public JsonResult GetNewFYear(string cFyearFrom, string cFyearTo)
         {
             YearEndProcessVM v = new YearEndProcessVM();
             //using (StreamWriter _logData = new StreamWriter(System.Web.Hosting.HostingEnvironment.MapPath("~/Logyearend.txt"), true))
             //{
-                //try
-                //{
-                    //_logData.WriteLine("Fyear :" + cFyearFrom);
-                    //_logData.WriteLine("toyear :" + cFyearTo);
+            //try
+            //{
+            //_logData.WriteLine("Fyear :" + cFyearFrom);
+            //_logData.WriteLine("toyear :" + cFyearTo);
 
 
-                    v.CurrentFYearFrom = cFyearFrom;
-                    v.CurrentFYearTo = cFyearTo;
+            v.CurrentFYearFrom = cFyearFrom;
+            v.CurrentFYearTo = cFyearTo;
 
-                    var fdate = cFyearFrom.Split('/');
-                    var tdate = cFyearTo.Split('/');
-                    if(Convert.ToInt32(fdate[0])>12)
-                    {
-                        cFyearFrom = fdate[1] + "/" + fdate[0] + "/" + fdate[2];
+            var fdate = cFyearFrom.Split('/');
+            var tdate = cFyearTo.Split('/');
+            if (Convert.ToInt32(fdate[0]) > 12)
+            {
+                cFyearFrom = fdate[1] + "/" + fdate[0] + "/" + fdate[2];
 
-                    }
-                    if (Convert.ToInt32(tdate[0]) > 12)
-                    {
-                        cFyearTo = tdate[1] + "/" + tdate[0] + "/" + tdate[2];
+            }
+            if (Convert.ToInt32(tdate[0]) > 12)
+            {
+                cFyearTo = tdate[1] + "/" + tdate[0] + "/" + tdate[2];
 
-                    }
-                    DateTime tnewfyear = Convert.ToDateTime(cFyearFrom).AddYears(1);
+            }
+            DateTime tnewfyear = Convert.ToDateTime(cFyearFrom).AddYears(1);
 
-                    //_logData.WriteLine("tnewfyear :" + tnewfyear);
-                    v.NewFYearFrom = tnewfyear.ToString("dd/MM/yyyy");
-                    //_logData.WriteLine("NewFYearFrom :" + v.NewFYearFrom);
+            //_logData.WriteLine("tnewfyear :" + tnewfyear);
+            v.NewFYearFrom = tnewfyear.ToString("dd/MM/yyyy");
+            //_logData.WriteLine("NewFYearFrom :" + v.NewFYearFrom);
 
-                    DateTime tnewtyear = Convert.ToDateTime(cFyearTo).AddYears(1);
-                    //_logData.WriteLine("tnewtyear :" + tnewtyear);
+            DateTime tnewtyear = Convert.ToDateTime(cFyearTo).AddYears(1);
+            //_logData.WriteLine("tnewtyear :" + tnewtyear);
 
-                    v.NewFYearTo = tnewtyear.ToString("dd/MM/yyyy");
-                    //_logData.WriteLine("tnewtyear :" + v.NewFYearTo);
+            v.NewFYearTo = tnewtyear.ToString("dd/MM/yyyy");
+            //_logData.WriteLine("tnewtyear :" + v.NewFYearTo);
 
-                    v.Reference = tnewfyear.Year + "-" + tnewtyear.Year;
-                    //_logData.WriteLine("Reference :" + v.Reference);
+            v.Reference = tnewfyear.Year + "-" + tnewtyear.Year;
+            //_logData.WriteLine("Reference :" + v.Reference);
 
-                //}
-                //catch(Exception ex)
-                //{
-                //    _logData.WriteLine("Error :" +ex.Message.ToString());
+            //}
+            //catch(Exception ex)
+            //{
+            //    _logData.WriteLine("Error :" +ex.Message.ToString());
 
-                //}
+            //}
             //}
             return Json(v, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult BindOpenHead(string NewYearFrom, string NewYearTo,string ref1)
+        public JsonResult BindOpenHead(string NewYearFrom, string NewYearTo, string ref1)
         {
-                SHIPPING_FinalEntities context1=new SHIPPING_FinalEntities();
-                int NewFYearID=0;
-                AcFinancialYear a=(from c in context1.AcFinancialYears where c.ReferenceName==ref1 select c).FirstOrDefault();
+            SHIPPING_FinalEntities context1 = new SHIPPING_FinalEntities();
+            int NewFYearID = 0;
+            AcFinancialYear a = (from c in context1.AcFinancialYears where c.ReferenceName == ref1 select c).FirstOrDefault();
 
-                if (a != null)
-                {
-                    NewFYearID = a.AcFinancialYearID;
-                }
+            if (a != null)
+            {
+                NewFYearID = a.AcFinancialYearID;
+            }
             var fdate = NewYearFrom.Split('/');
             var tdate = NewYearTo.Split('/');
             if (Convert.ToInt32(fdate[0]) > 12)
@@ -2243,12 +2244,12 @@ namespace TrueBooksMVC.Controllers
             int res = context1.SaveFinancialYear(Convert.ToInt32(Session["fyearid"].ToString()), Convert.ToInt32(Session["AcCompanyID"].ToString()), Convert.ToDateTime(NewYearFrom), Convert.ToDateTime(NewYearTo), ref1, Convert.ToInt32(Session["UserID"].ToString()), NewFYearID);
             var Openbal = context1.GetOpeningBalanceForYE(Convert.ToInt32(Session["fyearid"].ToString()), Convert.ToInt32(Session["AcCompanyID"].ToString()));
             int res1 = 10;
-              return Json(Openbal, JsonRequestBehavior.AllowGet);
+            return Json(Openbal, JsonRequestBehavior.AllowGet);
         }
         public JsonResult BindPLOpenBalance()
         {
             SHIPPING_FinalEntities context1 = new SHIPPING_FinalEntities();
-              var Openbal = context1.GetPLOpeningAmount(Convert.ToInt32(Session["fyearid"].ToString()), Convert.ToInt32(Session["AcCompanyID"].ToString()));
+            var Openbal = context1.GetPLOpeningAmount(Convert.ToInt32(Session["fyearid"].ToString()), Convert.ToInt32(Session["AcCompanyID"].ToString()));
             return Json(Openbal, JsonRequestBehavior.AllowGet);
         }
         public JsonResult BindPLOpenBalanceFinish(string reference)
@@ -2274,8 +2275,8 @@ namespace TrueBooksMVC.Controllers
 
             var lstAcHead = context.AcHeadSelectAll(Convert.ToInt32(Session["AcCompanyID"].ToString()));
             var lstAcJournalMaster = new List<AcJournalMaster>();
-            var acJournalMaster=new AcJournalMaster();
-            List<AcJournalDetail> lstAcJournalDetail=new List<AcJournalDetail>();
+            var acJournalMaster = new AcJournalMaster();
+            List<AcJournalDetail> lstAcJournalDetail = new List<AcJournalDetail>();
             AcJournalDetail acJournalDetail = new AcJournalDetail(); ;
             var Openbal = context.GetPLOpeningAmount(Convert.ToInt32(Session["fyearid"].ToString()), Convert.ToInt32(Session["AcCompanyID"].ToString()));
 
@@ -2283,7 +2284,7 @@ namespace TrueBooksMVC.Controllers
             {
                 lstAcJournalDetail = new List<AcJournalDetail>();
                 decimal Amount = Convert.ToDecimal(item.Balance);
-                if(item.Balance==null)
+                if (item.Balance == null)
                 {
                     Amount = 0;
                 }
@@ -2314,7 +2315,7 @@ namespace TrueBooksMVC.Controllers
                     lstAcJournalDetail.Add(acJournalDetail);
 
                     acJournalDetail = new AcJournalDetail();
-                    var achead = (from d in  context.AcHeads where d.AcHeadID==30 select d).FirstOrDefault();
+                    var achead = (from d in context.AcHeads where d.AcHeadID == 30 select d).FirstOrDefault();
                     acJournalDetail.AcHeadID = achead.AcHeadID;
                     acJournalDetail.Amount = Amount;
                     acJournalDetail.Remarks = "";
@@ -2331,20 +2332,20 @@ namespace TrueBooksMVC.Controllers
                 c1.AcJournalMasters.Add(item);
                 c1.SaveChanges();
             }
-          
-            AddInAcOpeningMaster(lstAcHead.ToList(),ref1);
+
+            AddInAcOpeningMaster(lstAcHead.ToList(), ref1);
 
         }
-        private void AddInAcOpeningMaster(List<AcHeadSelectAll_Result> lstAcHead,string ref1)
+        private void AddInAcOpeningMaster(List<AcHeadSelectAll_Result> lstAcHead, string ref1)
         {
             //AcOpening enter Assets and expenses
             List<AcOpeningMaster> lstAcOpeningMaster = new List<AcOpeningMaster>();
             Int32 acFinancialYearID = (from c in context.AcFinancialYears where c.ReferenceName == ref1 select c.AcFinancialYearID).FirstOrDefault(); ;
-            if(acFinancialYearID==0)
+            if (acFinancialYearID == 0)
             {
                 acFinancialYearID = Convert.ToInt32(Session["fyearid"]);
             }
-            var acOpeningMaster=new AcOpeningMaster();
+            var acOpeningMaster = new AcOpeningMaster();
             var Openbal = context.GetPLOpeningAmount(Convert.ToInt32(Session["fyearid"].ToString()), Convert.ToInt32(Session["AcCompanyID"].ToString()));
 
             foreach (var item in Openbal)
@@ -2359,7 +2360,7 @@ namespace TrueBooksMVC.Controllers
                     acOpeningMaster = new AcOpeningMaster();
                     acOpeningMaster.AcFinancialYearID = acFinancialYearID;
                     acOpeningMaster.OPDate = DateTime.Now;
-                    acOpeningMaster.AcHeadID =item.AcHeadID;
+                    acOpeningMaster.AcHeadID = item.AcHeadID;
                     acOpeningMaster.Amount = Amount;
                     acOpeningMaster.UserID = Convert.ToInt32(Session["userid"]);
                     lstAcOpeningMaster.Add(acOpeningMaster);
@@ -2392,11 +2393,136 @@ namespace TrueBooksMVC.Controllers
                 context.AcOpeningMasters.Add(item);
                 ID = ID - 1;
             }
-           var  sresult = context.SaveChanges();
+            var sresult = context.SaveChanges();
             context.Dispose();
 
-           
+
         }
+        public ActionResult IndexAcHeadAssign()
+        {
+            var AcheadControl = context.AcHeadControls.ToList();
+            var AcheadControlList = new List<AcHeadControlList>();
+            foreach (var item in AcheadControl)
+            {
+                var model = new AcHeadControlList();
+                model.AccountName = item.AccountName;
+                model.Id = item.Id;
+                model.PageControlName = context.PageControlMasters.Where(d => d.Id == item.Pagecontrol).FirstOrDefault().ControlName;
+                model.PageControlId = item.Pagecontrol;
+                model.PageControlField = item.Remarks;
+                model.AcHeadId = item.AccountHeadID;
+                model.AccountHeadName = context.AcHeads.Find(item.AccountHeadID).AcHead1;
+                model.Check_Sum = Convert.ToBoolean(item.CheckSum) ? "Page Field Value":"Sum Value";
+                if (item.Remarks == 0)
+                {
+                    model.PageControlFieldName = "Sum";
+                }
+                else
+                {
+                    model.PageControlFieldName = context.PageControlFields.Where(d => d.Id == item.Remarks).FirstOrDefault().FieldName;
+
+                }
+                model.AccountNature = (Convert.ToBoolean(item.AccountNature)) ? "Debit" : "Credit";
+                AcheadControlList.Add(model);
+            }
+            return View(AcheadControlList);
+        }
+        [HttpGet]
+        public ActionResult CreateAcHeadControl()
+        {
+
+            ViewBag.AccountHeadID = context.AcHeadSelectAll(Convert.ToInt32(Session["AcCompanyID"].ToString()));
+            var PageControl = context.PageControlMasters.ToList();
+            ViewBag.Pagecontrol = new SelectList(PageControl, "Id", "ControlName");
+            var PageControlField = context.PageControlFields.ToList();
+            ViewBag.Remarks = new SelectList(PageControlField, "Id", "FieldName");
+
+            return View();
+        }
+        [HttpPost]
+        public ActionResult CreateAcHeadControl(AcHeadControl acheadcontrol)
+        {
+            ViewBag.AccountHeadID = context.AcHeadSelectAll(Convert.ToInt32(Session["AcCompanyID"].ToString())).ToList();
+            var PageControl = context.PageControlMasters.ToList();
+            ViewBag.Pagecontrol = new SelectList(PageControl, "Id", "ControlName");
+            var PageControlField = context.PageControlFields.ToList();
+            ViewBag.Remarks = new SelectList(PageControlField, "Id", "FieldName");
+
+            var data = new AcHeadControl();
+            data.AccountHeadID = acheadcontrol.AccountHeadID;
+            data.AccountName = acheadcontrol.AccountName;
+            data.AccountNature = acheadcontrol.AccountNature;
+            data.Remarks = acheadcontrol.Remarks;
+            data.Pagecontrol = acheadcontrol.Pagecontrol;
+                if (ModelState.IsValid)
+            {
+                if(acheadcontrol.Remarks==0)
+                {
+                    data.CheckSum = false;
+                }
+                else
+                {
+                    data.CheckSum = true;
+                }
+                context.AcHeadControls.Add(data);
+                context.SaveChanges();
+                ViewBag.SuccessMsg = "You have successfully added Account Assign Head";
+                return RedirectToAction("IndexAcHeadAssign");
+            }
+            return View(acheadcontrol);
+        }
+        [HttpGet]
+        public ActionResult EditAcHeadControl(int Id)
+        {
+            var data = context.AcHeadControls.Find(Id);
+
+            ViewBag.AccountHeadID = context.AcHeads.ToList();
+            var PageControl = context.PageControlMasters.ToList();
+            ViewBag.Pagecontrol = PageControl;
+            var PageControlField = context.PageControlFields.Where(d=>d.PageControlId==data.Pagecontrol).ToList();
+            ViewBag.Remarks = PageControlField;
+
+            return View(data);
+        }
+        [HttpPost]
+        public ActionResult EditAcHeadControl(AcHeadControl acheadcontrol)
+        {
+            var data = context.AcHeadControls.Find(acheadcontrol.Id);
+
+            ViewBag.AccountHeadID = context.AcHeads.ToList();
+            var PageControl = context.PageControlMasters.ToList();
+            ViewBag.Pagecontrol = PageControl;
+            var PageControlField = context.PageControlFields.Where(d => d.PageControlId == data.Pagecontrol).ToList();
+            ViewBag.Remarks = PageControlField;
+
+
+            data.AccountHeadID = acheadcontrol.AccountHeadID;
+            data.AccountName = acheadcontrol.AccountName;
+            data.AccountNature = acheadcontrol.AccountNature;
+            data.Remarks = acheadcontrol.Remarks;
+            data.Pagecontrol = acheadcontrol.Pagecontrol;
+            if (ModelState.IsValid)
+            {
+                if (acheadcontrol.Remarks == 0)
+                {
+                    data.CheckSum = false;
+                }
+                else
+                {
+                    data.CheckSum = true;
+                }
+                //context.AcHeadControls.Add(data);
+                context.SaveChanges();
+                ViewBag.SuccessMsg = "You have successfully added Account Assign Head";
+                return RedirectToAction("IndexAcHeadAssign");
+            }
+            return View(acheadcontrol);
+        }
+        public JsonResult GetPageControlFields(int id)
+        {
+            return Json(new SelectList(context.PageControlFields.Where(c => c.PageControlId == id).OrderBy(o => o.Id), "Id", "FieldName"), JsonRequestBehavior.AllowGet);
+        }
+
 
 
 
@@ -2437,5 +2563,5 @@ public static class MvcHelpers
         }
     }
 
-  
+
 }

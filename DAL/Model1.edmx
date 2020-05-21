@@ -128,6 +128,19 @@ warning 6002: The table/view 'malusoft_shipping.dbo.AcHeadAssign' does not have 
           <Property Name="CashControlAcID" Type="int" />
           <Property Name="SupplierControlAcID" Type="int" />
         </EntityType>
+        <EntityType Name="AcHeadControl">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Pagecontrol" Type="int" />
+          <Property Name="AccountControlHead" Type="int" />
+          <Property Name="AccountName" Type="nvarchar(max)" />
+          <Property Name="AccountHeadID" Type="int" />
+          <Property Name="AccountNature" Type="bit" />
+          <Property Name="Remarks" Type="int" />
+          <Property Name="CheckSum" Type="bit" />
+        </EntityType>
         <EntityType Name="AcJournalDetail">
           <Key>
             <PropertyRef Name="AcJournalDetailID" />
@@ -750,6 +763,21 @@ warning 6002: The table/view 'malusoft_shipping.dbo.AcHeadAssign' does not have 
           <Property Name="IsModify" Type="bit" />
           <Property Name="IsDelete" Type="bit" />
           <Property Name="Isprint" Type="bit" />
+        </EntityType>
+        <EntityType Name="PageControlField">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PageControlId" Type="int" />
+          <Property Name="FieldName" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="PageControlMaster">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ControlName" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="PaymentTerms">
           <Key>
@@ -2361,6 +2389,7 @@ warning 6002: The table/view 'malusoft_shipping.dbo.qrySupplierOutstanding' does
           <EntitySet Name="AcFinancialYear" EntityType="Self.AcFinancialYear" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AcGroup" EntityType="Self.AcGroup" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AcHead" EntityType="Self.AcHead" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AcHeadControl" EntityType="Self.AcHeadControl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AcJournalDetail" EntityType="Self.AcJournalDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AcJournalMaster" EntityType="Self.AcJournalMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AcMemoBankDetails" EntityType="Self.AcMemoBankDetails" Schema="dbo" store:Type="Tables" />
@@ -2399,6 +2428,8 @@ warning 6002: The table/view 'malusoft_shipping.dbo.qrySupplierOutstanding' does
           <EntitySet Name="Location" EntityType="Self.Location" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Menu" EntityType="Self.Menu" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MenuAccessLevel" EntityType="Self.MenuAccessLevel" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PageControlField" EntityType="Self.PageControlField" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PageControlMaster" EntityType="Self.PageControlMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PaymentTerms" EntityType="Self.PaymentTerms" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Port" EntityType="Self.Port" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductServices" EntityType="Self.ProductServices" Schema="dbo" store:Type="Tables" />
@@ -3894,6 +3925,9 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
             <Parameter Name="AcFinancialYearID" Mode="In" Type="Int32" />
             <Parameter Name="AcCompanyID" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="PageControlFields" EntityType="SHIPPING_FinalModel.PageControlField" />
+          <EntitySet Name="PageControlMasters" EntityType="SHIPPING_FinalModel.PageControlMaster" />
+          <EntitySet Name="AcHeadControls" EntityType="SHIPPING_FinalModel.AcHeadControl" />
           </EntityContainer>
         <ComplexType Name="SP_GetUserDetailForEdit_Result">
           <Property Type="Int32" Name="UserID" Nullable="false" />
@@ -7069,6 +7103,34 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Type="String" Name="AcHead" Nullable="true" MaxLength="50" />
           <Property Type="Decimal" Name="Balance" Nullable="true" Precision="19" />
         </ComplexType>
+        <EntityType Name="PageControlField">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PageControlId" Type="Int32" />
+          <Property Name="FieldName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="PageControlMaster">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ControlName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="AcHeadControl">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Pagecontrol" Type="Int32" />
+          <Property Name="AccountControlHead" Type="Int32" />
+          <Property Name="AccountName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AccountHeadID" Type="Int32" />
+          <Property Name="AccountNature" Type="Boolean" />
+          <Property Name="Remarks" Type="Int32" />
+          <Property Name="CheckSum" Type="Boolean" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -10533,6 +10595,37 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="PageControlFields">
+            <EntityTypeMapping TypeName="SHIPPING_FinalModel.PageControlField">
+              <MappingFragment StoreEntitySet="PageControlField">
+                <ScalarProperty Name="FieldName" ColumnName="FieldName" />
+                <ScalarProperty Name="PageControlId" ColumnName="PageControlId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PageControlMasters">
+            <EntityTypeMapping TypeName="SHIPPING_FinalModel.PageControlMaster">
+              <MappingFragment StoreEntitySet="PageControlMaster">
+                <ScalarProperty Name="ControlName" ColumnName="ControlName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AcHeadControls">
+            <EntityTypeMapping TypeName="SHIPPING_FinalModel.AcHeadControl">
+              <MappingFragment StoreEntitySet="AcHeadControl">
+                <ScalarProperty Name="CheckSum" ColumnName="CheckSum" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="AccountNature" ColumnName="AccountNature" />
+                <ScalarProperty Name="AccountHeadID" ColumnName="AccountHeadID" />
+                <ScalarProperty Name="AccountName" ColumnName="AccountName" />
+                <ScalarProperty Name="AccountControlHead" ColumnName="AccountControlHead" />
+                <ScalarProperty Name="Pagecontrol" ColumnName="Pagecontrol" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
          
           </EntityContainerMapping>
       </Mapping>
