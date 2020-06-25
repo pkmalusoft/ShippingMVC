@@ -67,6 +67,7 @@
                                                 <th>Invoice Date</th>
                                                 <th>Due Date</th>
                                                 <th>Client</th>
+                                                <th>Amount</th>
                                                 <th style="width: 10%">Action</th>
                                             </tr>
                                         </thead>
@@ -77,6 +78,7 @@
                                                 <th>Invoice Date</th>
                                                 <th>>Due Date</th>
                                                 <th>Client</th>
+                                                <th>Amount</th>
                                                 <th style="width: 10%"></th>
                                             </tr>
                                         </tfoot>
@@ -89,22 +91,25 @@
                                                 <td class="tdtarget">@Html.DisplayFor(modelItem =>item.SalesInvoiceDate, "{0:dd/MMM/yyyy}")</td>
                                                 <td class="tdtarget">@Html.DisplayFor(modelItem => item.DueDate, "{0:dd/MMM/yyyy}")</td>
                                                 <td class="tdtarget">@Html.DisplayFor(modelItem => item.Remarks)</td>
+                                                <td class="tdtarget">@Html.DisplayFor(modelItem => item.OtherCharges)</td>
                                                 <td style="width: 10%">
                                                     @if (ismodify)
                                                     {
-                                                    <a href='@Url.Action("Invoice", "SalesInvoice", new { id = item.SalesInvoiceID })' data-toggle="tooltip" data-placement="right" title="Edit"><i class="fa fa-pencil"></i></a>
+                                                        <a href='@Url.Action("Invoice", "SalesInvoice", new { id = item.SalesInvoiceID })' data-toggle="tooltip" data-placement="right" title="Edit"><i class="fa fa-pencil"></i></a>
                                                     } &vert;&nbsp;
                                                     @*<a href='@Url.Action("DeleteJob", "Job", new { id = item.JobID })' data-toggle="tooltip" data-placement="right" title="Delete"><i class="fa fa-times-circle"></i></a>| *@
                                                     @if (isdelete)
                                                     {
-                                                    <a href="#" onclick="DeleteInvoice(InvoiceId=@item.SalesInvoiceID)"><i class="fa fa-times"></i></a>
+                                                        <a href="#" onclick="DeleteInvoice(InvoiceId=@item.SalesInvoiceID)"><i class="fa fa-times"></i></a>
                                                     }
                                                     &vert;&nbsp;
                                                     @if (item.SalesInvoiceID > 0)
                                                     {
                                                         if (isprint)
                                                         {
-                                                        <a href="/Reports/SalesInvoiceReport.aspx?id=@item.SalesInvoiceID" target="_blank" id = "@item.SalesInvoiceID" data-toggle="tooltip" data-placement="right" title="Print"><i class="fa fa-print"></i></a>
+                                                            @*<a href="/Reports/SalesInvoiceReport.aspx?id=@item.SalesInvoiceID" target="_blank" id = "@item.SalesInvoiceID" data-toggle="tooltip" data-placement="right" title="Print"><i class="fa fa-print"></i></a>*@
+                                                            <a href="/SalesInvoice/InvoiceReport?id=@item.SalesInvoiceID" @*target="_blank"*@ id="@item.SalesInvoiceID" data-toggle="tooltip" data-placement="right" title="Print"><i class="fa fa-print"></i></a>
+
                                                         }
                                                     }
                                                 </td>

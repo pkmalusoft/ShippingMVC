@@ -216,19 +216,19 @@
 
 </section>
 
-<section class="content jobform">
+<section class="content">
     <div id="date" style="color:red;display:none;margin-left:10px;">*Please select valid date</div>
     <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
     <div class="row no-margin">
 
-        <div class="col-md-6">
+        <div class="col-md-4 col-md-offset-2">
 
             <label class="headinglabel required">From Date</label>
 
             <input type="text" id="frmdate" class="form-control" />
 
         </div>
-        <div class="col-md-6">
+        <div class="col-md-4">
             <label class="headinglabel required">To Date</label>
 
 
@@ -240,13 +240,13 @@
 
 
     <div class="row no-margin" style="padding-top:10px;">
-        <div class="col-md-6">
+        <div class="col-md-4 col-md-offset-2">
             <label class="headinglabel">Account</label>
 
             @Html.DropDownList("AcHeadID", new SelectList(ViewBag.daybook, "AcHeadID", "AcHead1"), "Select", new { @class = "form-control" })
 
         </div>
-        <div class="col-md-6">
+        <div class="col-md-4">
             <label class="headinglabel">Operator</label>
 
             @Html.DropDownList("Opr", new List<SelectListItem> { new SelectListItem { Text = "All", Value = "0" }, new SelectListItem { Text = "Greater Then", Value = "1" }, new SelectListItem { Text = "Less Then", Value = "2" }, new SelectListItem { Text = "Between", Value = "3" } }, new { @class = "form-control" })
@@ -258,19 +258,19 @@
     </div>
 
     <div class="row no-margin" style="padding-top:10px">
-        <div class="col-md-6" ">
+        <div class="col-md-4 col-md-offset-2">
             <label class="headinglabel">Amount from</label>
-            <input type="text" id=famount" class="form-control" />
+            <input type="text" id="famount" class="form-control" />
         </div>
-        <div class="col-md-6">
+        <div class="col-md-4">
             <label class="headinglabel">Amount To</label>
             <input type="text" id="tamount" class="form-control" />
 
         </div>
     </div>
     <div class="row no-margin" style="padding-top:10px">
-        <div class="col-md-12 butdivs">
-            <button id="btnsearch" class="btn btn-primary btnwid sidebar-toggle" data-toggle="offcanvas">Generate</button>
+        <div class="col-md-10 butdivs">
+            <input type="button" id="btnsearch" class="btn btn-primary btnwid sidebar-toggle"  value="Generate"/>
         </div>
 
 
@@ -285,7 +285,7 @@
 
 
     <div class="row">
-        <div class="col-md-11" id="result">
+        <div class="col-md-8 col-md-offset-2" id="result">
 
         </div>
     </div>

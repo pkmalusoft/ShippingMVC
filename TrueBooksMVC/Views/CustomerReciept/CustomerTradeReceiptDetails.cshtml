@@ -1,6 +1,6 @@
-﻿@model IEnumerable<DAL.SP_GetAllPaymentsDetails_Result>
+﻿@*@model IEnumerable<DAL.SP_GetAllRecieptsDetails_Result>*@
 @{
-    ViewBag.Title = "SupplierPaymentDetails";
+    ViewBag.Title = "CustomerRecieptDetails";
     Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
     var isadd = true;
     string path = Request.Url.AbsolutePath.ToLower();
@@ -17,12 +17,12 @@
         display: table-header-group;
     }
 
-    #tbl1 tr {
-        height: 35px;
-    }
-
     .panel-body {
         padding: 0px;
+    }
+
+    #tbl1 tr {
+        height: 35px;
     }
 
     .panel {
@@ -36,8 +36,8 @@
         border-radius: 10px;
     }
 
-    .btnwidt {
-        margin: 5px;
+    .box-footer {
+        background-color: unset;
     }
 
     .searchtabs {
@@ -47,11 +47,29 @@
 </style>
 
 <script src="@Url.Content("~/Scripts/angular.js")"></script>
-<script src="@Url.Content("~/MyJsFiles/SupplierPaymentDetails.js")"></script>
+<script src="@Url.Content("~/MyJsFiles/CustomerRecieptDetails.js")"></script>
 
 <script type="text/javascript">
-
     $(document).ready(function () {
+
+        @*  $.ajax({
+        url: "@Url.Action("GetAllCustomer", "CustomerReciept")",
+         //    data: {  },
+         type: "GET",
+         dataType: "json",
+
+         success: function (data) {
+
+             $("#result").html(data.view);
+         },
+         error: function () {
+             alert("Failed! Please try again.");
+         }
+     });*@
+
+        $("#frmdate").css("border-radius", "5px");
+        $("#todate").css("border-radius", "5px");
+
 
         var startdate = '@Session["FyearFrom"].ToString()';
         var enddate = '@Session["FyearTo"].ToString()';
@@ -64,11 +82,7 @@
             changeYear: true, changeMonth: true,
             minDate: sd,
             maxDate: ed,
-
         });
-
-
-
 
         $("#todate").datepicker({
             dateFormat: 'dd-M-yy',
@@ -81,8 +95,6 @@
         $("#frmdate").val(GetCurrentDate());
         $("#todate").val(GetEndDate());
 
-
-
         function GetCurrentDate() {
             var m_names = new Array("Jan", "Feb", "Mar",
     "Apr", "May", "Jun", "Jul", "Aug", "Sep",
@@ -92,17 +104,12 @@
             var enddate = '@Session["FyearTo"].ToString()';
             var sd = new Date(startdate);
             var ed = new Date(enddate);
-
             var str = new Date(startdate);
-
-
             var d = new Date();
             var curr_date = sd.getDate();
             var curr_month = sd.getMonth();
             var curr_year = str.getFullYear();
             return ("01" + "-" + m_names[curr_month] + "-" + str.getFullYear());
-
-
         }
 
         function GetEndDate() {
@@ -114,52 +121,67 @@
             var enddate = '@Session["FyearTo"].ToString()';
             var sd = new Date(startdate);
             var ed = new Date(enddate);
-
             var str = new Date(startdate);
-
-
             var d = new Date();
-            var curr_date =ed.getDate();
+            var curr_date = ed.getDate();
             var curr_month = sd.getMonth();
             var curr_year = ed.getFullYear();
             return (sd.getDate() + "-" + m_names[curr_month] + "-" + sd.getFullYear());
-
-
         }
+
 
 
         var frm = new Date($('#frmdate').val());
         var dto = new Date($('#todate').val());
         var fYearID = '@Session["fyearid"].ToString()';
+
             showLoading();
             $.ajax({
-                url: "@Url.Action("GetSupplierByDate", "SupplierPayment")",
+                url: "@Url.Action("GetAllTradeCustomerByDate", "CustomerReciept")",
                 //    data: {  },
                 type: "GET",
                 data: { fdate: $('#frmdate').val(), tdate: $('#todate').val(), FYearID: fYearID },
-                dataType: "html",
+                dataType: "json",
+
                 success: function (data) {
                     hideLoading();
-                    $("#result").html(data);
+                    $("#result").html(data.view);
                 },
                 error: function () {
                     alert("Failed! Please try again.");
                 }
             });
 
+
         $("#btnsearch").click(function () {
-
-
             var frm = new Date($('#frmdate').val());
             var dto = new Date($('#todate').val());
             var fYearID = '@Session["fyearid"].ToString()';
+
             showLoading();
+            @*$.ajax({
+                url: "@Url.Action("GetAllCustomerByDate", "CustomerReciept")",
+                //    data: {  },
+                type: "GET",
+                data: { fdate: $('#frmdate').val(), tdate: $('#todate').val(), FYearID: fYearID },
+                dataType: "json",
+
+                success: function (data) {
+                    hideLoading();
+                    $("#result").html(data.view);
+                },
+                error: function () {
+                    alert("Failed! Please try again.");
+                }
+            });*@
+
             $.ajax({
-                url: "@Url.Action("GetSupplierByDate", "SupplierPayment")",
+                url: "@Url.Action("GetTradeReceiptsByDate", "CustomerReciept")",
                 //    data: {  },
                 type: "GET",
                 data: { fdate: $('#frmdate').val(), tdate: $('#todate').val(), FYearID: fYearID },
                 dataType: "html",
+
                 success: function (data) {
                     hideLoading();
                     $("#result").html(data);
@@ -169,14 +191,10 @@
                 }
             });
         });
-
-        $("#frmdate").css("border-radius", "5px");
-        $("#todate").css("border-radius", "5px");
-
-
-
-    });
+     });
 </script>
+
+
 @if (ViewBag.SuccessMsg != null)
 {
     <script type="text/javascript">
@@ -185,62 +203,68 @@
            });
     </script>
 }
-
 <div ng-app="MyApp" ng-controller="MyController">
     <div class="" dir="ltr" id="main" runat="server">
+
         @using (Html.BeginForm())
         {
             @Html.ValidationSummary(true)
+
+
+
             <div class="row no-margin">
-                <div class="col-md-12">
+                <div class="col-md-12 col-lg-12 col-sm-12">
                     <div class="col-md-4" style="padding-left:-15px;">
                     </div>
                 </div>
             </div>
             <section class="content-header">
-                <h1>Supplier Payment<small></small></h1>
+                <h1>Customer Receipt<small></small></h1>
             </section>
-            <section class="content form_block">
+            <section class="content">
+
                 <div id="divgridJob" class="row" runat="server" style="min-height: 250px; padding: 5px; margin-right: auto; margin-left: auto;">
-                    <div class="col-md-12">
+                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 padding_none">
                         <div class="row no-margin">
                             <div class="col-md-12 tblbackground">
+                                <p style="color: white" class="cbtnpadding">
+                                    <div id="error" style="display: none; font-family: Calibri; color: red">* From Date must not be Greater than To Date</div>
+                                    <div class="search_tabs_right">
+                                        <table class="searchtabs form_block" id="tbl1">
+                                            <tr>
+                                                <td class="searlabel">
+                                                    <label> From Date</label>
+                                                </td>
+                                                <td class="searinput">
+                                                    <input type="text" id="frmdate" class="form-control" />
+                                                </td>
+                                                <td class="searlabel">
+                                                    <label>  To Date</label>
+                                                </td>
+                                                <td class="searinput">
+                                                    <input type="text" id="todate" class="form-control" />
+                                                </td>
+                                                <td class="searlabel">
+                                                    <input type="button" value="Search" id="btnsearch" class="btn btn-primary btnwidt" />
+                                                </td>
+                                                <td>
+                                                    @if (isadd)
+                                                    {
+                                                        <a href='@Url.Action("CustomerTradeReceipt", "CustomerReciept", new { id = 0 })' class="btn btn-primary  btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">New</a>
 
-                                <div id="error" style="display: none; font-family: Calibri; color: red">* From Date must not be Greater than To Date</div>
-                                <div class="search_tabs_right">
-                                    <table class="searchtabs " id="tbl1">
-
-                                        <tr>
-                                            <td class="searlabel">
-                                                <label>From Date</label>
-                                            </td>
-                                            <td class="searinput">
-                                                <input type="text" id="frmdate" class="form-control" />
-                                            </td>
-                                            <td class="searlabel">
-                                                <label>  To Date</label>
-                                            </td>
-                                            <td class="searinput">
-                                                <input type="text" id="todate" class="form-control" />
-                                            </td>
-                                            <td class="searlabel">
-                                                <input type="button" value="Search" id="btnsearch" class="btn btn-primary btnwidt" />
-                                            </td>
-                                            <td>
-                                                @if (isadd)
-                                                {
-                                                <a href='@Url.Action("SupplierPayment", "SupplierPayment", new { id = 0 })' class="btn btn-primary btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">New</a>
-                                                }
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </div>
-                                <div class="row customer_details">
-                                    <div class="col-md-12 padding_none" id="result">
+                                                    }
+                                                </td>
+                                            </tr>
+                                        </table>
                                     </div>
-                                </div>
+
+                                    <div class="row customer_details">
+                                        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 padding_none" id="result">
+                                        </div>
+                                    </div>
                             </div>
                         </div>
+
                         <div class="box-footer">
                         </div>
 
@@ -248,17 +272,21 @@
                 </div>
 
             </section>
-
         }
+
 
     </div>
 
-</div>
 
+
+</div>
 <script type="text/javascript">
-    function Delete(ID) {
+    function DeleteCustomer(cid) {
+
         if (confirm("Are you sure, You want to Delete this Record?")) {
-            window.location.href = "/SupplierPayment/DeleteSupplierDet/?id=" + ID;
+            window.location.href = "/CustomerReciept/DeleteCustomerDetTrade/?id=" + cid;
         }
     }
 </script>
+
+

@@ -522,6 +522,95 @@ namespace TrueBooksMVC.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult InvoiceReport(int id)
+        {
+            var purchaseInvoice = entity.PurchaseInvoices.Find(id);
+            DataSet ds = DAL.GetPurchaseInvoiceDetailsById(id);
+            decimal? totalamount = 0;
+            var Employee = entity.Employees.Find(purchaseInvoice.EmployeeID);
+            if (Employee != null)
+            {
+                ViewBag.Employeename = Employee.EmployeeName;
+            }
+            else
+            {
+                ViewBag.Employeename = "";
+            }
+            if (ds != null && ds.Tables.Count > 0)
+            {
+                List<PurchaseInvoiceDetailVM> dtList = ds.Tables[0].AsEnumerable().Select(row => new PurchaseInvoiceDetailVM
+                {
+                    PurchaseInvoiceDetailID = int.Parse(row["PurchaseInvoiceDetailID"].ToString()),
+                    PurchaseInvoiceID = int.Parse(row["PurchaseInvoiceID"].ToString()),
+                    ProductID = int.Parse(row["ProductID"].ToString()),
+                    ProductName = row["ProductName"].ToString(),
+                    Quantity = int.Parse(row["Quantity"].ToString()),
+                    ItemUnitID = int.Parse(row["ItemUnitID"].ToString()),
+                    Rate = decimal.Parse(row["Rate"].ToString()),
+                    RateFC = decimal.Parse(row["RateFC"].ToString()),
+                    Value = decimal.Parse(row["Value"].ToString()),
+                    ValueFC = decimal.Parse(row["ValueFC"].ToString()),
+                    Taxprec = decimal.Parse(row["Taxprec"].ToString()),
+                    Tax = decimal.Parse(row["Tax"].ToString()),
+                    NetValue = decimal.Parse(row["NetValue"].ToString()),
+                    AcHeadID = int.Parse(row["AcHeadID"].ToString()),
+                    AcHead = row["AcHead"].ToString(),
+                    JobID = int.Parse(row["JobID"].ToString()),
+                    JobCode = row["JobCode"].ToString(),
+                    Description = row["Description"].ToString()
+                }).ToList();
+                ViewBag.Details = dtList;
+                totalamount = dtList.Sum(d => d.NetValue) - dtList.Sum(d => d.Tax);
+
+            }
+
+            decimal? discount = 0;
+            if (purchaseInvoice.DiscountType == 1)
+            {
+                if (purchaseInvoice.DiscountValueFC == 0 || purchaseInvoice.DiscountValueFC == null)
+                {
+                    discount = totalamount * purchaseInvoice.DiscountValueLC / 100;
+                }
+                else
+                {
+                    discount = totalamount * purchaseInvoice.DiscountValueFC / 100;
+                }
+            }
+            else
+            {
+                if (purchaseInvoice.DiscountValueFC == 0 || purchaseInvoice.DiscountValueFC == null)
+                {
+                    discount = purchaseInvoice.DiscountValueLC;
+
+                }
+                else
+                {
+                    discount = purchaseInvoice.DiscountValueFC;
+
+                }
+
+            }
+            ViewBag.Discount = discount;
+            var Currency = entity.CurrencyMasters.Find(purchaseInvoice.CurrencyID);
+            ViewBag.Currency = Currency;
+
+            var PurchaseInvoiceDetails = entity.PurchaseInvoiceDetails.Where(d => d.PurchaseInvoiceID == id).ToList();
+            var company = entity.AcCompanies.FirstOrDefault();
+            var getsupplier = entity.Suppliers.Where(d => d.SupplierID == purchaseInvoice.SupplierID).FirstOrDefault();
+            int uid = Convert.ToInt32(Session["UserID"].ToString());
+            var uname = (from c in entity.UserRegistrations where c.UserID == uid select c.UserName).FirstOrDefault();
+            var Itemunits = entity.ItemUnits.ToList();
+            ViewBag.itemunit = Itemunits;
+            var Basecurrency = entity.CurrencyMasters.Find(company.CurrencyID);
+            ViewBag.BaseCurrency = Basecurrency.CurrencyName;
+            ViewBag.Invoice = purchaseInvoice;
+            ViewBag.Company = company;
+            ViewBag.Supplier = getsupplier;
+            ViewBag.username = uname;
+
+            return View();
+        }
+
 
     }
 

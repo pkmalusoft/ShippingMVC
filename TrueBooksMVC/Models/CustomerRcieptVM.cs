@@ -87,8 +87,9 @@ namespace TrueBooksMVC.Models
         public Nullable<decimal> AmtPaidTillDate { get; set; }
         public decimal Balance { get; set; }
         public decimal AmountToBePaid { get; set; }
-      
+        public string strDate { get; set; }
         public decimal Amount { get; set; }
+        public string SInvoiceNo { get; set; }
         public Nullable<System.DateTime> InvoiceDate { get; set; }
  
     }

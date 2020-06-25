@@ -882,6 +882,7 @@ warning 6002: The table/view 'malusoft_shipping.dbo.PurchaseInvoiceDetails' does
           <Property Name="EXRate" Type="money" />
           <Property Name="FMoney" Type="money" />
           <Property Name="UserID" Type="int" />
+          <Property Name="IsTradingReceipt" Type="bit" />
         </EntityType>
         <EntityType Name="RecPayDetails">
           <Key>
@@ -975,6 +976,8 @@ warning 6002: The table/view 'malusoft_shipping.dbo.PurchaseInvoiceDetails' does
           <Property Name="NetValue" Type="decimal" Precision="18" Scale="2" />
           <Property Name="JobID" Type="int" />
           <Property Name="Description" Type="varchar(max)" />
+          <Property Name="RecPayStatus" Type="int" />
+          <Property Name="RecPayDetailId" Type="int" />
         </EntityType>
         <EntityType Name="ShippingAgent">
           <Key>
@@ -4074,6 +4077,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Type="Decimal" Name="EXRate" Precision="19" Scale="4" />
           <Property Type="Decimal" Name="FMoney" Precision="19" Scale="4" />
           <Property Type="Int32" Name="UserID" />
+          <Property Name="IsTradingReceipt" Type="Boolean" />
         </EntityType>
         <ComplexType Name="SP_GetAllContainerTypes_Result">
           <Property Type="Int32" Name="ContainerTypeID" Nullable="false" />
@@ -6707,6 +6711,8 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Name="JobID" Type="Int32" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="RateType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RecPayStatus" Type="Int32" />
+          <Property Name="RecPayDetailId" Type="Int32" />
         </EntityType>
         <EntityType Name="CountryMaster">
           <Key>
@@ -7310,6 +7316,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <EntitySetMapping Name="RecPays">
             <EntityTypeMapping TypeName="SHIPPING_FinalModel.RecPay">
               <MappingFragment StoreEntitySet="RecPay">
+                <ScalarProperty Name="IsTradingReceipt" ColumnName="IsTradingReceipt" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="FMoney" ColumnName="FMoney" />
                 <ScalarProperty Name="EXRate" ColumnName="EXRate" />
@@ -10305,6 +10312,8 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <EntitySetMapping Name="SalesInvoiceDetails">
             <EntityTypeMapping TypeName="SHIPPING_FinalModel.SalesInvoiceDetail">
               <MappingFragment StoreEntitySet="SalesInvoiceDetails">
+                <ScalarProperty Name="RecPayDetailId" ColumnName="RecPayDetailId" />
+                <ScalarProperty Name="RecPayStatus" ColumnName="RecPayStatus" />
                 <ScalarProperty Name="RateType" ColumnName="RateType" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="JobID" ColumnName="JobID" />

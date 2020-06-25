@@ -5838,3 +5838,29 @@ td.visible-print, th.visible-print {
 }
 }
 /*# sourceMappingURL=bootstrap.min.css.map */
+@media only print {
+    #printmydiv {
+        width: auto;
+        height: auto;
+        overflow: visible;
+    }
+
+}
+@media print {
+    * {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    html, body {
+        /*changing width to 100% causes huge overflow and wrap*/
+        height: 100%;
+        overflow: hidden;
+        background: #FFF;
+        font-size: 9.5pt;
+    }
+    @page {
+        size: portrait;
+    }
+
+}

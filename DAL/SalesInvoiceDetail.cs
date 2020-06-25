@@ -29,5 +29,7 @@ namespace DAL
         public Nullable<int> JobID { get; set; }
         public string Description { get; set; }
         public string RateType { get; set; }
+        public Nullable<int> RecPayStatus { get; set; }
+        public Nullable<int> RecPayDetailId { get; set; }
     }
 }

@@ -49,7 +49,6 @@ namespace TrueBooksMVC.Models
             foreach (var item in query)
             {
                 SI.SalesInvoiceID = item.SalesInvoiceID;
-
                 SI.SalesInvoiceNo = item.SalesInvoiceNo;
                 SI.SalesInvoiceDate = item.SalesInvoiceDate;
                 SI.QuotationNumber = item.QuotationNumber;

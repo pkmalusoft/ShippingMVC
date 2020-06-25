@@ -84,9 +84,9 @@ namespace TrueBooksMVC.Controllers
             var totaltax = salesinvoicedetails.Sum(d => d.Tax);
             var salesval = totalamount + totaltax;
             decimal? discount = 0;
-            if(salesinvoice.DiscountType==1)
+            if (salesinvoice.DiscountType == 1)
             {
-                if(salesinvoice.DiscountValueFC==0 || salesinvoice.DiscountValueFC==null)
+                if (salesinvoice.DiscountValueFC == 0 || salesinvoice.DiscountValueFC == null)
                 {
                     discount = totalamount * salesinvoice.DiscountValueLC / 100;
                 }
@@ -104,7 +104,7 @@ namespace TrueBooksMVC.Controllers
                 }
                 else
                 {
-                    discount =salesinvoice.DiscountValueFC;
+                    discount = salesinvoice.DiscountValueFC;
 
                 }
 
@@ -112,7 +112,7 @@ namespace TrueBooksMVC.Controllers
             var sumval = 0;
             foreach (var item in accontrolheads)
             {
-               
+
                 if (item.Remarks == 0)
                 { }
                 else
@@ -205,7 +205,7 @@ namespace TrueBooksMVC.Controllers
                     }
                     else
                     {
-                        acjournal_details.Amount = Diffval*-1;
+                        acjournal_details.Amount = Diffval * -1;
 
                     }
                     entity.AcJournalDetails.Add(acjournal_details);
@@ -215,7 +215,7 @@ namespace TrueBooksMVC.Controllers
                 }
             }
 
-                    return true;
+            return true;
         }
 
         private bool DeleteAndInsertRecords(FormCollection formCollection, int InvoiceId)
@@ -324,7 +324,7 @@ namespace TrueBooksMVC.Controllers
                 if (formCollection.GetValue("Tax_" + InvoiceDetailsArray[c]) != null)
                 {
                     strArray = (string[])formCollection.GetValue("Tax_" + InvoiceDetailsArray[c]).RawValue;
-                     decimal.TryParse(strArray[0], out Tax);
+                    decimal.TryParse(strArray[0], out Tax);
                     //Tax = Convert.ToDecimal(strArray[0]);
                 }
                 SID.Tax = Tax;
@@ -602,6 +602,45 @@ namespace TrueBooksMVC.Controllers
         public ActionResult GetSalesInvoice(DateTime fdate, DateTime tdate)
         {
             var data = DAL.SP_GetAllSalesInvoiceByDate(Convert.ToDateTime(fdate), Convert.ToDateTime(tdate));
+            foreach (var item in data)
+            {
+                var salesinvoicedetails = entity.SalesInvoiceDetails.Where(s => s.SalesInvoiceID == item.SalesInvoiceID).ToList();
+                var totalamount = salesinvoicedetails.Sum(d => d.NetValue) - salesinvoicedetails.Sum(d => d.Tax);
+                var totaltax = salesinvoicedetails.Sum(d => d.Tax);
+                var salesval = totalamount + totaltax;
+                decimal? discount = 0;
+                if (item.DiscountType == 1)
+                {
+                    if (item.DiscountValueFC == 0 || item.DiscountValueFC == null)
+                    {
+                        discount = totalamount * item.DiscountValueLC / 100;
+                    }
+                    else
+                    {
+                        discount = totalamount * item.DiscountValueFC / 100;
+                    }
+                }
+                else
+                {
+                    if (item.DiscountValueFC == 0 || item.DiscountValueFC == null)
+                    {
+                        discount = item.DiscountValueLC;
+
+                    }
+                    else
+                    {
+                        discount = item.DiscountValueFC;
+
+                    }
+
+                }
+                if (discount == null)
+                {
+                    discount = 0;
+                }
+                item.OtherCharges = salesinvoicedetails.Sum(d => d.NetValue) - discount;
+            }
+            //data.ForEach(d => d.OtherCharges = entity.SalesInvoiceDetails.Where(s => s.SalesInvoiceID == d.SalesInvoiceID).ToList().Sum(a => a.NetValue));
             string view = this.RenderPartialView("_InvoiceView", data);
 
             return new JsonResult
@@ -659,6 +698,116 @@ namespace TrueBooksMVC.Controllers
             entity.SaveChanges();
 
             return RedirectToAction("Index");
+        }
+        public ActionResult InvoiceReport(int id)
+        {
+            var Salesinvoice = entity.SalesInvoices.Find(id);
+            DataSet ds = DAL.GetSalesInvoiceDetailsById(id);
+            decimal? totalamount = 0;
+            var Employee = entity.Employees.Find(Salesinvoice.EmployeeID);
+            if (Employee != null)
+            {
+                ViewBag.Employeename = Employee.EmployeeName;
+            }
+            else
+            {
+                ViewBag.Employeename = "";
+            }
+            if (ds != null && ds.Tables.Count > 0)
+            {
+                List<Models.SalesInvoiceDetail> dtList = ds.Tables[0].AsEnumerable()
+        .Select(row => new Models.SalesInvoiceDetail
+        {
+            SalesInvoiceDetailID = int.Parse(row["SalesInvoiceDetailID"].ToString()),
+            SalesInvoiceID = int.Parse(row["SalesInvoiceID"].ToString()),
+            ProductID = int.Parse(row["ProductID"].ToString()),
+            ProductName = row["ProductName"].ToString(),
+            Quantity = int.Parse(row["Quantity"].ToString()),
+            ItemUnitID = int.Parse(row["ItemUnitID"].ToString()),
+            RateType = row["RateType"].ToString(),
+            RateLC = decimal.Parse(row["RateLC"].ToString()),
+            RateFC = decimal.Parse(row["RateFC"].ToString()),
+            Value = decimal.Parse(row["Value"].ToString()),
+            ValueLC = decimal.Parse(row["ValueLC"].ToString()),
+            ValueFC = decimal.Parse(row["ValueFC"].ToString()),
+            Tax = decimal.Parse(row["Tax"].ToString()),
+            NetValue = decimal.Parse(row["NetValue"].ToString()),
+            JobID = int.Parse(row["JobID"].ToString()),
+            JobCode = row["JobCode"].ToString(),
+            Description = row["Description"].ToString(),
+            //...
+        }).ToList();
+                ViewBag.Details = dtList;
+                totalamount = dtList.Sum(d => d.NetValue) - dtList.Sum(d => d.Tax);
+
+            }
+            var Products = (from d in entity.ProductServices select d).ToList();
+            ViewBag.Products = Products;
+            decimal? discount = 0;
+            if (Salesinvoice.DiscountType == 1)
+            {
+                if (Salesinvoice.DiscountValueFC == 0 || Salesinvoice.DiscountValueFC == null)
+                {
+                    discount = totalamount * Salesinvoice.DiscountValueLC / 100;
+                }
+                else
+                {
+                    discount = totalamount * Salesinvoice.DiscountValueFC / 100;
+                }
+            }
+            else
+            {
+                if (Salesinvoice.DiscountValueFC == 0 || Salesinvoice.DiscountValueFC == null)
+                {
+                    discount = Salesinvoice.DiscountValueLC;
+
+                }
+                else
+                {
+                    discount = Salesinvoice.DiscountValueFC;
+
+                }
+
+            }
+            ViewBag.Discount = discount;
+            var Currency = entity.CurrencyMasters.Find(Salesinvoice.CurrencyID);
+            ViewBag.Currency = Currency;
+            var PurchaseInvoiceDetails = entity.PurchaseInvoiceDetails.Where(d => d.PurchaseInvoiceID == id).ToList();
+            var company = entity.AcCompanies.FirstOrDefault();
+            var getCustomer = entity.CUSTOMERs.Where(d => d.CustomerID == Salesinvoice.CustomerID).FirstOrDefault();
+            int uid = Convert.ToInt32(Session["UserID"].ToString());
+            var uname = (from c in entity.UserRegistrations where c.UserID == uid select c.UserName).FirstOrDefault();
+            var Basecurrency = entity.CurrencyMasters.Find(company.CurrencyID);
+            ViewBag.BaseCurrency = Basecurrency.CurrencyName;
+            var Itemunits = entity.ItemUnits.ToList();
+            ViewBag.itemunit = Itemunits;
+            ViewBag.Invoice = Salesinvoice;
+            ViewBag.Company = company;
+            ViewBag.Supplier = getCustomer;
+            ViewBag.username = uname;
+
+            return View();
+        }
+        public bool TryGetCurrencySymbol(string ISOCurrencySymbol, out string symbol)
+        {
+            symbol = CultureInfo
+                .GetCultures(CultureTypes.AllCultures)
+                .Where(c => !c.IsNeutralCulture)
+                .Select(culture =>
+                {
+                    try
+                    {
+                        return new RegionInfo(culture.Name);
+                    }
+                    catch
+                    {
+                        return null;
+                    }
+                })
+                .Where(ri => ri != null && ri.ISOCurrencySymbol == ISOCurrencySymbol)
+                .Select(ri => ri.CurrencySymbol)
+                .FirstOrDefault();
+            return symbol != null;
         }
 
 

@@ -44,7 +44,12 @@ myapp.controller('MyController', function ($scope, $http, ngservice) {
     }
 
     $scope.getInvoice = function () {
+        debugger;
         loadOrders($scope.CustomerID);
+    };
+    $scope.getTradeInvoice = function () {
+        debugger;
+        loadTradeOrders($scope.CustomerID);
     };
 
     $scope.getselectval = function () {
@@ -90,7 +95,7 @@ myapp.controller('MyController', function ($scope, $http, ngservice) {
 
 
     function loadOrders(ID) {
-
+        debugger;
         //var promise = ngservice.getOrders(ID);
         //this.getOrders = function (ID) {
         //    //alert(ID);
@@ -119,6 +124,86 @@ myapp.controller('MyController', function ($scope, $http, ngservice) {
                                            '<td> <input type="text" onBlur="CheckAmt(this)"  class="amt txtNum text-right AmountReceived" name=CustomerRcieptChildVM[' + i + '].Amount>' +
 
                                            '<tr>');
+                //hideLoading();
+            }
+            //var FAmt = 0;
+
+            //angular.forEach(data, function (value, key) {
+
+            //    var date = new Date(parseInt($scope.Orders[key].InvoiceDate.substr(6)));
+            //    $scope.Orders[key].InvoiceDate = date;
+
+
+            //        FAmt = FAmt + $scope.Orders[key].AmountToBeRecieved;
+
+
+            //    if ($scope.TotalAmt >= $scope.Orders[key].AmountToBeRecieved) {
+
+            //        $scope.Orders[key].Amount = $scope.TotalAmt;
+
+            //    }
+            //    else {
+            //        $scope.Orders[key].Amount = '0.0';
+            //    }
+
+
+            //});
+
+            //$scope.FinalAmount = FAmt;
+
+            // alert(data);
+
+
+
+            //promise.then(function (resp) {
+            //    debugger;
+            //    $scope.Orders = resp;
+
+            //    alert($scope.Orders.length);
+
+            //    $scope.Message = "Call is Completed Successfully";
+            //}, function (err) {
+            //    $scope.Message = "Call Failed " + err.status;
+            //});
+        });
+
+
+
+        function Test() {
+            alert("hii");
+        }
+
+    };
+    function loadTradeOrders(ID) {
+        debugger;
+        //var promise = ngservice.getOrders(ID);
+        //this.getOrders = function (ID) {
+        //    //alert(ID);
+        //    var res = $http.get("/CustomerReciept/GetInvoiceOfCustomer/" + ID);
+        //    return res;
+        //};
+        //showLoading();
+        $http({
+            url: '/CustomerReciept/GetTradeInvoiceOfCustomer/' + ID,
+            method: 'GET'
+        }).success(function (data, status, headers, config) {
+            $('#tbl1 tr:gt(0)').remove();
+            $scope.Orders = data;
+            debugger;
+            for (var i = 0; i < data.length; i++) {
+                var date = new Date(data[i].date);
+                var tempdate = new Date(date).getDate() + '/' + (new Date(date).getMonth() + 1) + '/' + new Date(date).getFullYear();
+
+                $('#tbl1').append('<tr>' +
+                    '<td>' + data[i].InvoiceNo + ' <input id="" name="CustomerRcieptChildVM[' + i + '].JobID" value=' + data[i].JobID + ' type="hidden"><input id="" name="CustomerRcieptChildVM[' + i + '].InvoiceID" value=' + data[i].SalesInvoiceDetailID + ' type="hidden"></td>' +
+                    '<td>' + data[i].DateTime + '<input id="" name="CustomerRcieptChildVM[' + i + '].InvoiceDate" value=' + data[i].DateTime + ' type="hidden"></td>' +
+                    '<td>' + parseFloat(data[i].InvoiceAmount).toFixed(2) + '<input id="" name="CustomerRcieptChildVM[' + i + '].AmountToBeRecieved" value=' + data[i].InvoiceAmount + ' type="hidden" class="AmountToBeRecieved"></td>' +
+                    '<td>' + parseFloat(data[i].AmountReceived).toFixed(2) + '<input id="" name="CustomerRcieptChildVM[' + i + '].AmtPaidTillDate" value=' + data[i].AmountReceived + ' type="hidden"></td>' +
+                    '<td>' + parseFloat(data[i].Balance).toFixed(2) + '<input id="" name="CustomerRcieptChildVM[' + i + '].Balance" value=' + data[i].Balance + ' type="hidden"><input id="" name="CustomerRcieptChildVM[' + i + '].InvoiceNo" value=' + data[i].InvoiceNo + ' type="hidden"></td>' +
+                    //'<td>' + data[i].Amount + '<input id="" name="customerRcieptVM[' + i + '].Amount" value=' + data[i].Amount + ' type="hidden"></td>' +
+                    '<td> <input type="text" onBlur="CheckAmt(this)"  class="amt txtNum text-right AmountReceived" name=CustomerRcieptChildVM[' + i + '].Amount>' +
+
+                    '<tr>');
                 //hideLoading();
             }
             //var FAmt = 0;

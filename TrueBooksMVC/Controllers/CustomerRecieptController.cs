@@ -69,7 +69,7 @@ namespace TrueBooksMVC.Controllers
                     ViewBag.acheadbank = Context1.AcHeadSelectForBank(Convert.ToInt32(Session["AcCompanyID"].ToString())).ToList();
 
                     cust.RecPayDate = System.DateTime.UtcNow;
-                 }
+                }
             }
             else
             {
@@ -220,125 +220,133 @@ namespace TrueBooksMVC.Controllers
             //    RP.EditCustomerRecPay(RecP, Session["UserID"].ToString());
             //    RP.EditCustomerRecieptDetails(RecP.recPayDetail, RecP.RecPayID);
             //}
-                if (RecP.CashBank != null)
+            if (RecP.CashBank != null)
+            {
+                RecP.StatusEntry = "CS";
+                int acheadid = Convert.ToInt32(RecP.CashBank);
+                var achead = (from t in Context1.AcHeads where t.AcHeadID == acheadid select t.AcHead1).FirstOrDefault();
+                RecP.BankName = achead;
+            }
+            else
+            {
+                RecP.StatusEntry = "BK";
+                int acheadid = Convert.ToInt32(RecP.ChequeBank);
+                var achead = (from t in Context1.AcHeads where t.AcHeadID == acheadid select t.AcHead1).FirstOrDefault();
+                RecP.BankName = achead;
+            }
+
+            //Adding Entry in Rec PAY
+
+            ///Insert Entry For RecPay Details 
+            ///
+            if (RecP.RecPayID <= 0)
+            {
+                decimal Fmoney = 0;
+                for (int j = 0; j < RecP.CustomerRcieptChildVM.Count; j++)
                 {
-                    RecP.StatusEntry = "CS";
-                    int acheadid=Convert.ToInt32(RecP.CashBank);
-                     var achead=(from t in Context1.AcHeads where t.AcHeadID==acheadid select t.AcHead1).FirstOrDefault();
-                    RecP.BankName = achead;
+                    Fmoney = Fmoney + RecP.CustomerRcieptChildVM[j].Amount;
                 }
-                else
-                {
-                    RecP.StatusEntry = "BK";
-                     int acheadid=Convert.ToInt32(RecP.ChequeBank);
-                     var achead=(from t in Context1.AcHeads where t.AcHeadID==acheadid select t.AcHead1).FirstOrDefault();
-                    RecP.BankName = achead;
-                }
+
+                RecP.FMoney = Fmoney;
+                RPID = RP.AddCustomerRecieptPayment(RecP, Session["UserID"].ToString());
                
-                //Adding Entry in Rec PAY
-               
-                ///Insert Entry For RecPay Details 
-                ///
-                if (RecP.RecPayID <= 0)
+                RecP.RecPayID = (from c in Context1.RecPays orderby c.RecPayID descending select c.RecPayID).FirstOrDefault();
+                decimal TotalAmount = 0;
+                foreach (var item in RecP.CustomerRcieptChildVM)
                 {
-                    decimal Fmoney = 0;
-                    for (int j = 0; j < RecP.CustomerRcieptChildVM.Count; j++)
-                    {
-                        Fmoney = Fmoney + RecP.CustomerRcieptChildVM[j].Amount;
-                    }
+                    decimal Advance = 0;
+                    //if (item.Amount > 0 && (item.AmountToBeRecieved < item.Amount || item.AmountToBeRecieved == item.Amount))///900<1000
+                    //{
+                    // item.Amount = Convert.ToDecimal(RecP.EXRate * item.Amount);
+                    //100=1000-900
+                    Advance = item.Amount - item.AmountToBeRecieved;
+                    DateTime vInvoiceDate = Convert.ToDateTime(item.InvoiceDate);
+                    string vInvoiceDate1 = Convert.ToDateTime(vInvoiceDate).ToString("yyyy-MM-dd h:mm tt");
+                    RP.InsertRecpayDetailsForCust(RecP.RecPayID, item.InvoiceID, item.InvoiceID, Convert.ToDecimal(-item.Amount), "", "C", false, "", vInvoiceDate1, item.InvoiceNo.ToString(), Convert.ToInt32(RecP.CurrencyId), 3, item.JobID);
 
-                    RecP.FMoney = Fmoney;
-                    RPID = RP.AddCustomerRecieptPayment(RecP, Session["UserID"].ToString());
-                    RecP.RecPayID = (from c in Context1.RecPays orderby c.RecPayID descending select c.RecPayID).FirstOrDefault();
-                    decimal TotalAmount = 0;
-                    foreach (var item in RecP.CustomerRcieptChildVM)
+                    if (Advance > 0)
                     {
-                        decimal Advance = 0;
-                        //if (item.Amount > 0 && (item.AmountToBeRecieved < item.Amount || item.AmountToBeRecieved == item.Amount))///900<1000
-                        //{
-                            // item.Amount = Convert.ToDecimal(RecP.EXRate * item.Amount);
-                            //100=1000-900
-                            Advance = item.Amount - item.AmountToBeRecieved;
-                            DateTime vInvoiceDate = Convert.ToDateTime(item.InvoiceDate);
-                            string vInvoiceDate1 = Convert.ToDateTime(vInvoiceDate).ToString("yyyy-MM-dd h:mm tt");
-                            RP.InsertRecpayDetailsForCust(RecP.RecPayID, item.InvoiceID, item.InvoiceID, Convert.ToDecimal(-item.Amount), "", "C", false, "", vInvoiceDate1, item.InvoiceNo.ToString(), Convert.ToInt32(RecP.CurrencyId), 3, item.JobID);
-
-                            if (Advance > 0)
-                            {
-                                //Advance Amount entry
-                                RP.InsertRecpayDetailsForCust(RecP.RecPayID, 0,0, Advance, null, "C", true, null, null, null, Convert.ToInt32(RecP.CurrencyId), 4, item.JobID);
-                            }
-                            TotalAmount = TotalAmount + item.Amount;
+                        //Advance Amount entry
+                        RP.InsertRecpayDetailsForCust(RecP.RecPayID, 0, 0, Advance, null, "C", true, null, null, null, Convert.ToInt32(RecP.CurrencyId), 4, item.JobID);
                     }
-
-                    //To Balance Invoice AMount
-                    if (TotalAmount > 0)
-                    {
-                        int l = RP.InsertRecpayDetailsForCust(RecP.RecPayID, 0,0, TotalAmount, null, "C", false, null, null, null, Convert.ToInt32(RecP.CurrencyId), 4, 0);
-                        int fyaerId = Convert.ToInt32(Session["fyearid"].ToString());
-                        RP.InsertJournalOfCustomer(RecP.RecPayID, fyaerId);
-                    }
+                    TotalAmount = TotalAmount + item.Amount;
                 }
-                else
-                {
-                    decimal Fmoney = 0;
-                    for (int j = 0; j < RecP.CustomerRcieptChildVM.Count; j++)
-                    {
-                        Fmoney = Fmoney + RecP.CustomerRcieptChildVM[j].Amount;
-                    }
 
-                    RecPay recpay = new RecPay();
-                    recpay.RecPayDate = RecP.RecPayDate;
-                    recpay.RecPayID = RecP.RecPayID;
-                    recpay.AcJournalID = RecP.AcJournalID;
-                    recpay.BankName = RecP.BankName;
-                    recpay.ChequeDate = RecP.ChequeDate;
-                    recpay.ChequeNo = RecP.ChequeNo;
-                    recpay.CustomerID = RecP.CustomerID;
-                    recpay.DocumentNo = RecP.DocumentNo;
-                    recpay.EXRate = RecP.EXRate;
-                    recpay.FYearID = RecP.FYearID;
-                    recpay.FMoney = Fmoney;
-                    recpay.StatusEntry = RecP.StatusEntry;
-                   
-                    //recpay.SupplierID = RecP.SupplierID;
-                    Context1.Entry(recpay).State = EntityState.Modified;
+                //To Balance Invoice AMount
+                if (TotalAmount > 0)
+                {
+                    int l = RP.InsertRecpayDetailsForCust(RecP.RecPayID, 0, 0, TotalAmount, null, "C", false, null, null, null, Convert.ToInt32(RecP.CurrencyId), 4, 0);
+                    int fyaerId = Convert.ToInt32(Session["fyearid"].ToString());
+                    RP.InsertJournalOfCustomer(RecP.RecPayID, fyaerId);
+                }
+                var Recpaydata = (from d in Context1.RecPays where d.RecPayID == RecP.RecPayID select d).FirstOrDefault();
+
+                Recpaydata.RecPayID = RecP.RecPayID;
+                Recpaydata.IsTradingReceipt = false;
+                Context1.Entry(Recpaydata).State = EntityState.Modified;
+                Context1.SaveChanges();
+            }
+            else
+            {
+                decimal Fmoney = 0;
+                for (int j = 0; j < RecP.CustomerRcieptChildVM.Count; j++)
+                {
+                    Fmoney = Fmoney + RecP.CustomerRcieptChildVM[j].Amount;
+                }
+
+                RecPay recpay = new RecPay();
+                recpay.RecPayDate = RecP.RecPayDate;
+                recpay.RecPayID = RecP.RecPayID;
+                recpay.AcJournalID = RecP.AcJournalID;
+                recpay.BankName = RecP.BankName;
+                recpay.ChequeDate = RecP.ChequeDate;
+                recpay.ChequeNo = RecP.ChequeNo;
+                recpay.CustomerID = RecP.CustomerID;
+                recpay.DocumentNo = RecP.DocumentNo;
+                recpay.EXRate = RecP.EXRate;
+                recpay.FYearID = RecP.FYearID;
+                recpay.FMoney = Fmoney;
+                recpay.StatusEntry = RecP.StatusEntry;
+                recpay.IsTradingReceipt = true;
+
+                //recpay.SupplierID = RecP.SupplierID;
+                Context1.Entry(recpay).State = EntityState.Modified;
+                Context1.SaveChanges();
+
+                foreach (var item in RecP.CustomerRcieptChildVM)
+                {
+                    RecPayDetail recpd = new RecPayDetail();
+                    recpd.RecPayDetailID = item.RecPayDetailID;
+                    recpd.Amount = -(item.Amount);
+                    recpd.CurrencyID = item.CurrencyId;
+                    //recpd.InvDate = item.InvoiceDate.Value;
+                    recpd.RecPayID = RecP.RecPayID;
+                    recpd.Remarks = item.Remarks;
+                    recpd.InvoiceID = item.InvoiceID;
+                    recpd.StatusInvoice = "C";
+                    /*  if (item.AmountToBeRecieved < item.Amount)
+                      {
+                          RecPayDetail recpd1 = new RecPayDetail();
+                          recpd1.RecPayDetailID = (from c in Context1.RecPayDetails orderby c.RecPayDetailID descending select c.RecPayDetailID).FirstOrDefault();
+                          recpd1.Amount = item.AmountToBeRecieved - item.Amount;
+                          recpd1.RecPayID = RecP.RecPayID;
+                          recpd1.Remarks = item.Remarks;
+                          recpd1.CurrencyID = item.CurrencyId;
+                          recpd1.StatusAdvance = true;
+                          recpd.StatusInvoice = "C";
+                          Context1.Entry(recpd1).State = EntityState.Modified;
+                          Context1.SaveChanges();
+                      }*/
+
+                    Context1.Entry(recpd).State = EntityState.Modified;
                     Context1.SaveChanges();
-
-                    foreach (var item in RecP.CustomerRcieptChildVM)
-                    {
-                        RecPayDetail recpd = new RecPayDetail();
-                        recpd.RecPayDetailID = item.RecPayDetailID;
-                        recpd.Amount =-(item.Amount);
-                        recpd.CurrencyID = item.CurrencyId;
-                        //recpd.InvDate = item.InvoiceDate.Value;
-                        recpd.RecPayID = RecP.RecPayID;
-                        recpd.Remarks = item.Remarks;
-                        recpd.InvoiceID = item.InvoiceID;
-                        recpd.StatusInvoice = "C";
-                      /*  if (item.AmountToBeRecieved < item.Amount)
-                        {
-                            RecPayDetail recpd1 = new RecPayDetail();
-                            recpd1.RecPayDetailID = (from c in Context1.RecPayDetails orderby c.RecPayDetailID descending select c.RecPayDetailID).FirstOrDefault();
-                            recpd1.Amount = item.AmountToBeRecieved - item.Amount;
-                            recpd1.RecPayID = RecP.RecPayID;
-                            recpd1.Remarks = item.Remarks;
-                            recpd1.CurrencyID = item.CurrencyId;
-                            recpd1.StatusAdvance = true;
-                            recpd.StatusInvoice = "C";
-                            Context1.Entry(recpd1).State = EntityState.Modified;
-                            Context1.SaveChanges();
-                        }*/
-
-                        Context1.Entry(recpd).State = EntityState.Modified;
-                        Context1.SaveChanges();
-                    }
-                    int editrecPay = 0;
-                    var sumOfAmount = Context1.RecPayDetails.Where(m => m.RecPayID == RecP.RecPayID && m.InvoiceID != 0).Sum(c => c.Amount);
-                    editrecPay = editfu.EditRecpayDetailsCustR(RecP.RecPayID, Convert.ToInt32(sumOfAmount));
-                    int editAcJdetails = editfu.EditAcJDetails(RecP.AcJournalID.Value, Convert.ToInt32(sumOfAmount));
                 }
-            
+                int editrecPay = 0;
+                var sumOfAmount = Context1.RecPayDetails.Where(m => m.RecPayID == RecP.RecPayID && m.InvoiceID != 0).Sum(c => c.Amount);
+                editrecPay = editfu.EditRecpayDetailsCustR(RecP.RecPayID, Convert.ToInt32(sumOfAmount));
+                int editAcJdetails = editfu.EditAcJDetails(RecP.AcJournalID.Value, Convert.ToInt32(sumOfAmount));
+            }
+
             BindAllMasters();
             return RedirectToAction("CustomerRecieptDetails", "CustomerReciept", new { ID = RecP.RecPayID });
         }
@@ -405,6 +413,17 @@ namespace TrueBooksMVC.Controllers
             }
 
             return RedirectToAction("CustomerRecieptDetails", "CustomerReciept", new { ID = 10 });
+
+        }
+        public ActionResult DeleteCustomerDetTrade(int id)
+        {
+            //int k = 0;
+            if (id != 0)
+            {
+                RP.DeleteCustomerDetails(id);
+            }
+
+            return RedirectToAction("CustomerTradeReceiptDetails", "CustomerReciept", new { ID = 10 });
 
         }
 
@@ -486,37 +505,9 @@ namespace TrueBooksMVC.Controllers
             int maxday = DateTime.DaysInMonth(fyear.Year, d.Month);
             DateTime mend = new DateTime(fyear.Year, d.Month, maxday);
 
-                var cust = Context1.SP_GetAllRecieptsDetails().Where(x => x.RecPayDate >= mstart && x.RecPayDate <= mend).OrderByDescending(x => x.RecPayDate).ToList();
+            var cust = Context1.SP_GetAllRecieptsDetails().Where(x => x.RecPayDate >= mstart && x.RecPayDate <= mend).OrderByDescending(x => x.RecPayDate).ToList();
 
-                string view = this.RenderPartialView("_GetAllCustomer", cust);
-
-                return new JsonResult
-                {
-                    Data = new
-                    {
-                        success = true,
-                        view = view
-                    },
-                    JsonRequestBehavior = JsonRequestBehavior.AllowGet
-                };
-            }
-           
-  
-    
-
-        public JsonResult GetAllCustomerByDate(string fdate, string tdate, int FYearID)
-        {
-            DateTime d = DateTime.Now;
-            DateTime fyear = Convert.ToDateTime(Session["FyearFrom"].ToString());
-            DateTime mstart = new DateTime(fyear.Year, d.Month, 01);
-
-            int maxday = DateTime.DaysInMonth(fyear.Year, d.Month);
-            DateTime mend = new DateTime(fyear.Year, d.Month, maxday);
-
-
-            var cust = Context1.SP_GetAllRecieptsDetailsByDate(fdate, tdate, FYearID).ToList();
-
-            string view = this.RenderPartialView("_GetAllCustomerByDate", cust);
+            string view = this.RenderPartialView("_GetAllCustomer", cust);
 
             return new JsonResult
             {
@@ -527,8 +518,42 @@ namespace TrueBooksMVC.Controllers
                 },
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
-           
-            
+        }
+
+
+
+
+        public JsonResult GetAllCustomerByDate(string fdate, string tdate, int FYearID)
+        {
+            DateTime d = DateTime.Now;
+            DateTime fyear = Convert.ToDateTime(Session["FyearFrom"].ToString());
+            DateTime mstart = new DateTime(fyear.Year, d.Month, 01);
+
+            int maxday = DateTime.DaysInMonth(fyear.Year, d.Month);
+            DateTime mend = new DateTime(fyear.Year, d.Month, maxday);
+
+            var sdate = DateTime.Parse(fdate);
+            var edate = DateTime.Parse(tdate);
+
+            ViewBag.AllCustomers = Context1.CUSTOMERs.ToList();
+
+            var data = Context1.RecPays.Where(x => x.RecPayDate >= sdate && x.RecPayDate <= edate && x.IsTradingReceipt != true && x.FYearID == FYearID).OrderByDescending(x => x.RecPayDate).ToList();
+
+            var cust = Context1.SP_GetAllRecieptsDetailsByDate(fdate, tdate, FYearID).ToList();
+
+            string view = this.RenderPartialView("_GetAllCustomerByDate", data);
+
+            return new JsonResult
+            {
+                Data = new
+                {
+                    success = true,
+                    view = view
+                },
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+
+
         }
 
         public ActionResult GetReceiptsByDate(string fdate, string tdate, int FYearID)
@@ -539,12 +564,383 @@ namespace TrueBooksMVC.Controllers
 
             int maxday = DateTime.DaysInMonth(fyear.Year, d.Month);
             DateTime mend = new DateTime(fyear.Year, d.Month, maxday);
+            var sdate = DateTime.Parse(fdate);
+            var edate = DateTime.Parse(tdate);
+
+            ViewBag.AllCustomers = Context1.CUSTOMERs.ToList();
+
+            var data = Context1.RecPays.Where(x => x.RecPayDate >= sdate && x.RecPayDate <= edate && x.IsTradingReceipt != true && x.FYearID == FYearID).OrderByDescending(x => x.RecPayDate).ToList();
 
 
             var cust = Context1.SP_GetAllRecieptsDetailsByDate(fdate, tdate, FYearID).ToList();
 
-            return PartialView("_GetAllCustomerByDate", cust);
+            return PartialView("_GetAllCustomerByDate", data);
 
         }
+
+        public JsonResult GetAllTradeCustomerByDate(string fdate, string tdate, int FYearID)
+        {
+            DateTime d = DateTime.Now;
+            DateTime fyear = Convert.ToDateTime(Session["FyearFrom"].ToString());
+            DateTime mstart = new DateTime(fyear.Year, d.Month, 01);
+
+            int maxday = DateTime.DaysInMonth(fyear.Year, d.Month);
+            DateTime mend = new DateTime(fyear.Year, d.Month, maxday);
+
+            var sdate = DateTime.Parse(fdate);
+            var edate = DateTime.Parse(tdate);
+
+
+            var data=Context1.RecPays.Where(x => x.RecPayDate >= sdate && x.RecPayDate <= edate && x.IsTradingReceipt==true && x.FYearID == FYearID).OrderByDescending(x => x.RecPayDate).ToList();
+            var cust = Context1.SP_GetAllRecieptsDetailsByDate(fdate, tdate, FYearID).ToList();
+            ViewBag.AllCustomers = Context1.CUSTOMERs.ToList();
+            string view = this.RenderPartialView("_GetAllTradeCustomerByDate", data);
+
+            return new JsonResult
+            {
+                Data = new
+                {
+                    success = true,
+                    view = view
+                },
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+
+
+        }
+        public ActionResult GetTradeReceiptsByDate(string fdate, string tdate, int FYearID)
+        {
+            DateTime d = DateTime.Now;
+            DateTime fyear = Convert.ToDateTime(Session["FyearFrom"].ToString());
+            DateTime mstart = new DateTime(fyear.Year, d.Month, 01);
+
+            int maxday = DateTime.DaysInMonth(fyear.Year, d.Month);
+            DateTime mend = new DateTime(fyear.Year, d.Month, maxday);
+            var sdate = DateTime.Parse(fdate);
+            var edate = DateTime.Parse(tdate);
+            ViewBag.AllCustomers = Context1.CUSTOMERs.ToList();
+
+            var data = Context1.RecPays.Where(x => x.RecPayDate >= sdate && x.RecPayDate <= edate && x.FYearID== FYearID && x.IsTradingReceipt == true).OrderByDescending(x => x.RecPayDate).ToList();
+
+
+            var cust = Context1.SP_GetAllRecieptsDetailsByDate(fdate, tdate, FYearID).ToList();
+
+            return PartialView("_GetAllTradeCustomerByDate", data);
+
+        }
+        [HttpGet]
+        public ActionResult CustomerTradeReceiptDetails(int ID)
+        {
+            List<SP_GetAllRecieptsDetails_Result> Reciepts = new List<SP_GetAllRecieptsDetails_Result>();
+
+            Reciepts = RP.GetAllReciepts();
+            //var data = (from t in Reciepts where (t.RecPayDate >= Convert.ToDateTime(Session["FyearFrom"]) && t.RecPayDate <= Convert.ToDateTime(Session["FyearTo"])) select t).ToList();
+
+            if (ID > 0)
+            {
+                ViewBag.SuccessMsg = "You have successfully added Customer Reciept.";
+            }
+
+
+            if (ID == 10)
+            {
+                ViewBag.SuccessMsg = "You have successfully deleted Customer Reciept.";
+            }
+
+            if (ID == 20)
+            {
+                ViewBag.SuccessMsg = "You have successfully updated Customer Reciept.";
+            }
+
+
+            Session["ID"] = ID;
+
+
+            return View(Reciepts);
+        }
+        [HttpGet]
+        public ActionResult CustomerTradeReceipt(int id)
+        {
+            CustomerRcieptVM cust = new CustomerRcieptVM();
+            cust.CustomerRcieptChildVM = new List<CustomerRcieptChildVM>();
+            if (Session["UserID"] != null)
+            {
+
+                if (id > 0)
+                {
+                    cust = RP.GetRecPayByRecpayID(id);
+                    ViewBag.achead = Context1.AcHeadSelectForCash(Convert.ToInt32(Session["AcCompanyID"].ToString())).ToList();
+                    ViewBag.acheadbank = Context1.AcHeadSelectForBank(Convert.ToInt32(Session["AcCompanyID"].ToString())).ToList();
+                    cust.recPayDetail = Context1.RecPayDetails.Where(item => item.RecPayID == id).ToList();
+                    cust.CustomerRcieptChildVM = new List<CustomerRcieptChildVM>();
+                    foreach (var item in cust.recPayDetail)
+                    {
+                        if (item.InvoiceID > 0)
+                        {
+                            var sInvoiceDetail = (from d in Context1.SalesInvoiceDetails where d.SalesInvoiceDetailID == item.InvoiceID select d).FirstOrDefault();
+                            var Sinvoice = (from d in Context1.SalesInvoices where d.SalesInvoiceID == sInvoiceDetail.SalesInvoiceID select d).FirstOrDefault();
+                            var customerinvoice = new CustomerRcieptChildVM();
+                            customerinvoice.InvoiceID = Convert.ToInt32(item.InvoiceID);
+                            customerinvoice.SInvoiceNo = Sinvoice.SalesInvoiceNo;
+                            customerinvoice.strDate =Convert.ToDateTime(item.InvDate).ToString("dd/MM/yyyy");
+                            customerinvoice.AmountToBePaid = Convert.ToDecimal(item.Amount) * -1;
+                            customerinvoice.Amount = Convert.ToDecimal(item.Amount) * -1;
+                            customerinvoice.Balance = Convert.ToDecimal(sInvoiceDetail.NetValue + item.Amount);
+                            customerinvoice.RecPayDetailID = item.RecPayDetailID;
+                            customerinvoice.AmountToBeRecieved= Convert.ToDecimal(sInvoiceDetail.NetValue) ;
+                            customerinvoice.RecPayID =Convert.ToInt32(item.RecPayID);
+                            cust.CustomerRcieptChildVM.Add(customerinvoice);
+                        }
+                    }
+                    //var details=(from d in Context1.SalesInvoices join s in Context1.RecPayDetails on d.SalesInvoiceID )
+                    BindMasters_ForEdit(cust);
+                }
+                else
+                {
+                    BindAllMasters();
+
+                    ViewBag.achead = Context1.AcHeadSelectForCash(Convert.ToInt32(Session["AcCompanyID"].ToString())).ToList();
+                    ViewBag.acheadbank = Context1.AcHeadSelectForBank(Convert.ToInt32(Session["AcCompanyID"].ToString())).ToList();
+
+                    cust.RecPayDate = System.DateTime.UtcNow;
+                }
+            }
+            else
+            {
+                return RedirectToAction("Login", "Login");
+            }
+            return View(cust);
+
+        }
+        public JsonResult GetTradeInvoiceOfCustomer(int? ID)
+        {
+
+            DateTime fromdate = Convert.ToDateTime(Session["FyearFrom"].ToString());
+            DateTime todate = Convert.ToDateTime(Session["FyearTo"].ToString());
+            var AllInvoices = (from d in Context1.SalesInvoices where d.CustomerID == ID select d).ToList();
+            var salesinvoice = new List<CustomerTradeReceiptVM>();
+            foreach (var item in AllInvoices)
+            {
+                var invoicedeails = (from d in Context1.SalesInvoiceDetails where d.SalesInvoiceID == item.SalesInvoiceID where (d.RecPayStatus < 2 || d.RecPayStatus == null) select d).ToList();
+                foreach (var det in invoicedeails)
+                {
+                    var Invoice = new CustomerTradeReceiptVM();
+                    Invoice.JobID = det.JobID;
+                    Invoice.JobCode = "";
+                    Invoice.SalesInvoiceID = det.SalesInvoiceID;
+                    Invoice.InvoiceNo = item.SalesInvoiceNo;
+                    Invoice.SalesInvoiceDetailID = det.SalesInvoiceDetailID;
+                    Invoice.InvoiceAmount = det.NetValue;
+                    Invoice.date = item.SalesInvoiceDate;
+                    Invoice.DateTime = item.SalesInvoiceDate.Value.ToString("dd/MM/yyyy");
+                    var RecPay = (from d in Context1.RecPayDetails where d.RecPayDetailID == det.RecPayDetailId select d).FirstOrDefault();
+                    if (RecPay != null)
+                    {
+                        if (RecPay.InvoiceID > 0)
+                        {
+                            Invoice.AmountReceived = RecPay.Amount * -1;
+                            Invoice.Balance = Invoice.InvoiceAmount - (RecPay.Amount * -1);
+                        }
+                        else
+                        {
+                            Invoice.AmountReceived = 0;
+                            Invoice.Balance = Invoice.InvoiceAmount;
+                        }
+                    }
+                    else
+                    {
+                        Invoice.AmountReceived = 0;
+                        Invoice.Balance = Invoice.InvoiceAmount;
+                    }
+                    salesinvoice.Add(Invoice);
+                }
+            }
+
+            return Json(salesinvoice, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public ActionResult CustomerTradeReceipt(CustomerRcieptVM RecP, string Command, string Currency)
+        {
+            int RPID = 0;
+            int i = 0;
+            RecP.FYearID = Convert.ToInt32(Session["fyearid"]);
+            RecP.UserID = Convert.ToInt32(Session["UserID"]);
+
+            //if (RecP.RecPayID > 0)
+            //{
+            //    RP.EditCustomerRecPay(RecP, Session["UserID"].ToString());
+            //    RP.EditCustomerRecieptDetails(RecP.recPayDetail, RecP.RecPayID);
+            //}
+            if (RecP.CashBank != null)
+            {
+                RecP.StatusEntry = "CS";
+                int acheadid = Convert.ToInt32(RecP.CashBank);
+                var achead = (from t in Context1.AcHeads where t.AcHeadID == acheadid select t.AcHead1).FirstOrDefault();
+                RecP.BankName = achead;
+            }
+            else
+            {
+                RecP.StatusEntry = "BK";
+                int acheadid = Convert.ToInt32(RecP.ChequeBank);
+                var achead = (from t in Context1.AcHeads where t.AcHeadID == acheadid select t.AcHead1).FirstOrDefault();
+                RecP.BankName = achead;
+            }
+
+            //Adding Entry in Rec PAY
+
+            ///Insert Entry For RecPay Details 
+            ///
+            if (RecP.RecPayID <= 0)
+            {
+                decimal Fmoney = 0;
+                for (int j = 0; j < RecP.CustomerRcieptChildVM.Count; j++)
+                {
+                    Fmoney = Fmoney + RecP.CustomerRcieptChildVM[j].Amount;
+                }
+
+                RecP.FMoney = Fmoney;
+                
+                RPID = RP.AddCustomerRecieptPayment(RecP, Session["UserID"].ToString());
+              
+                    RecP.RecPayID = (from c in Context1.RecPays orderby c.RecPayID descending select c.RecPayID).FirstOrDefault();
+                decimal TotalAmount = 0;
+            
+                foreach (var item in RecP.CustomerRcieptChildVM)
+                {
+                    decimal Advance = 0;
+                    //if (item.Amount > 0 && (item.AmountToBeRecieved < item.Amount || item.AmountToBeRecieved == item.Amount))///900<1000
+                    //{
+                    // item.Amount = Convert.ToDecimal(RecP.EXRate * item.Amount);
+                    //100=1000-900
+                    Advance = item.Amount - item.AmountToBeRecieved;
+                    DateTime vInvoiceDate = Convert.ToDateTime(item.InvoiceDate);
+                    string vInvoiceDate1 = Convert.ToDateTime(vInvoiceDate).ToString("yyyy-MM-dd h:mm tt");
+                    if (item.Amount > 0)
+                    {
+                        RP.InsertRecpayDetailsForCust(RecP.RecPayID, item.InvoiceID, item.InvoiceID, Convert.ToDecimal(-item.Amount), "", "C", false, "", vInvoiceDate1, item.InvoiceNo.ToString(), Convert.ToInt32(RecP.CurrencyId), 3, item.JobID);
+
+                        if (Advance > 0)
+                        {
+                            //Advance Amount entry
+                            RP.InsertRecpayDetailsForCust(RecP.RecPayID, 0, 0, Advance, null, "C", true, null, null, null, Convert.ToInt32(RecP.CurrencyId), 4, item.JobID);
+                        }
+                        var maxrecpaydetailid = (from c in Context1.RecPayDetails orderby c.RecPayDetailID descending select c.RecPayDetailID).FirstOrDefault();
+                        var salesinvoicedetails = (from d in Context1.SalesInvoiceDetails where d.SalesInvoiceDetailID == item.InvoiceID select d).FirstOrDefault();
+                        if (item.Amount >= salesinvoicedetails.NetValue)
+                        {
+                            salesinvoicedetails.RecPayStatus = 2;
+                        }
+                        else
+                        {
+                            salesinvoicedetails.RecPayStatus = 1;
+                        }
+                        salesinvoicedetails.RecPayDetailId = maxrecpaydetailid + 1;
+                        Context1.SaveChanges();
+                    }
+                    TotalAmount = TotalAmount + item.Amount;
+                }
+
+                //To Balance Invoice AMount
+                if (TotalAmount > 0)
+                {
+                    int l = RP.InsertRecpayDetailsForCust(RecP.RecPayID, 0, 0, TotalAmount, null, "C", false, null, null, null, Convert.ToInt32(RecP.CurrencyId), 4, 0);
+                    int fyaerId = Convert.ToInt32(Session["fyearid"].ToString());
+                    RP.InsertJournalOfCustomer(RecP.RecPayID, fyaerId);
+                   
+                }
+                var Recpaydata = (from d in Context1.RecPays where d.RecPayID==RecP.RecPayID select d).FirstOrDefault();
+
+                Recpaydata.RecPayID = RecP.RecPayID;
+                Recpaydata.IsTradingReceipt = true;
+                Context1.Entry(Recpaydata).State = EntityState.Modified;
+                Context1.SaveChanges();
+
+            }
+            else
+            {
+                decimal Fmoney = 0;
+                for (int j = 0; j < RecP.CustomerRcieptChildVM.Count; j++)
+                {
+                    Fmoney = Fmoney + RecP.CustomerRcieptChildVM[j].Amount;
+                }
+
+                RecPay recpay = new RecPay();
+                recpay.RecPayDate = RecP.RecPayDate;
+                recpay.RecPayID = RecP.RecPayID;
+                recpay.AcJournalID = RecP.AcJournalID;
+                recpay.BankName = RecP.BankName;
+                recpay.ChequeDate = RecP.ChequeDate;
+                recpay.ChequeNo = RecP.ChequeNo;
+                recpay.CustomerID = RecP.CustomerID;
+                recpay.DocumentNo = RecP.DocumentNo;
+                recpay.EXRate = RecP.EXRate;
+                recpay.FYearID = RecP.FYearID;
+                recpay.FMoney = Fmoney;
+                recpay.StatusEntry = RecP.StatusEntry;
+                recpay.IsTradingReceipt = true;
+                Context1.Entry(recpay).State = EntityState.Modified;
+                Context1.SaveChanges();
+
+                foreach (var item in RecP.CustomerRcieptChildVM)
+                {
+                    RecPayDetail recpd = new RecPayDetail();
+                    recpd.RecPayDetailID = item.RecPayDetailID;
+                    recpd.Amount = -(item.Amount);
+                    recpd.CurrencyID = item.CurrencyId;
+                    //recpd.InvDate = item.InvoiceDate.Value;
+                    recpd.RecPayID = RecP.RecPayID;
+                    recpd.Remarks = item.Remarks;
+                    recpd.InvoiceID = item.InvoiceID;
+                    recpd.StatusInvoice = "C";
+                    Context1.Entry(recpd).State = EntityState.Modified;
+                    Context1.SaveChanges();
+                    var salesinvoicedetails = (from d in Context1.SalesInvoiceDetails where d.SalesInvoiceDetailID == item.InvoiceID select d).FirstOrDefault();
+                    if (item.Amount >= salesinvoicedetails.NetValue)
+                    {
+                        salesinvoicedetails.RecPayStatus = 2;
+                    }
+                    else
+                    {
+                        salesinvoicedetails.RecPayStatus = 1;
+                    }
+                    var maxrecpaydetailid = (from c in Context1.RecPayDetails orderby c.RecPayDetailID descending select c.RecPayDetailID).FirstOrDefault();
+
+                    var recpaydet = (from d in Context1.RecPayDetails where d.InvoiceID == item.InvoiceID select d).FirstOrDefault();
+                    if (recpaydet != null)
+                    {
+                        salesinvoicedetails.RecPayDetailId = recpaydet.RecPayDetailID;
+                    }
+                    else
+                    {
+                        salesinvoicedetails.RecPayDetailId = maxrecpaydetailid+1;
+                    }
+                    Context1.SaveChanges();
+                    /*  if (item.AmountToBeRecieved < item.Amount)
+                      {
+                          RecPayDetail recpd1 = new RecPayDetail();
+                          recpd1.RecPayDetailID = (from c in Context1.RecPayDetails orderby c.RecPayDetailID descending select c.RecPayDetailID).FirstOrDefault();
+                          recpd1.Amount = item.AmountToBeRecieved - item.Amount;
+                          recpd1.RecPayID = RecP.RecPayID;
+                          recpd1.Remarks = item.Remarks;
+                          recpd1.CurrencyID = item.CurrencyId;
+                          recpd1.StatusAdvance = true;
+                          recpd.StatusInvoice = "C";
+                          Context1.Entry(recpd1).State = EntityState.Modified;
+                          Context1.SaveChanges();
+                      }*/
+
+
+                }
+                int editrecPay = 0;
+                var sumOfAmount = Context1.RecPayDetails.Where(m => m.RecPayID == RecP.RecPayID && m.InvoiceID != 0).Sum(c => c.Amount);
+                editrecPay = editfu.EditRecpayDetailsCustR(RecP.RecPayID, Convert.ToInt32(sumOfAmount));
+                int editAcJdetails = editfu.EditAcJDetails(RecP.AcJournalID.Value, Convert.ToInt32(sumOfAmount));
+            }
+
+
+            BindAllMasters();
+            return RedirectToAction("CustomerTradeReceiptDetails", "CustomerReciept", new { ID = RecP.RecPayID });
+        }
+
     }
 }

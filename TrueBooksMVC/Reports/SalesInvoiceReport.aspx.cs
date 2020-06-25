@@ -58,6 +58,31 @@ namespace TrueBooksMVC.Reports
             dtcompany.Rows.Add(dr);
             ReportDataSource _rsourceInvoice;
 
+            var invoice = entity.SalesInvoices.Where(d => d.SalesInvoiceID == InvoiceId).FirstOrDefault();
+            var getCustomer = entity.CUSTOMERs.Where(d => d.CustomerID == invoice.CustomerID).FirstOrDefault();
+
+            DataTable dtsupplier = new DataTable();
+            dtsupplier.Columns.Add("SupplierName");
+            dtsupplier.Columns.Add("Address1");
+            dtsupplier.Columns.Add("Address2");
+            dtsupplier.Columns.Add("Address3");
+            dtsupplier.Columns.Add("Phone");
+            dtsupplier.Columns.Add("Country");
+            dtsupplier.Columns.Add("City");
+
+            DataRow dr2 = dtsupplier.NewRow();
+            dr2[0] = getCustomer.Customer1;
+            dr2[1] = getCustomer.Address1;
+            dr2[2] = getCustomer.Address2;
+            dr2[3] = getCustomer.Address3;
+            dr2[4] = getCustomer.Phone;
+            dr2[5] = getCustomer.CountryID;
+            dr2[6] = invoice.ExchangeRate;
+
+            dtsupplier.Rows.Add(dr2);
+
+            ReportDataSource _resourceSupplier = new ReportDataSource("Supplier", dtsupplier);
+
             DataSet ds = DAL.SP_GetSalesInvoiceReport(InvoiceId);
             _rsourceInvoice = new ReportDataSource("SalesInvoice", ds.Tables[0]);
 
@@ -67,6 +92,7 @@ namespace TrueBooksMVC.Reports
             ReportViewer1.LocalReport.DataSources.Add(_rsourceInvoice);
             ReportViewer1.LocalReport.DataSources.Add(_rsourceCompany);
             ReportViewer1.LocalReport.DataSources.Add(_rsourceInvoiceDetails);
+            ReportViewer1.LocalReport.DataSources.Add(_resourceSupplier);
 
             DataTable dtuser = new DataTable();
             dtuser.Columns.Add("UserName");

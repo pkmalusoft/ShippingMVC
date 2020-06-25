@@ -6,8 +6,8 @@
     var isdelete = true;
     var isprint = true;
 
-    string path = "/CustomerReciept/CustomerRecieptDetails/0";
-    var customers = ViewBag.AllCustomers as IEnumerable<DAL.CUSTOMER>;
+    string path = "/CustomerReciept/CustomerTradeRecieptDetails/0";
+  var customers=  ViewBag.AllCustomers as IEnumerable<DAL.CUSTOMER>;
 
     if (Convert.ToInt32(Session["UserRoleID"]) > 1)
     {
@@ -90,6 +90,7 @@
                                                 <th>Document No</th>
                                                 <th>Party Name</th>
                                                 <th>Amount</th>
+                                              
                                                 <th style="width:70px;"></th>
                                             </tr>
                                         </tfoot>
@@ -105,32 +106,34 @@
                                                     <td>
                                                         @TrueBooksMVC.Models.CommanFunctions.GetShortDateFormat(item.RecPayDate)
 
-                                                    @Html.HiddenFor(model => item.RecPayID)
-                                                </td>
-                                                <td>@Html.DisplayFor(modelItem => item.DocumentNo)</td>
-                                                <td class="tdtarget">@customers.Where(d=>d.CustomerID==item.CustomerID).FirstOrDefault().Customer1</td>
-                                                <td class="textright">@Html.DisplayFor(modelItem => item.FMoney)</td>
-                                                <td>
+                                                        @Html.HiddenFor(model => item.RecPayID)
+                                                    </td>
+                                                    <td>@Html.DisplayFor(modelItem => item.DocumentNo)</td>
+                                                    <td class="tdtarget">@customers.Where(d=>d.CustomerID==item.CustomerID).FirstOrDefault().Customer1</td>
+                                                    <td class="textright">@Html.DisplayFor(modelItem => item.FMoney)</td>
+                                                 
+                                                    <td>
 
-                                                    @if (ismodify)
-                                                    {
-                                                        <a href='@Url.Action("CustomerReciept", "CustomerReciept", new { id = item.RecPayID })' data-toggle="tooltip" data-placement="left" title="Click here"><i class="fa fa-pencil"></i></a>
-                                                    }
-                                                    |
-                                                    @if (isdelete)
-                                                    {
-                                                        <a href="#" onclick="DeleteCustomer(cid=@item.RecPayID)"><i class="fa fa-times-circle"></i></a>
-                                                    }
-                                                    @if (isprint)
-                                                    {
-                                                        <a href="#"><i class="fa fa-print print"></i></a>
-                                                    }
+                                                        @if (ismodify)
+                                                        {
+                                                            <a href='@Url.Action("CustomerTradeReceipt", "CustomerReciept", new { id = item.RecPayID })' data-toggle="tooltip" data-placement="left" title="Click here"><i class="fa fa-pencil"></i></a>
+                                                        }
+                                                        |
+                                                        @if (isdelete)
+                                                        {
+                                                            <a href="#" onclick="DeleteCustomer(cid=@item.RecPayID)"><i class="fa fa-times-circle"></i></a>
+                                                        }
+                                                        |
+                                                        @if (isprint)
+                                                        {
+                                                           <a href="#"><i class="fa fa-print print"></i></a> 
+                                                        }
 
 
-                                                </td>
-                                            </tr>
+                                                    </td>
+                                                </tr>
 
-                                        }
+                                            }
 
                                         </tbody>
                                     </table>
@@ -144,3 +147,4 @@
         </div>
     </div>
 </div>
+

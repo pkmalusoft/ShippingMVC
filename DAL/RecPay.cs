@@ -33,5 +33,6 @@ namespace DAL
         public Nullable<decimal> EXRate { get; set; }
         public Nullable<decimal> FMoney { get; set; }
         public Nullable<int> UserID { get; set; }
+        public Nullable<bool> IsTradingReceipt { get; set; }
     }
 }
