@@ -189,7 +189,6 @@ myapp.controller('MyController', function ($scope, $http, ngservice) {
         }).success(function (data, status, headers, config) {
             $('#tbl1 tr:gt(0)').remove();
             $scope.Orders = data;
-            debugger;
             for (var i = 0; i < data.length; i++) {
                 var date = new Date(data[i].date);
                 var tempdate = new Date(date).getDate() + '/' + (new Date(date).getMonth() + 1) + '/' + new Date(date).getFullYear();
@@ -202,6 +201,7 @@ myapp.controller('MyController', function ($scope, $http, ngservice) {
                     '<td>' + parseFloat(data[i].Balance).toFixed(2) + '<input id="" name="CustomerRcieptChildVM[' + i + '].Balance" value=' + data[i].Balance + ' type="hidden"><input id="" name="CustomerRcieptChildVM[' + i + '].InvoiceNo" value=' + data[i].InvoiceNo + ' type="hidden"></td>' +
                     //'<td>' + data[i].Amount + '<input id="" name="customerRcieptVM[' + i + '].Amount" value=' + data[i].Amount + ' type="hidden"></td>' +
                     '<td> <input type="text" onBlur="CheckAmt(this)"  class="amt txtNum text-right AmountReceived" name=CustomerRcieptChildVM[' + i + '].Amount>' +
+                    '<td> <input type="text"   class="amt1 txtNum text-right AdjustmentAmount" name=CustomerRcieptChildVM[' + i + '].AdjustmentAmount>' +
 
                     '<tr>');
                 //hideLoading();

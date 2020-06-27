@@ -58,10 +58,55 @@ namespace TrueBooksMVC.Reports
 
             dtcompany.Rows.Add(dr);
 
+            var receipt = (from d in entity.RecPays where d.RecPayID == recpayid select d).FirstOrDefault();
+            var recpaydetails = (from d in entity.RecPayDetails where d.RecPayID == recpayid where d.InvoiceID>0 select d).ToList();
+            var cust= entity.CUSTOMERs.Where(d => d.CustomerID == receipt.CustomerID).FirstOrDefault();
+            var listofdet = new List<ReportCustomerReceipt_Result>();
+            foreach (var item in recpaydetails)
+            {
+                var sinvoicedet = (from d in entity.SalesInvoiceDetails where d.SalesInvoiceDetailID == item.InvoiceID select d).FirstOrDefault();
+                var sinvoice = (from d in entity.SalesInvoices where d.SalesInvoiceID == sinvoicedet.SalesInvoiceID select d).FirstOrDefault();
+                var customerrecpay = new ReportCustomerReceipt_Result();
+                customerrecpay.Date = receipt.RecPayDate.Value.ToString("dd-MMM-yyyy");
+                customerrecpay.ReceivedFrom = cust.Customer1;
+                customerrecpay.DocumentNo = receipt.DocumentNo;
+                customerrecpay.Amount =Convert.ToDecimal(receipt.FMoney);
+                customerrecpay.Remarks = receipt.Remarks;               
+                customerrecpay.Account = receipt.BankName;
+                if (receipt.ChequeDate != null)
+                {
+                    customerrecpay.ChequeDate = receipt.ChequeDate.Value.ToString("dd-MMM-yyyy");
+                }
+                else
+                {
+                    customerrecpay.ChequeDate = "";
+                }
+                if (!string.IsNullOrEmpty(receipt.ChequeNo))
+                {
+                    customerrecpay.ChequeNo = Convert.ToDecimal(receipt.ChequeNo);
+                }
+                customerrecpay.CustomerBank = "";
+                customerrecpay.DetailDocNo = sinvoice.SalesInvoiceNo;
+                customerrecpay.DocDate = sinvoice.SalesInvoiceDate.Value.ToString("dd-MMM-yyyy");
+                customerrecpay.DocAmount =Convert.ToDecimal(sinvoicedet.NetValue);
+               
+                if (item.Amount > 0)
+                {
+                    customerrecpay.SettledAmount = Convert.ToDecimal(item.Amount) ;
+                    customerrecpay.AdjustmentAmount = Convert.ToInt32(item.AdjustmentAmount);
+                }
+                else
+                {
+                    customerrecpay.SettledAmount = Convert.ToDecimal(item.Amount) *-1;
+                    customerrecpay.AdjustmentAmount = Convert.ToInt32( item.AdjustmentAmount);
+                }
+                listofdet.Add(customerrecpay);
+            }
 
             ReportDataSource _rsource;
+
             var dd = entity.ReportCustomerReceipt(recpayid).ToList();
-            _rsource = new ReportDataSource("ReceiptVoucher", dd);
+            _rsource = new ReportDataSource("ReceiptVoucher", listofdet);
 
 
             ReportDataSource _rsource1 = new ReportDataSource("Company", dtcompany);
@@ -124,7 +169,7 @@ namespace TrueBooksMVC.Reports
         public static string NumberToWords(int number)
         {
             if (number == 0)
-                return "zero";
+                return "Zero";
 
             if (number < 0)
                 return "minus " + NumberToWords(Math.Abs(number));
@@ -133,19 +178,19 @@ namespace TrueBooksMVC.Reports
 
             if ((number / 1000000) > 0)
             {
-                words += NumberToWords(number / 1000000) + " million ";
+                words += NumberToWords(number / 1000000) + " Million ";
                 number %= 1000000;
             }
 
             if ((number / 1000) > 0)
             {
-                words += NumberToWords(number / 1000) + " thousand ";
+                words += NumberToWords(number / 1000) + " Thousand ";
                 number %= 1000;
             }
 
             if ((number / 100) > 0)
             {
-                words += NumberToWords(number / 100) + " hundred ";
+                words += NumberToWords(number / 100) + " Hundred ";
                 number %= 100;
             }
 
@@ -154,8 +199,8 @@ namespace TrueBooksMVC.Reports
                 if (words != "")
                     words += "and ";
 
-                var unitsMap = new[] { "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen" };
-                var tensMap = new[] { "zero", "ten", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety" };
+                var unitsMap = new[] { "Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen" };
+                var tensMap = new[] { "Zero", "Ten", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety" };
 
                 if (number < 20)
                     words += unitsMap[number];

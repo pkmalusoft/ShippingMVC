@@ -249,7 +249,7 @@ namespace TrueBooksMVC.Controllers
 
                 RecP.FMoney = Fmoney;
                 RPID = RP.AddCustomerRecieptPayment(RecP, Session["UserID"].ToString());
-               
+
                 RecP.RecPayID = (from c in Context1.RecPays orderby c.RecPayID descending select c.RecPayID).FirstOrDefault();
                 decimal TotalAmount = 0;
                 foreach (var item in RecP.CustomerRcieptChildVM)
@@ -591,7 +591,7 @@ namespace TrueBooksMVC.Controllers
             var edate = DateTime.Parse(tdate);
 
 
-            var data=Context1.RecPays.Where(x => x.RecPayDate >= sdate && x.RecPayDate <= edate && x.IsTradingReceipt==true && x.FYearID == FYearID).OrderByDescending(x => x.RecPayDate).ToList();
+            var data = Context1.RecPays.Where(x => x.RecPayDate >= sdate && x.RecPayDate <= edate && x.IsTradingReceipt == true && x.FYearID == FYearID).OrderByDescending(x => x.RecPayDate).ToList();
             var cust = Context1.SP_GetAllRecieptsDetailsByDate(fdate, tdate, FYearID).ToList();
             ViewBag.AllCustomers = Context1.CUSTOMERs.ToList();
             string view = this.RenderPartialView("_GetAllTradeCustomerByDate", data);
@@ -620,7 +620,7 @@ namespace TrueBooksMVC.Controllers
             var edate = DateTime.Parse(tdate);
             ViewBag.AllCustomers = Context1.CUSTOMERs.ToList();
 
-            var data = Context1.RecPays.Where(x => x.RecPayDate >= sdate && x.RecPayDate <= edate && x.FYearID== FYearID && x.IsTradingReceipt == true).OrderByDescending(x => x.RecPayDate).ToList();
+            var data = Context1.RecPays.Where(x => x.RecPayDate >= sdate && x.RecPayDate <= edate && x.FYearID == FYearID && x.IsTradingReceipt == true).OrderByDescending(x => x.RecPayDate).ToList();
 
 
             var cust = Context1.SP_GetAllRecieptsDetailsByDate(fdate, tdate, FYearID).ToList();
@@ -679,16 +679,21 @@ namespace TrueBooksMVC.Controllers
                         {
                             var sInvoiceDetail = (from d in Context1.SalesInvoiceDetails where d.SalesInvoiceDetailID == item.InvoiceID select d).FirstOrDefault();
                             var Sinvoice = (from d in Context1.SalesInvoices where d.SalesInvoiceID == sInvoiceDetail.SalesInvoiceID select d).FirstOrDefault();
+                            var allrecpay = (from d in Context1.RecPayDetails where d.InvoiceID == item.InvoiceID select d).ToList();
+                            var totamtpaid = allrecpay.Sum(d => d.Amount) * -1;
+                            var totadjust = allrecpay.Sum(d => d.AdjustmentAmount);
+                            var totamt = totamtpaid + totadjust;
                             var customerinvoice = new CustomerRcieptChildVM();
                             customerinvoice.InvoiceID = Convert.ToInt32(item.InvoiceID);
                             customerinvoice.SInvoiceNo = Sinvoice.SalesInvoiceNo;
-                            customerinvoice.strDate =Convert.ToDateTime(item.InvDate).ToString("dd/MM/yyyy");
-                            customerinvoice.AmountToBePaid = Convert.ToDecimal(item.Amount) * -1;
+                            customerinvoice.strDate = Convert.ToDateTime(item.InvDate).ToString("dd/MM/yyyy");
+                            customerinvoice.AmountToBePaid = Convert.ToDecimal(totamtpaid);
                             customerinvoice.Amount = Convert.ToDecimal(item.Amount) * -1;
-                            customerinvoice.Balance = Convert.ToDecimal(sInvoiceDetail.NetValue + item.Amount);
+                            customerinvoice.Balance = Convert.ToDecimal(sInvoiceDetail.NetValue - totamt);
                             customerinvoice.RecPayDetailID = item.RecPayDetailID;
-                            customerinvoice.AmountToBeRecieved= Convert.ToDecimal(sInvoiceDetail.NetValue) ;
-                            customerinvoice.RecPayID =Convert.ToInt32(item.RecPayID);
+                            customerinvoice.AmountToBeRecieved = Convert.ToDecimal(sInvoiceDetail.NetValue);
+                            customerinvoice.RecPayID = Convert.ToInt32(item.RecPayID);
+                            customerinvoice.AdjustmentAmount = Convert.ToDecimal(item.AdjustmentAmount);
                             cust.CustomerRcieptChildVM.Add(customerinvoice);
                         }
                     }
@@ -724,6 +729,10 @@ namespace TrueBooksMVC.Controllers
                 var invoicedeails = (from d in Context1.SalesInvoiceDetails where d.SalesInvoiceID == item.SalesInvoiceID where (d.RecPayStatus < 2 || d.RecPayStatus == null) select d).ToList();
                 foreach (var det in invoicedeails)
                 {
+                    var allrecpay = (from d in Context1.RecPayDetails where d.InvoiceID == det.SalesInvoiceDetailID select d).ToList();
+                    var totamtpaid = allrecpay.Sum(d => d.Amount) * -1;
+                    var totadjust = allrecpay.Sum(d => d.AdjustmentAmount);
+                    var totamt = totamtpaid + totadjust;
                     var Invoice = new CustomerTradeReceiptVM();
                     Invoice.JobID = det.JobID;
                     Invoice.JobCode = "";
@@ -734,24 +743,12 @@ namespace TrueBooksMVC.Controllers
                     Invoice.date = item.SalesInvoiceDate;
                     Invoice.DateTime = item.SalesInvoiceDate.Value.ToString("dd/MM/yyyy");
                     var RecPay = (from d in Context1.RecPayDetails where d.RecPayDetailID == det.RecPayDetailId select d).FirstOrDefault();
-                    if (RecPay != null)
-                    {
-                        if (RecPay.InvoiceID > 0)
-                        {
-                            Invoice.AmountReceived = RecPay.Amount * -1;
-                            Invoice.Balance = Invoice.InvoiceAmount - (RecPay.Amount * -1);
-                        }
-                        else
-                        {
-                            Invoice.AmountReceived = 0;
-                            Invoice.Balance = Invoice.InvoiceAmount;
-                        }
-                    }
-                    else
-                    {
-                        Invoice.AmountReceived = 0;
-                        Invoice.Balance = Invoice.InvoiceAmount;
-                    }
+
+                    Invoice.AmountReceived = totamt;
+                    Invoice.Balance = Invoice.InvoiceAmount - totamtpaid;
+                    Invoice.AdjustmentAmount = totadjust;
+
+
                     salesinvoice.Add(Invoice);
                 }
             }
@@ -799,12 +796,12 @@ namespace TrueBooksMVC.Controllers
                 }
 
                 RecP.FMoney = Fmoney;
-                
+
                 RPID = RP.AddCustomerRecieptPayment(RecP, Session["UserID"].ToString());
-              
-                    RecP.RecPayID = (from c in Context1.RecPays orderby c.RecPayID descending select c.RecPayID).FirstOrDefault();
+
+                RecP.RecPayID = (from c in Context1.RecPays orderby c.RecPayID descending select c.RecPayID).FirstOrDefault();
                 decimal TotalAmount = 0;
-            
+
                 foreach (var item in RecP.CustomerRcieptChildVM)
                 {
                     decimal Advance = 0;
@@ -815,18 +812,27 @@ namespace TrueBooksMVC.Controllers
                     Advance = item.Amount - item.AmountToBeRecieved;
                     DateTime vInvoiceDate = Convert.ToDateTime(item.InvoiceDate);
                     string vInvoiceDate1 = Convert.ToDateTime(vInvoiceDate).ToString("yyyy-MM-dd h:mm tt");
-                    if (item.Amount > 0)
+                    if (item.Amount > 0 || item.AdjustmentAmount > 0)
                     {
-                        RP.InsertRecpayDetailsForCust(RecP.RecPayID, item.InvoiceID, item.InvoiceID, Convert.ToDecimal(-item.Amount), "", "C", false, "", vInvoiceDate1, item.InvoiceNo.ToString(), Convert.ToInt32(RecP.CurrencyId), 3, item.JobID);
+                        var maxrecpaydetailid = (from c in Context1.RecPayDetails orderby c.RecPayDetailID descending select c.RecPayDetailID).FirstOrDefault();
 
+                        RP.InsertRecpayDetailsForCust(RecP.RecPayID, item.InvoiceID, item.InvoiceID, Convert.ToDecimal(-item.Amount), "", "C", false, "", vInvoiceDate1, item.InvoiceNo.ToString(), Convert.ToInt32(RecP.CurrencyId), 3, item.JobID);
+                        var recpaydetail = (from d in Context1.RecPayDetails where d.RecPayDetailID == maxrecpaydetailid + 1 select d).FirstOrDefault();
+                        var recpd = recpaydetail;
+                        recpaydetail.AdjustmentAmount = item.AdjustmentAmount;
+                        Context1.Entry(recpd).State = EntityState.Modified;
+                        Context1.SaveChanges();
                         if (Advance > 0)
                         {
                             //Advance Amount entry
                             RP.InsertRecpayDetailsForCust(RecP.RecPayID, 0, 0, Advance, null, "C", true, null, null, null, Convert.ToInt32(RecP.CurrencyId), 4, item.JobID);
                         }
-                        var maxrecpaydetailid = (from c in Context1.RecPayDetails orderby c.RecPayDetailID descending select c.RecPayDetailID).FirstOrDefault();
                         var salesinvoicedetails = (from d in Context1.SalesInvoiceDetails where d.SalesInvoiceDetailID == item.InvoiceID select d).FirstOrDefault();
-                        if (item.Amount >= salesinvoicedetails.NetValue)
+                        var totamount = (from d in Context1.RecPayDetails where d.InvoiceID == salesinvoicedetails.SalesInvoiceDetailID select d).ToList();
+                        var totsum = totamount.Sum(d => d.Amount);
+                        var totAdsum = totamount.Sum(d => d.AdjustmentAmount);
+                        var tamount = totsum + totAdsum;
+                        if (tamount >= salesinvoicedetails.NetValue)
                         {
                             salesinvoicedetails.RecPayStatus = 2;
                         }
@@ -846,9 +852,9 @@ namespace TrueBooksMVC.Controllers
                     int l = RP.InsertRecpayDetailsForCust(RecP.RecPayID, 0, 0, TotalAmount, null, "C", false, null, null, null, Convert.ToInt32(RecP.CurrencyId), 4, 0);
                     int fyaerId = Convert.ToInt32(Session["fyearid"].ToString());
                     RP.InsertJournalOfCustomer(RecP.RecPayID, fyaerId);
-                   
+
                 }
-                var Recpaydata = (from d in Context1.RecPays where d.RecPayID==RecP.RecPayID select d).FirstOrDefault();
+                var Recpaydata = (from d in Context1.RecPays where d.RecPayID == RecP.RecPayID select d).FirstOrDefault();
 
                 Recpaydata.RecPayID = RecP.RecPayID;
                 Recpaydata.IsTradingReceipt = true;
@@ -895,7 +901,11 @@ namespace TrueBooksMVC.Controllers
                     Context1.Entry(recpd).State = EntityState.Modified;
                     Context1.SaveChanges();
                     var salesinvoicedetails = (from d in Context1.SalesInvoiceDetails where d.SalesInvoiceDetailID == item.InvoiceID select d).FirstOrDefault();
-                    if (item.Amount >= salesinvoicedetails.NetValue)
+                    var totamount = (from d in Context1.RecPayDetails where d.InvoiceID == salesinvoicedetails.SalesInvoiceDetailID select d).ToList();
+                    var totsum = totamount.Sum(d => d.Amount) *-1;
+                    var totAdsum = totamount.Sum(d => d.AdjustmentAmount);
+                    var tamount = totsum + totAdsum;
+                    if (tamount >= salesinvoicedetails.NetValue)
                     {
                         salesinvoicedetails.RecPayStatus = 2;
                     }
@@ -912,7 +922,7 @@ namespace TrueBooksMVC.Controllers
                     }
                     else
                     {
-                        salesinvoicedetails.RecPayDetailId = maxrecpaydetailid+1;
+                        salesinvoicedetails.RecPayDetailId = maxrecpaydetailid + 1;
                     }
                     Context1.SaveChanges();
                     /*  if (item.AmountToBeRecieved < item.Amount)

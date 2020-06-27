@@ -21,5 +21,6 @@ namespace TrueBooksMVC.Models
         public decimal? AmountReceived { get; set; }
         public decimal? Balance { get; set; }
         public string DateTime { get; set; }
+        public decimal? AdjustmentAmount { get; set; }
     }
 }

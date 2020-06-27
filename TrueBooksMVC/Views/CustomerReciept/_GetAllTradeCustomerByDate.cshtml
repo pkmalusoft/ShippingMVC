@@ -7,7 +7,8 @@
     var isprint = true;
 
     string path = "/CustomerReciept/CustomerTradeRecieptDetails/0";
-  var customers=  ViewBag.AllCustomers as IEnumerable<DAL.CUSTOMER>;
+    var customers=  ViewBag.AllCustomers as IEnumerable<DAL.CUSTOMER>;
+    var spath = System.Configuration.ConfigurationManager.AppSettings["spath"].ToString();
 
     if (Convert.ToInt32(Session["UserRoleID"]) > 1)
     {
@@ -47,9 +48,10 @@
         $(".print").click(function () {
             var row = $(this).parent("a").parent("td").parent("tr");
             var id = $(row).find("td").eq(0).find('input[type=hidden]').val();
+            var url = '@spath' + "/Reports/ReceiptVocher.aspx?recpayid=" + id;
 
-            var src = "http://localhost:1052/Reports/ReceiptVocher.aspx?recpayid=" + id;
-            window.open(src, "_blank");
+            //var src = "http://localhost:1052/Reports/ReceiptVocher.aspx?recpayid=" + id;
+            window.open(url, "_blank");
         });
 
 

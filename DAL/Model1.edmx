@@ -901,6 +901,7 @@ warning 6002: The table/view 'malusoft_shipping.dbo.PurchaseInvoiceDetails' does
           <Property Name="CurrencyID" Type="int" />
           <Property Name="Lock" Type="bit" />
           <Property Name="JobID" Type="int" />
+          <Property Name="AdjustmentAmount" Type="decimal" Precision="18" Scale="2" />
         </EntityType>
         <EntityType Name="Remarks">
           <Key>
@@ -5926,6 +5927,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Type="Int32" Name="CurrencyID" />
           <Property Type="Boolean" Name="Lock" />
           <Property Name="JobID" Type="Int32" />
+          <Property Name="AdjustmentAmount" Type="Decimal" Precision="18" Scale="2" />
         </EntityType>
         <ComplexType Name="SP_GetAllJobsDetailsByDate_Result">
           <Property Type="Int32" Name="JobID" Nullable="false" />
@@ -9425,6 +9427,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <EntitySetMapping Name="RecPayDetails">
             <EntityTypeMapping TypeName="SHIPPING_FinalModel.RecPayDetail">
               <MappingFragment StoreEntitySet="RecPayDetails">
+                <ScalarProperty Name="AdjustmentAmount" ColumnName="AdjustmentAmount" />
                 <ScalarProperty Name="JobID" ColumnName="JobID" />
                 <ScalarProperty Name="Lock" ColumnName="Lock" />
                 <ScalarProperty Name="CurrencyID" ColumnName="CurrencyID" />

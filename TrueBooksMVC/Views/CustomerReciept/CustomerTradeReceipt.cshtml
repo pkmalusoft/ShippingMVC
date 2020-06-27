@@ -31,7 +31,7 @@
         $("textarea").css({ "border-radius": "5px" });
 
         $(".chkAllocate").prop("checked", true);
-        $("#FMoney").attr("readonly", false);
+        //$("#FMoney").attr("readonly", false);
 
 
         var wt = $("#EXRate").val();
@@ -255,8 +255,11 @@
             $(curror).find("td").eq(6).find(".amt").val(allocateamt.toFixed(2));
         }
     }
+ 
     function CheckAmt1(x) {
         debugger;
+        var total=$(x).closest('tr').find("input .AmountToBePaid").value;
+        
         var curror = $(x).parent("td").parent("tr");
         var amt = parseFloat($(curror).find("td").eq(5).text());
         var allocateamt = parseFloat($(curror).find("td").eq(6).find(".amt").val());
@@ -396,7 +399,7 @@
                         </div>
 
                         <div class="row no-margin form-layout" style="padding-top: 10px">
-                            @if (Model.RecPayID <= 0)
+                            @if (Model.RecPayID == 0)
                             {
                                 <div class="col-xs-12 col-sm-4">
                                     <label class=" required headinglabel">Currency</label>
@@ -415,6 +418,7 @@
                                     </div>
                                 *@<div class="col-xs-12 col-sm-4">
                                     <label class=" required headinglabel">Amount</label>
+
                                     @Html.TextBoxFor(model => model.FMoney, new { ng_model = "Amt", ng_change = "getvalueofamount()", @class = "form-control aamt textright TotalInvoiceAmount", required = "required" })
 
                                 </div>
@@ -435,7 +439,7 @@
 
                                 <div class="col-xs-12 col-sm-2">
                                     <label class="headinglabel">Amount</label>
-                                    @Html.TextBoxFor(model => model.FMoney, new { @class = "form-control textright aeamt", @readonly = "readonly" })
+                                    @Html.TextBoxFor(model => model.FMoney, new { @class = "form-control textright", @readonly = "readonly" })
 
                                     @Html.HiddenFor(model => model.AcCompanyID)
                                     @Html.HiddenFor(model => model.AcJournalID)
@@ -486,10 +490,11 @@
                                             <tr style="font-weight: bold">
                                                 <td>Invoice No</td>
                                                 <td>Invoice Date</td>
-                                                <td>Invoice Amount</td>
-                                                <td>Amount Received</td>
-                                                <td>Balance</td>
+                                                <td>Amount To be Received</td>
+                                                <td>Amount already Received</td>
+                                                <td>Outstanding</td>
         <td>Amount Allocated</td>
+        <td>Adjustment Amount</td>
                                             </tr>
 
 
@@ -507,6 +512,8 @@
                                                         @Html.HiddenFor(item => @Model.CustomerRcieptChildVM[i].RecPayDetailID)
                                                         @Html.HiddenFor(item => @Model.CustomerRcieptChildVM[i].CurrencyId)
                                                         @Html.HiddenFor(item => @Model.CustomerRcieptChildVM[i].InvoiceNo)
+                                                        @Html.HiddenFor(item => @Model.CustomerRcieptChildVM[i].Amount)
+                                                        @Html.HiddenFor(item => @Model.CustomerRcieptChildVM[i].AdjustmentAmount)
                                                     </div>
                                                 </td>
 
@@ -556,7 +563,15 @@
                                                 <td>
                                                     <div class="data1">
                                                         @*@Model.CostUpdationDetails[i].JobCode*@
-                                                        @Html.TextBoxFor(item => @Model.CustomerRcieptChildVM[i].Amount, string.Format("{0:n2}", @Model.CustomerRcieptChildVM[i].Amount), new { @Class = "amt txtNum text-right Amount", @onChange = "CheckAmt1(this)" })
+                                                        @Html.TextBoxFor(item => @Model.CustomerRcieptChildVM[i].Amount, string.Format("{0:n2}", @Model.CustomerRcieptChildVM[i].Amount), new { @Class = "amt txtNum text-right Amount", @onChange = "CheckAmt1(this)" ,@readonly= "readonly" })
+
+
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="data1">
+                                                        @*@Model.CostUpdationDetails[i].JobCode*@
+                                                        @Html.TextBoxFor(item => @Model.CustomerRcieptChildVM[i].AdjustmentAmount, string.Format("{0:n2}", @Model.CustomerRcieptChildVM[i].AdjustmentAmount), new { @Class = "amt1 txtNum text-right AdjustmentAmount", @readonly = "readonly" })
 
 
                                                     </div>
@@ -608,6 +623,7 @@
                                                     <td>Amount Received</td>
                                                     <td>Balance</td>
                                                     <td>Amount Allocated</td>
+                                                    <td>Adjustment Amount</td>
                                                 </tr>
 
 

@@ -11,7 +11,8 @@
               <TextRun>
                 <Value>RECEIPT VOUCHER</Value>
                 <Style>
-                  <FontSize>12pt</FontSize>
+                  <FontFamily>Times New Roman</FontFamily>
+                  <FontSize>14pt</FontSize>
                   <FontWeight>Bold</FontWeight>
                 </Style>
               </TextRun>
@@ -22,10 +23,10 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox6</rd:DefaultName>
-        <Top>0.13417in</Top>
-        <Left>2.9675in</Left>
-        <Height>0.25in</Height>
-        <Width>2.04167in</Width>
+        <Top>0.05556in</Top>
+        <Left>2.88417in</Left>
+        <Height>0.29167in</Height>
+        <Width>2.39093in</Width>
         <Style>
           <Border>
             <Style>Solid</Style>
@@ -43,7 +44,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>Date :</Value>
+                <Value>Date </Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -51,10 +52,10 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox7</rd:DefaultName>
-        <Top>0.61125in</Top>
-        <Left>0.29042in</Left>
+        <Top>0.60153in</Top>
+        <Left>0.61551in</Left>
         <Height>0.25in</Height>
-        <Width>1in</Width>
+        <Width>1.11343in</Width>
         <ZIndex>1</ZIndex>
         <Style>
           <Border>
@@ -73,7 +74,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>Received From :</Value>
+                <Value>Received From </Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -81,10 +82,10 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox7</rd:DefaultName>
-        <Top>0.93069in</Top>
-        <Left>0.29042in</Left>
+        <Top>0.92097in</Top>
+        <Left>0.61551in</Left>
         <Height>0.25in</Height>
-        <Width>1.09375in</Width>
+        <Width>1.11343in</Width>
         <ZIndex>2</ZIndex>
         <Style>
           <Border>
@@ -103,7 +104,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>Document No :</Value>
+                <Value>Document No </Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -111,8 +112,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox7</rd:DefaultName>
-        <Top>0.61125in</Top>
-        <Left>4.43958in</Left>
+        <Top>0.62097in</Top>
+        <Left>4.88417in</Left>
         <Height>0.25in</Height>
         <Width>1in</Width>
         <ZIndex>3</ZIndex>
@@ -133,7 +134,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>Amount :</Value>
+                <Value>Amount </Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -141,8 +142,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox7</rd:DefaultName>
-        <Top>0.93069in</Top>
-        <Left>4.43958in</Left>
+        <Top>0.94041in</Top>
+        <Left>4.88417in</Left>
         <Height>0.25in</Height>
         <Width>1in</Width>
         <ZIndex>4</ZIndex>
@@ -163,7 +164,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>Account Name :</Value>
+                <Value>Account Name </Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -171,8 +172,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox7</rd:DefaultName>
-        <Top>1.23625in</Top>
-        <Left>4.43958in</Left>
+        <Top>1.24597in</Top>
+        <Left>4.88417in</Left>
         <Height>0.25in</Height>
         <Width>1.19792in</Width>
         <ZIndex>5</ZIndex>
@@ -193,7 +194,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>Cheque No :</Value>
+                <Value>Cheque No </Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -201,8 +202,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox7</rd:DefaultName>
-        <Top>1.55569in</Top>
-        <Left>4.43958in</Left>
+        <Top>1.56541in</Top>
+        <Left>4.88417in</Left>
         <Height>0.25in</Height>
         <Width>1.19792in</Width>
         <ZIndex>6</ZIndex>
@@ -223,7 +224,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>Cheque Date :</Value>
+                <Value>Cheque Date </Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -231,8 +232,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox7</rd:DefaultName>
-        <Top>1.87514in</Top>
-        <Left>4.43958in</Left>
+        <Top>1.88486in</Top>
+        <Left>4.88417in</Left>
         <Height>0.25in</Height>
         <Width>1.19792in</Width>
         <ZIndex>7</ZIndex>
@@ -253,7 +254,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>Customer Bank :</Value>
+                <Value>Customer Bank </Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -261,8 +262,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox7</rd:DefaultName>
-        <Top>2.19319in</Top>
-        <Left>4.43958in</Left>
+        <Top>2.20291in</Top>
+        <Left>4.88417in</Left>
         <Height>0.25in</Height>
         <Width>1.19792in</Width>
         <ZIndex>8</ZIndex>
@@ -283,7 +284,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>Remarks :</Value>
+                <Value>Remarks </Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -291,8 +292,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox7</rd:DefaultName>
-        <Top>2.19319in</Top>
-        <Left>0.29042in</Left>
+        <Top>2.18347in</Top>
+        <Left>0.61551in</Left>
         <Height>0.25in</Height>
         <Width>1in</Width>
         <ZIndex>9</ZIndex>
@@ -315,6 +316,8 @@
               <TextRun>
                 <Value>SETTLEMENT OF INVOICES</Value>
                 <Style>
+                  <FontFamily>Times New Roman</FontFamily>
+                  <FontSize>11pt</FontSize>
                   <FontWeight>Bold</FontWeight>
                 </Style>
               </TextRun>
@@ -323,10 +326,10 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox16</rd:DefaultName>
-        <Top>2.73833in</Top>
-        <Left>0.29042in</Left>
+        <Top>2.72861in</Top>
+        <Left>0.61551in</Left>
         <Height>0.25in</Height>
-        <Width>1.96875in</Width>
+        <Width>2.52083in</Width>
         <ZIndex>10</ZIndex>
         <Style>
           <Border>
@@ -345,7 +348,19 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
+                <Value>( </Value>
+                <Style>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+              <TextRun>
                 <Value>=First(Fields!InWords.Value, "Currency")</Value>
+                <Style>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+              <TextRun>
+                <Value> )</Value>
                 <Style>
                   <FontWeight>Bold</FontWeight>
                 </Style>
@@ -356,7 +371,7 @@
         </Paragraphs>
         <rd:DefaultName>InWords</rd:DefaultName>
         <Top>4.06819in</Top>
-        <Left>0.29042in</Left>
+        <Left>0.61551in</Left>
         <Height>0.25in</Height>
         <Width>5.59375in</Width>
         <ZIndex>11</ZIndex>
@@ -378,7 +393,10 @@
             <TextRuns>
               <TextRun>
                 <Value>Prepared By</Value>
-                <Style />
+                <Style>
+                  <FontFamily>Times New Roman</FontFamily>
+                  <FontSize>11pt</FontSize>
+                </Style>
               </TextRun>
             </TextRuns>
             <Style />
@@ -386,9 +404,9 @@
         </Paragraphs>
         <rd:DefaultName>Textbox33</rd:DefaultName>
         <Top>4.89458in</Top>
-        <Left>0.29042in</Left>
+        <Left>0.72894in</Left>
         <Height>0.25in</Height>
-        <Width>1in</Width>
+        <Width>1.41667in</Width>
         <ZIndex>12</ZIndex>
         <Style>
           <Border>
@@ -408,7 +426,10 @@
             <TextRuns>
               <TextRun>
                 <Value>Checked By</Value>
-                <Style />
+                <Style>
+                  <FontFamily>Times New Roman</FontFamily>
+                  <FontSize>11pt</FontSize>
+                </Style>
               </TextRun>
             </TextRuns>
             <Style />
@@ -416,9 +437,9 @@
         </Paragraphs>
         <rd:DefaultName>Textbox33</rd:DefaultName>
         <Top>4.89458in</Top>
-        <Left>2.61917in</Left>
+        <Left>2.75917in</Left>
         <Height>0.25in</Height>
-        <Width>1in</Width>
+        <Width>1.35981in</Width>
         <ZIndex>13</ZIndex>
         <Style>
           <Border>
@@ -438,7 +459,10 @@
             <TextRuns>
               <TextRun>
                 <Value>Approved By</Value>
-                <Style />
+                <Style>
+                  <FontFamily>Times New Roman</FontFamily>
+                  <FontSize>11pt</FontSize>
+                </Style>
               </TextRun>
             </TextRuns>
             <Style />
@@ -446,9 +470,9 @@
         </Paragraphs>
         <rd:DefaultName>Textbox33</rd:DefaultName>
         <Top>4.89458in</Top>
-        <Left>5.00917in</Left>
+        <Left>4.76959in</Left>
         <Height>0.25in</Height>
-        <Width>1in</Width>
+        <Width>1.43968in</Width>
         <ZIndex>14</ZIndex>
         <Style>
           <Border>
@@ -468,7 +492,10 @@
             <TextRuns>
               <TextRun>
                 <Value>Received By</Value>
-                <Style />
+                <Style>
+                  <FontFamily>Times New Roman</FontFamily>
+                  <FontSize>11pt</FontSize>
+                </Style>
               </TextRun>
             </TextRuns>
             <Style />
@@ -476,9 +503,9 @@
         </Paragraphs>
         <rd:DefaultName>Textbox33</rd:DefaultName>
         <Top>4.89458in</Top>
-        <Left>7.28in</Left>
+        <Left>6.71476in</Left>
         <Height>0.25in</Height>
-        <Width>1in</Width>
+        <Width>1.375in</Width>
         <ZIndex>15</ZIndex>
         <Style>
           <Border>
@@ -490,54 +517,6 @@
           <PaddingBottom>2pt</PaddingBottom>
         </Style>
       </Textbox>
-      <Line Name="Line1">
-        <Top>5.80083in</Top>
-        <Left>0.29042in</Left>
-        <Height>0in</Height>
-        <Width>1.26042in</Width>
-        <ZIndex>16</ZIndex>
-        <Style>
-          <Border>
-            <Style>Dashed</Style>
-          </Border>
-        </Style>
-      </Line>
-      <Line Name="Line2">
-        <Top>5.80083in</Top>
-        <Left>2.61917in</Left>
-        <Height>0in</Height>
-        <Width>1.32292in</Width>
-        <ZIndex>17</ZIndex>
-        <Style>
-          <Border>
-            <Style>Dashed</Style>
-          </Border>
-        </Style>
-      </Line>
-      <Line Name="Line3">
-        <Top>5.80083in</Top>
-        <Left>5.00917in</Left>
-        <Height>0in</Height>
-        <Width>1.29167in</Width>
-        <ZIndex>18</ZIndex>
-        <Style>
-          <Border>
-            <Style>Dashed</Style>
-          </Border>
-        </Style>
-      </Line>
-      <Line Name="Line4">
-        <Top>5.80083in</Top>
-        <Left>7.28in</Left>
-        <Height>0in</Height>
-        <Width>1.26042in</Width>
-        <ZIndex>19</ZIndex>
-        <Style>
-          <Border>
-            <Style>Dashed</Style>
-          </Border>
-        </Style>
-      </Line>
       <Textbox Name="ReceivedFrom">
         <CanGrow>true</CanGrow>
         <KeepTogether>true</KeepTogether>
@@ -545,19 +524,31 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
+                <Value>: </Value>
+                <Style>
+                  <FontFamily>Times New Roman</FontFamily>
+                  <FontSize>11pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+              <TextRun>
                 <Value>=First(Fields!ReceivedFrom.Value, "ReceiptVoucher")</Value>
-                <Style />
+                <Style>
+                  <FontFamily>Times New Roman</FontFamily>
+                  <FontSize>11pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
               </TextRun>
             </TextRuns>
             <Style />
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>ReceivedFrom</rd:DefaultName>
-        <Top>0.93069in</Top>
-        <Left>1.50917in</Left>
-        <Height>0.25in</Height>
-        <Width>2.58917in</Width>
-        <ZIndex>20</ZIndex>
+        <Top>0.93485in</Top>
+        <Left>2.04477in</Left>
+        <Height>0.55556in</Height>
+        <Width>2.49305in</Width>
+        <ZIndex>16</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -575,19 +566,31 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
+                <Value>: </Value>
+                <Style>
+                  <FontFamily>Times New Roman</FontFamily>
+                  <FontSize>11pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+              <TextRun>
                 <Value>=First(Fields!Remarks.Value, "ReceiptVoucher")</Value>
-                <Style />
+                <Style>
+                  <FontFamily>Times New Roman</FontFamily>
+                  <FontSize>11pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
               </TextRun>
             </TextRuns>
             <Style />
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Remarks</rd:DefaultName>
-        <Top>2.19319in</Top>
-        <Left>1.50917in</Left>
+        <Top>2.18347in</Top>
+        <Left>1.83426in</Left>
         <Height>0.25in</Height>
-        <Width>2.58917in</Width>
-        <ZIndex>21</ZIndex>
+        <Width>2.18292in</Width>
+        <ZIndex>17</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -605,19 +608,31 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
+                <Value>: </Value>
+                <Style>
+                  <FontFamily>Times New Roman</FontFamily>
+                  <FontSize>11pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+              <TextRun>
                 <Value>=First(Fields!DocumentNo.Value, "ReceiptVoucher")</Value>
-                <Style />
+                <Style>
+                  <FontFamily>Times New Roman</FontFamily>
+                  <FontSize>11pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
               </TextRun>
             </TextRuns>
             <Style />
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>DocumentNo</rd:DefaultName>
-        <Top>0.61125in</Top>
-        <Left>5.74875in</Left>
+        <Top>0.62097in</Top>
+        <Left>6.19334in</Left>
         <Height>0.25in</Height>
-        <Width>2.55208in</Width>
-        <ZIndex>22</ZIndex>
+        <Width>2.04717in</Width>
+        <ZIndex>18</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -635,8 +650,20 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
+                <Value>: </Value>
+                <Style>
+                  <FontFamily>Times New Roman</FontFamily>
+                  <FontSize>11pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                  <Format>#,0.00;(#,0.00)</Format>
+                </Style>
+              </TextRun>
+              <TextRun>
                 <Value>=Sum(Fields!Amount.Value, "ReceiptVoucher")</Value>
                 <Style>
+                  <FontFamily>Times New Roman</FontFamily>
+                  <FontSize>11pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
                   <Format>#,0.00;(#,0.00)</Format>
                 </Style>
               </TextRun>
@@ -647,11 +674,11 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Amount</rd:DefaultName>
-        <Top>0.93069in</Top>
-        <Left>5.74875in</Left>
+        <Top>0.94041in</Top>
+        <Left>6.19334in</Left>
         <Height>0.25in</Height>
-        <Width>1.69792in</Width>
-        <ZIndex>23</ZIndex>
+        <Width>2.04717in</Width>
+        <ZIndex>19</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -669,19 +696,31 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
+                <Value>: </Value>
+                <Style>
+                  <FontFamily>Times New Roman</FontFamily>
+                  <FontSize>11pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+              <TextRun>
                 <Value>=First(Fields!Account.Value, "ReceiptVoucher")</Value>
-                <Style />
+                <Style>
+                  <FontFamily>Times New Roman</FontFamily>
+                  <FontSize>11pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
               </TextRun>
             </TextRuns>
             <Style />
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Account</rd:DefaultName>
-        <Top>1.23625in</Top>
-        <Left>5.74875in</Left>
+        <Top>1.24597in</Top>
+        <Left>6.19334in</Left>
         <Height>0.25in</Height>
-        <Width>2.79167in</Width>
-        <ZIndex>24</ZIndex>
+        <Width>2.04717in</Width>
+        <ZIndex>20</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -699,19 +738,31 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=Sum(Fields!ChequeNo.Value, "ReceiptVoucher")</Value>
-                <Style />
+                <Value>: </Value>
+                <Style>
+                  <FontFamily>Times New Roman</FontFamily>
+                  <FontSize>11pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+              <TextRun>
+                <Value>=IIf(First(Fields!ChequeNo.Value, "ReceiptVoucher")&gt;0,"",First(Fields!ChequeNo.Value, "ReceiptVoucher"))</Value>
+                <Style>
+                  <FontFamily>Times New Roman</FontFamily>
+                  <FontSize>11pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
               </TextRun>
             </TextRuns>
             <Style />
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>ChequeNo</rd:DefaultName>
-        <Top>1.55083in</Top>
-        <Left>5.74875in</Left>
+        <Top>1.56055in</Top>
+        <Left>6.19334in</Left>
         <Height>0.25in</Height>
-        <Width>2.19792in</Width>
-        <ZIndex>25</ZIndex>
+        <Width>2.04717in</Width>
+        <ZIndex>21</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -729,8 +780,20 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
+                <Value>: </Value>
+                <Style>
+                  <FontFamily>Times New Roman</FontFamily>
+                  <FontSize>11pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                  <Format>d MMM yyyy</Format>
+                </Style>
+              </TextRun>
+              <TextRun>
                 <Value>=First(Fields!ChequeDate.Value, "ReceiptVoucher")</Value>
                 <Style>
+                  <FontFamily>Times New Roman</FontFamily>
+                  <FontSize>11pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
                   <Format>d MMM yyyy</Format>
                 </Style>
               </TextRun>
@@ -739,11 +802,11 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>ChequeDate</rd:DefaultName>
-        <Top>1.87514in</Top>
-        <Left>5.74875in</Left>
+        <Top>1.88486in</Top>
+        <Left>6.19334in</Left>
         <Height>0.25in</Height>
-        <Width>1.46875in</Width>
-        <ZIndex>26</ZIndex>
+        <Width>2.04717in</Width>
+        <ZIndex>22</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -761,19 +824,31 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
+                <Value>: </Value>
+                <Style>
+                  <FontFamily>Times New Roman</FontFamily>
+                  <FontSize>11pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+              <TextRun>
                 <Value>=First(Fields!CustomerBank.Value, "ReceiptVoucher")</Value>
-                <Style />
+                <Style>
+                  <FontFamily>Times New Roman</FontFamily>
+                  <FontSize>11pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
               </TextRun>
             </TextRuns>
             <Style />
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>CustomerBank</rd:DefaultName>
-        <Top>2.19667in</Top>
-        <Left>5.74875in</Left>
+        <Top>2.20291in</Top>
+        <Left>6.19334in</Left>
         <Height>0.25in</Height>
-        <Width>2.79167in</Width>
-        <ZIndex>27</ZIndex>
+        <Width>2.04717in</Width>
+        <ZIndex>23</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -788,19 +863,19 @@
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>1.6875in</Width>
+              <Width>1.32509in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.71336in</Width>
+              <Width>1.66594in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.69522in</Width>
+              <Width>1.5178in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.59258in</Width>
+              <Width>1.43967in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.56133in</Width>
+              <Width>1.52575in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -816,8 +891,10 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Detail Doc No</Value>
+                              <Value>Documnet No</Value>
                               <Style>
+                                <FontFamily>Times New Roman</FontFamily>
+                                <FontSize>11pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -848,8 +925,10 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Doc Date</Value>
+                              <Value>Doc. Date</Value>
                               <Style>
+                                <FontFamily>Times New Roman</FontFamily>
+                                <FontSize>11pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -880,8 +959,10 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Doc Amount</Value>
+                              <Value>Document Amt.</Value>
                               <Style>
+                                <FontFamily>Times New Roman</FontFamily>
+                                <FontSize>11pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -912,8 +993,10 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Adjustment Amount</Value>
+                              <Value>Adjustment Amt.</Value>
                               <Style>
+                                <FontFamily>Times New Roman</FontFamily>
+                                <FontSize>11pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -944,8 +1027,10 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Settled Amount</Value>
+                              <Value>Settled Amt.</Value>
                               <Style>
+                                <FontFamily>Times New Roman</FontFamily>
+                                <FontSize>11pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -982,7 +1067,10 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!DetailDocNo.Value</Value>
-                              <Style />
+                              <Style>
+                                <FontFamily>Times New Roman</FontFamily>
+                                <FontSize>11pt</FontSize>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style />
@@ -1013,6 +1101,8 @@
                             <TextRun>
                               <Value>=Fields!DocDate.Value</Value>
                               <Style>
+                                <FontFamily>Times New Roman</FontFamily>
+                                <FontSize>11pt</FontSize>
                                 <Format>d MMM yyyy</Format>
                               </Style>
                             </TextRun>
@@ -1045,6 +1135,8 @@
                             <TextRun>
                               <Value>=Fields!DocAmount.Value</Value>
                               <Style>
+                                <FontFamily>Times New Roman</FontFamily>
+                                <FontSize>11pt</FontSize>
                                 <Format>#,0.00;(#,0.00)</Format>
                               </Style>
                             </TextRun>
@@ -1077,6 +1169,8 @@
                             <TextRun>
                               <Value>=Fields!AdjustmentAmount.Value</Value>
                               <Style>
+                                <FontFamily>Times New Roman</FontFamily>
+                                <FontSize>11pt</FontSize>
                                 <Format>#,0.00;(#,0.00)</Format>
                               </Style>
                             </TextRun>
@@ -1109,6 +1203,8 @@
                             <TextRun>
                               <Value>=Fields!SettledAmount.Value</Value>
                               <Style>
+                                <FontFamily>Times New Roman</FontFamily>
+                                <FontSize>11pt</FontSize>
                                 <Format>#,0.00;(#,0.00)</Format>
                               </Style>
                             </TextRun>
@@ -1206,6 +1302,8 @@
                             <TextRun>
                               <Value>=Sum(Fields!DocAmount.Value)</Value>
                               <Style>
+                                <FontFamily>Times New Roman</FontFamily>
+                                <FontSize>11pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                                 <Format>#,0.00;(#,0.00)</Format>
                               </Style>
@@ -1239,6 +1337,8 @@
                             <TextRun>
                               <Value>=Sum(Fields!AdjustmentAmount.Value)</Value>
                               <Style>
+                                <FontFamily>Times New Roman</FontFamily>
+                                <FontSize>11pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                                 <Format>#,0.00;(#,0.00)</Format>
                               </Style>
@@ -1272,6 +1372,8 @@
                             <TextRun>
                               <Value>=Sum(Fields!SettledAmount.Value)</Value>
                               <Style>
+                                <FontFamily>Times New Roman</FontFamily>
+                                <FontSize>11pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                                 <Format>#,0.00;(#,0.00)</Format>
                               </Style>
@@ -1322,10 +1424,10 @@
         </TablixRowHierarchy>
         <DataSetName>ReceiptVoucher</DataSetName>
         <Top>3.19667in</Top>
-        <Left>0.29042in</Left>
+        <Left>0.61551in</Left>
         <Height>0.75in</Height>
-        <Width>8.24999in</Width>
-        <ZIndex>28</ZIndex>
+        <Width>7.47425in</Width>
+        <ZIndex>24</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1339,8 +1441,20 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
+                <Value>: </Value>
+                <Style>
+                  <FontFamily>Times New Roman</FontFamily>
+                  <FontSize>11pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+              <TextRun>
                 <Value>=First(Fields!Date.Value, "ReceiptVoucher")</Value>
-                <Style />
+                <Style>
+                  <FontFamily>Times New Roman</FontFamily>
+                  <FontSize>11pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
               </TextRun>
             </TextRuns>
             <Style />
@@ -1348,10 +1462,10 @@
         </Paragraphs>
         <rd:DefaultName>Date</rd:DefaultName>
         <Top>0.61125in</Top>
-        <Left>1.50917in</Left>
+        <Left>2.04477in</Left>
         <Height>0.25208in</Height>
         <Width>1.44097in</Width>
-        <ZIndex>29</ZIndex>
+        <ZIndex>25</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1362,14 +1476,78 @@
           <PaddingBottom>2pt</PaddingBottom>
         </Style>
       </Textbox>
+      <Line Name="Line1">
+        <Top>14.44307cm</Top>
+        <Left>1.85151cm</Left>
+        <Height>0cm</Height>
+        <Width>3.59833cm</Width>
+        <ZIndex>26</ZIndex>
+        <Style>
+          <Border>
+            <Style>Solid</Style>
+          </Border>
+        </Style>
+      </Line>
+      <Line Name="Line2">
+        <Top>14.44307cm</Top>
+        <Left>7.0083cm</Left>
+        <Height>0cm</Height>
+        <Width>3.45392cm</Width>
+        <ZIndex>27</ZIndex>
+        <Style>
+          <Border>
+            <Style>Solid</Style>
+          </Border>
+        </Style>
+      </Line>
+      <Line Name="Line4">
+        <Top>14.44307cm</Top>
+        <Left>17.0555cm</Left>
+        <Height>0cm</Height>
+        <Width>3.4925cm</Width>
+        <ZIndex>28</ZIndex>
+        <Style>
+          <Border>
+            <Style>Solid</Style>
+          </Border>
+        </Style>
+      </Line>
+      <Line Name="Line5">
+        <Top>14.44307cm</Top>
+        <Left>11.99645cm</Left>
+        <Height>0cm</Height>
+        <Width>0cm</Width>
+        <ZIndex>29</ZIndex>
+        <Style>
+          <Border>
+            <Style>Solid</Style>
+          </Border>
+        </Style>
+      </Line>
+      <Line Name="Line12">
+        <Top>14.44307cm</Top>
+        <Left>12.22058cm</Left>
+        <Height>0cm</Height>
+        <Width>3.22793cm</Width>
+        <ZIndex>30</ZIndex>
+        <Style>
+          <Border>
+            <Style>Solid</Style>
+          </Border>
+        </Style>
+      </Line>
     </ReportItems>
-    <Height>6.19792in</Height>
-    <Style />
+    <Height>15.55751cm</Height>
+    <Style>
+      <Border>
+        <Style>None</Style>
+      </Border>
+    </Style>
   </Body>
-  <Width>8.75917in</Width>
+  <Width>24.17975cm</Width>
   <Page>
     <PageHeader>
-      <Height>1.15625in</Height>
+      <Height>4.02167cm</Height>
       <PrintOnFirstPage>true</PrintOnFirstPage>
       <PrintOnLastPage>true</PrintOnLastPage>
       <ReportItems>
@@ -1382,17 +1560,23 @@
                 <TextRun>
                   <Value>=First(Fields!CompanyName.Value, "Company")</Value>
                   <Style>
+                    <FontFamily>Times New Roman</FontFamily>
+                    <FontSize>12pt</FontSize>
                     <FontWeight>Bold</FontWeight>
                   </Style>
                 </TextRun>
               </TextRuns>
-              <Style />
+              <Style>
+                <LineHeight>14pt</LineHeight>
+              </Style>
             </Paragraph>
             <Paragraph>
               <TextRuns>
                 <TextRun>
                   <Value>=First(Fields!Address1.Value, "Company")</Value>
                   <Style>
+                    <FontFamily>Times New Roman</FontFamily>
+                    <FontSize>11pt</FontSize>
                     <FontWeight>Normal</FontWeight>
                   </Style>
                 </TextRun>
@@ -1405,6 +1589,8 @@
                 <TextRun>
                   <Value>=First(Fields!Address2.Value, "Company")</Value>
                   <Style>
+                    <FontFamily>Times New Roman</FontFamily>
+                    <FontSize>11pt</FontSize>
                     <FontWeight>Normal</FontWeight>
                   </Style>
                 </TextRun>
@@ -1417,29 +1603,37 @@
                 <TextRun>
                   <Value>=First(Fields!Address3.Value, "Company")</Value>
                   <Style>
+                    <FontFamily>Times New Roman</FontFamily>
+                    <FontSize>11pt</FontSize>
                     <FontWeight>Normal</FontWeight>
                   </Style>
                 </TextRun>
               </TextRuns>
-              <Style />
+              <Style>
+                <LineHeight>14pt</LineHeight>
+              </Style>
             </Paragraph>
             <Paragraph>
               <TextRuns>
                 <TextRun>
                   <Value>=First(Fields!Phone.Value, "Company")</Value>
                   <Style>
+                    <FontFamily>Times New Roman</FontFamily>
+                    <FontSize>11pt</FontSize>
                     <FontWeight>Normal</FontWeight>
                   </Style>
                 </TextRun>
               </TextRuns>
-              <Style />
+              <Style>
+                <LineHeight>14pt</LineHeight>
+              </Style>
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>Textbox42</rd:DefaultName>
-          <Top>0.15in</Top>
-          <Left>0.29042in</Left>
-          <Height>0.64792in</Height>
-          <Width>3.29167in</Width>
+          <Top>0.65764in</Top>
+          <Left>0.61551in</Left>
+          <Height>0.59584in</Height>
+          <Width>3.2827in</Width>
           <Style>
             <Border>
               <Style>None</Style>
@@ -1450,6 +1644,21 @@
             <PaddingBottom>2pt</PaddingBottom>
           </Style>
         </Textbox>
+        <Image Name="Image1">
+          <Source>Embedded</Source>
+          <Value>TrueBook_white</Value>
+          <Sizing>FitProportional</Sizing>
+          <Top>1.6704cm</Top>
+          <Left>14.72567cm</Left>
+          <Height>1.51343cm</Height>
+          <Width>5.57023cm</Width>
+          <ZIndex>1</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+          </Style>
+        </Image>
       </ReportItems>
       <Style>
         <Border>
@@ -1458,7 +1667,7 @@
       </Style>
     </PageHeader>
     <PageFooter>
-      <Height>0.55083in</Height>
+      <Height>1.39911cm</Height>
       <PrintOnFirstPage>true</PrintOnFirstPage>
       <PrintOnLastPage>true</PrintOnLastPage>
       <ReportItems>
@@ -1469,9 +1678,10 @@
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>=Globals!ExecutionTime</Value>
+                  <Value>=Globals!ExecutionTime.Date.ToShortDateString()</Value>
                   <Style>
-                    <FontWeight>Bold</FontWeight>
+                    <FontFamily>Times New Roman</FontFamily>
+                    <FontSize>11pt</FontSize>
                     <Format>dddd, MMMM dd, yyyy h:mm:ss tt</Format>
                   </Style>
                 </TextRun>
@@ -1481,9 +1691,69 @@
           </Paragraphs>
           <rd:DefaultName>Textbox37</rd:DefaultName>
           <Top>0.11333in</Top>
-          <Left>0.29042in</Left>
+          <Left>0.61551in</Left>
           <Height>0.25in</Height>
           <Width>3.50347in</Width>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Textbox Name="Textbox1">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>Page </Value>
+                  <Style>
+                    <FontFamily>Times New Roman</FontFamily>
+                    <FontSize>11pt</FontSize>
+                  </Style>
+                </TextRun>
+                <TextRun>
+                  <Value>=Globals!PageNumber</Value>
+                  <Style>
+                    <FontFamily>Times New Roman</FontFamily>
+                    <FontSize>11pt</FontSize>
+                  </Style>
+                </TextRun>
+                <TextRun>
+                  <Value> of  </Value>
+                  <Style>
+                    <FontFamily>Times New Roman</FontFamily>
+                    <FontSize>11pt</FontSize>
+                  </Style>
+                </TextRun>
+                <TextRun>
+                  <Value>=Globals!TotalPages</Value>
+                  <Style>
+                    <FontFamily>Times New Roman</FontFamily>
+                    <FontSize>11pt</FontSize>
+                  </Style>
+                </TextRun>
+                <TextRun>
+                  <Value xml:space="preserve"> </Value>
+                  <Style>
+                    <FontFamily>Times New Roman</FontFamily>
+                    <FontSize>11pt</FontSize>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style />
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>Textbox1</rd:DefaultName>
+          <Top>0.32286cm</Top>
+          <Left>16.37055cm</Left>
+          <Height>0.6cm</Height>
+          <Width>4.17744cm</Width>
+          <ZIndex>1</ZIndex>
           <Style>
             <Border>
               <Style>None</Style>
@@ -1494,6 +1764,18 @@
             <PaddingBottom>2pt</PaddingBottom>
           </Style>
         </Textbox>
+        <Line Name="Line13">
+          <Top>0.1291cm</Top>
+          <Left>1.08162cm</Left>
+          <Height>0cm</Height>
+          <Width>19.84928cm</Width>
+          <ZIndex>2</ZIndex>
+          <Style>
+            <Border>
+              <Style>Solid</Style>
+            </Border>
+          </Style>
+        </Line>
       </ReportItems>
       <Style>
         <Border>
@@ -1501,10 +1783,13 @@
         </Border>
       </Style>
     </PageFooter>
-    <LeftMargin>1in</LeftMargin>
-    <RightMargin>1in</RightMargin>
-    <TopMargin>1in</TopMargin>
-    <BottomMargin>1in</BottomMargin>
+    <PageHeight>27.94cm</PageHeight>
+    <PageWidth>21.59cm</PageWidth>
+    <LeftMargin>0cm</LeftMargin>
+    <RightMargin>0cm</RightMargin>
+    <TopMargin>0cm</TopMargin>
+    <BottomMargin>0cm</BottomMargin>
+    <ColumnSpacing>1.27cm</ColumnSpacing>
     <Style>
       <Border>
         <Style>Solid</Style>
@@ -1675,6 +1960,32 @@
       </rd:DataSetInfo>
     </DataSet>
   </DataSets>
-  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <EmbeddedImages>
+    <EmbeddedImage Name="TrueBook_white">
+      <MIMEType>image/png</MIMEType>
+      <ImageData>iVBORw0KGgoAAAANSUhEUgAAAtQAAADdCAYAAACbveURAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTM4IDc5LjE1OTgyNCwgMjAxNi8wOS8xNC0wMTowOTowMSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTcgKFdpbmRvd3MpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjRCRkM0RTdBMzE1MTExRUE5OUQ1QzgyQTExNzZBOUY5IiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjRCRkM0RTdCMzE1MTExRUE5OUQ1QzgyQTExNzZBOUY5Ij4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6NEJGQzRFNzgzMTUxMTFFQTk5RDVDODJB
+MTE3NkE5RjkiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6NEJGQzRFNzkzMTUxMTFFQTk5RDVDODJBMTE3NkE5RjkiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz5ijUO5AAA5DUlEQVR42uydT2xkR37fa2a4ktb6Mz3SRv/Wo3kDrzZe7BrT9CKH3Rz4iARIfJrm7GHjMRI2Dz7lQBIOcgpMcgEfEsQgiSAnI2DThw1y8JBzcgwE4OMhipNdhz1YLzbROuYbKdFIDrTs0a5iSZY0eb9+9YaPzdfd70/Vr6re+36AFkf8013vV1W/+tavflV14dGjRwIAAAAAAABQjgsQ1AAAAAAAAEBQAwAAAAAAAEENAAAAAAAABDUAAAAAAAAQ1AAAAAAAAIBcghomAAAAAACoFxvf+z0v+tKJXnPPPfec12q12pcvPydmZmbE008/zVqW//XZF8Ufffwl8SefPD/8/6tPPhJXnzr9+dd/6XNxeSb+97cuPxKXLz0SX39aX8D3jQ8uig8+FeLHH14Y/vuNh0M5PIhe/eh1GL0CcetKAEENAAAAANBMIe1HX5almB7L5cuXh8L6mWeeHn7lENnvfv6E+MOPXnosrKdBovob0etbz30uvh0JbRLiOiBx/cc/uyj+4MGlociWhNFrN3ptReJ6AEENAAAAAFB/Ie1FX3ail1/m7ylyTRFsEtqJ2NbFvU+fEf/2r18dRq6LQIL6Hz4fi2v6qgOKWP/+25eSqDVBYno1EtU9CGoAAAAAgPqK6W70ZTN6tVS9JwnsF154fiiun3/++eH/q+YPP3pZ7H70Uqm/fS4qznf/1mfiuy9+riU95D/81UXxu+HMMHot2Y9eS+Oi1RDUAAAAAABui+kd3Z9D4vqFF15QLq4pSv0v/9/VwtHqNCSof/uVWFyrhMT00v/8QjpaTTnW81mi
+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</ImageData>
+    </EmbeddedImage>
+  </EmbeddedImages>
+  <rd:ReportUnitType>Cm</rd:ReportUnitType>
   <rd:ReportID>6dd2c943-32ee-4555-99d9-2d3fced328ca</rd:ReportID>
 </Report>
