@@ -255,11 +255,11 @@
             $(curror).find("td").eq(6).find(".amt").val(allocateamt.toFixed(2));
         }
     }
- 
+
     function CheckAmt1(x) {
         debugger;
-        var total=$(x).closest('tr').find("input .AmountToBePaid").value;
-        
+        var total = $(x).closest('tr').find("input .AmountToBePaid").value;
+
         var curror = $(x).parent("td").parent("tr");
         var amt = parseFloat($(curror).find("td").eq(5).text());
         var allocateamt = parseFloat($(curror).find("td").eq(6).find(".amt").val());
@@ -487,105 +487,105 @@
                                         <table border="1" style="margin-top: 15px; " class="table table-responsive tblbackground" id="tbl1">
                                             @if (Model.RecPayID > 0)
                                             {
-                                            <tr style="font-weight: bold">
-                                                <td>Invoice No</td>
-                                                <td>Invoice Date</td>
-                                                <td>Amount To be Received</td>
-                                                <td>Amount already Received</td>
-                                                <td>Outstanding</td>
-        <td>Amount Allocated</td>
-        <td>Adjustment Amount</td>
-                                            </tr>
+                                                <tr style="font-weight: bold">
+                                                    <td>Invoice No</td>
+                                                    <td>Invoice Date</td>
+                                                    <td>Amount To be Received</td>
+                                                    <td>Amount already Received</td>
+                                                    <td>Outstanding</td>
+                                                    <td>Amount Allocated</td>
+                                                    <td>Adjustment Amount</td>
+                                                </tr>
 
 
                                                 for (int i = 0; i < Model.CustomerRcieptChildVM.Count; i++)
                                                 {
 
-                                            <tr>
+                                                    <tr>
 
-                                                <td>
-                                                    <div class="data1">
-                                                        @*@Model.CostUpdationDetails[i].JobCode*@
-                                                        @Model.CustomerRcieptChildVM[i].SInvoiceNo
-                                                        @Html.HiddenFor(item => @Model.CustomerRcieptChildVM[i].InvoiceID)
-                                                        @Html.HiddenFor(item => @Model.CustomerRcieptChildVM[i].RecPayID)
-                                                        @Html.HiddenFor(item => @Model.CustomerRcieptChildVM[i].RecPayDetailID)
-                                                        @Html.HiddenFor(item => @Model.CustomerRcieptChildVM[i].CurrencyId)
-                                                        @Html.HiddenFor(item => @Model.CustomerRcieptChildVM[i].InvoiceNo)
-                                                        @Html.HiddenFor(item => @Model.CustomerRcieptChildVM[i].Amount)
-                                                        @Html.HiddenFor(item => @Model.CustomerRcieptChildVM[i].AdjustmentAmount)
-                                                    </div>
-                                                </td>
+                                                        <td>
+                                                            <div class="data1">
+                                                                @*@Model.CostUpdationDetails[i].JobCode*@
+                                                                @Model.CustomerRcieptChildVM[i].SInvoiceNo
+                                                                @Html.HiddenFor(item => @Model.CustomerRcieptChildVM[i].InvoiceID)
+                                                                @Html.HiddenFor(item => @Model.CustomerRcieptChildVM[i].RecPayID)
+                                                                @Html.HiddenFor(item => @Model.CustomerRcieptChildVM[i].RecPayDetailID)
+                                                                @Html.HiddenFor(item => @Model.CustomerRcieptChildVM[i].CurrencyId)
+                                                                @Html.HiddenFor(item => @Model.CustomerRcieptChildVM[i].InvoiceNo)
+                                                                @Html.HiddenFor(item => @Model.CustomerRcieptChildVM[i].Amount)
+                                                                @Html.HiddenFor(item => @Model.CustomerRcieptChildVM[i].AdjustmentAmount)
+                                                            </div>
+                                                        </td>
 
-                                                <td>
-                                                    <div class="data1">
-                                                        @*@Model.CostUpdationDetails[i].JobCode*@
-                                                        @if (@Model.CustomerRcieptChildVM[i].InvoiceDate != null)
-                                                        {
-                                                            @TrueBooksMVC.Models.CommanFunctions.GetShortDateFormat(@Model.CustomerRcieptChildVM[i].strDate)
-                                                            @Html.HiddenFor(item => @Model.CustomerRcieptChildVM[i].strDate)
-                                                        }
-                                                        else
-                                                        {
-                                                            @Model.CustomerRcieptChildVM[i].strDate
-                                                            @Html.HiddenFor(item => @Model.CustomerRcieptChildVM[i].strDate)
-                                                        }
-                                                    </div>
-                                                </td>
+                                                        <td>
+                                                            <div class="data1">
+                                                                @*@Model.CostUpdationDetails[i].JobCode*@
+                                                                @if (@Model.CustomerRcieptChildVM[i].InvoiceDate != null)
+                                                                {
+                                                                    @TrueBooksMVC.Models.CommanFunctions.GetShortDateFormat(@Model.CustomerRcieptChildVM[i].strDate)
+                                                                    @Html.HiddenFor(item => @Model.CustomerRcieptChildVM[i].strDate)
+                                                                }
+                                                                else
+                                                                {
+                                                                    @Model.CustomerRcieptChildVM[i].strDate
+                                                                    @Html.HiddenFor(item => @Model.CustomerRcieptChildVM[i].strDate)
+                                                                }
+                                                            </div>
+                                                        </td>
 
-                                                <td style="text-align: right;">
-                                                    <div class="data1">
-                                                        @*@Model.CostUpdationDetails[i].JobCode*@
-                                                        @*   @Model.recPayDetail[i].Amount*@
-                                                        @Html.HiddenFor(item => @Model.CustomerRcieptChildVM[i].AmountToBeRecieved, new { @Class = "AmountToBeRecieved" })
-                                                        @string.Format("{0:n2}", @Model.CustomerRcieptChildVM[i].AmountToBeRecieved)
-                                                    </div>
-                                                </td>
+                                                        <td style="text-align: right;">
+                                                            <div class="data1">
+                                                                @*@Model.CostUpdationDetails[i].JobCode*@
+                                                                @*   @Model.recPayDetail[i].Amount*@
+                                                                @Html.HiddenFor(item => @Model.CustomerRcieptChildVM[i].AmountToBeRecieved, new { @Class = "AmountToBeRecieved" })
+                                                                @string.Format("{0:n2}", @Model.CustomerRcieptChildVM[i].AmountToBeRecieved)
+                                                            </div>
+                                                        </td>
 
-                                                <td>
-                                                    <div class="data1">
-                                                        @*@Model.CostUpdationDetails[i].JobCode*@
-                                                        @Html.HiddenFor(item => @Model.CustomerRcieptChildVM[i].AmountToBePaid, new { @Class = "AmountToBePaid" })
-                                                        @string.Format("{0:n2}", @Model.CustomerRcieptChildVM[i].AmountToBePaid)
-
-
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="data1">
-                                                        @*@Model.CostUpdationDetails[i].JobCode*@
-                                                        @Html.HiddenFor(item => @Model.CustomerRcieptChildVM[i].Balance, new { @Class = "Balance" })
-                                                        @string.Format("{0:n2}", @Model.CustomerRcieptChildVM[i].Balance)
+                                                        <td>
+                                                            <div class="data1">
+                                                                @*@Model.CostUpdationDetails[i].JobCode*@
+                                                                @Html.HiddenFor(item => @Model.CustomerRcieptChildVM[i].AmountToBePaid, new { @Class = "AmountToBePaid" })
+                                                                @string.Format("{0:n2}", @Model.CustomerRcieptChildVM[i].AmountToBePaid)
 
 
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="data1">
-                                                        @*@Model.CostUpdationDetails[i].JobCode*@
-                                                        @Html.TextBoxFor(item => @Model.CustomerRcieptChildVM[i].Amount, string.Format("{0:n2}", @Model.CustomerRcieptChildVM[i].Amount), new { @Class = "amt txtNum text-right Amount", @onChange = "CheckAmt1(this)" ,@readonly= "readonly" })
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="data1">
+                                                                @*@Model.CostUpdationDetails[i].JobCode*@
+                                                                @Html.HiddenFor(item => @Model.CustomerRcieptChildVM[i].Balance, new { @Class = "Balance" })
+                                                                @string.Format("{0:n2}", @Model.CustomerRcieptChildVM[i].Balance)
 
 
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="data1">
-                                                        @*@Model.CostUpdationDetails[i].JobCode*@
-                                                        @Html.TextBoxFor(item => @Model.CustomerRcieptChildVM[i].AdjustmentAmount, string.Format("{0:n2}", @Model.CustomerRcieptChildVM[i].AdjustmentAmount), new { @Class = "amt1 txtNum text-right AdjustmentAmount", @readonly = "readonly" })
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="data1">
+                                                                @*@Model.CostUpdationDetails[i].JobCode*@
+                                                                @Html.TextBoxFor(item => @Model.CustomerRcieptChildVM[i].Amount, string.Format("{0:n2}", @Model.CustomerRcieptChildVM[i].Amount), new { @Class = "amt txtNum text-right Amount", @onChange = "CheckAmt1(this)", @readonly = "readonly" })
 
 
-                                                    </div>
-                                                </td>
-                                                @* <td style="text-align: right;">
-            <div class="data6">{{order.Balance | currency:""}}</div>
-        </td>*@
-                                                @*<td style="text-align: right;">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="data1">
+                                                                @*@Model.CostUpdationDetails[i].JobCode*@
+                                                                @Html.TextBoxFor(item => @Model.CustomerRcieptChildVM[i].AdjustmentAmount, string.Format("{0:n2}", @Model.CustomerRcieptChildVM[i].AdjustmentAmount), new { @Class = "amt1 txtNum text-right AdjustmentAmount", @readonly = "readonly" })
 
-             <div class="data7 readonlyamt">{{order.Amount | currency:""}}</div>
-            <div class="data7 textamt" style="display:none"><input type="text" ng-bind="{{order.Amount}}" value="{{order.Amount}}" /></div>
 
-        </td>*@
-                                            </tr>
+                                                            </div>
+                                                        </td>
+                                                        @* <td style="text-align: right;">
+                                                                <div class="data6">{{order.Balance | currency:""}}</div>
+                                                            </td>*@
+                                                        @*<td style="text-align: right;">
+
+                                                                 <div class="data7 readonlyamt">{{order.Amount | currency:""}}</div>
+                                                                <div class="data7 textamt" style="display:none"><input type="text" ng-bind="{{order.Amount}}" value="{{order.Amount}}" /></div>
+
+                                                            </td>*@
+                                                    </tr>
                                                     @*<tr>
                                                             <td>
                                                                 <div class="data1">&nbsp;</div>
@@ -715,7 +715,7 @@
         </div>
     </div>
 }
-
+ 
 <div>
 </div>
 
@@ -745,4 +745,5 @@
         //$('#ChequeDate').datepicker("setDate", sd);
 
     });
+       
 </script>

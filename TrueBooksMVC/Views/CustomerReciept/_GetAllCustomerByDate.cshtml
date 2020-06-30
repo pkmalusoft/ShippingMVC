@@ -8,6 +8,7 @@
 
     string path = "/CustomerReciept/CustomerRecieptDetails/0";
     var customers = ViewBag.AllCustomers as IEnumerable<DAL.CUSTOMER>;
+    var spath = System.Configuration.ConfigurationManager.AppSettings["spath"].ToString();
 
     if (Convert.ToInt32(Session["UserRoleID"]) > 1)
     {
@@ -47,8 +48,8 @@
         $(".print").click(function () {
             var row = $(this).parent("a").parent("td").parent("tr");
             var id = $(row).find("td").eq(0).find('input[type=hidden]').val();
-
-            var src = "http://localhost:1052/Reports/ReceiptVocher.aspx?recpayid=" + id;
+              var url = '@spath' + "/Reports/ReceiptVocher.aspx?recpayid=" + id;
+            //var src = "http://localhost:1052/Reports/ReceiptVocher.aspx?recpayid=" + id;
             window.open(src, "_blank");
         });
 
@@ -105,35 +106,44 @@
                                                     <td>
                                                         @TrueBooksMVC.Models.CommanFunctions.GetShortDateFormat(item.RecPayDate)
 
-                                                    @Html.HiddenFor(model => item.RecPayID)
-                                                </td>
-                                                <td>@Html.DisplayFor(modelItem => item.DocumentNo)</td>
-                                                <td class="tdtarget">@customers.Where(d=>d.CustomerID==item.CustomerID).FirstOrDefault().Customer1</td>
-                                                <td class="textright">@Html.DisplayFor(modelItem => item.FMoney)</td>
-                                                <td>
+                                                        @Html.HiddenFor(model => item.RecPayID)
+                                                    </td>
+                                                    <td>@Html.DisplayFor(modelItem => item.DocumentNo)</td>
+                                                    <td class="tdtarget">@customers.Where(d => d.CustomerID == item.CustomerID).FirstOrDefault().Customer1</td>
+                                                    <td class="textright">@Html.DisplayFor(modelItem => item.FMoney)</td>
+                                                    <td>
 
-                                                    @if (ismodify)
-                                                    {
-                                                        <a href='@Url.Action("CustomerReciept", "CustomerReciept", new { id = item.RecPayID })' data-toggle="tooltip" data-placement="left" title="Click here"><i class="fa fa-pencil"></i></a>
-                                                    }
-                                                    |
-                                                    @if (isdelete)
-                                                    {
-                                                        <a href="#" onclick="DeleteCustomer(cid=@item.RecPayID)"><i class="fa fa-times-circle"></i></a>
-                                                    }
-                                                    @if (isprint)
-                                                    {
-                                                        <a href="#"><i class="fa fa-print print"></i></a>
-                                                    }
+                                                        @if (ismodify)
+                                                        {
+                                                            <a href='@Url.Action("CustomerReciept", "CustomerReciept", new { id = item.RecPayID })' data-toggle="tooltip" data-placement="left" title="Click here"><i class="fa fa-pencil"></i></a>
+                                                        }
+                                                        |
+                                                        @if (isdelete)
+                                                        {
+                                                            <a href="#" onclick="DeleteCustomer(cid=@item.RecPayID)"><i class="fa fa-times-circle"></i></a>
+                                                        }
+                                                        |
+                                                        @if (isprint)
+                                                        {
+                                                            <a href="#"><i class="fa fa-print " aria-hidden="true" onclick="funExportToPDF(@item.RecPayID)"></i></a>
+                                                        }
+                                                        |
+                                                        @if (isprint)
+                                                        {
+                                                            <a href="#"><i class="fa fa-print print"></i></a>
+                                                        }
 
 
-                                                </td>
-                                            </tr>
+                                                    </td>
+                                                </tr>
 
-                                        }
+                                            }
 
                                         </tbody>
                                     </table>
+                                    <div id="divPDF" style="display:none">
+                                        <div id="printerDiv"><iframe id="frmPDF"></iframe></div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -144,3 +154,35 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+      function funExportToPDF(id) {
+          showLoading();
+        $.ajax({
+             url: '@Url.Action("ExportToPDF", "CustomerReciept")',
+
+            type: "GET",
+            data: { recpayid:id},
+                    dataType: "json",
+            success: function (result) {
+                if (result.success == true) {
+                    $('#frmPDF').attr('src', '@Url.Content("~/")' + result.path);
+
+                    setTimeout(function () {
+                        hideLoading();
+                        frame = document.getElementById("frmPDF");
+                        framedoc = frame.contentWindow;
+                        framedoc.focus();
+                        framedoc.print();
+                    }, 1000);
+                } else {
+                    alert(result.message);
+                    hideLoading();
+                }
+            },
+           
+        });
+
+        return false;
+    }
+</script>

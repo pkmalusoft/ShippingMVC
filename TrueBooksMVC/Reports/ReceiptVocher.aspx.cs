@@ -7,6 +7,16 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using DAL;
 using Microsoft.Reporting.WebForms;
+using System.IO;
+using iTextSharp;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+using iTextSharp.text.xml;
+using iTextSharp.text.xml.simpleparser;
+using iTextSharp.text.html;
+using iTextSharp.text.html.simpleparser;
+using Newtonsoft.Json;
+using System.Web.Http;
 namespace TrueBooksMVC.Reports
 {
     [SessionExpire]
@@ -59,59 +69,115 @@ namespace TrueBooksMVC.Reports
             dtcompany.Rows.Add(dr);
 
             var receipt = (from d in entity.RecPays where d.RecPayID == recpayid select d).FirstOrDefault();
-            var recpaydetails = (from d in entity.RecPayDetails where d.RecPayID == recpayid where d.InvoiceID>0 select d).ToList();
-            var cust= entity.CUSTOMERs.Where(d => d.CustomerID == receipt.CustomerID).FirstOrDefault();
-            var listofdet = new List<ReportCustomerReceipt_Result>();
-            foreach (var item in recpaydetails)
+
+            if (receipt.IsTradingReceipt == true)
             {
-                var sinvoicedet = (from d in entity.SalesInvoiceDetails where d.SalesInvoiceDetailID == item.InvoiceID select d).FirstOrDefault();
-                var sinvoice = (from d in entity.SalesInvoices where d.SalesInvoiceID == sinvoicedet.SalesInvoiceID select d).FirstOrDefault();
-                var customerrecpay = new ReportCustomerReceipt_Result();
-                customerrecpay.Date = receipt.RecPayDate.Value.ToString("dd-MMM-yyyy");
-                customerrecpay.ReceivedFrom = cust.Customer1;
-                customerrecpay.DocumentNo = receipt.DocumentNo;
-                customerrecpay.Amount =Convert.ToDecimal(receipt.FMoney);
-                customerrecpay.Remarks = receipt.Remarks;               
-                customerrecpay.Account = receipt.BankName;
-                if (receipt.ChequeDate != null)
+                var recpaydetails = (from d in entity.RecPayDetails where d.RecPayID == recpayid where d.InvoiceID > 0 select d).ToList();
+                var cust = entity.CUSTOMERs.Where(d => d.CustomerID == receipt.CustomerID).FirstOrDefault();
+                var listofdet = new List<ReportCustomerReceipt_Result>();
+                foreach (var item in recpaydetails)
                 {
-                    customerrecpay.ChequeDate = receipt.ChequeDate.Value.ToString("dd-MMM-yyyy");
+                    var sinvoicedet = (from d in entity.SalesInvoiceDetails where d.SalesInvoiceDetailID == item.InvoiceID select d).FirstOrDefault();
+                    var sinvoice = (from d in entity.SalesInvoices where d.SalesInvoiceID == sinvoicedet.SalesInvoiceID select d).FirstOrDefault();
+                    var customerrecpay = new ReportCustomerReceipt_Result();
+                    customerrecpay.Date = receipt.RecPayDate.Value.ToString("dd-MMM-yyyy");
+                    customerrecpay.ReceivedFrom = cust.Customer1;
+                    customerrecpay.DocumentNo = receipt.DocumentNo;
+                    customerrecpay.Amount = Convert.ToDecimal(receipt.FMoney);
+                    customerrecpay.Remarks = receipt.Remarks;
+                    customerrecpay.Account = receipt.BankName;
+                    if (receipt.ChequeDate != null)
+                    {
+                        customerrecpay.ChequeDate = receipt.ChequeDate.Value.ToString("dd-MMM-yyyy");
+                    }
+                    else
+                    {
+                        customerrecpay.ChequeDate = "";
+                    }
+                    if (!string.IsNullOrEmpty(receipt.ChequeNo))
+                    {
+                        customerrecpay.ChequeNo = Convert.ToDecimal(receipt.ChequeNo);
+                    }
+                    customerrecpay.CustomerBank = "";
+                    customerrecpay.DetailDocNo = sinvoice.SalesInvoiceNo;
+                    customerrecpay.DocDate = sinvoice.SalesInvoiceDate.Value.ToString("dd-MMM-yyyy");
+                    customerrecpay.DocAmount = Convert.ToDecimal(sinvoicedet.NetValue);
+
+                    if (item.Amount > 0)
+                    {
+                        customerrecpay.SettledAmount = Convert.ToDecimal(item.Amount);
+                        customerrecpay.AdjustmentAmount = Convert.ToInt32(item.AdjustmentAmount);
+                    }
+                    else
+                    {
+                        customerrecpay.SettledAmount = Convert.ToDecimal(item.Amount) * -1;
+                        customerrecpay.AdjustmentAmount = Convert.ToInt32(item.AdjustmentAmount);
+                    }
+                    listofdet.Add(customerrecpay);
                 }
-                else
-                {
-                    customerrecpay.ChequeDate = "";
-                }
-                if (!string.IsNullOrEmpty(receipt.ChequeNo))
-                {
-                    customerrecpay.ChequeNo = Convert.ToDecimal(receipt.ChequeNo);
-                }
-                customerrecpay.CustomerBank = "";
-                customerrecpay.DetailDocNo = sinvoice.SalesInvoiceNo;
-                customerrecpay.DocDate = sinvoice.SalesInvoiceDate.Value.ToString("dd-MMM-yyyy");
-                customerrecpay.DocAmount =Convert.ToDecimal(sinvoicedet.NetValue);
-               
-                if (item.Amount > 0)
-                {
-                    customerrecpay.SettledAmount = Convert.ToDecimal(item.Amount) ;
-                    customerrecpay.AdjustmentAmount = Convert.ToInt32(item.AdjustmentAmount);
-                }
-                else
-                {
-                    customerrecpay.SettledAmount = Convert.ToDecimal(item.Amount) *-1;
-                    customerrecpay.AdjustmentAmount = Convert.ToInt32( item.AdjustmentAmount);
-                }
-                listofdet.Add(customerrecpay);
+
+                ReportDataSource _rsource;
+
+                //var dd = entity.ReportCustomerReceipt(recpayid).ToList();
+                _rsource = new ReportDataSource("ReceiptVoucher", listofdet);
+                ReportViewer1.LocalReport.DataSources.Add(_rsource);
+
             }
+            else
+            {
+                 var recpaydetails = (from d in entity.RecPayDetails where d.RecPayID == recpayid where d.InvoiceID > 0 select d).ToList();
+                var cust = entity.CUSTOMERs.Where(d => d.CustomerID == receipt.CustomerID).FirstOrDefault();
+                var listofdet = new List<ReportCustomerReceipt_Result>();
+                foreach (var item in recpaydetails)
+                {
+                    var sinvoicedet = (from d in entity.JInvoices where d.InvoiceID == item.InvoiceID select d).FirstOrDefault();
+                    var sinvoice = (from d in entity.JobGenerations where d.JobID == sinvoicedet.JobID select d).FirstOrDefault();
+                    var customerrecpay = new ReportCustomerReceipt_Result();
+                    customerrecpay.Date = receipt.RecPayDate.Value.ToString("dd-MMM-yyyy");
+                    customerrecpay.ReceivedFrom = cust.Customer1;
+                    customerrecpay.DocumentNo = receipt.DocumentNo;
+                    customerrecpay.Amount = Convert.ToDecimal(receipt.FMoney);
+                    customerrecpay.Remarks = receipt.Remarks;
+                    customerrecpay.Account = receipt.BankName;
+                    if (receipt.ChequeDate != null)
+                    {
+                        customerrecpay.ChequeDate = receipt.ChequeDate.Value.ToString("dd-MMM-yyyy");
+                    }
+                    else
+                    {
+                        customerrecpay.ChequeDate = "";
+                    }
+                    if (!string.IsNullOrEmpty(receipt.ChequeNo))
+                    {
+                        customerrecpay.ChequeNo = Convert.ToDecimal(receipt.ChequeNo);
+                    }
+                    customerrecpay.CustomerBank = "";
+                    customerrecpay.DetailDocNo = sinvoice.InvoiceNo.ToString();
+                    customerrecpay.DocDate = sinvoice.InvoiceDate.Value.ToString("dd-MMM-yyyy");
+                    customerrecpay.DocAmount = Convert.ToDecimal(sinvoicedet.SalesHome);
 
-            ReportDataSource _rsource;
+                    if (item.Amount > 0)
+                    {
+                        customerrecpay.SettledAmount = Convert.ToDecimal(item.Amount);
+                        customerrecpay.AdjustmentAmount = Convert.ToInt32(item.AdjustmentAmount);
+                    }
+                    else
+                    {
+                        customerrecpay.SettledAmount = Convert.ToDecimal(item.Amount) * -1;
+                        customerrecpay.AdjustmentAmount = Convert.ToInt32(item.AdjustmentAmount);
+                    }
+                    listofdet.Add(customerrecpay);
+                }
 
-            var dd = entity.ReportCustomerReceipt(recpayid).ToList();
-            _rsource = new ReportDataSource("ReceiptVoucher", listofdet);
+                ReportDataSource _rsource;
 
+                //var dd = entity.ReportCustomerReceipt(recpayid).ToList();
+                _rsource = new ReportDataSource("ReceiptVoucher", listofdet);
+                ReportViewer1.LocalReport.DataSources.Add(_rsource);
 
+            }
             ReportDataSource _rsource1 = new ReportDataSource("Company", dtcompany);
 
-            ReportViewer1.LocalReport.DataSources.Add(_rsource);
           
             ReportViewer1.LocalReport.DataSources.Add(_rsource1);
 
@@ -211,8 +277,8 @@ namespace TrueBooksMVC.Reports
                         words += "-" + unitsMap[number % 10];
                 }
             }
-
             return words;
         }
+        
     }
 }

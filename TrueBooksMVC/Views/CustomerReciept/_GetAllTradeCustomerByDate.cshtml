@@ -7,7 +7,7 @@
     var isprint = true;
 
     string path = "/CustomerReciept/CustomerTradeRecieptDetails/0";
-    var customers=  ViewBag.AllCustomers as IEnumerable<DAL.CUSTOMER>;
+    var customers = ViewBag.AllCustomers as IEnumerable<DAL.CUSTOMER>;
     var spath = System.Configuration.ConfigurationManager.AppSettings["spath"].ToString();
 
     if (Convert.ToInt32(Session["UserRoleID"]) > 1)
@@ -63,7 +63,7 @@
 </script>
 
 
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <div class="box-body">
     <div class="col-md-12">
         <div class="col-md-12">
@@ -81,7 +81,7 @@
                                                 <th>Document No</th>
                                                 <th>Party Name</th>
                                                 <th>Amount</th>
-                                                <th style="width:70px;"></th>
+                                                <th style="width:100px;"></th>
                                             </tr>
                                         </thead>
 
@@ -92,8 +92,8 @@
                                                 <th>Document No</th>
                                                 <th>Party Name</th>
                                                 <th>Amount</th>
-                                              
-                                                <th style="width:70px;"></th>
+
+                                                <th style="width:100px;"></th>
                                             </tr>
                                         </tfoot>
 
@@ -111,9 +111,9 @@
                                                         @Html.HiddenFor(model => item.RecPayID)
                                                     </td>
                                                     <td>@Html.DisplayFor(modelItem => item.DocumentNo)</td>
-                                                    <td class="tdtarget">@customers.Where(d=>d.CustomerID==item.CustomerID).FirstOrDefault().Customer1</td>
+                                                    <td class="tdtarget">@customers.Where(d => d.CustomerID == item.CustomerID).FirstOrDefault().Customer1</td>
                                                     <td class="textright">@Html.DisplayFor(modelItem => item.FMoney)</td>
-                                                 
+
                                                     <td>
 
                                                         @if (ismodify)
@@ -128,7 +128,13 @@
                                                         |
                                                         @if (isprint)
                                                         {
-                                                           <a href="#"><i class="fa fa-print print"></i></a> 
+                                                            <a href="#"><i class="fa fa-print " aria-hidden="true" onclick="funExportToPDF(@item.RecPayID)"></i></a>
+                                                        }
+                                                        |
+                                                        @if (isprint)
+                                                        {
+
+                                                            <a href="#"><i class=" fa fa-file-pdf-o print" style="color:red"></i></a>
                                                         }
 
 
@@ -139,6 +145,10 @@
 
                                         </tbody>
                                     </table>
+                                    <div id="divPDF" style="display:none">
+                                        <div id="printerDiv"><iframe id="frmPDF"></iframe></div>
+                                    </div>
+
                                 </div>
                             </div>
 
@@ -150,3 +160,33 @@
     </div>
 </div>
 
+<script type="text/javascript">
+      function funExportToPDF(id) {
+          showLoading();
+        $.ajax({
+             url: '@Url.Action("ExportToPDF", "CustomerReciept")',
+
+            type: "GET",
+            data: { recpayid:id},
+                    dataType: "json",
+            success: function (result) {
+                if (result.success == true) {
+                    $('#frmPDF').attr('src', '@Url.Content("~/")' + result.path);
+
+                    setTimeout(function () {
+                        hideLoading();
+                        frame = document.getElementById("frmPDF");
+                        framedoc = frame.contentWindow;
+                        framedoc.focus();
+                        framedoc.print();
+                    }, 1000);
+                } else {
+                    alert(result.message);
+                    hideLoading();
+                }
+            },
+        });
+
+        return false;
+    }
+</script>
