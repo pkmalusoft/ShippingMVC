@@ -40,7 +40,7 @@ namespace TrueBooksMVC.Reports
             //}
 
 
-
+            decimal? totalamt = 0;
             SHIPPING_FinalEntities entity = new SHIPPING_FinalEntities();
             ReportViewer1.SizeToReportContent = true;
             ReportViewer1.LocalReport.ReportPath = Server.MapPath("~/Reports/ReceiptVoucher.rdlc");
@@ -69,7 +69,7 @@ namespace TrueBooksMVC.Reports
             dtcompany.Rows.Add(dr);
 
             var receipt = (from d in entity.RecPays where d.RecPayID == recpayid select d).FirstOrDefault();
-
+            totalamt = receipt.FMoney;
             if (receipt.IsTradingReceipt == true)
             {
                 var recpaydetails = (from d in entity.RecPayDetails where d.RecPayID == recpayid where d.InvoiceID > 0 select d).ToList();
@@ -181,14 +181,14 @@ namespace TrueBooksMVC.Reports
           
             ReportViewer1.LocalReport.DataSources.Add(_rsource1);
 
-            int totalamt = 0;
+          
 
             //foreach (var item in dd)
             //{
             //    totalamt = 5000;
             //}
 
-            totalamt = 5000;
+            //totalamt = 5000;
 
             //DataTable dtuser = new DataTable();
             //dtuser.Columns.Add("UserName");
@@ -218,7 +218,7 @@ namespace TrueBooksMVC.Reports
             r[1] = "";
             r[2] = "";
             r[3] = "";
-            r[4] = NumberToWords(totalamt);
+            r[4] = NumberToWords(Convert.ToInt32(totalamt));
 
 
             dtcurrency.Rows.Add(r);

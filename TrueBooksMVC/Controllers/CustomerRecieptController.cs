@@ -546,7 +546,7 @@ namespace TrueBooksMVC.Controllers
 
             ViewBag.AllCustomers = Context1.CUSTOMERs.ToList();
 
-            var data = Context1.RecPays.Where(x => x.RecPayDate >= sdate && x.RecPayDate <= edate && x.IsTradingReceipt != true && x.FYearID == FYearID).OrderByDescending(x => x.RecPayDate).ToList();
+            var data = Context1.RecPays.Where(x => x.RecPayDate >= sdate && x.RecPayDate <= edate && x.CustomerID != null && x.IsTradingReceipt != true && x.FYearID == FYearID).OrderByDescending(x => x.RecPayDate).ToList();
 
             var cust = Context1.SP_GetAllRecieptsDetailsByDate(fdate, tdate, FYearID).ToList();
 
@@ -578,7 +578,7 @@ namespace TrueBooksMVC.Controllers
 
             ViewBag.AllCustomers = Context1.CUSTOMERs.ToList();
 
-            var data = Context1.RecPays.Where(x => x.RecPayDate >= sdate && x.RecPayDate <= edate && x.IsTradingReceipt != true && x.FYearID == FYearID).OrderByDescending(x => x.RecPayDate).ToList();
+            var data = Context1.RecPays.Where(x => x.RecPayDate >= sdate && x.RecPayDate <= edate &&  x.CustomerID != null &&  x.IsTradingReceipt != true && x.FYearID == FYearID).OrderByDescending(x => x.RecPayDate).ToList();
 
 
             var cust = Context1.SP_GetAllRecieptsDetailsByDate(fdate, tdate, FYearID).ToList();
@@ -600,7 +600,7 @@ namespace TrueBooksMVC.Controllers
             var edate = DateTime.Parse(tdate);
 
 
-            var data = Context1.RecPays.Where(x => x.RecPayDate >= sdate && x.RecPayDate <= edate && x.IsTradingReceipt == true && x.FYearID == FYearID).OrderByDescending(x => x.RecPayDate).ToList();
+            var data = Context1.RecPays.Where(x => x.RecPayDate >= sdate && x.RecPayDate <= edate && x.CustomerID !=null && x.IsTradingReceipt == true && x.FYearID == FYearID).OrderByDescending(x => x.RecPayDate).ToList();
             var cust = Context1.SP_GetAllRecieptsDetailsByDate(fdate, tdate, FYearID).ToList();
             ViewBag.AllCustomers = Context1.CUSTOMERs.ToList();
             string view = this.RenderPartialView("_GetAllTradeCustomerByDate", data);
@@ -629,7 +629,7 @@ namespace TrueBooksMVC.Controllers
             var edate = DateTime.Parse(tdate);
             ViewBag.AllCustomers = Context1.CUSTOMERs.ToList();
 
-            var data = Context1.RecPays.Where(x => x.RecPayDate >= sdate && x.RecPayDate <= edate && x.FYearID == FYearID && x.IsTradingReceipt == true).OrderByDescending(x => x.RecPayDate).ToList();
+            var data = Context1.RecPays.Where(x => x.RecPayDate >= sdate && x.RecPayDate <= edate && x.CustomerID != null && x.FYearID == FYearID && x.IsTradingReceipt == true).OrderByDescending(x => x.RecPayDate).ToList();
 
 
             var cust = Context1.SP_GetAllRecieptsDetailsByDate(fdate, tdate, FYearID).ToList();
@@ -644,7 +644,6 @@ namespace TrueBooksMVC.Controllers
 
             Reciepts = RP.GetAllReciepts();
             //var data = (from t in Reciepts where (t.RecPayDate >= Convert.ToDateTime(Session["FyearFrom"]) && t.RecPayDate <= Convert.ToDateTime(Session["FyearTo"])) select t).ToList();
-
             if (ID > 0)
             {
                 ViewBag.SuccessMsg = "You have successfully added Customer Reciept.";
@@ -965,6 +964,7 @@ namespace TrueBooksMVC.Controllers
             //Report  
             try
             {
+                decimal? totalamt = 0;
                 ReportViewer reportViewer = new ReportViewer();
 
                 reportViewer.ProcessingMode = ProcessingMode.Local;
@@ -993,6 +993,7 @@ namespace TrueBooksMVC.Controllers
                 dtcompany.Rows.Add(dr);
 
                 var receipt = (from d in Context1.RecPays where d.RecPayID == recpayid select d).FirstOrDefault();
+                totalamt = receipt.FMoney;
 
                 if (receipt.IsTradingReceipt == true)
                 {
@@ -1105,14 +1106,13 @@ namespace TrueBooksMVC.Controllers
 
                 reportViewer.LocalReport.DataSources.Add(_rsource1);
 
-                int totalamt = 0;
+               
 
                 //foreach (var item in dd)
                 //{
                 //    totalamt = 5000;
                 //}
 
-                totalamt = 5000;
 
                 //DataTable dtuser = new DataTable();
                 //dtuser.Columns.Add("UserName");
@@ -1142,7 +1142,7 @@ namespace TrueBooksMVC.Controllers
                 r[1] = "";
                 r[2] = "";
                 r[3] = "";
-                r[4] = NumberToWords(totalamt);
+                r[4] = NumberToWords(Convert.ToInt32(totalamt));
 
 
                 dtcurrency.Rows.Add(r);

@@ -1,4 +1,5 @@
-﻿@model IEnumerable<DAL.RecPay>
+﻿
+@model IEnumerable<DAL.RecPay>
 
 @{
     Layout = null;
@@ -7,7 +8,7 @@
     var isprint = true;
     var spath = System.Configuration.ConfigurationManager.AppSettings["spath"].ToString();
 
-    string path = "/SupplierPayment/SupplierPaymentDetails/0";
+    string path = "/SupplierPayment/SupplierTradePaymentDetails/0";
 
     if (Convert.ToInt32(Session["UserRoleID"]) > 1)
     {
@@ -18,6 +19,7 @@
 
     }
     var supplier = ViewBag.Suppliers as IEnumerable<DAL.Supplier>;
+
 }
 
 <script type="text/javascript">
@@ -42,7 +44,8 @@
                 }
             });
         });
-          $(".print").click(function () {
+
+         $(".print").click(function () {
             var row = $(this).parent("a").parent("td").parent("tr");
             var id = $(row).find("td").eq(0).find('input[type=hidden]').val();
             var url = '@spath' + "/Reports/SupplierPayment.aspx?recpayid=" + id;
@@ -54,6 +57,7 @@
 </script>
 
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 
 <div class="box-body">
@@ -74,7 +78,7 @@
                                                 <th>Document No</th>
                                                 <th>Supplier Name</th>
                                                 <th>Amount</th>
-                                                <th style="width: 70px;">Action</th>
+                                                <th style="width: 100px;">Action</th>
 
                                             </tr>
                                         </thead>
@@ -86,7 +90,7 @@
                                                 <th>Document No</th>
                                                 <th>Supplier Name</th>
                                                 <th>Amount</th>
-                                                <th style="width: 70px;"></th>
+                                                <th style="width: 100px;"></th>
 
                                             </tr>
                                         </tfoot>
@@ -98,8 +102,9 @@
                                                     <td>
                                                         @TrueBooksMVC.Models.CommanFunctions.GetShortDateFormat(item.RecPayDate)
                                                         @Html.HiddenFor(model => item.RecPayID)
-
                                                     </td>
+
+
                                                     <td>@Html.DisplayFor(modelItem => item.DocumentNo)</td>
                                                     <td class="tdtarget">@supplier.Where(d => d.SupplierID == @item.SupplierID).FirstOrDefault().SupplierName</td>
                                                     <td class="textright">@Html.DisplayFor(modelItem => item.FMoney)</td>
@@ -107,9 +112,10 @@
                                                     <td>
                                                         @if (ismodify)
                                                         {
-                                                            <a href='@Url.Action("SupplierPayment", "SupplierPayment", new { id = item.RecPayID })' data-toggle="tooltip" data-placement="left" title="Click here"><i class="fa fa-pencil"></i></a>
+                                                            <a href='@Url.Action("SupplierTradePayment", "SupplierPayment", new { id = item.RecPayID })' data-toggle="tooltip" data-placement="left" title="Click here"><i class="fa fa-pencil"></i></a>
                                                         }
                                                         |
+
 
                                                         @*  <a href='@Url.Action("DeleteSupplierDet", "SupplierPayment", new { id = item.RecPayID })' data-toggle="tooltip" data-placement="right" title="Click here"><i class="fa fa-times-circle"></i></a>*@
                                                         @if (isdelete)
@@ -129,7 +135,7 @@
                                                         }
                                                         @*                                           @Html.ActionLink("Edit", "", new { id = item.RecPayID }) |
 
-                                                            @Html.ActionLink("Delete", "", new { id = item.RecPayID })*@
+                            @Html.ActionLink("Delete", "", new { id = item.RecPayID })*@
                                                     </td>
                                                 </tr>
                                             }
@@ -163,11 +169,10 @@
                     $('#frmPDF').attr('src', '@Url.Content("~/")' + result.path);
 
                     setTimeout(function () {
-                      
+                        hideLoading();
                         frame = document.getElementById("frmPDF");
                         framedoc = frame.contentWindow;
                         framedoc.focus();
-                        hideLoading();
                         framedoc.print();
                     }, 1000);
                 } else {

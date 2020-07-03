@@ -19,6 +19,7 @@ namespace TrueBooksMVC.Controllers
         SHIPPING_FinalEntities entity = new SHIPPING_FinalEntities();
         public ActionResult Login()
         {
+            //var version = typeof(Controller).Assembly.GetName().Version;
             ViewBag.Branch = entity.BranchMasters.ToList();
 
             ViewBag.fyears = entity.AcFinancialYearSelect(Convert.ToInt32(Session["branchid"])).ToList();

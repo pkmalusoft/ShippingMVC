@@ -837,8 +837,6 @@ warning 6002: The table/view 'malusoft_shipping.dbo.AcHeadAssign' does not have 
           <Property Name="DiscountValueLC" Type="decimal" Precision="18" Scale="2" />
           <Property Name="DiscountValueFC" Type="decimal" Precision="18" Scale="2" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'malusoft_shipping.dbo.PurchaseInvoiceDetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="PurchaseInvoiceDetails">
           <Key>
             <PropertyRef Name="PurchaseInvoiceDetailID" />
@@ -858,6 +856,8 @@ warning 6002: The table/view 'malusoft_shipping.dbo.PurchaseInvoiceDetails' does
           <Property Name="AcHeadID" Type="int" />
           <Property Name="JobID" Type="int" />
           <Property Name="Description" Type="varchar(max)" />
+          <Property Name="RecPayStatus" Type="int" />
+          <Property Name="RecPayDetailId" Type="int" />
         </EntityType>
         <EntityType Name="RecPay">
           <Key>
@@ -2438,6 +2438,7 @@ warning 6002: The table/view 'malusoft_shipping.dbo.qrySupplierOutstanding' does
           <EntitySet Name="Port" EntityType="Self.Port" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductServices" EntityType="Self.ProductServices" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PurchaseInvoice" EntityType="Self.PurchaseInvoice" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PurchaseInvoiceDetails" EntityType="Self.PurchaseInvoiceDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RecPay" EntityType="Self.RecPay" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RecPayDetails" EntityType="Self.RecPayDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Remarks" EntityType="Self.Remarks" Schema="dbo" store:Type="Tables" />
@@ -2477,25 +2478,6 @@ FROM [dbo].[AcBankDetails] AS [AcBankDetails]</DefiningQuery>
 [AcHeadAssign].[CashControlAcID] AS [CashControlAcID], 
 [AcHeadAssign].[SupplierControlAcID] AS [SupplierControlAcID]
 FROM [dbo].[AcHeadAssign] AS [AcHeadAssign]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="PurchaseInvoiceDetails" EntityType="Self.PurchaseInvoiceDetails" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-[PurchaseInvoiceDetails].[PurchaseInvoiceDetailID] AS [PurchaseInvoiceDetailID], 
-[PurchaseInvoiceDetails].[PurchaseInvoiceID] AS [PurchaseInvoiceID], 
-[PurchaseInvoiceDetails].[ProductID] AS [ProductID], 
-[PurchaseInvoiceDetails].[Quantity] AS [Quantity], 
-[PurchaseInvoiceDetails].[ItemUnitID] AS [ItemUnitID], 
-[PurchaseInvoiceDetails].[Rate] AS [Rate], 
-[PurchaseInvoiceDetails].[RateFC] AS [RateFC], 
-[PurchaseInvoiceDetails].[Value] AS [Value], 
-[PurchaseInvoiceDetails].[ValueFC] AS [ValueFC], 
-[PurchaseInvoiceDetails].[Taxprec] AS [Taxprec], 
-[PurchaseInvoiceDetails].[Tax] AS [Tax], 
-[PurchaseInvoiceDetails].[NetValue] AS [NetValue], 
-[PurchaseInvoiceDetails].[AcHeadID] AS [AcHeadID], 
-[PurchaseInvoiceDetails].[JobID] AS [JobID], 
-[PurchaseInvoiceDetails].[Description] AS [Description]
-FROM [dbo].[PurchaseInvoiceDetails] AS [PurchaseInvoiceDetails]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="qryCustomerStatement" EntityType="Self.qryCustomerStatement" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -6693,6 +6675,8 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Name="AcHeadID" Type="Int32" />
           <Property Name="JobID" Type="Int32" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="RecPayStatus" Type="Int32" />
+          <Property Name="RecPayDetailId" Type="Int32" />
         </EntityType>
         <EntityType Name="SalesInvoiceDetail">
           <Key>
@@ -10294,6 +10278,8 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <EntitySetMapping Name="PurchaseInvoiceDetails">
             <EntityTypeMapping TypeName="SHIPPING_FinalModel.PurchaseInvoiceDetail">
               <MappingFragment StoreEntitySet="PurchaseInvoiceDetails">
+                <ScalarProperty Name="RecPayDetailId" ColumnName="RecPayDetailId" />
+                <ScalarProperty Name="RecPayStatus" ColumnName="RecPayStatus" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="JobID" ColumnName="JobID" />
                 <ScalarProperty Name="AcHeadID" ColumnName="AcHeadID" />

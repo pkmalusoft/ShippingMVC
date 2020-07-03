@@ -78,9 +78,7 @@
     <Reference Include="Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ReportViewer.2012.Runtime.11.0.3452.0\lib\Microsoft.ReportViewer.WebForms.DLL</HintPath>
     </Reference>
-    <Reference Include="Microsoft.SqlServer.Types, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.SqlServer.Types.14.0.1016.290\lib\net40\Microsoft.SqlServer.Types.dll</HintPath>
-    </Reference>
+    <Reference Include="Microsoft.SqlServer.Types, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Web.WebPages.OAuth, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebPages.OAuth.3.2.7\lib\net45\Microsoft.Web.WebPages.OAuth.dll</HintPath>
     </Reference>
@@ -279,6 +277,7 @@
     <Compile Include="Models\CommanFunctions.cs" />
     <Compile Include="Models\costUpdationDetailVM.cs" />
     <Compile Include="Models\CostUpdationModel.cs" />
+    <Compile Include="Models\CostUpdationTradeDetailVM.cs" />
     <Compile Include="Models\costUpdationVM.cs" />
     <Compile Include="Models\CreditNoteVM.cs" />
     <Compile Include="Models\customerInvoiceVM.cs" />
@@ -543,6 +542,13 @@
     </Compile>
     <Compile Include="Reports\SupplierOutStanding.aspx.designer.cs">
       <DependentUpon>SupplierOutStanding.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\SupplierPayment.aspx.cs">
+      <DependentUpon>SupplierPayment.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\SupplierPayment.aspx.designer.cs">
+      <DependentUpon>SupplierPayment.aspx</DependentUpon>
     </Compile>
     <Compile Include="Reports\TrailBalance.aspx.cs">
       <DependentUpon>TrailBalance.aspx</DependentUpon>
@@ -2336,6 +2342,7 @@
     <Content Include="Reports\SupplierAging.aspx" />
     <Content Include="Reports\SupplierLedger.aspx" />
     <Content Include="Reports\SupplierOutStanding.aspx" />
+    <Content Include="Reports\SupplierPayment.aspx" />
     <Content Include="Reports\TrailBalance.aspx" />
     <Content Include="Reports\TruckConsignmentNote.aspx" />
     <Content Include="Reports\TruckConsignmentNoteFormatted.aspx" />
@@ -3472,7 +3479,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="SqlServerTypes\x86\SqlServerSpatial140.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -3888,6 +3895,9 @@
     <Content Include="Views\CustomerReciept\CustomerTradeReceiptDetails.cshtml" />
     <Content Include="Views\CustomerReciept\CustomerTradeReceipt.cshtml" />
     <Content Include="Views\CustomerReciept\_GetAllTradeCustomerByDate.cshtml" />
+    <Content Include="Views\SupplierPayment\SupplierTradePayment.cshtml" />
+    <Content Include="Views\SupplierPayment\SupplierTradePaymentDetails.cshtml" />
+    <Content Include="Views\SupplierPayment\_GetAllTradeSupplierByDate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Logo\" />
@@ -3934,6 +3944,7 @@
     <EmbeddedResource Include="Reports\ReportSupplierOutstanding.rdlc" />
     <EmbeddedResource Include="Reports\RepSupplierAging.rdlc" />
     <EmbeddedResource Include="Reports\SupplierLedger.rdlc" />
+    <EmbeddedResource Include="Reports\SupplierPayment.rdlc" />
     <EmbeddedResource Include="Reports\Supplier_Statement.rdlc" />
     <EmbeddedResource Include="Reports\TrailBalance.rdlc" />
     <EmbeddedResource Include="Reports\TruckConsignmentNote.rdlc" />
