@@ -131,7 +131,7 @@ namespace TrueBooksMVC.Controllers
         private bool DeleteAndInsertRecords(FormCollection formCollection, int InvoiceId)
         {
 
-            DAL.SP_DeletePurchaseInvoiceDetails(InvoiceId);
+            //DAL.SP_DeletePurchaseInvoiceDetails(InvoiceId);
             int i = 0;
             int InvoiceDetailsCount = 0;
             ArrayList InvoiceDetailsArray = new ArrayList();
@@ -149,7 +149,15 @@ namespace TrueBooksMVC.Controllers
             {
                 string[] strArray;
                 PurchaseInvoiceDetail PID = new PurchaseInvoiceDetail();
-                PID.PurchaseInvoiceID = InvoiceId;
+                var PDetailId = 0;
+                if (formCollection.GetValue("PurchaseInvoiceDetailID_" + InvoiceDetailsArray[c]) != null)
+                {
+                    //PDetailId=
+                         strArray = (string[])formCollection.GetValue("PurchaseInvoiceDetailID_" + InvoiceDetailsArray[c]).RawValue;
+                    int.TryParse(strArray[0], out PDetailId);
+                }
+                PID.PurchaseInvoiceDetailID = PDetailId;
+                    PID.PurchaseInvoiceID = InvoiceId;
 
                 if (formCollection.GetValue("Description_" + InvoiceDetailsArray[c]) != null)
                 {
@@ -251,8 +259,15 @@ namespace TrueBooksMVC.Controllers
                 }
                 PID.ProductID = ProductID;
 
+                if (PDetailId > 0)
+                {
+                    int iCharge = DAL.UpdatePurchaseInvoiceDetail(PID);
 
-                int iCharge = DAL.AddPurchaseInvoiceDetail(PID);
+                }
+                else
+                {
+                    int iCharge = DAL.AddPurchaseInvoiceDetail(PID);
+                }
             }
 
             return true;
@@ -483,7 +498,12 @@ namespace TrueBooksMVC.Controllers
 
         public ActionResult GetPurchaseInvoice(DateTime fdate, DateTime tdate)
         {
-            var data = DAL.SP_GetAllPurchaseInvoiceByDate(Convert.ToDateTime(fdate), Convert.ToDateTime(tdate));
+            var data = DAL.SP_GetAllPurchaseInvoiceByDate(Convert.ToDateTime(fdate), Convert.ToDateTime(tdate));           
+            foreach(var item in data)
+            {
+                item.CurrencyID = entity.PurchaseInvoices.Find(item.PurchaseInvoiceID).CurrencyID;
+                item.PaymentTerm = entity.CurrencyMasters.Where(d => d.CurrencyID == item.CurrencyID).FirstOrDefault().CurrencyName;
+            }
             string view = this.RenderPartialView("_InvoiceView", data);
 
             return new JsonResult

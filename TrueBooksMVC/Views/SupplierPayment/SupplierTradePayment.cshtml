@@ -30,7 +30,24 @@
         $("select").css({ "border-radius": "5px" });
 
 
-        $("#EXRate").blur(function () { var wt = $(this).val(); $("#EXRate").val(parseFloat(wt).toFixed(2)); }); $("#FMoney").blur(function () { var wt = $(this).val(); $("#FMoney").val(parseFloat(wt).toFixed(2)); });
+        $("#EXRate").blur(function ()
+        {
+            var wt = $(this).val();
+            if (wt == null || wt == "") {
+                $("#EXRate").val('0.00');
+            } else {
+                $("#EXRate").val(parseFloat(wt).toFixed(2));
+            }
+        });
+        $("#FMoney").blur(function ()
+        {
+            var wt = $(this).val();
+            if (wt == null || wt == "") {
+                $("#FMoney").val('0.00');
+            } else {
+                $("#FMoney").val(parseFloat(wt).toFixed(2));
+            }
+        });
 
 
         $("textarea").css({ "border-radius": "5px" });
@@ -99,7 +116,6 @@
 
         if ($("#RecPayID").val() > 0) {
             if ($("#StatusEntry").val() == "BK") {
-                alert("Hii");
                 $("#Bank").prop('checked', true);
                 $("#Cash").prop('checked', false);
                 $("#Bank").trigger("click");
@@ -116,7 +132,6 @@
         }
 
         function ValidateTotal() {
-            debugger;
             var TotalAmount = 0;
             $('#tbl1 tr').not(':first').each(function (i, obj) {
                 debugger;
@@ -165,6 +180,13 @@
 <script type="text/javascript">
     function CheckAmt(x) {
         debugger;
+        var thisval = $(x).val();
+
+        if (thisval == null || thisval == "") {
+            $(x).val('0.00');
+        } else {
+            $(x).val(parseFloat(thisval).toFixed(2));
+        }
         var curror = $(x).parent("td").parent("tr");
         var amt = parseFloat($(curror).find("td").eq(4).text());
         var allocateamt = parseFloat($(curror).find("td").eq(5).find(".amt").val());
@@ -176,6 +198,17 @@
             $(curror).find("td").eq(5).find(".amt").val(allocateamt.toFixed(2));
         }
     }
+    function CheckAmt1(x) {
+        var thisval = $(x).val();
+
+        if (thisval == null || thisval == "") {
+            $(x).val('0.00');
+        } else {
+            $(x).val(parseFloat(thisval).toFixed(2));
+        }
+      
+    }
+
 </script>
 
 

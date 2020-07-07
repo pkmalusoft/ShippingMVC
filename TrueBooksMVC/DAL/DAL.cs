@@ -726,6 +726,95 @@ namespace TrueBooksMVC
             return Convert.ToInt32(cmd.Parameters["@PurchaseInvoiceDetailID"].Value);
         }
 
+        public static int UpdatePurchaseInvoiceDetail(PurchaseInvoiceDetail PID)
+        {
+            int i = 0;
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = new SqlConnection(Common.GetConnectionString);
+            cmd.CommandText = "SP_UpdatePurchaseInvoiceDetails";
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.Add("@PurchaseInvoiceDetailID", SqlDbType.Int);
+            cmd.Parameters["@PurchaseInvoiceDetailID"].Value = PID.PurchaseInvoiceDetailID;
+           // cmd.Parameters["@PurchaseInvoiceDetailID"].Direction = ParameterDirection.InputOutput;
+
+            cmd.Parameters.Add("@PurchaseInvoiceID", SqlDbType.Int);
+            if (PID.PurchaseInvoiceID != null)
+            {
+                cmd.Parameters["@PurchaseInvoiceID"].Value = PID.PurchaseInvoiceID;
+            }
+            else
+            {
+                cmd.Parameters["@PurchaseInvoiceID"].Value = 0;
+            }
+
+
+            cmd.Parameters.Add("@ProductID", SqlDbType.Int);
+
+            if (PID.ProductID != null)
+            {
+                cmd.Parameters["@ProductID"].Value = PID.ProductID;
+            }
+            else
+            {
+                cmd.Parameters["@ProductID"].Value = 0;
+            }
+            cmd.Parameters.Add("@Quantity", SqlDbType.Int);
+            cmd.Parameters["@Quantity"].Value = PID.Quantity;
+
+            cmd.Parameters.Add("@ItemUnitID", SqlDbType.Int);
+            cmd.Parameters["@ItemUnitID"].Value = PID.ItemUnitID;
+
+            cmd.Parameters.Add("@Rate", SqlDbType.Int);
+            cmd.Parameters["@Rate"].Value = PID.Rate;
+
+            cmd.Parameters.Add("@RateFC", SqlDbType.Decimal);
+            cmd.Parameters["@RateFC"].Value = PID.RateFC;
+
+            cmd.Parameters.Add("@Value", SqlDbType.Int);
+            cmd.Parameters["@Value"].Value = PID.Value;
+
+            cmd.Parameters.Add("@ValueFC", SqlDbType.Decimal);
+            cmd.Parameters["@ValueFC"].Value = PID.ValueFC;
+
+            cmd.Parameters.Add("@Taxprec", SqlDbType.Decimal);
+            cmd.Parameters["@Taxprec"].Value = PID.Taxprec;
+
+            cmd.Parameters.Add("@Tax", SqlDbType.Decimal);
+            cmd.Parameters["@Tax"].Value = PID.Tax;
+
+            cmd.Parameters.Add("@NetValue", SqlDbType.Decimal);
+            cmd.Parameters["@NetValue"].Value = PID.NetValue;
+
+            cmd.Parameters.Add("@AcHeadID", SqlDbType.Int);
+            cmd.Parameters["@AcHeadID"].Value = PID.AcHeadID;
+
+            cmd.Parameters.Add("@JobID", SqlDbType.Int);
+            cmd.Parameters["@JobID"].Value = PID.JobID;
+            cmd.Parameters.Add("@Description", SqlDbType.NVarChar);
+            cmd.Parameters["@Description"].Value = PID.Description;
+
+
+
+
+
+            try
+            {
+                cmd.Connection.Open();
+                i = cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+            finally
+            {
+                cmd.Connection.Close();
+            }
+
+            return Convert.ToInt32(cmd.Parameters["@PurchaseInvoiceDetailID"].Value);
+        }
 
         public static int SP_DeleteSalesInvoiceDetails(int Id)
         {
@@ -845,6 +934,91 @@ namespace TrueBooksMVC
             return Convert.ToInt32(cmd.Parameters["@SalesInvoiceDetailID"].Value);
         }
 
+        public static int UpdateSalesInvoiceDetails(Models.SalesInvoiceDetail SID)
+        {
+            int i = 0;
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = new SqlConnection(Common.GetConnectionString);
+            cmd.CommandText = "SP_UpdateSalesInvoiceDetails";
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.Add("@SalesInvoiceDetailID", SqlDbType.Int);
+            cmd.Parameters["@SalesInvoiceDetailID"].Value = SID.SalesInvoiceDetailID;
+            //cmd.Parameters["@SalesInvoiceDetailID"].Direction = ParameterDirection.InputOutput;
+
+            cmd.Parameters.Add("@SalesInvoiceID", SqlDbType.Int);
+            if (SID.SalesInvoiceID != null)
+            {
+                cmd.Parameters["@SalesInvoiceID"].Value = SID.SalesInvoiceID;
+            }
+            else
+            {
+                cmd.Parameters["@SalesInvoiceID"].Value = 0;
+            }
+
+
+            cmd.Parameters.Add("@ProductID", SqlDbType.Int);
+
+            if (SID.ProductID != null)
+            {
+                cmd.Parameters["@ProductID"].Value = SID.ProductID;
+            }
+            else
+            {
+                cmd.Parameters["@ProductID"].Value = 0;
+            }
+
+            cmd.Parameters.Add("@Quantity", SqlDbType.Int);
+            cmd.Parameters["@Quantity"].Value = SID.Quantity;
+
+            cmd.Parameters.Add("@ItemUnitID", SqlDbType.Int);
+            cmd.Parameters["@ItemUnitID"].Value = SID.ItemUnitID;
+
+            cmd.Parameters.Add("@RateType", SqlDbType.NVarChar);
+            cmd.Parameters["@RateType"].Value = SID.RateType;
+
+            cmd.Parameters.Add("@RateLC", SqlDbType.Decimal);
+            cmd.Parameters["@RateLC"].Value = SID.RateLC;
+            cmd.Parameters.Add("@RateFC", SqlDbType.Decimal);
+            cmd.Parameters["@RateFC"].Value = SID.RateFC;
+
+            cmd.Parameters.Add("@Value", SqlDbType.Int);
+            cmd.Parameters["@Value"].Value = SID.Value;
+
+            cmd.Parameters.Add("@ValueLC", SqlDbType.Decimal);
+            cmd.Parameters["@ValueLC"].Value = SID.ValueLC;
+
+            cmd.Parameters.Add("@ValueFC", SqlDbType.Decimal);
+            cmd.Parameters["@ValueFC"].Value = SID.ValueFC;
+
+            cmd.Parameters.Add("@Tax", SqlDbType.Decimal);
+            cmd.Parameters["@Tax"].Value = SID.Tax;
+
+            cmd.Parameters.Add("@NetValue", SqlDbType.Decimal);
+            cmd.Parameters["@NetValue"].Value = SID.NetValue;
+
+            cmd.Parameters.Add("@JobID", SqlDbType.Int);
+            cmd.Parameters["@JobID"].Value = SID.JobID;
+            cmd.Parameters.Add("@Description", SqlDbType.NVarChar);
+            cmd.Parameters["@Description"].Value = SID.Description;
+
+            try
+            {
+                cmd.Connection.Open();
+                i = cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+            finally
+            {
+                cmd.Connection.Close();
+            }
+
+            return Convert.ToInt32(cmd.Parameters["@SalesInvoiceDetailID"].Value);
+        }
         public static DataSet GetSalesInvoiceDetailsById( int SalesInvoiceID)
         {
             SqlCommand cmd = new SqlCommand();

@@ -35,7 +35,11 @@
 
 
         var wt = $("#EXRate").val();
-        $("#EXRate").val(parseFloat(wt).toFixed(2));
+        if (wt == null || wt == "") {
+            $("#EXRate").val("0.00");
+        } else {
+            $("#EXRate").val(parseFloat(wt).toFixed(2));
+        } 
 
         $("#EXRate").blur(function () {
             var wt = $(this).val();
@@ -44,7 +48,11 @@
         });
         $("#FMoney").blur(function () {
             var wt = $(this).val();
-            $("#FMoney").val(parseFloat(wt).toFixed(2));
+            if (wt == null || wt == "") {
+                $("#FMoney").val("0.00");
+            } else {
+                $("#FMoney").val(parseFloat(wt).toFixed(2));
+            } 
         });
 
         $(".chkAllocate").click(function () {
@@ -87,7 +95,6 @@
         //});
 
         $(".amt").blur(function () {
-
             var curror = $(this).parent("div").parent("td").parent("tr");
             var amt = parseFloat($(curror).find("td").eq(2).find("div").find('input[type=hidden]').val());
 
@@ -104,6 +111,7 @@
                 $(curror).find("td").eq(3).find("div").find(".amt").val(allocateamt);
             }
         });
+      
 
         $(".aamt").blur(function () {
 
@@ -117,7 +125,7 @@
                 if (a < amt && f == 0) {
 
                     $(this).find("td").eq(6).find(".amt").val(parseFloat(a).toFixed(2));
-                    amt = amt - parseFloat(a);
+                    amt = amt - parseFloat(a);                    
                 }
                 else {
                     f = 1;
@@ -179,10 +187,8 @@
         });
 
         function ValidateTotal() {
-            debugger;
             var TotalAmount = 0;
             $('#tbl1 tr').not(':first').each(function (i, obj) {
-                debugger;
                 var AmountToBeRecieved = parseFloat($(obj).find('.AmountToBeRecieved').val());
                 var AmountReceived = parseFloat($(obj).find('.AmountReceived').val());
 
@@ -243,33 +249,49 @@
 
 <script type="text/javascript">
     function CheckAmt(x) {
-        debugger;
+        var thisval = $(x).val();
+
+        if (thisval == null || thisval == "") {
+            $(x).val('0.00');
+        } else {
+            $(x).val(parseFloat(thisval).toFixed(2));
+        }
         var curror = $(x).parent("td").parent("tr");
+        var exactamt = $(curror).find("td").eq(5).text();
         var amt = parseFloat($(curror).find("td").eq(5).text());
         var allocateamt = parseFloat($(curror).find("td").eq(6).find(".amt").val());
-
-        if (allocateamt > amt) {
-            $(curror).find("td").eq(6).find(".amt").val(amt.toFixed(2));
-        }
-        else {
-            $(curror).find("td").eq(6).find(".amt").val(allocateamt.toFixed(2));
+        if (exactamt.trim() == null || exactamt.trim()  == "") {
+            $(curror).find("td").eq(6).find(".amt").val("0.00");
+        } else {
+            if (allocateamt > amt) {
+                $(curror).find("td").eq(6).find(".amt").val(parseFloat(amt).toFixed(2));
+            }
+            else {
+                $(curror).find("td").eq(6).find(".amt").val(parseFloat(allocateamt).toFixed(2));
+            }
         }
     }
 
     function CheckAmt1(x) {
-        debugger;
-        var total = $(x).closest('tr').find("input .AmountToBePaid").value;
+        var thisval = $(x).val();
 
-        var curror = $(x).parent("td").parent("tr");
-        var amt = parseFloat($(curror).find("td").eq(5).text());
-        var allocateamt = parseFloat($(curror).find("td").eq(6).find(".amt").val());
+        if (thisval == null || thisval == "") {
+            $(x).val('0.00');
+        } else {
+            $(x).val(parseFloat(thisval).toFixed(2));
+        }
+        //var total = $(x).closest('tr').find("input .AmountToBePaid").value;
 
-        if (allocateamt > amt) {
-            $(curror).find("td").eq(6).find(".amt").val(amt.toFixed(2));
-        }
-        else {
-            $(curror).find("td").eq(6).find(".amt").val(allocateamt.toFixed(2));
-        }
+        //var curror = $(x).parent("td").parent("tr");
+        //var amt = parseFloat($(curror).find("td").eq(5).text());
+        //var allocateamt = parseFloat($(curror).find("td").eq(6).find(".amt").val());
+
+        //if (allocateamt > amt) {
+        //    $(curror).find("td").eq(6).find(".amt").val(amt.toFixed(2));
+        //}
+        //else {
+        //    $(curror).find("td").eq(6).find(".amt").val(allocateamt.toFixed(2));
+        //}
     }
 </script>
 

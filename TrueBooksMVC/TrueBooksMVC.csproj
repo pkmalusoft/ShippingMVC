@@ -621,6 +621,7 @@
     <Content Include="assets\img\code-documentation.png" />
     <Content Include="assets\img\coming-soon-layout.png" />
     <Content Include="assets\img\courierboy.png" />
+    <Content Include="assets\img\courierboy1.png" />
     <Content Include="assets\img\demo-icon-batch-icons.png" />
     <Content Include="assets\img\demo-icon-bootstrap.png" />
     <Content Include="assets\img\demo-icon-css3.png" />
@@ -1461,6 +1462,8 @@
     <Content Include="Content\img\logo.png" />
     <Content Include="Content\img\logo2.jpg" />
     <Content Include="Content\img\logotri.png" />
+    <Content Include="Content\img\logo_truebook.png" />
+    <Content Include="Content\img\logo_truebookNew.png" />
     <Content Include="Content\img\per.png" />
     <Content Include="Content\img\photo1.png" />
     <Content Include="Content\img\photo2.png" />

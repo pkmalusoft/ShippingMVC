@@ -12,7 +12,6 @@
                 <Value>Date </Value>
                 <Style>
                   <FontFamily>Calibri</FontFamily>
-                  <FontSize>12pt</FontSize>
                 </Style>
               </TextRun>
             </TextRuns>
@@ -20,8 +19,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox7</rd:DefaultName>
-        <Top>0.86835in</Top>
-        <Left>0.6399in</Left>
+        <Top>0.69821in</Top>
+        <Left>0.64823in</Left>
         <Height>0.25in</Height>
         <Width>1.11343in</Width>
         <Style>
@@ -44,7 +43,6 @@
                 <Value>Received From </Value>
                 <Style>
                   <FontFamily>Calibri</FontFamily>
-                  <FontSize>12pt</FontSize>
                 </Style>
               </TextRun>
             </TextRuns>
@@ -52,8 +50,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox7</rd:DefaultName>
-        <Top>1.18779in</Top>
-        <Left>0.6399in</Left>
+        <Top>1.01765in</Top>
+        <Left>0.64823in</Left>
         <Height>0.25in</Height>
         <Width>1.11343in</Width>
         <ZIndex>1</ZIndex>
@@ -77,7 +75,6 @@
                 <Value>: </Value>
                 <Style>
                   <FontFamily>Calibri</FontFamily>
-                  <FontSize>11pt</FontSize>
                   <FontWeight>Bold</FontWeight>
                 </Style>
               </TextRun>
@@ -85,7 +82,6 @@
                 <Value>=First(Fields!Date.Value, "ReceiptVoucher")</Value>
                 <Style>
                   <FontFamily>Calibri</FontFamily>
-                  <FontSize>11pt</FontSize>
                   <FontWeight>Bold</FontWeight>
                 </Style>
               </TextRun>
@@ -94,10 +90,10 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Date</rd:DefaultName>
-        <Top>0.87807in</Top>
-        <Left>2.06916in</Left>
+        <Top>0.70793in</Top>
+        <Left>2.07749in</Left>
         <Height>0.25208in</Height>
-        <Width>1.44097in</Width>
+        <Width>2.31597in</Width>
         <ZIndex>2</ZIndex>
         <Style>
           <Border>
@@ -119,7 +115,6 @@
                 <Value>: </Value>
                 <Style>
                   <FontFamily>Calibri</FontFamily>
-                  <FontSize>11pt</FontSize>
                   <FontWeight>Bold</FontWeight>
                 </Style>
               </TextRun>
@@ -127,7 +122,6 @@
                 <Value>=First(Fields!ReceivedFrom.Value, "ReceiptVoucher")</Value>
                 <Style>
                   <FontFamily>Calibri</FontFamily>
-                  <FontSize>11pt</FontSize>
                   <FontWeight>Bold</FontWeight>
                 </Style>
               </TextRun>
@@ -136,467 +130,11 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>ReceivedFrom</rd:DefaultName>
-        <Top>1.20167in</Top>
-        <Left>2.06916in</Left>
-        <Height>0.55556in</Height>
+        <Top>1.03153in</Top>
+        <Left>2.07749in</Left>
+        <Height>0.23612in</Height>
         <Width>2.31597in</Width>
         <ZIndex>3</ZIndex>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-          <PaddingLeft>2pt</PaddingLeft>
-          <PaddingRight>2pt</PaddingRight>
-          <PaddingTop>2pt</PaddingTop>
-          <PaddingBottom>2pt</PaddingBottom>
-        </Style>
-      </Textbox>
-      <Textbox Name="Textbox9">
-        <CanGrow>true</CanGrow>
-        <KeepTogether>true</KeepTogether>
-        <Paragraphs>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value>Document No </Value>
-                <Style>
-                  <FontFamily>Calibri</FontFamily>
-                  <FontSize>12pt</FontSize>
-                </Style>
-              </TextRun>
-            </TextRuns>
-            <Style />
-          </Paragraph>
-        </Paragraphs>
-        <rd:DefaultName>Textbox7</rd:DefaultName>
-        <Top>0.89265in</Top>
-        <Left>4.63701in</Left>
-        <Height>0.25in</Height>
-        <Width>1in</Width>
-        <ZIndex>4</ZIndex>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-          <PaddingLeft>2pt</PaddingLeft>
-          <PaddingRight>2pt</PaddingRight>
-          <PaddingTop>2pt</PaddingTop>
-          <PaddingBottom>2pt</PaddingBottom>
-        </Style>
-      </Textbox>
-      <Textbox Name="Textbox10">
-        <CanGrow>true</CanGrow>
-        <KeepTogether>true</KeepTogether>
-        <Paragraphs>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value>Amount </Value>
-                <Style>
-                  <FontFamily>Calibri</FontFamily>
-                  <FontSize>12pt</FontSize>
-                </Style>
-              </TextRun>
-            </TextRuns>
-            <Style />
-          </Paragraph>
-        </Paragraphs>
-        <rd:DefaultName>Textbox7</rd:DefaultName>
-        <Top>1.21209in</Top>
-        <Left>4.63701in</Left>
-        <Height>0.25in</Height>
-        <Width>1in</Width>
-        <ZIndex>5</ZIndex>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-          <PaddingLeft>2pt</PaddingLeft>
-          <PaddingRight>2pt</PaddingRight>
-          <PaddingTop>2pt</PaddingTop>
-          <PaddingBottom>2pt</PaddingBottom>
-        </Style>
-      </Textbox>
-      <Textbox Name="Textbox11">
-        <CanGrow>true</CanGrow>
-        <KeepTogether>true</KeepTogether>
-        <Paragraphs>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value>Account Name </Value>
-                <Style>
-                  <FontFamily>Calibri</FontFamily>
-                  <FontSize>12pt</FontSize>
-                </Style>
-              </TextRun>
-            </TextRuns>
-            <Style />
-          </Paragraph>
-        </Paragraphs>
-        <rd:DefaultName>Textbox7</rd:DefaultName>
-        <Top>1.51765in</Top>
-        <Left>4.63701in</Left>
-        <Height>0.25in</Height>
-        <Width>1.19792in</Width>
-        <ZIndex>6</ZIndex>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-          <PaddingLeft>2pt</PaddingLeft>
-          <PaddingRight>2pt</PaddingRight>
-          <PaddingTop>2pt</PaddingTop>
-          <PaddingBottom>2pt</PaddingBottom>
-        </Style>
-      </Textbox>
-      <Textbox Name="Textbox12">
-        <CanGrow>true</CanGrow>
-        <KeepTogether>true</KeepTogether>
-        <Paragraphs>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value>Cheque No </Value>
-                <Style>
-                  <FontFamily>Calibri</FontFamily>
-                  <FontSize>12pt</FontSize>
-                </Style>
-              </TextRun>
-            </TextRuns>
-            <Style />
-          </Paragraph>
-        </Paragraphs>
-        <rd:DefaultName>Textbox7</rd:DefaultName>
-        <Top>1.83709in</Top>
-        <Left>4.63701in</Left>
-        <Height>0.25in</Height>
-        <Width>1.19792in</Width>
-        <ZIndex>7</ZIndex>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-          <PaddingLeft>2pt</PaddingLeft>
-          <PaddingRight>2pt</PaddingRight>
-          <PaddingTop>2pt</PaddingTop>
-          <PaddingBottom>2pt</PaddingBottom>
-        </Style>
-      </Textbox>
-      <Textbox Name="Textbox13">
-        <CanGrow>true</CanGrow>
-        <KeepTogether>true</KeepTogether>
-        <Paragraphs>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value>Cheque Date </Value>
-                <Style>
-                  <FontFamily>Calibri</FontFamily>
-                  <FontSize>12pt</FontSize>
-                </Style>
-              </TextRun>
-            </TextRuns>
-            <Style />
-          </Paragraph>
-        </Paragraphs>
-        <rd:DefaultName>Textbox7</rd:DefaultName>
-        <Top>2.15654in</Top>
-        <Left>4.63701in</Left>
-        <Height>0.25in</Height>
-        <Width>1.19792in</Width>
-        <ZIndex>8</ZIndex>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-          <PaddingLeft>2pt</PaddingLeft>
-          <PaddingRight>2pt</PaddingRight>
-          <PaddingTop>2pt</PaddingTop>
-          <PaddingBottom>2pt</PaddingBottom>
-        </Style>
-      </Textbox>
-      <Textbox Name="Textbox14">
-        <CanGrow>true</CanGrow>
-        <KeepTogether>true</KeepTogether>
-        <Paragraphs>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value>Customer Bank </Value>
-                <Style>
-                  <FontFamily>Calibri</FontFamily>
-                  <FontSize>12pt</FontSize>
-                </Style>
-              </TextRun>
-            </TextRuns>
-            <Style />
-          </Paragraph>
-        </Paragraphs>
-        <rd:DefaultName>Textbox7</rd:DefaultName>
-        <Top>2.47458in</Top>
-        <Left>4.63701in</Left>
-        <Height>0.25in</Height>
-        <Width>1.19792in</Width>
-        <ZIndex>9</ZIndex>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-          <PaddingLeft>2pt</PaddingLeft>
-          <PaddingRight>2pt</PaddingRight>
-          <PaddingTop>2pt</PaddingTop>
-          <PaddingBottom>2pt</PaddingBottom>
-        </Style>
-      </Textbox>
-      <Textbox Name="DocumentNo">
-        <CanGrow>true</CanGrow>
-        <KeepTogether>true</KeepTogether>
-        <Paragraphs>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value>: </Value>
-                <Style>
-                  <FontFamily>Calibri</FontFamily>
-                  <FontSize>12pt</FontSize>
-                  <FontWeight>Bold</FontWeight>
-                </Style>
-              </TextRun>
-              <TextRun>
-                <Value>=First(Fields!DocumentNo.Value, "ReceiptVoucher")</Value>
-                <Style>
-                  <FontFamily>Calibri</FontFamily>
-                  <FontSize>12pt</FontSize>
-                  <FontWeight>Bold</FontWeight>
-                </Style>
-              </TextRun>
-            </TextRuns>
-            <Style />
-          </Paragraph>
-        </Paragraphs>
-        <rd:DefaultName>DocumentNo</rd:DefaultName>
-        <Top>0.89265in</Top>
-        <Left>5.94618in</Left>
-        <Height>0.25in</Height>
-        <Width>1.85967in</Width>
-        <ZIndex>10</ZIndex>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-          <PaddingLeft>2pt</PaddingLeft>
-          <PaddingRight>2pt</PaddingRight>
-          <PaddingTop>2pt</PaddingTop>
-          <PaddingBottom>2pt</PaddingBottom>
-        </Style>
-      </Textbox>
-      <Textbox Name="Amount">
-        <CanGrow>true</CanGrow>
-        <KeepTogether>true</KeepTogether>
-        <Paragraphs>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value>: </Value>
-                <Style>
-                  <FontFamily>Calibri</FontFamily>
-                  <FontSize>12pt</FontSize>
-                  <FontWeight>Bold</FontWeight>
-                  <Format>#,0.00;(#,0.00)</Format>
-                </Style>
-              </TextRun>
-              <TextRun>
-                <Value>=First(Fields!Amount.Value, "ReceiptVoucher")</Value>
-                <Style>
-                  <FontFamily>Calibri</FontFamily>
-                  <FontSize>12pt</FontSize>
-                  <FontWeight>Bold</FontWeight>
-                  <Format>#,0.00;(#,0.00)</Format>
-                </Style>
-              </TextRun>
-            </TextRuns>
-            <Style>
-              <TextAlign>Left</TextAlign>
-            </Style>
-          </Paragraph>
-        </Paragraphs>
-        <rd:DefaultName>Amount</rd:DefaultName>
-        <Top>1.21209in</Top>
-        <Left>5.94618in</Left>
-        <Height>0.25in</Height>
-        <Width>1.85967in</Width>
-        <ZIndex>11</ZIndex>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-          <PaddingLeft>2pt</PaddingLeft>
-          <PaddingRight>2pt</PaddingRight>
-          <PaddingTop>2pt</PaddingTop>
-          <PaddingBottom>2pt</PaddingBottom>
-        </Style>
-      </Textbox>
-      <Textbox Name="Account">
-        <CanGrow>true</CanGrow>
-        <KeepTogether>true</KeepTogether>
-        <Paragraphs>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value>: </Value>
-                <Style>
-                  <FontFamily>Calibri</FontFamily>
-                  <FontSize>12pt</FontSize>
-                  <FontWeight>Bold</FontWeight>
-                </Style>
-              </TextRun>
-              <TextRun>
-                <Value>=First(Fields!Account.Value, "ReceiptVoucher")</Value>
-                <Style>
-                  <FontFamily>Calibri</FontFamily>
-                  <FontSize>12pt</FontSize>
-                  <FontWeight>Bold</FontWeight>
-                </Style>
-              </TextRun>
-            </TextRuns>
-            <Style />
-          </Paragraph>
-        </Paragraphs>
-        <rd:DefaultName>Account</rd:DefaultName>
-        <Top>1.51765in</Top>
-        <Left>5.94618in</Left>
-        <Height>0.25in</Height>
-        <Width>1.85967in</Width>
-        <ZIndex>12</ZIndex>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-          <PaddingLeft>2pt</PaddingLeft>
-          <PaddingRight>2pt</PaddingRight>
-          <PaddingTop>2pt</PaddingTop>
-          <PaddingBottom>2pt</PaddingBottom>
-        </Style>
-      </Textbox>
-      <Textbox Name="ChequeNo">
-        <CanGrow>true</CanGrow>
-        <KeepTogether>true</KeepTogether>
-        <Paragraphs>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value>: </Value>
-                <Style>
-                  <FontFamily>Calibri</FontFamily>
-                  <FontSize>12pt</FontSize>
-                  <FontWeight>Bold</FontWeight>
-                </Style>
-              </TextRun>
-              <TextRun>
-                <Value>=IIf(First(Fields!ChequeNo.Value, "ReceiptVoucher")&gt;0,"",First(Fields!ChequeNo.Value, "ReceiptVoucher"))</Value>
-                <Style>
-                  <FontFamily>Calibri</FontFamily>
-                  <FontSize>12pt</FontSize>
-                  <FontWeight>Bold</FontWeight>
-                </Style>
-              </TextRun>
-            </TextRuns>
-            <Style />
-          </Paragraph>
-        </Paragraphs>
-        <rd:DefaultName>ChequeNo</rd:DefaultName>
-        <Top>1.83223in</Top>
-        <Left>5.94618in</Left>
-        <Height>0.25in</Height>
-        <Width>1.85967in</Width>
-        <ZIndex>13</ZIndex>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-          <PaddingLeft>2pt</PaddingLeft>
-          <PaddingRight>2pt</PaddingRight>
-          <PaddingTop>2pt</PaddingTop>
-          <PaddingBottom>2pt</PaddingBottom>
-        </Style>
-      </Textbox>
-      <Textbox Name="ChequeDate">
-        <CanGrow>true</CanGrow>
-        <KeepTogether>true</KeepTogether>
-        <Paragraphs>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value>: </Value>
-                <Style>
-                  <FontFamily>Calibri</FontFamily>
-                  <FontSize>12pt</FontSize>
-                  <FontWeight>Bold</FontWeight>
-                  <Format>d MMM yyyy</Format>
-                </Style>
-              </TextRun>
-              <TextRun>
-                <Value>=First(Fields!ChequeDate.Value, "ReceiptVoucher")</Value>
-                <Style>
-                  <FontFamily>Calibri</FontFamily>
-                  <FontSize>12pt</FontSize>
-                  <FontWeight>Bold</FontWeight>
-                  <Format>d MMM yyyy</Format>
-                </Style>
-              </TextRun>
-            </TextRuns>
-            <Style />
-          </Paragraph>
-        </Paragraphs>
-        <rd:DefaultName>ChequeDate</rd:DefaultName>
-        <Top>2.15654in</Top>
-        <Left>5.94618in</Left>
-        <Height>0.25in</Height>
-        <Width>1.85967in</Width>
-        <ZIndex>14</ZIndex>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-          <PaddingLeft>2pt</PaddingLeft>
-          <PaddingRight>2pt</PaddingRight>
-          <PaddingTop>2pt</PaddingTop>
-          <PaddingBottom>2pt</PaddingBottom>
-        </Style>
-      </Textbox>
-      <Textbox Name="CustomerBank">
-        <CanGrow>true</CanGrow>
-        <KeepTogether>true</KeepTogether>
-        <Paragraphs>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value>: </Value>
-                <Style>
-                  <FontFamily>Calibri</FontFamily>
-                  <FontSize>12pt</FontSize>
-                  <FontWeight>Bold</FontWeight>
-                </Style>
-              </TextRun>
-              <TextRun>
-                <Value>=First(Fields!CustomerBank.Value, "ReceiptVoucher")</Value>
-                <Style>
-                  <FontFamily>Calibri</FontFamily>
-                  <FontSize>12pt</FontSize>
-                  <FontWeight>Bold</FontWeight>
-                </Style>
-              </TextRun>
-            </TextRuns>
-            <Style />
-          </Paragraph>
-        </Paragraphs>
-        <rd:DefaultName>CustomerBank</rd:DefaultName>
-        <Top>2.47458in</Top>
-        <Left>5.94618in</Left>
-        <Height>0.25in</Height>
-        <Width>1.85967in</Width>
-        <ZIndex>15</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -628,11 +166,11 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox6</rd:DefaultName>
-        <Top>0.32238in</Top>
-        <Left>2.90856in</Left>
+        <Top>0.12446in</Top>
+        <Left>5.29064in</Left>
         <Height>0.29167in</Height>
         <Width>2.39093in</Width>
-        <ZIndex>16</ZIndex>
+        <ZIndex>4</ZIndex>
         <Style>
           <Border>
             <Style>Solid</Style>
@@ -661,11 +199,11 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox7</rd:DefaultName>
-        <Top>2.45028in</Top>
-        <Left>0.6399in</Left>
+        <Top>2.25236in</Top>
+        <Left>0.64823in</Left>
         <Height>0.25in</Height>
-        <Width>1in</Width>
-        <ZIndex>17</ZIndex>
+        <Width>1.11343in</Width>
+        <ZIndex>5</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -703,11 +241,11 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Remarks</rd:DefaultName>
-        <Top>2.45028in</Top>
-        <Left>1.85865in</Left>
+        <Top>2.25236in</Top>
+        <Left>1.86698in</Left>
         <Height>0.25in</Height>
-        <Width>2.18292in</Width>
-        <ZIndex>18</ZIndex>
+        <Width>2.52648in</Width>
+        <ZIndex>6</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -731,10 +269,10 @@
               <Width>1.5178in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.31539in</Width>
+              <Width>1.55497in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.33825in</Width>
+              <Width>1.34752in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -750,10 +288,10 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Documnet No</Value>
+                              <Value>Invoice No</Value>
                               <Style>
                                 <FontFamily>Calibri</FontFamily>
-                                <FontSize>12pt</FontSize>
+                                <FontSize>11pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -784,10 +322,10 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Doc. Date</Value>
+                              <Value>Invoice Date</Value>
                               <Style>
                                 <FontFamily>Calibri</FontFamily>
-                                <FontSize>12pt</FontSize>
+                                <FontSize>11pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -818,10 +356,10 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Document Amt.</Value>
+                              <Value>Invoice Amount</Value>
                               <Style>
                                 <FontFamily>Calibri</FontFamily>
-                                <FontSize>12pt</FontSize>
+                                <FontSize>11pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -852,10 +390,10 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Adjustment Amt.</Value>
+                              <Value>Adjustment Amount</Value>
                               <Style>
                                 <FontFamily>Calibri</FontFamily>
-                                <FontSize>12pt</FontSize>
+                                <FontSize>11pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -886,10 +424,10 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Settled Amt.</Value>
+                              <Value>Settled Amount</Value>
                               <Style>
                                 <FontFamily>Calibri</FontFamily>
-                                <FontSize>12pt</FontSize>
+                                <FontSize>11pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
                             </TextRun>
@@ -928,7 +466,7 @@
                               <Value>=Fields!DetailDocNo.Value</Value>
                               <Style>
                                 <FontFamily>Calibri</FontFamily>
-                                <FontSize>12pt</FontSize>
+                                <FontSize>11pt</FontSize>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -961,7 +499,7 @@
                               <Value>=Fields!DocDate.Value</Value>
                               <Style>
                                 <FontFamily>Calibri</FontFamily>
-                                <FontSize>12pt</FontSize>
+                                <FontSize>11pt</FontSize>
                                 <Format>d MMM yyyy</Format>
                               </Style>
                             </TextRun>
@@ -995,7 +533,7 @@
                               <Value>=Fields!DocAmount.Value</Value>
                               <Style>
                                 <FontFamily>Calibri</FontFamily>
-                                <FontSize>12pt</FontSize>
+                                <FontSize>11pt</FontSize>
                                 <Format>#,0.00;(#,0.00)</Format>
                               </Style>
                             </TextRun>
@@ -1029,7 +567,7 @@
                               <Value>=Fields!AdjustmentAmount.Value</Value>
                               <Style>
                                 <FontFamily>Calibri</FontFamily>
-                                <FontSize>12pt</FontSize>
+                                <FontSize>11pt</FontSize>
                                 <Format>#,0.00;(#,0.00)</Format>
                               </Style>
                             </TextRun>
@@ -1063,7 +601,7 @@
                               <Value>=Fields!SettledAmount.Value</Value>
                               <Style>
                                 <FontFamily>Calibri</FontFamily>
-                                <FontSize>12pt</FontSize>
+                                <FontSize>11pt</FontSize>
                                 <Format>#,0.00;(#,0.00)</Format>
                               </Style>
                             </TextRun>
@@ -1162,7 +700,7 @@
                               <Value>=Sum(Fields!DocAmount.Value)</Value>
                               <Style>
                                 <FontFamily>Calibri</FontFamily>
-                                <FontSize>12pt</FontSize>
+                                <FontSize>11pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                                 <Format>#,0.00;(#,0.00)</Format>
                               </Style>
@@ -1197,7 +735,7 @@
                               <Value>=Sum(Fields!AdjustmentAmount.Value)</Value>
                               <Style>
                                 <FontFamily>Calibri</FontFamily>
-                                <FontSize>12pt</FontSize>
+                                <FontSize>11pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                                 <Format>#,0.00;(#,0.00)</Format>
                               </Style>
@@ -1232,7 +770,7 @@
                               <Value>=Sum(Fields!SettledAmount.Value)</Value>
                               <Style>
                                 <FontFamily>Calibri</FontFamily>
-                                <FontSize>12pt</FontSize>
+                                <FontSize>11pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
                                 <Format>#,0.00;(#,0.00)</Format>
                               </Style>
@@ -1285,8 +823,8 @@
         <Top>3.49445in</Top>
         <Left>0.6399in</Left>
         <Height>0.75in</Height>
-        <Width>7.04167in</Width>
-        <ZIndex>19</ZIndex>
+        <Width>7.29052in</Width>
+        <ZIndex>7</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1316,7 +854,7 @@
         <Left>0.6399in</Left>
         <Height>0.25in</Height>
         <Width>2.52083in</Width>
-        <ZIndex>20</ZIndex>
+        <ZIndex>8</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1366,7 +904,7 @@
         <Left>0.6399in</Left>
         <Height>0.25in</Height>
         <Width>5.59375in</Width>
-        <ZIndex>21</ZIndex>
+        <ZIndex>9</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1387,7 +925,7 @@
                 <Value>Prepared By</Value>
                 <Style>
                   <FontFamily>Calibri</FontFamily>
-                  <FontSize>12pt</FontSize>
+                  <FontSize>11pt</FontSize>
                 </Style>
               </TextRun>
             </TextRuns>
@@ -1399,7 +937,7 @@
         <Left>0.61457in</Left>
         <Height>0.25in</Height>
         <Width>1.11343in</Width>
-        <ZIndex>22</ZIndex>
+        <ZIndex>10</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1420,7 +958,7 @@
                 <Value>Checked By</Value>
                 <Style>
                   <FontFamily>Calibri</FontFamily>
-                  <FontSize>12pt</FontSize>
+                  <FontSize>11pt</FontSize>
                 </Style>
               </TextRun>
             </TextRuns>
@@ -1432,7 +970,7 @@
         <Left>2.65643in</Left>
         <Height>0.25in</Height>
         <Width>1.13064in</Width>
-        <ZIndex>23</ZIndex>
+        <ZIndex>11</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1453,7 +991,7 @@
                 <Value>Approved By</Value>
                 <Style>
                   <FontFamily>Calibri</FontFamily>
-                  <FontSize>12pt</FontSize>
+                  <FontSize>11pt</FontSize>
                 </Style>
               </TextRun>
             </TextRuns>
@@ -1465,7 +1003,7 @@
         <Left>4.61168in</Left>
         <Height>0.25in</Height>
         <Width>1.19792in</Width>
-        <ZIndex>24</ZIndex>
+        <ZIndex>12</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1486,7 +1024,7 @@
                 <Value>Received By</Value>
                 <Style>
                   <FontFamily>Calibri</FontFamily>
-                  <FontSize>12pt</FontSize>
+                  <FontSize>11pt</FontSize>
                 </Style>
               </TextRun>
             </TextRuns>
@@ -1498,7 +1036,7 @@
         <Left>6.61457in</Left>
         <Height>0.25in</Height>
         <Width>1.04167in</Width>
-        <ZIndex>25</ZIndex>
+        <ZIndex>13</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1514,7 +1052,7 @@
         <Left>16.80101cm</Left>
         <Height>0cm</Height>
         <Width>2.64583cm</Width>
-        <ZIndex>26</ZIndex>
+        <ZIndex>14</ZIndex>
         <Style>
           <Border>
             <Style>Solid</Style>
@@ -1526,7 +1064,7 @@
         <Left>11.71366cm</Left>
         <Height>0cm</Height>
         <Width>3.04272cm</Width>
-        <ZIndex>27</ZIndex>
+        <ZIndex>15</ZIndex>
         <Style>
           <Border>
             <Style>Solid</Style>
@@ -1538,7 +1076,7 @@
         <Left>6.74733cm</Left>
         <Height>0cm</Height>
         <Width>2.87184cm</Width>
-        <ZIndex>28</ZIndex>
+        <ZIndex>16</ZIndex>
         <Style>
           <Border>
             <Style>Solid</Style>
@@ -1550,13 +1088,508 @@
         <Left>1.56101cm</Left>
         <Height>0cm</Height>
         <Width>2.82811cm</Width>
-        <ZIndex>29</ZIndex>
+        <ZIndex>17</ZIndex>
         <Style>
           <Border>
             <Style>Solid</Style>
           </Border>
         </Style>
       </Line>
+      <Textbox Name="Textbox9">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>Document No </Value>
+                <Style>
+                  <FontFamily>Calibri</FontFamily>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox7</rd:DefaultName>
+        <Top>0.64265in</Top>
+        <Left>4.62001in</Left>
+        <Height>0.2257in</Height>
+        <Width>1.25833in</Width>
+        <ZIndex>18</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>1pt</PaddingTop>
+          <PaddingBottom>1pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="CustomerBank2">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>: </Value>
+                <Style>
+                  <FontFamily>Calibri</FontFamily>
+                </Style>
+              </TextRun>
+              <TextRun>
+                <Value>=First(Fields!SalesCurrency.Value, "Currency")</Value>
+                <Style>
+                  <FontFamily>Calibri</FontFamily>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>CustomerBank</rd:DefaultName>
+        <Top>1.78766in</Top>
+        <Left>6.07075in</Left>
+        <Height>0.25in</Height>
+        <Width>1.85967in</Width>
+        <ZIndex>19</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="CustomerBank">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>: </Value>
+                <Style>
+                  <FontFamily>Calibri</FontFamily>
+                </Style>
+              </TextRun>
+              <TextRun>
+                <Value>=First(Fields!CustomerBank.Value, "ReceiptVoucher")</Value>
+                <Style>
+                  <FontFamily>Calibri</FontFamily>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>CustomerBank</rd:DefaultName>
+        <Top>1.59959in</Top>
+        <Left>6.06242in</Left>
+        <Height>0.25in</Height>
+        <Width>1.85967in</Width>
+        <ZIndex>20</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="ChequeDate">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>: </Value>
+                <Style>
+                  <FontFamily>Calibri</FontFamily>
+                  <Format>d MMM yyyy</Format>
+                </Style>
+              </TextRun>
+              <TextRun>
+                <Value>=First(Fields!ChequeDate.Value, "ReceiptVoucher")</Value>
+                <Style>
+                  <FontFamily>Calibri</FontFamily>
+                  <Format>d MMM yyyy</Format>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>ChequeDate</rd:DefaultName>
+        <Top>1.40654in</Top>
+        <Left>6.07075in</Left>
+        <Height>0.25in</Height>
+        <Width>1.85967in</Width>
+        <ZIndex>21</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="DocumentNo">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>: </Value>
+                <Style>
+                  <FontFamily>Calibri</FontFamily>
+                </Style>
+              </TextRun>
+              <TextRun>
+                <Value>=First(Fields!DocumentNo.Value, "ReceiptVoucher")</Value>
+                <Style>
+                  <FontFamily>Calibri</FontFamily>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>DocumentNo</rd:DefaultName>
+        <Top>0.64265in</Top>
+        <Left>6.07075in</Left>
+        <Height>0.25in</Height>
+        <Width>1.85967in</Width>
+        <ZIndex>22</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="Amount">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>: </Value>
+                <Style>
+                  <FontFamily>Calibri</FontFamily>
+                  <Format>#,0.00;(#,0.00)</Format>
+                </Style>
+              </TextRun>
+              <TextRun>
+                <Value>=First(Fields!Amount.Value, "ReceiptVoucher")</Value>
+                <Style>
+                  <FontFamily>Calibri</FontFamily>
+                  <Format>#,0.00;(#,0.00)</Format>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Left</TextAlign>
+            </Style>
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Amount</rd:DefaultName>
+        <Top>0.83709in</Top>
+        <Left>6.07075in</Left>
+        <Height>0.25in</Height>
+        <Width>1.85967in</Width>
+        <ZIndex>23</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="Textbox10">
+        <CanGrow>true</CanGrow>
+        <CanShrink>true</CanShrink>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>Amount </Value>
+                <Style>
+                  <FontFamily>Calibri</FontFamily>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox7</rd:DefaultName>
+        <Top>0.83709in</Top>
+        <Left>4.62001in</Left>
+        <Height>0.2257in</Height>
+        <Width>1.25833in</Width>
+        <ZIndex>24</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>1pt</PaddingTop>
+          <PaddingBottom>1pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="Textbox11">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>Payment Mode </Value>
+                <Style>
+                  <FontFamily>Calibri</FontFamily>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox7</rd:DefaultName>
+        <Top>1.01765in</Top>
+        <Left>4.62001in</Left>
+        <Height>0.25in</Height>
+        <Width>1.25833in</Width>
+        <ZIndex>25</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+        </Style>
+      </Textbox>
+      <Textbox Name="Textbox12">
+        <CanGrow>true</CanGrow>
+        <CanShrink>true</CanShrink>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>Cheque No </Value>
+                <Style>
+                  <FontFamily>Calibri</FontFamily>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox7</rd:DefaultName>
+        <Top>1.21209in</Top>
+        <Left>4.62001in</Left>
+        <Height>0.25in</Height>
+        <Width>1.25833in</Width>
+        <ZIndex>26</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+        </Style>
+      </Textbox>
+      <Textbox Name="Textbox13">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>Cheque Date </Value>
+                <Style>
+                  <FontFamily>Calibri</FontFamily>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox7</rd:DefaultName>
+        <Top>1.40654in</Top>
+        <Left>4.62001in</Left>
+        <Height>0.25in</Height>
+        <Width>1.25833in</Width>
+        <ZIndex>27</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+        </Style>
+      </Textbox>
+      <Textbox Name="Textbox14">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>Customer Bank </Value>
+                <Style>
+                  <FontFamily>Calibri</FontFamily>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox7</rd:DefaultName>
+        <Top>1.59959in</Top>
+        <Left>4.62001in</Left>
+        <Height>0.25in</Height>
+        <Width>1.25833in</Width>
+        <ZIndex>28</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+        </Style>
+      </Textbox>
+      <Textbox Name="Textbox17">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>Currency</Value>
+                <Style>
+                  <FontFamily>Calibri</FontFamily>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox7</rd:DefaultName>
+        <Top>1.78766in</Top>
+        <Left>4.62001in</Left>
+        <Height>0.25in</Height>
+        <Width>1.25833in</Width>
+        <ZIndex>29</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+        </Style>
+      </Textbox>
+      <Textbox Name="Account">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>: </Value>
+                <Style>
+                  <FontFamily>Calibri</FontFamily>
+                </Style>
+              </TextRun>
+              <TextRun>
+                <Value>=First(Fields!Account.Value, "ReceiptVoucher")</Value>
+                <Style>
+                  <FontFamily>Calibri</FontFamily>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Account</rd:DefaultName>
+        <Top>1.01765in</Top>
+        <Left>6.07075in</Left>
+        <Height>0.25in</Height>
+        <Width>1.85967in</Width>
+        <ZIndex>30</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="ChequeNo">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>: </Value>
+                <Style>
+                  <FontFamily>Calibri</FontFamily>
+                </Style>
+              </TextRun>
+              <TextRun>
+                <Value>=IIf(First(Fields!ChequeNo.Value, "ReceiptVoucher")&gt;0,"",First(Fields!ChequeNo.Value, "ReceiptVoucher"))</Value>
+                <Style>
+                  <FontFamily>Calibri</FontFamily>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>ChequeNo</rd:DefaultName>
+        <Top>1.21209in</Top>
+        <Left>6.07075in</Left>
+        <Height>0.25in</Height>
+        <Width>1.85967in</Width>
+        <ZIndex>31</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
     </ReportItems>
     <Height>17.001cm</Height>
     <Style>
@@ -1571,7 +1604,7 @@
       </BottomBorder>
     </Style>
   </Body>
-  <Width>20.34646cm</Width>
+  <Width>21.29896cm</Width>
   <Page>
     <PageHeader>
       <Height>4.07458cm</Height>
@@ -1588,7 +1621,7 @@
                   <Value>=First(Fields!CompanyName.Value, "Company")</Value>
                   <Style>
                     <FontFamily>Calibri</FontFamily>
-                    <FontSize>12pt</FontSize>
+                    <FontSize>11pt</FontSize>
                     <FontWeight>Bold</FontWeight>
                   </Style>
                 </TextRun>
@@ -1610,6 +1643,8 @@
                 <TextRun>
                   <Value xml:space="preserve">  </Value>
                   <Style>
+                    <FontFamily>Calibri</FontFamily>
+                    <FontSize>11pt</FontSize>
                     <FontWeight>Normal</FontWeight>
                   </Style>
                 </TextRun>
@@ -1624,6 +1659,8 @@
                 <TextRun>
                   <Value xml:space="preserve">  </Value>
                   <Style>
+                    <FontFamily>Calibri</FontFamily>
+                    <FontSize>11pt</FontSize>
                     <FontWeight>Normal</FontWeight>
                   </Style>
                 </TextRun>
@@ -1672,8 +1709,8 @@
           </Style>
         </Textbox>
         <Image Name="Image1">
-          <Source>Embedded</Source>
-          <Value>TrueBook_white</Value>
+          <Source>External</Source>
+          <Value>=First(Fields!AcHead.Value, "Company")</Value>
           <Sizing>FitProportional</Sizing>
           <Top>1.86441cm</Top>
           <Left>14.0027cm</Left>
@@ -1711,7 +1748,7 @@
                   <Value>=Globals!ExecutionTime.Date.ToShortDateString()</Value>
                   <Style>
                     <FontFamily>Calibri</FontFamily>
-                    <FontSize>12pt</FontSize>
+                    <FontSize>9pt</FontSize>
                     <Format>dddd, MMMM dd, yyyy h:mm:ss tt</Format>
                   </Style>
                 </TextRun>
@@ -1743,35 +1780,35 @@
                   <Value>Page </Value>
                   <Style>
                     <FontFamily>Calibri</FontFamily>
-                    <FontSize>12pt</FontSize>
+                    <FontSize>9pt</FontSize>
                   </Style>
                 </TextRun>
                 <TextRun>
                   <Value>=Globals!PageNumber</Value>
                   <Style>
                     <FontFamily>Calibri</FontFamily>
-                    <FontSize>12pt</FontSize>
+                    <FontSize>9pt</FontSize>
                   </Style>
                 </TextRun>
                 <TextRun>
                   <Value> of  </Value>
                   <Style>
                     <FontFamily>Calibri</FontFamily>
-                    <FontSize>12pt</FontSize>
+                    <FontSize>9pt</FontSize>
                   </Style>
                 </TextRun>
                 <TextRun>
                   <Value>=Globals!TotalPages</Value>
                   <Style>
                     <FontFamily>Calibri</FontFamily>
-                    <FontSize>12pt</FontSize>
+                    <FontSize>9pt</FontSize>
                   </Style>
                 </TextRun>
                 <TextRun>
                   <Value xml:space="preserve"> </Value>
                   <Style>
                     <FontFamily>Calibri</FontFamily>
-                    <FontSize>12pt</FontSize>
+                    <FontSize>9pt</FontSize>
                   </Style>
                 </TextRun>
               </TextRuns>

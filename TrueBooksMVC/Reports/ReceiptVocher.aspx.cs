@@ -25,6 +25,7 @@ namespace TrueBooksMVC.Reports
         protected void Page_Load(object sender, EventArgs e)
         {
             int recpayid = 32998;
+            int? currencyId = 0;
             recpayid = Convert.ToInt32(Request.QueryString["recpayid"].ToString());
             ////int JobID = 2;
             //int JobID = 6764;
@@ -56,6 +57,7 @@ namespace TrueBooksMVC.Reports
             dtcompany.Columns.Add("Todate");
 
             var company = entity.AcCompanies.FirstOrDefault();
+            string imagePath = new Uri(Server.MapPath("~/Content/Logo/"+company.logo)).AbsoluteUri;
 
             DataRow dr = dtcompany.NewRow();
             dr[0] = company.AcCompany1;
@@ -63,7 +65,7 @@ namespace TrueBooksMVC.Reports
             dr[2] = company.Address2;
             dr[3] = company.Address3;
             dr[4] = company.Phone;
-            dr[5] = "";
+            dr[5] = imagePath;
             dr[6] = DateTime.Now;
 
             dtcompany.Rows.Add(dr);
@@ -73,6 +75,11 @@ namespace TrueBooksMVC.Reports
             if (receipt.IsTradingReceipt == true)
             {
                 var recpaydetails = (from d in entity.RecPayDetails where d.RecPayID == recpayid where d.InvoiceID > 0 select d).ToList();
+               var currency = recpaydetails.Where(d => d.CurrencyID > 0).FirstOrDefault();
+                if(currency !=null)
+                {
+                    currencyId = currency.CurrencyID;
+                }
                 var cust = entity.CUSTOMERs.Where(d => d.CustomerID == receipt.CustomerID).FirstOrDefault();
                 var listofdet = new List<ReportCustomerReceipt_Result>();
                 foreach (var item in recpaydetails)
@@ -125,7 +132,12 @@ namespace TrueBooksMVC.Reports
             }
             else
             {
-                 var recpaydetails = (from d in entity.RecPayDetails where d.RecPayID == recpayid where d.InvoiceID > 0 select d).ToList();
+                var recpaydetails = (from d in entity.RecPayDetails where d.RecPayID == recpayid where d.InvoiceID > 0 select d).ToList();
+                var currency = recpaydetails.Where(d => d.CurrencyID > 0).FirstOrDefault();
+                if (currency != null)
+                {
+                    currencyId = currency.CurrencyID;
+                }
                 var cust = entity.CUSTOMERs.Where(d => d.CustomerID == receipt.CustomerID).FirstOrDefault();
                 var listofdet = new List<ReportCustomerReceipt_Result>();
                 foreach (var item in recpaydetails)
@@ -155,7 +167,6 @@ namespace TrueBooksMVC.Reports
                     customerrecpay.DetailDocNo = sinvoice.InvoiceNo.ToString();
                     customerrecpay.DocDate = sinvoice.InvoiceDate.Value.ToString("dd-MMM-yyyy");
                     customerrecpay.DocAmount = Convert.ToDecimal(sinvoicedet.SalesHome);
-
                     if (item.Amount > 0)
                     {
                         customerrecpay.SettledAmount = Convert.ToDecimal(item.Amount);
@@ -178,10 +189,10 @@ namespace TrueBooksMVC.Reports
             }
             ReportDataSource _rsource1 = new ReportDataSource("Company", dtcompany);
 
-          
+
             ReportViewer1.LocalReport.DataSources.Add(_rsource1);
 
-          
+
 
             //foreach (var item in dd)
             //{
@@ -210,24 +221,29 @@ namespace TrueBooksMVC.Reports
             dtcurrency.Columns.Add("ForeignCurrencySymbol");
             dtcurrency.Columns.Add("InWords");
 
+            var currencyName = (from d in entity.CurrencyMasters where d.CurrencyID == currencyId select d).FirstOrDefault();
 
-
-      
+            if (currencyName == null)
+            {
+                currencyName = new CurrencyMaster();
+            }
             DataRow r = dtcurrency.NewRow();
-            r[0] = "";
+            r[0] = currencyName.CurrencyName;
             r[1] = "";
             r[2] = "";
             r[3] = "";
-            r[4] = NumberToWords(Convert.ToInt32(totalamt));
+            r[4] = currencyName.CurrencyName + ",  " + NumberToWords(Convert.ToInt32(totalamt)) + " /00 baisa.";
 
 
             dtcurrency.Rows.Add(r);
 
 
             ReportDataSource _rsource3 = new ReportDataSource("Currency", dtcurrency);
-
+           
             ReportViewer1.LocalReport.DataSources.Add(_rsource3);
+            ReportViewer1.LocalReport.EnableExternalImages = true;
             ReportViewer1.LocalReport.Refresh();
+
 
         }
 
@@ -279,6 +295,6 @@ namespace TrueBooksMVC.Reports
             }
             return words;
         }
-        
+
     }
 }

@@ -773,7 +773,6 @@ namespace TrueBooksMVC.Controllers
             int i = 0;
             RecP.FYearID = Convert.ToInt32(Session["fyearid"]);
             RecP.UserID = Convert.ToInt32(Session["UserID"]);
-
             //Edit Record
             //if (RecP.RecPayID > 0)
             //{
@@ -997,6 +996,8 @@ namespace TrueBooksMVC.Controllers
             try
             {
                 decimal? totalamt = 0;
+                int? currencyId = 0;
+
                 ReportViewer reportViewer = new ReportViewer();
 
                 reportViewer.ProcessingMode = ProcessingMode.Local;
@@ -1012,6 +1013,7 @@ namespace TrueBooksMVC.Controllers
                 dtcompany.Columns.Add("Todate");
 
                 var company = Context1.AcCompanies.FirstOrDefault();
+                string imagePath = new Uri(Server.MapPath("~/Content/Logo/" + company.logo)).AbsoluteUri;
 
                 DataRow dr = dtcompany.NewRow();
                 dr[0] = company.AcCompany1;
@@ -1019,7 +1021,7 @@ namespace TrueBooksMVC.Controllers
                 dr[2] = company.Address2;
                 dr[3] = company.Address3;
                 dr[4] = company.Phone;
-                dr[5] = "";
+                dr[5] = imagePath;
                 dr[6] = DateTime.Now;
 
                 dtcompany.Rows.Add(dr);
@@ -1029,6 +1031,11 @@ namespace TrueBooksMVC.Controllers
                 if (receipt.IsTradingReceipt == true)
                 {
                     var recpaydetails = (from d in Context1.RecPayDetails where d.RecPayID == recpayid where d.InvoiceID > 0 select d).ToList();
+                    var currency = recpaydetails.Where(d => d.CurrencyID > 0).FirstOrDefault();
+                    if (currency != null)
+                    {
+                        currencyId = currency.CurrencyID;
+                    }
                     var cust = Context1.Suppliers.Where(d => d.SupplierID == receipt.SupplierID).FirstOrDefault();
                     var listofdet = new List<ReportCustomerReceipt_Result>();
                     foreach (var item in recpaydetails)
@@ -1082,6 +1089,11 @@ namespace TrueBooksMVC.Controllers
                 else
                 {
                     var recpaydetails = (from d in Context1.RecPayDetails where d.RecPayID == recpayid where d.InvoiceID > 0 select d).ToList();
+                    var currency = recpaydetails.Where(d => d.CurrencyID > 0).FirstOrDefault();
+                    if (currency != null)
+                    {
+                        currencyId = currency.CurrencyID;
+                    }
                     var cust = Context1.Suppliers.Where(d => d.SupplierID == receipt.SupplierID).FirstOrDefault();
                     var listofdet = new List<ReportCustomerReceipt_Result>();
                     foreach (var item in recpaydetails)
@@ -1166,15 +1178,20 @@ namespace TrueBooksMVC.Controllers
                 dtcurrency.Columns.Add("ForeignCurrencySymbol");
                 dtcurrency.Columns.Add("InWords");
 
+                var currencyName = (from d in Context1.CurrencyMasters where d.CurrencyID == currencyId select d).FirstOrDefault();
+                if (currencyName == null)
+                {
+                    currencyName = new CurrencyMaster();
+                }
 
 
 
                 DataRow r = dtcurrency.NewRow();
-                r[0] = "";
+                r[0] = currencyName.CurrencyName;
                 r[1] = "";
                 r[2] = "";
                 r[3] = "";
-                r[4] = NumberToWords(Convert.ToInt32(totalamt));
+                r[4] = currencyName.CurrencyName + ",  " + NumberToWords(Convert.ToInt32(totalamt)) + " /00 baisa.";
 
 
                 dtcurrency.Rows.Add(r);
@@ -1183,6 +1200,7 @@ namespace TrueBooksMVC.Controllers
                 ReportDataSource _rsource3 = new ReportDataSource("Currency", dtcurrency);
 
                 reportViewer.LocalReport.DataSources.Add(_rsource3);
+                reportViewer.LocalReport.EnableExternalImages = true;
                 reportViewer.LocalReport.Refresh();
                 //Byte  
                 Warning[] warnings;

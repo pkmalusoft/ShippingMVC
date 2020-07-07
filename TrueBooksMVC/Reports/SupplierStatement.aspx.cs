@@ -22,6 +22,7 @@ namespace TrueBooksMVC.Views.Report_SupplierStatement
                 int vSupplierD = Convert.ToInt32(Request.QueryString["supid"].ToString());
                 DateTime fromdate = Convert.ToDateTime(Request.QueryString["fromdate"].ToString());
                DateTime todate = Convert.ToDateTime(Request.QueryString["todate"].ToString());
+                int? currencyId = 0;
 
 
                 //string vSupplierD = "0";
@@ -36,8 +37,8 @@ namespace TrueBooksMVC.Views.Report_SupplierStatement
                 //{
                 //    supid = Convert.ToInt32(vSupplierD);
                 //}
-               
-              
+
+
 
 
 
@@ -63,6 +64,7 @@ namespace TrueBooksMVC.Views.Report_SupplierStatement
                 dtcompany.Columns.Add("AcHead");
 
                 var company = entity.AcCompanies.FirstOrDefault();
+                string imagePath = new Uri(Server.MapPath("~/Content/Logo/" + company.logo)).AbsoluteUri;
 
                 DataRow dr = dtcompany.NewRow();
                 dr[0] = company.AcCompany1;
@@ -71,7 +73,7 @@ namespace TrueBooksMVC.Views.Report_SupplierStatement
                 dr[3] = company.Address3;
                 dr[4] = company.Phone;
                 dr[5] = TrueBooksMVC.Models.CommanFunctions.GetShortDateFormat(todate);
-                dr[6] = "";
+                dr[6] = imagePath;
 
                 dtcompany.Rows.Add(dr);
 

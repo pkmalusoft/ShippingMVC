@@ -221,7 +221,7 @@ namespace TrueBooksMVC.Controllers
         private bool DeleteAndInsertRecords(FormCollection formCollection, int InvoiceId)
         {
 
-            DAL.SP_DeleteSalesInvoiceDetails(InvoiceId);
+            //DAL.SP_DeleteSalesInvoiceDetails(InvoiceId);
             int i = 0;
             int InvoiceDetailsCount = 0;
             ArrayList InvoiceDetailsArray = new ArrayList();
@@ -238,7 +238,15 @@ namespace TrueBooksMVC.Controllers
             for (int c = 0; c < InvoiceDetailsCount; c++)
             {
                 string[] strArray;
+                int SDetailId = 0;
+
                 Models.SalesInvoiceDetail SID = new Models.SalesInvoiceDetail();
+                if (formCollection.GetValue("SalesInvoiceDetailID_" + InvoiceDetailsArray[c]) != null)
+                {
+                    strArray = (string[])formCollection.GetValue("SalesInvoiceDetailID_" + InvoiceDetailsArray[c]).RawValue;
+                    int.TryParse(strArray[0], out SDetailId);
+                }
+                SID.SalesInvoiceDetailID = SDetailId;
                 SID.SalesInvoiceID = InvoiceId;
 
                 int ProductID = 0;
@@ -352,8 +360,16 @@ namespace TrueBooksMVC.Controllers
                 }
                 else
                 {
-
-                    int iCharge = DAL.AddSalesInvoiceDetails(SID);
+                    if (SDetailId > 0)
+                    {
+                        //int iCharge = DAL.UpdatePurchaseInvoiceDetail(PID);
+                        int iCharge = DAL.UpdateSalesInvoiceDetails(SID);
+                    }
+                    else
+                    {
+                        int iCharge = DAL.AddSalesInvoiceDetails(SID);
+                    }
+                    
                 }
             }
             return true;
@@ -608,6 +624,10 @@ namespace TrueBooksMVC.Controllers
                 var totalamount = salesinvoicedetails.Sum(d => d.NetValue) - salesinvoicedetails.Sum(d => d.Tax);
                 var totaltax = salesinvoicedetails.Sum(d => d.Tax);
                 var salesval = totalamount + totaltax;
+                var invoice= entity.SalesInvoices.Find(item.SalesInvoiceID);
+                item.DiscountType = invoice.DiscountType;
+                item.DiscountValueLC = invoice.DiscountValueLC;
+                item.DiscountValueFC = invoice.DiscountValueFC;
                 decimal? discount = 0;
                 if (item.DiscountType == 1)
                 {
@@ -638,7 +658,10 @@ namespace TrueBooksMVC.Controllers
                 {
                     discount = 0;
                 }
+                var det = salesinvoicedetails.Sum(d => d.NetValue);
                 item.OtherCharges = salesinvoicedetails.Sum(d => d.NetValue) - discount;
+                item.CurrencyID = invoice.CurrencyID;
+                item.PaymentTerm = entity.CurrencyMasters.Where(d => d.CurrencyID == item.CurrencyID).FirstOrDefault().CurrencyName;
             }
             //data.ForEach(d => d.OtherCharges = entity.SalesInvoiceDetails.Where(s => s.SalesInvoiceID == d.SalesInvoiceID).ToList().Sum(a => a.NetValue));
             string view = this.RenderPartialView("_InvoiceView", data);

@@ -201,7 +201,7 @@ myapp.controller('MyController', function ($scope, $http, ngservice) {
                     '<td>' + parseFloat(data[i].Balance).toFixed(2) + '<input id="" name="CustomerRcieptChildVM[' + i + '].Balance" value=' + data[i].Balance + ' type="hidden"><input id="" name="CustomerRcieptChildVM[' + i + '].InvoiceNo" value=' + data[i].InvoiceNo + ' type="hidden"></td>' +
                     //'<td>' + data[i].Amount + '<input id="" name="customerRcieptVM[' + i + '].Amount" value=' + data[i].Amount + ' type="hidden"></td>' +
                     '<td> <input type="text" onBlur="CheckAmt(this)"  class="amt txtNum text-right AmountReceived" name=CustomerRcieptChildVM[' + i + '].Amount>' +
-                    '<td> <input type="text"   class="amt1 txtNum text-right AdjustmentAmount" name=CustomerRcieptChildVM[' + i + '].AdjustmentAmount>' +
+                    '<td> <input type="text"  onBlur="CheckAmt1(this)" class="amt1 txtNum text-right AdjustmentAmount" name=CustomerRcieptChildVM[' + i + '].AdjustmentAmount>' +
 
                     '<tr>');
                 //hideLoading();

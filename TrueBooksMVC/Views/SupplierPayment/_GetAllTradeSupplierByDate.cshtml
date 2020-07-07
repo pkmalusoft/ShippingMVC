@@ -21,7 +21,15 @@
     var supplier = ViewBag.Suppliers as IEnumerable<DAL.Supplier>;
 
 }
+<style>
+    table.dataTable tfoot th {
+        padding-left: 10px !important;
+    }
 
+    table.dataTable thead th {
+        padding-left: 10px !important;
+    }
+</style>
 <script type="text/javascript">
     $(document).ready(function () {
 
@@ -78,7 +86,7 @@
                                                 <th>Document No</th>
                                                 <th>Supplier Name</th>
                                                 <th>Amount</th>
-                                                <th style="width: 100px;">Action</th>
+                                                <th style="width: 120px;">Action</th>
 
                                             </tr>
                                         </thead>
@@ -90,7 +98,7 @@
                                                 <th>Document No</th>
                                                 <th>Supplier Name</th>
                                                 <th>Amount</th>
-                                                <th style="width: 100px;"></th>
+                                                <th style="width: 120px;"></th>
 
                                             </tr>
                                         </tfoot>
@@ -107,7 +115,7 @@
 
                                                     <td>@Html.DisplayFor(modelItem => item.DocumentNo)</td>
                                                     <td class="tdtarget">@supplier.Where(d => d.SupplierID == @item.SupplierID).FirstOrDefault().SupplierName</td>
-                                                    <td class="textright">@Html.DisplayFor(modelItem => item.FMoney)</td>
+                                                    <td class="tdtarget">@Html.DisplayFor(modelItem => item.FMoney)</td>
 
                                                     <td>
                                                         @if (ismodify)

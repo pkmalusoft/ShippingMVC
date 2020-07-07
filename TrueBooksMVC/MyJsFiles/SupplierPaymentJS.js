@@ -175,13 +175,13 @@ myapp.controller('MyController', function ($scope, $http, ngservice) {
                $('#tbl1').append('<tr>' +
                     '<td>' + data[i].InvoiceNo + ' <input id="" name="CustomerRcieptChildVM[' + i + '].JobID" value=' + data[i].JobID + ' type="hidden"><input id="" name="CustomerRcieptChildVM[' + i + '].InvoiceID" value=' + data[i].PurchaseInvoiceDetailId + ' type="hidden"></td>' +
                     //'<td>' + data[i].JobCode + '<input id="" name="CustomerRcieptChildVM[' + i + '].JobCode" value=' + data[i].JobCode + ' type="hidden"></td>' +
-                    '<td>' + data[i].DateTime + '<input id="" name="CustomerRcieptChildVM[' + i + '].InvoiceDate" value=' + data[i].DateTime + ' type="hidden"></td>' +
-                    '<td>' + data[i].InvoiceAmount + '<input id="" name="CustomerRcieptChildVM[' + i + '].AmountToBePaid" value=' + data[i].InvoiceAmount + ' type="hidden"></td>' +
-                    '<td>' + data[i].AmountPaidTillDate + '<input id="" name="CustomerRcieptChildVM[' + i + '].AmtPaidTillDate" value=' + data[i].AmountPaidTillDate + ' type="hidden" class="AmountPaidTillDate"></td>' +
-                    '<td>' + data[i].Balance + '<input id="" name="CustomerRcieptChildVM[' + i + '].Balance" value=' + data[i].Balance + ' type="hidden" class = "BalanceAmount"><input id="" name="CustomerRcieptChildVM[' + i + '].InvoiceNo" value=' + data[i].InvoiceNo + ' type="hidden"></td>' +
+                   '<td>' + data[i].DateTime + '<input id="" name="CustomerRcieptChildVM[' + i + '].InvoiceDate" value=' + data[i].DateTime + ' type="hidden"></td>' +
+                   '<td>' + parseFloat(data[i].InvoiceAmount).toFixed(2) + '<input id="" name="CustomerRcieptChildVM[' + i + '].AmountToBePaid" value=' + data[i].InvoiceAmount + ' type="hidden"></td>' +
+                   '<td>' + parseFloat(data[i].AmountPaidTillDate).toFixed(2) + '<input id="" name="CustomerRcieptChildVM[' + i + '].AmtPaidTillDate" value=' + data[i].AmountPaidTillDate + ' type="hidden" class="AmountPaidTillDate"></td>' +
+                   '<td>' + parseFloat(data[i].Balance).toFixed(2) + '<input id="" name="CustomerRcieptChildVM[' + i + '].Balance" value=' + data[i].Balance + ' type="hidden" class = "BalanceAmount"><input id="" name="CustomerRcieptChildVM[' + i + '].InvoiceNo" value=' + data[i].InvoiceNo + ' type="hidden"></td>' +
                     //'<td>' + data[i].Amount + '<input id="" name="customerRcieptVM[' + i + '].Amount" value=' + data[i].Amount + ' type="hidden"></td>' +
                     '<td> <input type="text"  onBlur="CheckAmt(this)"  class="amt txtNum text-right AmountAllocated" name=CustomerRcieptChildVM[' + i + '].Amount>' +
-                    '<td> <input type="text"   class="amt1 txtNum text-right AdjustmentAmount" name=CustomerRcieptChildVM[' + i + '].AdjustmentAmount>' +
+                    '<td> <input type="text" onBlur="CheckAmt1(this)"  class="amt1 txtNum text-right AdjustmentAmount" name=CustomerRcieptChildVM[' + i + '].AdjustmentAmount>' +
 
                     //'<td>' + data[i].InvoiceDate + '<input id="" name="customerRcieptVM[' + i + '].InvoiceDate" value=' + data[i].InvoiceDate + ' type="hidden"></td>'+
 
