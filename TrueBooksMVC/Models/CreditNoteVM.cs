@@ -20,6 +20,7 @@ namespace TrueBooksMVC.Models
         public int InvoiceNo { get; set; }
 
         public string CustomerName { get; set; }
+        public bool TradingInvoice { get; set; }
 
     }
 }

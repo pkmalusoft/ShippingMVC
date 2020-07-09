@@ -44,6 +44,7 @@
         color: #2b2929 !important;
     }
 </style>
+
 <script type="text/javascript">
     $(document).ready(function () {
         $(":text").css({ "border-radius": "5px" });
@@ -88,15 +89,6 @@
 
         });
 
-
-
-
-
-
-
-
-
-
         var startdate = '@Session["FyearFrom"].ToString()';
         var enddate = '@Session["FyearTo"].ToString()';
         var sd = new Date(startdate);
@@ -109,39 +101,60 @@
             changeYear: true,
             changeMonth: true
         });
-
-        $("#SupplierID").change(function () {
-            $.ajax({
-                type: "POST",
-                url: "/DebitNote/GetInvoices",
-                datatype: "Json",
-                data: { id: $("#SupplierID option:selected").val() },
-                success: function (data) {
-                    $("#InvoiceNo").empty();
-                    $("#InvoiceNo").append("<option value=0>Select</option>");
-
-                    $.each(data, function (index, value) {
-                        $('#InvoiceNo').append('<option value="' + value.InvoiceNo + '">' + value.InvoiceNo + '</option>');
-                    });
-
-                }
-            });
+        $("#InvoiceNo").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '/DebitNote/GetInvoices',
+                    datatype: "json",
+                    data: {
+                        id: $("#SupplierID").val(), term: request.term
+                    },
+                    success: function (data) {
+                        response($.map(data, function (val, item) {
+                            return {
+                                label: val.InvoiceNo,
+                                value: val.InvoiceNo,
+                                Trading: val.Istrading
+                            }
+                        }))
+                    }
+                })
+            }, minLength: 1,
+            select: function (e, i) {
+                e.preventDefault();
+                $("#InvoiceNo").val(i.item.label);
+                $('#TradingInvoice').val(i.item.Trading);
+                getamt();
+            }
         });
-
-        $("#InvoiceNo").change(function(){
-            $.ajax({
-                type: "POST",
-                url: "/DebitNote/GetAmount",
-                datatype: "Json",
-                data: { invno: $("#InvoiceNo option:selected").val() },
-                success: function (data) {
-                    $("#InvoiceAmount").val(data.InvAmt);
-                    $("#AmountPaid").val(data.AmtPaid);
-                }
-            });
-        })
+      
+        //$("#InvoiceNo").change(function(){
+        //    $.ajax({
+        //        type: "POST",
+        //        url: "/DebitNote/GetAmount",
+        //        datatype: "Json",
+        //        data: { invno: $("#InvoiceNo option:selected").val() },
+        //        success: function (data) {
+        //            $("#InvoiceAmount").val(data.InvAmt);
+        //            $("#AmountPaid").val(data.AmtPaid);
+        //        }
+        //    });
+        //})
     });
-
+    function getamt() {
+   
+        $.ajax({
+            type: "POST",
+            url: "/DebitNote/GetAmountByinvono",
+            datatype: "Json",
+            data: { invno: $("#InvoiceNo").val(), IsTrading: $('#TradingInvoice').val() },
+            success: function (data) {
+                $("#InvoiceAmount").val(data.InvAmt);
+                $("#AmountPaid").val(data.AmtPaid);
+            }
+        });
+   
+    }
 </script>
 
 <section class="content-header">
@@ -189,7 +202,10 @@
                     <div class="col-md-6">
                         <label class="headinglabel required">Invoice No</label>
                         @*<select name="InvoiceNo" id="InvoiceNo"></select>*@
-                        @Html.DropDownListFor(model => model.InvoiceNo, new SelectList(@ViewBag.Invoice, "InvoiceNo", "invoiceNo"), "Select", new { @class = "form-control" })
+                        <input type="text" id="InvoiceNo" name="InvoiceNo" value="" class="form-control" />
+                        <input type="hidden" id="TradingInvoice" value="" class="form-control" />
+
+                        @*@Html.DropDownListFor(model => model.InvoiceNo, new SelectList(@ViewBag.Invoice, "InvoiceNo", "invoiceNo"), "Select", new { @class = "form-control" })*@
                     </div>
 
                 </div>
@@ -217,11 +233,11 @@
                     <div class="col-md-12 butdivs">
                         @if (isadd)
                         {
-                        <input type="submit" value="Save" class="btn btn-primary btnwid" id="btnsave" />
+                            <input type="submit" value="Save" class="btn btn-primary btnwid" id="btnsave" />
                         }
                         else
                         {
-                            <input type="submit" value="Save" class="btn btn-primary btnwid" id="btnsave" disabled/>
+                            <input type="submit" value="Save" class="btn btn-primary btnwid" id="btnsave" disabled />
                         }
                         &nbsp;
                         <a href='@Url.Action("List", "DebitNote", new { id = 0 })' class="btn btn-danger btnwid" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>

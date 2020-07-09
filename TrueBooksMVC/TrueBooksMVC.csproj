@@ -676,6 +676,8 @@
     <Content Include="assets\img\gallery-image-9.jpg" />
     <Content Include="assets\img\header-menu-fixed.png" />
     <Content Include="assets\img\header-menu-normal.png" />
+    <Content Include="assets\img\LandingImg.jpg" />
+    <Content Include="assets\img\LandingImg.png" />
     <Content Include="assets\img\left-menu-hidden.png" />
     <Content Include="assets\img\left-menu-normal.png" />
     <Content Include="assets\img\logo-dark.png" />

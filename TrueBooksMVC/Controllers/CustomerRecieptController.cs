@@ -548,7 +548,12 @@ namespace TrueBooksMVC.Controllers
 
             var data = Context1.RecPays.Where(x => x.RecPayDate >= sdate && x.RecPayDate <= edate && x.CustomerID != null && x.IsTradingReceipt != true && x.FYearID == FYearID).OrderByDescending(x => x.RecPayDate).ToList();
 
-            var cust = Context1.SP_GetAllRecieptsDetailsByDate(fdate, tdate, FYearID).ToList();
+            var Recdetails = (from x in Context1.RecPayDetails where x.RecPayID == data.FirstOrDefault().RecPayID && (x.CurrencyID != null || x.CurrencyID > 0) select x).FirstOrDefault();
+
+
+            data.ForEach(s => s.Remarks = (from x in Context1.RecPayDetails where x.RecPayID == s.RecPayID && (x.CurrencyID != null || x.CurrencyID > 0) select x).FirstOrDefault() != null ? (from x in Context1.RecPayDetails join C in Context1.CurrencyMasters on x.CurrencyID equals C.CurrencyID where x.RecPayID == s.RecPayID && (x.CurrencyID != null || x.CurrencyID > 0) select C.CurrencyName).FirstOrDefault() : "");
+           
+            //var cust = Context1.SP_GetAllRecieptsDetailsByDate(fdate, tdate, FYearID).ToList();
 
             string view = this.RenderPartialView("_GetAllCustomerByDate", data);
 
@@ -579,9 +584,10 @@ namespace TrueBooksMVC.Controllers
             ViewBag.AllCustomers = Context1.CUSTOMERs.ToList();
 
             var data = Context1.RecPays.Where(x => x.RecPayDate >= sdate && x.RecPayDate <= edate &&  x.CustomerID != null &&  x.IsTradingReceipt != true && x.FYearID == FYearID).OrderByDescending(x => x.RecPayDate).ToList();
+            data.ForEach(s => s.Remarks = (from x in Context1.RecPayDetails where x.RecPayID == s.RecPayID && (x.CurrencyID != null || x.CurrencyID > 0) select x).FirstOrDefault() != null ? (from x in Context1.RecPayDetails join C in Context1.CurrencyMasters on x.CurrencyID equals C.CurrencyID where x.RecPayID == s.RecPayID && (x.CurrencyID != null || x.CurrencyID > 0) select C.CurrencyName).FirstOrDefault() : "");
 
 
-            var cust = Context1.SP_GetAllRecieptsDetailsByDate(fdate, tdate, FYearID).ToList();
+            //var cust = Context1.SP_GetAllRecieptsDetailsByDate(fdate, tdate, FYearID).ToList();
 
             return PartialView("_GetAllCustomerByDate", data);
 
@@ -601,7 +607,9 @@ namespace TrueBooksMVC.Controllers
 
 
             var data = Context1.RecPays.Where(x => x.RecPayDate >= sdate && x.RecPayDate <= edate && x.CustomerID !=null && x.IsTradingReceipt == true && x.FYearID == FYearID).OrderByDescending(x => x.RecPayDate).ToList();
-            var cust = Context1.SP_GetAllRecieptsDetailsByDate(fdate, tdate, FYearID).ToList();
+            //var cust = Context1.SP_GetAllRecieptsDetailsByDate(fdate, tdate, FYearID).ToList();
+            data.ForEach(s => s.Remarks = (from x in Context1.RecPayDetails where x.RecPayID == s.RecPayID && (x.CurrencyID != null || x.CurrencyID > 0) select x).FirstOrDefault() != null ? (from x in Context1.RecPayDetails join C in Context1.CurrencyMasters on x.CurrencyID equals C.CurrencyID where x.RecPayID == s.RecPayID && (x.CurrencyID != null || x.CurrencyID > 0) select C.CurrencyName).FirstOrDefault() : "");
+
             ViewBag.AllCustomers = Context1.CUSTOMERs.ToList();
             string view = this.RenderPartialView("_GetAllTradeCustomerByDate", data);
 
@@ -630,9 +638,10 @@ namespace TrueBooksMVC.Controllers
             ViewBag.AllCustomers = Context1.CUSTOMERs.ToList();
 
             var data = Context1.RecPays.Where(x => x.RecPayDate >= sdate && x.RecPayDate <= edate && x.CustomerID != null && x.FYearID == FYearID && x.IsTradingReceipt == true).OrderByDescending(x => x.RecPayDate).ToList();
+            data.ForEach(s => s.Remarks = (from x in Context1.RecPayDetails where x.RecPayID == s.RecPayID && (x.CurrencyID != null || x.CurrencyID > 0) select x).FirstOrDefault() != null ? (from x in Context1.RecPayDetails join C in Context1.CurrencyMasters on x.CurrencyID equals C.CurrencyID where x.RecPayID == s.RecPayID && (x.CurrencyID != null || x.CurrencyID > 0) select C.CurrencyName).FirstOrDefault() : "");
 
 
-            var cust = Context1.SP_GetAllRecieptsDetailsByDate(fdate, tdate, FYearID).ToList();
+            //var cust = Context1.SP_GetAllRecieptsDetailsByDate(fdate, tdate, FYearID).ToList();
 
             return PartialView("_GetAllTradeCustomerByDate", data);
 
@@ -690,7 +699,13 @@ namespace TrueBooksMVC.Controllers
                             var allrecpay = (from d in Context1.RecPayDetails where d.InvoiceID == item.InvoiceID select d).ToList();
                             var totamtpaid = allrecpay.Sum(d => d.Amount) * -1;
                             var totadjust = allrecpay.Sum(d => d.AdjustmentAmount);
-                            var totamt = totamtpaid + totadjust;
+                            var CreditNote = (from d in Context1.CreditNotes where d.InvoiceID == item.InvoiceID && d.CustomerID == Sinvoice.CustomerID select d).ToList();
+                            decimal? CreditAmount = 0;
+                            if (CreditNote.Count > 0)
+                            {
+                                CreditAmount = CreditNote.Sum(d => d.Amount);
+                            }
+                            var totamt = totamtpaid + totadjust +CreditAmount;
                             var customerinvoice = new CustomerRcieptChildVM();
                             customerinvoice.InvoiceID = Convert.ToInt32(item.InvoiceID);
                             customerinvoice.SInvoiceNo = Sinvoice.SalesInvoiceNo;
@@ -740,7 +755,13 @@ namespace TrueBooksMVC.Controllers
                     var allrecpay = (from d in Context1.RecPayDetails where d.InvoiceID == det.SalesInvoiceDetailID select d).ToList();
                     var totamtpaid = allrecpay.Sum(d => d.Amount) * -1;
                     var totadjust = allrecpay.Sum(d => d.AdjustmentAmount);
-                    var totamt = totamtpaid + totadjust;
+                    var CreditNote = (from d in Context1.CreditNotes where d.InvoiceID == det.SalesInvoiceDetailID && d.CustomerID == item.CustomerID select d).ToList();
+                    decimal? CreditAmount = 0;
+                    if (CreditNote.Count > 0)
+                    {
+                        CreditAmount = CreditNote.Sum(d => d.Amount);
+                    }
+                    var totamt = totamtpaid + totadjust + CreditAmount;
                     var Invoice = new CustomerTradeReceiptVM();
                     Invoice.JobID = det.JobID;
                     Invoice.JobCode = "";
@@ -839,7 +860,13 @@ namespace TrueBooksMVC.Controllers
                         var totamount = (from d in Context1.RecPayDetails where d.InvoiceID == salesinvoicedetails.SalesInvoiceDetailID select d).ToList();
                         var totsum = totamount.Sum(d => d.Amount);
                         var totAdsum = totamount.Sum(d => d.AdjustmentAmount);
-                        var tamount = totsum + totAdsum;
+                        var CreditNote = (from d in Context1.CreditNotes where d.InvoiceID == item.InvoiceID && d.CustomerID == item.CustomerID select d).ToList();
+                        decimal? CreditAmount = 0;
+                        if (CreditNote.Count > 0)
+                        {
+                            CreditAmount = CreditNote.Sum(d => d.Amount);
+                        }
+                        var tamount = totsum + totAdsum+CreditAmount;
                         if (tamount >= salesinvoicedetails.NetValue)
                         {
                             salesinvoicedetails.RecPayStatus = 2;
@@ -912,7 +939,13 @@ namespace TrueBooksMVC.Controllers
                     var totamount = (from d in Context1.RecPayDetails where d.InvoiceID == salesinvoicedetails.SalesInvoiceDetailID select d).ToList();
                     var totsum = totamount.Sum(d => d.Amount) *-1;
                     var totAdsum = totamount.Sum(d => d.AdjustmentAmount);
-                    var tamount = totsum + totAdsum;
+                    var CreditNote = (from d in Context1.CreditNotes where d.InvoiceID == item.InvoiceID && d.CustomerID == item.CustomerID select d).ToList();
+                    decimal? CreditAmount = 0;
+                    if (CreditNote.Count > 0)
+                    {
+                        CreditAmount = CreditNote.Sum(d => d.Amount);
+                    }
+                    var tamount = totsum + totAdsum+CreditAmount;
                     if (tamount >= salesinvoicedetails.NetValue)
                     {
                         salesinvoicedetails.RecPayStatus = 2;

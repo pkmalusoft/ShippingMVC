@@ -82,6 +82,7 @@
                                                 <th>Document No</th>
                                                 <th>Supplier Name</th>
                                                 <th>Amount</th>
+                                                <th>Currency</th>
                                                 <th style="width: 70px;">Action</th>
 
                                             </tr>
@@ -94,6 +95,7 @@
                                                 <th>Document No</th>
                                                 <th>Supplier Name</th>
                                                 <th>Amount</th>
+                                                <th>Currency</th>
                                                 <th style="width: 70px;"></th>
 
                                             </tr>
@@ -111,6 +113,7 @@
                                                     <td>@Html.DisplayFor(modelItem => item.DocumentNo)</td>
                                                     <td class="tdtarget">@supplier.Where(d => d.SupplierID == @item.SupplierID).FirstOrDefault().SupplierName</td>
                                                     <td class="tdtarget">@Html.DisplayFor(modelItem => item.FMoney)</td>
+                                                    <td class="tdtarget">@Html.DisplayFor(modelItem => item.Remarks)</td>
 
                                                     <td>
                                                         @if (ismodify)

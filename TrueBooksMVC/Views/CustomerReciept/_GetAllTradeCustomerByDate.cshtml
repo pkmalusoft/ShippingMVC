@@ -89,6 +89,7 @@
                                                 <th>Document No</th>
                                                 <th>Party Name</th>
                                                 <th>Amount</th>
+                                                <th>Currency</th>
                                                 <th style="width:120px;"></th>
                                             </tr>
                                         </thead>
@@ -100,6 +101,7 @@
                                                 <th>Document No</th>
                                                 <th>Party Name</th>
                                                 <th>Amount</th>
+                                                <th>Currency</th>
 
                                                 <th style="width:120px;"></th>
                                             </tr>
@@ -111,43 +113,44 @@
 
                                             @foreach (var item in Model)
                                             {
-                                                <tr>
+                                            <tr>
 
-                                                    <td>
-                                                        @TrueBooksMVC.Models.CommanFunctions.GetShortDateFormat(item.RecPayDate)
+                                                <td>
+                                                    @TrueBooksMVC.Models.CommanFunctions.GetShortDateFormat(item.RecPayDate)
 
-                                                        @Html.HiddenFor(model => item.RecPayID)
-                                                    </td>
-                                                    <td>@Html.DisplayFor(modelItem => item.DocumentNo)</td>
-                                                    <td class="tdtarget">@customers.Where(d => d.CustomerID == item.CustomerID).FirstOrDefault().Customer1</td>
-                                                    <td class="tdtarget">@Html.DisplayFor(modelItem => item.FMoney)</td>
+                                                    @Html.HiddenFor(model => item.RecPayID)
+                                                </td>
+                                                <td>@Html.DisplayFor(modelItem => item.DocumentNo)</td>
+                                                <td class="tdtarget">@customers.Where(d => d.CustomerID == item.CustomerID).FirstOrDefault().Customer1</td>
+                                                <td class="tdtarget">@Html.DisplayFor(modelItem => item.FMoney)</td>
+                                                <td class="tdtarget">@Html.DisplayFor(modelItem => item.Remarks)</td>
 
-                                                    <td>
+                                                <td>
 
-                                                        @if (ismodify)
-                                                        {
-                                                            <a href='@Url.Action("CustomerTradeReceipt", "CustomerReciept", new { id = item.RecPayID })' data-toggle="tooltip" data-placement="left" title="Click here"><i class="fa fa-pencil"></i></a>
-                                                        }
-                                                        |
-                                                        @if (isdelete)
-                                                        {
-                                                            <a href="#" onclick="DeleteCustomer(cid=@item.RecPayID)"><i class="fa fa-times-circle"></i></a>
-                                                        }
-                                                        |
-                                                        @if (isprint)
-                                                        {
-                                                            <a href="#"><i class="fa fa-print " aria-hidden="true" onclick="funExportToPDF(@item.RecPayID)"></i></a>
-                                                        }
-                                                        |
-                                                        @if (isprint)
-                                                        {
+                                                    @if (ismodify)
+                                                    {
+                                                        <a href='@Url.Action("CustomerTradeReceipt", "CustomerReciept", new { id = item.RecPayID })' data-toggle="tooltip" data-placement="left" title="Click here"><i class="fa fa-pencil"></i></a>
+                                                    }
+                                                    |
+                                                    @if (isdelete)
+                                                    {
+                                                        <a href="#" onclick="DeleteCustomer(cid=@item.RecPayID)"><i class="fa fa-times-circle"></i></a>
+                                                    }
+                                                    |
+                                                    @if (isprint)
+                                                    {
+                                                        <a href="#"><i class="fa fa-print " aria-hidden="true" onclick="funExportToPDF(@item.RecPayID)"></i></a>
+                                                    }
+                                                    |
+                                                    @if (isprint)
+                                                    {
 
-                                                            <a href="#"><i class=" fa fa-file-pdf-o print" style="color:red"></i></a>
-                                                        }
+                                                        <a href="#"><i class=" fa fa-file-pdf-o print" style="color:red"></i></a>
+                                                    }
 
 
-                                                    </td>
-                                                </tr>
+                                                </td>
+                                            </tr>
 
                                             }
 

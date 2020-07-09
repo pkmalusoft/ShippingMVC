@@ -116,47 +116,86 @@
 
         $("#CustomerID").change(function () {
 
-            $.ajax({
-                type: "POST",
-                url: "/CreditNote/GetJobNo",
-                datatype: "Json",
-                data: { id: $('#CustomerID option:selected').val() },
-                success: function (data) {
+            //$.ajax({
+            //    type: "POST",
+            //    url: "/CreditNote/GetJobNo",
+            //    datatype: "Json",
+            //    data: { id: $('#CustomerID option:selected').val() },
+            //    success: function (data) {
 
-                        $("#JobNO").empty();
-                        $("#JobNO").append("<option value=0>Select</option>");
+            //            $("#JobNO").empty();
+            //            $("#JobNO").append("<option value=0>Select</option>");
 
 
-                        $.each(data, function (index, value) {
-                            $('#JobNO').append('<option value="' + value.JobNo + '">' + value.JobNo + '</option>');
-                        });
+            //            $.each(data, function (index, value) {
+            //                $('#JobNO').append('<option value="' + value.JobNo + '">' + value.JobNo + '</option>');
+            //            });
 
+            //        }
+
+
+
+            //});
+        });
+        $("#JobNO").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '/CreditNote/GetJobNoAutocomp',
+                    datatype: "json",
+                    data: {
+                        id: $("#CustomerID").val(), term: request.term
+                    },
+                    success: function (data) {
+                        response($.map(data, function (val, item) {
+
+                            return {
+                                label: val.JobNo,
+                                value: val.JobNo,
+                                Trading: val.Istrading
+                            }
+                        }))
                     }
-
-
-
-            });
+                })
+            }, minLength: 1,
+            select: function (e, i) {
+                e.preventDefault();
+                $("#JobNO").val(i.item.label);
+                $('#TradingInvoice').val(i.item.Trading);
+                getamt();
+            }
         });
+        //$("#JobNO").change(function () {
 
-        $("#JobNO").change(function () {
+        //    $.ajax({
+        //        type: "POST",
+        //        url: "/CreditNote/GetAmount",
+        //        datatype: "Json",
+        //        data: { id: $('#JobNO option:selected').val() },
+        //        success: function (data) {
 
-            $.ajax({
-                type: "POST",
-                url: "/CreditNote/GetAmount",
-                datatype: "Json",
-                data: { id: $('#JobNO option:selected').val() },
-                success: function (data) {
+        //            $("#InvoiceAmount").val(data.invoiceamt);
+        //            $("#ReceivedAmount").val(data.recamt);
 
-                    $("#InvoiceAmount").val(data.invoiceamt);
-                    $("#ReceivedAmount").val(data.recamt);
-
-                }
-
+        //        }
 
 
-            });
-        });
+
+        //    });
+        //});
     });
+    function getamt() {
+        $.ajax({
+            type: "POST",
+            url: "/CreditNote/GetAmountByinvono",
+            datatype: "Json",
+            data: { invno: $("#JobNO").val(), IsTrading: $('#TradingInvoice').val() },
+            success: function (data) {
+                $("#InvoiceAmount").val(data.invoiceamt);
+                $("#ReceivedAmount").val(data.recamt);
+            }
+        });
+
+    }
 </script>
 <section class="content-header">
     <h1 class="headingfont">Credit Note</h1>
@@ -210,7 +249,9 @@
                     <div class="col-md-6">
                         <label class="required headinglabel">Job No</label>
 
-                        @Html.DropDownListFor(model => model.JobNO, new SelectList(@ViewBag.jobno, "JobNo", "JobNo"), "Select", new { @class = "form-control" })
+                        @*@Html.DropDownListFor(model => model.JobNO, new SelectList(@ViewBag.jobno, "JobNo", "JobNo"), "Select", new { @class = "form-control" })*@
+                        <input type="text" id="JobNO" name="JobNO" value="" class="form-control" />
+                        <input type="hidden" id="TradingInvoice" name="TradingInvoice" value="" class="form-control" />
                         @Html.ValidationMessageFor(model => model.JobNO)
 
 

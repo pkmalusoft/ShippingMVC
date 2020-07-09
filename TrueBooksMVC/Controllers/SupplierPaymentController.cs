@@ -607,6 +607,7 @@ namespace TrueBooksMVC.Controllers
             //var Spayment = Context1.SP_GetAllPaymentsDetailsByDate(fdate, tdate, FYearID).ToList();
             var data = Context1.RecPays.Where(x => x.RecPayDate >= sdate && x.RecPayDate <= edate && x.SupplierID != null && x.IsTradingReceipt == false).OrderByDescending(x => x.RecPayDate).ToList();
             ViewBag.Suppliers = Context1.Suppliers.ToList();
+            data.ForEach(s => s.Remarks = (from x in Context1.RecPayDetails where x.RecPayID == s.RecPayID && (x.CurrencyID != null || x.CurrencyID > 0) select x).FirstOrDefault() != null ? (from x in Context1.RecPayDetails join C in Context1.CurrencyMasters on x.CurrencyID equals C.CurrencyID where x.RecPayID == s.RecPayID && (x.CurrencyID != null || x.CurrencyID > 0) select C.CurrencyName).FirstOrDefault() : "");
 
             return PartialView("_GetAllSupplierByDate", data);
            
@@ -628,7 +629,13 @@ namespace TrueBooksMVC.Controllers
                     var allrecpay = (from d in Context1.RecPayDetails where d.InvoiceID == det.PurchaseInvoiceDetailID select d).ToList();
                     var totamtpaid = allrecpay.Sum(d => d.Amount);
                     var totadjust = allrecpay.Sum(d => d.AdjustmentAmount);
-                    var totamt = totamtpaid + totadjust;
+                    var Debitnote = (from d in Context1.DebitNotes where d.InvoiceID == det.PurchaseInvoiceDetailID && d.SupplierID == item.SupplierID select d).ToList();
+                    decimal? DebitAmount = 0;
+                    if (Debitnote.Count > 0)
+                    {
+                        DebitAmount = Debitnote.Sum(d => d.Amount);
+                    }
+                    var totamt = totamtpaid + totadjust+DebitAmount;
                     var Invoice = new CostUpdationTradeDetailVM();
                     Invoice.JobID = det.JobID;
                     Invoice.JobCode = "";
@@ -670,9 +677,15 @@ namespace TrueBooksMVC.Controllers
                             var sInvoiceDetail = (from d in Context1.PurchaseInvoiceDetails where d.PurchaseInvoiceDetailID == item.InvoiceID select d).FirstOrDefault();
                             var Sinvoice = (from d in Context1.PurchaseInvoices where d.PurchaseInvoiceID == sInvoiceDetail.PurchaseInvoiceID select d).FirstOrDefault();
                             var allrecpay = (from d in Context1.RecPayDetails where d.InvoiceID == item.InvoiceID select d).ToList();
+                            var Debitnote = (from d in Context1.DebitNotes where d.InvoiceID == item.InvoiceID && d.SupplierID == cust.SupplierID select d).ToList();
+                            decimal? DebitAmount = 0;
+                            if(Debitnote.Count>0)
+                            {
+                                DebitAmount = Debitnote.Sum(d => d.Amount);
+                            }
                             var totamtpaid = allrecpay.Sum(d => d.Amount);
                             var totadjust = allrecpay.Sum(d => d.AdjustmentAmount);
-                            var totamt = totamtpaid + totadjust;
+                            var totamt = totamtpaid + totadjust + DebitAmount;
                             var customerinvoice = new CustomerRcieptChildVM();
                             customerinvoice.InvoiceID = Convert.ToInt32(item.InvoiceID);
                             customerinvoice.SInvoiceNo = Sinvoice.PurchaseInvoiceNo;
@@ -762,6 +775,7 @@ namespace TrueBooksMVC.Controllers
             var data = Context1.RecPays.Where(x => x.RecPayDate >= sdate && x.RecPayDate <= edate && x.SupplierID !=null && x.IsTradingReceipt == true).OrderByDescending(x => x.RecPayDate).ToList();
             ViewBag.Suppliers = Context1.Suppliers.ToList();
 
+            data.ForEach(s => s.Remarks = (from x in Context1.RecPayDetails where x.RecPayID == s.RecPayID && (x.CurrencyID != null || x.CurrencyID > 0) select x).FirstOrDefault() != null ? (from x in Context1.RecPayDetails join C in Context1.CurrencyMasters on x.CurrencyID equals C.CurrencyID where x.RecPayID == s.RecPayID && (x.CurrencyID != null || x.CurrencyID > 0) select C.CurrencyName).FirstOrDefault() : "");
 
             return PartialView("_GetAllTradeSupplierByDate", data);
 
@@ -850,10 +864,16 @@ namespace TrueBooksMVC.Controllers
                                 RP.InsertRecpayDetailsForCust(RecP.RecPayID, 0, 0, Advance, null, "C", true, null, null, null, Convert.ToInt32(RecP.CurrencyId), 4, item.JobID);
                             }
                             var salesinvoicedetails = (from d in Context1.PurchaseInvoiceDetails where d.PurchaseInvoiceDetailID == item.InvoiceID select d).FirstOrDefault();
+                            var Debitnote = (from d in Context1.DebitNotes where d.InvoiceID == item.InvoiceID && d.SupplierID == RecP.SupplierID select d).ToList();
+                            decimal? DebitAmount = 0;
+                            if (Debitnote.Count > 0)
+                            {
+                                DebitAmount = Debitnote.Sum(d => d.Amount);
+                            }
                             var totamount = (from d in Context1.RecPayDetails where d.InvoiceID == salesinvoicedetails.PurchaseInvoiceDetailID select d).ToList();
                             var totsum = totamount.Sum(d => d.Amount);
                             var totAdsum = totamount.Sum(d => d.AdjustmentAmount);
-                            var tamount = totsum + totAdsum;
+                            var tamount = totsum + totAdsum+DebitAmount;
                             if (tamount >= salesinvoicedetails.NetValue)
                             {
                                 salesinvoicedetails.RecPayStatus = 2;
@@ -953,7 +973,13 @@ namespace TrueBooksMVC.Controllers
                         var totamount = (from d in Context1.RecPayDetails where d.InvoiceID == salesinvoicedetails.PurchaseInvoiceDetailID select d).ToList();
                         var totsum = totamount.Sum(d => d.Amount) * -1;
                         var totAdsum = totamount.Sum(d => d.AdjustmentAmount);
-                        var tamount = totsum + totAdsum;
+                        var Debitnote = (from d in Context1.DebitNotes where d.InvoiceID == item.InvoiceID && d.SupplierID == RecP.SupplierID select d).ToList();
+                        decimal? DebitAmount = 0;
+                        if (Debitnote.Count > 0)
+                        {
+                            DebitAmount = Debitnote.Sum(d => d.Amount);
+                        }
+                        var tamount = totsum + totAdsum +DebitAmount;
                         if (tamount >= salesinvoicedetails.NetValue)
                         {
                             salesinvoicedetails.RecPayStatus = 2;

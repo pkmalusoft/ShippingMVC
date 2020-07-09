@@ -88,6 +88,8 @@
                                                 <th>Document No</th>
                                                 <th>Party Name</th>
                                                 <th>Amount</th>
+                                                <th>Currency</th>
+
                                                 <th style="width:120px;"></th>
                                             </tr>
                                         </thead>
@@ -99,6 +101,8 @@
                                                 <th>Document No</th>
                                                 <th>Party Name</th>
                                                 <th>Amount</th>
+                                                <th>Currency</th>
+
                                                 <th style="width:120px;"></th>
                                             </tr>
                                         </tfoot>
@@ -119,6 +123,7 @@
                                                     <td>@Html.DisplayFor(modelItem => item.DocumentNo)</td>
                                                     <td class="tdtarget">@customers.Where(d => d.CustomerID == item.CustomerID).FirstOrDefault().Customer1</td>
                                                     <td class="tdtarget">@Html.DisplayFor(modelItem => item.FMoney)</td>
+                                                    <td class="tdtarget">@Html.DisplayFor(modelItem => item.Remarks)</td>
                                                     <td>
 
                                                         @if (ismodify)

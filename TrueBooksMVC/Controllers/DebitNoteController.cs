@@ -21,8 +21,18 @@ namespace TrueBooksMVC.Controllers
             List<DebitNoteVM> lst = new List<DebitNoteVM>();
             foreach (var item in data)
             {
-                int jobid = (from c in db.JInvoices where c.InvoiceID == item.InvoiceID select c.JobID).FirstOrDefault().Value;
-                string jobcode = (from j in db.JobGenerations where j.JobID == jobid select j.JobCode).FirstOrDefault();
+                string jobcode = "";
+                var job = (from c in db.JInvoices where c.InvoiceID == item.InvoiceID select c).FirstOrDefault();
+                if(job!=null)
+                {
+                    var jobid = job.JobID;
+                     jobcode = (from j in db.JobGenerations where j.JobID == jobid select j.JobCode).FirstOrDefault();
+
+                }
+                else
+                {
+                    jobcode = item.InvoiceID.ToString();
+                }
                 string supplier = (from c in db.Suppliers where c.SupplierID == item.SupplierID select c.SupplierName).FirstOrDefault();
 
                 DebitNoteVM v = new DebitNoteVM();
@@ -152,10 +162,12 @@ namespace TrueBooksMVC.Controllers
         public class Invoices
         {
             public int InvoiceNo { get; set; }
+            public bool Istrading { get; set; }
+            public string InvoiceNum { get; set; }
         }
 
 
-        public JsonResult GetInvoices(int id)
+        public ActionResult GetInvoices(int id,string term)
         {
             List<Invoices> lst = new List<Invoices>();
 
@@ -166,10 +178,26 @@ namespace TrueBooksMVC.Controllers
             {
                 Invoices s = new Invoices();
                 s.InvoiceNo = item.InvoiceID;
+                s.Istrading = false;
+                s.InvoiceNum = item.InvoiceID.ToString();
 
                 lst.Add(s);
             }
+            var data1 = (from c in db.PurchaseInvoices where c.SupplierID == id select c).ToList();
+            foreach (var item in data1)
+            {
+                var purchaseinvoicedetails = (from d in db.PurchaseInvoiceDetails where d.PurchaseInvoiceID == item.PurchaseInvoiceID select d).ToList();
+                foreach (var det in purchaseinvoicedetails)
+                {
+                    Invoices s = new Invoices();
+                    s.InvoiceNo = det.PurchaseInvoiceDetailID;
+                    s.Istrading = true;
+                    s.InvoiceNum = det.PurchaseInvoiceDetailID.ToString();
 
+                    lst.Add(s);
+                }
+            }
+            lst = lst.Where(d => d.InvoiceNum.Contains(term)).ToList();
             return Json(lst, JsonRequestBehavior.AllowGet);
         }
 
@@ -185,6 +213,37 @@ namespace TrueBooksMVC.Controllers
 
             decimal iamt = (from c in db.JInvoices where c.InvoiceID == invno select c.ProvisionHome).FirstOrDefault().Value;
             decimal pamt = Math.Abs((from x in db.RecPayDetails where x.InvoiceID == invno select x.Amount).FirstOrDefault().Value);
+
+            a.InvAmt = iamt;
+            a.AmtPaid = pamt;
+
+            return Json(a, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult GetAmountByinvono(int invno,bool IsTrading)
+        {
+            Amounts a = new Amounts();
+            decimal iamt = 0;
+            decimal pamt = 0;
+            if (IsTrading == false)
+            {
+                iamt = (from c in db.JInvoices where c.InvoiceID == invno select c.ProvisionHome).FirstOrDefault().Value;
+                var recpay = (from x in db.RecPayDetails where x.InvoiceID == invno select x).ToList();
+                if (recpay.Count > 0)
+                {
+                    pamt = Math.Abs(recpay.Sum(s=>s.Amount.Value));
+                }
+
+            }
+            else
+            {
+                iamt = (from c in db.PurchaseInvoiceDetails where c.PurchaseInvoiceDetailID == invno select c.NetValue).FirstOrDefault().Value;
+                var recpay = (from x in db.RecPayDetails where x.InvoiceID == invno select x).ToList();
+                if (recpay.Count > 0)
+                {
+                    pamt = Math.Abs(recpay.Sum(s => s.Amount.Value));
+                }
+
+            }
 
             a.InvAmt = iamt;
             a.AmtPaid = pamt;
