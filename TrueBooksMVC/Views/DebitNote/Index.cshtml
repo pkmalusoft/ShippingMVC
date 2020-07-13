@@ -101,7 +101,15 @@
             changeYear: true,
             changeMonth: true
         });
-        $("#InvoiceNo").autocomplete({
+        $("#Amount").on('change', function () {
+            var value = $(this).val();
+            if (value == null || value == "") {
+                $(this).val("0.00");
+            } else {
+                $(this).val(parseFloat(value).toFixed(2));
+            }
+        });
+        $("#InvoiceStr").autocomplete({
             source: function (request, response) {
                 $.ajax({
                     url: '/DebitNote/GetInvoices',
@@ -112,7 +120,7 @@
                     success: function (data) {
                         response($.map(data, function (val, item) {
                             return {
-                                label: val.InvoiceNo,
+                                label: val.InvoiceNum,
                                 value: val.InvoiceNo,
                                 Trading: val.Istrading
                             }
@@ -122,12 +130,13 @@
             }, minLength: 1,
             select: function (e, i) {
                 e.preventDefault();
-                $("#InvoiceNo").val(i.item.label);
+                $("#InvoiceNo").val(i.item.value);
+                $("#InvoiceStr").val(i.item.label);
                 $('#TradingInvoice').val(i.item.Trading);
                 getamt();
             }
         });
-      
+
         //$("#InvoiceNo").change(function(){
         //    $.ajax({
         //        type: "POST",
@@ -142,18 +151,19 @@
         //})
     });
     function getamt() {
-   
+
         $.ajax({
             type: "POST",
             url: "/DebitNote/GetAmountByinvono",
             datatype: "Json",
             data: { invno: $("#InvoiceNo").val(), IsTrading: $('#TradingInvoice').val() },
             success: function (data) {
-                $("#InvoiceAmount").val(data.InvAmt);
-                $("#AmountPaid").val(data.AmtPaid);
+                $("#InvoiceAmount").val(parseFloat(data.InvAmt).toFixed(2));
+                $("#AmountPaid").val(parseFloat(data.AmtPaid).toFixed(2));
+
             }
         });
-   
+
     }
 </script>
 
@@ -177,73 +187,100 @@
     {
         @Html.AntiForgeryToken()
         @Html.ValidationSummary(true)
-        <div class="searchdiv">
+        <div class="searchdiv sm-width">
             <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
             <fieldset>
                 <div class="row no-margin">
-
-                    <div class="col-md-6">
-                        <label class="headinglabel required">Date</label>
-                        @Html.TextBoxFor(model => model.Date, new { @class = "form-control", placeholder = "dd-mmm-yyyy" })
+                    <div class="form-group row">
+                        <div class="col-md-3">
+                            <label class="headinglabel required">Date</label>
+                        </div>
+                        <div class="col-md-9">
+                            @Html.TextBoxFor(model => model.Date, new { @class = "form-control", placeholder = "dd-mmm-yyyy" })
+                        </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="form-group row">
+                        <div class="col-md-3">
 
-                        <label class="headinglabel">Expense A/C</label>
-                        @Html.DropDownListFor(model => model.AcHeadID, new SelectList(@ViewBag.AcHead, "AcHeadID", "AcHead1"), "Select", new { @class = "form-control" })
+                            <label class="headinglabel">Expense A/C</label>
+                        </div>
+                        <div class="col-md-9">
+                            @Html.DropDownListFor(model => model.AcHeadID, new SelectList(@ViewBag.AcHead, "AcHeadID", "AcHead1"), "Select", new { @class = "form-control" })
 
+                        </div>
                     </div>
-                </div>
-                <div class="row no-margin" style="padding-top:10px">
-                    <div class="col-md-6">
-                        <label class="headinglabel required">Supplier</label>
-                        @Html.DropDownListFor(model => model.SupplierID, new SelectList(@ViewBag.Supplier, "SupplierID", "SupplierName"), "Select", new { @class = "form-control" })
-                    </div>
+                    <div class="row no-margin" style="padding-top:10px">
+                        <div class="form-group row">
+                            <div class="col-md-3">
+                                <label class="headinglabel required">Supplier</label>
+                            </div>
+                            <div class="col-md-9">
+                                @Html.DropDownListFor(model => model.SupplierID, new SelectList(@ViewBag.Supplier, "SupplierID", "SupplierName"), "Select", new { @class = "form-control" })
+                            </div>
+                        </div>
 
-                    <div class="col-md-6">
-                        <label class="headinglabel required">Invoice No</label>
-                        @*<select name="InvoiceNo" id="InvoiceNo"></select>*@
-                        <input type="text" id="InvoiceNo" name="InvoiceNo" value="" class="form-control" />
-                        <input type="hidden" id="TradingInvoice" value="" class="form-control" />
+                        <div class="form-group row">
+                            <div class="col-md-3">
+                                <label class="headinglabel required">Invoice No</label>
+                            </div>
+                            <div class="col-md-9">
+                                @*<select name="InvoiceNo" id="InvoiceNo"></select>*@
+                                <input type="text" id="InvoiceStr" name="InvoiceStr" value="" class="form-control" />
 
-                        @*@Html.DropDownListFor(model => model.InvoiceNo, new SelectList(@ViewBag.Invoice, "InvoiceNo", "invoiceNo"), "Select", new { @class = "form-control" })*@
-                    </div>
+                                <input type="hidden" id="InvoiceNo" name="InvoiceNo" value="" class="form-control" />
+                                <input type="hidden" id="TradingInvoice" value="" class="form-control" />
 
-                </div>
-
-
-
-                <div class="row no-margin" style="padding-top:10px;">
-                    <div class="col-md-4">
-                        <label class="headinglabel">Invoice Amount</label>
-                        @Html.TextBoxFor(model => model.InvoiceAmount, new { @class = "form-control" })
-                    </div>
-                    <div class="col-md-4">
-                        <label class="headinglabel">Amount Paid</label>
-                        @Html.TextBoxFor(model => model.AmountPaid, new { @class = "form-control" })
-                    </div>
-                    <div class="col-md-4">
-                        <label class="headinglabel required">Amount</label>
-                        @Html.TextBoxFor(model => model.Amount, new { @class = "form-control" })
+                                @*@Html.DropDownListFor(model => model.InvoiceNo, new SelectList(@ViewBag.Invoice, "InvoiceNo", "invoiceNo"), "Select", new { @class = "form-control" })*@
+                            </div>
+                        </div>
                     </div>
 
 
-                </div>
 
-                <div class="row no-margin" style="padding-top:10px;">
-                    <div class="col-md-12 butdivs">
-                        @if (isadd)
-                        {
-                            <input type="submit" value="Save" class="btn btn-primary btnwid" id="btnsave" />
-                        }
-                        else
-                        {
-                            <input type="submit" value="Save" class="btn btn-primary btnwid" id="btnsave" disabled />
-                        }
-                        &nbsp;
-                        <a href='@Url.Action("List", "DebitNote", new { id = 0 })' class="btn btn-danger btnwid" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+                    <div class="row no-margin" style="padding-top:10px;">
+                        <div class="form-group row">
+                            <div class="col-md-3">
+                                <label class="headinglabel">Invoice Amount</label>
+                            </div>
+                            <div class="col-md-9">
+                                @Html.TextBoxFor(model => model.InvoiceAmount, new { @class = "form-control" })
+                            </div>
+                        </div>
 
+                        <div class="form-group row">
+                            <div class="col-md-3">
+                                <label class="headinglabel">Amount Paid</label>
+                            </div>
+                            <div class="col-md-9">
+                                @Html.TextBoxFor(model => model.AmountPaid, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-3">
+                                <label class="headinglabel required">Amount</label>
+                            </div>
+                            <div class="col-md-9">
+                                @Html.TextBoxFor(model => model.Amount, new { @class = "form-control" })
+                            </div>
+
+                        </div>
                     </div>
-                </div>
+
+                    <div class="row no-margin" style="padding-top:10px;">
+                        <div class="col-md-12 butdivs">
+                            @if (isadd)
+                            {
+                                <input type="submit" value="Save" class="btn btn-primary btnwid" id="btnsave" />
+                            }
+                            else
+                            {
+                                <input type="submit" value="Save" class="btn btn-primary btnwid" id="btnsave" disabled />
+                            }
+                            &nbsp;
+                            <a href='@Url.Action("List", "DebitNote", new { id = 0 })' class="btn btn-danger btnwid" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+
+                        </div>
+                    </div>
 
 
             </fieldset>

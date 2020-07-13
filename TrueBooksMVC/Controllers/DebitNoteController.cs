@@ -22,17 +22,18 @@ namespace TrueBooksMVC.Controllers
             foreach (var item in data)
             {
                 string jobcode = "";
-                var job = (from c in db.JInvoices where c.InvoiceID == item.InvoiceID select c).FirstOrDefault();
-                if(job!=null)
-                {
-                    var jobid = job.JobID;
-                     jobcode = (from j in db.JobGenerations where j.JobID == jobid select j.JobCode).FirstOrDefault();
+                //var job = (from c in db.JInvoices where c.InvoiceID == item.InvoiceID select c).FirstOrDefault();
+                //if(job!=null)
+                //{
+                //    var jobid = job.JobID;
+                //     jobcode = (from j in db.JobGenerations where j.JobID == jobid select j.JobCode).FirstOrDefault();
 
-                }
-                else
-                {
-                    jobcode = item.InvoiceID.ToString();
-                }
+                //}
+                //else
+                //{
+                    var purchaseinvoice = (from d in db.PurchaseInvoices where d.PurchaseInvoiceID == item.InvoiceID select d).FirstOrDefault();
+                    jobcode = purchaseinvoice.PurchaseInvoiceNo;
+                //}
                 string supplier = (from c in db.Suppliers where c.SupplierID == item.SupplierID select c.SupplierName).FirstOrDefault();
 
                 DebitNoteVM v = new DebitNoteVM();
@@ -118,8 +119,9 @@ namespace TrueBooksMVC.Controllers
             db.AcJournalDetails.Add(b);
             db.SaveChanges();
 
+            var ids = (from x in db.PurchaseInvoiceDetails where x.PurchaseInvoiceID == v.InvoiceNo select (int?)x.PurchaseInvoiceDetailID).ToList();
 
-            int recpayid = (from c in db.RecPayDetails where c.InvoiceID == v.InvoiceNo select c.RecPayID).FirstOrDefault().Value;
+            int recpayid = (from c in db.RecPayDetails where  ids.Contains(c.InvoiceID) select c.RecPayID).FirstOrDefault().Value;
 
             int max = 0;
 
@@ -164,6 +166,7 @@ namespace TrueBooksMVC.Controllers
             public int InvoiceNo { get; set; }
             public bool Istrading { get; set; }
             public string InvoiceNum { get; set; }
+            public decimal? Amount { get; set; }
         }
 
 
@@ -171,33 +174,32 @@ namespace TrueBooksMVC.Controllers
         {
             List<Invoices> lst = new List<Invoices>();
 
-            var data = (from c in db.JInvoices where c.SupplierID == id select c).ToList();
+            //var data = (from c in db.JInvoices where c.SupplierID == id select c).ToList();
          
 
-            foreach (var item in data)
-            {
-                Invoices s = new Invoices();
-                s.InvoiceNo = item.InvoiceID;
-                s.Istrading = false;
-                s.InvoiceNum = item.InvoiceID.ToString();
+            //foreach (var item in data)
+            //{
+            //    Invoices s = new Invoices();
+            //    s.InvoiceNo = item.InvoiceID;
+            //    s.Istrading = false;
+            //    s.InvoiceNum = item.InvoiceID.ToString();
 
-                lst.Add(s);
-            }
-            var data1 = (from c in db.PurchaseInvoices where c.SupplierID == id select c).ToList();
+            //    lst.Add(s);
+            //}
+            var data1 = (from c in db.PurchaseInvoices where c.SupplierID == id && c.PurchaseInvoiceNo.Contains(term) select c).ToList();
             foreach (var item in data1)
             {
                 var purchaseinvoicedetails = (from d in db.PurchaseInvoiceDetails where d.PurchaseInvoiceID == item.PurchaseInvoiceID select d).ToList();
-                foreach (var det in purchaseinvoicedetails)
-                {
+                
                     Invoices s = new Invoices();
-                    s.InvoiceNo = det.PurchaseInvoiceDetailID;
+                    s.InvoiceNo = item.PurchaseInvoiceID;
                     s.Istrading = true;
-                    s.InvoiceNum = det.PurchaseInvoiceDetailID.ToString();
+                    s.InvoiceNum = item.PurchaseInvoiceNo+"/ "+ purchaseinvoicedetails.Sum(d=>d.NetValue);
 
                     lst.Add(s);
-                }
+                
             }
-            lst = lst.Where(d => d.InvoiceNum.Contains(term)).ToList();
+            //lst = lst.Where(d => d.InvoiceNum.Contains(term)).ToList();
             return Json(lst, JsonRequestBehavior.AllowGet);
         }
 
@@ -236,11 +238,15 @@ namespace TrueBooksMVC.Controllers
             }
             else
             {
-                iamt = (from c in db.PurchaseInvoiceDetails where c.PurchaseInvoiceDetailID == invno select c.NetValue).FirstOrDefault().Value;
-                var recpay = (from x in db.RecPayDetails where x.InvoiceID == invno select x).ToList();
+                var PurchaseInvoice = (from d in db.PurchaseInvoices where d.PurchaseInvoiceID == invno select d).FirstOrDefault();
+                var PinDetails= (from c in db.PurchaseInvoiceDetails where c.PurchaseInvoiceID == PurchaseInvoice.PurchaseInvoiceID select c).ToList();
+                List<int?> pinvoiceids =PinDetails.Select(d => (int?)d.PurchaseInvoiceDetailID).ToList();
+
+                iamt = Convert.ToDecimal(PinDetails.Sum(d => d.NetValue));
+                var recpay = (from x in db.RecPayDetails where pinvoiceids.Contains(x.InvoiceID) select x).ToList();
                 if (recpay.Count > 0)
                 {
-                    pamt = Math.Abs(recpay.Sum(s => s.Amount.Value));
+                    pamt =Convert.ToDecimal( Math.Abs(recpay.Sum(s => s.Amount.Value)));
                 }
 
             }

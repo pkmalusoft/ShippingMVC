@@ -711,6 +711,7 @@
     <Content Include="assets\img\slider-3.jpg" />
     <Content Include="assets\img\space-ship.png" />
     <Content Include="assets\img\video-placeholder.png" />
+    <Content Include="assets\img\WorkSmarter.jpg" />
     <Content Include="assets\js\bootstrap\bootstrap-rtl.min.js" />
     <Content Include="assets\js\bootstrap\bootstrap.min.js" />
     <Content Include="assets\js\bootstrap\mdb.min.js" />

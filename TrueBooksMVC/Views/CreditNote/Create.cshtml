@@ -137,7 +137,7 @@
 
             //});
         });
-        $("#JobNO").autocomplete({
+        $("#JobNOStr").autocomplete({
             source: function (request, response) {
                 $.ajax({
                     url: '/CreditNote/GetJobNoAutocomp',
@@ -150,7 +150,7 @@
 
                             return {
                                 label: val.JobNo,
-                                value: val.JobNo,
+                                value: val.JobNum,
                                 Trading: val.Istrading
                             }
                         }))
@@ -159,7 +159,8 @@
             }, minLength: 1,
             select: function (e, i) {
                 e.preventDefault();
-                $("#JobNO").val(i.item.label);
+                $("#JobNO").val(i.item.value);
+                $("#JobNOStr").val(i.item.label);
                 $('#TradingInvoice').val(i.item.Trading);
                 getamt();
             }
@@ -182,6 +183,14 @@
 
         //    });
         //});
+        $("#Amount").on('change', function () {
+            var value = $(this).val();
+            if (value == null || value == "") {
+                $(this).val("0.00");
+            } else {
+                $(this).val(parseFloat(value).toFixed(2));
+            }
+        });
     });
     function getamt() {
         $.ajax({
@@ -190,8 +199,8 @@
             datatype: "Json",
             data: { invno: $("#JobNO").val(), IsTrading: $('#TradingInvoice').val() },
             success: function (data) {
-                $("#InvoiceAmount").val(data.invoiceamt);
-                $("#ReceivedAmount").val(data.recamt);
+                $("#InvoiceAmount").val(parseFloat(data.invoiceamt).toFixed(2));
+                $("#ReceivedAmount").val(parseFloat(data.recamt).toFixed(2));
             }
         });
 
@@ -250,8 +259,9 @@
                         <label class="required headinglabel">Job No</label>
 
                         @*@Html.DropDownListFor(model => model.JobNO, new SelectList(@ViewBag.jobno, "JobNo", "JobNo"), "Select", new { @class = "form-control" })*@
-                        <input type="text" id="JobNO" name="JobNO" value="" class="form-control" />
+                        <input type="text" id="JobNOStr" name="JobNOStr" value="" class="form-control" />
                         <input type="hidden" id="TradingInvoice" name="TradingInvoice" value="" class="form-control" />
+                        <input type="hidden" id="JobNO" name="JobNO" value="" class="form-control" />
                         @Html.ValidationMessageFor(model => model.JobNO)
 
 
