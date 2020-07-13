@@ -10,7 +10,7 @@
     Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
 
     SHIPPING_FinalEntities entity = new SHIPPING_FinalEntities();
-    
+
 
 }
 
@@ -244,27 +244,34 @@ function (settings, data, dataIndex) {
         <section class="content">
             <p style="color: white" class="cbtnpadding">
                 <div id="error" style="display: none; font-family: 'Montserrat', sans-serif !important; color: red">* From Date must not be Greater than To Date</div>
-                <table class="searchtabs tabsser" id="tbl1">
-                    <tr>
-                        <td class="searlabel ">
-                            From Date
-                        </td>
-                        <td class="searinput">
-                            <input type="text" id="frmdate" class="form-control" />
-                        </td>
-                        <td class="searlabel">
-                            To Date
-                        </td>
-                        <td class="searinput">
-                            <input type="text" id="todate" class="form-control" />
-                        </td>
-                        <td>
-                            <input type="button" value="Search" id="btnsearch" class="btn btn-primary btnwidt fa fa-search" />
-                        </td>
-                    </tr>
+                <div class="search_tabs_right">
+                    <table class="searchtabs tabsser" id="tbl1">
 
+                        <tr>
+                            <td class="searlabel ">
+                                From Date
+                            </td>
+                            <td class="searinput">
+                                <input type="text" id="frmdate" class="form-control" />
+                            </td>
+                            <td class="searlabel">
+                                To Date
+                            </td>
+                            <td class="searinput">
+                                <input type="text" id="todate" class="form-control" />
+                            </td>
+                            <td style="padding-left:10px;">
+                                <input type="button" value="Search" id="btnsearch" class="btn btn-primary btnwidt fa fa-search" />
+                            </td>
+                            <td>
 
-                </table>
+                                <a href="/job/job/0"><button class="btn btn-primary btnwidth" style="margin:10px"> New</button></a>
+
+                            </td>
+                        </tr>
+
+                    </table>
+                </div>
                 @*<table class="searchtabs tablserch" id="tbl1">
                         <tr>
                             <td class="searlabel">
@@ -303,6 +310,7 @@ function (settings, data, dataIndex) {
                     </div>
                 </div>
             </div>
+            
         </section>
 
     </div>

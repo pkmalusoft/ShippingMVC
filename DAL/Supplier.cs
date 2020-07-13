@@ -43,5 +43,6 @@ namespace DAL
         public Nullable<int> LocationID { get; set; }
         public Nullable<int> BranchID { get; set; }
         public Nullable<int> SupplierTypeID { get; set; }
+        public Nullable<int> SupplierType { get; set; }
     }
 }

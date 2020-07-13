@@ -55,7 +55,7 @@ namespace TrueBooksMVC.Controllers
         public ActionResult Create(Menu menu)
         {
 
-            var query = (from t in db.Menus where t.Title == menu.Title select t).ToList();
+            var query = (from t in db.Menus where t.Title == menu.Title && t.IsAccountMenu==menu.IsAccountMenu select t).ToList();
 
             if (query.Count > 0)
             {

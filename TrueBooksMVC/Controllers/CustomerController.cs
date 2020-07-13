@@ -59,7 +59,12 @@ namespace ShippingFinal.Controllers
 
             ViewBag.country = DropDownList<CountryMaster>.LoadItems(
                    objSourceMastersModel.GetCountry(), "CountryID", "CountryName");
+           ViewBag.CustomerType = new SelectList(new[]
+                                     {
+                                            new { ID = 1, trans = "Shipping Industry" },
+                                            new { ID = 2, trans = "Service Industry" },
 
+                                        },"ID", "trans", 1);
             return View();
         }
 
@@ -81,6 +86,12 @@ namespace ShippingFinal.Controllers
             {
                 ViewBag.country = DropDownList<CountryMaster>.LoadItems(
                      objSourceMastersModel.GetCountry(), "CountryID", "CountryName");
+                ViewBag.CustomerType = new SelectList(new[]
+                                    {
+                                            new { ID = 1, trans = "Shipping Industry" },
+                                            new { ID = 2, trans = "Service Industry" },
+
+                                        }, "ID", "trans", 1);
                 var query = (from t in db.CUSTOMERs where t.Customer1 == customer.Customer1 select t).ToList();
 
                 if (query.Count > 0)
@@ -108,6 +119,12 @@ namespace ShippingFinal.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.CustomerType = new SelectList(new[]
+                                  {
+                                            new { ID = 1, trans = "Shipping Industry" },
+                                            new { ID =2, trans = "Service Industry" },
+
+                                        }, "ID", "trans", customer.CustomerType);
             ViewBag.country = new SelectList(objSourceMastersModel.GetCountry(), "CountryID", "CountryName", customer.CountryID);
             return View(customer);
         }

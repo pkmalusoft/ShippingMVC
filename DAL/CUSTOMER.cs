@@ -38,5 +38,6 @@ namespace DAL
         public Nullable<bool> InvoiceTo { get; set; }
         public Nullable<int> CountryID { get; set; }
         public string City { get; set; }
+        public Nullable<int> CustomerType { get; set; }
     }
 }

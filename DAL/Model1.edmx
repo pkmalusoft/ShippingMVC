@@ -464,6 +464,7 @@ warning 6002: The table/view 'malusoft_shipping.dbo.AcHeadAssign' does not have 
           <Property Name="InvoiceTo" Type="bit" />
           <Property Name="CountryID" Type="int" />
           <Property Name="City" Type="nvarchar" MaxLength="100" />
+          <Property Name="CustomerType" Type="int" />
         </EntityType>
         <EntityType Name="DebitNote">
           <Key>
@@ -1039,6 +1040,7 @@ warning 6002: The table/view 'malusoft_shipping.dbo.AcHeadAssign' does not have 
           <Property Name="LocationID" Type="int" />
           <Property Name="BranchID" Type="int" />
           <Property Name="SupplierTypeID" Type="int" />
+          <Property Name="SupplierType" Type="int" />
         </EntityType>
         <EntityType Name="SupplierTypeMaster">
           <Key>
@@ -6901,6 +6903,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Name="InvoiceTo" Type="Boolean" />
           <Property Name="CountryID" Type="Int32" />
           <Property Name="City" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerType" Type="Int32" />
         </EntityType>
         <EntityType Name="Supplier">
           <Key>
@@ -6935,6 +6938,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Name="LocationID" Type="Int32" />
           <Property Name="BranchID" Type="Int32" />
           <Property Name="SupplierTypeID" Type="Int32" />
+          <Property Name="SupplierType" Type="Int32" />
         </EntityType>
         <EntityType Name="AcCompany">
           <Key>
@@ -10445,6 +10449,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <EntitySetMapping Name="CUSTOMERs">
             <EntityTypeMapping TypeName="SHIPPING_FinalModel.CUSTOMER">
               <MappingFragment StoreEntitySet="CUSTOMER">
+                <ScalarProperty Name="CustomerType" ColumnName="CustomerType" />
                 <ScalarProperty Name="City" ColumnName="City" />
                 <ScalarProperty Name="CountryID" ColumnName="CountryID" />
                 <ScalarProperty Name="InvoiceTo" ColumnName="InvoiceTo" />
@@ -10475,6 +10480,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <EntitySetMapping Name="Suppliers">
             <EntityTypeMapping TypeName="SHIPPING_FinalModel.Supplier">
               <MappingFragment StoreEntitySet="Supplier">
+                <ScalarProperty Name="SupplierType" ColumnName="SupplierType" />
                 <ScalarProperty Name="SupplierTypeID" ColumnName="SupplierTypeID" />
                 <ScalarProperty Name="BranchID" ColumnName="BranchID" />
                 <ScalarProperty Name="LocationID" ColumnName="LocationID" />

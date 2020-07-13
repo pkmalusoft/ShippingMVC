@@ -55,6 +55,7 @@
 
             var email = $("#Email").val();
             var fax = $("#Fax").val();
+            var CustomerType = $("#CustomerType").val();
 
 
 
@@ -86,6 +87,11 @@
                 return false;
             }
             else if (fax == "") {
+
+                $("#alert").show();
+                return false;
+            }
+            else if (CustomerType == "") {
 
                 $("#alert").show();
                 return false;
@@ -244,20 +250,27 @@
                     @Html.ValidationMessageFor(model => model.POBoxNo)
 
                 </div>
+                <div class="col-md-3">
+                    <label class="required headinglabel">Customer Type</label>
+                    @Html.DropDownListFor(model => model.CustomerType, ViewBag.CustomerType as SelectList,  new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.CustomerType)
+
+                </div>
                 <div class="col-md-3" style="padding-top:15px">
 
                     @Html.CheckBox("StatusActive", new { @name = "StatusActive" }) &nbsp <label class="headinglabel">Status Active</label>
                     @Html.ValidationMessageFor(model => model.StatusActive)
                 </div>
+             
+            </div>
+
+            <div class="row no-margin" style="padding-top:10px">
                 <div class="col-md-3" style="padding-top:15px">
                     @Html.CheckBox("StatusBlocked", new { @name = "StatusBlocked" }) &nbsp <label class="headinglabel">Status Blocked</label>
                     @Html.ValidationMessageFor(model => model.StatusBlocked)
 
 
                 </div>
-            </div>
-
-            <div class="row no-margin" style="padding-top:10px">
                 <div class="col-md-3" style="padding-top:15px">
                     @Html.CheckBox("StatusReserved", new { @name = "StatusReserved" }) &nbsp <label class="headinglabel">Status Reserved</label>
                     @Html.ValidationMessageFor(model => model.StatusReserved)

@@ -24,7 +24,12 @@
             $("select").css({ "border-radius": "5px" });
 
             $("#ReferenceCode").css("text-transform", "uppercase");
+            
+             if ('@Model.CustomerType' == 0 || '@Model.CustomerType' == null) {
 
+        } else {
+                 $("#CustomerType").val('@Model.CustomerType');
+             }
             $("#btnsave").click(function () {
                 var cust = $("#Customer1").val();
                 var ref = $("#ReferenceCode").val();
@@ -34,6 +39,7 @@
 
                 var email = $("#Email").val();
                 var fax = $("#Fax").val();
+                var CustomerType = $("#CustomerType").val();
 
 
 
@@ -68,6 +74,10 @@
 
                     $("#alert").show();
                     return false;
+                } else if (CustomerType == "") {
+
+                    $("#alert").show();
+                    return false;
                 }
                 else {
                     $("#alert").hide();
@@ -89,7 +99,7 @@
         
     <fieldset class="searchdiv">
         <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
-       
+
 
         <div class="row no-margin">
             @Html.HiddenFor(model => model.CustomerID)
@@ -222,20 +232,27 @@
                 @Html.ValidationMessageFor(model => model.POBoxNo)
 
             </div>
+            <div class="col-md-3">
+                <label class="required headinglabel">Customer Type</label>
+                @Html.DropDownListFor(model => model.CustomerType, (IEnumerable<SelectListItem>)ViewBag.CustomerType, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CustomerType)
+
+            </div>
             <div class="col-md-3" style="padding-top:15px">
 
                 @Html.CheckBox("StatusActive", new { @name = "StatusActive" }) &nbsp <label class="headinglabel">Status Active</label>
                 @Html.ValidationMessageFor(model => model.StatusActive)
             </div>
+
+        </div>
+
+        <div class="row no-margin" style="padding-top:10px">
             <div class="col-md-3" style="padding-top:15px">
                 @Html.CheckBox("StatusBlocked", new { @name = "StatusBlocked" }) &nbsp <label class="headinglabel">Status Blocked</label>
                 @Html.ValidationMessageFor(model => model.StatusBlocked)
 
 
             </div>
-        </div>
-
-        <div class="row no-margin" style="padding-top:10px">
             <div class="col-md-3" style="padding-top:15px">
                 @Html.CheckBox("StatusReserved", new { @name = "StatusReserved" }) &nbsp <label class="headinglabel">Status Reserved</label>
                 @Html.ValidationMessageFor(model => model.StatusReserved)
@@ -256,17 +273,16 @@
 
         </div>
 
-        <div class="row no-margin" style="padding:13px">
-            <div class="col-md-12">
+   
+        <div class="row no-margin" style="padding-top:10px">
+            <div class="col-md-12" style="text-align: right;    margin-top: 20px;">
 
                 <input type="submit" value="Update" class="btn btn-primary btnwidth" id="btnsave" />
 
                 &nbsp;
                 <a href='@Url.Action("Index", "Customer", new { id = 0 })' class="btn btn-primary btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
-
             </div>
         </div>
-
 
     </fieldset>
 }

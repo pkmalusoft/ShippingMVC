@@ -46,6 +46,11 @@
         $("#SupplierName").focus();
         $(":text").css({ "border-radius": "5px" });
         $("select").css({ "border-radius": "5px" });
+        if ('@Model.SupplierType' == 0 || '@Model.SupplierType' == null) {
+
+        } else {
+            $("#SupplierType").val('@Model.SupplierType');
+        }
 
         $.ajax({
             type: "POST",
@@ -324,9 +329,15 @@
 
                 <div class="row no-margin">
                     <div class="col-md-4">
-                        <label class="headinglabel">Supplier Type</label>
+                        <label class="headinglabel">Supplier Classification</label>
                         @Html.DropDownListFor(model => model.SupplierTypeID, (IEnumerable<SelectListItem>)ViewBag.SupplierType, "select", new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.SupplierTypeID)
+
+                    </div>
+                    <div class="col-md-4">
+                        <label class="required headinglabel">Supplier Type</label>
+                        @Html.DropDownListFor(model => model.SupplierType, (IEnumerable<SelectListItem>)ViewBag.SupplierTypes, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.SupplierType)
 
                     </div>
                     <div class="col-md-4">
@@ -347,17 +358,17 @@
 
                     @*<div class="col-md-3" style="padding-top:15px">
 
-                            @Html.CheckBox("StatusReserved", new { @name = "StatusReserved" }) &nbsp <label class="headinglabel">Status Reserved</label>
-                            @Html.ValidationMessageFor(model => model.StatusReserved)
+            @Html.CheckBox("StatusReserved", new { @name = "StatusReserved" }) &nbsp <label class="headinglabel">Status Reserved</label>
+            @Html.ValidationMessageFor(model => model.StatusReserved)
 
 
-                        </div>
+        </div>
 
-                        <div class="col-md-3" style="padding-top:15px">
-                            @Html.CheckBox("statusInventory", new { @name = "statusInventory" }) &nbsp <label class="headinglabel">Status Inventory</label>
-                            @Html.ValidationMessageFor(model => model.statusInventory)
+        <div class="col-md-3" style="padding-top:15px">
+            @Html.CheckBox("statusInventory", new { @name = "statusInventory" }) &nbsp <label class="headinglabel">Status Inventory</label>
+            @Html.ValidationMessageFor(model => model.statusInventory)
 
-                        </div>*@
+        </div>*@
                 </div>
             </div>
             <div class="row no-margin" style="padding-top:10px">

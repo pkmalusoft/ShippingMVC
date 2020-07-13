@@ -44,6 +44,12 @@ namespace TrueBooksMVC.Controllers
         {
             ViewBag.country = DropDownList<CountryMaster>.LoadItems(
                 ObjectSourceModel.GetCountry(), "CountryID", "CountryName");
+            ViewBag.SupplierTypes = new SelectList(new[]
+                            {
+                                            new { ID = 1, trans = "Shipping Industry" },
+                                            new { ID =2, trans = "Service Industry" },
+
+                                        }, "ID", "trans", 1);
             var supplierMasterTypes = (from d in db.SupplierTypeMasters  select d).ToList();
             ViewBag.SupplierType = DropDownList<SupplierTypeMaster>.LoadItems(
                 supplierMasterTypes, "SupplierTypeID", "SupplierType");
@@ -69,6 +75,12 @@ namespace TrueBooksMVC.Controllers
             {
                 ViewBag.country = DropDownList<CountryMaster>.LoadItems(
                     ObjectSourceModel.GetCountry(), "CountryID", "CountryName");
+                ViewBag.SupplierTypes = new SelectList(new[]
+                            {
+                                            new { ID = 1, trans = "Shipping Industry" },
+                                            new { ID = 2, trans = "Service Industry" },
+
+                                        }, "ID", "trans", 1);
                 var supplierMasterTypes = (from d in db.SupplierTypeMasters  select d).ToList();
                 ViewBag.SupplierType = DropDownList<SupplierTypeMaster>.LoadItems(
                     supplierMasterTypes, "SupplierTypeID", "SupplierType");
@@ -109,6 +121,12 @@ namespace TrueBooksMVC.Controllers
             ViewBag.SupplierType = DropDownList<SupplierTypeMaster>.LoadItems(
                 supplierMasterTypes, "SupplierTypeID", "SupplierType");
             ViewBag.country = new SelectList(ObjectSourceModel.GetCountry(), "CountryID", "CountryName", supplier.CountryID);
+            ViewBag.SupplierTypes = new SelectList(new[]
+                                 {
+                                            new { ID = 1, trans = "Shipping Industry" },
+                                            new { ID = 2, trans = "Service Industry" },
+
+                                        }, "ID", "trans", supplier.SupplierType);
             return View(supplier);
         }
 
