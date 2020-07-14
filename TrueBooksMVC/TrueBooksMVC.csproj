@@ -261,6 +261,7 @@
     <Compile Include="Models\Accounting.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\AcExpenseAllocationVM.cs" />
+    <Compile Include="Models\AcGroupModel.cs" />
     <Compile Include="Models\AcGroupVM.cs" />
     <Compile Include="Models\AcHeadControlList.cs" />
     <Compile Include="Models\AcJournalDetailsList.cs" />

@@ -15,7 +15,7 @@ namespace DAL
     public partial class AcGroup
     {
         public int AcGroupID { get; set; }
-        public Nullable<int> AcCompanyID { get; set; }
+        public Nullable<int> AcBranchID { get; set; }
         public string AcGroup1 { get; set; }
         public string AcType { get; set; }
         public string AcClass { get; set; }
@@ -28,6 +28,5 @@ namespace DAL
         public string GroupCode { get; set; }
     
         public virtual AcCategory AcCategory { get; set; }
-        public virtual AcCompany AcCompany { get; set; }
     }
 }

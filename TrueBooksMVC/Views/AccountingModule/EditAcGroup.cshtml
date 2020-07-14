@@ -17,26 +17,30 @@
 </style>
 <script type="text/javascript">
         $(document).ready(function () {
-        
+                     $.notify("@ViewBag.ErrorMsg ", "danger");
+
             $(":text").css({ "border-radius": "5px" });
             $("select").css({ "border-radius": "5px" });
+            if ('@Model.ParentID' == 0 || '@Model.ParentID' == "" || '@Model.ParentID' == null) { }
+            else {
+                $("#AcGroup").val('@Model.ParentID');
+            }
+            $("#AcGroup").change(function () {
+                var thisval = $(this).val();
+                if (thisval == null || thisval == "") {
 
-            $("#AcCategoryID").change(function () {
-                $("#GroupCode").empty('');
-                var catid = $("#AcCategoryID option:selected").val();
-                $.ajax({
-                    url: '/AccountingModule/GetGroupsByID',
-                    type: "GET",
-                    dataType: "JSON",
-                    data: { Category: catid },
-                    success: function (groups) {
-                        $("#City").html(""); // clear before appending new list 
-                        $.each(groups, function (i, group) {
-                            $("#GroupCode").append(
-                                $('<option></option>').val(group.AcGroupID).html(group.AcGroup));
-                        });
-                    }
-                });
+                } else {
+                    $.ajax({
+                        url: '/AccountingModule/GetAcCategoryByParentid',
+                        type: "GET",
+                        dataType: "JSON",
+                        data: { parentId: $(this).val() },
+                        success: function (groups) {
+                            $("#AcCategoryID").val(groups);
+
+                        }
+                    });
+                }
             });
         });
     </script>
@@ -51,54 +55,68 @@
     @Html.ValidationSummary(true)
 
     <fieldset class="searchdiv">
-     
 
-           <div class="row no-margin"> 
-               @Html.HiddenFor(model=>model.AcGroupID)
-            <div class="col-md-3">
-                          <label class="required headinglabel">Category</label>
-                       @Html.DropDownListFor(model => model.AcCategoryID, new SelectList(ViewBag.Category,"AcCategoryID","AcCategory"),"Select", new { @class = "form-control txttarget" })
-                        @Html.ValidationMessageFor(model => model.AcCategoryID)
-                            
-             </div>
-             <div class="col-md-3">
-                       <label class="headinglabel">Group</label>
-                         @Html.DropDownListFor(model => model.ParentID,new SelectList(ViewBag.groups, "AcGroupID", "AcGroup"),"Select",new { @class = "form-control" })
-                       @*  @Html.ValidationMessageFor(model => model.AcGroup)*@
-                         
-                          
-             </div>
-              <div class="col-md-3">
-                       <label class="required headinglabel">Sub Group</label>
-                         @Html.TextBoxFor(model => model.subgroup, new {@class="form-control" })
-                         @Html.ValidationMessageFor(model => model.subgroup)
-                         
-                          
-             </div>
-              
-                   <div class="col-md-3">
-                       <label class="required headinglabel">Group Code</label>
-                         @Html.TextBoxFor(model => model.GroupCode, new {@class="form-control" })
-                         @Html.ValidationMessageFor(model => model.GroupCode)
-                    
-                          
-             </div>
-              
-            
-      </div>
-      
+        <div class="row no-margin">
+            @Html.HiddenFor(model => model.AcGroupID)
+
+            <div class="form-group row">
+                <div class="col-md-3">
+                    <label class="required headinglabel">Group Name</label>
+                </div>
+                <div class="col-md-9">
+                    @Html.TextBoxFor(model => model.subgroup, new { @class = "form-control required" })
+                    @Html.ValidationMessageFor(model => model.subgroup)
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-3">
+                    <label class="headinglabel">Group Code</label>
+                </div>
+                <div class="col-md-9">
+                    @Html.TextBoxFor(model => model.GroupCode, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.GroupCode)
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-3">
+                    <label class="headinglabel">Parent Group</label>
+                </div>
+                <div class="col-md-9">
+                    @Html.DropDownListFor(model => model.AcGroup, new SelectList(ViewBag.groups, "AcGroupID", "AcGroup"), "Select", new { @class = "form-control" })
+
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-3">
+                    <label class="required headinglabel">Account Category</label>
+                </div>
+                <div class="col-md-9">
+                    @Html.DropDownListFor(model => model.AcCategoryID, new SelectList(ViewBag.Category, "AcCategoryID", "AcCategory"), "Select", new { @class = "form-control txttarget" })
+                    @Html.ValidationMessageFor(model => model.AcCategoryID)
+
+                </div>
+            </div>
+
+
+
+
+
+
+
+        </div>
+
         <div class="row no-margin" style="padding-top:10px">
-                        <div class="col-md-12">
-                           
-                                <input type="submit"  value="Update"  class="btn btn-primary btnwidth" />
-                               
-                            &nbsp; 
-                                           <a href='@Url.Action("IndexAcGroup", "AccountingModule", new { id = 0 })' class="btn btn-primary btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
-                           
-                        </div>
-                    </div>
+            <div class="col-md-12" style="text-align:right;">
 
-       
+                <input type="submit" value="Update" class="btn btn-primary btnwidth" />
+
+                &nbsp;
+                <a href='@Url.Action("IndexAcGroup", "AccountingModule", new { id = 0 })' class="btn btn-danger btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+
+            </div>
+        </div>
+
+
     </fieldset>
 }
 

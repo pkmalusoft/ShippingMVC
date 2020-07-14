@@ -127,7 +127,15 @@ namespace TrueBooksMVC.Models
         }
 
         #endregion
+        #region Branch
+        public List<BranchMaster> GetBranchMasters(int CompId)
+        {
 
+            var query = Context1.BranchMasters.Where(d=>d.AcCompanyID==CompId).ToList();
+
+            return query;
+        }
+        #endregion
         #region ACGroup
 
         public List<AcGroup> GetAllAcGroup()
@@ -148,7 +156,7 @@ namespace TrueBooksMVC.Models
         {
             try
             {
-                if (iAcGroup.AcCompanyID > 0)
+                if (iAcGroup.AcBranchID > 0)
                 {
                     Context1.Entry(iAcGroup).State = EntityState.Modified;
                     Context1.SaveChanges();

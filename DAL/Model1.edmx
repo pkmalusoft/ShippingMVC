@@ -15,7 +15,7 @@
           <Property Name="Amount" Type="money" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'malusoft_shipping.dbo.AcBankDetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'malusoft_accounts.dbo.AcBankDetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="AcBankDetails">
           <Key>
             <PropertyRef Name="AcBankDetailID" />
@@ -86,8 +86,8 @@ warning 6002: The table/view 'malusoft_shipping.dbo.AcBankDetails' does not have
           <Key>
             <PropertyRef Name="AcGroupID" />
           </Key>
-          <Property Name="AcGroupID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="AcCompanyID" Type="int" />
+          <Property Name="AcGroupID" Type="int" Nullable="false" />
+          <Property Name="AcBranchID" Type="int" />
           <Property Name="AcGroup" Type="nvarchar" MaxLength="50" />
           <Property Name="AcType" Type="nvarchar" MaxLength="2" />
           <Property Name="AcClass" Type="nvarchar" MaxLength="2" />
@@ -115,7 +115,7 @@ warning 6002: The table/view 'malusoft_shipping.dbo.AcBankDetails' does not have
           <Property Name="StatusControlAc" Type="bit" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'malusoft_shipping.dbo.AcHeadAssign' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'malusoft_accounts.dbo.AcHeadAssign' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="AcHeadAssign">
           <Key>
             <PropertyRef Name="ID" />
@@ -1123,7 +1123,7 @@ warning 6002: The table/view 'malusoft_shipping.dbo.AcHeadAssign' does not have 
           <Property Name="Voyage" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'malusoft_shipping.dbo.qryCustomerStatement' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'malusoft_accounts.dbo.qryCustomerStatement' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="qryCustomerStatement">
           <Key>
             <PropertyRef Name="InvoiceID" />
@@ -1141,7 +1141,7 @@ warning 6002: The table/view 'malusoft_shipping.dbo.qryCustomerStatement' does n
           <Property Name="EmployeeID" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'malusoft_shipping.dbo.qrySupplierOutstanding' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'malusoft_accounts.dbo.qrySupplierOutstanding' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="qrySupplierOutstanding">
           <Key>
             <PropertyRef Name="InvoiceID" />
@@ -1215,18 +1215,6 @@ warning 6002: The table/view 'malusoft_shipping.dbo.qrySupplierOutstanding' does
             </Principal>
             <Dependent Role="AcGroup">
               <PropertyRef Name="AcCategoryID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_AcGroup_AcCompany">
-          <End Role="AcCompany" Type="Self.AcCompany" Multiplicity="0..1" />
-          <End Role="AcGroup" Type="Self.AcGroup" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AcCompany">
-              <PropertyRef Name="AcCompanyID" />
-            </Principal>
-            <Dependent Role="AcGroup">
-              <PropertyRef Name="AcCompanyID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2527,10 +2515,6 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
             <End Role="AcCategory" EntitySet="AcCategory" />
             <End Role="AcGroup" EntitySet="AcGroup" />
           </AssociationSet>
-          <AssociationSet Name="FK_AcGroup_AcCompany" Association="Self.FK_AcGroup_AcCompany">
-            <End Role="AcCompany" EntitySet="AcCompany" />
-            <End Role="AcGroup" EntitySet="AcGroup" />
-          </AssociationSet>
           <AssociationSet Name="FK_AcOpeningMaster_AcCompany" Association="Self.FK_AcOpeningMaster_AcCompany">
             <End Role="AcCompany" EntitySet="AcCompany" />
             <End Role="AcOpeningMaster" EntitySet="AcOpeningMaster" />
@@ -2865,7 +2849,6 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <FunctionImport Name="SP_GetSupplierByRevenueTypeID1" ReturnType="Collection(String)">
           <Parameter Name="RevenuTypeId" Mode="In" Type="Int32" />
           </FunctionImport>
-          <EntitySet Name="AcGroups" EntityType="SHIPPING_FinalModel.AcGroup" />
           <EntitySet Name="AcHeads" EntityType="SHIPPING_FinalModel.AcHead" />
           <EntitySet Name="AcHeadAssigns" EntityType="SHIPPING_FinalModel.AcHeadAssign" />
           <EntitySet Name="Menus" EntityType="SHIPPING_FinalModel.Menu" />
@@ -2883,10 +2866,6 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <EntitySet Name="AcCategories" EntityType="SHIPPING_FinalModel.AcCategory" />
           <EntitySet Name="AnalysisGroups" EntityType="SHIPPING_FinalModel.AnalysisGroup" />
           <EntitySet Name="AnalysisHeads" EntityType="SHIPPING_FinalModel.AnalysisHead" />
-          <AssociationSet Name="FK_AcGroup_AcCategory" Association="SHIPPING_FinalModel.FK_AcGroup_AcCategory">
-            <End Role="AcCategory" EntitySet="AcCategories" />
-            <End Role="AcGroup" EntitySet="AcGroups" />
-          </AssociationSet>
           <AssociationSet Name="FK_AnalysisHead_AnalysisGroup" Association="SHIPPING_FinalModel.FK_AnalysisHead_AnalysisGroup">
             <End Role="AnalysisGroup" EntitySet="AnalysisGroups" />
             <End Role="AnalysisHead" EntitySet="AnalysisHeads" />
@@ -3891,10 +3870,6 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
             <End Role="Location" EntitySet="Locations" />
             <End Role="AcCompany" EntitySet="AcCompanies" />
           </AssociationSet>
-          <AssociationSet Name="FK_AcGroup_AcCompany" Association="SHIPPING_FinalModel.FK_AcGroup_AcCompany">
-            <End Role="AcCompany" EntitySet="AcCompanies" />
-            <End Role="AcGroup" EntitySet="AcGroups" />
-          </AssociationSet>
           <AssociationSet Name="FK_AcOpeningMaster_AcCompany" Association="SHIPPING_FinalModel.FK_AcOpeningMaster_AcCompany">
             <End Role="AcCompany" EntitySet="AcCompanies" />
             <End Role="AcOpeningMaster" EntitySet="AcOpeningMasters" />
@@ -3916,6 +3891,11 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <EntitySet Name="PageControlFields" EntityType="SHIPPING_FinalModel.PageControlField" />
           <EntitySet Name="PageControlMasters" EntityType="SHIPPING_FinalModel.PageControlMaster" />
           <EntitySet Name="AcHeadControls" EntityType="SHIPPING_FinalModel.AcHeadControl" />
+          <EntitySet Name="AcGroups" EntityType="SHIPPING_FinalModel.AcGroup" />
+          <AssociationSet Name="FK_AcGroup_AcCategory" Association="SHIPPING_FinalModel.FK_AcGroup_AcCategory">
+            <End Role="AcCategory" EntitySet="AcCategories" />
+            <End Role="AcGroup" EntitySet="AcGroups" />
+          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="SP_GetUserDetailForEdit_Result">
           <Property Type="Int32" Name="UserID" Nullable="false" />
@@ -4615,25 +4595,6 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Type="DateTime" Name="TransactionDate" Nullable="true" Precision="23" />
           <Property Type="Decimal" Name="InvoiceAmount" Nullable="true" Precision="18" />
         </ComplexType>
-        <EntityType Name="AcGroup">
-          <Key>
-            <PropertyRef Name="AcGroupID" />
-          </Key>
-          <Property Type="Int32" Name="AcGroupID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="Int32" Name="AcCompanyID" />
-          <Property Type="String" Name="AcGroup1" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="AcType" MaxLength="2" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="AcClass" MaxLength="2" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="ParentID" />
-          <Property Type="Int32" Name="GroupOrder" />
-          <Property Type="Int16" Name="StaticEdit" />
-          <Property Type="Boolean" Name="StatusHide" />
-          <Property Type="Int32" Name="UserID" />
-          <Property Type="Int32" Name="AcCategoryID" />
-          <Property Type="String" Name="GroupCode" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="AcCategory" Relationship="SHIPPING_FinalModel.FK_AcGroup_AcCategory" FromRole="AcGroup" ToRole="AcCategory" />
-          <NavigationProperty Name="AcCompany" Relationship="SHIPPING_FinalModel.FK_AcGroup_AcCompany" FromRole="AcGroup" ToRole="AcCompany" />
-        </EntityType>
         <EntityType Name="AcHead">
           <Key>
             <PropertyRef Name="AcHeadID" />
@@ -4716,18 +4677,6 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <NavigationProperty Name="AnalysisGroup" Relationship="SHIPPING_FinalModel.FK_AnalysisHead_AnalysisGroup" FromRole="AnalysisHead" ToRole="AnalysisGroup" />
           <NavigationProperty Name="AcCompany" Relationship="SHIPPING_FinalModel.FK_AnalysisHead_AcCompany" FromRole="AnalysisHead" ToRole="AcCompany" />
         </EntityType>
-        <Association Name="FK_AcGroup_AcCategory">
-          <End Type="SHIPPING_FinalModel.AcCategory" Role="AcCategory" Multiplicity="0..1" />
-          <End Type="SHIPPING_FinalModel.AcGroup" Role="AcGroup" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AcCategory">
-              <PropertyRef Name="AcCategoryID" />
-            </Principal>
-            <Dependent Role="AcGroup">
-              <PropertyRef Name="AcCategoryID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_AnalysisHead_AnalysisGroup">
           <End Type="SHIPPING_FinalModel.AnalysisGroup" Role="AnalysisGroup" Multiplicity="0..1" />
           <End Type="SHIPPING_FinalModel.AnalysisHead" Role="AnalysisHead" Multiplicity="*" />
@@ -6974,7 +6923,6 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <NavigationProperty Name="CurrencyMaster" Relationship="SHIPPING_FinalModel.FK_AcCompany_CurrencyMaster" FromRole="AcCompany" ToRole="CurrencyMaster" />
           <NavigationProperty Name="Designation" Relationship="SHIPPING_FinalModel.FK_AcCompany_Designation" FromRole="AcCompany" ToRole="Designation" />
           <NavigationProperty Name="Location" Relationship="SHIPPING_FinalModel.FK_AcCompany_Location" FromRole="AcCompany" ToRole="Location" />
-          <NavigationProperty Name="AcGroups" Relationship="SHIPPING_FinalModel.FK_AcGroup_AcCompany" FromRole="AcCompany" ToRole="AcGroup" />
           <NavigationProperty Name="AcOpeningMasters" Relationship="SHIPPING_FinalModel.FK_AcOpeningMaster_AcCompany" FromRole="AcCompany" ToRole="AcOpeningMaster" />
           <NavigationProperty Name="AnalysisHeads" Relationship="SHIPPING_FinalModel.FK_AnalysisHead_AcCompany" FromRole="AcCompany" ToRole="AnalysisHead" />
         </EntityType>
@@ -7023,18 +6971,6 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
             </Principal>
             <Dependent Role="AcCompany">
               <PropertyRef Name="LocationID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_AcGroup_AcCompany">
-          <End Type="SHIPPING_FinalModel.AcCompany" Role="AcCompany" Multiplicity="0..1" />
-          <End Type="SHIPPING_FinalModel.AcGroup" Role="AcGroup" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AcCompany">
-              <PropertyRef Name="AcCompanyID" />
-            </Principal>
-            <Dependent Role="AcGroup">
-              <PropertyRef Name="AcCompanyID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -7127,6 +7063,36 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Name="Remarks" Type="Int32" />
           <Property Name="CheckSum" Type="Boolean" />
         </EntityType>
+        <EntityType Name="AcGroup">
+          <Key>
+            <PropertyRef Name="AcGroupID" />
+          </Key>
+          <Property Name="AcGroupID" Type="Int32" Nullable="false" />
+          <Property Name="AcBranchID" Type="Int32" />
+          <Property Name="AcGroup1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AcType" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="AcClass" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="ParentID" Type="Int32" />
+          <Property Name="GroupOrder" Type="Int32" />
+          <Property Name="StaticEdit" Type="Int16" />
+          <Property Name="StatusHide" Type="Boolean" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="AcCategoryID" Type="Int32" />
+          <Property Name="GroupCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AcCategory" Relationship="SHIPPING_FinalModel.FK_AcGroup_AcCategory" FromRole="AcGroup" ToRole="AcCategory" />
+        </EntityType>
+        <Association Name="FK_AcGroup_AcCategory">
+          <End Type="SHIPPING_FinalModel.AcCategory" Role="AcCategory" Multiplicity="0..1" />
+          <End Type="SHIPPING_FinalModel.AcGroup" Role="AcGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AcCategory">
+              <PropertyRef Name="AcCategoryID" />
+            </Principal>
+            <Dependent Role="AcGroup">
+              <PropertyRef Name="AcCategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -7986,24 +7952,6 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="SP_GetSupplierByRevenueTypeID1" FunctionName="SHIPPING_FinalModel.Store.SP_GetSupplierByRevenueTypeID" />
-          <EntitySetMapping Name="AcGroups">
-            <EntityTypeMapping TypeName="SHIPPING_FinalModel.AcGroup">
-              <MappingFragment StoreEntitySet="AcGroup">
-                <ScalarProperty Name="GroupCode" ColumnName="GroupCode" />
-                <ScalarProperty Name="AcCategoryID" ColumnName="AcCategoryID" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="StatusHide" ColumnName="StatusHide" />
-                <ScalarProperty Name="StaticEdit" ColumnName="StaticEdit" />
-                <ScalarProperty Name="GroupOrder" ColumnName="GroupOrder" />
-                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
-                <ScalarProperty Name="AcClass" ColumnName="AcClass" />
-                <ScalarProperty Name="AcType" ColumnName="AcType" />
-                <ScalarProperty Name="AcGroup1" ColumnName="AcGroup" />
-                <ScalarProperty Name="AcCompanyID" ColumnName="AcCompanyID" />
-                <ScalarProperty Name="AcGroupID" ColumnName="AcGroupID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="AcHeads">
             <EntityTypeMapping TypeName="SHIPPING_FinalModel.AcHead">
               <MappingFragment StoreEntitySet="AcHead">
@@ -10627,6 +10575,24 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
                 <ScalarProperty Name="AccountControlHead" ColumnName="AccountControlHead" />
                 <ScalarProperty Name="Pagecontrol" ColumnName="Pagecontrol" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AcGroups">
+            <EntityTypeMapping TypeName="SHIPPING_FinalModel.AcGroup">
+              <MappingFragment StoreEntitySet="AcGroup">
+                <ScalarProperty Name="GroupCode" ColumnName="GroupCode" />
+                <ScalarProperty Name="AcCategoryID" ColumnName="AcCategoryID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="StatusHide" ColumnName="StatusHide" />
+                <ScalarProperty Name="StaticEdit" ColumnName="StaticEdit" />
+                <ScalarProperty Name="GroupOrder" ColumnName="GroupOrder" />
+                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
+                <ScalarProperty Name="AcClass" ColumnName="AcClass" />
+                <ScalarProperty Name="AcType" ColumnName="AcType" />
+                <ScalarProperty Name="AcGroup1" ColumnName="AcGroup" />
+                <ScalarProperty Name="AcBranchID" ColumnName="AcBranchID" />
+                <ScalarProperty Name="AcGroupID" ColumnName="AcGroupID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -84,7 +84,7 @@ namespace ShippingFinal.Controllers
             }
 
 
-            ViewBag.Company = new SelectList(objSourceMastersModel.GetAllAcCompanies(), "AcCompanyID", "AcCompany1", acgroup.AcCompanyID);
+            ViewBag.Company = new SelectList(objSourceMastersModel.GetBranchMasters(Convert.ToInt32(Session["AcCompanyID"].ToString())), "BranchID", "BranchName", acgroup.AcBranchID);
 
 
             return View(acgroup);

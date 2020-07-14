@@ -1,4 +1,4 @@
-﻿@model IEnumerable<DAL.AcGroupSelectAll_Result>
+﻿@model IEnumerable<TrueBooksMVC.Models.AcGroupModel>
 @{
     ViewBag.Title = "IndexAcGroup";
     Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
@@ -89,33 +89,31 @@
     <tr>
         
         <th>
-            @Html.Label("Category")
+         Account Category
         </th>
         <th>
-            @Html.Label("Group")
+           Parent Group
         </th>
         <th>
-            @Html.Label("Sub Group")
+           Group Name
         </th>
       
         <th>Action</th>
     </tr>
 </thead>
     <tfoot>
-    <tr>
-        
-        <th>
-            @Html.Label("Category")
-        </th>
-        <th>
-            @Html.Label("Group")
-        </th>
-        <th>
-            @Html.Label("Sub Group")
-        </th>
-      
-        <th style="display:none">Action</th>
-    </tr>
+        <tr>
+            <th>
+                Account Category
+            </th>
+            <th>
+                Parent Group
+            </th>
+            <th>
+                Group Name
+            </th>
+            <th style="display:none">Action</th>
+        </tr>
 </tfoot>
     <tbody>
 @foreach (var item in Model) {
@@ -128,10 +126,10 @@
             @Html.DisplayFor(modelItem => item.ParentNode)
         </td>*@
         <td class="tdtarget">
-            @Html.DisplayFor(modelItem => item.AcGroup)
+            @Html.DisplayFor(modelItem => item.ParentNode)
         </td>
           <td class="tdtarget">
-            @Html.DisplayFor(modelItem => item.ParentNode)
+            @Html.DisplayFor(modelItem => item.AcGroup)
         </td>
        
         <td>

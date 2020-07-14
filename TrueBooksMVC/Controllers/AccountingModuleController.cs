@@ -25,7 +25,44 @@ namespace TrueBooksMVC.Controllers
 
         #region Masters
         //Methods For Account Category
+        public IEnumerable<AcGroupModel> GetAllAcGroupsByBranch(int Branchid)
+        {
+            var parents = (from d in context.AcGroups
+                        where d.AcBranchID == Branchid
+                        select d).ToList();
+            var accategory = (from d in context.AcCategories                           
+                           select d).ToList();
+            IEnumerable <AcGroupModel> data = (from d in context.AcGroups where d.AcBranchID == Branchid select 
+                                                         new AcGroupModel()
+                                                         {
+                                                           
+                                                             AcGroupID=d.AcGroupID,
+                                                             AcGroup=d.AcGroup1,
+                                                             AcClass=d.AcClass,
+                                                             AcType=d.AcType,
+                                                             BranchID=d.AcBranchID,
+                                                             GroupCode=d.GroupCode,
+                                                             GroupOrder=d.GroupOrder,
+                                                             ParentID=d.ParentID,
+                                                             UserID=d.UserID,
+                                                             AcCategoryID=d.AcCategoryID
 
+                                                         }).ToList();
+            foreach(var item in data)
+            {
+                var ParentNode = parents.Where(d => d.AcGroupID == item.ParentID).FirstOrDefault();
+                if(ParentNode !=null)
+                {
+                    item.ParentNode = ParentNode.AcGroup1;
+                }
+                var accat = accategory.Where(d => d.AcCategoryID == item.AcCategoryID).FirstOrDefault();
+                if (accat != null)
+                {
+                    item.AcCategory = accat.AcCategory1;
+                }
+            }
+            return data;
+        }
         public ActionResult IndexAcCategory()
         {
 
@@ -104,7 +141,7 @@ namespace TrueBooksMVC.Controllers
         public ActionResult IndexAcGroup()
         {
 
-            var x = context.AcGroupSelectAll(Convert.ToInt32(Session["AcCompanyID"].ToString()));
+            var x = GetAllAcGroupsByBranch(Convert.ToInt32(Session["branchid"].ToString()));
             return View(x);
         }
 
@@ -112,7 +149,7 @@ namespace TrueBooksMVC.Controllers
         {
             ViewBag.Category = context.AcCategorySelectAll();
 
-            ViewBag.groups = context.AcGroupSelectAll(Convert.ToInt32(Session["AcCompanyID"].ToString()));
+            ViewBag.groups = GetAllAcGroupsByBranch(Convert.ToInt32(Session["branchid"].ToString()));
 
             int count = (from c in context.AcCompanies select c).ToList().Count();
             ViewBag.IsAuto = count;
@@ -121,7 +158,18 @@ namespace TrueBooksMVC.Controllers
         }
 
 
-
+        public bool GetDuplicateGroup(int AcgroupId,int ParentId, int CategoryID,string name)
+        {
+            var data = (from d in context.AcGroups where d.AcGroupID != AcgroupId && d.AcGroup1.ToLower() == name.ToLower() && d.AcCategoryID == CategoryID && d.ParentID == ParentId select d).FirstOrDefault();
+            if(data==null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
 
         [HttpGet]
         public JsonResult GetGroupsByID(int Category)
@@ -129,26 +177,69 @@ namespace TrueBooksMVC.Controllers
             var groups = context.AcGroupSelectByCategoryID(Category, Convert.ToInt32(Session["AcCompanyID"].ToString())).ToList();
             return Json(groups, JsonRequestBehavior.AllowGet);
         }
+        [HttpGet]
+        public JsonResult GetAcCategoryByParentid(int parentId)
+        {
+            var groups = (from d in context.AcGroups where d.AcGroupID == parentId select d).FirstOrDefault();
+            return Json(groups.AcCategoryID, JsonRequestBehavior.AllowGet);
+        }
 
         [HttpPost]
         public ActionResult CreateAcGroup(AcGroupVM c)
         {
 
-            if (c.AcGroup == 0)
+            var isexist = GetDuplicateGroup(0, c.AcGroup, c.AcCategoryID, c.subgroup);
+            if (isexist == true)
             {
-                context.AcGroupInsert(c.AcCategoryID, c.subgroup, null, Convert.ToInt32(Session["AcCompanyID"].ToString()), Convert.ToInt32(Session["UserID"].ToString()), c.IsGroupCodeAuto, c.GroupCode);
+                var acgrps = (from d in context.AcGroups orderby d.AcGroupID descending select d.AcGroupID).FirstOrDefault();
+                var maxid = acgrps + 1;
+                if (c.AcGroup == 0)
+                {
+
+                    var acgroup = new AcGroup();
+                    acgroup.AcGroupID = maxid;
+                    acgroup.AcCategoryID = c.AcCategoryID;
+                    acgroup.AcGroup1 = c.subgroup;
+                    acgroup.AcBranchID = Convert.ToInt32(Session["branchid"].ToString());
+                    acgroup.ParentID = c.AcGroup;
+                    acgroup.UserID = Convert.ToInt32(Session["UserID"].ToString());
+                    acgroup.StaticEdit = 0;
+                    acgroup.StatusHide = false;
+                    acgroup.GroupCode = c.GroupCode;
+                    context.AcGroups.Add(acgroup);
+                    context.SaveChanges();
+
+
+                    //context.AcGroupInsert(c.AcCategoryID, c.subgroup, null, Convert.ToInt32(Session["AcCompanyID"].ToString()), Convert.ToInt32(Session["UserID"].ToString()), c.IsGroupCodeAuto, c.GroupCode);
+                }
+                else
+                {
+                    var acgroup = new AcGroup();
+                    acgroup.AcGroupID = maxid;
+                    acgroup.AcCategoryID = c.AcCategoryID;
+                    acgroup.AcGroup1 = c.subgroup;
+                    acgroup.AcBranchID = Convert.ToInt32(Session["branchid"].ToString());
+                    acgroup.ParentID = c.AcGroup;
+                    acgroup.UserID = Convert.ToInt32(Session["UserID"].ToString());
+                    acgroup.StaticEdit = 0;
+                    acgroup.StatusHide = false;
+                    acgroup.GroupCode = c.GroupCode;
+                    context.AcGroups.Add(acgroup);
+                    context.SaveChanges();
+                    // context.AcGroupInsert(c.AcCategoryID, c.subgroup, c.AcGroup, Convert.ToInt32(Session["AcCompanyID"].ToString()), Convert.ToInt32(Session["UserID"].ToString()), c.IsGroupCodeAuto, c.GroupCode);
+                }
+                //context.AcGroupInsert(c.AcCategoryID, c.subgroup, c.ParentID, Convert.ToInt32(Session["AcCompanyID"].ToString()), Convert.ToInt32(Session["UserID"].ToString()), c.IsGroupCodeAuto, c.GroupCode);
+
+                //context.AcGroupInsert(c.AcCategoryID, c.AcGroup1, null, Convert.ToInt32(Session["AcCompanyID"].ToString()), Convert.ToInt32(Session["UserID"].ToString()), null, c.GroupCode);
+                ViewBag.SuccessMsg = "You have successfully added Account Group";
+                return View("IndexAcGroup", GetAllAcGroupsByBranch(Convert.ToInt32(Session["branchid"].ToString())));
+
             }
             else
             {
-                context.AcGroupInsert(c.AcCategoryID, c.subgroup, c.AcGroup, Convert.ToInt32(Session["AcCompanyID"].ToString()), Convert.ToInt32(Session["UserID"].ToString()), c.IsGroupCodeAuto, c.GroupCode);
+                ViewBag.ErrorMsg = "Account Group already exists !!";
+                return View(c);
             }
-            //context.AcGroupInsert(c.AcCategoryID, c.subgroup, c.ParentID, Convert.ToInt32(Session["AcCompanyID"].ToString()), Convert.ToInt32(Session["UserID"].ToString()), c.IsGroupCodeAuto, c.GroupCode);
-
-            //context.AcGroupInsert(c.AcCategoryID, c.AcGroup1, null, Convert.ToInt32(Session["AcCompanyID"].ToString()), Convert.ToInt32(Session["UserID"].ToString()), null, c.GroupCode);
-            ViewBag.SuccessMsg = "You have successfully added Account Group";
-            return View("IndexAcGroup", context.AcGroupSelectAll(Convert.ToInt32(Session["AcCompanyID"].ToString())));
-
-
 
 
         }
@@ -156,7 +247,8 @@ namespace TrueBooksMVC.Controllers
         public ActionResult EditAcGroup(int id)
         {
             ViewBag.Category = context.AcCategorySelectAll();
-            ViewBag.groups = context.AcGroupSelectAll(Convert.ToInt32(Session["AcCompanyID"].ToString()));
+            var groups = GetAllAcGroupsByBranch(Convert.ToInt32(Session["branchid"].ToString()));
+            ViewBag.groups = groups.Where(d => d.AcGroupID != id).ToList();
             //var x = context.AcGroupSelectByID(id);
             //if (x == null)
             //{
@@ -193,12 +285,23 @@ namespace TrueBooksMVC.Controllers
         [HttpPost]
         public ActionResult EditAcGroup(AcGroupVM c)
         {
+            var groups = GetAllAcGroupsByBranch(Convert.ToInt32(Session["branchid"].ToString()));
+            ViewBag.Category = context.AcCategorySelectAll();
+            ViewBag.groups = groups.Where(d => d.AcGroupID != c.AcGroupID).ToList();
+            var isexist = GetDuplicateGroup(c.AcGroupID, c.AcGroup, c.AcCategoryID, c.subgroup);
+            if (isexist == true)
+            {
 
+                context.AcGroupUpdate(c.AcGroupID, c.AcGroup, c.subgroup, c.AcCategoryID, 0, c.GroupCode);
 
-            context.AcGroupUpdate(c.AcGroupID, c.ParentID, c.subgroup, c.AcCategoryID, 0, c.GroupCode);
-
-            ViewBag.SuccessMsg = "You have successfully updated Account Group";
-            return View("IndexAcGroup", context.AcGroupSelectAll(Convert.ToInt32(Session["AcCompanyID"].ToString())));
+                ViewBag.SuccessMsg = "You have successfully updated Account Group";
+                return View("IndexAcGroup", GetAllAcGroupsByBranch(Convert.ToInt32(Session["branchid"].ToString())));
+            }
+            else
+            {
+                ViewBag.ErrorMsg = "Account Group already exists !!";
+                return View(c);
+            }
         }
 
 
@@ -209,8 +312,15 @@ namespace TrueBooksMVC.Controllers
             {
                 try
                 {
-                    var x = (from a in context.AcHeads where a.AcGroupID == id select a).ToList();
+                    var x = (from a in context.AcHeads where a.AcGroupID == id select a).FirstOrDefault();
+                    var p = (from a in context.AcGroups where a.ParentID == id select a).FirstOrDefault();
                     if (x != null)
+                    {
+                        ViewBag.ErrorMsg = "Transaction in Use. Can not Delete";
+                        throw new Exception();
+
+                    }
+                    else if (p != null)
                     {
                         ViewBag.ErrorMsg = "Transaction in Use. Can not Delete";
                         throw new Exception();
@@ -223,6 +333,8 @@ namespace TrueBooksMVC.Controllers
 
 
                         ViewBag.SuccessMsg = "You have successfully deleted Account Group";
+                        return RedirectToAction("IndexAcGroup", GetAllAcGroupsByBranch(Convert.ToInt32(Session["branchid"].ToString())));
+
                     }
 
                 }
@@ -236,7 +348,7 @@ namespace TrueBooksMVC.Controllers
                 }
             }
 
-            return View("IndexAcGroup", context.AcGroupSelectAll(Convert.ToInt32(Session["AcCompanyID"].ToString())));
+            return View("IndexAcGroup", GetAllAcGroupsByBranch(Convert.ToInt32(Session["AcCompanyID"].ToString())));
         }
 
 
@@ -347,7 +459,7 @@ namespace TrueBooksMVC.Controllers
 
         public ActionResult CreateAcHead()
         {
-            ViewBag.groups = context.AcGroupSelectAll(Convert.ToInt32(Session["AcCompanyID"].ToString()));
+            ViewBag.groups = GetAllAcGroupsByBranch(Convert.ToInt32(Session["AcCompanyID"].ToString()));
             return View();
         }
 
@@ -374,7 +486,7 @@ namespace TrueBooksMVC.Controllers
         public ActionResult EditAcHead(int id)
         {
             var result = context.AcHeadSelectByID(id);
-            ViewBag.groups = context.AcGroupSelectAll(Convert.ToInt32(Session["AcCompanyID"].ToString()));
+            ViewBag.groups = GetAllAcGroupsByBranch(Convert.ToInt32(Session["AcCompanyID"].ToString()));
             return View(result.FirstOrDefault());
         }
 
@@ -2411,7 +2523,11 @@ namespace TrueBooksMVC.Controllers
                 model.PageControlId = item.Pagecontrol;
                 model.PageControlField = item.Remarks;
                 model.AcHeadId = item.AccountHeadID;
-                model.AccountHeadName = context.AcHeads.Find(item.AccountHeadID).AcHead1;
+                var achead = context.AcHeads.Find(item.AccountHeadID);
+                if (achead != null)
+                {
+                    model.AccountHeadName = achead.AcHead1;
+                }
                 model.Check_Sum = Convert.ToBoolean(item.CheckSum) ? "Page Field Value":"Sum Value";
                 if (item.Remarks == 0)
                 {
