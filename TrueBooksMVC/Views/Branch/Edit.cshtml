@@ -107,87 +107,109 @@
         @Html.AntiForgeryToken()
         @Html.ValidationSummary(true)
 
-        <fieldset class="searchdiv">
-            <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
-            <div class="row no-margin">
+    <fieldset class="searchdiv">
+        <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
+        <div class="row no-margin">
 
 
 
-                <div class="col-md-6">
-                    @Html.HiddenFor(model => model.BranchID)
-                    <label class="headinglabel required">Company Name</label>
-                    @Html.DropDownListFor(model => model.AcCompanyID, new SelectList(ViewBag.Company, "AcCompanyID", "AcCompany1"), new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.AcCompanyID)
-                    @Html.HiddenFor(model => model.AcCompanyID)
+            <div class="col-md-6">
+                @Html.HiddenFor(model => model.BranchID)
+                <label class="headinglabel required">Company Name</label>
+                @Html.DropDownListFor(model => model.AcCompanyID, new SelectList(ViewBag.Company, "AcCompanyID", "AcCompany1"), new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.AcCompanyID)
+                @Html.HiddenFor(model => model.AcCompanyID)
 
-                </div>
-                <div class="col-md-6">
-                    <label class="headinglabel required">Branch Name</label>
-                    @Html.TextBoxFor(model => model.BranchName, new { @class = "form-control txttarget" })
-                    @Html.ValidationMessageFor(model => model.BranchName)
+            </div>
+            <div class="col-md-6">
+                <label class="headinglabel required">Branch Name</label>
+                @Html.TextBoxFor(model => model.BranchName, new { @class = "form-control txttarget" })
+                @Html.ValidationMessageFor(model => model.BranchName)
 
-                </div>
+            </div>
+
+        </div>
+
+
+        <div class="row no-margin" style="padding-top:10px;">
+
+            <div class="col-md-6">
+                <label class=" headinglabel required">Country</label>
+                @Html.DropDownListFor(model => model.CountryID, new SelectList(ViewBag.CountryID, "CountryID", "CountryName"), new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CountryID)
+                @Html.HiddenFor(model => model.CountryID)
+
+            </div>
+
+            <div class="col-md-6">
+                <label class=" headinglabel required">Currency</label>
+                @Html.DropDownListFor(model => model.CurrencyID, new SelectList(ViewBag.CurrencyID, "CurrencyID", "CurrencyName"), new { @class = "form-control" })
+
+                @Html.ValidationMessageFor(model => model.CurrencyID)
+                @Html.HiddenFor(model => model.CurrencyID)
+
+            </div>
+
+        </div>
+        <div class="row no-margin" style="padding-top:10px;">
+            <div class="col-md-6">
+                <label class="headinglabel required">Address</label>
+                @Html.TextBoxFor(model => model.Address1, new { @class = "form-control txttarget" })
+                @Html.ValidationMessageFor(model => model.Address1)
+
+            </div>
+            <div class="col-md-6">
+                <label class=" headinglabel">City</label>
+                @Html.TextBoxFor(model => model.City, new { @class = "form-control txttarget" })
+                @Html.ValidationMessageFor(model => model.City)
 
             </div>
 
 
-            <div class="row no-margin" style="padding-top:10px;">
-
-                <div class="col-md-6">
-                    <label class=" headinglabel required">Country</label>
-                    @Html.DropDownListFor(model => model.CountryID, new SelectList(ViewBag.CountryID, "CountryID", "CountryName"), new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.CountryID)
-                    @Html.HiddenFor(model => model.CountryID)
-
-                </div>
-
-                <div class="col-md-6">
-                    <label class=" headinglabel required">Currency</label>
-                    @Html.DropDownListFor(model => model.CurrencyID, new SelectList(ViewBag.CurrencyID, "CurrencyID", "CurrencyName"), new { @class = "form-control" })
-
-                    @Html.ValidationMessageFor(model => model.CurrencyID)
-                    @Html.HiddenFor(model => model.CurrencyID)
-
-                </div>
+        </div>
+        <div class="row no-margin" style="padding-top:10px;">
+            <div class="col-md-6">
+                <label class=" headinglabel required">Phone</label>
+                @Html.TextBoxFor(model => model.Phone, new { @class = "form-control txttarget" })
+                @Html.ValidationMessageFor(model => model.Phone)
 
             </div>
-            <div class="row no-margin" style="padding-top:10px;">
-                <div class="col-md-6">
-                    <label class="headinglabel required">Address</label>
-                    @Html.TextBoxFor(model => model.Address1, new { @class = "form-control txttarget" })
-                    @Html.ValidationMessageFor(model => model.Address1)
-
-                </div>
-
-                <div class="col-md-6">
-                    <label class=" headinglabel required">Phone</label>
-                    @Html.TextBoxFor(model => model.Phone, new { @class = "form-control txttarget" })
-                    @Html.ValidationMessageFor(model => model.Phone)
-
-                </div>
+            <div class="col-md-6">
+                <label class=" headinglabel">Email</label>
+                @Html.TextBoxFor(model => model.EMail, new { @class = "form-control txttarget" })
+                @Html.ValidationMessageFor(model => model.EMail)
 
             </div>
-            <div class="row no-margin" style="padding-top:10px;">
-                <div class="col-md-6">
-                    <label class=" headinglabel">Email</label>
-                    @Html.TextBoxFor(model => model.EMail, new { @class = "form-control txttarget" })
-                    @Html.ValidationMessageFor(model => model.EMail)
 
-                </div>
+        </div>
+        <div class="row no-margin" style="padding-top:10px;">
+            <div class="col-md-6">
+                <label class=" headinglabel">Period From</label>
+                @*@Html.DisplayFor(model => model.fromdate, new { @class = "form-control txttarget" })
+                @Html.ValidationMessageFor(model => model.Phone)*@
+                <input type="text" value="@ViewBag.Fromdate" class="form-control txttarget" readonly /> 
+
+            </div>
+            <div class="col-md-6">
+                <label class=" headinglabel">Period To</label>
+                <input type="text" value="@ViewBag.Todate" class="form-control txttarget" readonly />
+
+
             </div>
 
-            <div class="row no-margin" style="padding-top:10px;">
-                <div class="col-md-12 butdivs">
+        </div>
+        <div class="row no-margin" style="padding-top:10px;">
+            <div class="col-md-12 butdivs">
 
-                    <input type="submit" value="Update" class="btn btn-primary btnwidth" />
+                <input type="submit" value="Update" class="btn btn-primary btnwidth" />
 
-                    &nbsp;
-                    <a href='@Url.Action("Index", "Branch", new { id = 0 })' class="btn btn-danger btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+                &nbsp;
+                <a href='@Url.Action("Index", "Branch", new { id = 0 })' class="btn btn-danger btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
 
-                </div>
             </div>
+        </div>
 
-        </fieldset>
+    </fieldset>
     }
 
 </section>

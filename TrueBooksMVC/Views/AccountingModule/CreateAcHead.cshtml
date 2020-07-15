@@ -27,6 +27,12 @@
 
         $(":text").css({ "border-radius": "5px" });
         $("select").css({ "border-radius": "5px" });
+         var Acgrpid = '@ViewBag.AcgroupId';
+        if (Acgrpid == 0 || Acgrpid == null || Acgrpid == "") {
+
+        } else {
+            $("#AcGroupID").val(Acgrpid);
+        }
 
         $("#btnsave").click(function () {
             var acgroup = $("#AcGroupID option:selected").val();
@@ -88,10 +94,14 @@
                     @Html.ValidationMessageFor(model => model.AcGroupID)
 
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-5">
                     <label class="required headinglabel">Head</label>
                     @Html.TextBoxFor(model => model.AcHead1, new { @class = "form-control txttarget" })
                     @Html.ValidationMessageFor(model => model.AcHead1)
+
+                </div>
+                <div class="col-md-1">
+                    <a href="/AccountingModule/CreateAcGroup?frmpage=2"><i style="font-size: 37px;color:#07a7e3; margin-top: 45px;" class="fa fa-plus-circle"></i></a>
 
                 </div>
                 <div class="col-md-6">
@@ -116,8 +126,15 @@
                     <input type="submit" value="Save" class="btn btn-primary btnwid" id="btnsave" />
 
                     &nbsp;
-                    <a href='@Url.Action("IndexAcHead", "AccountingModule", new { id = 0 })' class="btn btn-danger btnwid" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+                    @if (Convert.ToInt32(@Session["AcheadPage"].ToString()) == 1)
+                    {
+                        <a href='@Url.Action("IndexAcHead", "AccountingModule", new { id = 0 })' class="btn btn-danger btnwid" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+                    }
+                    else
+                    {
+                        <a href='@Url.Action("Create", "RevenueType", new { acheadid = 0 })' class="btn btn-danger btnwid" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
 
+                    }
                 </div>
             </div>
 

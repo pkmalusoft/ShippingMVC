@@ -8,12 +8,13 @@
         background-color: #fff;
         width: 100%;
         margin: 0 auto;
-        max-width: 500px;
+        max-width: 765px;
         padding: 20px;
         margin-top: 50px;
         border-radius: 10px;
         box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
     }
+
     .headinglabel {
         font-family: Calibri;
         font-size: 16px;
@@ -130,7 +131,7 @@
     *@
 
    
-    <div class="searchdiv">
+    <div class="searchdiv  sm-width">
         <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
         <fieldset>
 
@@ -190,7 +191,15 @@
                     <input type="submit" value="Save" class="btn btn-primary btnwid" id="btnsave" />
 
                     &nbsp;
-                    <a href='@Url.Action("IndexAcGroup", "AccountingModule", new { id = 0 })' class="btn btn-danger btnwid" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+                    @if (Convert.ToInt32(@Session["AcgroupPage"].ToString()) == 1)
+                    {
+                        <a href='@Url.Action("IndexAcGroup", "AccountingModule", new { id = 0 })' class="btn btn-danger btnwid" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+                    }
+                    else
+                    {
+                        <a href='@Url.Action("CreateAcHead", "AccountingModule", new { frmpage = Convert.ToInt32(@Session["AcgroupPage"].ToString()) })' class="btn btn-danger btnwid" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+
+                    }
 
                 </div>
             </div>

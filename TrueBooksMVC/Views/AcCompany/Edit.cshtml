@@ -97,14 +97,14 @@
         </div>
         <div class="row no-margin" style="padding-top: 10px">
             <div class="col-md-6">
-                <label class="required headinglabel">Address 1</label>
+                <label class="required headinglabel">Building</label>
                 @Html.TextBoxFor(model => model.Address1, new { @class = "form-control txttarget" })
                 @Html.ValidationMessageFor(model => model.Address1)
 
             </div>
 
             <div class="col-md-6">
-                <label class="headinglabel">Address 2</label>
+                <label class="headinglabel">Street</label>
                 @Html.TextBoxFor(model => model.Address2, new { @class = "form-control txttarget" })
                 @Html.ValidationMessageFor(model => model.Address2)
 
@@ -112,7 +112,7 @@
         </div>
         <div class="row no-margin" style="padding-top: 10px">
             <div class="col-md-6">
-                <label class="headinglabel">Address 3</label>
+                <label class="headinglabel">Pincode/Location</label>
                 @Html.TextBoxFor(model => model.Address3, new { @class = "form-control txttarget" })
                 @Html.ValidationMessageFor(model => model.Address3)
 
@@ -155,12 +155,12 @@
 
 
         <div class="row no-margin">
-            <div class="col-md-12" style="padding-top:10px">
+            <div class="col-md-12" style="text-align:right; padding-top:10px">
 
                 <input type="submit" value="Update" class="btn btn-primary btnwidth" id="btnsave" />
 
                 &nbsp;
-                <a href='@Url.Action("Index", "AcCompany", new { id = 0 })' class="btn btn-primary btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+                <a href='@Url.Action("Index", "AcCompany", new { id = 0 })' class="btn btn-danger btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
 
             </div>
         </div>

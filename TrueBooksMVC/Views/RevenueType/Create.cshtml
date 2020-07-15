@@ -5,26 +5,33 @@
     Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
 }
 <style>
-    .headinglabel {
-        font-size: 16px;
-        color: #2b2929 !important;
-        display: inline;
-    }
 
     .searchdiv {
         background-color: #fff;
         width: 100%;
         margin: 0 auto;
-        max-width: 700px;
+        max-width: 765px;
         padding: 20px;
         margin-top: 50px;
         border-radius: 10px;
         box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
     }
+
+    .headinglabel {
+        font-family: Calibri;
+        font-size: 16px;
+        color: #2b2929 !important;
+    }
 </style>
 <script type="text/javascript">
     $(document).ready(function () {
         $("#RevenueType1").focus();
+        var Acheadid = '@ViewBag.AcheadId';
+        if (Acheadid == 0 || Acheadid == null || Acheadid == "") {
+
+        } else {
+            $("#AcHeadID").val(Acheadid);
+        }
 
         $(":text").css({ "border-radius": "5px" });
         $("select").css({ "border-radius": "5px" });
@@ -75,10 +82,7 @@
                 $("#alert").show();
                 return false;
             }
-            else if (revco == "") {
-                $("#alert").show();
-                return false;
-            }
+          
             else if ($("#flag").val()=="1") {
                 $("#alert").hide();
                 $("#alert1").show();
@@ -115,69 +119,94 @@
           {
               @Html.AntiForgeryToken()
               @Html.ValidationSummary(true)
-              <div class="searchdiv">
+              <div class="searchdiv  sm-width">
                  
                   <fieldset>
                       <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
                       <div id="alert1" style="color:red;display:none;margin-left:10px;">*Revenue Type Already Exist</div>
-
-
                       <div class="row no-margin">
 
-                          <div class="col-md-4">
-                              <input type="hidden" id="flag" />
-                              <label class="required headinglabel">Revenue Type</label>
-                              @Html.TextBoxFor(model => model.RevenueType1, new { @class = "form-control txttarget" })
-                              @Html.ValidationMessageFor(model => model.RevenueType1)
+                          <div class="form-group row">
+                              <div class="col-md-3">
+                                  <label class="required headinglabel">Revenue Type</label>
+                              </div>
+                              <div class="col-md-9">
+                                  @Html.TextBoxFor(model => model.RevenueType1, new { @class = "form-control txttarget" })
+                                  @Html.ValidationMessageFor(model => model.RevenueType1)
 
-                          </div>
-                          <div class="col-md-4">
-                              <label class="required headinglabel">Account Head</label>
-                              @Html.DropDownListFor(model => model.AcHeadID, new SelectList(@ViewBag.accounthead, "AcHeadID", "AcHead1"), "Select", new { @class = "form-control" })
-                              @*@Html.TextBoxFor(model => model.AcHeadID, new { @class = "form-control" })*@
-                              @Html.ValidationMessageFor(model => model.AcHeadID)
-
-
-
-                          </div>
-                          <div class="col-md-4">
-                              <label class="required headinglabel">Revenue Code</label>
-                              @Html.TextBoxFor(model => model.RevenueCode, new { @class = "form-control" })
-
-                              @Html.ValidationMessageFor(model => model.RevenueCode)
-
-                          </div>
-                      </div>
-
-                      <div class="row no-margin" style="padding-top: 10px;">
-
-                          <div class="col-md-4">
-                              <label class="headinglabel">Revenue Cost</label>
-                              @Html.TextBoxFor(model => model.RevenueCost, new { @class = "form-control textright", @Value = "0" })
-                              @Html.ValidationMessageFor(model => model.RevenueCost)
-
+                              </div>
                           </div>
 
-                          <div class="col-md-4">
-                              <label class="headinglabel">Minimum Value</label>
-                              @Html.TextBoxFor(model => model.MinimumValue, new { @class = "form-control textright", @Value = "0" })
-                              @Html.ValidationMessageFor(model => model.MinimumValue)
+
+                          <div class="form-group row">
+                              <div class="col-md-3">
+                                  <label class="headinglabel">Revenue Code</label>
+                              </div>
+                              <div class="col-md-9">
+                                  @Html.TextBoxFor(model => model.RevenueCode, new { @class = "form-control" })
+
+                                  @Html.ValidationMessageFor(model => model.RevenueCode)
+                              </div>
                           </div>
-                      </div>
+                              <div class="form-group row">
+                                  <div class="col-md-3">
+                                      <label class="required headinglabel">Chart-of-Account</label>
+                                  </div>
+                                  <div class="col-md-8">
+                                      @Html.DropDownListFor(model => model.AcHeadID, new SelectList(@ViewBag.accounthead, "AcHeadID", "AcHead1"), "Select", new { @class = "form-control" })
+                                      @Html.ValidationMessageFor(model => model.AcHeadID)
+                                  </div>
+                                  <div class="col-md-1">
+                                      <a href="/AccountingModule/CreateAcHead?frmpage=2"><i style="font-size: 37px;color:#07a7e3; margin-top: 15px;" class="fa fa-plus-circle"></i></a>
+
+                                  </div>
+                              </div>
+                              <div class="form-group row">
+                                  <div class="col-md-3">
+                                      <label class="headinglabel">Revenue Cost</label>
+                                  </div>
+                                  <div class="col-md-9">
+                                      @Html.TextBoxFor(model => model.RevenueCost, new { @class = "form-control textright", @Value = "0" })
+                                      @Html.ValidationMessageFor(model => model.RevenueCost)
+
+                                  </div>
+
+                              </div>
 
 
 
-                      <div class="row no-margin" style="padding-top: 10px">
-                          <div class="col-xs-12 butdivs">
 
-                              <input type="submit" value="Save" class="btn btn-primary btnwid" id="btnsave" />
+                              <div class="form-group row">
+                                  <div class="col-md-3">
 
-                              &nbsp;
-                              <a href='@Url.Action("Index", "RevenueType", new { id = 0 })' class="btn btn-danger btnwid" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+                                      <label class="headinglabel">Minimum Value</label>
+                                  </div>
+                                  <div class="col-md-9">
+                                      @Html.TextBoxFor(model => model.MinimumValue, new { @class = "form-control textright", @Value = "0" })
+                                      @Html.ValidationMessageFor(model => model.MinimumValue)
+                                  </div>
 
-                          </div>
-                      </div>
-                  </fieldset>
+                              </div>
+
+
+
+
+
+                              <div class="row no-margin" style="padding-top:10px">
+                                  <div class="col-md-12 butdivs">
+                                    
+                                          <input type="submit" value="Save" class="btn btn-primary btnwid" id="btnsave" />
+                                     
+                                      
+                                       &nbsp;
+                                      <a href='@Url.Action("Index", "RevenueType", new { id = 0 })' class="btn btn-danger btnwid" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+
+                                  </div>
+                              </div>
+                              </div>
+
+                      
+</fieldset>
                   </div>
                   }
 

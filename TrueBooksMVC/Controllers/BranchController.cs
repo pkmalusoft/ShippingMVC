@@ -88,6 +88,18 @@ namespace TrueBooksMVC.Controllers
                 acFinnancialYear.BranchID = branchmaster.BranchID;
                 acFinnancialYear.AcFYearFrom = branchVM.FromDate;
                 acFinnancialYear.AcFYearTo = branchVM.ToDate;
+                var getfinancialyr = "";
+                if(branchVM.FromDate.Year==branchVM.ToDate.Year)
+                {
+                    getfinancialyr = branchVM.FromDate.Year.ToString();
+                }
+                else
+                {
+                    getfinancialyr = branchVM.FromDate.Year + "-" + branchVM.ToDate.Year;
+                }
+                acFinnancialYear.ReferenceName = getfinancialyr;
+                acFinnancialYear.StatusClose = false;
+                acFinnancialYear.Lock = false;
                 acFinnancialYear.AcFinancialYearID = objectSourceMaster.GetMaxNumberAcFinancialYear();
                 acFinnancialYear.UserID = Convert.ToInt32(Session["UserID"]);
 
@@ -116,6 +128,17 @@ namespace TrueBooksMVC.Controllers
             if (branchmaster == null)
             {
                 return HttpNotFound();
+            }
+            var financialyear=db.AcFinancialYears.Where(d=>d.BranchID==id).FirstOrDefault();
+            if(financialyear==null)
+            {
+                ViewBag.Fromdate = "";
+                ViewBag.Todate = "";
+            }
+            else
+            {
+                ViewBag.Fromdate = financialyear.AcFYearFrom.Value.ToString("dd/MM/yyyy");
+                ViewBag.Todate = financialyear.AcFYearTo.Value.ToString("dd/MM/yyyy");
             }
             ViewBag.Company = db.AcCompanies.ToList();
             ViewBag.CountryID = db.CountryMasters.ToList();

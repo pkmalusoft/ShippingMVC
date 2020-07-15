@@ -145,8 +145,9 @@ namespace TrueBooksMVC.Controllers
             return View(x);
         }
 
-        public ActionResult CreateAcGroup()
+        public ActionResult CreateAcGroup(int frmpage)
         {
+            Session["AcgroupPage"] = frmpage;
             ViewBag.Category = context.AcCategorySelectAll();
 
             ViewBag.groups = GetAllAcGroupsByBranch(Convert.ToInt32(Session["branchid"].ToString()));
@@ -231,8 +232,18 @@ namespace TrueBooksMVC.Controllers
                 //context.AcGroupInsert(c.AcCategoryID, c.subgroup, c.ParentID, Convert.ToInt32(Session["AcCompanyID"].ToString()), Convert.ToInt32(Session["UserID"].ToString()), c.IsGroupCodeAuto, c.GroupCode);
 
                 //context.AcGroupInsert(c.AcCategoryID, c.AcGroup1, null, Convert.ToInt32(Session["AcCompanyID"].ToString()), Convert.ToInt32(Session["UserID"].ToString()), null, c.GroupCode);
-                ViewBag.SuccessMsg = "You have successfully added Account Group";
-                return View("IndexAcGroup", GetAllAcGroupsByBranch(Convert.ToInt32(Session["branchid"].ToString())));
+                var acgroupfrompage = Convert.ToInt32(Session["AcgroupPage"].ToString());
+                if (acgroupfrompage == 1)
+                {
+                    ViewBag.SuccessMsg = "You have successfully added Account Group";
+                    return View("IndexAcGroup", GetAllAcGroupsByBranch(Convert.ToInt32(Session["branchid"].ToString())));
+                }
+                else
+                {
+                    ViewBag.AcgroupId = maxid;
+                    return RedirectToAction("CreateAcHead", "AccountingModule",new { frmpage=Convert.ToInt32(Session["AcheadPage"]) });
+
+                }
 
             }
             else
@@ -457,9 +468,10 @@ namespace TrueBooksMVC.Controllers
             return View("IndexAcHead", context.AcHeadSelectAll(Convert.ToInt32(Session["AcCompanyID"].ToString())));
         }
 
-        public ActionResult CreateAcHead()
+        public ActionResult CreateAcHead(int frmpage)
         {
-            ViewBag.groups = GetAllAcGroupsByBranch(Convert.ToInt32(Session["AcCompanyID"].ToString()));
+            Session["AcheadPage"] = frmpage;
+            ViewBag.groups = GetAllAcGroupsByBranch(Convert.ToInt32(Session["branchid"].ToString()));
             return View();
         }
 
@@ -479,14 +491,23 @@ namespace TrueBooksMVC.Controllers
                 id = x.AcHeadID + 1;
             }
             context.AcHeadInsert(id, a.AcHeadKey, a.AcHead1, a.AcGroupID, Convert.ToInt32(Session["AcCompanyID"].ToString()), a.Prefix);
-            ViewBag.SuccessMsg = "You have successfully created Account Head.";
-            return View("IndexAcHead", context.AcHeadSelectAll(Convert.ToInt32(Session["AcCompanyID"].ToString())));
+            var acheadfrompage = Convert.ToInt32(Session["AcheadPage"].ToString());
+            if (acheadfrompage == 1)
+            {
+                ViewBag.SuccessMsg = "You have successfully created Account Head.";
+                return View("IndexAcHead", context.AcHeadSelectAll(Convert.ToInt32(Session["AcCompanyID"].ToString())));
+            }
+            else
+            {
+                //return View("IndexAcHead", context.AcHeadSelectAll(Convert.ToInt32(Session["AcCompanyID"].ToString())));
+                return RedirectToAction("Create", "RevenueType",new { acheadid= id });
+            }
         }
 
         public ActionResult EditAcHead(int id)
         {
             var result = context.AcHeadSelectByID(id);
-            ViewBag.groups = GetAllAcGroupsByBranch(Convert.ToInt32(Session["AcCompanyID"].ToString()));
+            ViewBag.groups = GetAllAcGroupsByBranch(Convert.ToInt32(Session["branchid"].ToString()));
             return View(result.FirstOrDefault());
         }
 

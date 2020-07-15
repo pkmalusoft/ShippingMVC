@@ -50,8 +50,9 @@ namespace ShippingFinal.Controllers
         }
 
      
-        public ActionResult Create()
+        public ActionResult Create(int acheadid)
         {
+            ViewBag.AcheadId = acheadid;
 
             ViewBag.accounthead = entity.AcHeads.OrderBy(x => x.AcHead1).ToList();
             return View();

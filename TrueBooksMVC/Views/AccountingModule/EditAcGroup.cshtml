@@ -8,11 +8,17 @@
         background-color: #fff;
         width: 100%;
         margin: 0 auto;
-        max-width: 700px;
+        max-width: 765px;
         padding: 20px;
         margin-top: 50px;
         border-radius: 10px;
         box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
+    }
+
+    .headinglabel {
+        font-family: Calibri;
+        font-size: 16px;
+        color: #2b2929 !important;
     }
 </style>
 <script type="text/javascript">
@@ -54,7 +60,7 @@
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
-    <fieldset class="searchdiv">
+    <fieldset class="searchdiv  sm-width">
 
         <div class="row no-margin">
             @Html.HiddenFor(model => model.AcGroupID)

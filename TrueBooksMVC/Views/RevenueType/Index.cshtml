@@ -62,7 +62,7 @@
 <p class="indexbtnpadding">
     @if (isadd)
     {
-    @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary btnwidth" })
+    @Html.ActionLink("Create New", "Create", new { acheadid=0}, new { @class = "btn btn-primary btnwidth" })
     }
 </p>
 <section class="content">
@@ -82,7 +82,7 @@
             @Html.Label("Revenue Type")
         </th>
         <th>
-            @Html.Label("Account Head")
+            @Html.Label("Chart of Account")
         </th>
         <th>
             @Html.Label("Revenue Code")
@@ -94,12 +94,12 @@
     </tr>
     </thead>
 
-        <tfoot>
-              <th>
+        <tfoot><tr>
+<th>
             @Html.Label("Revenue Type")
         </th>
         <th>
-            @Html.Label("Account Head")
+            @Html.Label("Chart of Account")
         </th>
         <th>
             @Html.Label("Revenue Code")
@@ -107,6 +107,7 @@
         <th style="display:none">
             Action
         </th>
+        </tr>
         </tfoot>
 
 <tbody>
