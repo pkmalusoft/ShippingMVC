@@ -1,0 +1,23 @@
+﻿@model DAL.JobStatu
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Job Status</legend>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.StatusName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.StatusName)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.JobStatusId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,14 +1,4 @@
-﻿
-
-
-
-
-
-
-
-
-
-@model DAL.CUSTOMER
+﻿@model DAL.CUSTOMER
 
 @{
                 /**/
@@ -26,15 +16,15 @@
         font-weight: 600;
         display: inline;
     }
-    .jobform {
+    .searchdiv {
         background-color: #fff;
-        box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
-        border-radius: 25px;
-        margin-bottom: 27px;
-        padding: 20px;
         width: 100%;
-        margin: 0 auto; 
-        max-width: 881px;
+        margin: 0 auto;
+        max-width: 675px;
+        padding: 20px;
+        margin-top: 50px;
+        border-radius: 10px;
+        box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
     }
 </style>
 <script type="text/javascript">
@@ -86,11 +76,7 @@
                 $("#alert").show();
                 return false;
             }
-            else if (fax == "") {
-
-                $("#alert").show();
-                return false;
-            }
+         
             else if (CustomerType == "") {
 
                 $("#alert").show();
@@ -103,6 +89,24 @@
 
 
         });
+        $("#Customer1").focusout(function () {
+            var customerval = $("#Customer1").val();
+            if (customerval == "" || customerval == null) {
+
+            } else {
+                var custstrarray = customerval.split(' ');
+                if (custstrarray.length > 1) {
+             
+                    var refString = custstrarray[0].charAt(0) + custstrarray[1].charAt(0) + "-" + '@ViewBag.custnum';
+                    $("#ReferenceCode").val(refString);
+
+                } else {
+                   
+                    var refString = customerval.charAt(0) + customerval.charAt(1) + "-" + '@ViewBag.custnum';
+                    $("#ReferenceCode").val(refString);
+                }
+            }
+        });
     });
 </script>
 
@@ -111,14 +115,14 @@
 
 </section>
 
-<section class="content jobform">
+<section class="content-header">
 
     @using (Html.BeginForm())
-    {        @Html.AntiForgeryToken()
-                @Html.ValidationSummary(true)
-
+    {@Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <fieldset class="searchdiv">
         <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
-        <fieldset>
+       
             <div class="row no-margin">
 
                 <div class="col-md-6">
@@ -129,7 +133,7 @@
                 </div>
                 <div class="col-md-6">
                     <label class="required headinglabel">Reference Code</label>
-                    @Html.TextBoxFor(model => model.ReferenceCode, new { @class = "form-control" })
+                    @Html.TextBoxFor(model => model.ReferenceCode, new { @class = "form-control",@readonly="readonly" })
                     @Html.ValidationMessageFor(model => model.ReferenceCode)
 
                 </div>
@@ -138,7 +142,7 @@
             <div class="row no-margin" style="padding-top:10px">
 
                 <div class="col-md-6">
-                    <label class="required headinglabel">Address 1</label>
+                    <label class="required headinglabel">Building</label>
                     @Html.TextBoxFor(model => model.Address1, new { @class = "form-control txttarget" })
                     @Html.ValidationMessageFor(model => model.Address1)
 
@@ -150,13 +154,13 @@
 
                 </div>
                 <div class="col-md-6">
-                    <label class="headinglabel">Address 2</label>
+                    <label class="headinglabel">Street</label>
                     @Html.TextBoxFor(model => model.Address2, new { @class = "form-control txttarget" })
                     @Html.ValidationMessageFor(model => model.Address2)
 
                 </div>
                 <div class="col-md-6">
-                    <label class="headinglabel">Address 3</label>
+                    <label class="headinglabel">Location/Pin Code</label>
                     @Html.TextBoxFor(model => model.Address3, new { @class = "form-control txttarget" })
                     @Html.ValidationMessageFor(model => model.Address3)
 
@@ -166,7 +170,7 @@
             <div class="row no-margin" style="padding-top:10px;">
                 <div class="col-md-6">
                     <label class="required headinglabel">City</label>
-                    @Html.TextBoxFor(model => model.City, new { @class = "form-control textright txttarget" })
+                    @Html.TextBoxFor(model => model.City, new { @class = "form-control txttarget" })
                     @Html.ValidationMessageFor(model => model.City)
 
                 </div>
@@ -179,23 +183,59 @@
             </div>
             <div class="row no-margin" style="padding-top:10px;">
                 <div class="col-md-6">
+                    <label class="headinglabel">PO Box No</label>
+                    @Html.TextBoxFor(model => model.POBoxNo, new { @class = "form-control textright" })
+                    @Html.ValidationMessageFor(model => model.POBoxNo)
+
+                </div>
+                <div class="col-md-6">
                     <label class="required headinglabel">Country</label>
                     @Html.DropDownListFor(model => model.CountryID, (IEnumerable<SelectListItem>)ViewBag.country, "select", new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.CountryID)
 
                 </div>
+
+            </div>
+            <div class="row no-margin" style="padding-top:10px;">
                 <div class="col-md-6">
-                    <label class="required headinglabel">Fax</label>
+                    <label class="headinglabel">Fax</label>
                     @Html.TextBoxFor(model => model.Fax, new { @class = "form-control textright" })
                     @Html.ValidationMessageFor(model => model.Fax)
 
                 </div>
-            </div>
-            <div class="row no-margin" style="padding-top:10px;">
                 <div class="col-md-6">
                     <label class="required headinglabel">Email</label>
                     @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Email)
+
+                </div>
+
+            </div>
+
+            <div class="row no-margin" style="padding-top:10px;">
+                <div class="col-md-6">
+                    <label class="headinglabel">Website</label>
+                    @Html.TextBoxFor(model => model.WebSite, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.WebSite)
+
+                </div>
+
+                <div class="col-md-6">
+                    <label class="required headinglabel">Customer Type</label>
+                    @Html.DropDownListFor(model => model.CustomerType, ViewBag.CustomerType as SelectList, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.CustomerType)
+
+                </div>
+
+
+            </div>
+
+            <div class="row no-margin" style="padding-top:10px">
+                <div class="col-md-6">
+
+                    <label class="headinglabel">Remarks</label>
+                    @Html.TextBoxFor(model => model.Remarks, new { @class = "form-control txttarget" })
+                    @Html.ValidationMessageFor(model => model.Remarks)
 
                 </div>
                 <div class="col-md-3">
@@ -209,16 +249,10 @@
                     @Html.TextBoxFor(model => model.MaxCreditLimit, new { @class = "form-control textright", @Value = "0" })
                     @Html.ValidationMessageFor(model => model.MaxCreditLimit)
                 </div>
+
             </div>
 
-            <div class="row no-margin" style="padding-top:10px;">
-                <div class="col-md-6">
-                    <label class="headinglabel">Website</label>
-                    @Html.TextBoxFor(model => model.WebSite, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.WebSite)
-
-                </div>
-
+            <div class="row no-margin" style="padding-top:10px">
                 <div class="col-md-3">
 
                     <label class="headinglabel">Exporter Code</label>
@@ -234,43 +268,22 @@
 
                 </div>
 
-            </div>
 
-            <div class="row no-margin" style="padding-top:10px">
-                <div class="col-md-3">
-
-                    <label class="headinglabel">Remarks</label>
-                    @Html.TextBoxFor(model => model.Remarks, new { @class = "form-control txttarget" })
-                    @Html.ValidationMessageFor(model => model.Remarks)
-
-                </div>
-                <div class="col-md-3">
-                    <label class="headinglabel">PO Box No</label>
-                    @Html.TextBoxFor(model => model.POBoxNo, new { @class = "form-control textright" })
-                    @Html.ValidationMessageFor(model => model.POBoxNo)
-
-                </div>
-                <div class="col-md-3">
-                    <label class="required headinglabel">Customer Type</label>
-                    @Html.DropDownListFor(model => model.CustomerType, ViewBag.CustomerType as SelectList,  new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.CustomerType)
-
-                </div>
                 <div class="col-md-3" style="padding-top:15px">
 
-                    @Html.CheckBox("StatusActive", new { @name = "StatusActive" }) &nbsp <label class="headinglabel">Status Active</label>
+                    @Html.CheckBox("StatusActive", new { @name = "StatusActive", @checked = "checked" }) &nbsp <label class="headinglabel">Status Active</label>
                     @Html.ValidationMessageFor(model => model.StatusActive)
                 </div>
-             
-            </div>
-
-            <div class="row no-margin" style="padding-top:10px">
                 <div class="col-md-3" style="padding-top:15px">
                     @Html.CheckBox("StatusBlocked", new { @name = "StatusBlocked" }) &nbsp <label class="headinglabel">Status Blocked</label>
                     @Html.ValidationMessageFor(model => model.StatusBlocked)
 
 
                 </div>
+
+
+            </div>
+            <div class="row no-margin" style="padding-top:10px">
                 <div class="col-md-3" style="padding-top:15px">
                     @Html.CheckBox("StatusReserved", new { @name = "StatusReserved" }) &nbsp <label class="headinglabel">Status Reserved</label>
                     @Html.ValidationMessageFor(model => model.StatusReserved)
@@ -288,13 +301,11 @@
                     @Html.ValidationMessageFor(model => model.InvoiceTo)
 
                 </div>
-
             </div>
-
 
             <div class="row no-margin" style="padding-top:10px">
                 <div class="col-md-12" style="
-                     text-align: center;
+                     text-align: right;
                      padding: 9px;
                      margin-top: 12px;
                      ">
@@ -302,7 +313,7 @@
                     <input type="submit" value="Save" class="btn btn-primary btnwidth" id="btnsave" />
 
                     &nbsp;
-                    <a href='@Url.Action("Index", "Customer", new { id = 0 })' class="btn btn-primary btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+                    <a href='@Url.Action("Index", "Customer", new { id = 0 })' class="btn btn-danger btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
 
                 </div>
             </div>
@@ -310,7 +321,7 @@
         }
 
 
-    </section>
+</section>
 
 
 @*@section Scripts {

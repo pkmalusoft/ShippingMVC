@@ -452,7 +452,8 @@ namespace TrueBooksMVC.Models
         public List<CUSTOMER> GetCoustomer()
         {
 
-            var query = Context1.CUSTOMERs.Take(100).OrderBy(x => x.Customer1).ToList();
+            //var query = Context1.CUSTOMERs.Take(100).OrderBy(x => x.Customer1).ToList();
+            var query = Context1.CUSTOMERs.OrderBy(x => x.Customer1).ToList();
 
             return query;
         }
@@ -2275,7 +2276,95 @@ namespace TrueBooksMVC.Models
         }
         #endregion
 
+        #region JobStatus
 
+        public List<JobStatu> GetJobStatus()
+        {
+
+            var query = Context1.JobStatus.OrderBy(x => x.StatusName).ToList();
+
+            return query;
+        }
+
+        public JobStatu GetJobStatusById(int id)
+        {
+
+            var query = Context1.JobStatus.Where(item => item.JobStatusId == id).FirstOrDefault();
+
+            return query;
+        }
+        public bool SaveJobStatusById(JobStatu iJobstatus)
+        {
+
+
+            try
+            {
+                if (iJobstatus.JobStatusId > 0)
+                {
+                    Context1.Entry(iJobstatus).State = EntityState.Modified;
+                    Context1.SaveChanges();
+                }
+                else
+                {
+                    Context1.JobStatus.Add(iJobstatus);
+                    Context1.SaveChanges();
+                }
+                return true;
+
+            }
+            catch (Exception)
+            {
+                return false;
+                throw;
+            }
+            //return false;
+
+        }
+        public bool SaveJobStaus(JobStatu iJobstatus)
+        {
+
+
+            try
+            {
+
+                {
+                    Context1.JobStatus.Add(iJobstatus);
+                    Context1.SaveChanges();
+                }
+                return true;
+
+            }
+            catch (Exception)
+            {
+                return false;
+                throw;
+            }
+            //return false;
+
+        }
+        public bool DeleteJobStatus(int iJobstatusId)
+        {
+
+            try
+            {
+                if (iJobstatusId > 0)
+                {
+                    JobStatu jobmode = Context1.JobStatus.Find(iJobstatusId);
+                    Context1.JobStatus.Remove(jobmode);
+                    Context1.SaveChanges();
+                    return true;
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+                throw;
+            }
+            return false;
+        }
+    
+
+        #endregion
     }
 }
 

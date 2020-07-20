@@ -100,6 +100,8 @@ namespace DAL
         public DbSet<AcHeadControl> AcHeadControls { get; set; }
         public DbSet<PageControlMaster> PageControlMasters { get; set; }
         public DbSet<PageControlField> PageControlFields { get; set; }
+        public DbSet<JobStatu> JobStatus { get; set; }
+        public DbSet<StaffNote> StaffNotes { get; set; }
         public virtual int SP_DeleteUser(Nullable<int> uSerID)
         {
             var uSerIDParameter = uSerID.HasValue ?

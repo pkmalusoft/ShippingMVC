@@ -695,6 +695,7 @@ warning 6002: The table/view 'malusoft_accounts.dbo.AcHeadAssign' does not have 
           <Property Name="CostUpdatedOrNot" Type="char" MaxLength="5" />
           <Property Name="DepartingDate" Type="datetime" />
           <Property Name="Lock" Type="bit" />
+          <Property Name="JobStatusId" Type="int" />
         </EntityType>
         <EntityType Name="JobMode">
           <Key>
@@ -702,6 +703,13 @@ warning 6002: The table/view 'malusoft_accounts.dbo.AcHeadAssign' does not have 
           </Key>
           <Property Name="JobModeID" Type="int" Nullable="false" />
           <Property Name="JobMode" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="JobStatus">
+          <Key>
+            <PropertyRef Name="JobStatusId" />
+          </Key>
+          <Property Name="JobStatusId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StatusName" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="JobType">
           <Key>
@@ -1006,6 +1014,16 @@ warning 6002: The table/view 'malusoft_accounts.dbo.AcHeadAssign' does not have 
           <Property Name="ExportCode" Type="nvarchar" MaxLength="200" />
           <Property Name="CreditLimit" Type="int" />
           <Property Name="CreditDays" Type="int" />
+        </EntityType>
+        <EntityType Name="StaffNote">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="JobId" Type="int" />
+          <Property Name="EmployeeId" Type="int" />
+          <Property Name="Datetime" Type="datetime" />
+          <Property Name="TaskDetails" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="Supplier">
           <Key>
@@ -2418,6 +2436,7 @@ warning 6002: The table/view 'malusoft_accounts.dbo.qrySupplierOutstanding' does
           <EntitySet Name="JInvoice" EntityType="Self.JInvoice" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="JobGeneration" EntityType="Self.JobGeneration" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="JobMode" EntityType="Self.JobMode" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="JobStatus" EntityType="Self.JobStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="JobType" EntityType="Self.JobType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Location" EntityType="Self.Location" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Menu" EntityType="Self.Menu" Schema="dbo" store:Type="Tables" />
@@ -2437,6 +2456,7 @@ warning 6002: The table/view 'malusoft_accounts.dbo.qrySupplierOutstanding' does
           <EntitySet Name="SalesInvoice" EntityType="Self.SalesInvoice" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SalesInvoiceDetails" EntityType="Self.SalesInvoiceDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ShippingAgent" EntityType="Self.ShippingAgent" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StaffNote" EntityType="Self.StaffNote" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Supplier" EntityType="Self.Supplier" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SupplierTypeMaster" EntityType="Self.SupplierTypeMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Transporter" EntityType="Self.Transporter" Schema="dbo" store:Type="Tables" />
@@ -3896,6 +3916,8 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
             <End Role="AcCategory" EntitySet="AcCategories" />
             <End Role="AcGroup" EntitySet="AcGroups" />
           </AssociationSet>
+          <EntitySet Name="JobStatus" EntityType="SHIPPING_FinalModel.JobStatu" />
+          <EntitySet Name="StaffNotes" EntityType="SHIPPING_FinalModel.StaffNote" />
           </EntityContainer>
         <ComplexType Name="SP_GetUserDetailForEdit_Result">
           <Property Type="Int32" Name="UserID" Nullable="false" />
@@ -5842,6 +5864,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Type="String" Name="CostUpdatedOrNot" MaxLength="5" FixedLength="true" Unicode="false" />
           <Property Type="DateTime" Name="DepartingDate" Precision="3" />
           <Property Type="Boolean" Name="Lock" />
+          <Property Name="JobStatusId" Type="Int32" />
         </EntityType>
         <EntityType Name="RecPayDetail">
           <Key>
@@ -7093,6 +7116,23 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="JobStatu">
+          <Key>
+            <PropertyRef Name="JobStatusId" />
+          </Key>
+          <Property Name="JobStatusId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StatusName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="StaffNote">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="JobId" Type="Int32" />
+          <Property Name="EmployeeId" Type="Int32" />
+          <Property Name="Datetime" Type="DateTime" Precision="3" />
+          <Property Name="TaskDetails" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -9279,6 +9319,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <EntitySetMapping Name="JobGenerations">
             <EntityTypeMapping TypeName="SHIPPING_FinalModel.JobGeneration">
               <MappingFragment StoreEntitySet="JobGeneration">
+                <ScalarProperty Name="JobStatusId" ColumnName="JobStatusId" />
                 <ScalarProperty Name="Lock" ColumnName="Lock" />
                 <ScalarProperty Name="DepartingDate" ColumnName="DepartingDate" />
                 <ScalarProperty Name="CostUpdatedOrNot" ColumnName="CostUpdatedOrNot" />
@@ -10593,6 +10634,25 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
                 <ScalarProperty Name="AcGroup1" ColumnName="AcGroup" />
                 <ScalarProperty Name="AcBranchID" ColumnName="AcBranchID" />
                 <ScalarProperty Name="AcGroupID" ColumnName="AcGroupID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="JobStatus">
+            <EntityTypeMapping TypeName="SHIPPING_FinalModel.JobStatu">
+              <MappingFragment StoreEntitySet="JobStatus">
+                <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+                <ScalarProperty Name="JobStatusId" ColumnName="JobStatusId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StaffNotes">
+            <EntityTypeMapping TypeName="SHIPPING_FinalModel.StaffNote">
+              <MappingFragment StoreEntitySet="StaffNote">
+                <ScalarProperty Name="TaskDetails" ColumnName="TaskDetails" />
+                <ScalarProperty Name="Datetime" ColumnName="Datetime" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="JobId" ColumnName="JobId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

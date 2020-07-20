@@ -527,7 +527,7 @@
                     <div class="row">
                         <div class="col-md-12" style="display:flex">
                             @{
-                                string txttitle = Session["Company"] + " - " + Session["BranchName"] + " - " + Session["BaseCurrencySymbol"];
+                                string txttitle =  Session["BranchName"] + " - " + Session["BaseCurrencySymbol"];
                                 var res = txttitle;
                                 if (txttitle.Length > 40)
                                 {
@@ -536,7 +536,7 @@
                                 }
 
                             }
-                            <label class="final_per" title="@Session["Company"] - @Session["BranchName"] - @Session["BaseCurrencySymbol"]">@res</label>
+                            <label class="final_per" title="@Session["BranchName"] - @Session["BaseCurrencySymbol"]">@res</label>
 
                         </div>
 

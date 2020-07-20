@@ -46,7 +46,7 @@ function DeletedAuditLogID(obj, AuditLogID) {
     $(obj).closest('tr').remove();
 }
 function deleteRow(obj) {
-    debugger;
+    
     $(obj).closest('tr').remove();
 }
 
@@ -73,7 +73,7 @@ app.service('cargoService', function ($http) {
 
 
 app.controller('cargoController', function ($scope, $http, cargoService) {
-    debugger;
+    
     var month_names_short = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     BindCharges();
     BindCargoDes();
@@ -84,6 +84,7 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
     BindProvisionCurrency();
     BindContainerType();
     BindUnit();
+
 
     function isValidDate(dateWrapper) {
         if (typeof dateWrapper.getMonth === 'function') {
@@ -106,7 +107,7 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
     };
 
    $scope.getSuppliers = function () {
-        debugger;
+        
         $http({
             url: '/Job/GetSupplierOfRevID/' + $scope.RevenueTypeID,
             method: 'GET'
@@ -120,7 +121,7 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
     };
 
     function CalculateProvisionValue() {
-        debugger;
+        
         if (isNaN(parseInt($('#QTY').val()))) {
             $('#QTY').val('0');
         }
@@ -128,14 +129,14 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
             $('#ProRate').val('0.00');
         }
         if (isNaN(parseInt($('#ProvisionExRate').val()))) {
-            $('#ProvisionExRate').val('0.0000');
+            $('#ProvisionExRate').val('0.00');
         }
         var BranchLocalCurrencyId = $('#BranchLocalCurrencyId').val();
         if ($('#ProRate').val() != '0.00' && $('#ProvisionExRate').val() != '0.00' && $('#QTY').val() != '0') {
             if (BranchLocalCurrencyId == $scope.ProvisionExR) {
               //  $scope.ProvisionDomestic = parseFloat(parseFloat($scope.Quantity * $scope.ProRate * 1).toFixed(2));
                 $('#ProvisiDomestic').val(parseFloat($('#QTY').val() * $('#ProRate').val() * 1).toFixed(2));
-                $('#ProvisionExRate').val('1.0000');
+                $('#ProvisionExRate').val('1.00');
                 $('#ProvisionForeign').val(parseFloat($('#QTY').val() * $('#ProRate').val() * $('#ProvisionExRate').val()).toFixed(2));
             } else {
                 $('#ProvisionForeign').val(parseFloat($('#QTY').val() * $('#ProRate').val()).toFixed(2));
@@ -149,7 +150,7 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
     }
 
     function CalculateSalesValue() {
-        debugger;
+        
         var BranchLocalCurrencyId = $('#BranchLocalCurrencyId').val();
         var res = 0;
         var taxValue1 = $('#tax').val();
@@ -160,7 +161,7 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
             $('#SaleRate').val('0.00');
         }
         if (isNaN(parseInt($('#SalesExRate').val()))) {
-            $('#SalesExRate').val('0.0000');
+            $('#SalesExRate').val('0.00');
         }
         if ($('#SaleRate').val() != '0.00' && $('#SalesExRate').val() != '0.00' && $('#QTY').val() != '0') {
             if (BranchLocalCurrencyId == $scope.SalesExR) {
@@ -195,18 +196,18 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
     }
 
     $scope.getProvisionCurEx = function () {
-        debugger;
+        
         $http({
             url: '/Job/GetExchangeRte/' + $scope.ProvisionExR,
             method: 'GET'
         }).success(function (data, status, headers, config) {
             $scope.ProexChangeRate = data;
-            debugger;
+            
             if (isNaN(parseInt($scope.ProexChangeRate))) {
-                $('#ProvisionExRate').val('0.0000');
+                $('#ProvisionExRate').val('0.00');
                 CalculateProvisionValue();
             } else {
-                $('#ProvisionExRate').val(parseFloat($scope.ProexChangeRate).toFixed(4));
+                $('#ProvisionExRate').val(parseFloat($scope.ProexChangeRate).toFixed(2));
                 CalculateProvisionValue();
             }
         });
@@ -219,11 +220,11 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
         }).success(function (data, status, headers, config) {
             $scope.SaleexChangeRate = data;
             if (isNaN(parseInt($scope.SaleexChangeRate))) {
-                $('#SalesExRate').val('0.0000');
+                $('#SalesExRate').val('0.00');
                 CalculateProvisionValue();
             }
             else {
-                $('#SalesExRate').val(parseFloat($scope.SaleexChangeRate).toFixed(4));
+                $('#SalesExRate').val(parseFloat($scope.SaleexChangeRate).toFixed(2));
                 CalculateProvisionValue();
             }
         });
@@ -240,17 +241,16 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
     var vCharges = JSON.parse('[]');
 
     $scope.editCharges = function (index) {
-        debugger;
+        
         var objRevenueTypeID = $('#RevenueTypeID_' + index).val();
         $('#RevenueTypeID').val(objRevenueTypeID);
         $('#RevenueTypeID').trigger("change");
-        
        // $scope.getSuppliers();
         $('#QTY').val($('#Quantity_' + index).val());
         $('#UnitID').val($('#ItemUnitID_' + index).val());
         $('#ProRate').val(parseFloat($('#ProvisionRate_' + index).val()).toFixed(2));
         $('#ProvisionExR').val($('#ProvisionCurrencyId_' + index).val());
-        $('#ProvisionExRate').val(parseFloat($('#ProvisionExchangeRate_' + index).val()).toFixed(4));
+        $('#ProvisionExRate').val(parseFloat($('#ProvisionExchangeRate_' + index).val()).toFixed(2));
         $('#ProvisiDomestic').val(parseFloat($('#ProvisionHome_' + index).val()).toFixed(2));
         $('#ProvisionForeign').val(parseFloat($('#ProvisionForeign_' + index).val()).toFixed(2));
         $('#margin').val(parseFloat($('#margin_' + index).val()).toFixed(2));
@@ -258,7 +258,7 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
         $('#taxamt').val(parseFloat($('#taxamt_' + index).val()).toFixed(2));
         $('#SaleRate').val(parseFloat($('#SalesRate_' + index).val()).toFixed(2));
         $('#SalesExR').val($('#SalesCurrencyId_' + index).val());
-        $('#SalesExRate').val(parseFloat($('#SalesExchangeRate_' + index).val()).toFixed(4));
+        $('#SalesExRate').val(parseFloat($('#SalesExchangeRate_' + index).val()).toFixed(2));
         $('#SalesDomestic').val(parseFloat($('#SalesHome_' + index).val()).toFixed(2));
         $('#SalesForeign').val(parseFloat($('#SalesForeign_' + index).val()).toFixed(2));
         $('#charges_update_index').val(index);
@@ -278,7 +278,7 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
     };
 
     $scope.updateCharges = function () {
-        debugger;
+        
         if ($.isNumeric($('#RevenueTypeID').val()) === false || $('#RevenueTypeID').val() <= 0) {
             alert("Please choose Revenue Type");
             $('#RevenueTypeID').focus();
@@ -348,7 +348,6 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
     };
 
     $scope.addCharges = function () {
-        debugger;
         if ($.isNumeric($('#RevenueTypeID').val()) === false || $('#RevenueTypeID').val() <= 0) {
             alert("Please choose Revenue Type");
             $('#RevenueTypeID').focus();
@@ -398,9 +397,10 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
         tdString = tdString + '<td class="data3"><div class="data7"><input type="text" value="' + ChargeObj.ProvisionHome + '" title="' + ChargeObj.ProvisionHome + '" name="ProvisionHome_' + vCharges.length + '" id="ProvisionHome_' + vCharges.length + '" style="width:100%;border:none; text-align:right" readonly /></div></td>';
         tdString = tdString + '<td id="provin_forgin" class="hideinsummary smallwindowwidth"><div class="data8"><input type="text" value="' + ChargeObj.ProvisionForeign + '" title="' + ChargeObj.ProvisionForeign + '" name="ProvisionForeign_' + vCharges.length + '" id="ProvisionForeign_' + vCharges.length + '" style="width:100%;border:none; text-align:right" readonly /></div></td>';
         tdString = tdString + '<td id="sale_rate" class="hideinsummary smallwindowwidth"><div class="data8"><input type="text" value="' + ChargeObj.SalesRate + '" title="' + ChargeObj.SalesRate + '" name="SalesRate_' + vCharges.length + '" id="SalesRate_' + vCharges.length + '" style="width:100%;border:none; text-align:right" readonly /></div></td>';
-        tdString = tdString + '<td id="sale_curr" class="hideinsummary smallwindowwidth"><div class="data9"><input type="text" value="' + ChargeObj.SalesCurrency + '" title="' + ChargeObj.SalesCurrency + '" name="SalesCurrencyName_' + vCharges.length + '" id="SalesCurrencyName_' + vCharges.length + '" style="width:100%;border:none" readonly /><input type="hidden" value="' + ChargeObj.SalesCurrencyID + '" name="SalesCurrencyId_' + vCharges.length + '" id="SalesCurrencyId_' + vCharges.length + '" /></div></td>';
         tdString = tdString + '<td id="sale_exrate" class="hideinsummary smallwindowwidth"><div class="data10"><input type="text" value="' + ChargeObj.SalesExchangeRate + '" title="' + ChargeObj.SalesExchangeRate + '" name="SalesExchangeRate_' + vCharges.length + '" id="SalesExchangeRate_' + vCharges.length + '" style="width:100%;border:none text-align:right" readonly /></div></td>';
         tdString = tdString + '<td ><div class="data11"><input type="text" value="' + ChargeObj.SalesHome + '" title="' + ChargeObj.SalesHome + '" name="SalesHome_' + vCharges.length + '" id="SalesHome_' + vCharges.length + '" style="width:100%;border:none; text-align:right" readonly /></div></td>';
+        tdString = tdString + '<td id="sale_curr" class=" smallwindowwidth"><div class="data9"><input type="text" value="' + ChargeObj.SalesCurrency + '" title="' + ChargeObj.SalesCurrency + '" name="SalesCurrencyName_' + vCharges.length + '" id="SalesCurrencyName_' + vCharges.length + '" style="width:100%;border:none" readonly /><input type="hidden" value="' + ChargeObj.SalesCurrencyID + '" name="SalesCurrencyId_' + vCharges.length + '" id="SalesCurrencyId_' + vCharges.length + '" /></div></td>';
+
         tdString = tdString + '<td id="sale_for"><div class="data12"><input type="text" value="' + ChargeObj.SalesForeign + '" title="' + ChargeObj.SalesForeign + '" name="SalesForeign_' + vCharges.length + '" id="SalesForeign_' + vCharges.length + '" style="width:100%;border:none; text-align:right" readonly /></div></td>';
        // tdString = tdString + '<td><div class="data13"><input type="text" value="' + ChargeObj.Cost + '" title="' + ChargeObj.Cost +'" name="Cost_' + vCharges.length + '" id="Cost_' + vCharges.length + '" style="width:70px;" /></div></td>';
         tdString = tdString + '<td><div class="data13"><input type="text" value="' + ChargeObj.Tax + '" title="' + ChargeObj.Tax + '" name="tax_' + vCharges.length + '" id="tax_' + vCharges.length + '" style="width:100%;border:none; text-align:right" readonly /></div></td>';
@@ -475,7 +475,7 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
             url: '/Job/GetChargesByJobIdandUserID/',
             method: 'GET'
         }).success(function (data, status, headers, config) {
-            debugger;
+            
             $scope.Charges = data;
             vCharges = JSON.parse('[]');
             for (var i = 0; i < $scope.Charges.length; i++) {
@@ -489,17 +489,18 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
                 tdString = tdString + '<td class="hideinsummary smallwindowwidth" id="provin_rate"><div class="data5" ><input type="text" value="' + ChargeObj.ProvisionRate + '" title="' + ChargeObj.ProvisionRate + '" name="ProvisionRate_' + vCharges.length + '" id="ProvisionRate_' + vCharges.length + '" style="width:100%;border:none text-align:right"readonly /></div></td>';
                 tdString = tdString + '<td class="hideinsummary smallwindowwidth" id="provin_curr"><div class="data5"><input type="text" value="' + ChargeObj.ProvisionCurrency + '" title="' + ChargeObj.ProvisionCurrency + '" name="ProvisionCurrency_' + vCharges.length + '" id="ProvisionCurrency_' + vCharges.length + '" style="width:100%;border:none text-align:right" readonly /><input type="hidden" value="' + ChargeObj.ProvisionCurrencyID + '" name="ProvisionCurrencyId_' + vCharges.length + '" id="ProvisionCurrencyId_' + vCharges.length + '" /></div></td>';
                 tdString = tdString + '<td class="hideinsummary smallwindowwidth" id="provinex_rate"><div class="data6"><input type="text" value="' + ChargeObj.ProvisionExchangeRate + '" title="' + ChargeObj.ProvisionExchangeRate + '" name="ProvisionExchangeRate_' + vCharges.length + '" id="ProvisionExchangeRate_' + vCharges.length + '" style="width:100%;border:none text-align:right" readonly/></div></td>';
-                tdString = tdString + '<td  class="data3"><div class="data7"><input type="text" value="' + ChargeObj.ProvisionHome + '" title="' + ChargeObj.ProvisionHome + '" name="ProvisionHome_' + vCharges.length + '" id="ProvisionHome_' + vCharges.length + '" style="width:100%;border:none; text-align:right" readonly /></div></td>';
+                tdString = tdString + '<td  class="data3"><div class="data7"><input type="text" value="' + parseFloat(ChargeObj.ProvisionHome).toFixed(2) + '" title="' + ChargeObj.ProvisionHome + '" name="ProvisionHome_' + vCharges.length + '" id="ProvisionHome_' + vCharges.length + '" style="width:100%;border:none; text-align:right" readonly /></div></td>';
                 tdString = tdString + '<td id="provin_forgin" class="hideinsummary smallwindowwidth"><div class="data8"><input type="text" value="' + ChargeObj.ProvisionForeign + '" title="' + ChargeObj.ProvisionForeign + '" name="ProvisionForeign_' + vCharges.length + '" id="ProvisionForeign_' + vCharges.length + '" style="width:100%;border:none; text-align:right" readonly/></div></td>';
                 tdString = tdString + '<td id="sale_rate" class="hideinsummary smallwindowwidth"><div class="data8"><input type="text" value="' + ChargeObj.SalesRate + '" title="' + ChargeObj.SalesRate + '" name="SalesRate_' + vCharges.length + '" id="SalesRate_' + vCharges.length + '" style="width:100%;border:none; text-align:right " readonly /></div></td>';
-                tdString = tdString + '<td id="sale_curr" class="hideinsummary smallwindowwidth"><div class="data9"><input type="text" value="' + ChargeObj.SalesCurrency + '" title="' + ChargeObj.SalesCurrency + '" name="SalesCurrencyName_' + vCharges.length + '" id="SalesCurrencyName_' + vCharges.length + '" style="width:100%;border:none; text-align:right" readonly/><input type="hidden" value="' + ChargeObj.SalesCurrencyID + '" name="SalesCurrencyId_' + vCharges.length + '" id="SalesCurrencyId_' + vCharges.length + '" /></div></td>';
                 tdString = tdString + '<td id="sale_exrate" class="hideinsummary smallwindowwidth"><div class="data10"><input type="text" value="' + ChargeObj.SalesExchangeRate + '" title="' + ChargeObj.SalesExchangeRate + '" name="SalesExchangeRate_' + vCharges.length + '" id="SalesExchangeRate_' + vCharges.length + '" style="width:100%;border:none; text-align:right" readonly/></div></td>';
-                tdString = tdString + '<td><div class="data11"><input type="text" value="' + ChargeObj.SalesHome + '" title="' + ChargeObj.SalesHome + '" name="SalesHome_' + vCharges.length + '" id="SalesHome_' + vCharges.length + '" style="width:100%;border:none;text-align:right"readonly /></div></td>';
-                tdString = tdString + '<td id="sale_for"><div class="data12"><input type="text" value="' + ChargeObj.SalesForeign + '" title="' + ChargeObj.SalesForeign + '" name="SalesForeign_' + vCharges.length + '" id="SalesForeign_' + vCharges.length + '" style="width:100%;border:none;text-align:right" /></div></td>';
+                tdString = tdString + '<td><div class="data11"><input type="text" value="' + parseFloat(ChargeObj.SalesHome).toFixed(2) + '" title="' + ChargeObj.SalesHome + '" name="SalesHome_' + vCharges.length + '" id="SalesHome_' + vCharges.length + '" style="width:100%;border:none;text-align:right"readonly /></div></td>';
+                tdString = tdString + '<td id="sale_curr" class=" smallwindowwidth"><div class="data9"><input type="text" value="' + ChargeObj.SalesCurrency + '" title="' + ChargeObj.SalesCurrency + '" name="SalesCurrencyName_' + vCharges.length + '" id="SalesCurrencyName_' + vCharges.length + '" style="width:100%;border:none; text-align:right" readonly/><input type="hidden" value="' + ChargeObj.SalesCurrencyID + '" name="SalesCurrencyId_' + vCharges.length + '" id="SalesCurrencyId_' + vCharges.length + '" /></div></td>';
+
+                tdString = tdString + '<td id="sale_for"><div class="data12"><input type="text" value="' + parseFloat(ChargeObj.SalesForeign).toFixed(2) + '" title="' + ChargeObj.SalesForeign + '" name="SalesForeign_' + vCharges.length + '" id="SalesForeign_' + vCharges.length + '" style="width:100%;border:none;text-align:right" /></div></td>';
               //  tdString = tdString + '<td><div class="data13"><input type="text" value="' + ChargeObj.Cost + '" title="' + ChargeObj.Cost + '" name="Cost_' + vCharges.length + '" id="Cost_' + vCharges.length + '" style="width:70px;" /></div></td>';
                 tdString = tdString + '<td><div class="data13"><input type="text" value="' + (ChargeObj.Tax ? ChargeObj.Tax : 0) + '" title="' + (ChargeObj.Tax ? ChargeObj.Tax : 0) + '" name="tax_' + vCharges.length + '" id="tax_' + vCharges.length + '" style="width:100%;border:none; text-align:right" readonly/></div></td>';
-                tdString = tdString + '<td><div class="data14"><input type="text" value="' + (ChargeObj.TaxAmount ? ChargeObj.TaxAmount : 0) + '" title="' + (ChargeObj.TaxAmount ? ChargeObj.TaxAmount : 0) + '" name="taxamt_' + vCharges.length + '" id="taxamt_' + vCharges.length + '" style="width:100%;border:none;text-align:right" readonly/></div></td>';
-                tdString = tdString + '<td><div class="data15"><input type="text" value="' + (ChargeObj.Margin ? ChargeObj.Margin : 0) + '" title="' + (ChargeObj.Margin ? ChargeObj.Margin : 0) + '" name="margin_' + vCharges.length + '" id="margin_' + vCharges.length + '" style="width:100%;border:none; text-align:right" readonly /></div></td>';
+                tdString = tdString + '<td><div class="data14"><input type="text" value="' + (ChargeObj.TaxAmount ? parseFloat(ChargeObj.TaxAmount).toFixed(2) : 0.00) + '" title="' + (ChargeObj.TaxAmount ? ChargeObj.TaxAmount : 0) + '" name="taxamt_' + vCharges.length + '" id="taxamt_' + vCharges.length + '" style="width:100%;border:none;text-align:right" readonly/></div></td>';
+                tdString = tdString + '<td><div class="data15"><input type="text" value="' + (ChargeObj.Margin ? parseFloat(ChargeObj.Margin).toFixed(2) : 0.00) + '" title="' + (ChargeObj.Margin ? ChargeObj.Margin : 0) + '" name="margin_' + vCharges.length + '" id="margin_' + vCharges.length + '" style="width:100%;border:none; text-align:right" readonly /></div></td>';
                 tdString = tdString + '<td><a href="javascript:void(0)" onclick="angular.element(this).scope().editCharges(' + vCharges.length + ')"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="deleteCharge(this,' + ChargeObj.InvoiceID + ')"><i class="fa fa-times-circle"></i></a></td>';
                 tdString = tdString + '</tr>';
                 $("#charges_table").append(tdString);
@@ -529,28 +530,28 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
                 tdString = tdString + '<td><div class="data2" ><input style="width:100%;border:none" type="text" value="' + AuditObj.Remarks + '" title="' + AuditObj.Remarks + '" name="AuditRemarks_' + vAuditDet.length + '" id="AuditRemarks_' + vAuditDet.length + '" /></div></td>';
                 tdString = tdString + '<td><a href="javascript:void(0)" onclick="angular.element(this).scope().editNotification(' + vAuditDet.length + ')"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="DeletedAuditLogID(this,' + AuditObj.JAuditLogID + ')"><i class="fa fa-times-circle"></i></a></td>';
                 tdString = tdString + '</tr>';
-                debugger;
+                
                 $("#audit_table").append(tdString);
             }
         });
     };
 
     $scope.addAuditDet = function () {
-        debugger;
+        
         var AuditObj = {
             TransDate: ($scope.TransDate == undefined) ? "" : $scope.TransDate,
             Remarks: ($scope.Remarks == undefined) ? "" : $scope.Remarks
         };
-        debugger;
+        
         var AuditObjStr = JSON.stringify(AuditObj);
         vAuditDet.push(AuditObjStr);
         var tdString = '<tr><td><div class= "data1" ><input type="hidden" name="JAuditLogID_' + vAuditDet.length + '" id="JAuditLogID_' + vAuditDet.length + '" value="0" /><input type="text" style="width:100%;border:none;" value="' + AuditObj.TransDate + '" name="AuditTransDate_' + vAuditDet.length + '" id="AuditTransDate_' + vAuditDet.length + '" /></div></td>';
         tdString = tdString + '<td><div class="data2" ><input style="width:100%;border:none" type="text" value="' + AuditObj.Remarks + '" name="AuditRemarks_' + vAuditDet.length + '" id="AuditRemarks_' + vAuditDet.length + '" /></div></td>';
         tdString = tdString + '<td><a href="javascript:void(0)" onclick="angular.element(this).scope().editNotification(' + vAuditDet.length + ')"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="deleteRow(this)"><i class="fa fa-times-circle"></i></a></td>';
         tdString = tdString + '</tr>';
-        debugger;
+        
         $("#audit_table").append(tdString);
-        debugger;
+        
         $scope.TransDate = '';
         $scope.Remarks = '';
     };
@@ -632,7 +633,7 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
         }).success(function (data, status, headers, config) {
             $scope.Billing = data;
             vBillOfEntry = JSON.parse('[]');
-            debugger;
+            
             for (var i = 0; i < $scope.Billing.length; i++) {
                 var BillOfEntryObj = $scope.Billing[i];
                 var BillOfEntryStr = JSON.stringify(BillOfEntryObj);
@@ -761,7 +762,7 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
     }
 
     $scope.updateContainerDetails = function () {
-        debugger;
+        
         var index = $('#container_update_index').val();
         $('#JContainerDetailID_' + index).val($('#JContainerDetailID').val());
         $('#ContainerType_' + index).val($('#ContainerTypeID option:selected').text());
@@ -902,7 +903,7 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
             url: '/Job/GetUnitList/',
             method: 'GET'
         }).success(function (data, status, headers, config) {
-            debugger;
+            
             $scope.UnitList = data;
 
         });
@@ -923,15 +924,12 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
 
     function BindProvisionCurrency() {
 
-        debugger;
         $http({
             url: '/Job/GetCurrencyList/',
             method: 'GET'
         }).success(function (data, status, headers, config) {
-            debugger;
             $scope.CurrencyList = data;
-
-
+                 
         });
     }
 
@@ -1013,7 +1011,7 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
     };
 
     $scope.EditInvoices = function (Charge) {
-        debugger;
+        
         $scope.InvoiceID = Charge.InvoiceID;// Charge.InvoiceID;
         $scope.Quantity = Charge.Quantity;
 

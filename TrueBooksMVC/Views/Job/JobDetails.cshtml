@@ -11,7 +11,7 @@
 
     SHIPPING_FinalEntities entity = new SHIPPING_FinalEntities();
 
-
+    var jobstatus = ViewBag.Jobstatus as IEnumerable<JobStatu>;
 }
 
 <style>
@@ -76,7 +76,7 @@
         });
 
         $("#frmdate").val(GetCurrentDate());
-        $("#todate").val(GetCurrentDate());
+        $("#todate").val(GetEndDate());
 
         $('#dataTables-example tfoot th:not(:last)').each(function () {
             var title = $(this).text();
@@ -102,7 +102,7 @@
         showLoading();
         $.ajax({
             url: "@Url.Action("GetJob", "Job")",
-            data: { fdate: $('#frmdate').val(), tdate: $('#todate').val() },
+            data: { fdate: $('#frmdate').val(), tdate: $('#todate').val(), jobstatus:0 },
             type: "GET",
             dataType: "json",
             success: function (data) {
@@ -137,7 +137,7 @@
                 //  table.draw();
                 $.ajax({
                     url: "@Url.Action("GetJob", "Job")",
-                    data: { fdate: $('#frmdate').val(), tdate: $('#todate').val() },
+                    data: { fdate: $('#frmdate').val(), tdate: $('#todate').val(), jobstatus: $("#jobstatus").val() },
                     type: "GET",
                     dataType: "json",
                     success: function (data) {
@@ -180,8 +180,33 @@
 
 
         var d = new Date();
-        var curr_date = sd.getDate();
-        var curr_month = sd.getMonth();
+        var curr_date = 1;
+        var curr_month = d.getMonth();
+        var curr_year = f.getFullYear();
+        return (curr_date + "-" + m_names[curr_month] + "-" + curr_year);
+
+
+    }
+    function GetEndDate() {
+        var m_names = new Array("Jan", "Feb", "Mar",
+"Apr", "May", "Jun", "Jul", "Aug", "Sep",
+"Oct", "Nov", "Dec");
+
+        var startdate = '@Session["FyearFrom"].ToString()';
+        var frdate= startdate.split(" ");
+        var from = frdate[0].split("/");
+        var f = new Date(from[2], from[1] - 1, from[0]);
+
+        var enddate = '@Session["FyearTo"].ToString()';
+        var sd = new Date(startdate);
+        var ed = new Date(enddate);
+
+        var str = new Date(startdate);
+
+
+        var d = new Date();
+        var curr_date = d.getDate();
+        var curr_month = d.getMonth();
         var curr_year = f.getFullYear();
         return (curr_date + "-" + m_names[curr_month] + "-" + curr_year);
 
@@ -235,7 +260,7 @@ function (settings, data, dataIndex) {
 
                 if (x >= fs && x <= to)
                 {
-                    <a href='@Url.Action("Job", "Job", new { id = 0 })' class="btn btn-primary btnwidth" data-toggle="tooltip" data-placement="right" style="margin-left:-6px;">Add </a>
+                    @*<a href='@Url.Action("Job", "Job", new { id = 0 })' class="btn btn-primary btnwidth" data-toggle="tooltip" data-placement="right" style="margin-left:-6px;">Add </a>*@
                     <input type="hidden" id="hdnEditJobID" />
                 }
             }
@@ -248,6 +273,18 @@ function (settings, data, dataIndex) {
                     <table class="searchtabs tabsser" id="tbl1">
 
                         <tr>
+                            <td class="searlabel ">
+                                Status
+                            </td>
+                            <td class="searinput">
+                                <select class="form-control" id="jobstatus">
+                                    <option value="0">Select</option>
+                                    @foreach(var itm in jobstatus)
+                                    {
+                                        <option value="@itm.JobStatusId">@itm.StatusName</option>
+                                    }
+                                </select>
+                            </td>
                             <td class="searlabel ">
                                 From Date
                             </td>

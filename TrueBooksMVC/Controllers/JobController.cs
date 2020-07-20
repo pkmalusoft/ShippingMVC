@@ -32,7 +32,8 @@ namespace TrueBooksMVC.Controllers
             Session["AddLog"] = null;
 
             JobGeneration JG = new JobGeneration();
-
+            var Jobstatus = (from d in entity.JobStatus select d).ToList();
+            ViewBag.Jobstatus = Jobstatus;
 
             if (Session["UserID"] != null)
             {
@@ -43,7 +44,6 @@ namespace TrueBooksMVC.Controllers
                 Session["JobID"] = id;
 
                 JG = J.JobGenerationByJobID(id);
-
                 if (id == 0)
                 {
                     JG.InvoiceDate = System.DateTime.UtcNow;
@@ -101,7 +101,6 @@ namespace TrueBooksMVC.Controllers
 
                         ViewBag.IsInvoiveGenerated = false;
                         var invoice = (from t in entity.JobGenerations where t.JobID == JG.JobID select t.InvoiceNo).FirstOrDefault();
-
                         JG.InvoiceNo = Convert.ToInt32(invoice.Value);
                         if (invoice == 0)
                         {
@@ -129,7 +128,18 @@ namespace TrueBooksMVC.Controllers
             {
                 return RedirectToAction("Login", "Login", new { ID = "1" });
             }
-
+            var job = (from d in entity.JobGenerations where d.JobID == id select d).FirstOrDefault();
+            if (job != null)
+            {
+                if (job.JobStatusId != null)
+                {
+                    ViewBag.JobStatusId = job.JobStatusId;
+                }
+                else
+                {
+                    ViewBag.JobStatusId = 0;
+                }
+            }
             var query = from t in entity.JobGenerations
                         where t.MainJobID == null || t.MainJobID == 0
 
@@ -148,6 +158,8 @@ namespace TrueBooksMVC.Controllers
             // AllJobs = J.AllJobsDetails();
             DateTime a = Convert.ToDateTime(Session["FyearFrom"]);
             DateTime b = Convert.ToDateTime(Session["FyearTo"]);
+            var JobStatus = (from d in entity.JobStatus select d).ToList();
+            ViewBag.Jobstatus = JobStatus;
             var data = (from t in AllJobs where (t.JobDate >= Convert.ToDateTime(Session["FyearFrom"]) && t.JobDate <= Convert.ToDateTime(Session["FyearTo"])) select t).ToList();
 
             if (ID > 0)
@@ -197,9 +209,12 @@ namespace TrueBooksMVC.Controllers
         [HttpPost]
         public ActionResult Job(FormCollection formCollection, string Command, int id)
         {
+            var Jobstatus = (from d in entity.JobStatus select d).ToList();
+            ViewBag.Jobstatus = Jobstatus;
+
             JobGeneration JM = new JobGeneration();
-                UpdateModel<JobGeneration>(JM);
-            
+            UpdateModel<JobGeneration>(JM);
+
             int i;
             int JobId = 0;
             BindAllMasters();
@@ -212,9 +227,17 @@ namespace TrueBooksMVC.Controllers
             {
                 JM.InvoiceDate = System.DateTime.UtcNow;
                 JM.InvoiceNo = 0;
-                JobId = Convert.ToInt32(J.MaxJobID()) - 1;
+                var maxjobid = J.MaxJobID();
+                if (String.IsNullOrEmpty(maxjobid))
+                {
+                    JobId = 1;
+                }
+                else
+                {
+                    JobId = Convert.ToInt32(J.MaxJobID()) - 1;
+                }
                 //  JM.JobID = JobId;
-              //  JM.EmployeeID = Convert.ToInt32(Session["UserID"]);
+                //  JM.EmployeeID = Convert.ToInt32(Session["UserID"]);
                 i = J.AddJob(JM);
                 JobId = i;
 
@@ -597,7 +620,10 @@ namespace TrueBooksMVC.Controllers
                              }*/
 
                     // int j = J.UpdateJobIDinAllModules(JobId, Convert.ToInt32(Session["UserID"]), Convert.ToInt32(Session["fyearid"]));
-
+                    var job = (from d in entity.JobGenerations where d.JobID == JobId select d).FirstOrDefault();
+                    job.JobStatusId = 1;
+                    entity.Entry(job).State = EntityState.Modified;
+                    entity.SaveChanges();
                     Session["JobID"] = JobId;
 
                     JM.JobID = JobId;
@@ -620,7 +646,7 @@ namespace TrueBooksMVC.Controllers
                                 DeleteAndInsertRecords(formCollection, JobId);
                                 var data = (from c in entity.JobGenerations where c.JobID == JobId select c).FirstOrDefault();
                                 int acjid = 0;
-                                if(data.AcJournalID != null)
+                                if (data.AcJournalID != null)
                                 {
                                     acjid = data.AcJournalID.Value;
                                 }
@@ -682,7 +708,7 @@ namespace TrueBooksMVC.Controllers
                                     entity.SaveChanges();
                                 }
 
-                               
+
 
                                 //var acjournalid = (from m in entity.JobGenerations where m.JobID == JobId select m.AcJournalID).FirstOrDefault();
                                 //if (acjournalid > 0)
@@ -1042,7 +1068,7 @@ namespace TrueBooksMVC.Controllers
             int ChargesCount = 0;
             ArrayList ChargesArray = new ArrayList();
             string DeletedInvoiceIds = ((string[])formCollection.GetValue("DeletedInvoiceIds").RawValue)[0].ToString();
-            string DeletedCargoIds= ((string[])formCollection.GetValue("DeletedCargoIds").RawValue)[0].ToString();
+            string DeletedCargoIds = ((string[])formCollection.GetValue("DeletedCargoIds").RawValue)[0].ToString();
             string DeletedContainerIds = ((string[])formCollection.GetValue("DeletedContainerIds").RawValue)[0].ToString();
             string DeletedBillOfEntryIds = ((string[])formCollection.GetValue("DeletedBillOfEntryIds").RawValue)[0].ToString();
             string DeletedAuditLogIDs = ((string[])formCollection.GetValue("DeletedAuditLogIDs").RawValue)[0].ToString();
@@ -1243,13 +1269,13 @@ namespace TrueBooksMVC.Controllers
                     strArray = (string[])formCollection.GetValue("Mark_" + CargoArray[c]).RawValue;
                     Cargo.Mark = strArray[0];
                 }
-               // string Description = "";
+                // string Description = "";
                 if (formCollection.GetValue("CarDescription_" + CargoArray[c]) != null)
                 {
                     strArray = (string[])formCollection.GetValue("CarDescription_" + CargoArray[c]).RawValue;
                     Cargo.Description = strArray[0];
                 }
-               // Cargo.Description = Description;
+                // Cargo.Description = Description;
                 decimal Weight = 0;
                 if (formCollection.GetValue("weight_" + CargoArray[c]) != null)
                 {
@@ -1399,7 +1425,7 @@ namespace TrueBooksMVC.Controllers
                 JAuditLog objAudit = new JAuditLog();
                 objAudit.JobID = JobId;
                 string[] strArray;
-                int JAuditLogID=0;
+                int JAuditLogID = 0;
                 if (formCollection.GetValue("JAuditLogID_" + NotificationArray[c]) != null)
                 {
                     strArray = (string[])formCollection.GetValue("JAuditLogID_" + NotificationArray[c]).RawValue;
@@ -1547,7 +1573,7 @@ namespace TrueBooksMVC.Controllers
             int i = 0;
             if (Session["UserID"] != null)
             {
-              
+
                 i = J.AddOrUpdateBillOfEntry(Bill, Session["UserID"].ToString());
                 var billEntry = (from t in entity.JBIllOfEntries orderby t.BIllOfEntryID descending select t).FirstOrDefault();
 
@@ -1600,16 +1626,16 @@ namespace TrueBooksMVC.Controllers
                     Charges.JobID = 0;
                 }
 
-             //   if (Charges.InvoiceID <= 0)
-               // {
+                //   if (Charges.InvoiceID <= 0)
+                // {
 
-                    int i = J.AddOrUpdateCharges(Charges, Session["UserID"].ToString());
-              //  }
-             //   else
-              //  {
-              //      entity.Entry(Charges).State = EntityState.Modified;
+                int i = J.AddOrUpdateCharges(Charges, Session["UserID"].ToString());
+                //  }
+                //   else
+                //  {
+                //      entity.Entry(Charges).State = EntityState.Modified;
                 //    entity.SaveChanges();
-              //  }
+                //  }
 
                 var charges = (from t in entity.JInvoices orderby t.InvoiceID descending select t).FirstOrDefault();
 
@@ -1647,16 +1673,16 @@ namespace TrueBooksMVC.Controllers
             //}
             if (Session["UserID"] != null)
             {
-              //  if (ContainerDetail.JContainerDetailID <= 0)
-              //  {
-                    int i = J.AddOrUpdateContainerDetails(ContainerDetail, Session["UserID"].ToString());
-             //   }
-               // else
-             //   {
-                  //  entity.Entry(ContainerDetail).State = EntityState.Modified;
-               //     entity.SaveChanges();
-               //     entity.Entry(ContainerDetail).State = EntityState.Detached;
-               // }
+                //  if (ContainerDetail.JContainerDetailID <= 0)
+                //  {
+                int i = J.AddOrUpdateContainerDetails(ContainerDetail, Session["UserID"].ToString());
+                //   }
+                // else
+                //   {
+                //  entity.Entry(ContainerDetail).State = EntityState.Modified;
+                //     entity.SaveChanges();
+                //     entity.Entry(ContainerDetail).State = EntityState.Detached;
+                // }
                 var containers = (from t in entity.JContainerDetails orderby t.JContainerDetailID descending select t).FirstOrDefault();
             }
 
@@ -1785,7 +1811,7 @@ namespace TrueBooksMVC.Controllers
 
         }
 
-        public bool DeleteJobDetailsByJobID(int JobID,string InvoiceIds, string DeletedCargoIds, string DeletedContainerIds, string DeletedBillOfEntryIds, string DeletedAuditLogIDs)
+        public bool DeleteJobDetailsByJobID(int JobID, string InvoiceIds, string DeletedCargoIds, string DeletedContainerIds, string DeletedBillOfEntryIds, string DeletedAuditLogIDs)
         {
             J.DeleteJobDetailsByJobID(JobID, InvoiceIds, DeletedCargoIds, DeletedContainerIds, DeletedBillOfEntryIds, DeletedAuditLogIDs);
             return true;
@@ -2006,7 +2032,7 @@ namespace TrueBooksMVC.Controllers
                 Countries = MM.GetAllCountries();
                 ContainerTypes = MM.GetAllContainerTypes();
                 //    RevenueType = MM.GetRevenueType();
-                 Currency = MM.GetCurrency();
+                Currency = MM.GetCurrency();
                 Supplier = MM.GetAllSupplier();
                 ShippingAgent = MM.GetShippingAgents();
                 Unit = MM.GetItemUnit();
@@ -2027,14 +2053,14 @@ namespace TrueBooksMVC.Controllers
                 ViewBag.ShippingA = new SelectList(ShippingAgent.OrderBy(x => x.AgentName).ToList(), "ShippingAgentID", "AgentName");
                 ViewBag.MaxInvoiceNumber = J.GetMaxInvoiceNumber();
                 ViewBag.voyages = (from c in entity.Voyages select c).ToList();
-               
-                List< SelectListItem > objBLStatusList = new List<SelectListItem>
+
+                List<SelectListItem> objBLStatusList = new List<SelectListItem>
                     { new SelectListItem() { Text = "SURRENDERED", Selected = false, Value = "SURRENDERED"}
                      , new SelectListItem() { Text = "WAY BILL", Selected = false, Value = "WAY BILL"}
                      , new SelectListItem() { Text = "OBL REQUIRED", Selected = false, Value = "OBL REQUIRED"}};
 
-         
-                ViewBag.BLStatusList = new SelectList(objBLStatusList,"Value","Text");
+
+                ViewBag.BLStatusList = new SelectList(objBLStatusList, "Value", "Text");
 
                 var query = from t in entity.JobGenerations
                             where t.MainJobID == null
@@ -2060,6 +2086,32 @@ namespace TrueBooksMVC.Controllers
 
             return Json(dta, JsonRequestBehavior.AllowGet);
 
+        }
+        public JsonResult GetJobModeByJobType(int JobTypeID)
+        {
+            var data = (from d in entity.JobTypes where d.JobTypeID == JobTypeID select d).FirstOrDefault();
+            var jobmode = (from d in entity.JobModes where d.JobModeID == data.JobModeID select d).FirstOrDefault();
+            var isimportmode = false;
+            var loadport = new List<Port>();
+            var DestinationPort = new List<Port>();
+            if (jobmode.JobMode1.ToLower() == "import")
+            {
+                isimportmode = true;
+                var branchid = Convert.ToInt32(Session["branchid"]);
+                var branchmaster = (from d in entity.BranchMasters where d.BranchID == branchid select d).FirstOrDefault();
+                loadport = (from d in entity.Ports where d.CountryID != branchmaster.CountryID select d).ToList();
+                DestinationPort = (from d in entity.Ports where d.CountryID == branchmaster.CountryID select d).ToList();
+            }
+            else
+            {
+                var branchid = Convert.ToInt32(Session["branchid"]);
+                var branchmaster = (from d in entity.BranchMasters where d.BranchID == branchid select d).FirstOrDefault();
+                loadport = (from d in entity.Ports where d.CountryID == branchmaster.CountryID select d).ToList();
+                DestinationPort = (from d in entity.Ports where d.CountryID != branchmaster.CountryID select d).ToList();
+
+                isimportmode = false;
+            }
+            return Json(new { isImport = isimportmode, loadport = loadport, DestinationPort = DestinationPort }, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult GetSupplierOfRevID(string ID)
@@ -2103,8 +2155,19 @@ namespace TrueBooksMVC.Controllers
         public JsonResult GetExchangeRte(string ID)
         {
             //List<SP_GetCustomerInvoiceDetailsForReciept_Result> AllInvoices = new List<SP_GetCustomerInvoiceDetailsForReciept_Result>();
+            var branchid = Convert.ToInt32(Session["branchid"]);
 
-            var ExRate = J.GetCurrencyExchange(Convert.ToInt32(ID));
+            var branch = (from d in entity.BranchMasters where d.BranchID == branchid select d).FirstOrDefault();
+            var ExRate = "";
+            if (branch.CurrencyID == Convert.ToInt32(ID))
+            {
+                ExRate = "1.00";
+            }
+            else
+            {
+                ExRate = J.GetCurrencyExchange(Convert.ToInt32(ID));
+                ExRate = Convert.ToDecimal(ExRate).ToString("0.00");
+            }
 
             return Json(ExRate, JsonRequestBehavior.AllowGet);
         }
@@ -2321,14 +2384,74 @@ namespace TrueBooksMVC.Controllers
 
 
 
-        public ActionResult GetJob(DateTime fdate, DateTime tdate)
+        public ActionResult GetJob(DateTime fdate, DateTime tdate, int jobstatus)
         {
 
             var data = entity.SP_GetAllJobsDetailsByDate(Convert.ToDateTime(fdate), Convert.ToDateTime(tdate)).ToList();
 
+            //var data1=entity.spgetall
 
+            //from JobGeneration j left outer join CUSTOMER C on j.ConsignerID = c.CustomerID
+            //left outer join CUSTOMER C1 on j.ConsigneeID = C1.CustomerID
+            //left outer join JobType jt on j.JobTypeID = jt.JobTypeID
+            //left outer join Employees E on j.EmployeeID = E.EmployeeID
+            //where j.CostUpdatedOrNot = 'N' and JobStatus = 1
+            var datas = new List<JobRegisterVM>();
+            if (jobstatus == 0)
+            {
+                datas = (from j in entity.JobGenerations
+                         join c in entity.CUSTOMERs on j.ConsignerID equals c.CustomerID
+                         join c1 in entity.CUSTOMERs on j.ConsignerID equals c1.CustomerID
+                         join jt in entity.JobTypes on j.JobTypeID equals jt.JobTypeID
+                         join E in entity.Employees on j.EmployeeID equals E.EmployeeID
+                         join L in entity.Ports on j.LoadPortID equals L.PortID
+                         join D in entity.Ports on j.DestinationPortID equals D.PortID
+                         where j.CostUpdatedOrNot == "N" && j.JobStatus == true
+                         select new JobRegisterVM
+                         {
+                             InvoiceNo = j.InvoiceNo,
+                             JobID = j.JobID,
+                             InvoiceDate = j.InvoiceDate,
+                             JobDate = j.JobDate,
+                             Description = jt.JobDescription,
+                             JobCode = j.JobCode,
+                             CostUpdatedOrNot = j.CostUpdatedOrNot,
+                             ShipperName = c.Customer1,
+                             ConsigneeName = c1.Customer1,
+                             Customer = c.Customer1,
+                             LoadPort = L.Port1,
+                             DestinationPort = D.Port1
 
-            string view = this.RenderPartialView("_GetJob", data);
+                         }).ToList();
+            }
+            else
+            {
+                datas = (from j in entity.JobGenerations
+                         join c in entity.CUSTOMERs on j.ConsignerID equals c.CustomerID
+                         join c1 in entity.CUSTOMERs on j.ConsignerID equals c1.CustomerID
+                         join jt in entity.JobTypes on j.JobTypeID equals jt.JobTypeID
+                         join E in entity.Employees on j.EmployeeID equals E.EmployeeID
+                         join L in entity.Ports on j.LoadPortID equals L.PortID
+                         join D in entity.Ports on j.DestinationPortID equals D.PortID
+                         where j.CostUpdatedOrNot == "N" && j.JobStatus == true && j.JobStatusId == jobstatus
+                         select new JobRegisterVM
+                         {
+                             InvoiceNo = j.InvoiceNo,
+                             JobID = j.JobID,
+                             InvoiceDate = j.InvoiceDate,
+                             JobDate = j.JobDate,
+                             Description = jt.JobDescription,
+                             JobCode = j.JobCode,
+                             CostUpdatedOrNot = j.CostUpdatedOrNot,
+                             ShipperName = c.Customer1,
+                             ConsigneeName = c1.Customer1,
+                             Customer = c.Customer1,
+                             LoadPort = L.Port1,
+                             DestinationPort = D.Port1
+
+                         }).ToList();
+            }
+            string view = this.RenderPartialView("_GetJob", datas);
 
             return new JsonResult
             {
@@ -2337,7 +2460,8 @@ namespace TrueBooksMVC.Controllers
                     success = true,
                     view = view
                 },
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet,MaxJsonLength= Int32.MaxValue
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet,
+                MaxJsonLength = Int32.MaxValue
             };
 
         }
@@ -2639,6 +2763,20 @@ namespace TrueBooksMVC.Controllers
                 return View(lst);
             }
         }
-      
+        public JsonResult UpdateJobStatus(int Jobid, int statusid)
+        {
+            try
+            {
+                var job = (from d in entity.JobGenerations where d.JobID == Jobid select d).FirstOrDefault();
+                job.JobStatusId = 1;
+                entity.Entry(job).State = EntityState.Modified;
+                entity.SaveChanges();
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+            }catch(Exception e)
+            {
+                return Json(new { success = false,message=e.Message.ToString() }, JsonRequestBehavior.AllowGet);
+
+            }
+        }
     }
 }

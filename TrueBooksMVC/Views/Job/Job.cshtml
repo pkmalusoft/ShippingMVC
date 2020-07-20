@@ -14,6 +14,7 @@
         ismodify = obj.GetModifypermission(Convert.ToInt32(Session["UserRoleID"]), path);
 
     }
+    var jobstatus = ViewBag.Jobstatus as IEnumerable<DAL.JobStatu>;
 
 }
 <style>
@@ -405,7 +406,6 @@
             }
         });
 
-        debugger;
         if ($('#SelectedMainJobID').val() != '' && $('#SelectedMainJobID').val() != '0') {
             if (parseInt($('#SelectedMainJobID').val()) > 0) {
                 $('#SubJob').prop('checked', true);
@@ -451,7 +451,6 @@
         //        }
         //    });
         //});
-
 
     });
 
@@ -634,6 +633,7 @@
                         $("#billofLadingSea").hide();
                         $("#containerdetails").hide();
                     }
+                    getIsimportorExport();
 
                 }
             });
@@ -649,6 +649,69 @@
 
 
     });
+    function getIsimportorExport() {
+        var jobtypeid = $("#JobTypeID").val();
+        $.ajax({
+            type: "GET",
+            url: "/Job/GetJobModeByJobType",
+            datatype: "Json",
+            data: { JobTypeID: jobtypeid },
+            success: function (data) {
+
+                $("#LoadPortID").empty();
+                $("#DestinationPortID").empty();
+                $("#ReceiptPlaceID").empty();
+                $("#DeliveryPlaceID").empty();
+                var select = document.getElementById("LoadPortID");
+                var selectop = document.createElement('option');
+                selectop.text = "Select";
+                selectop.value = "";
+                select.add(selectop);
+                for (var i = 0; i < data.loadport.length; i++) {
+                    var option = document.createElement('option');
+                    option.text = data.loadport[i].Port1;
+                    option.value = data.loadport[i].PortID;
+                    select.add(option);
+                }
+                var select1 = document.getElementById("DestinationPortID");
+                var ReceiptPlaceID = document.getElementById("ReceiptPlaceID");
+                var DeliveryPlaceID = document.getElementById("DeliveryPlaceID");
+                var selectop1 = document.createElement('option');
+                selectop1.text = "Select";
+                selectop1.value = "";
+                select1.add(selectop1);
+                var selectop2 = document.createElement('option');
+                selectop2.text = "Select";
+                selectop2.value = "";
+                select1.add(selectop2);
+                var selectop3 = document.createElement('option');
+                selectop3.text = "Select";
+                selectop3.value = "";
+                DeliveryPlaceID.add(selectop2);
+                ReceiptPlaceID.add(selectop3);
+                for (var i = 0; i < data.DestinationPort.length; i++) {
+                    var option1 = document.createElement('option');
+                    option1.text = data.DestinationPort[i].Port1;
+                    option1.value = data.DestinationPort[i].PortID;
+                    select1.add(option1);
+                }
+                for (var i = 0; i < data.loadport.length; i++) {
+                    var option1 = document.createElement('option');
+                    option1.text = data.loadport[i].Port1;
+                    option1.value = data.loadport[i].PortID;
+                    ReceiptPlaceID.add(option1);
+
+                }
+                for (var i = 0; i < data.DestinationPort.length; i++) {
+                    var option1 = document.createElement('option');
+                    option1.text = data.DestinationPort[i].Port1;
+                    option1.value = data.DestinationPort[i].PortID;
+                    DeliveryPlaceID.add(option1);
+                }
+            }
+
+        });
+    }
 </script>
 <script>
     $(document).ready(function () {
@@ -701,6 +764,36 @@
         }
         return Flag;
     }
+    function ShowJobstatusModel() {
+        if ('@Model.JobID' > 0) {
+            $("#jobstatusmodal").modal('show');
+        } else {
+            alert("Job not Created !!")
+        }
+    }
+    function saveJobstatus() {
+        var Jobid = '@Model.JobID';
+        var statusid = $("#mdlJobstatusid").val();
+        if (statusid == 0) {
+            alert("Please select valid status !")
+        } else {
+            $.ajax({
+                type: "GET",
+                url: "/Job/UpdateJobStatus",
+                datatype: "Json",
+                data: { Jobid: Jobid, statusid: statusid },
+                success: function (data) {
+                    if (data.success == true) {
+                        $.notify("Job Status Updated Successfully !!", "success");
+                        $('#jobstatusmodal').modal('hide');
+                    } else {
+                        $.notify(data.message, "error");
+                        $('#jobstatusmodal').modal('hide');
+                    }
+                }
+            });
+        }
+    }
 
 </script>
 
@@ -715,10 +808,39 @@
 
         </section>
 
-        <p class="cbtnpadding">
 
-            <a href='@Url.Action("JobDetails", "Job", new { id = 0 })' class="btn btn-primary" data-toggle="tooltip" data-placement="right" title="Click here">Back to list</a>
-        </p>
+        <div class="row form-group cbtnpadding">
+            <div class="col-md-10">
+                <a href='@Url.Action("JobDetails", "Job", new { id = 0 })' class="btn btn-primary" data-toggle="tooltip" data-placement="right" title="Click here">Back to list</a>
+            </div>
+            <div style="text-align:right;" class="col-md-2">
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+
+                        <!-- User Account Menu -->
+                        <li class="dropdown user user-menu">
+                            <!-- Menu Toggle Button -->
+
+                            <ul class="dropdown-menu extended logout" style="top:0%!important">
+                                <li><a style="color:#35b8eb" href="@Url.Action("JobRegisterReport.aspx", "Reports", new { jobid = Model.JobID })">Job Report</a></li>
+                                <li><a style="color:#35b8eb;cursor:pointer" onclick="AddInvoiceNumber()">Generate Invoice</a></li>
+                                <li><a style="color:#35b8eb" href="@Url.Action("InvoiceReport.aspx", "Reports", new { jobid = Model.JobID })">Print Invoice</a></li>
+                                <li><a style="color:#35b8eb" href="@Url.Action("DeliveryNote.aspx", "Reports", new { jobid = Model.JobID })">Delivery Note</a></li>
+                                <li><a style="color:#35b8eb" href="@Url.Action("ArrivalReportPlain", "ReportInvoice", new { JobID = Model.JobID})">Arrival Note</a></li>
+                                <li><a style="color:#35b8eb" href="#">Staff Notes</a></li>
+                                <li><a style="color:#35b8eb;cursor:pointer" onclick="ShowJobstatusModel()">Job Status</a></li>
+                                <li><a style="color:#35b8eb" href="#">Customer Notification</a></li>
+                                <li><a style="color:#35b8eb" href="#">Cost Update</a></li>
+                            </ul>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i style="font-size: 30px;color:#35b8eb;padding-top: 11px;" class="fa fa-cog"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
         @using (Html.BeginForm())
         {
             @Html.ValidationSummary(true)
@@ -948,12 +1070,12 @@
                                             <input type="text" ng_model="ProexChangeRate" class="form-control textright four-decimals" tabindex="7" id="ProvisionExRate" placeholder="Provision Ex Rate" ng_change="CalcProvForeign()" />
                                         </div>
                                         <div class="col-xs-6 col-sm-4 col-md-4 reve_rates no-padding">
-                                            <label class="headinglabel lc_sal">Provision (LC)</label>
-                                            <input type="text" ng-model="ProvisionDomestic" class="form-control textright txtNum" tabindex="8" id="ProvisiDomestic" placeholder="Provision Domestic" />
+                                            <label class="headinglabel lc_sal">Provision <span class="lc_pro">(LC)</span></label>
+                                            <input type="text" ng-model="ProvisionDomestic" class="form-control textright txtNum lc_pro" tabindex="8" id="ProvisiDomestic" placeholder="Provision Domestic" />
                                         </div>
                                         <div class="col-xs-6 col-sm-4 col-md-4  reve_rates no-padding">
-                                            <label class="headinglabel fc_sal">Provision (FC)</label>
-                                            <input type="text" ng-model="ProvisionForeign" class="form-control textright txtNum" tabindex="9" id="ProvisionForeign" placeholder="Provision Foreign" />
+                                            <label class="headinglabel fc_sal">Provision <span class="fc_pro">(FC)</span></label>
+                                            <input type="text" ng-model="ProvisionForeign" class="form-control textright txtNum fc_pro" tabindex="9" id="ProvisionForeign" placeholder="Provision Foreign" />
                                         </div>
 
                                         <div class="col-xs-6 col-sm-4 col-md-4 reve_wid no-padding">
@@ -1003,12 +1125,12 @@
                                                 <input type="text" ng-model="SaleexChangeRate" class="form-control textright four-decimals" tabindex="12" id="SalesExRate" placeholder="Sales Ex Rate" ng_change="CalcSaleForeign()" />
                                             </div>
                                             <div class=" reve_rates no-padding">
-                                                <label class="headinglabel lc_sal">Sales (LC)</label>
-                                                <input type="text" ng-model="SalesDomestic" ng-bind={{SaleRate}} class="form-control textright txtNum " tabindex="13" id="SalesDomestic" placeholder="Sales Domestic" />
+                                                <label class="headinglabel lc_sal">Sales <span class="lc_pro">(LC)</span></label>
+                                                <input type="text" ng-model="SalesDomestic" ng-bind={{SaleRate}} class="form-control textright txtNum lc_pro" tabindex="13" id="SalesDomestic" placeholder="Sales Domestic" />
                                             </div>
                                             <div class=" reve_rates no-padding">
-                                                <label class="headinglabel fc_sal">Sales (FC)</label>
-                                                <input type="text" ng-model="SalesForeign" class="form-control textright txtNum" tabindex="14" id="SalesForeign" placeholder="Sales Foreign" />
+                                                <label class="headinglabel fc_sal">Sales <span class="fc_pro">(FC)</span></label>
+                                                <input type="text" ng-model="SalesForeign" class="form-control textright txtNum fc_pro" tabindex="14" id="SalesForeign" placeholder="Sales Foreign" />
                                             </div>
                                             <div class=" rev_unit no-padding">
                                                 <label class="headinglabel">Tax%</label>
@@ -1025,7 +1147,7 @@
                                         <div class="col-xs-6 col-sm-12 col-md-12 butdivs   no-padding" style="text-align: right; margin-top:10px;">
                                             <input type="hidden" id="charges_update_index" value="0" />
                                             <input type="button" id="update_charges" ng-click="updateCharges()" value="Update" style="display:none;margin-top:2px;" class="btn btn-primary btnwidth" />
-                                            <input type="button" id="cancel_edit_charges" ng-click="cancelEditCharges()" value="Cancel" style="display:none;margin-top:2px;" class="btn btn-primary btnwidth" />
+                                            <input type="button" id="cancel_edit_charges" ng-click="cancelEditCharges()" value="Cancel" style="display:none;margin-top:2px;" class="btn btn-danger btnwidth" />
                                             <input type="button" id="add_charges" ng-click="addCharges()" value="New" class="btn btn-primary btnwidth" />
                                         </div>
                                     </div>
@@ -1132,14 +1254,15 @@
                                                         <td id="sale_rate" class="hideinsummary">
                                                             Sales Rate
                                                         </td>
-                                                        <td id="sale_curr" class="hideinsummary">
-                                                            Sales Currency
-                                                        </td>
+
                                                         <td id="sale_exrate" class="hideinsummary">
                                                             Sales Ex. Rate
                                                         </td>
                                                         <td width="8%" class="lc_pro">
                                                             <p class="lc_pro">   Sales LC</p>
+                                                        </td>
+                                                        <td id="sale_curr">
+                                                            Currency
                                                         </td>
                                                         <td width="8%" class="fc_pro">
                                                             <p class="fc_pro">Sales FC</p>
@@ -1738,6 +1861,65 @@
                                                 <input type="hidden" id="hdnCountryID" />
                                                 <button type="button" class="btn btn-default" data-dismiss="modal" tabindex="6">Close</button>
                                                 <button type="submit" name="Command" value="SaveInvoice" class="btn btn-primary" tabindex="5" id="Button1">Save</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="wrapper">
+                    <div id="page-wrapper">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="modal fade" id="jobstatusmodal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+
+                                            <div class="modal-header" style="background-color: #f5f5f5;">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+                                                <h4 class="modal-title" id="jobstatusmodal">
+                                                    <span style="font-size: 18px; color: #3c8dbc !important; text-align:center">Job Status</span>
+                                                </h4>
+                                            </div>
+
+                                            <div class="modal-body">
+                                                <div class="container-fluid">
+                                                    <div class="row" style="padding-top: 5px">
+                                                        <div class="col-sm-12">
+                                                            <div class="row">
+                                                               
+                                                                <div class="col-xs-7 col-sm-8">
+                                                                    <label>Job Status</label>
+                                                                    <select class="form-control" id="mdlJobstatusid">
+                                                                        <option value="0">Select</option>
+                                                                        @foreach (var item in jobstatus)
+                                                                        {
+                                                                            if (ViewBag.JobStatusId == item.JobStatusId)
+                                                                            {
+                                                                                <option value="@item.JobStatusId" selected>@item.StatusName</option>
+
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <option value="@item.JobStatusId">@item.StatusName</option>
+
+                                                                            }
+                                                                        }
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer" style="padding-top: 5px;text-align:right">
+                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                                <button type="button" name="SaveStatus" class="btn btn-primary" onclick="saveJobstatus()" id="SaveStatus">Save</button>
                                             </div>
                                         </div>
                                     </div>

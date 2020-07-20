@@ -93,6 +93,8 @@
         <EntityTypeShape EntityType="SHIPPING_FinalModel.AcHeadControl" Width="1.5" PointX="21.375" PointY="0.75" />
         <EntityTypeShape EntityType="SHIPPING_FinalModel.AcGroup" Width="1.5" PointX="4.5" PointY="37.625" />
         <AssociationConnector Association="SHIPPING_FinalModel.FK_AcGroup_AcCategory" />
+        <EntityTypeShape EntityType="SHIPPING_FinalModel.JobStatu" Width="1.5" PointX="23.375" PointY="0.75" />
+        <EntityTypeShape EntityType="SHIPPING_FinalModel.StaffNote" Width="1.5" PointX="23.375" PointY="17.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

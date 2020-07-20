@@ -200,6 +200,7 @@
     <Compile Include="Controllers\EDIController.cs" />
     <Compile Include="Controllers\JobAnalysisReportController.cs" />
     <Compile Include="Controllers\JobController.cs" />
+    <Compile Include="Controllers\JobStatusController.cs" />
     <Compile Include="Controllers\JobWiseIncomeExpenditureController.cs" />
     <Compile Include="Controllers\MenuCreationController.cs" />
     <Compile Include="Controllers\OpeningInvoiceController.cs" />
@@ -3905,6 +3906,11 @@
     <Content Include="Views\SupplierPayment\SupplierTradePayment.cshtml" />
     <Content Include="Views\SupplierPayment\SupplierTradePaymentDetails.cshtml" />
     <Content Include="Views\SupplierPayment\_GetAllTradeSupplierByDate.cshtml" />
+    <Content Include="Views\JobStatus\Create.cshtml" />
+    <Content Include="Views\JobStatus\Delete.cshtml" />
+    <Content Include="Views\JobStatus\Details.cshtml" />
+    <Content Include="Views\JobStatus\Edit.cshtml" />
+    <Content Include="Views\JobStatus\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Logo\" />

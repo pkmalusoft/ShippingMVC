@@ -56,7 +56,9 @@ namespace ShippingFinal.Controllers
 
         public ActionResult Create()
         {
-
+            var maximumcust = (from d in db.CUSTOMERs orderby d.CustomerID descending select d).FirstOrDefault();
+            var custnum= maximumcust.ReferenceCode.Substring(maximumcust.ReferenceCode.Length - 5);
+            ViewBag.custnum = Convert.ToInt32(custnum) + 1;
             ViewBag.country = DropDownList<CountryMaster>.LoadItems(
                    objSourceMastersModel.GetCountry(), "CountryID", "CountryName");
            ViewBag.CustomerType = new SelectList(new[]
@@ -115,6 +117,8 @@ namespace ShippingFinal.Controllers
         public ActionResult Edit(int id = 0)
         {
             CUSTOMER customer = objSourceMastersModel.GetCustomerById(id);
+            var custnum = customer.ReferenceCode.Substring(customer.ReferenceCode.Length - 5);
+            ViewBag.custnum = Convert.ToInt32(custnum);
             if (customer == null)
             {
                 return HttpNotFound();

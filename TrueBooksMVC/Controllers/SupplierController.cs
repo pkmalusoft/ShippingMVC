@@ -42,6 +42,9 @@ namespace TrueBooksMVC.Controllers
 
         public ActionResult Create()
         {
+            var maximumcust = (from d in db.Suppliers orderby d.SupplierID descending select d).FirstOrDefault();
+            var custnum = maximumcust.ReferenceCode.Substring(maximumcust.ReferenceCode.Length - 5);
+            ViewBag.custnum = Convert.ToInt32(custnum) + 1;
             ViewBag.country = DropDownList<CountryMaster>.LoadItems(
                 ObjectSourceModel.GetCountry(), "CountryID", "CountryName");
             ViewBag.SupplierTypes = new SelectList(new[]
@@ -113,7 +116,8 @@ namespace TrueBooksMVC.Controllers
             ViewBag.revenue = data;
 
             Supplier supplier = db.Suppliers.Find(id);
-            if (supplier == null)
+            var custnum = supplier.ReferenceCode.Substring(supplier.ReferenceCode.Length - 5);
+            ViewBag.custnum = Convert.ToInt32(custnum); if (supplier == null)
             {
                 return HttpNotFound();
             }

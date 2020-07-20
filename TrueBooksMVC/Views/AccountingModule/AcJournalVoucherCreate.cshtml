@@ -84,10 +84,10 @@
 </script>
 
 <section class="content-header">
-    <h1 class="headingfont">VOUCHER BOOK : NEW VOUCHER</h1>
+    <h1 class="headingfont">JOURNAL VOUCHER </h1>
 
 </section>
-<div class="searchdiv">
+<div class="searchdiv ">
     <div id="alert" style="color:red;display:none;margin-left:10px;">*Please Select Transaction Date</div>
     <fieldset>
 
@@ -96,55 +96,55 @@
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(true)
             <div class="row no-margin">
-                <div class="col-md-4">
-                    <label class="required headinglabel" id="lblTransDate">Transaction Date</label>
-                    @Html.TextBoxFor(model => model.TransDate, new { @class = "form-control datepicker ", placeholder = "dd-mmm-yyyy" })
+			
+			<div class="col-md-6">
+                    <label class="headinglabel" id="VoucherNumber">Voucher Number</label>
+                  <input type="text" name="voucher_number" readonly class="form-control"/>
                 </div>
-                <div class="col-md-4">
-                    <label class="headinglabel" id="lblReference">Reference</label>
+                <div class="col-md-6">
+                    <label class="required headinglabel" id="lblTransDate">Voucher Date</label>
+                    @Html.TextBoxFor(model => model.TransDate, new { @class = "form-control datepicker ", placeholder = "dd-mmm-yyyy" })
+               
+				</div>
+				</div>
+				<div class="row no-margin" style="padding-top:10px">
+                <div class="col-md-6">
+                    <label class="headinglabel" id="lblReference">Reference Number</label>
                     @Html.TextBoxFor(model => model.Refference, new { @class = "form-control" })
                 </div>
-                <div class="col-md-4">
-                    <label class="headinglabel" id="lblremark">Remark</label>
+                <div class="col-md-6">
+                    <label class="headinglabel" id="lblremark">Remarks</label>
                     @Html.TextAreaFor(model => model.Remark, new { @class = "form-control" })
                 </div>
-            </div>
+            
+			</div>
 
-            <section class="content-header">
-                <h2 class="headingfont" style="margin-top:5px; margin-bottom:10px;">Add Voucher Details</h2>
+            
 
-            </section>
-
-            <div class="row no-margin">
+            <div class="row no-margin" style="padding-top:10px">
                 <div class="col-md-4">
-                    <label class="headinglabel">Account Head</label>
+                    <label class="headinglabel">Chart of Accounts</label>
                     @Html.DropDownListFor(model => model.acHeadId, new SelectList(ViewBag.Achead, "AcHeadID", "AcHead1"), "Select", new { @class = "form-control" })
                 </div>
-                <div class="col-md-4">
-                    <label class="headinglabel">Dr/Cr</label>
+                <div class="col-md-3">
+                    <label class="headinglabel">Debit/Credit</label>
 
                     @Html.DropDownListFor(model => model.IsDebit, new List<SelectListItem> { new SelectListItem { Text = "Dr", Value = "1" }, new SelectListItem { Text = "Cr", Value = "0" } }, "Select", new { @class = "form-control" })
 
                 </div>
 
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <label class="headinglabel" id="txtAmount">Amount</label>
 
                     @Html.TextBoxFor(model => model.Amount, new { @class = "form-control" })
                 </div>
-
-            </div>
-            <div class="row no-margin" style="padding-top:10px">
-                <div class="col-md-4">
-                    <label class="headinglabel">Remark</label>
-                    @Html.TextAreaFor(model => model.AcRemark, new { @class = "form-control" })
-
-                </div>
-            </div>
-            <div class="col-md-12" style="padding-top:10px">
+				 <div class="col-md-2" style="margin-top:40px">
 
                 <input type="button" value="Add" class="btn btn-primary btnwidth" id="btnadd" />
             </div>
+            </div>
+         
+           
             <div class="row no-margin form-layout">
                 <div class="col-xs-12" style="padding-top: 10px">
                     <div class="data" style="padding-top: 10px;">

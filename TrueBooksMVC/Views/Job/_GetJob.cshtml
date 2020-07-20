@@ -1,4 +1,4 @@
-﻿@model IEnumerable<DAL.SP_GetAllJobsDetailsByDate_Result>
+﻿@model IEnumerable<TrueBooksMVC.Models.JobRegisterVM>
 
 @using TrueBooksMVC.Models
 @using System.Linq
@@ -52,6 +52,9 @@
         location.href = "@Url.Action("Job","Job")/" + Jobid;
 
     }
+    function InvoiceNotCreated() {
+        alert("Invoice not Generated !!")
+    }
 </script>
 
 
@@ -77,6 +80,8 @@
                                                 <th>Customer</th>
                                                 <th>Invoice No</th>
                                                 <th>Invoice Date</th>
+                                                <th>Load Port</th>
+                                                <th>Destination Port</th>
                                                 <th style="width: 18%">Action</th>
                                             </tr>
                                         </thead>
@@ -90,7 +95,8 @@
                                                 <th>Customer</th>
                                                 <th>Invoice No</th>
                                                 <th>Invoice Date</th>
-                                                <th style="width: 18%"></th>
+                                                <th>Load Port</th>
+                                                <th>Destination Port</th>
                                             </tr>
                                         </tfoot>
 
@@ -117,20 +123,22 @@
                                                         }
 
                                                         <td>@TrueBooksMVC.Models.CommanFunctions.GetShortDateFormat(item.JobDate)</td>
-                                                        <td class="tdtarget">@Html.DisplayFor(modelItem => item.JobDescription)</td>
+                                                        <td class="tdtarget">@Html.DisplayFor(modelItem => item.Description)</td>
                                                         <td>
                                                             @*@Html.DisplayFor(modelItem => item.Shipper,new { @title = "Doit contenir ... spécial" })*@
                                                             @*    <span title="@item.Shipper">@item.Shipper.ToString().Substring(0,2)</span>*@
-                                                            <span title="@item.Shipper" class="tdtarget">@item.Shipper</span>
+                                                            <span title="@item.ShipperName" class="tdtarget">@item.ShipperName</span>
                                                         </td>
-                                                        <td>@*@Html.DisplayFor(modelItem => item.Consignee)*@ <span title="@item.Consignee" class="tdtarget">@item.Consignee</span></td>
+                                                        <td>@*@Html.DisplayFor(modelItem => item.Consignee)*@ <span title="@item.ConsigneeName" class="tdtarget">@item.ConsigneeName</span></td>
                                                         <td>@*@Html.DisplayFor(modelItem => item.Customer)*@ <span title="@item.Customer" class="tdtarget">@item.Customer</span></td>
                                                         <td class="textright">
                                                             @if (item.InvoiceNo > 0)
                                                             {@Html.DisplayFor(modelItem => item.InvoiceNo)}
                                                         </td>
                                                         <td>@TrueBooksMVC.Models.CommanFunctions.GetShortDateFormat(item.InvoiceDate) </td>
-                                                        <td style="width: 15%">
+                                                        <td>@item.LoadPort </td>
+                                                        <td>@item.DestinationPort </td>
+                                                        <td style="width: 18%">
                                                             @* <a href='@Url.Action("Job", "Job", new { id = item.JobID })' data-toggle="tooltip" data-placement="right" title="Edit"><i class="fa fa-pencil"></i></a>|*@
                                                             @*<a href='@Url.Action("DeleteJob", "Job", new { id = item.JobID })' data-toggle="tooltip" data-placement="right" title="Delete"><i class="fa fa-times-circle"></i></a>| *@
                                                             <a href="@Url.Action("ClosedJobView","Job", new { id = item.JobID })">View</a>
@@ -139,17 +147,41 @@
                                                             {
                                                                 if (isprint)
                                                                 {
-                                                                    <a href='@Url.Action("ReportInvoice", "ReportInvoice", new { id = item.JobID })' data-toggle="tooltip" data-placement="right" title="Print"><i class="fa fa-print"></i></a>
+                                                                    <span>&vert; </span>
+                                                                    <a target="_blank" href="@Url.Action("JobRegisterReport.aspx", "Reports", new { jobid = item.JobID })" class="text-primary" title="Job Report"><b>JR</b></a>
+                                                                    <span>&vert; </span>
+                                                                    <a target="_blank" href="@Url.Action("InvoiceReport.aspx", "Reports", new { jobid = item.JobID })" class="text-primary" title="Invoice"><b>IN</b></a>
+                                                                    <span>&vert; </span>
+                                                                    <a target="_blank" href="@Url.Action("DeliveryNote.aspx", "Reports", new { jobid = item.JobID })" class="text-primary" title="Delivery Note"><b>DN</b></a>
+                                                                    <span>&vert; </span>
+                                                                    <a target="_blank" href="@Url.Action("InvoiceReport.aspx", "Reports", new { jobid = item.JobID })" class="text-primary" title="Arrival Note"><b>AN</b></a>
+                                                                    <span>&vert; </span>
+                                                                    <a target="_blank" href="@Url.Action("ArrivalReportPlain", "ReportInvoice", new { JobID = item.JobID})" class="text-primary" title="Truck Conginment"><b>TC</b></a>
+
                                                                 }
+
+                                                            }
+                                                            else
+                                                            {
+                                                                <span>&vert; </span>
+                                                                <a onclick="InvoiceNotCreated()" style="cursor:pointer" class="text-primary" title="Job Report">JR</a>
+                                                                <span>&vert; </span>
+                                                                <a onclick="InvoiceNotCreated()" style="cursor:pointer" class="text-primary" title="Invoice">IN</a>
+                                                                <span>&vert; </span>
+                                                                <a onclick="InvoiceNotCreated()" style="cursor:pointer" class="text-primary" title="Delivery Note">DN</a>
+                                                                <span>&vert; </span>
+                                                                <a onclick="InvoiceNotCreated()" style="cursor:pointer" class="text-primary" title="Arrival Note">AN</a>
+                                                                <span>&vert; </span>
+                                                                <a onclick="InvoiceNotCreated()" style="cursor:pointer" class="text-primary" title="Truck Conginment">TC</a>
 
                                                             }
 
                                                             @*@if (item.InvoiceNo == 0)
-                                                            {
+        {
 
-                                                                <span>&vert; </span>
-                                                                <input type="button" onclick="AddInvoiceNumber('@item.JobID')" class="btn-sm btn-primary" value="Generate Invoice" />
-                                                            }*@
+            <span>&vert; </span>
+            <input type="button" onclick="AddInvoiceNumber('@item.JobID')" class="btn-sm btn-primary" value="Generate Invoice" />
+        }*@
 
                                                         </td>
                                                     </tr>
@@ -173,20 +205,22 @@
                                                         }
 
                                                         <td>@TrueBooksMVC.Models.CommanFunctions.GetShortDateFormat(item.JobDate)</td>
-                                                        <td class="tdtarget">@Html.DisplayFor(modelItem => item.JobDescription)</td>
+                                                        <td class="tdtarget">@Html.DisplayFor(modelItem => item.Description)</td>
                                                         <td>
                                                             @*@Html.DisplayFor(modelItem => item.Shipper,new { @title = "Doit contenir ... spécial" })*@
                                                             @*    <span title="@item.Shipper">@item.Shipper.ToString().Substring(0,2)</span>*@
-                                                            <span title="@item.Shipper" class="tdtarget">@item.Shipper</span>
+                                                            <span title="@item.ShipperName" class="tdtarget">@item.ShipperName</span>
                                                         </td>
-                                                        <td>@*@Html.DisplayFor(modelItem => item.Consignee)*@ <span title="@item.Consignee" class="tdtarget">@item.Consignee</span></td>
+                                                        <td>@*@Html.DisplayFor(modelItem => item.Consignee)*@ <span title="@item.ConsigneeName" class="tdtarget">@item.ConsigneeName</span></td>
                                                         <td>@*@Html.DisplayFor(modelItem => item.Customer)*@ <span title="@item.Customer" class="tdtarget">@item.Customer</span></td>
                                                         <td class="textright">
                                                             @if (item.InvoiceNo > 0)
                                                             {@Html.DisplayFor(modelItem => item.InvoiceNo)}
                                                         </td>
                                                         <td>@TrueBooksMVC.Models.CommanFunctions.GetShortDateFormat(item.InvoiceDate) </td>
-                                                        <td style="width: 15%">
+                                                        <td>@item.LoadPort </td>
+                                                        <td>@item.DestinationPort </td>
+                                                        <td style="width: 18%">
                                                             @if (ismodify)
                                                             {
                                                                 <a href='@Url.Action("Job", "Job", new { id = item.JobID })' data-toggle="tooltip" data-placement="right" title="Edit"><i class="fa fa-pencil"></i></a>
@@ -202,17 +236,42 @@
                                                             {
                                                                 if (isprint)
                                                                 {
+                                                                    @*<span>&vert; </span>
+                <a href="@Url.Action("ReportInvoice", "ReportInvoice", new { id = item.JobID })" class="text-primary" title="Job Report"><b>AL</b></a>*@
                                                                     <span>&vert; </span>
-                                                                    <a href='@Url.Action("ReportInvoice", "ReportInvoice", new { id = item.JobID })' data-toggle="tooltip" data-placement="right" title="Print"><i class="fa fa-print"></i></a>
+                                                                    <a target="_blank" href="@Url.Action("JobRegisterReport.aspx", "Reports", new { jobid = item.JobID })" class="text-primary" title="Job Report">JR</a>
+                                                                    <span>&vert; </span>
+                                                                    <a target="_blank" href="@Url.Action("InvoiceReport.aspx", "Reports", new { jobid = item.JobID })" class="text-primary" title="Invoice">IN</a>
+                                                                    <span>&vert; </span>
+                                                                    <a target="_blank" href="@Url.Action("DeliveryNote.aspx", "Reports", new { jobid = item.JobID })" class="text-primary" title="Delivery Note">DN</a>
+                                                                    <span>&vert; </span>
+                                                                    <a target="_blank" href="@Url.Action("InvoiceReport.aspx", "Reports", new { jobid = item.JobID })" class="text-primary" title="Arrival Note">AN</a>
+                                                                    <span>&vert; </span>
+                                                                    <a target="_blank" href="@Url.Action("ArrivalReportPlain", "ReportInvoice", new { JobID = item.JobID})" class="text-primary" title="Truck Conginment">TC</a>
                                                                 }
 
                                                             }
-                                                               @*@if (item.InvoiceNo == 0)
+                                                            else
                                                             {
                                                                 <span>&vert; </span>
-                                                                <input type="button" onclick="AddInvoiceNumber('@item.JobID')" class="btn-sm btn-primary" value="Generate Invoice" />
+                                                                <a onclick="InvoiceNotCreated()" style="cursor:pointer"  class="text-primary" title="Job Report">JR</a>
+                                                                <span>&vert; </span>
+                                                                <a  onclick="InvoiceNotCreated()" style="cursor:pointer"class="text-primary" title="Invoice">IN</a>
+                                                                <span>&vert; </span>
+                                                                <a onclick="InvoiceNotCreated()" style="cursor:pointer"  class="text-primary" title="Delivery Note">DN</a>
+                                                                <span>&vert; </span>
+                                                                <a onclick="InvoiceNotCreated()" style="cursor:pointer" class="text-primary" title="Arrival Note">AN</a>
+                                                                <span>&vert; </span>
+                                                                <a onclick="InvoiceNotCreated()" style="cursor:pointer" class="text-primary" title="Truck Conginment">TC</a>
 
-                                                            }*@
+                                                            }
+
+                                                            @*@if (item.InvoiceNo == 0)
+        {
+            <span>&vert; </span>
+            <input type="button" onclick="AddInvoiceNumber('@item.JobID')" class="btn-sm btn-primary" value="Generate Invoice" />
+
+        }*@
 
                                                         </td>
                                                     </tr>
