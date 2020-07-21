@@ -15,9 +15,10 @@
 
     }
     var jobstatus = ViewBag.Jobstatus as IEnumerable<DAL.JobStatu>;
-
+    var staffmodel = ViewBag.StaffNoteModel as IEnumerable<TrueBooksMVC.Models.StaffNoteModel>;
 }
 <style>
+   
     .row div[class*=divisorColumn] {
         padding-left: 0;
         padding-right: 0;
@@ -601,9 +602,14 @@
     .fc_pro {
         color: #e60928;
     }
+    #staffmodelbody {
+        max-height: calc(100vh - 200px);
+        overflow-y: auto;
+    }
 </style>
 <script type="text/javascript">
     $(document).ready(function () {
+  
         $(":text").css({ "border-radius": "5px" });
         $("select").css({ "border-radius": "5px" });
         $("textarea").css({ "border-radius": "5px" });
@@ -735,7 +741,7 @@
             $("#AddBill").show();
         }));
     });
-
+   
     $("#ProvisionExRate").blur(function () {
         var wt = $(this).val();
         $("#ProvisionExRate").val(parseFloat(wt).toFixed(2));
@@ -767,6 +773,7 @@
     function ShowJobstatusModel() {
         if ('@Model.JobID' > 0) {
             $("#jobstatusmodal").modal('show');
+        
         } else {
             alert("Job not Created !!")
         }
@@ -794,7 +801,40 @@
             });
         }
     }
-
+    function ShowStaffNotes() {
+         if ('@Model.JobID' > 0) {
+             $("#StaffNoteModal").modal('show');          
+        } else {
+            alert("Job not Created !!")
+        }
+    }
+    function SaveStaffNotes() {
+           var Jobid = '@Model.JobID';
+        var staffnote = $("#txtStaffnote").val();
+        if (staffnote == "" || staffnote == null) {
+            alert("Please Enter Your Notes !")
+        } else {
+            $.ajax({
+                type: "GET",
+                url: "/Job/UpdateStaffNote",
+                datatype: "Json",
+                data: { Jobid: Jobid, staffnote: staffnote },
+                success: function (data) {
+                    if (data.success == true) {
+                        $.notify("Notes Submitted Successfully !!", "success");
+                        $("#txtStaffnote").val('');
+                        window.setTimeout(function () {
+                            location.reload();
+                        }, 1000);
+                    } else {
+                        $.notify(data.message, "error");
+                        $('#jobstatusmodal').modal('hide');
+                    }
+                }
+            });
+        }
+    }
+  
 </script>
 
 <script src="@Url.Content("~/Scripts/angular.js")"></script>
@@ -827,7 +867,7 @@
                                 <li><a style="color:#35b8eb" href="@Url.Action("InvoiceReport.aspx", "Reports", new { jobid = Model.JobID })">Print Invoice</a></li>
                                 <li><a style="color:#35b8eb" href="@Url.Action("DeliveryNote.aspx", "Reports", new { jobid = Model.JobID })">Delivery Note</a></li>
                                 <li><a style="color:#35b8eb" href="@Url.Action("ArrivalReportPlain", "ReportInvoice", new { JobID = Model.JobID})">Arrival Note</a></li>
-                                <li><a style="color:#35b8eb" href="#">Staff Notes</a></li>
+                                <li><a style="color:#35b8eb;cursor:pointer" onclick="ShowStaffNotes()">Staff Notes</a></li>
                                 <li><a style="color:#35b8eb;cursor:pointer" onclick="ShowJobstatusModel()">Job Status</a></li>
                                 <li><a style="color:#35b8eb" href="#">Customer Notification</a></li>
                                 <li><a style="color:#35b8eb" href="#">Cost Update</a></li>
@@ -1130,11 +1170,11 @@
                                             </div>
                                             <div class=" reve_rates no-padding">
                                                 <label class="headinglabel fc_sal">Sales <span class="fc_pro">(FC)</span></label>
-                                                <input type="text" ng-model="SalesForeign" class="form-control textright txtNum fc_pro" tabindex="14" id="SalesForeign" placeholder="Sales Foreign" />
+                                                <input type="text" ng-model="SalesForeign"  class="form-control textright txtNum fc_pro" tabindex="14" id="SalesForeign" placeholder="Sales Foreign"   />
                                             </div>
                                             <div class=" rev_unit no-padding">
                                                 <label class="headinglabel">Tax%</label>
-                                                <input type="number" class="form-control textright" ng-model="tax" id="tax" placeholder="TAX" ng_change="changeTax()" />
+                                                <input type="number" class="form-control textright taxper" ng-model="tax" id="tax" placeholder="TAX" ng_change="changeTax()" />
                                             </div>
                                             <div class=" rev_unit no-padding">
                                                 <label class="headinglabel">Tax Amt.</label>
@@ -1891,7 +1931,7 @@
                                                     <div class="row" style="padding-top: 5px">
                                                         <div class="col-sm-12">
                                                             <div class="row">
-                                                               
+
                                                                 <div class="col-xs-7 col-sm-8">
                                                                     <label>Job Status</label>
                                                                     <select class="form-control" id="mdlJobstatusid">
@@ -1920,6 +1960,59 @@
                                             <div class="modal-footer" style="padding-top: 5px;text-align:right">
                                                 <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                                                 <button type="button" name="SaveStatus" class="btn btn-primary" onclick="saveJobstatus()" id="SaveStatus">Save</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div id="wrapper">
+                    <div id="page-wrapper">
+                        <div class="row">
+                            <div class="col-lg-10">
+                                <div class="modal fade StaffNoteModal" id="StaffNoteModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" >
+                                        <div class="modal-content">
+
+                                            <div class="modal-header" style="background-color: #f5f5f5;">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+                                                <h4 class="modal-title" id="StaffNoteModal1">
+                                                    <span style="font-size: 18px; color: #3c8dbc !important; text-align:center">Staff Notes</span>
+                                                </h4>
+                                            </div>
+
+                                            <div class="modal-body" id="staffmodelbody">
+                                                <div class="container-fluid">
+                                                    <div class="row" style="padding-top: 5px">
+                                                        <div class="col-sm-12">
+                                                            <div class="row">
+                                                                @foreach (var staffnote in staffmodel)
+                                                                {
+                                                                    <div class="col-xs-7 col-sm-12">
+                                                                        <label>@staffnote.EmpName : @staffnote.Datetime</label>
+                                                                        <p>&nbsp;@staffnote.TaskDetails</p>
+                                                                    </div>
+                                                                }
+                                                            </div>
+                                                            <div class="row form-group">
+                                                                <div class="col-xs-7 col-sm-12">
+                                                                    <label>Enter Your Note</label>
+                                                                    <textarea id="txtStaffnote" rows="3" cols="75"></textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer" style="padding-top: 5px;text-align:right">
+                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                                <button type="button" name="SaveStaffnote" class="btn btn-primary" onclick="SaveStaffNotes()" id="SaveStaffnote">Save</button>
                                             </div>
                                         </div>
                                     </div>

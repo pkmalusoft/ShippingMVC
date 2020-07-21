@@ -320,6 +320,7 @@
     <Compile Include="Models\SalesInvoiceModel.cs" />
     <Compile Include="Models\ShippingUserVM.cs" />
     <Compile Include="Models\SourceMastersModel.cs" />
+    <Compile Include="Models\StaffNoteModel.cs" />
     <Compile Include="Models\SupplierLedgerReportVM.cs" />
     <Compile Include="Models\UserRegistrationRoleVM.cs" />
     <Compile Include="Models\UserRoleVM.cs" />

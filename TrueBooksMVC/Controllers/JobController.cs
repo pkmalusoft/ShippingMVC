@@ -146,7 +146,30 @@ namespace TrueBooksMVC.Controllers
                         select t;
 
             ViewBag.MainJobId = query;
+            var StaffNotes = (from d in entity.StaffNotes where d.JobId == id select d).ToList();
+            var branchid = Convert.ToInt32(Session["branchid"]);
+            var users = (from d in entity.UserRegistrations select d).ToList();
+            var staffnotemodel = new List<StaffNoteModel>();
+            foreach (var item in StaffNotes)
+            {
+                var model = new StaffNoteModel();
+                model.id = item.Id;
+                model.employeeid = item.EmployeeId;
+                model.jobid = item.JobId;
+                model.TaskDetails = item.TaskDetails;
+                model.Datetime = item.Datetime;
+                if (Convert.ToInt32(Session["UserID"]) == item.EmployeeId)
+                {
+                    model.EmpName = "You ";
+                }
+                else
+                {                    
+                    model.EmpName = users.Where(d => d.UserID == item.EmployeeId).FirstOrDefault().UserName;
 
+                }
+                staffnotemodel.Add(model);
+            }
+            ViewBag.StaffNoteModel = staffnotemodel;
             return View(JG);
 
         }
@@ -776,6 +799,30 @@ namespace TrueBooksMVC.Controllers
                     }
                 }
             }
+            var StaffNotes = (from d in entity.StaffNotes where d.JobId == JobId select d).ToList();
+            var branchid = Convert.ToInt32(Session["branchid"]);
+            var users = (from d in entity.UserRegistrations select d).ToList();
+            var staffnotemodel = new List<StaffNoteModel>();
+            foreach (var item in StaffNotes)
+            {
+                var model = new StaffNoteModel();
+                model.id = item.Id;
+                model.employeeid = item.EmployeeId;
+                model.jobid = item.JobId;
+                model.TaskDetails = item.TaskDetails;
+                model.Datetime = item.Datetime;
+                if (Convert.ToInt32(Session["UserID"]) == item.EmployeeId)
+                {
+                    model.EmpName = "You ";
+                }
+                else
+                {
+                    model.EmpName = users.Where(d => d.UserID == item.EmployeeId).FirstOrDefault().UserName;
+
+                }
+                staffnotemodel.Add(model);
+            }
+            ViewBag.StaffNoteModel = staffnotemodel;
             return View(JM);
         }
 
@@ -2772,9 +2819,29 @@ namespace TrueBooksMVC.Controllers
                 entity.Entry(job).State = EntityState.Modified;
                 entity.SaveChanges();
                 return Json(new { success = true }, JsonRequestBehavior.AllowGet);
-            }catch(Exception e)
+            }
+            catch (Exception e)
             {
-                return Json(new { success = false,message=e.Message.ToString() }, JsonRequestBehavior.AllowGet);
+                return Json(new { success = false, message = e.Message.ToString() }, JsonRequestBehavior.AllowGet);
+
+            }
+        }
+        public JsonResult UpdateStaffNote(int Jobid, string staffnote)
+        {
+            try
+            {
+                var note = new StaffNote();
+                note.Datetime = DateTime.Now;
+                note.JobId = Jobid;
+                note.TaskDetails = staffnote;
+                note.EmployeeId = Convert.ToInt32(Session["UserID"]);
+                entity.StaffNotes.Add(note);
+                entity.SaveChanges();
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new { success = false, message = e.Message.ToString() }, JsonRequestBehavior.AllowGet);
 
             }
         }
