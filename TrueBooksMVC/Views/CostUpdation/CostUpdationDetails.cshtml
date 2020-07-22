@@ -157,12 +157,18 @@
             var str = new Date(startdate);
 
 
-
+        var frdate= startdate.split(" ");
+        var from = frdate[0].split("/");
+        var f = new Date(from[2], from[1] - 1, from[0]);
             var d = new Date();
-            var curr_date = ed.getDate();
-            var curr_month = ed.getMonth();
-            var curr_year = ed.getFullYear();
-            return (ed.getDate() + "-" + m_names[curr_month] + "-" + ed.getFullYear());
+            //var curr_date = ed.getDate();
+            //var curr_month = ed.getMonth();
+            //var curr_year = ed.getFullYear();
+            //return (ed.getDate() + "-" + m_names[curr_month] + "-" + ed.getFullYear());
+            var curr_date = d.getDate();
+            var curr_month = d.getMonth();
+            var curr_year = f.getFullYear();
+            return (curr_date + "-" + m_names[curr_month] + "-" + curr_year);
 
 
         }

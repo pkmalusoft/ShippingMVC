@@ -724,6 +724,16 @@ warning 6002: The table/view 'malusoft_accounts.dbo.AcHeadAssign' does not have 
           <Property Name="StatusSea" Type="bit" />
           <Property Name="ShowDisplay" Type="bit" />
         </EntityType>
+        <EntityType Name="JStatus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="JobId" Type="int" />
+          <Property Name="JobStatusId" Type="int" />
+          <Property Name="EmployeeId" Type="int" />
+          <Property Name="DateTime" Type="datetime" />
+        </EntityType>
         <EntityType Name="Location">
           <Key>
             <PropertyRef Name="LocationID" />
@@ -2438,6 +2448,7 @@ warning 6002: The table/view 'malusoft_accounts.dbo.qrySupplierOutstanding' does
           <EntitySet Name="JobMode" EntityType="Self.JobMode" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="JobStatus" EntityType="Self.JobStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="JobType" EntityType="Self.JobType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="JStatus" EntityType="Self.JStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Location" EntityType="Self.Location" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Menu" EntityType="Self.Menu" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MenuAccessLevel" EntityType="Self.MenuAccessLevel" Schema="dbo" store:Type="Tables" />
@@ -3918,6 +3929,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           </AssociationSet>
           <EntitySet Name="JobStatus" EntityType="SHIPPING_FinalModel.JobStatu" />
           <EntitySet Name="StaffNotes" EntityType="SHIPPING_FinalModel.StaffNote" />
+          <EntitySet Name="JStatus" EntityType="SHIPPING_FinalModel.JStatu" />
           </EntityContainer>
         <ComplexType Name="SP_GetUserDetailForEdit_Result">
           <Property Type="Int32" Name="UserID" Nullable="false" />
@@ -7132,6 +7144,16 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Name="EmployeeId" Type="Int32" />
           <Property Name="Datetime" Type="DateTime" Precision="3" />
           <Property Name="TaskDetails" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="JStatu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="JobId" Type="Int32" />
+          <Property Name="JobStatusId" Type="Int32" />
+          <Property Name="EmployeeId" Type="Int32" />
+          <Property Name="DateTime" Type="DateTime" Precision="3" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -10651,6 +10673,17 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
                 <ScalarProperty Name="TaskDetails" ColumnName="TaskDetails" />
                 <ScalarProperty Name="Datetime" ColumnName="Datetime" />
                 <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="JobId" ColumnName="JobId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="JStatus">
+            <EntityTypeMapping TypeName="SHIPPING_FinalModel.JStatu">
+              <MappingFragment StoreEntitySet="JStatus">
+                <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="JobStatusId" ColumnName="JobStatusId" />
                 <ScalarProperty Name="JobId" ColumnName="JobId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>

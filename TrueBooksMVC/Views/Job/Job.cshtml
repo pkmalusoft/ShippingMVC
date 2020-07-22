@@ -16,9 +16,10 @@
     }
     var jobstatus = ViewBag.Jobstatus as IEnumerable<DAL.JobStatu>;
     var staffmodel = ViewBag.StaffNoteModel as IEnumerable<TrueBooksMVC.Models.StaffNoteModel>;
+    var StatusModel = ViewBag.JobStatusModel as IEnumerable<TrueBooksMVC.Models.JobStatusModel>;
 }
 <style>
-   
+
     .row div[class*=divisorColumn] {
         padding-left: 0;
         padding-right: 0;
@@ -602,6 +603,7 @@
     .fc_pro {
         color: #e60928;
     }
+
     #staffmodelbody {
         max-height: calc(100vh - 200px);
         overflow-y: auto;
@@ -609,7 +611,7 @@
 </style>
 <script type="text/javascript">
     $(document).ready(function () {
-  
+
         $(":text").css({ "border-radius": "5px" });
         $("select").css({ "border-radius": "5px" });
         $("textarea").css({ "border-radius": "5px" });
@@ -741,7 +743,7 @@
             $("#AddBill").show();
         }));
     });
-   
+
     $("#ProvisionExRate").blur(function () {
         var wt = $(this).val();
         $("#ProvisionExRate").val(parseFloat(wt).toFixed(2));
@@ -773,7 +775,7 @@
     function ShowJobstatusModel() {
         if ('@Model.JobID' > 0) {
             $("#jobstatusmodal").modal('show');
-        
+
         } else {
             alert("Job not Created !!")
         }
@@ -795,15 +797,16 @@
                         $('#jobstatusmodal').modal('hide');
                     } else {
                         $.notify(data.message, "error");
-                        $('#jobstatusmodal').modal('hide');
-                    }
+                        window.setTimeout(function () {
+                            location.reload();
+                        }, 1000);                    }
                 }
             });
         }
     }
     function ShowStaffNotes() {
          if ('@Model.JobID' > 0) {
-             $("#StaffNoteModal").modal('show');          
+             $("#StaffNoteModal").modal('show');
         } else {
             alert("Job not Created !!")
         }
@@ -834,7 +837,7 @@
             });
         }
     }
-  
+
 </script>
 
 <script src="@Url.Content("~/Scripts/angular.js")"></script>
@@ -870,7 +873,7 @@
                                 <li><a style="color:#35b8eb;cursor:pointer" onclick="ShowStaffNotes()">Staff Notes</a></li>
                                 <li><a style="color:#35b8eb;cursor:pointer" onclick="ShowJobstatusModel()">Job Status</a></li>
                                 <li><a style="color:#35b8eb" href="#">Customer Notification</a></li>
-                                <li><a style="color:#35b8eb" href="#">Cost Update</a></li>
+                                <li><a style="color:#35b8eb" href="@Url.Action("CostUpdation", "CostUpdation", new { id = 0 })">Cost Update</a></li>
                             </ul>
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <i style="font-size: 30px;color:#35b8eb;padding-top: 11px;" class="fa fa-cog"></i>
@@ -1170,15 +1173,15 @@
                                             </div>
                                             <div class=" reve_rates no-padding">
                                                 <label class="headinglabel fc_sal">Sales <span class="fc_pro">(FC)</span></label>
-                                                <input type="text" ng-model="SalesForeign"  class="form-control textright txtNum fc_pro" tabindex="14" id="SalesForeign" placeholder="Sales Foreign"   />
+                                                <input type="text" ng-model="SalesForeign" class="form-control textright txtNum fc_pro" tabindex="14" id="SalesForeign" placeholder="Sales Foreign" />
                                             </div>
                                             <div class=" rev_unit no-padding">
                                                 <label class="headinglabel">Tax%</label>
-                                                <input type="number" class="form-control textright taxper" ng-model="tax" id="tax" placeholder="TAX" ng_change="changeTax()" />
+                                                <input type="number" class="form-control textright taxper" ng-model="tax" id="tax" tabindex="15"  placeholder="TAX" ng_change="changeTax()" />
                                             </div>
                                             <div class=" rev_unit no-padding">
                                                 <label class="headinglabel">Tax Amt.</label>
-                                                <input type="text" class="form-control textright bg-gray" ng-model="taxamt" id="taxamt" placeholder="Tax Amount" value="0.00" readonly />
+                                                <input type="text" class="form-control textright bg-gray" ng-model="taxamt" id="taxamt" tabindex="16" placeholder="Tax Amount" value="0.00" readonly />
                                             </div>
                                         </div>
                                     </div>
@@ -1899,8 +1902,8 @@
                                             </div>
                                             <div class="modal-footer" style="padding-top: 5px">
                                                 <input type="hidden" id="hdnCountryID" />
-                                                <button type="button" class="btn btn-default" data-dismiss="modal" tabindex="6">Close</button>
-                                                <button type="submit" name="Command" value="SaveInvoice" class="btn btn-primary" tabindex="5" id="Button1">Save</button>
+                                                <button type="button" class="btn btn-default" data-dismiss="modal" >Close</button>
+                                                <button type="submit" name="Command" value="SaveInvoice" class="btn btn-primary"  id="Button1">Save</button>
                                             </div>
                                         </div>
                                     </div>
@@ -1913,9 +1916,9 @@
                 <div id="wrapper">
                     <div id="page-wrapper">
                         <div class="row">
-                            <div class="col-lg-6">
+                            <div class="col-lg-10">
                                 <div class="modal fade" id="jobstatusmodal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
+                                    <div class="modal-dialog" style="width:50%">
                                         <div class="modal-content">
 
                                             <div class="modal-header" style="background-color: #f5f5f5;">
@@ -1930,9 +1933,9 @@
                                                 <div class="container-fluid">
                                                     <div class="row" style="padding-top: 5px">
                                                         <div class="col-sm-12">
-                                                            <div class="row">
+                                                            <div class="row form-group">
 
-                                                                <div class="col-xs-7 col-sm-8">
+                                                                <div class="col-xs-7 col-sm-12">
                                                                     <label>Job Status</label>
                                                                     <select class="form-control" id="mdlJobstatusid">
                                                                         <option value="0">Select</option>
@@ -1952,7 +1955,32 @@
                                                                     </select>
                                                                 </div>
                                                             </div>
+                                                            <div class="row form-group">
+                                                                <div class="col-xs-7 col-sm-12">
+                                                                    <table class="table table-bordered">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th >Date</th>
+                                                                                <th>Staff</th>
+                                                                                <th style="text-align:center !important;width:33%">Status</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            @foreach (var statusmodel in StatusModel)
+                                                                            {
 
+                                                                                <tr>
+                                                                                    <td>@statusmodel.Datetime</td>
+                                                                                    <td>@statusmodel.EmpName</td>
+                                                                                    <td>@statusmodel.StatusName</td>
+                                                                                </tr>
+
+
+                                                                            }
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1976,7 +2004,7 @@
                         <div class="row">
                             <div class="col-lg-10">
                                 <div class="modal fade StaffNoteModal" id="StaffNoteModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog" >
+                                    <div class="modal-dialog" style="width:70%">
                                         <div class="modal-content">
 
                                             <div class="modal-header" style="background-color: #f5f5f5;">
@@ -1991,21 +2019,39 @@
                                                 <div class="container-fluid">
                                                     <div class="row" style="padding-top: 5px">
                                                         <div class="col-sm-12">
-                                                            <div class="row">
-                                                                @foreach (var staffnote in staffmodel)
-                                                                {
-                                                                    <div class="col-xs-7 col-sm-12">
-                                                                        <label>@staffnote.EmpName : @staffnote.Datetime</label>
-                                                                        <p>&nbsp;@staffnote.TaskDetails</p>
-                                                                    </div>
-                                                                }
-                                                            </div>
                                                             <div class="row form-group">
                                                                 <div class="col-xs-7 col-sm-12">
                                                                     <label>Enter Your Note</label>
-                                                                    <textarea id="txtStaffnote" rows="3" cols="75"></textarea>
+                                                                    <textarea id="txtStaffnote" rows="4" cols="100"></textarea>
                                                                 </div>
                                                             </div>
+                                                            <div class="row form-group">
+                                                                <div class="col-xs-7 col-sm-12">
+                                                                    <table class="table table-bordered" >
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th width="18%">Date</th>
+                                                                                <th width="15%">Staff</th>
+                                                                                <th style="text-align:center !important">Notes</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            @foreach (var staffnote in staffmodel)
+                                                                            {
+
+                                                                                <tr>
+                                                                                    <td width="18%">@staffnote.Datetime</td>
+                                                                                    <td width="15%">@staffnote.EmpName</td>
+                                                                                    <td>@staffnote.TaskDetails</td>
+                                                                                </tr>
+                                                                                
+
+                                                                            }
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                                </div>
+
                                                         </div>
                                                     </div>
                                                 </div>

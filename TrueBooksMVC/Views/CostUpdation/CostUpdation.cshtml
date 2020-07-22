@@ -137,10 +137,10 @@
 
         $('#tbl1').on('blur','.txtNum',function () {
             if (isNaN(parseInt($(this).val()))) {
-                $(this).val('0.0000');
+                $(this).val('0.00');
             } else {
                 var amt = parseFloat($(this).val());
-                $(this).val(amt.toFixed(4));
+                $(this).val(amt.toFixed(2));
             }
         });
 
@@ -170,7 +170,6 @@
                 SelectedSupplierIDChanged();
             }
         });
-        debugger;
         var SelectedSupplierID = $('#SelectedSupplierID').val();
         if ((isNaN(SelectedSupplierID) == false) && SelectedSupplierID != 0) {
             $.ajax({
@@ -180,7 +179,6 @@
                     Id: SelectedSupplierID
                 },
                 success: function (data) {
-                    debugger;
                     $.each(data, function (index, element) {
                         $('#SupplierID').val(element.SupplierName);
                     });
@@ -244,7 +242,6 @@
         });
 
         $('#tbl1').on('blur','.LoadedInvoiceAmount', function () {
-            debugger;
             var AmountPaidTillDate = parseFloat($(this).parent().parent().find('.AmountPaidTillDate').val());
             var InvoiceAmount = parseFloat($(this).val());
             var ProvisionHome = parseFloat($(this).parent().parent().find('.ProvisionHome').val());
@@ -257,10 +254,8 @@
         });
 
         function ValidateTotal() {
-            debugger;
             var TotalAmount = 0;
             $('#tbl1 tr').not(':first').each(function (i, obj) {
-                debugger;
                 var AmountPaidTillDate = parseFloat($(obj).find('.AmountPaidTillDate').val());
                 var InvoiceAmount = parseFloat($(obj).find('.LoadedInvoiceAmount').val());
                 var ProvisionHome = parseFloat($(obj).find('.ProvisionHome').val());
@@ -320,16 +315,15 @@
             datatype: "Json",
             data: { ID: $('#SelectedSupplierID').val(), JobIDList: jobidstring },
             success: function (data) {
-                debugger;
                 for (var i = 0; i < data.length; i++) {
                     $('#tbl1').append('<tr>' +
                                                '<td>' + data[i].JobCode + ' <input id="" name="CostUpdationDetails[' + i + '].JobCode" value="' + data[i].JobCode + '" type="hidden"></td>' +
                                                '<td>' + data[i].RevenueType + '<input id="" name="CostUpdationDetails[' + i + '].RevenueTypeID" value="' + data[i].RevenueTypeID + '" type="hidden"></td>' +
                         '<td>' + data[i].CurrencyName + '<input id="" name="CostUpdationDetails[' + i + '].CurrencyName" value="' + data[i].CurrencyName + '" type="hidden"></td>' +
-                        '<td class="text-right">' + parseFloat(data[i].ProvisionExchangeRate).toFixed(4) + '<input id="" name="CostUpdationDetails[' + i + '].ProvisionExchangeRate" value="' + data[i].ProvisionExchangeRate + '" type="hidden"></td>' +
-                        '<td class="text-right">' + parseFloat(data[i].ProvisionForeign).toFixed(4) + '<input id="" name="CostUpdationDetails[' + i + '].ProvisionForeign" value="' + data[i].ProvisionForeign + '" type="hidden"></td>' +
-                        '<td class="text-right">' + parseFloat(data[i].ProvisionHome).toFixed(4) + '<input id="" name="CostUpdationDetails[' + i + '].ProvisionHome" value="' + data[i].ProvisionHome + '" type="hidden" class="ProvisionHome"> <input  name="CostUpdationDetails[' + i + '].ProvisionCurrencyID" value="' + data[i].ProvisionCurrencyID + '" type="hidden" /></td>' +
-                        '<td class="text-right">0.0000 <input type="hidden" name="CostUpdationDetails[' + i + '].AmountPaidTillDate" value="0" class="AmountPaidTillDate" /></td>' +
+                        '<td class="text-right">' + parseFloat(data[i].ProvisionExchangeRate).toFixed(2) + '<input id="" name="CostUpdationDetails[' + i + '].ProvisionExchangeRate" value="' + data[i].ProvisionExchangeRate + '" type="hidden"></td>' +
+                        '<td class="text-right">' + parseFloat(data[i].ProvisionForeign).toFixed(2) + '<input id="" name="CostUpdationDetails[' + i + '].ProvisionForeign" value="' + data[i].ProvisionForeign + '" type="hidden"></td>' +
+                        '<td class="text-right">' + parseFloat(data[i].ProvisionHome).toFixed(2) + '<input id="" name="CostUpdationDetails[' + i + '].ProvisionHome" value="' + data[i].ProvisionHome + '" type="hidden" class="ProvisionHome"> <input  name="CostUpdationDetails[' + i + '].ProvisionCurrencyID" value="' + data[i].ProvisionCurrencyID + '" type="hidden" /></td>' +
+                        '<td class="text-right">0.00 <input type="hidden" name="CostUpdationDetails[' + i + '].AmountPaidTillDate" value="0" class="AmountPaidTillDate" /></td>' +
                         '<td class="fullTextTd"><input type="text" id="" class="invamt txtNum textright LoadedInvoiceAmount" onBlur="f1(this)" name="CostUpdationDetails[' + i + '].InvoiceAmount" autocomplete="off" /> <input name="CostUpdationDetails[' + i + '].CostUpdationDetailID" type="hidden" value="0" /> <input  name="CostUpdationDetails[' + i + '].SalesCurrencyID" value="' + data[i].SalesCurrencyID + '" type="hidden" /> ' +
                                                '</td>' +
                                                '<td class="fullTextTd"><input type="text" id="" name="CostUpdationDetails[' + i + '].SupplierReference"></input><input name="CostUpdationDetails[' + i + '].SalesExchangeRate" value="' + data[i].SalesExchangeRate + '" type="hidden" /> <input  name="CostUpdationDetails[' + i + '].SalesForeign" value="' + data[i].SalesForeign + '" type="hidden"> <input  name="CostUpdationDetails[' + i + '].SalesHome" value="' + data[i].SalesHome + '" type="hidden" /><input  name="CostUpdationDetails[' + i + '].SupplierID" value="' + data[i].SupplierID + '" type="hidden"><input  name="CostUpdationDetails[' + i + '].JInvoiceID" value="' + data[i].InvoiceID + '" type="hidden"><input  name="CostUpdationDetails[' + i + '].Cost" value="' + data[i].Cost + '" type="hidden"> <input  name="CostUpdationDetails[' + i + '].InvoiceID" value="' + data[i].InvoiceID + '" type="hidden">' +
@@ -668,6 +662,7 @@
                         minDate: sd,
                         maxDate: ed,
                     });
+                    $("#TransactionDate").datepicker( "setDate", new Date() );
                 });
 
 

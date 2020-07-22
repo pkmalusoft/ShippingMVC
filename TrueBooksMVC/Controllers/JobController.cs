@@ -30,7 +30,6 @@ namespace TrueBooksMVC.Controllers
             Session["AddBill"] = null;
             Session["ContainerID"] = null;
             Session["AddLog"] = null;
-
             JobGeneration JG = new JobGeneration();
             var Jobstatus = (from d in entity.JobStatus select d).ToList();
             ViewBag.Jobstatus = Jobstatus;
@@ -146,7 +145,7 @@ namespace TrueBooksMVC.Controllers
                         select t;
 
             ViewBag.MainJobId = query;
-            var StaffNotes = (from d in entity.StaffNotes where d.JobId == id select d).ToList();
+            var StaffNotes = (from d in entity.StaffNotes where d.JobId == id orderby d.Id descending select d).ToList();
             var branchid = Convert.ToInt32(Session["branchid"]);
             var users = (from d in entity.UserRegistrations select d).ToList();
             var staffnotemodel = new List<StaffNoteModel>();
@@ -158,18 +157,26 @@ namespace TrueBooksMVC.Controllers
                 model.jobid = item.JobId;
                 model.TaskDetails = item.TaskDetails;
                 model.Datetime = item.Datetime;
-                if (Convert.ToInt32(Session["UserID"]) == item.EmployeeId)
-                {
-                    model.EmpName = "You ";
-                }
-                else
-                {                    
-                    model.EmpName = users.Where(d => d.UserID == item.EmployeeId).FirstOrDefault().UserName;
-
-                }
+                model.EmpName = users.Where(d => d.UserID == item.EmployeeId).FirstOrDefault().UserName;
                 staffnotemodel.Add(model);
             }
             ViewBag.StaffNoteModel = staffnotemodel;
+            var JobStatusModel = new List<JobStatusModel>();
+            var Jstatus = (from d in entity.JStatus where d.JobId == id orderby d.Id descending select d).ToList();
+            foreach(var item in Jstatus)
+            {
+                var model = new JobStatusModel();
+                model.id = item.Id;
+                model.employeeid = item.EmployeeId;
+                model.jobid = item.JobId;
+                model.StatusId = item.JobStatusId;
+                model.StatusName = Jobstatus.Where(d => d.JobStatusId == item.JobStatusId).FirstOrDefault().StatusName;
+                model.Datetime = item.DateTime;
+                model.EmpName = users.Where(d => d.UserID == item.EmployeeId).FirstOrDefault().UserName;
+                JobStatusModel.Add(model);
+            }
+            ViewBag.JobStatusModel = JobStatusModel;
+
             return View(JG);
 
         }
@@ -647,6 +654,13 @@ namespace TrueBooksMVC.Controllers
                     job.JobStatusId = 1;
                     entity.Entry(job).State = EntityState.Modified;
                     entity.SaveChanges();
+                    var jobstatus = new JStatu();
+                    jobstatus.JobId = JobId;
+                    jobstatus.EmployeeId = Convert.ToInt32(Session["UserID"]);
+                    jobstatus.DateTime = DateTime.Now;
+                    jobstatus.JobStatusId = 1;
+                    entity.JStatus.Add(jobstatus);
+                    entity.SaveChanges();
                     Session["JobID"] = JobId;
 
                     JM.JobID = JobId;
@@ -799,7 +813,7 @@ namespace TrueBooksMVC.Controllers
                     }
                 }
             }
-            var StaffNotes = (from d in entity.StaffNotes where d.JobId == JobId select d).ToList();
+            var StaffNotes = (from d in entity.StaffNotes where d.JobId == JobId orderby d.Id descending select d).ToList();
             var branchid = Convert.ToInt32(Session["branchid"]);
             var users = (from d in entity.UserRegistrations select d).ToList();
             var staffnotemodel = new List<StaffNoteModel>();
@@ -811,18 +825,26 @@ namespace TrueBooksMVC.Controllers
                 model.jobid = item.JobId;
                 model.TaskDetails = item.TaskDetails;
                 model.Datetime = item.Datetime;
-                if (Convert.ToInt32(Session["UserID"]) == item.EmployeeId)
-                {
-                    model.EmpName = "You ";
-                }
-                else
-                {
-                    model.EmpName = users.Where(d => d.UserID == item.EmployeeId).FirstOrDefault().UserName;
+                model.EmpName = users.Where(d => d.UserID == item.EmployeeId).FirstOrDefault().UserName;
 
-                }
                 staffnotemodel.Add(model);
             }
             ViewBag.StaffNoteModel = staffnotemodel;
+            var JobStatusModel = new List<JobStatusModel>();
+            var Jstatus = (from d in entity.JStatus where d.JobId == id orderby d.Id descending select d).ToList();
+            foreach (var item in Jstatus)
+            {
+                var model = new JobStatusModel();
+                model.id = item.Id;
+                model.employeeid = item.EmployeeId;
+                model.jobid = item.JobId;
+                model.StatusId = item.JobStatusId;
+                model.StatusName = Jobstatus.Where(d => d.JobStatusId == item.JobStatusId).FirstOrDefault().StatusName;
+                model.Datetime = item.DateTime;
+                model.EmpName = users.Where(d => d.UserID == item.EmployeeId).FirstOrDefault().UserName;
+                JobStatusModel.Add(model);
+            }
+            ViewBag.JobStatusModel = JobStatusModel;
             return View(JM);
         }
 
@@ -2197,6 +2219,12 @@ namespace TrueBooksMVC.Controllers
 
             return Json(vCurrencylist, JsonRequestBehavior.AllowGet);
         }
+        public JsonResult GetBaseCurrency()
+        {
+            var BaseCurrency = Session["BaseCurrencyId"].ToString();
+
+            return Json(BaseCurrency, JsonRequestBehavior.AllowGet);
+        }
 
 
         public JsonResult GetExchangeRte(string ID)
@@ -2815,8 +2843,15 @@ namespace TrueBooksMVC.Controllers
             try
             {
                 var job = (from d in entity.JobGenerations where d.JobID == Jobid select d).FirstOrDefault();
-                job.JobStatusId = 1;
+                job.JobStatusId = statusid;
                 entity.Entry(job).State = EntityState.Modified;
+                entity.SaveChanges();
+                var jobstatus = new JStatu();
+                jobstatus.JobId = Jobid;
+                jobstatus.EmployeeId= Convert.ToInt32(Session["UserID"]);
+                jobstatus.DateTime = DateTime.Now;
+                jobstatus.JobStatusId = statusid;
+                entity.JStatus.Add(jobstatus);
                 entity.SaveChanges();
                 return Json(new { success = true }, JsonRequestBehavior.AllowGet);
             }

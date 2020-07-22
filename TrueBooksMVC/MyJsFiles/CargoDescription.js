@@ -67,7 +67,6 @@ app.service('cargoService', function ($http) {
         return res;
     };
 
-
 });
 
 
@@ -84,8 +83,10 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
     BindProvisionCurrency();
     BindContainerType();
     BindUnit();
-
-
+    BindBasecurrency();
+    BindBaseSalescurrency();
+    
+    //alert(ViewBag.BaseCurrency );
     function isValidDate(dateWrapper) {
         if (typeof dateWrapper.getMonth === 'function') {
             return true;
@@ -121,9 +122,8 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
     };
 
     function CalculateProvisionValue() {
-        
         if (isNaN(parseInt($('#QTY').val()))) {
-            $('#QTY').val('0');
+            $('#QTY').val('');
         }
         if (isNaN(parseInt($('#ProRate').val()))) {
             $('#ProRate').val('0.00');
@@ -155,7 +155,7 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
         var res = 0;
         var taxValue1 = $('#tax').val();
         if (isNaN(parseInt($('#QTY').val()))) {
-            $('#QTY').val('0');
+            $('#QTY').val('');
         }
         if (isNaN(parseInt($('#SaleRate').val()))) {
             $('#SaleRate').val('0.00');
@@ -237,11 +237,10 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
     $scope.CalcSaleForeign = function () {
         CalculateProvisionValue();
     };
-
+   
     var vCharges = JSON.parse('[]');
 
     $scope.editCharges = function (index) {
-        
         var objRevenueTypeID = $('#RevenueTypeID_' + index).val();
         $('#RevenueTypeID').val(objRevenueTypeID);
         $('#RevenueTypeID').trigger("change");
@@ -441,6 +440,8 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
         $scope.SaleexChangeRate = '';
         $scope.SalesDomestic = '';
         $('#SalesForeign').val('');
+        BindBasecurrency();
+        BindBaseSalescurrency();
     }
 
     $scope.addContainer = function () {
@@ -929,12 +930,55 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
             method: 'GET'
         }).success(function (data, status, headers, config) {
             $scope.CurrencyList = data;
-                 
+        });
+    }
+    function BindBasecurrency() {
+
+        $http({
+            url: '/Job/GetBaseCurrency/',
+            method: 'GET'
+        }).success(function (data, status, headers, config) {
+            $scope.ProvisionExR = data.toString();
+            $http({
+                url: '/Job/GetExchangeRte/' + $scope.ProvisionExR,
+                method: 'GET'
+            }).success(function (data, status, headers, config) {
+                $scope.ProexChangeRate = data;
+
+                if (isNaN(parseInt($scope.ProexChangeRate))) {
+                    $('#ProvisionExRate').val('0.00');
+                    CalculateProvisionValue();
+                } else {
+                    $('#ProvisionExRate').val(parseFloat($scope.ProexChangeRate).toFixed(2));
+                    CalculateProvisionValue();
+                }
+            });
         });
     }
 
+    function BindBaseSalescurrency() {
 
-
+        $http({
+            url: '/Job/GetBaseCurrency/',
+            method: 'GET'
+        }).success(function (data, status, headers, config) {
+            $scope.SalesExR = data.toString();
+            $http({
+                url: '/Job/GetExchangeRte/' + $scope.SalesExR,
+                method: 'GET'
+            }).success(function (data, status, headers, config) {
+                $scope.SaleexChangeRate = data;
+                if (isNaN(parseInt($scope.SaleexChangeRate))) {
+                    $('#SalesExRate').val('0.00');
+                    CalculateProvisionValue();
+                }
+                else {
+                    $('#SalesExRate').val(parseFloat($scope.SaleexChangeRate).toFixed(2));
+                    CalculateProvisionValue();
+                }
+            });
+        });
+    }
 
     $scope.deleteContainer = function (id) {
 

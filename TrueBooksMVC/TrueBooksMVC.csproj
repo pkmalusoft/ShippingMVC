@@ -298,6 +298,7 @@
     <Compile Include="Models\JobModeJobTypeVM.cs" />
     <Compile Include="Models\JobModel.cs" />
     <Compile Include="Models\JobRegisterVM.cs" />
+    <Compile Include="Models\JobStatusModel.cs" />
     <Compile Include="Models\LargeJsonResult.cs" />
     <Compile Include="Models\MastersModel.cs" />
     <Compile Include="Models\MenuModel.cs" />
