@@ -19,5 +19,6 @@ namespace DAL
         public Nullable<int> EmployeeId { get; set; }
         public Nullable<System.DateTime> Datetime { get; set; }
         public string TaskDetails { get; set; }
+        public Nullable<int> PageTypeId { get; set; }
     }
 }

@@ -58,7 +58,7 @@
             var id = $(row).find("td").eq(0).find('input[type=hidden]').val();
               var url = '@spath' + "/Reports/ReceiptVocher.aspx?recpayid=" + id;
             //var src = "http://localhost:1052/Reports/ReceiptVocher.aspx?recpayid=" + id;
-            window.open(src, "_blank");
+            window.open(url, "_blank");
         });
 
 
@@ -85,12 +85,12 @@
                                             <tr>
 
                                                 <th>Receipt Date</th>
-                                                <th>Document No</th>
-                                                <th>Party Name</th>
+                                                <th>Receipt Number</th>
+                                                <th>Customer</th>
                                                 <th>Amount</th>
                                                 <th>Currency</th>
 
-                                                <th style="width:120px;"></th>
+                                                <th style="width:120px;">Action</th>
                                             </tr>
                                         </thead>
 
@@ -98,8 +98,8 @@
                                             <tr>
 
                                                 <th>Receipt Date</th>
-                                                <th>Document No</th>
-                                                <th>Party Name</th>
+                                                <th>Receipt Number</th>
+                                                <th>Customer</th>
                                                 <th>Amount</th>
                                                 <th>Currency</th>
 

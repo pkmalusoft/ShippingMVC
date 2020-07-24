@@ -3,6 +3,9 @@
 @{
     ViewBag.Title = "CustomerReciept";
     Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
+    var staffmodel = ViewBag.StaffNoteModel as IEnumerable<TrueBooksMVC.Models.StaffNoteModel>;
+    var spath = System.Configuration.ConfigurationManager.AppSettings["spath"].ToString();
+
 }
 
 
@@ -33,13 +36,17 @@
         $(".chkAllocate").prop("checked", true);
         //$("#FMoney").attr("readonly", false);
 
+        if ('@Model.RecPayID' == 0) {
+            $("#CurrencyId").val('@Session["BaseCurrencyId"]');
+            $("#EXRate").val('1.00');
 
+        }
         var wt = $("#EXRate").val();
         if (wt == null || wt == "") {
             $("#EXRate").val("0.00");
         } else {
             $("#EXRate").val(parseFloat(wt).toFixed(2));
-        } 
+        }
 
         $("#EXRate").blur(function () {
             var wt = $(this).val();
@@ -52,7 +59,7 @@
                 $("#FMoney").val("0.00");
             } else {
                 $("#FMoney").val(parseFloat(wt).toFixed(2));
-            } 
+            }
         });
 
         $(".chkAllocate").click(function () {
@@ -111,7 +118,7 @@
                 $(curror).find("td").eq(3).find("div").find(".amt").val(allocateamt);
             }
         });
-      
+
 
         $(".aamt").blur(function () {
 
@@ -125,7 +132,7 @@
                 if (a < amt && f == 0) {
 
                     $(this).find("td").eq(6).find(".amt").val(parseFloat(a).toFixed(2));
-                    amt = amt - parseFloat(a);                    
+                    amt = amt - parseFloat(a);
                 }
                 else {
                     f = 1;
@@ -293,6 +300,49 @@
         //    $(curror).find("td").eq(6).find(".amt").val(allocateamt.toFixed(2));
         //}
     }
+      function ShowStaffNotes() {
+         if ('@Model.RecPayID' > 0) {
+             $("#StaffNoteModal").modal('show');
+        } else {
+            alert("Receipt not Created !!")
+        }
+    }
+    function SaveStaffNotes() {
+           var Jobid = '@Model.RecPayID';
+        var staffnote = $("#txtStaffnote").val();
+        if (staffnote == "" || staffnote == null) {
+            alert("Please Enter Your Notes !")
+        } else {
+            $.ajax({
+                type: "GET",
+                url: "/CustomerReciept/UpdateStaffNote",
+                datatype: "Json",
+                data: { Jobid: Jobid, staffnote: staffnote },
+                success: function (data) {
+                    if (data.success == true) {
+                        $.notify("Notes Submitted Successfully !!", "success");
+                        $("#txtStaffnote").val('');
+                        window.setTimeout(function () {
+                            location.reload();
+                        }, 1000);
+                    } else {
+                        $.notify(data.message, "error");
+                        $('#StaffNoteModal').modal('hide');
+                    }
+                }
+            });
+        }
+    }
+     function Printreceipt(id) {
+        if (id > 0) {
+            var url = '@spath' + "/Reports/ReceiptVocher.aspx?recpayid=" + id;
+            //var src = "http://localhost:1052/Reports/ReceiptVocher.aspx?recpayid=" + id;
+            window.open(url, "_blank");
+        } else {
+            alert("Receipt not Created !!")
+
+        }
+    }
 </script>
 
 
@@ -325,12 +375,32 @@
                     </div>
 
                     <div class="row back-to-list">
-                        <div class="col-xs-12" style="padding-left: 30px">
+                        <div class="col-xs-10" style="padding-left: 30px">
                             <a href='@Url.Action("CustomerTradeReceiptDetails", "CustomerReciept", new { id = 0 })' class="btn btn-primary  btnwidth">Back to list</a>
                             @Html.HiddenFor(model => model.RecPayID)
                             @Html.HiddenFor(model => model.RecPayDetailID)
                             @Html.HiddenFor(model => model.AcJournalID)
                             @Html.HiddenFor(model => model.StatusEntry)
+                        </div>
+                        <div style="text-align:right;" class="col-xs-2">
+                            <div class="navbar-custom-menu">
+                                <ul class="nav navbar-nav">
+
+                                    <!-- User Account Menu -->
+                                    <li class="dropdown user user-menu">
+                                        <!-- Menu Toggle Button -->
+
+                                        <ul class="dropdown-menu extended logout" style="top:0%!important">
+                                            <li><a style="color:#35b8eb;cursor:pointer" onclick="Printreceipt(@Model.RecPayID)">Print</a></li>
+                                            <li><a style="color:#35b8eb;cursor:pointer" onclick="ShowStaffNotes()">Staff Notes</a></li>
+                                            <li><a style="color:#35b8eb" href="#">Customer Notification</a></li>
+                                        </ul>
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                            <i style="font-size: 30px;color:#35b8eb;padding-top: 11px;" class="fa fa-cog"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                     <div class="form_field">
@@ -730,6 +800,74 @@
                     </div>
                 </div>
 
+                <div id="wrapper">
+                    <div id="page-wrapper">
+                        <div class="row">
+                            <div class="col-lg-10">
+                                <div class="modal fade StaffNoteModal" id="StaffNoteModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" style="width:70%">
+                                        <div class="modal-content">
+
+                                            <div class="modal-header" style="background-color: #f5f5f5;">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+                                                <h4 class="modal-title" id="StaffNoteModal1">
+                                                    <span style="font-size: 18px; color: #3c8dbc !important; text-align:center">Staff Notes</span>
+                                                </h4>
+                                            </div>
+
+                                            <div class="modal-body" id="staffmodelbody">
+                                                <div class="container-fluid">
+                                                    <div class="row" style="padding-top: 5px">
+                                                        <div class="col-sm-12">
+                                                            <div class="row form-group">
+                                                                <div class="col-xs-7 col-sm-12">
+                                                                    <label>Enter Your Note</label>
+                                                                    <textarea id="txtStaffnote" rows="4" cols="100"></textarea>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row form-group">
+                                                                <div class="col-xs-7 col-sm-12">
+                                                                    <table class="table table-bordered">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th width="18%">Date</th>
+                                                                                <th width="15%">Staff</th>
+                                                                                <th style="text-align:center !important">Notes</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            @foreach (var staffnote in staffmodel)
+                                                                            {
+
+                                                                                <tr>
+                                                                                    <td width="18%">@staffnote.Datetime</td>
+                                                                                    <td width="15%">@staffnote.EmpName</td>
+                                                                                    <td>@staffnote.TaskDetails</td>
+                                                                                </tr>
+
+
+                                                                            }
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer" style="padding-top: 5px;text-align:right">
+                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                                <button type="button" name="SaveStaffnote" class="btn btn-primary" onclick="SaveStaffNotes()" id="SaveStaffnote">Save</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </section>
 
 
@@ -737,7 +875,7 @@
         </div>
     </div>
 }
- 
+
 <div>
 </div>
 
@@ -767,5 +905,5 @@
         //$('#ChequeDate').datepicker("setDate", sd);
 
     });
-       
+
 </script>

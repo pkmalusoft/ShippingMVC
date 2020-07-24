@@ -107,9 +107,9 @@
             var str = new Date(startdate);
             var d = new Date();
             var curr_date = sd.getDate();
-            var curr_month = sd.getMonth();
+            var curr_month = d.getMonth();
             var curr_year = str.getFullYear();
-            return ("01" + "-" + m_names[curr_month] + "-" + str.getFullYear());
+            return ("01" + "-" + m_names[curr_month] + "-" + d.getFullYear());
         }
 
         function GetEndDate() {
@@ -124,9 +124,9 @@
             var str = new Date(startdate);
             var d = new Date();
             var curr_date = ed.getDate();
-            var curr_month = sd.getMonth();
+            var curr_month = d.getMonth();
             var curr_year = ed.getFullYear();
-            return (sd.getDate() + "-" + m_names[curr_month] + "-" + sd.getFullYear());
+            return (d.getDate() + "-" + m_names[curr_month] + "-" + d.getFullYear());
         }
 
 

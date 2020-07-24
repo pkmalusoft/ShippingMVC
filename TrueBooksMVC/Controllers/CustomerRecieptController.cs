@@ -84,6 +84,23 @@ namespace TrueBooksMVC.Controllers
             {
                 return RedirectToAction("Login", "Login");
             }
+            var StaffNotes = (from d in Context1.StaffNotes where d.JobId == id && d.PageTypeId == 2 orderby d.Id descending select d).ToList();
+            var branchid = Convert.ToInt32(Session["branchid"]);
+            var users = (from d in Context1.UserRegistrations select d).ToList();
+
+            var staffnotemodel = new List<StaffNoteModel>();
+            foreach (var item in StaffNotes)
+            {
+                var model = new StaffNoteModel();
+                model.id = item.Id;
+                model.employeeid = item.EmployeeId;
+                model.jobid = item.JobId;
+                model.TaskDetails = item.TaskDetails;
+                model.Datetime = item.Datetime;
+                model.EmpName = users.Where(d => d.UserID == item.EmployeeId).FirstOrDefault().UserName;
+                staffnotemodel.Add(model);
+            }
+            ViewBag.StaffNoteModel = staffnotemodel;
             return View(cust);
 
         }
@@ -223,7 +240,23 @@ namespace TrueBooksMVC.Controllers
             int i = 0;
             RecP.FYearID = Convert.ToInt32(Session["fyearid"]);
             RecP.UserID = Convert.ToInt32(Session["UserID"]);
+            var StaffNotes = (from d in Context1.StaffNotes where d.JobId == RecP.RecPayID && d.PageTypeId == 2 orderby d.Id descending select d).ToList();
+            var branchid = Convert.ToInt32(Session["branchid"]);
+            var users = (from d in Context1.UserRegistrations select d).ToList();
 
+            var staffnotemodel = new List<StaffNoteModel>();
+            foreach (var item in StaffNotes)
+            {
+                var model = new StaffNoteModel();
+                model.id = item.Id;
+                model.employeeid = item.EmployeeId;
+                model.jobid = item.JobId;
+                model.TaskDetails = item.TaskDetails;
+                model.Datetime = item.Datetime;
+                model.EmpName = users.Where(d => d.UserID == item.EmployeeId).FirstOrDefault().UserName;
+                staffnotemodel.Add(model);
+            }
+            ViewBag.StaffNoteModel = staffnotemodel;
             //if (RecP.RecPayID > 0)
             //{
             //    RP.EditCustomerRecPay(RecP, Session["UserID"].ToString());
@@ -737,6 +770,23 @@ namespace TrueBooksMVC.Controllers
             {
                 return RedirectToAction("Login", "Login");
             }
+            var StaffNotes = (from d in Context1.StaffNotes where d.JobId == id && d.PageTypeId == 2 orderby d.Id descending select d).ToList();
+            var branchid = Convert.ToInt32(Session["branchid"]);
+            var users = (from d in Context1.UserRegistrations select d).ToList();
+
+            var staffnotemodel = new List<StaffNoteModel>();
+            foreach (var item in StaffNotes)
+            {
+                var model = new StaffNoteModel();
+                model.id = item.Id;
+                model.employeeid = item.EmployeeId;
+                model.jobid = item.JobId;
+                model.TaskDetails = item.TaskDetails;
+                model.Datetime = item.Datetime;
+                model.EmpName = users.Where(d => d.UserID == item.EmployeeId).FirstOrDefault().UserName;
+                staffnotemodel.Add(model);
+            }
+            ViewBag.StaffNoteModel = staffnotemodel;
             return View(cust);
 
         }
@@ -791,7 +841,23 @@ namespace TrueBooksMVC.Controllers
             int i = 0;
             RecP.FYearID = Convert.ToInt32(Session["fyearid"]);
             RecP.UserID = Convert.ToInt32(Session["UserID"]);
+            var StaffNotes = (from d in Context1.StaffNotes where d.JobId == RecP.RecPayID && d.PageTypeId == 2 orderby d.Id descending select d).ToList();
+            var branchid = Convert.ToInt32(Session["branchid"]);
+            var users = (from d in Context1.UserRegistrations select d).ToList();
 
+            var staffnotemodel = new List<StaffNoteModel>();
+            foreach (var item in StaffNotes)
+            {
+                var model = new StaffNoteModel();
+                model.id = item.Id;
+                model.employeeid = item.EmployeeId;
+                model.jobid = item.JobId;
+                model.TaskDetails = item.TaskDetails;
+                model.Datetime = item.Datetime;
+                model.EmpName = users.Where(d => d.UserID == item.EmployeeId).FirstOrDefault().UserName;
+                staffnotemodel.Add(model);
+            }
+            ViewBag.StaffNoteModel = staffnotemodel;
             //if (RecP.RecPayID > 0)
             //{
             //    RP.EditCustomerRecPay(RecP, Session["UserID"].ToString());
@@ -1309,6 +1375,25 @@ namespace TrueBooksMVC.Controllers
             }
             return words;
         }
+        public JsonResult UpdateStaffNote(int Jobid, string staffnote)
+        {
+            try
+            {
+                var note = new StaffNote();
+                note.Datetime = DateTime.Now;
+                note.JobId = Jobid;
+                note.TaskDetails = staffnote;
+                note.PageTypeId = 2;//job 
+                note.EmployeeId = Convert.ToInt32(Session["UserID"]);
+                Context1.StaffNotes.Add(note);
+                Context1.SaveChanges();
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new { success = false, message = e.Message.ToString() }, JsonRequestBehavior.AllowGet);
 
+            }
+        }
     }
 }

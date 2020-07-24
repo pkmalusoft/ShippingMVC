@@ -37,8 +37,8 @@ namespace TrueBooksMVC.Controllers
                     {
                         string currency = (from c in entity.CurrencyMasters where c.CurrencyID == item.ProvisionCurrencyID select c.CurrencyName).FirstOrDefault();
                         string revenuename = (from r in entity.RevenueTypes where r.RevenueTypeID == item.RevenueTypeID select r.RevenueType1).FirstOrDefault();
-                      //  item.RevenueTypeName = revenuename;
-                      //  item.CurrencyName = currency;
+                        //  item.RevenueTypeName = revenuename;
+                        //  item.CurrencyName = currency;
                     }
                     BindMasters_ForEdit(Cost);
                 }
@@ -60,7 +60,7 @@ namespace TrueBooksMVC.Controllers
         public ActionResult CostUpdation(costUpdationVM CostU, string Command)
         {
             BindMasters();
-           
+
             int costupdationId = 0;
 
             if (Session["UserID"] != null)
@@ -87,42 +87,46 @@ namespace TrueBooksMVC.Controllers
                     int n = 0;
                     foreach (var item in CostU.CostUpdationDetails)
                     {
-                        //todo:fix to run by sethu
-                      //  int jid = (from c in entity.CostUpdations where c.CostUpdationID == item select c.CostUpdationID).FirstOrDefault();
-                        //todo:fix to run by sethu
-                     //   var d = CostU.CostUpdationDetails.Where(x => x.CostUpdationID == jid).ToList();
-                      //  if (d.Count==0)
-                    //    {
-                            //  var query1 = (from t in CostU.CostUpdationDetails where t.CostUpdationID == item select t).ToList();
-                            //   foreach (var j in query1)
-                            //   {
-                        //    CU.SaveCostUpdationDetails(CostU.CostUpdationDetails[n], jid);
-                          //  }
-                            //    CU.SaveCostUpdationDetails(query1, item);
-                            //   // CU.saveAcJournalDetails(item, Convert.ToInt32(Session["fyearid"]));
-                      //  }
-                      //  else
-                      //  {
-                          //  foreach (var i in d)
-                          //  {
-                                //var data = (from t in entity.CostUpdations where t.CostUpdationID == item select t.JobID).FirstOrDefault();
-                                //var query = (from context in CostU.CostUpdationDetails where context.JobID == data select context).FirstOrDefault();
-                                //if (query == null)
-                                //{
-                                //    var query1 = (from t in CostU.CostUpdationDetails where t.CostUpdationID == item select t).FirstOrDefault();
-                                //    CU.SaveCostUpdationDetails(query1, item);
-                                //    // CU.saveAcJournalDetails(item, Convert.ToInt32(Session["fyearid"]));
-                                //}
-                                //else
-                                //{
-                                //    CU.SaveCostUpdationDetails(query, item);
-                                //    CU.saveAcJournalDetails(item, Convert.ToInt32(Session["fyearid"]));
+                        ////////////////////////////////////
 
-                                //}
-                                CU.SaveCostUpdationDetails(item, costupdationId);
-                          //  }
-                            
-                      //  }
+                        CU.SaveCostUpdationDetails(item, costupdationId);
+
+                        //todo:fix to run by sethu
+                        //  int jid = (from c in entity.CostUpdations where c.CostUpdationID == item select c.CostUpdationID).FirstOrDefault();
+                        //todo:fix to run by sethu
+                        //   var d = CostU.CostUpdationDetails.Where(x => x.CostUpdationID == jid).ToList();
+                        //  if (d.Count==0)
+                        //    {
+                        //  var query1 = (from t in CostU.CostUpdationDetails where t.CostUpdationID == item select t).ToList();
+                        //   foreach (var j in query1)
+                        //   {
+                        //    CU.SaveCostUpdationDetails(CostU.CostUpdationDetails[n], jid);
+                        //  }
+                        //    CU.SaveCostUpdationDetails(query1, item);
+                        //   // CU.saveAcJournalDetails(item, Convert.ToInt32(Session["fyearid"]));
+                        //  }
+                        //  else
+                        //  {
+                        //  foreach (var i in d)
+                        //  {
+                        //var data = (from t in entity.CostUpdations where t.CostUpdationID == item select t.JobID).FirstOrDefault();
+                        //var query = (from context in CostU.CostUpdationDetails where context.JobID == data select context).FirstOrDefault();
+                        //if (query == null)
+                        //{
+                        //    var query1 = (from t in CostU.CostUpdationDetails where t.CostUpdationID == item select t).FirstOrDefault();
+                        //    CU.SaveCostUpdationDetails(query1, item);
+                        //    // CU.saveAcJournalDetails(item, Convert.ToInt32(Session["fyearid"]));
+                        //}
+                        //else
+                        //{
+                        //    CU.SaveCostUpdationDetails(query, item);
+                        //    CU.saveAcJournalDetails(item, Convert.ToInt32(Session["fyearid"]));
+
+                        //}
+
+                        //  }
+
+                        //  }
                         //var data=(from t in entity.CostUpdations where t.CostUpdationID==item select t.JobID).FirstOrDefault();
                         //var query=(from context in CostU.CostUpdationDetails where context.JobID==data select context).FirstOrDefault();
                         //if (query == null)
@@ -141,7 +145,7 @@ namespace TrueBooksMVC.Controllers
 
                         //}
                         n = n + 1;
-                        }
+                    }
                     CU.saveAcJournalDetails(costupdationId, Convert.ToInt32(Session["fyearid"]));
                 }
             }
@@ -276,9 +280,9 @@ namespace TrueBooksMVC.Controllers
             ViewBag.DocumentNos = DocNo;
 
             ViewBag.AllJobCodes = new SelectList(JobCodes, "JobID", "JobCode");
-           // var query = (from t in entity.Suppliers select t).OrderBy(x => x.SupplierName).ToList();
+            // var query = (from t in entity.Suppliers select t).OrderBy(x => x.SupplierName).ToList();
 
-          //  ViewBag.Suppliers = new SelectList(query.ToList(), "SupplierID", "SupplierName");
+            //  ViewBag.Suppliers = new SelectList(query.ToList(), "SupplierID", "SupplierName");
 
             //ViewBag.Suppliers = new SelectList(new[] { new { SupplierID = "0", SupplierName = "Select" } }, "SupplierID", "SupplierName");
 
@@ -325,7 +329,7 @@ namespace TrueBooksMVC.Controllers
         {
             //List<SP_GetCustomerInvoiceDetailsForReciept_Result> AllInvoices = new List<SP_GetCustomerInvoiceDetailsForReciept_Result>();
             // var AllInvoices;
-           
+
 
             var CostUpdation = (from t in entity.SPGetAllLocalCurrencyCostUpdation(Convert.ToInt32(Session["fyearid"].ToString()))
                                 select t).ToList();
@@ -339,7 +343,23 @@ namespace TrueBooksMVC.Controllers
         {
             // var cupadtion = entity.SP_GetAllCostUpdation().Where(x => x.JobDate >= fdate & x.JobDate <= todate).ToList();
             var cupadtion = DAL.SP_GetAllCostUpdation(fdate, todate);
+            foreach (var item in cupadtion)
+            {
+                var costupdationdetails = (from d in entity.CostUpdationDetails where d.CostUpdationID == item.CostUpdationID select d).ToList();
+                var jobgeneration = (from d in entity.CostUpdationDetails
+                                     join s in entity.JInvoices on
+                                     d.JInvoiceID equals s.InvoiceID
+                                     join JG in entity.JobGenerations on
+                                     s.JobID equals JG.JobID
+                                     where d.CostUpdationID == item.CostUpdationID
+                                     select JG).ToList();
+                item.JobDates = string.Join(",", jobgeneration.Select(d => d.JobDate));
+                item.JobValues = string.Join(",", costupdationdetails.Select(d => d.ProvisionHome));
+                item.JobNumbers = string.Join(",", jobgeneration.Select(d => d.JobCode));
+                item.CurrencyName = string.Join(",", costupdationdetails.Select(d => d.AmountPaidTillDate));
+                item.YearToDateInvoiced = string.Join(",", costupdationdetails.Select(d => d.Cost));
 
+            }
 
             string view = this.RenderPartialView("_GetAllCOstUpdation", cupadtion);
             return new JsonResult

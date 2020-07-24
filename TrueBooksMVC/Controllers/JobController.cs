@@ -145,7 +145,7 @@ namespace TrueBooksMVC.Controllers
                         select t;
 
             ViewBag.MainJobId = query;
-            var StaffNotes = (from d in entity.StaffNotes where d.JobId == id orderby d.Id descending select d).ToList();
+            var StaffNotes = (from d in entity.StaffNotes where d.JobId == id && d.PageTypeId==1 orderby d.Id descending select d).ToList();
             var branchid = Convert.ToInt32(Session["branchid"]);
             var users = (from d in entity.UserRegistrations select d).ToList();
             var staffnotemodel = new List<StaffNoteModel>();
@@ -205,6 +205,10 @@ namespace TrueBooksMVC.Controllers
             if (ID == 20)
             {
                 ViewBag.SuccessMsg = "You have successfully updated Job.";
+            }
+            if (ID == 21)
+            {
+                ViewBag.SuccessMsg = "You have successfully Generated Invoice.";
             }
 
             Session["ID"] = ID;
@@ -803,7 +807,7 @@ namespace TrueBooksMVC.Controllers
 
                             if (k > 0)
                             {
-                                return RedirectToAction("JobDetails", "Job", new { ID = Session["JobID"].ToString() });
+                                return RedirectToAction("JobDetails", "Job", new { ID = 21 });
                             }
                         }
                         else
@@ -813,7 +817,7 @@ namespace TrueBooksMVC.Controllers
                     }
                 }
             }
-            var StaffNotes = (from d in entity.StaffNotes where d.JobId == JobId orderby d.Id descending select d).ToList();
+            var StaffNotes = (from d in entity.StaffNotes where d.JobId == JobId && d.PageTypeId==1 orderby d.Id descending select d).ToList();
             var branchid = Convert.ToInt32(Session["branchid"]);
             var users = (from d in entity.UserRegistrations select d).ToList();
             var staffnotemodel = new List<StaffNoteModel>();
@@ -2869,6 +2873,7 @@ namespace TrueBooksMVC.Controllers
                 note.Datetime = DateTime.Now;
                 note.JobId = Jobid;
                 note.TaskDetails = staffnote;
+                note.PageTypeId = 1;//job 
                 note.EmployeeId = Convert.ToInt32(Session["UserID"]);
                 entity.StaffNotes.Add(note);
                 entity.SaveChanges();

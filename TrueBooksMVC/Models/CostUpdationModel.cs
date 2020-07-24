@@ -229,9 +229,27 @@ objcostUpdation.DocumentNo, objcostUpdation.PrevCostupID, objcostUpdation.Suppli
                     else*/
                 if (costupdationdetailsid.InvoiceAmount > 0)
                 {
+                    var isnew = 0;
                     CostUpdationDetail objCostUpdationDetail = new CostUpdationDetail();
-                    // var maxValue = Context1.CostUpdations.Max(x => x.CostUpdationID);
-                    objCostUpdationDetail.CostUpdationDetailID = costupdationdetailsid.CostUpdationDetailID;
+                    objCostUpdationDetail = (from d in Context1.CostUpdationDetails where d.CostUpdationDetailID == costupdationdetailsid.CostUpdationDetailID select d).FirstOrDefault();
+                    if (objCostUpdationDetail == null)
+                    {
+                        objCostUpdationDetail = new CostUpdationDetail();
+                        var mvalue = Context1.CostUpdationDetails;
+                        if (mvalue.Count() > 0)
+                        {
+                            var maxValue = mvalue.Max(x => x.CostUpdationDetailID);
+
+                            objCostUpdationDetail.CostUpdationDetailID = maxValue + 1;
+
+                        }
+                        else
+                        {
+                            objCostUpdationDetail.CostUpdationDetailID = 1;
+                        }
+                        isnew = 1;
+                    }
+                    //objCostUpdationDetail.CostUpdationDetailID = costupdationdetailsid.CostUpdationDetailID;
                     objCostUpdationDetail.RevenueTypeID = costupdationdetailsid.RevenueTypeID;
                     objCostUpdationDetail.ProvisionCurrencyID = costupdationdetailsid.ProvisionCurrencyID;
                     objCostUpdationDetail.ProvisionExchangeRate = costupdationdetailsid.ProvisionExchangeRate;
@@ -247,6 +265,7 @@ objcostUpdation.DocumentNo, objcostUpdation.PrevCostupID, objcostUpdation.Suppli
                     objCostUpdationDetail.Variance = null;
                     objCostUpdationDetail.AmountPaidTillDate = costupdationdetailsid.AmountPaidTillDate;
                     objCostUpdationDetail.SupplierReference = costupdationdetailsid.supplierReference;
+                
                     if (costupdationdetailsid.InvoiceAmount != null)
                     {
 
@@ -276,29 +295,39 @@ objcostUpdation.DocumentNo, objcostUpdation.PrevCostupID, objcostUpdation.Suppli
                     }
                     objCostUpdationDetail.SupplierPayStatus = "1";
                     objCostUpdationDetail.CostUpdationID = costUpdationID;
+                    if (isnew == 1)
+                    {
+                        Context1.CostUpdationDetails.Add(objCostUpdationDetail);
+                    }
+                    else
+                    {
+                        Context1.Entry(objCostUpdationDetail).State = EntityState.Modified;
+                    }
+                    //    Context1.SP_InsertCostUpdationDetails(objCostUpdationDetail.CostUpdationDetailID, objCostUpdationDetail.CostUpdationID, objCostUpdationDetail.RevenueTypeID
+                    //    , objCostUpdationDetail.ProvisionCurrencyID, objCostUpdationDetail.ProvisionExchangeRate, objCostUpdationDetail.ProvisionForeign,
+                    //    objCostUpdationDetail.ProvisionHome, objCostUpdationDetail.SalesCurrencyID, objCostUpdationDetail.SalesExchangeRate,
+                    //    objCostUpdationDetail.SalesForeign, objCostUpdationDetail.SalesHome, objCostUpdationDetail.Variance,
+                    //    objCostUpdationDetail.SupplierID, objCostUpdationDetail.JInvoiceID, objCostUpdationDetail.Cost, 0, objCostUpdationDetail.AmountPaidTillDate,
+                    //    objCostUpdationDetail.PaidOrNot, objCostUpdationDetail.SupplierReference, objCostUpdationDetail.SupplierPayStatus, false);
+                    //}
+                    var jinvoice = (from d in Context1.JInvoices where d.InvoiceID == costupdationdetailsid.JInvoiceID && d.SupplierID == costupdationdetailsid.SupplierID select d).FirstOrDefault();
+                    jinvoice.CostUpdationStatus = "2";
+                    Context1.Entry(jinvoice).State = EntityState.Modified;
 
-                    //Context1.CostUpdationDetails.Add(objCostUpdationDetail);
-                    Context1.SP_InsertCostUpdationDetails(objCostUpdationDetail.CostUpdationDetailID, objCostUpdationDetail.CostUpdationID, objCostUpdationDetail.RevenueTypeID
-                    , objCostUpdationDetail.ProvisionCurrencyID, objCostUpdationDetail.ProvisionExchangeRate, objCostUpdationDetail.ProvisionForeign,
-                    objCostUpdationDetail.ProvisionHome, objCostUpdationDetail.SalesCurrencyID, objCostUpdationDetail.SalesExchangeRate,
-                    objCostUpdationDetail.SalesForeign, objCostUpdationDetail.SalesHome, objCostUpdationDetail.Variance,
-                    objCostUpdationDetail.SupplierID, objCostUpdationDetail.JInvoiceID, objCostUpdationDetail.Cost, 0, objCostUpdationDetail.AmountPaidTillDate,
-                    objCostUpdationDetail.PaidOrNot, objCostUpdationDetail.SupplierReference, objCostUpdationDetail.SupplierPayStatus, false);
                 }
-
                 //}
                 Context1.SaveChanges();
                 //}
 
                 return 1;
             }
-            catch (Exception)
+            catch (Exception e)
             {
 
                 return 0;
             }
 
-            return 0;
+            //return 0;
 
 
         }

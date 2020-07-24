@@ -37,25 +37,63 @@
 
         function format(d) {
             // `d` is the original data object for the row
-            debugger;
-            return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
+            var jobnum = d[6].toString().split(',')
+            var date = d[7].toString().split(',')
+            var values = d[8].toString().split(',')
+            var yeartoinvoiced = d[9].toString().split(',')
+            var paidamnt = d[10].toString().split(',')
+            
+            var table = '<table cellpadding="1" cellspacing="0" border="0" style="padding-left:50px;">' +
                 '<tr>' +
-                '<td>Job Numbers:</td>' +
-                '<td>' + d[6].replace(new RegExp(escapeRegExp('&amp;lt;br&amp;gt;'), 'g'), '<br>').substring(4) + '</td>' +
-                '</tr>' +
-                '<tr>' +
-                '<td>Job Dates:</td>' +
-                '<td>' + d[7].replace(new RegExp(escapeRegExp('&amp;lt;br&amp;gt;'), 'g'), '<br>').substring(4).replace('12:00AM', '') + '</td>' +
-                '</tr>' +
-                '<tr>' +
-                '<td>Job Values:</td>' +
-                '<td class="textright">' + d[8].replace(new RegExp(escapeRegExp('&amp;lt;br&amp;gt;'), 'g'), '<br>').substring(4) + '</td>' +
-                '</tr>' +
-                '<tr>' +
-                '<td>Invoiced:</td>' +
-                '<td class="textright">' + d[9].replace(new RegExp(escapeRegExp('&amp;lt;br&amp;gt;'), 'g'), '<br>').substring(4) + '</td>' +
-                '</tr>' +
-                '</table>';
+                '<td>Job Number </td>' +
+
+                '<td>Job Date </td>' +
+
+                '<td>Provision Cost </td>' +
+
+
+                '<td>Invoiced </td>' +
+                '<td>Paid </td>' +
+                '</tr>';
+            for (var i = 0; i < jobnum.length; i++) {
+                table = table+  '<tr>' +
+                    '<td>' + jobnum[i] + '</td>' +
+
+                    '<td>' + date[i].replace('12:00:00 AM', '') + '</td>' +
+
+                    '<td class="textright">' + parseFloat(values[i]).toFixed(2) + '</td>' +
+
+                    '<td class="textright">' + parseFloat(yeartoinvoiced[i]).toFixed(2) + '</td>' +
+                    '<td class="textright">' + parseFloat(paidamnt[i]).toFixed(2) + '</td>' +
+                    '</tr>' 
+            }
+            table = table + '</table>';
+            return table;
+            //return '<table cellpadding="1" cellspacing="0" border="0" style="padding-left:50px;">' +
+            //    '<tr>' +
+            //    '<td>Job Number </td>' +
+
+            //    '<td>Job Date </td>' +
+
+            //    '<td>Provision Cost </td>' +
+
+
+            //    '<td>Invoiced </td>' +
+            //    '<td>Paid </td>' +
+            //    '</tr>'+
+            //'<tr>'+
+            //    '<td>' + d[6].replace(new RegExp(escapeRegExp('&amp;lt;br&amp;gt;'), 'g'), '<br>').substring(4) + '</td>' +
+             
+            //    '<td>' + d[7].replace(new RegExp(escapeRegExp('&amp;lt;br&amp;gt;'), 'g'), '<br>').substring(4).replace('12:00AM', '') + '</td>' +
+              
+            //    '<td class="textright">' + d[8].replace(new RegExp(escapeRegExp('&amp;lt;br&amp;gt;'), 'g'), '<br>').substring(4) + '</td>' +
+               
+            //    '<td class="textright">' + d[9].replace(new RegExp(escapeRegExp('&amp;lt;br&amp;gt;'), 'g'), '<br>').substring(4) + '</td>' +
+            //    '<td class="textright">' + d[10].replace(new RegExp(escapeRegExp('&amp;lt;br&amp;gt;'), 'g'), '<br>').substring(4) + '</td>' +
+            //    '</tr>' +
+            //    '</table>';
+
+         
         }
 
         $('#dataTables-example tfoot th:not(:last)').each(function () {
@@ -79,7 +117,6 @@
         });
 
         $('#dataTables-example tbody').on('click', 'td.details-control', function () {
-            debugger;
             var tr = $(this).closest('tr');
             var row = table.row(tr);
             if (row.child.isShown()) {
@@ -119,6 +156,7 @@
                                         <th style="display:none"></th>
                                         <th style="display:none"></th>
                                         <th style="display:none"></th>
+                                        <th style="display:none"></th>
                                     </tr>
                                 </thead>
                                 <tfoot>
@@ -129,6 +167,7 @@
                                         <th>Supplier Name</th>
                                         <th>Invoice Amount</th>
                                         <th style="width: 70px;"></th>
+                                        <th style="display:none"></th>
                                         <th style="display:none"></th>
                                         <th style="display:none"></th>
                                         <th style="display:none"></th>
@@ -171,6 +210,9 @@
                                             </td>
                                             <td style="display:none">
                                                 @Html.DisplayFor(modelItem => item.YearToDateInvoiced)
+                                            </td> 
+                                            <td style="display:none">
+                                                @Html.DisplayFor(modelItem => item.CurrencyName)
                                             </td>
                                         </tr>
                                     }

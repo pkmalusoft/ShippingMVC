@@ -373,7 +373,7 @@ warning 6002: The table/view 'malusoft_accounts.dbo.AcHeadAssign' does not have 
           <Key>
             <PropertyRef Name="CostUpdationDetailID" />
           </Key>
-          <Property Name="CostUpdationDetailID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="CostUpdationDetailID" Type="int" Nullable="false" />
           <Property Name="CostUpdationID" Type="int" />
           <Property Name="RevenueTypeID" Type="int" />
           <Property Name="ProvisionCurrencyID" Type="int" />
@@ -1034,6 +1034,7 @@ warning 6002: The table/view 'malusoft_accounts.dbo.AcHeadAssign' does not have 
           <Property Name="EmployeeId" Type="int" />
           <Property Name="Datetime" Type="datetime" />
           <Property Name="TaskDetails" Type="nvarchar(max)" />
+          <Property Name="PageTypeId" Type="int" />
         </EntityType>
         <EntityType Name="Supplier">
           <Key>
@@ -5736,7 +5737,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Key>
             <PropertyRef Name="CostUpdationDetailID" />
           </Key>
-          <Property Type="Int32" Name="CostUpdationDetailID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="CostUpdationDetailID" Nullable="false" annotation:StoreGeneratedPattern="None" />
           <Property Type="Int32" Name="CostUpdationID" />
           <Property Type="Int32" Name="RevenueTypeID" />
           <Property Type="Int32" Name="ProvisionCurrencyID" />
@@ -7144,6 +7145,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Name="EmployeeId" Type="Int32" />
           <Property Name="Datetime" Type="DateTime" Precision="3" />
           <Property Name="TaskDetails" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PageTypeId" Type="Int32" />
         </EntityType>
         <EntityType Name="JStatu">
           <Key>
@@ -10670,6 +10672,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <EntitySetMapping Name="StaffNotes">
             <EntityTypeMapping TypeName="SHIPPING_FinalModel.StaffNote">
               <MappingFragment StoreEntitySet="StaffNote">
+                <ScalarProperty Name="PageTypeId" ColumnName="PageTypeId" />
                 <ScalarProperty Name="TaskDetails" ColumnName="TaskDetails" />
                 <ScalarProperty Name="Datetime" ColumnName="Datetime" />
                 <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />

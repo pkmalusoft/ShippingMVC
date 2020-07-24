@@ -794,12 +794,13 @@
                 success: function (data) {
                     if (data.success == true) {
                         $.notify("Job Status Updated Successfully !!", "success");
-                        $('#jobstatusmodal').modal('hide');
-                    } else {
-                        $.notify(data.message, "error");
                         window.setTimeout(function () {
                             location.reload();
-                        }, 1000);                    }
+                        }, 1000);
+                    } else {
+                        $.notify(data.message, "error");
+                        $('#StaffNoteModal').modal('hide');
+                    }
                 }
             });
         }
@@ -831,7 +832,7 @@
                         }, 1000);
                     } else {
                         $.notify(data.message, "error");
-                        $('#jobstatusmodal').modal('hide');
+                        $('#StaffNoteModal').modal('hide');
                     }
                 }
             });
