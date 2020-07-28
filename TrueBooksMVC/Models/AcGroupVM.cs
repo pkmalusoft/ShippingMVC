@@ -16,5 +16,7 @@ namespace TrueBooksMVC.Models
         public short IsGroupCodeAuto{get;set;}
         public string GroupCode{get;set;}
         public string subgroup { get; set; }
+        public int? AcTypeId { get; set; }
+        public string AcType { get; set; }
     }
 }

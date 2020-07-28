@@ -39,5 +39,7 @@ namespace DAL
         public Nullable<int> CountryID { get; set; }
         public string City { get; set; }
         public Nullable<int> CustomerType { get; set; }
+        public string MobileNumber { get; set; }
+        public string WhatsAppNumber { get; set; }
     }
 }

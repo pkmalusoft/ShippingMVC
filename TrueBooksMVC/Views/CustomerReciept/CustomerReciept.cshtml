@@ -5,7 +5,8 @@
     Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
     var staffmodel = ViewBag.StaffNoteModel as IEnumerable<TrueBooksMVC.Models.StaffNoteModel>;
     var spath = System.Configuration.ConfigurationManager.AppSettings["spath"].ToString();
-
+    var CustomerNotification = ViewBag.CustomerNotification as IEnumerable<TrueBooksMVC.Models.CustomerNotificationModel>;
+    var CustomerDetails = ViewBag.CustomerDetail as DAL.CUSTOMER;
 }
 
 
@@ -25,6 +26,10 @@
         font-size: 17px;
         color: #1b1919 !important;
     }
+    #staffmodelbody {
+        max-height: calc(100vh - 200px);
+        overflow-y: auto;
+    }
 </style>
 <script type="text/javascript">
     $(document).ready(function () {
@@ -36,7 +41,11 @@
         $(".chkAllocate").prop("checked", true);
         $("#FMoney").attr("readonly", false);
 
+          if ('@Model.RecPayID' == 0) {
+            $("#CurrencyId").val('@Session["BaseCurrencyId"]');
+            $("#EXRate").val('1.00');
 
+        }
         var wt = $("#EXRate").val();
         $("#EXRate").val(parseFloat(wt).toFixed(2));
 
@@ -276,6 +285,13 @@
             alert("Receipt not Created !!")
         }
     }
+    function ShowCustomerNotification() {
+         if ('@Model.RecPayID' > 0) {
+             $("#CustomerNotificationmodel").modal('show');
+        } else {
+            alert("Receipt not Created !!")
+        }
+    }
     function SaveStaffNotes() {
            var Jobid = '@Model.RecPayID';
         var staffnote = $("#txtStaffnote").val();
@@ -297,6 +313,48 @@
                     } else {
                         $.notify(data.message, "error");
                         $('#StaffNoteModal').modal('hide');
+                    }
+                }
+            });
+        }
+    }
+     function SaveCustNotes() {
+           var Jobid = '@Model.RecPayID';
+         var Custid = '@Model.CustomerID';
+         var isemail = false;
+         var iswhatsapp = false;
+         var issms = false;
+         if ($("#Isemail").prop('checked') == true) {
+             isemail = true;
+         }
+         if ($("#Issms").prop('checked') == true) {
+             issms = true;
+         }
+         if ($("#Iswhatsapp").prop('checked') == true) {
+             iswhatsapp = true;
+         }
+         var staffnote = $("#txtcustMessage").val();
+         if (staffnote == "" || staffnote == null) {
+             alert("Please Enter Your Message !")
+         } else if (isemail == false && issms == false && iswhatsapp == false)
+         {
+             alert("Please select any one of the notification method !")
+         }
+         else {
+            $.ajax({
+                type: "GET",
+                url: "/CustomerReciept/SendCustomerNotification",
+                datatype: "Json",
+                data: { JobId: Jobid, Message: staffnote, Customerid: Custid, whatsapp: iswhatsapp, Email: isemail, sms: issms },
+                success: function (data) {
+                    if (data.success == true) {
+                        $.notify("Notification Sent Successfully !!", "success");
+                        window.setTimeout(function () {
+                            location.reload();
+                        }, 1000);
+                    } else {
+                        $.notify(data.message, "error");
+                        $('#CustomerNotificationmodel').modal('hide');
                     }
                 }
             });
@@ -350,9 +408,9 @@
                                         <!-- Menu Toggle Button -->
 
                                         <ul class="dropdown-menu extended logout" style="top:0%!important">
-                                            <li><a style="color:#35b8eb;cursor:pointer"onclick="Printreceipt(@Model.RecPayID)">Print</a></li>
+                                            <li><a style="color:#35b8eb;cursor:pointer" onclick="Printreceipt(@Model.RecPayID)">Print</a></li>
                                             <li><a style="color:#35b8eb;cursor:pointer" onclick="ShowStaffNotes()">Staff Notes</a></li>
-                                            <li><a style="color:#35b8eb" href="#">Customer Notification</a></li>
+                                            <li><a style="color:#35b8eb;cursor:pointer" onclick="ShowCustomerNotification()">Customer Notification</a></li>
                                         </ul>
                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                             <i style="font-size: 30px;color:#35b8eb;padding-top: 11px;" class="fa fa-cog"></i>
@@ -392,7 +450,7 @@
                             new SelectListItem{Text="Petty Cash-Noora",Value="Petty Cash-Noora"},
                             new SelectListItem{Text="Petty Cash-Sreenithy",Value="Petty Cash-Sreenithy"}},
                             "Select", new { @class = "form-control" })*@
-                                    @Html.DropDownListFor(model => model.CashBank, new SelectList(@ViewBag.achead, "AcHeadID", "AcHead"), "Select", new { @class = "form-control" })
+                                    @Html.DropDownListFor(model => model.CashBank, new SelectList(@ViewBag.achead, "AcHeadID", "AcHead1"), "Select", new { @class = "form-control" })
 
                                 </div>
                                 <div id="divBank" ng-show="BankDiv">
@@ -405,7 +463,7 @@
                                 new SelectListItem{Text="Unpresented Cheques",Value="Unpresented Cheques"}},
                                 "Select", new { @class = "form-control" })*@
 
-                                        @Html.DropDownListFor(model => model.ChequeBank, new SelectList(@ViewBag.acheadbank, "AcHeadID", "AcHead"), "Select", new { @class = "form-control" })
+                                        @Html.DropDownListFor(model => model.ChequeBank, new SelectList(@ViewBag.acheadbank, "AcHeadID", "AcHead1"), "Select", new { @class = "form-control" })
                                     </div>
                                 </div>
                             </div>
@@ -789,6 +847,114 @@
                                             <div class="modal-footer" style="padding-top: 5px;text-align:right">
                                                 <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                                                 <button type="button" name="SaveStaffnote" class="btn btn-primary" onclick="SaveStaffNotes()" id="SaveStaffnote">Save</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div id="wrapper">
+                    <div id="page-wrapper">
+                        <div class="row">
+                            <div class="col-lg-10">
+                                <div class="modal fade CustomerNotificationmodel" id="CustomerNotificationmodel" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" style="width:70%">
+                                        <div class="modal-content">
+
+                                            <div class="modal-header" style="background-color: #f5f5f5;">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+                                                <h4 class="modal-title" id="CustomerNotificationmodel1">
+                                                    <span style="font-size: 18px; color: #3c8dbc !important; text-align:center">Customer Notification</span>
+                                                </h4>
+                                            </div>
+
+                                            <div class="modal-body" id="staffmodelbody">
+                                                <div class="container-fluid">
+                                                    <div class="row" style="padding-top: 5px">
+                                                        <div class="col-sm-12">
+                                                            <div class="row form-group">
+                                                                <div class="col-xs-7 col-sm-4">
+                                                                    <label>TO  </label>
+                                                                </div>
+                                                                <div class="col-xs-7 col-sm-8">
+                                                                    <label>@CustomerDetails.Customer1 </label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row form-group">
+                                                                <div class="col-xs-7 col-sm-4">
+                                                                    <label><input type="checkbox" id="Isemail" /> Email  </label>
+                                                                </div>
+                                                                <div class="col-xs-7 col-sm-8">
+                                                                    <span>@CustomerDetails.Email  </span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row form-group">
+                                                                <div class="col-xs-7 col-sm-4">
+                                                                    <label><input type="checkbox" id="Issms" /> SMS  </label>
+                                                                </div>
+                                                                <div class="col-xs-7 col-sm-8">
+                                                                    <span>@CustomerDetails.MobileNumber </span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row form-group">
+                                                                <div class="col-xs-7 col-sm-4">
+                                                                    <label><input type="checkbox" id="Iswhatsapp" /> WhatsApp  </label>
+                                                                </div>
+                                                                <div class="col-xs-7 col-sm-8">
+                                                                    <span>@CustomerDetails.WhatsAppNumber </span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row form-group">
+                                                                <div class="col-xs-7 col-sm-12">
+                                                                    <label>Enter Your Message</label>
+                                                                    <textarea id="txtcustMessage" rows="4" cols="100"></textarea>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row form-group">
+                                                                <div class="col-xs-7 col-sm-12">
+                                                                    <table class="table table-bordered">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th width="18%">Date</th>
+                                                                                <th width="15%">Staff</th>
+                                                                                <th width="15%">Is Email</th>
+                                                                                <th width="15%">Is SMS</th>
+                                                                                <th width="15%">Is WhatsApp</th>
+                                                                                <th style="text-align:center !important">Message</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            @foreach (var CustNotify in CustomerNotification)
+                                                                            {
+
+                                                                                <tr>
+                                                                                    <td width="18%">@CustNotify.Datetime</td>
+                                                                                    <td width="15%">@CustNotify.EmpName</td>
+                                                                                    <td width="15%">@CustNotify.IsEmail</td>
+                                                                                    <td width="15%">@CustNotify.IsSms</td>
+                                                                                    <td width="15%">@CustNotify.IsWhatsapp</td>
+                                                                                    <td>@CustNotify.Message</td>
+                                                                                </tr>
+
+
+                                                                            }
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer" style="padding-top: 5px;text-align:right">
+                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                                <button type="button" name="SaveStaffnote" class="btn btn-primary" onclick="SaveCustNotes()" id="SaveStaffnote">Send</button>
                                             </div>
                                         </div>
                                     </div>

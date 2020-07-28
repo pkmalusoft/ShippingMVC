@@ -9,7 +9,10 @@ using System.Dynamic;
 using System.Data;
 using System.Globalization;
 using System.Collections;
-
+using Newtonsoft.Json;
+using System.Text.RegularExpressions;
+using System.Net.Mail;
+using System.Configuration;
 namespace TrueBooksMVC.Controllers
 {
     [SessionExpire]
@@ -176,7 +179,30 @@ namespace TrueBooksMVC.Controllers
                 JobStatusModel.Add(model);
             }
             ViewBag.JobStatusModel = JobStatusModel;
+            var customerdetails = (from d in entity.CUSTOMERs where d.CustomerID == JG.ConsigneeID select d).FirstOrDefault();
+            if (customerdetails == null)
+            {
+                customerdetails = new CUSTOMER();
+            }
+            ViewBag.CustomerDetail = customerdetails;
+            var CustomerNotification = (from d in entity.CustomerNotifications where d.JobId == id && d.PageTypeId == 1 orderby d.Id descending select d).ToList();
 
+            var customernotification = new List<CustomerNotificationModel>();
+            foreach (var item in CustomerNotification)
+            {
+                var model = new CustomerNotificationModel();
+                model.id = item.Id;
+                model.employeeid = item.StaffId;
+                model.jobid = item.JobId;
+                model.Message = item.Message;
+                model.Datetime = item.Datetime;
+                model.IsEmail = item.IsEmail;
+                model.IsSms = item.IsSms;
+                model.IsWhatsapp = item.IsWhatsapp;
+                model.EmpName = users.Where(d => d.UserID == item.StaffId).FirstOrDefault().UserName;
+                customernotification.Add(model);
+            }
+            ViewBag.CustomerNotification = customernotification;
             return View(JG);
 
         }
@@ -849,6 +875,30 @@ namespace TrueBooksMVC.Controllers
                 JobStatusModel.Add(model);
             }
             ViewBag.JobStatusModel = JobStatusModel;
+            var customerdetails = (from d in entity.CUSTOMERs where d.CustomerID == JM.ConsigneeID select d).FirstOrDefault();
+            if (customerdetails == null)
+            {
+                customerdetails = new CUSTOMER();
+            }
+            ViewBag.CustomerDetail = customerdetails;
+            var CustomerNotification = (from d in entity.CustomerNotifications where d.JobId == id && d.PageTypeId == 1 orderby d.Id descending select d).ToList();
+
+            var customernotification = new List<CustomerNotificationModel>();
+            foreach (var item in CustomerNotification)
+            {
+                var model = new CustomerNotificationModel();
+                model.id = item.Id;
+                model.employeeid = item.StaffId;
+                model.jobid = item.JobId;
+                model.Message = item.Message;
+                model.Datetime = item.Datetime;
+                model.IsEmail = item.IsEmail;
+                model.IsSms = item.IsSms;
+                model.IsWhatsapp = item.IsWhatsapp;
+                model.EmpName = users.Where(d => d.UserID == item.StaffId).FirstOrDefault().UserName;
+                customernotification.Add(model);
+            }
+            ViewBag.CustomerNotification = customernotification;
             return View(JM);
         }
 
@@ -2876,6 +2926,111 @@ namespace TrueBooksMVC.Controllers
                 note.PageTypeId = 1;//job 
                 note.EmployeeId = Convert.ToInt32(Session["UserID"]);
                 entity.StaffNotes.Add(note);
+                entity.SaveChanges();
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new { success = false, message = e.Message.ToString() }, JsonRequestBehavior.AllowGet);
+
+            }
+        }
+        public JsonResult SendCustomerNotification(int JobId, string Message, int Customerid, bool whatsapp, bool Email, bool sms)
+        {
+            var customer = (from d in entity.CUSTOMERs where d.CustomerID == Customerid select d).FirstOrDefault();
+            var isemail = false;
+            var issms = false;
+            var iswhatsapp = false;
+            if (Email)
+            {
+                try
+                {
+                    var status = SendMailForCustomerNotification(customer.Customer1, Message, customer.Email);
+                    isemail = true;
+                }
+                catch { }
+            }
+            if (sms)
+            {
+                issms = true;
+            }
+            if (whatsapp)
+            {
+                iswhatsapp = true;
+            }
+            try
+            {
+                UpdateCustomerNotification(JobId, Message, isemail, issms, iswhatsapp);
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+            }
+            catch(Exception e)
+            {
+                return Json(new { success = false, message = e.Message.ToString() }, JsonRequestBehavior.AllowGet);
+
+            }
+        }
+
+        public string SendMailForCustomerNotification(string UserName, string Message, string Email)
+        {
+            var Success = "False";
+            System.IO.StreamReader objReader;
+            objReader = new System.IO.StreamReader(System.Web.Hosting.HostingEnvironment.MapPath("/Templates/CustomerNotification.html"));
+            string content = objReader.ReadToEnd();
+
+
+            objReader.Close();
+            content = Regex.Replace(content, "@username", UserName);
+            content = Regex.Replace(content, "@Message", Message);
+            try
+            {
+                using (MailMessage msgMail = new MailMessage())
+                {
+
+                    msgMail.From = new MailAddress(ConfigurationManager.AppSettings["FromEmailAddress"].ToString());
+                    msgMail.Subject = "Shipping System";
+                    msgMail.IsBodyHtml = true;
+                    msgMail.Body = HttpUtility.HtmlDecode(content);
+                    msgMail.To.Add(Email);
+                    msgMail.IsBodyHtml = true;
+
+                    //client = new SmtpClient(ConfigurationManager.AppSettings["Host"].ToString());
+                    //client.Port = int.Parse(ConfigurationManager.AppSettings["SMTPServerPort"].ToString());
+                    //client.UseDefaultCredentials = false;
+                    //client.DeliveryMethod = SmtpDeliveryMethod.Network;
+                    //client.Credentials = new System.Net.NetworkCredential(ConfigurationManager.AppSettings["SMTPUserName"].ToString(), ConfigurationManager.AppSettings["SMTPPassword"].ToString());
+                    //client.EnableSsl = true;
+                    //client.Send(msgMail);
+                    using (SmtpClient smtp = new SmtpClient("smtp.mail.yahoo.com", 587))
+                    {
+                        smtp.UseDefaultCredentials = false;
+                        smtp.Credentials = new System.Net.NetworkCredential(ConfigurationManager.AppSettings["SMTPUserName"].ToString(), ConfigurationManager.AppSettings["SMTPPassword"].ToString());
+                        smtp.EnableSsl = true;
+                        smtp.Send(msgMail);
+                    }
+                }
+                Success = "True";
+
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+            return Success;
+        }
+        public JsonResult UpdateCustomerNotification(int Jobid, string Messge,bool isemail,bool issms,bool iswhatsapp)
+        {
+            try
+            {
+                var note = new CustomerNotification();
+                note.Datetime = DateTime.Now;
+                note.JobId = Jobid;
+                note.Message = Messge;
+                note.PageTypeId = 1;//job 
+                note.StaffId = Convert.ToInt32(Session["UserID"]);
+                note.IsEmail = isemail;
+                note.IsSms = issms;
+                note.IsWhatsapp = iswhatsapp;
+                entity.CustomerNotifications.Add(note);
                 entity.SaveChanges();
                 return Json(new { success = true }, JsonRequestBehavior.AllowGet);
             }

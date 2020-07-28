@@ -271,6 +271,7 @@
     <Compile Include="Models\AcJournalMasterVoucherVM.cs" />
     <Compile Include="Models\AcMemoJournalDetailVM.cs" />
     <Compile Include="Controllers\AutoCompleteController.cs" />
+    <Compile Include="Models\AcTypeModel.cs" />
     <Compile Include="Models\BankReconcilVM.cs" />
     <Compile Include="Models\BranchFinnancialYearVm.cs" />
     <Compile Include="Models\CargoDesClass.cs" />
@@ -284,6 +285,7 @@
     <Compile Include="Models\CreditNoteVM.cs" />
     <Compile Include="Models\customerInvoiceVM.cs" />
     <Compile Include="Models\CustomerJournalVM.cs" />
+    <Compile Include="Models\CustomerNotificationModel.cs" />
     <Compile Include="Models\CustomerRcieptVM.cs" />
     <Compile Include="Models\CustomerTradeReceiptVM.cs" />
     <Compile Include="Models\DateTimeZoneConversionModel.cs" />
@@ -3491,6 +3493,7 @@
     <Content Include="SqlServerTypes\x86\SqlServerSpatial140.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Templates\CustomerNotification.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -3913,6 +3916,9 @@
     <Content Include="Views\JobStatus\Details.cshtml" />
     <Content Include="Views\JobStatus\Edit.cshtml" />
     <Content Include="Views\JobStatus\Index.cshtml" />
+    <Content Include="Views\AccountingModule\IndexAcType.cshtml" />
+    <Content Include="Views\AccountingModule\CreateAcType.cshtml" />
+    <Content Include="Views\AccountingModule\EditAcType.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Logo\" />

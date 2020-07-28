@@ -17,6 +17,12 @@ using iTextSharp.text.xml.simpleparser;
 using iTextSharp.text.html;
 using iTextSharp.text.html.simpleparser;
 using Newtonsoft.Json;
+using System.Text.RegularExpressions;
+using System.Net.Mail;
+using System.Configuration;
+using System.Collections.Specialized;
+using System.Net;
+using System.Text;
 namespace TrueBooksMVC.Controllers
 {
     [SessionExpire]
@@ -36,14 +42,36 @@ namespace TrueBooksMVC.Controllers
         {
             CustomerRcieptVM cust = new CustomerRcieptVM();
             cust.CustomerRcieptChildVM = new List<CustomerRcieptChildVM>();
+            var branchid = Convert.ToInt32(Session["branchid"]);
+
             if (Session["UserID"] != null)
             {
 
                 if (id > 0)
                 {
                     cust = RP.GetRecPayByRecpayID(id);
-                    ViewBag.achead = Context1.AcHeadSelectForCash(Convert.ToInt32(Session["AcCompanyID"].ToString())).ToList();
-                    ViewBag.acheadbank = Context1.AcHeadSelectForBank(Convert.ToInt32(Session["AcCompanyID"].ToString())).ToList();
+                    var acheadforcash = (from d in Context1.AcHeads
+                                         join
+                                        s in Context1.AcGroups on d.AcGroupID equals s.AcGroupID
+                                         join
+                                         t in Context1.AcTypes on s.AcTypeId equals t.Id
+                                         where
+                                         t.AccountType.ToLower() == "cash" && s.AcBranchID == branchid
+                                         select d).ToList();
+                    var acheadforbank = (from d in Context1.AcHeads
+                                         join
+                                        s in Context1.AcGroups on d.AcGroupID equals s.AcGroupID
+                                         join
+                                         t in Context1.AcTypes on s.AcTypeId equals t.Id
+                                         where
+                                         t.AccountType.ToLower() == "bank" && s.AcBranchID == branchid
+                                         select d).ToList();
+                    //ViewBag.achead = Context1.AcHeadSelectForCash(Convert.ToInt32(Session["AcCompanyID"].ToString())).ToList();
+                    //ViewBag.acheadbank = Context1.AcHeadSelectForBank(Convert.ToInt32(Session["AcCompanyID"].ToString())).ToList();
+                    ViewBag.achead = acheadforcash;
+                    ViewBag.acheadbank = acheadforbank;
+                    //ViewBag.achead = Context1.AcHeadSelectForCash(Convert.ToInt32(Session["AcCompanyID"].ToString())).ToList();
+                    //ViewBag.acheadbank = Context1.AcHeadSelectForBank(Convert.ToInt32(Session["AcCompanyID"].ToString())).ToList();
                     cust.recPayDetail = Context1.RecPayDetails.Where(item => item.RecPayID == id).ToList();
                     //cust.CustomerRcieptChildVM = (from t in Context1.JInvoices
                     //                              join
@@ -74,9 +102,28 @@ namespace TrueBooksMVC.Controllers
                     //ViewBag.achead = Context1.AcHeads.ToList().Where(x => x.AcGroupID == 10);
                     //ViewBag.acheadbank = Context1.AcHeads.ToList().Where(x => x.AcGroupID == 49);
 
-                    ViewBag.achead = Context1.AcHeadSelectForCash(Convert.ToInt32(Session["AcCompanyID"].ToString())).ToList();
-                    ViewBag.acheadbank = Context1.AcHeadSelectForBank(Convert.ToInt32(Session["AcCompanyID"].ToString())).ToList();
-
+                    //ViewBag.achead = Context1.AcHeadSelectForCash(Convert.ToInt32(Session["AcCompanyID"].ToString())).ToList();
+                    //ViewBag.acheadbank = Context1.AcHeadSelectForBank(Convert.ToInt32(Session["AcCompanyID"].ToString())).ToList();
+                    var acheadforcash = (from d in Context1.AcHeads
+                                         join
+                                        s in Context1.AcGroups on d.AcGroupID equals s.AcGroupID
+                                         join
+                                         t in Context1.AcTypes on s.AcTypeId equals t.Id
+                                         where
+                                         t.AccountType.ToLower() == "cash" && s.AcBranchID == branchid
+                                         select d).ToList();
+                    var acheadforbank = (from d in Context1.AcHeads
+                                         join
+                                        s in Context1.AcGroups on d.AcGroupID equals s.AcGroupID
+                                         join
+                                         t in Context1.AcTypes on s.AcTypeId equals t.Id
+                                         where
+                                         t.AccountType.ToLower() == "bank" && s.AcBranchID == branchid
+                                         select d).ToList();
+                    //ViewBag.achead = Context1.AcHeadSelectForCash(Convert.ToInt32(Session["AcCompanyID"].ToString())).ToList();
+                    //ViewBag.acheadbank = Context1.AcHeadSelectForBank(Convert.ToInt32(Session["AcCompanyID"].ToString())).ToList();
+                    ViewBag.achead = acheadforcash;
+                    ViewBag.acheadbank = acheadforbank;
                     cust.RecPayDate = System.DateTime.UtcNow;
                 }
             }
@@ -85,9 +132,8 @@ namespace TrueBooksMVC.Controllers
                 return RedirectToAction("Login", "Login");
             }
             var StaffNotes = (from d in Context1.StaffNotes where d.JobId == id && d.PageTypeId == 2 orderby d.Id descending select d).ToList();
-            var branchid = Convert.ToInt32(Session["branchid"]);
             var users = (from d in Context1.UserRegistrations select d).ToList();
-
+          
             var staffnotemodel = new List<StaffNoteModel>();
             foreach (var item in StaffNotes)
             {
@@ -101,6 +147,30 @@ namespace TrueBooksMVC.Controllers
                 staffnotemodel.Add(model);
             }
             ViewBag.StaffNoteModel = staffnotemodel;
+            var customerdetails = (from d in Context1.CUSTOMERs where d.CustomerID == cust.CustomerID select d).FirstOrDefault();
+            if (customerdetails == null)
+            {
+                customerdetails = new CUSTOMER();
+            }
+            ViewBag.CustomerDetail = customerdetails;
+            var CustomerNotification = (from d in Context1.CustomerNotifications where d.JobId == id && d.PageTypeId == 2 orderby d.Id descending select d).ToList();
+
+            var customernotification = new List<CustomerNotificationModel>();
+            foreach (var item in CustomerNotification)
+            {
+                var model = new CustomerNotificationModel();
+                model.id = item.Id;
+                model.employeeid = item.StaffId;
+                model.jobid = item.JobId;
+                model.Message = item.Message;
+                model.Datetime = item.Datetime;
+                model.IsEmail = item.IsEmail;
+                model.IsSms = item.IsSms;
+                model.IsWhatsapp = item.IsWhatsapp;
+                model.EmpName = users.Where(d => d.UserID == item.StaffId).FirstOrDefault().UserName;
+                customernotification.Add(model);
+            }
+            ViewBag.CustomerNotification = customernotification;
             return View(cust);
 
         }
@@ -585,7 +655,7 @@ namespace TrueBooksMVC.Controllers
 
 
             data.ForEach(s => s.Remarks = (from x in Context1.RecPayDetails where x.RecPayID == s.RecPayID && (x.CurrencyID != null || x.CurrencyID > 0) select x).FirstOrDefault() != null ? (from x in Context1.RecPayDetails join C in Context1.CurrencyMasters on x.CurrencyID equals C.CurrencyID where x.RecPayID == s.RecPayID && (x.CurrencyID != null || x.CurrencyID > 0) select C.CurrencyName).FirstOrDefault() : "");
-           
+
             //var cust = Context1.SP_GetAllRecieptsDetailsByDate(fdate, tdate, FYearID).ToList();
 
             string view = this.RenderPartialView("_GetAllCustomerByDate", data);
@@ -616,7 +686,7 @@ namespace TrueBooksMVC.Controllers
 
             ViewBag.AllCustomers = Context1.CUSTOMERs.ToList();
 
-            var data = Context1.RecPays.Where(x => x.RecPayDate >= sdate && x.RecPayDate <= edate &&  x.CustomerID != null &&  x.IsTradingReceipt != true && x.FYearID == FYearID).OrderByDescending(x => x.RecPayDate).ToList();
+            var data = Context1.RecPays.Where(x => x.RecPayDate >= sdate && x.RecPayDate <= edate && x.CustomerID != null && x.IsTradingReceipt != true && x.FYearID == FYearID).OrderByDescending(x => x.RecPayDate).ToList();
             data.ForEach(s => s.Remarks = (from x in Context1.RecPayDetails where x.RecPayID == s.RecPayID && (x.CurrencyID != null || x.CurrencyID > 0) select x).FirstOrDefault() != null ? (from x in Context1.RecPayDetails join C in Context1.CurrencyMasters on x.CurrencyID equals C.CurrencyID where x.RecPayID == s.RecPayID && (x.CurrencyID != null || x.CurrencyID > 0) select C.CurrencyName).FirstOrDefault() : "");
 
 
@@ -639,7 +709,7 @@ namespace TrueBooksMVC.Controllers
             var edate = DateTime.Parse(tdate);
 
 
-            var data = Context1.RecPays.Where(x => x.RecPayDate >= sdate && x.RecPayDate <= edate && x.CustomerID !=null && x.IsTradingReceipt == true && x.FYearID == FYearID).OrderByDescending(x => x.RecPayDate).ToList();
+            var data = Context1.RecPays.Where(x => x.RecPayDate >= sdate && x.RecPayDate <= edate && x.CustomerID != null && x.IsTradingReceipt == true && x.FYearID == FYearID).OrderByDescending(x => x.RecPayDate).ToList();
             //var cust = Context1.SP_GetAllRecieptsDetailsByDate(fdate, tdate, FYearID).ToList();
             data.ForEach(s => s.Remarks = (from x in Context1.RecPayDetails where x.RecPayID == s.RecPayID && (x.CurrencyID != null || x.CurrencyID > 0) select x).FirstOrDefault() != null ? (from x in Context1.RecPayDetails join C in Context1.CurrencyMasters on x.CurrencyID equals C.CurrencyID where x.RecPayID == s.RecPayID && (x.CurrencyID != null || x.CurrencyID > 0) select C.CurrencyName).FirstOrDefault() : "");
 
@@ -715,12 +785,31 @@ namespace TrueBooksMVC.Controllers
             cust.CustomerRcieptChildVM = new List<CustomerRcieptChildVM>();
             if (Session["UserID"] != null)
             {
+                var branchid = Convert.ToInt32(Session["branchid"]);
 
                 if (id > 0)
                 {
                     cust = RP.GetRecPayByRecpayID(id);
-                    ViewBag.achead = Context1.AcHeadSelectForCash(Convert.ToInt32(Session["AcCompanyID"].ToString())).ToList();
-                    ViewBag.acheadbank = Context1.AcHeadSelectForBank(Convert.ToInt32(Session["AcCompanyID"].ToString())).ToList();
+                    var acheadforcash = (from d in Context1.AcHeads
+                                         join
+                                        s in Context1.AcGroups on d.AcGroupID equals s.AcGroupID
+                                         join
+                                         t in Context1.AcTypes on s.AcTypeId equals t.Id
+                                         where
+                                         t.AccountType.ToLower() == "cash" && s.AcBranchID == branchid
+                                         select d).ToList();
+                    var acheadforbank = (from d in Context1.AcHeads
+                                         join
+                                        s in Context1.AcGroups on d.AcGroupID equals s.AcGroupID
+                                         join
+                                         t in Context1.AcTypes on s.AcTypeId equals t.Id
+                                         where
+                                         t.AccountType.ToLower() == "bank" && s.AcBranchID == branchid
+                                         select d).ToList();
+                    //ViewBag.achead = Context1.AcHeadSelectForCash(Convert.ToInt32(Session["AcCompanyID"].ToString())).ToList();
+                    //ViewBag.acheadbank = Context1.AcHeadSelectForBank(Convert.ToInt32(Session["AcCompanyID"].ToString())).ToList();
+                    ViewBag.achead = acheadforcash;
+                    ViewBag.acheadbank = acheadforbank;
                     cust.recPayDetail = Context1.RecPayDetails.Where(item => item.RecPayID == id).ToList();
                     cust.CustomerRcieptChildVM = new List<CustomerRcieptChildVM>();
                     foreach (var item in cust.recPayDetail)
@@ -738,7 +827,7 @@ namespace TrueBooksMVC.Controllers
                             {
                                 CreditAmount = CreditNote.Sum(d => d.Amount);
                             }
-                            var totamt = totamtpaid + totadjust +CreditAmount;
+                            var totamt = totamtpaid + totadjust + CreditAmount;
                             var customerinvoice = new CustomerRcieptChildVM();
                             customerinvoice.InvoiceID = Convert.ToInt32(item.InvoiceID);
                             customerinvoice.SInvoiceNo = Sinvoice.SalesInvoiceNo;
@@ -759,9 +848,26 @@ namespace TrueBooksMVC.Controllers
                 else
                 {
                     BindAllMasters();
-
-                    ViewBag.achead = Context1.AcHeadSelectForCash(Convert.ToInt32(Session["AcCompanyID"].ToString())).ToList();
-                    ViewBag.acheadbank = Context1.AcHeadSelectForBank(Convert.ToInt32(Session["AcCompanyID"].ToString())).ToList();
+                    var acheadforcash = (from d in Context1.AcHeads
+                                         join
+                                        s in Context1.AcGroups on d.AcGroupID equals s.AcGroupID
+                                         join
+                                         t in Context1.AcTypes on s.AcTypeId equals t.Id
+                                         where
+                                         t.AccountType.ToLower() == "cash" && s.AcBranchID == branchid
+                                         select d).ToList();
+                    var acheadforbank = (from d in Context1.AcHeads
+                                         join
+                                        s in Context1.AcGroups on d.AcGroupID equals s.AcGroupID
+                                         join
+                                         t in Context1.AcTypes on s.AcTypeId equals t.Id
+                                         where
+                                         t.AccountType.ToLower() == "bank" && s.AcBranchID == branchid
+                                         select d).ToList();
+                    //ViewBag.achead = Context1.AcHeadSelectForCash(Convert.ToInt32(Session["AcCompanyID"].ToString())).ToList();
+                    //ViewBag.acheadbank = Context1.AcHeadSelectForBank(Convert.ToInt32(Session["AcCompanyID"].ToString())).ToList();
+                    ViewBag.achead = acheadforcash;
+                    ViewBag.acheadbank = acheadforbank;
 
                     cust.RecPayDate = System.DateTime.UtcNow;
                 }
@@ -771,7 +877,6 @@ namespace TrueBooksMVC.Controllers
                 return RedirectToAction("Login", "Login");
             }
             var StaffNotes = (from d in Context1.StaffNotes where d.JobId == id && d.PageTypeId == 2 orderby d.Id descending select d).ToList();
-            var branchid = Convert.ToInt32(Session["branchid"]);
             var users = (from d in Context1.UserRegistrations select d).ToList();
 
             var staffnotemodel = new List<StaffNoteModel>();
@@ -787,6 +892,30 @@ namespace TrueBooksMVC.Controllers
                 staffnotemodel.Add(model);
             }
             ViewBag.StaffNoteModel = staffnotemodel;
+            var customerdetails = (from d in Context1.CUSTOMERs where d.CustomerID == cust.CustomerID select d).FirstOrDefault();
+            if (customerdetails == null)
+            {
+                customerdetails = new CUSTOMER();
+            }
+            ViewBag.CustomerDetail = customerdetails;
+            var CustomerNotification = (from d in Context1.CustomerNotifications where d.JobId == id && d.PageTypeId == 2 orderby d.Id descending select d).ToList();
+
+            var customernotification = new List<CustomerNotificationModel>();
+            foreach (var item in CustomerNotification)
+            {
+                var model = new CustomerNotificationModel();
+                model.id = item.Id;
+                model.employeeid = item.StaffId;
+                model.jobid = item.JobId;
+                model.Message = item.Message;
+                model.Datetime = item.Datetime;
+                model.IsEmail = item.IsEmail;
+                model.IsSms = item.IsSms;
+                model.IsWhatsapp = item.IsWhatsapp;
+                model.EmpName = users.Where(d => d.UserID == item.StaffId).FirstOrDefault().UserName;
+                customernotification.Add(model);
+            }
+            ViewBag.CustomerNotification = customernotification;
             return View(cust);
 
         }
@@ -932,7 +1061,7 @@ namespace TrueBooksMVC.Controllers
                         {
                             CreditAmount = CreditNote.Sum(d => d.Amount);
                         }
-                        var tamount = totsum + totAdsum+CreditAmount;
+                        var tamount = totsum + totAdsum + CreditAmount;
                         if (tamount >= salesinvoicedetails.NetValue)
                         {
                             salesinvoicedetails.RecPayStatus = 2;
@@ -1003,7 +1132,7 @@ namespace TrueBooksMVC.Controllers
                     Context1.SaveChanges();
                     var salesinvoicedetails = (from d in Context1.SalesInvoiceDetails where d.SalesInvoiceDetailID == item.InvoiceID select d).FirstOrDefault();
                     var totamount = (from d in Context1.RecPayDetails where d.InvoiceID == salesinvoicedetails.SalesInvoiceDetailID select d).ToList();
-                    var totsum = totamount.Sum(d => d.Amount) *-1;
+                    var totsum = totamount.Sum(d => d.Amount) * -1;
                     var totAdsum = totamount.Sum(d => d.AdjustmentAmount);
                     var CreditNote = (from d in Context1.CreditNotes where d.InvoiceID == item.InvoiceID && d.CustomerID == item.CustomerID select d).ToList();
                     decimal? CreditAmount = 0;
@@ -1011,7 +1140,7 @@ namespace TrueBooksMVC.Controllers
                     {
                         CreditAmount = CreditNote.Sum(d => d.Amount);
                     }
-                    var tamount = totsum + totAdsum+CreditAmount;
+                    var tamount = totsum + totAdsum + CreditAmount;
                     if (tamount >= salesinvoicedetails.NetValue)
                     {
                         salesinvoicedetails.RecPayStatus = 2;
@@ -1218,7 +1347,7 @@ namespace TrueBooksMVC.Controllers
 
                 reportViewer.LocalReport.DataSources.Add(_rsource1);
 
-               
+
 
                 //foreach (var item in dd)
                 //{
@@ -1264,7 +1393,7 @@ namespace TrueBooksMVC.Controllers
 
 
                 ReportDataSource _rsource3 = new ReportDataSource("Currency", dtcurrency);
-            
+
                 reportViewer.LocalReport.DataSources.Add(_rsource3);
                 reportViewer.LocalReport.EnableExternalImages = true;
                 reportViewer.LocalReport.Refresh();
@@ -1319,11 +1448,11 @@ namespace TrueBooksMVC.Controllers
 
                 //return file path  
                 string FilePathReturn = @"TempFile/" + FileName;
-                return Json(new {success=true, path = FilePathReturn }, JsonRequestBehavior.AllowGet);
+                return Json(new { success = true, path = FilePathReturn }, JsonRequestBehavior.AllowGet);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                return Json(new {success=false, message = e.Message.ToString() }, JsonRequestBehavior.AllowGet);
+                return Json(new { success = false, message = e.Message.ToString() }, JsonRequestBehavior.AllowGet);
 
 
             }
@@ -1395,5 +1524,196 @@ namespace TrueBooksMVC.Controllers
 
             }
         }
+
+        public JsonResult SendCustomerNotification( int JobId,string Message, int Customerid, bool whatsapp, bool Email, bool sms)
+        {
+            var customer = (from d in Context1.CUSTOMERs where d.CustomerID == Customerid select d).FirstOrDefault();
+            var isemail = false;
+            var issms = false;
+            var iswhatsapp = false;
+            if (Email)
+            {
+                try
+                {
+                    var status = SendMailForCustomerNotification(customer.Customer1, Message, customer.Email);
+                    isemail = true;
+                }
+                catch { }
+            }
+            if (sms)
+            {
+                try
+                {
+                    sendsms(Message);
+                    issms = true;
+                }
+                catch(Exception e)
+                {
+
+                }
+            }
+            if (whatsapp)
+            {
+                iswhatsapp = true;
+              
+            }
+            try
+            {
+                UpdateCustomerNotification(JobId, Message, isemail, issms, iswhatsapp);
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new { success = false, message = e.Message.ToString() }, JsonRequestBehavior.AllowGet);
+
+            }
+        }
+
+        public string SendMailForCustomerNotification(string UserName, string Message, string Email)
+        {
+            var Success = "False";
+            System.IO.StreamReader objReader;
+            objReader = new System.IO.StreamReader(System.Web.Hosting.HostingEnvironment.MapPath("/Templates/CustomerNotification.html"));
+            string content = objReader.ReadToEnd();
+
+
+            objReader.Close();
+            content = Regex.Replace(content, "@username", UserName);
+            content = Regex.Replace(content, "@Message", Message);
+            try
+            {
+                using (MailMessage msgMail = new MailMessage())
+                {
+
+                    msgMail.From = new MailAddress(ConfigurationManager.AppSettings["FromEmailAddress"].ToString());
+                    msgMail.Subject = "Shipping System";
+                    msgMail.IsBodyHtml = true;
+                    msgMail.Body = HttpUtility.HtmlDecode(content);
+                    msgMail.To.Add(Email);
+                    msgMail.IsBodyHtml = true;
+
+                    //client = new SmtpClient(ConfigurationManager.AppSettings["Host"].ToString());
+                    //client.Port = int.Parse(ConfigurationManager.AppSettings["SMTPServerPort"].ToString());
+                    //client.UseDefaultCredentials = false;
+                    //client.DeliveryMethod = SmtpDeliveryMethod.Network;
+                    //client.Credentials = new System.Net.NetworkCredential(ConfigurationManager.AppSettings["SMTPUserName"].ToString(), ConfigurationManager.AppSettings["SMTPPassword"].ToString());
+                    //client.EnableSsl = true;
+                    //client.Send(msgMail);
+                    using (SmtpClient smtp = new SmtpClient("smtp.mail.yahoo.com", 587))
+                    {
+                        smtp.UseDefaultCredentials = false;
+                        smtp.Credentials = new System.Net.NetworkCredential(ConfigurationManager.AppSettings["SMTPUserName"].ToString(), ConfigurationManager.AppSettings["SMTPPassword"].ToString());
+                        smtp.EnableSsl = true;
+                        smtp.Send(msgMail);
+                    }
+                }
+                Success = "True";
+
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+            return Success;
+        }
+        public bool UpdateCustomerNotification(int Jobid, string Messge, bool isemail, bool issms, bool iswhatsapp)
+        {
+            try
+            {
+                var note = new CustomerNotification();
+                note.Datetime = DateTime.Now;
+                note.JobId = Jobid;
+                note.Message = Messge;
+                note.PageTypeId = 2;//job 
+                note.StaffId = Convert.ToInt32(Session["UserID"]);
+                note.IsEmail = isemail;
+                note.IsSms = issms;
+                note.IsWhatsapp = iswhatsapp;
+                Context1.CustomerNotifications.Add(note);
+                Context1.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+
+            }
+        }
+        public string sendsms(string Message)
+        {
+           //var res= sendSMS();
+           // return res;
+            String message = HttpUtility.UrlEncode(Message);
+            using (var wb = new WebClient())
+            {
+
+                byte[] response = wb.UploadValues("https://api.textlocal.in/send/", new NameValueCollection()
+                {
+                {"apikey" , "iCglLGvDnCM-UaAfKLWZ1cEveOQhCfSAakkqn86jbv"},
+                {"numbers" , "919344452870"},
+                {"message" , message},
+                {"sender" , "MTRADE"}
+                });
+                string result = System.Text.Encoding.UTF8.GetString(response);
+                return result;
+            }
+        }
+        public string sendSMS()
+        {
+            String result;
+            string apiKey = "iCglLGvDnCM-UaAfKLWZ1cEveOQhCfSAakkqn86jbv";
+            string numbers = "919344452870"; // in a comma seperated list
+            string message = "This is your message";
+            string sender = "MTRADE";
+
+            String url = "https://api.textlocal.in/send/?apikey=" + apiKey + "&numbers=" + numbers + "&message=" + message + "&sender=" + sender;
+            //refer to parameters to complete correct url string
+
+            StreamWriter myWriter = null;
+            HttpWebRequest objRequest = (HttpWebRequest)WebRequest.Create(url);
+
+            objRequest.Method = "POST";
+            objRequest.ContentLength = Encoding.UTF8.GetByteCount(url);
+            objRequest.ContentType = "application/x-www-form-urlencoded";
+            try
+            {
+                myWriter = new StreamWriter(objRequest.GetRequestStream());
+                myWriter.Write(url);
+            }
+            catch (Exception e)
+            {
+                return e.Message;
+            }
+            finally
+            {
+                myWriter.Close();
+            }
+
+            HttpWebResponse objResponse = (HttpWebResponse)objRequest.GetResponse();
+            using (StreamReader sr = new StreamReader(objResponse.GetResponseStream()))
+            {
+                result = sr.ReadToEnd();
+                // Close and clean up the StreamReader
+                sr.Close();
+            }
+            return result;
+        }
+        public void sendsmsss(string Message)
+        {
+            var message = ""; var from = "MTRADE";
+            var uname = "veepeek@yahoo.com"; var hash = "d9fe2afa2f0b66e8418ffcc2f892259b04ddbcc37c22674c5717f2f7a8e21ad0";
+            var selectednums = "9344452870"; var url = "";
+            var address = "https://www.txtlocal.com/sendsmspost.php";
+            var info = 1; var test = 1;
+           
+                message = Message;
+            message = HttpUtility.UrlEncode(message);
+            //encode special characters (e.g. £, & etc) 
+            from = ""; uname = ""; hash = ""; selectednums = "";
+            url = address + "?uname=" + uname + "&hash=" + hash + "&message=" + message + "&from=" + from + "&selectednums=" + selectednums + "&info=" + info + "&test=" + test;
+            Response.Redirect(url);
+
+        }
+
     }
 }

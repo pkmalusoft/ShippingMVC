@@ -103,6 +103,8 @@ namespace DAL
         public DbSet<JobStatu> JobStatus { get; set; }
         public DbSet<StaffNote> StaffNotes { get; set; }
         public DbSet<JStatu> JStatus { get; set; }
+        public DbSet<AcType> AcTypes { get; set; }
+        public DbSet<CustomerNotification> CustomerNotifications { get; set; }
         public virtual int SP_DeleteUser(Nullable<int> uSerID)
         {
             var uSerIDParameter = uSerID.HasValue ?

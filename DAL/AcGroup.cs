@@ -26,6 +26,7 @@ namespace DAL
         public Nullable<int> UserID { get; set; }
         public Nullable<int> AcCategoryID { get; set; }
         public string GroupCode { get; set; }
+        public Nullable<int> AcTypeId { get; set; }
     
         public virtual AcCategory AcCategory { get; set; }
     }

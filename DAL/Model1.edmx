@@ -98,6 +98,7 @@ warning 6002: The table/view 'malusoft_accounts.dbo.AcBankDetails' does not have
           <Property Name="UserID" Type="int" />
           <Property Name="AcCategoryID" Type="int" />
           <Property Name="GroupCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="AcTypeId" Type="int" />
         </EntityType>
         <EntityType Name="AcHead">
           <Key>
@@ -266,6 +267,15 @@ warning 6002: The table/view 'malusoft_accounts.dbo.AcHeadAssign' does not have 
           <Property Name="Remarks" Type="nvarchar" MaxLength="100" />
           <Property Name="StatusSDSC" Type="nvarchar" MaxLength="2" />
           <Property Name="PartyID" Type="int" />
+        </EntityType>
+        <EntityType Name="AcType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AccountType" Type="nvarchar" MaxLength="100" />
+          <Property Name="AcCategoryId" Type="int" />
+          <Property Name="BranchId" Type="int" />
         </EntityType>
         <EntityType Name="Airline">
           <Key>
@@ -465,6 +475,22 @@ warning 6002: The table/view 'malusoft_accounts.dbo.AcHeadAssign' does not have 
           <Property Name="CountryID" Type="int" />
           <Property Name="City" Type="nvarchar" MaxLength="100" />
           <Property Name="CustomerType" Type="int" />
+          <Property Name="MobileNumber" Type="nvarchar" MaxLength="100" />
+          <Property Name="WhatsAppNumber" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="CustomerNotification">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StaffId" Type="int" />
+          <Property Name="Datetime" Type="datetime" />
+          <Property Name="Message" Type="nvarchar(max)" />
+          <Property Name="JobId" Type="int" />
+          <Property Name="IsEmail" Type="bit" />
+          <Property Name="IsSms" Type="bit" />
+          <Property Name="IsWhatsapp" Type="bit" />
+          <Property Name="PageTypeId" Type="int" />
         </EntityType>
         <EntityType Name="DebitNote">
           <Key>
@@ -2421,6 +2447,7 @@ warning 6002: The table/view 'malusoft_accounts.dbo.qrySupplierOutstanding' does
           <EntitySet Name="AcOpeningMaster" EntityType="Self.AcOpeningMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AcOPInvoiceDetails" EntityType="Self.AcOPInvoiceDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AcOPInvoiceMaster" EntityType="Self.AcOPInvoiceMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AcType" EntityType="Self.AcType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Airline" EntityType="Self.Airline" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AnalysisGroup" EntityType="Self.AnalysisGroup" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AnalysisHead" EntityType="Self.AnalysisHead" Schema="dbo" store:Type="Tables" />
@@ -2435,6 +2462,7 @@ warning 6002: The table/view 'malusoft_accounts.dbo.qrySupplierOutstanding' does
           <EntitySet Name="CreditNote" EntityType="Self.CreditNote" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CurrencyMaster" EntityType="Self.CurrencyMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CUSTOMER" EntityType="Self.CUSTOMER" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CustomerNotification" EntityType="Self.CustomerNotification" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DebitNote" EntityType="Self.DebitNote" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Designation" EntityType="Self.Designation" Schema="dbo" store:Type="Tables" />
@@ -3931,6 +3959,8 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <EntitySet Name="JobStatus" EntityType="SHIPPING_FinalModel.JobStatu" />
           <EntitySet Name="StaffNotes" EntityType="SHIPPING_FinalModel.StaffNote" />
           <EntitySet Name="JStatus" EntityType="SHIPPING_FinalModel.JStatu" />
+          <EntitySet Name="AcTypes" EntityType="SHIPPING_FinalModel.AcType" />
+          <EntitySet Name="CustomerNotifications" EntityType="SHIPPING_FinalModel.CustomerNotification" />
           </EntityContainer>
         <ComplexType Name="SP_GetUserDetailForEdit_Result">
           <Property Type="Int32" Name="UserID" Nullable="false" />
@@ -6889,6 +6919,8 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Name="CountryID" Type="Int32" />
           <Property Name="City" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="CustomerType" Type="Int32" />
+          <Property Name="MobileNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="WhatsAppNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Supplier">
           <Key>
@@ -7116,6 +7148,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Name="AcCategoryID" Type="Int32" />
           <Property Name="GroupCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="AcCategory" Relationship="SHIPPING_FinalModel.FK_AcGroup_AcCategory" FromRole="AcGroup" ToRole="AcCategory" />
+          <Property Name="AcTypeId" Type="Int32" />
         </EntityType>
         <Association Name="FK_AcGroup_AcCategory">
           <End Type="SHIPPING_FinalModel.AcCategory" Role="AcCategory" Multiplicity="0..1" />
@@ -7156,6 +7189,29 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Name="JobStatusId" Type="Int32" />
           <Property Name="EmployeeId" Type="Int32" />
           <Property Name="DateTime" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="AcType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AccountType" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="AcCategoryId" Type="Int32" />
+          <Property Name="BranchId" Type="Int32" />
+        </EntityType>
+        <EntityType Name="CustomerNotification">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StaffId" Type="Int32" />
+          <Property Name="Datetime" Type="DateTime" Precision="3" />
+          <Property Name="Message" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="JobId" Type="Int32" />
+          <Property Name="IsEmail" Type="Boolean" />
+          <Property Name="IsSms" Type="Boolean" />
+          <Property Name="IsWhatsapp" Type="Boolean" />
+          <Property Name="PageTypeId" Type="Int32" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -10462,6 +10518,8 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <EntitySetMapping Name="CUSTOMERs">
             <EntityTypeMapping TypeName="SHIPPING_FinalModel.CUSTOMER">
               <MappingFragment StoreEntitySet="CUSTOMER">
+                <ScalarProperty Name="WhatsAppNumber" ColumnName="WhatsAppNumber" />
+                <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
                 <ScalarProperty Name="CustomerType" ColumnName="CustomerType" />
                 <ScalarProperty Name="City" ColumnName="City" />
                 <ScalarProperty Name="CountryID" ColumnName="CountryID" />
@@ -10646,6 +10704,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <EntitySetMapping Name="AcGroups">
             <EntityTypeMapping TypeName="SHIPPING_FinalModel.AcGroup">
               <MappingFragment StoreEntitySet="AcGroup">
+                <ScalarProperty Name="AcTypeId" ColumnName="AcTypeId" />
                 <ScalarProperty Name="GroupCode" ColumnName="GroupCode" />
                 <ScalarProperty Name="AcCategoryID" ColumnName="AcCategoryID" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
@@ -10688,6 +10747,31 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
                 <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
                 <ScalarProperty Name="JobStatusId" ColumnName="JobStatusId" />
                 <ScalarProperty Name="JobId" ColumnName="JobId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AcTypes">
+            <EntityTypeMapping TypeName="SHIPPING_FinalModel.AcType">
+              <MappingFragment StoreEntitySet="AcType">
+                <ScalarProperty Name="BranchId" ColumnName="BranchId" />
+                <ScalarProperty Name="AcCategoryId" ColumnName="AcCategoryId" />
+                <ScalarProperty Name="AccountType" ColumnName="AccountType" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CustomerNotifications">
+            <EntityTypeMapping TypeName="SHIPPING_FinalModel.CustomerNotification">
+              <MappingFragment StoreEntitySet="CustomerNotification">
+                <ScalarProperty Name="PageTypeId" ColumnName="PageTypeId" />
+                <ScalarProperty Name="IsWhatsapp" ColumnName="IsWhatsapp" />
+                <ScalarProperty Name="IsSms" ColumnName="IsSms" />
+                <ScalarProperty Name="IsEmail" ColumnName="IsEmail" />
+                <ScalarProperty Name="JobId" ColumnName="JobId" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="Datetime" ColumnName="Datetime" />
+                <ScalarProperty Name="StaffId" ColumnName="StaffId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

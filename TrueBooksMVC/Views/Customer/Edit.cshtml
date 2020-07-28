@@ -40,7 +40,8 @@
                 var email = $("#Email").val();
                 var fax = $("#Fax").val();
                 var CustomerType = $("#CustomerType").val();
-
+                var ContactMob = $("#MobileNumber").val();
+                var Whatsapp = $("#WhatsAppNumber").val();
 
 
                 if (cust == "") {
@@ -61,6 +62,16 @@
                     return false;
                 }
                 else if (phone == "") {
+
+                    $("#alert").show();
+                    return false;
+                }
+                else if (ContactMob == "") {
+
+                    $("#alert").show();
+                    return false;
+                }
+                else if (Whatsapp == "") {
 
                     $("#alert").show();
                     return false;
@@ -126,7 +137,7 @@
             </div>
             <div class="col-md-6">
                 <label class="required headinglabel">Reference Code</label>
-                @Html.TextBoxFor(model => model.ReferenceCode, new { @class = "form-control",@readonly="readonly" })
+                @Html.TextBoxFor(model => model.ReferenceCode, new { @class = "form-control", @readonly = "readonly" })
                 @Html.ValidationMessageFor(model => model.ReferenceCode)
 
             </div>
@@ -174,6 +185,21 @@
 
             </div>
         </div>
+
+        <div class="row no-margin" style="padding-top:10px;">
+            <div class="col-md-6">
+                <label class="required headinglabel">Contact Mobile</label>
+                @Html.TextBoxFor(model => model.MobileNumber, new { @class = "form-control txttarget" })
+                @Html.ValidationMessageFor(model => model.MobileNumber)
+
+            </div>
+            <div class="col-md-6">
+                <label class="required headinglabel">WhatsApp</label>
+                @Html.TextBoxFor(model => model.WhatsAppNumber, new { @class = "form-control textright txttarget" })
+                @Html.ValidationMessageFor(model => model.WhatsAppNumber)
+
+            </div>
+        </div>
         <div class="row no-margin" style="padding-top:10px;">
             <div class="col-md-6">
                 <label class="headinglabel">PO Box No</label>
@@ -187,7 +213,7 @@
                 @Html.ValidationMessageFor(model => model.CountryID)
 
             </div>
-           
+
         </div>
         <div class="row no-margin" style="padding-top:10px;">
             <div class="col-md-6">
@@ -202,7 +228,7 @@
                 @Html.ValidationMessageFor(model => model.Email)
 
             </div>
-         
+
         </div>
 
         <div class="row no-margin" style="padding-top:10px;">
@@ -218,7 +244,7 @@
                 @Html.ValidationMessageFor(model => model.CustomerType)
 
             </div>
-         
+
 
         </div>
 
@@ -241,8 +267,8 @@
                 @Html.TextBoxFor(model => model.MaxCreditLimit, new { @class = "form-control textright", @Value = "0" })
                 @Html.ValidationMessageFor(model => model.MaxCreditLimit)
             </div>
-           
-        
+
+
         </div>
 
         <div class="row no-margin" style="padding-top:10px">
@@ -266,16 +292,15 @@
                 @Html.ValidationMessageFor(model => model.StatusActive)
             </div>
 
+           
             <div class="col-md-3" style="padding-top:15px">
-                @Html.CheckBox("StatusBlocked", new { @name = "StatusBlocked" }) &nbsp <label class="headinglabel">Status Blocked</label>
-                @Html.ValidationMessageFor(model => model.StatusBlocked)
-
+                @Html.CheckBox("InvoiceTo", new { @name = "InvoiceTo" }) &nbsp <label class="headinglabel">Invoice To</label>
+                @Html.ValidationMessageFor(model => model.InvoiceTo)
 
             </div>
-           
 
         </div>
-        <div class="row no-margin" style="padding-top:10px">
+        @*<div class="row no-margin" style="padding-top:10px">
             <div class="col-md-3" style="padding-top:15px">
                 @Html.CheckBox("StatusReserved", new { @name = "StatusReserved" }) &nbsp <label class="headinglabel">Status Reserved</label>
                 @Html.ValidationMessageFor(model => model.StatusReserved)
@@ -287,14 +312,14 @@
                 @Html.ValidationMessageFor(model => model.StatusConsignor)
 
             </div>
-
             <div class="col-md-3" style="padding-top:15px">
-                @Html.CheckBox("InvoiceTo", new { @name = "InvoiceTo" }) &nbsp <label class="headinglabel">Invoice To</label>
-                @Html.ValidationMessageFor(model => model.InvoiceTo)
+                @Html.CheckBox("StatusBlocked", new { @name = "StatusBlocked" }) &nbsp <label class="headinglabel">Status Blocked</label>
+                @Html.ValidationMessageFor(model => model.StatusBlocked)
+
 
             </div>
-        </div>
-   
+        </div>*@
+
         <div class="row no-margin" style="padding-top:10px">
             <div class="col-md-12" style="text-align: right;    margin-top: 20px;">
 
