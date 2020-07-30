@@ -56,11 +56,11 @@
 </section>
 
 
-
-<p class="indexbtnpadding">
+<div class="m-container">
+<p class="indexbtnpadding flex">
     @Html.ActionLink("Create New", "Index",null,new { @class = "btn btn-primary btnwidth" })
 </p>
-
+</div>
 <section class="content">
    @if (ViewBag.SuccessMsg != null)
    {
@@ -82,7 +82,7 @@
            Supplier
         </th>
         <th>
-          Invoice Number
+          Job Number
         </th>
             <th>
           Amount
@@ -101,7 +101,7 @@
            Customer
         </th>
         <th>
-            Invoice Number
+          Job Number
         </th>
             <th>
           Amount
@@ -116,7 +116,7 @@
        <td>@TrueBooksMVC.Models.CommanFunctions.GetShortDateFormat(item.Date)</td>
         <td>@item.SupplierName</td>
          <td>@item.JobNo</td>
-         <td style="text-align:right">@item.Amount.ToString("0.00")</td>
+         <td style="text-align:right">@item.Amount</td>
 
     </tr>
 }

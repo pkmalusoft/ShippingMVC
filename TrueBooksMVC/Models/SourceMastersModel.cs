@@ -457,10 +457,10 @@ namespace TrueBooksMVC.Models
 
             return query;
         }
-        public List<CUSTOMER> GetCoustomer(string CustomerName)
+        public List<CUSTOMER> GetCoustomer(int CustomerType)
         {
 
-            var query = Context1.CUSTOMERs.Where(c=> c.Customer1.Contains(CustomerName)).Take(100).OrderBy(x => x.Customer1).ToList();
+            var query = Context1.CUSTOMERs.Where(c=> c.CustomerType==CustomerType).OrderBy(x => x.Customer1).ToList();
 
             return query;
         }

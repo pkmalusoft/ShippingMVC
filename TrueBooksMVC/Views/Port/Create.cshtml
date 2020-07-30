@@ -97,7 +97,9 @@
                     @Html.ValidationMessageFor(model => model.PortCode)
 
                 </div>
-                <div class="col-md-8">
+				</div>
+				<div class="row no-margin" style ="padding-top:10px">
+                <div class="col-md-12">
                     <label class="required headinglabel">Country</label>
                     @Html.DropDownListFor(model => model.CountryID, (IEnumerable<SelectListItem>)ViewBag.country, "Select", new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.CountryID)

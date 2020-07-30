@@ -98,7 +98,7 @@ namespace TrueBooksMVC.Controllers
                 }
                 else
                 {
-                    BindAllMasters();
+                    BindAllMasters(1);
                     //ViewBag.achead = Context1.AcHeads.ToList().Where(x => x.AcGroupID == 10);
                     //ViewBag.acheadbank = Context1.AcHeads.ToList().Where(x => x.AcGroupID == 49);
 
@@ -147,7 +147,7 @@ namespace TrueBooksMVC.Controllers
                 staffnotemodel.Add(model);
             }
             ViewBag.StaffNoteModel = staffnotemodel;
-            var customerdetails = (from d in Context1.CUSTOMERs where d.CustomerID == cust.CustomerID select d).FirstOrDefault();
+            var customerdetails = (from d in Context1.CUSTOMERs where d.CustomerID == cust.CustomerID && d.CustomerType==1 select d).FirstOrDefault();
             if (customerdetails == null)
             {
                 customerdetails = new CUSTOMER();
@@ -346,7 +346,10 @@ namespace TrueBooksMVC.Controllers
                 var achead = (from t in Context1.AcHeads where t.AcHeadID == acheadid select t.AcHead1).FirstOrDefault();
                 RecP.BankName = achead;
             }
-
+            if(RecP.CustomerRcieptChildVM==null)
+            {
+                RecP.CustomerRcieptChildVM = new List<CustomerRcieptChildVM>();
+            }
             //Adding Entry in Rec PAY
 
             ///Insert Entry For RecPay Details 
@@ -358,8 +361,10 @@ namespace TrueBooksMVC.Controllers
                 {
                     Fmoney = Fmoney + RecP.CustomerRcieptChildVM[j].Amount;
                 }
-
-                RecP.FMoney = Fmoney;
+                if (Fmoney > 0)
+                {
+                    RecP.FMoney = Fmoney;
+                }
                 RPID = RP.AddCustomerRecieptPayment(RecP, Session["UserID"].ToString());
 
                 RecP.RecPayID = (from c in Context1.RecPays orderby c.RecPayID descending select c.RecPayID).FirstOrDefault();
@@ -382,6 +387,12 @@ namespace TrueBooksMVC.Controllers
                         RP.InsertRecpayDetailsForCust(RecP.RecPayID, 0, 0, Advance, null, "C", true, null, null, null, Convert.ToInt32(RecP.CurrencyId), 4, item.JobID);
                     }
                     TotalAmount = TotalAmount + item.Amount;
+                }
+                if(RecP.CustomerRcieptChildVM.Count==0)
+                {
+                    RP.InsertRecpayDetailsForCust(RecP.RecPayID, 0, 0,Convert.ToDecimal(RecP.FMoney), null, "C", true, null, null, null, Convert.ToInt32(RecP.CurrencyId), 4, 0);
+                    int fyaerId = Convert.ToInt32(Session["fyearid"].ToString());
+                    RP.InsertJournalOfCustomer(RecP.RecPayID, fyaerId);
                 }
 
                 //To Balance Invoice AMount
@@ -459,7 +470,7 @@ namespace TrueBooksMVC.Controllers
                 int editAcJdetails = editfu.EditAcJDetails(RecP.AcJournalID.Value, Convert.ToInt32(sumOfAmount));
             }
 
-            BindAllMasters();
+            BindAllMasters(1);
             return RedirectToAction("CustomerRecieptDetails", "CustomerReciept", new { ID = RecP.RecPayID });
         }
 
@@ -560,19 +571,28 @@ namespace TrueBooksMVC.Controllers
         //    return this.Json(AllInvoices.ToList());
         //}
 
-        public void BindAllMasters()
+        public void BindAllMasters(int pagetype)
         {
             List<SP_GetAllCustomers_Result> Customers = new List<SP_GetAllCustomers_Result>();
             Customers = MM.GetAllCustomer();
-
             List<SP_GetCurrency_Result> Currencys = new List<SP_GetCurrency_Result>();
             Currencys = MM.GetCurrency();
 
             string DocNo = RP.GetMaxRecieptDocumentNo();
 
             ViewBag.DocumentNos = DocNo;
+            if (pagetype == 1)
+            {
+                var customernew = (from d in Context1.CUSTOMERs where d.CustomerType == 1 select d).ToList();
 
-            ViewBag.Customer = new SelectList(Customers, "CustomerID", "Customer");
+                ViewBag.Customer = new SelectList(customernew, "CustomerID", "Customer1");
+            }
+            else
+            {
+                var customernew = (from d in Context1.CUSTOMERs where d.CustomerType == 2 select d).ToList();
+
+                ViewBag.Customer = new SelectList(customernew, "CustomerID", "Customer1");
+            }
 
             ViewBag.Currency = new SelectList(Currencys, "CurrencyID", "CurrencyName");
         }
@@ -651,7 +671,8 @@ namespace TrueBooksMVC.Controllers
 
             var data = Context1.RecPays.Where(x => x.RecPayDate >= sdate && x.RecPayDate <= edate && x.CustomerID != null && x.IsTradingReceipt != true && x.FYearID == FYearID).OrderByDescending(x => x.RecPayDate).ToList();
 
-            var Recdetails = (from x in Context1.RecPayDetails where x.RecPayID == data.FirstOrDefault().RecPayID && (x.CurrencyID != null || x.CurrencyID > 0) select x).FirstOrDefault();
+            //var recpayid = data.FirstOrDefault().RecPayID;
+            //var Recdetails = (from x in Context1.RecPayDetails where x.RecPayID == recpayid && (x.CurrencyID != null || x.CurrencyID > 0) select x).FirstOrDefault();
 
 
             data.ForEach(s => s.Remarks = (from x in Context1.RecPayDetails where x.RecPayID == s.RecPayID && (x.CurrencyID != null || x.CurrencyID > 0) select x).FirstOrDefault() != null ? (from x in Context1.RecPayDetails join C in Context1.CurrencyMasters on x.CurrencyID equals C.CurrencyID where x.RecPayID == s.RecPayID && (x.CurrencyID != null || x.CurrencyID > 0) select C.CurrencyName).FirstOrDefault() : "");
@@ -847,7 +868,7 @@ namespace TrueBooksMVC.Controllers
                 }
                 else
                 {
-                    BindAllMasters();
+                    BindAllMasters(2);
                     var acheadforcash = (from d in Context1.AcHeads
                                          join
                                         s in Context1.AcGroups on d.AcGroupID equals s.AcGroupID
@@ -892,7 +913,7 @@ namespace TrueBooksMVC.Controllers
                 staffnotemodel.Add(model);
             }
             ViewBag.StaffNoteModel = staffnotemodel;
-            var customerdetails = (from d in Context1.CUSTOMERs where d.CustomerID == cust.CustomerID select d).FirstOrDefault();
+            var customerdetails = (from d in Context1.CUSTOMERs where d.CustomerID == cust.CustomerID && d.CustomerType == 2 select d).FirstOrDefault();
             if (customerdetails == null)
             {
                 customerdetails = new CUSTOMER();
@@ -1006,7 +1027,10 @@ namespace TrueBooksMVC.Controllers
                 var achead = (from t in Context1.AcHeads where t.AcHeadID == acheadid select t.AcHead1).FirstOrDefault();
                 RecP.BankName = achead;
             }
-
+            if (RecP.CustomerRcieptChildVM == null)
+            {
+                RecP.CustomerRcieptChildVM = new List<CustomerRcieptChildVM>();
+            }
             //Adding Entry in Rec PAY
 
             ///Insert Entry For RecPay Details 
@@ -1018,9 +1042,10 @@ namespace TrueBooksMVC.Controllers
                 {
                     Fmoney = Fmoney + RecP.CustomerRcieptChildVM[j].Amount;
                 }
-
-                RecP.FMoney = Fmoney;
-
+                if (Fmoney > 0)
+                {
+                    RecP.FMoney = Fmoney;
+                }
                 RPID = RP.AddCustomerRecieptPayment(RecP, Session["UserID"].ToString());
 
                 RecP.RecPayID = (from c in Context1.RecPays orderby c.RecPayID descending select c.RecPayID).FirstOrDefault();
@@ -1075,7 +1100,12 @@ namespace TrueBooksMVC.Controllers
                     }
                     TotalAmount = TotalAmount + item.Amount;
                 }
-
+                if (RecP.CustomerRcieptChildVM.Count == 0)
+                {
+                    RP.InsertRecpayDetailsForCust(RecP.RecPayID, 0, 0,Convert.ToInt32(RecP.FMoney), null, "C", true, null, null, null, Convert.ToInt32(RecP.CurrencyId), 4, 0);
+                    int fyaerId = Convert.ToInt32(Session["fyearid"].ToString());
+                    RP.InsertJournalOfCustomer(RecP.RecPayID, fyaerId);
+                }
                 //To Balance Invoice AMount
                 if (TotalAmount > 0)
                 {
@@ -1184,7 +1214,7 @@ namespace TrueBooksMVC.Controllers
             }
 
 
-            BindAllMasters();
+            BindAllMasters(2);
             return RedirectToAction("CustomerTradeReceiptDetails", "CustomerReciept", new { ID = RecP.RecPayID });
         }
         public JsonResult ExportToPDF(int recpayid)

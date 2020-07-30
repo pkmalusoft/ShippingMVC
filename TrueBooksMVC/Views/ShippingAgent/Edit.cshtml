@@ -162,7 +162,7 @@
              </div>
              <div class="col-md-6">
                  <label class="required headinglabel">Phone</label>
-                 @Html.TextBoxFor(model => model.Phone, new { @class = "form-control textright txttarget" })
+                 @Html.TextBoxFor(model => model.Phone, new { @class = "form-control  txttarget" })
                  @Html.ValidationMessageFor(model => model.Phone)
              </div>
          </div>
@@ -176,7 +176,7 @@
 
              <div class="col-md-6">
                  <label class="headinglabel">Fax</label>
-                 @Html.TextBoxFor(model => model.Fax, new { @class = "form-control textright" })
+                 @Html.TextBoxFor(model => model.Fax, new { @class = "form-control " })
                  @Html.ValidationMessageFor(model => model.Fax)
 
              </div>
@@ -256,12 +256,12 @@
          </div>
 
          <div class="row no-margin buttons" style="padding-top:10px">
-             <div class="col-xs-12 align-left">
+             <div class="col-xs-12 butdivs">
 
                  <input type="submit" value="Update" class="btn btn-primary btnwidth" id="btnsave" />
 
                  &nbsp;
-                 <a href='@Url.Action("Index", "ShippingAgent", new { id = 0 })' class="btn btn-primary btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+                 <a href='@Url.Action("Index", "ShippingAgent", new { id = 0 })' class="btn btn-danger btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
 
              </div>
          </div>

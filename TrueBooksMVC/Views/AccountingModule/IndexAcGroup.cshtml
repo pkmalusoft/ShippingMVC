@@ -59,12 +59,14 @@
     <h1 class="headingfont">Account Groups</h1>
 
 </section>
-<p class="indexbtnpadding">
+<div class="m-container">
+<p class="indexbtnpadding flex">
     @if (isadd)
     {
     @Html.ActionLink("Create New", "CreateAcGroup", new { frmpage=1}, new { @class = "btn btn-primary btnwidth" })
     }
 </p>
+</div>
 <section class="content">
        @if (ViewBag.SuccessMsg != null)
        {

@@ -9,7 +9,7 @@
         background-color: #fff;
         width: 100%;
         margin: 0 auto;
-        max-width: 500px;
+        max-width: 800px;
         padding: 20px;
         margin-top: 50px;
         border-radius: 10px;
@@ -91,7 +91,7 @@
     <fieldset class="searchdiv">
         <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
         <div class="row no-margin">
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <label class="required headinglabel">Menu Title</label>
                 @Html.HiddenFor(model => model.MenuID)
                 @Html.TextBoxFor(model => model.Title, new { @class = "form-control txttarget" })
@@ -99,13 +99,14 @@
                 @Html.HiddenFor(model => model.ParentID)
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <label class="required headinglabel">Navigation Link</label>
                 @Html.TextBoxFor(model => model.Link, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Link)
             </div>
-
-            <div class="col-md-4">
+			</div>
+ <div class="row no-margin" style="padding-top:10px">
+            <div class="col-md-12">
                 <label class="required headinglabel">Order</label>
                 @Html.TextBoxFor(model => model.MenuOrder, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.MenuOrder)
@@ -113,7 +114,7 @@
         </div>
 
         <div class="row no-margin" style="padding-top:10px">
-            <div class="col-md-4">
+            <div class="col-md-12">
                 <label class="required headinglabel">Parent</label>
                 <ul class="treeview-menu">
                     @{
@@ -170,15 +171,15 @@
                 </ul>
             </div>
 
-            <div class="col-md-4">
-                @Html.CheckBox("PermissionRequired", new { @name = "PermissionRequired" }) &nbsp <label class="required headinglabel">Permission Required</label>
+            <div class="col-md-12">
+                 <label class="required headinglabel">@Html.CheckBox("PermissionRequired", new { @name = "PermissionRequired" }) &nbspPermission Required</label>
             </div>
         </div>
 
 
         <div class="row no-margin" style="padding-top: 10px;">
-            <div class="col-md-12">
-                <input type="submit" value="Update" class="btn btn-primary btnwidth" id="btnsave" />&nbsp; <a href='@Url.Action("Index", "MenuCreation", new { id = 0 })' class="btn btn-primary btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+            <div class="col-md-12 butdivs">
+                <input type="submit" value="Update" class="btn btn-primary btnwidth" id="btnsave" />&nbsp; <a href='@Url.Action("Index", "MenuCreation", new { id = 0 })' class="btn btn-danger btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
 
             </div>
         </div>

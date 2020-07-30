@@ -148,7 +148,13 @@
     <div ng-app="MyApp" ng-controller="MyController">
         <div class="" dir="ltr" id="main" runat="server">
 
-            <p class="cbtnpadding">
+           
+			 <section class="content-header">
+                                    <h1 class="headingfont">Purchase Invoice<small></small></h1>
+                  
+				  </section>
+			<div class="m-container">
+			 <p class="cbtnpadding flex">
                 @{
 
                 DateTime x = DateTime.Now;
@@ -162,16 +168,15 @@
                 }
                 }
             </p>
+			</div>
             <section class="content">
                 <p style="color: white" class="cbtnpadding">
                     <div id="error" style="display: none; font-family: 'Montserrat', sans-serif !important; color: red">* From Date must not be Greater than To Date</div>
 
-                    <table class="searchtabs tabsser" id="tbl1">
+                    <table class="searchtabs flex tabsser" id="tbl1">
                         <tr>
                             <td colspan="6" style="text-align:center;">
-                                <section class="content-header">
-                                    <h1 class="headingfont">Purchase Invoice<small></small></h1>
-                                </section>
+                               
                             </td>
                         </tr>
                         <tr>

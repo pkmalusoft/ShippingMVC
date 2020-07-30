@@ -171,7 +171,7 @@
                 </div>
                 <div class="col-md-6">
                     <label class="required headinglabel">Phone</label>
-                    @Html.TextBoxFor(model => model.Phone, new { @class = "form-control textright txttarget" })
+                    @Html.TextBoxFor(model => model.Phone, new { @class = "form-control textright txttarget" , placeholder="(123)103030100"})
                     @Html.ValidationMessageFor(model => model.Phone)
 
                 </div>
@@ -194,7 +194,7 @@
             <div class="row no-margin" style="padding-top:10px;">
                 <div class="col-md-6">
                     <label class="required headinglabel">Email</label>
-                    @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+                    @Html.TextBoxFor(model => model.Email, new { @class = "form-control" , placeholder="example@domain.com"})
                     @Html.ValidationMessageFor(model => model.Email)
                 </div>
 

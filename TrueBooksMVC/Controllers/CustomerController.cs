@@ -22,6 +22,8 @@ namespace ShippingFinal.Controllers
 
         public ActionResult Index()
         {
+            Session["SearchCustType"] = 0;
+
             var customer = objSourceMastersModel.GetCoustomer();
             return View(customer);
         }
@@ -33,10 +35,20 @@ namespace ShippingFinal.Controllers
         }
 
         [HttpPost]
-        public ActionResult SearchCustomer(string SearchName)
+        public ActionResult SearchCustomer(int SearchName)
         {
-            var customer = objSourceMastersModel.GetCoustomer(SearchName);
-            return View("Index", customer);
+            Session["SearchCustType"] = SearchName;
+
+            if (SearchName == 0)
+            {
+                var customer = objSourceMastersModel.GetCoustomer();
+                return View("Index", customer);
+            }
+            else
+            {
+                var customer = objSourceMastersModel.GetCoustomer(SearchName);
+                return View("Index", customer);
+            }
         }
         //
         // GET: /Customer/Details/5

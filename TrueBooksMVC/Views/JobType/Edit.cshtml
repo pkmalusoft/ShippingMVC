@@ -98,7 +98,7 @@
 
 
             <div class="col-md-6" style="padding-top:37px">
-                @Html.CheckBox("StatusSea", new { @name = "StatusSea" }) &nbsp <label class="headinglabel">Status Sea</label>
+             <label class="headinglabel">    @Html.CheckBox("StatusSea", new { @name = "StatusSea" }) &nbsp Status Sea</label>
                 @Html.ValidationMessageFor(model => model.StatusSea)
 
             </div>
@@ -107,12 +107,12 @@
 
 
         <div class="row no-margin" style="padding-top:10px">
-            <div class="col-md-12">
+            <div class="col-md-12 butdivs">
 
                 <input type="submit" value="Update" class="btn btn-primary btnwidth" id="btnsave" />
 
                 &nbsp;
-                <a href='@Url.Action("Index", "JobType", new { id = 0 })' class="btn btn-primary btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+                <a href='@Url.Action("Index", "JobType", new { id = 0 })' class="btn btn-danger btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
 
             </div>
         </div>

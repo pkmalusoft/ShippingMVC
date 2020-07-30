@@ -60,12 +60,14 @@
     <h1 class="headingfont">Country</h1>
 
 </section>
-<p class="indexbtnpadding">
+<div class="m-container">
+<p class="indexbtnpadding flex">
     @if (isadd)
     {
     @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary btnwidth" })
     }
 </p>
+</div>
 <section class="content">
      @if (ViewBag.SuccessMsg != null)
     {

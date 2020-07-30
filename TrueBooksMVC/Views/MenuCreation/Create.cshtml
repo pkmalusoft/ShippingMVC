@@ -133,7 +133,7 @@
             </div>
 
             <div class="row no-margin" style="padding-top: 10px">
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <label class="required headinglabel">Parent</label>
                     <ul class="treeview-menu">
                        
@@ -192,13 +192,15 @@
 
                     </ul>
                 </div>
-                <div class="col-md-6">
+				</div>
+				 <div class="row no-margin" style="padding-top: 10px">
+                <div class="col-md-12">
                   
                     @Html.CheckBox("PermissionRequired", new { @name = "PermissionRequired" }) &nbsp <label class="required headinglabel">Permission Required</label>
                 </div>
             </div>
             <div class="row no-margin" style="padding-top: 10px">
-                <div class="col-md-12" style="text-align:center;">
+                <div class="col-md-12 butdivs">
                     <input type="submit" value="Save" class="btn btn-primary btnwid" id="btnsave" />
                     <a href='@Url.Action("Index", "MenuCreation", new { id = 0 })' class="btn btn-danger btnwid" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
                 </div>

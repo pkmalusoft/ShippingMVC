@@ -8,7 +8,7 @@
         background-color: #fff;
         width: 100%;
         margin: 0 auto;
-        max-width: 500px;
+        max-width: 550px;
         padding: 20px;
         margin-top: 50px;
         border-radius: 10px;
@@ -80,43 +80,43 @@
 
         <div class="row no-margin">
 
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <label class="required headinglabel">Provision Cost Control Head</label>
                 @Html.HiddenFor(model => model.ID)
                 @Html.DropDownListFor(model => model.ProvisionCostControlAcID, new SelectList(ViewBag.provisionheads, "AcHeadID", "AcHead"), "Select", new { @class = "form-control txttarget" })
                 @Html.ValidationMessageFor(model => model.ProvisionCostControlAcID)
 
             </div>
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <label class="required headinglabel">Accrued Cost Control</label>
                 @Html.DropDownListFor(model => model.AccruedCostControlAcID, new SelectList(ViewBag.accruedcost, "AcHeadID", "AcHead"), "Select", new { @class = "form-control txttarget" })
                 @Html.ValidationMessageFor(model => model.AccruedCostControlAcID)
 
             </div>
-            <div class="col-md-4">
+			</div>
+			<div class="row no-margin" style="padding-top:10px">
+            <div class="col-md-6">
                 <label class="required headinglabel">Open Job Revenue</label>
                 @Html.DropDownListFor(model => model.OpenJobRevenueAcID, new SelectList(ViewBag.openjobrevenue, "AcHeadID", "AcHead"), "Select", new { @class = "form-control txttarget" })
                 @Html.ValidationMessageFor(model => model.OpenJobRevenueAcID)
             </div>
-
-        </div>
-
-        <div class="row no-margin" style="padding-top:10px">
-            <div class="col-md-4">
+   
+            <div class="col-md-6">
                 <label class="required headinglabel">Customer Control</label>
                 @Html.DropDownListFor(model => model.CustomerControlAcID, new SelectList(ViewBag.custmorcontrol, "AcHeadID", "AcHead"), "Select", new { @class = "form-control txttarget" })
                 @Html.ValidationMessageFor(model => model.CustomerControlAcID)
 
             </div>
-
-            <div class="col-md-4">
+			</div>
+			<div class="row no-margin" style="padding-top:10px">
+            <div class="col-md-6">
                 <label class="required headinglabel">Cash Control</label>
                 @Html.DropDownListFor(model => model.CashControlAcID, new SelectList(ViewBag.cashcontrol, "AcHeadID", "AcHead"), "Select", new { @class = "form-control txttarget" })
                 @Html.ValidationMessageFor(model => model.CashControlAcID)
 
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <label class="required headinglabel">Supplier Control</label>
                 @Html.DropDownListFor(model => model.SupplierControlAcID, new SelectList(ViewBag.controlacid, "AcHeadID", "AcHead"), "Select", new { @class = "form-control txttarget" })
                 @Html.ValidationMessageFor(model => model.SupplierControlAcID)
@@ -125,12 +125,12 @@
         </div>
 
         <div class="row no-margin" style="padding-top:10px">
-            <div class="col-md-12">
+            <div class="col-md-12 butdivs">
 
                 <input type="submit" value="Update" class="btn btn-primary btnwidth" id="btnsave" />
 
                 &nbsp;
-                <a href='@Url.Action("IndexAcHeadAssign", "AccountingModule", new { id = 0 })' class="btn btn-primary btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+                <a href='@Url.Action("IndexAcHeadAssign", "AccountingModule", new { id = 0 })' class="btn btn-danger btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
 
             </div>
         </div>

@@ -215,7 +215,7 @@
             </div>
               <div class="col-md-4 chkclass" style="padding-top:30px">
                          
-                             @Html.CheckBox("StatusActive", new { @name = "StatusActive"}) &nbsp <label class="headinglabel">Status Active</label>
+                       <label class="headinglabel">      @Html.CheckBox("StatusActive", new { @name = "StatusActive"}) &nbsp Status Active</label>
                     @Html.ValidationMessageFor(model => model.StatusActive)
     
               </div>
@@ -250,12 +250,12 @@
 
          <div id="date" style="color:red;display:none;margin-left:10px;">*Please Select Valid Date</div>
         <div class="row no-margin" style="padding-top:10px">
-                        <div class="col-md-12">
+                        <div class="col-md-12 butdivs">
                            
                                 <input type="submit"  value="Update"  class="btn btn-primary btnwidth" id="btnsave" />
                                
                             &nbsp; 
-                                           <a href='@Url.Action("Index", "Employee", new { id = 0 })' class="btn btn-primary btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+                                           <a href='@Url.Action("Index", "Employee", new { id = 0 })' class="btn btn-danger btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
                            
                         </div>
                     </div>

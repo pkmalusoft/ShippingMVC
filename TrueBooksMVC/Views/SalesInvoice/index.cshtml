@@ -144,7 +144,13 @@
 
 <div ng-app="MyApp" ng-controller="MyController">
     <div class="" dir="ltr" id="main" runat="server">
-        <p class="cbtnpadding">
+       
+        <section class="content">
+            <section class="content-header">
+                <h1 class="headingfont">Sales Invoice<small></small></h1>
+            </section>
+			<div class="m-container flex">
+			 <p class="cbtnpadding">
             @{
 
                 DateTime x = DateTime.Now;
@@ -158,11 +164,7 @@
                 }
             }
         </p>
-        <section class="content">
-            <section class="content-header">
-                <h1 class="headingfont">Sales Invoice<small></small></h1>
-            </section>
-
+		</div>
             @*<table class="searchtabs tablserch" id="tbl1">
                 <tr>
                     <td class="searlabel">

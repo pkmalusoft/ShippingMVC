@@ -112,7 +112,15 @@
                     }
                 }
             });
-        });
+    });
+    function customertypechange() {
+        var val = $("#CustomerType").val();
+        if (val == 1) {
+            $("#invoicetoid").css("display", "block");
+        } else {
+            $("#invoicetoid").css("display", "none");
+        }
+    }
     </script>
 <section class="content-header">
     <h1 class="headingfont">Customer</h1>
@@ -240,7 +248,7 @@
             </div>
             <div class="col-md-6">
                 <label class="required headinglabel">Customer Type</label>
-                @Html.DropDownListFor(model => model.CustomerType, (IEnumerable<SelectListItem>)ViewBag.CustomerType, new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.CustomerType, (IEnumerable<SelectListItem>)ViewBag.CustomerType, new { @class = "form-control",@onchange= "customertypechange()" })
                 @Html.ValidationMessageFor(model => model.CustomerType)
 
             </div>
@@ -293,7 +301,7 @@
             </div>
 
            
-            <div class="col-md-3" style="padding-top:15px">
+            <div class="col-md-3" style="padding-top:15px" id="invoicetoid">
                 @Html.CheckBox("InvoiceTo", new { @name = "InvoiceTo" }) &nbsp <label class="headinglabel">Invoice To</label>
                 @Html.ValidationMessageFor(model => model.InvoiceTo)
 

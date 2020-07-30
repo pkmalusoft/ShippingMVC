@@ -56,7 +56,7 @@
          <div class="row no-margin"> 
             @Html.HiddenFor(model=>model.ValidityID)
             
-             <div class="col-md-3">
+             <div class="col-md-12">
                          <label class="headinglabel">Validity</label>
                             @Html.TextBoxFor(model => model.Validity,new { @class = "form-control txttarget" })
                           @Html.ValidationMessageFor(model => model.Validity)
@@ -68,12 +68,12 @@
     
        
         <div class="row no-margin" style="padding-top:10px">
-                        <div class="col-xs-12 align-left">
+                        <div class="col-xs-12 butdivs">
                            
                                 <input type="submit"  value="Update"  class="btn btn-primary btnwidth" id="btnsave" />
                                
                             &nbsp; 
-                                           <a href='@Url.Action("Index", "Quotationvalidity", new { id = 0 })' class="btn btn-primary btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+                                           <a href='@Url.Action("Index", "Quotationvalidity", new { id = 0 })' class="btn btn-danger btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
                            
                         </div>
                     </div>

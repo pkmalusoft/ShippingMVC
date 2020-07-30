@@ -68,7 +68,7 @@
 
         <div class="row no-margin"> 
               
-             <div class="col-md-3">
+             <div class="col-md-4">
                         <label class="required headinglabel">Port Code</label>
                  @Html.HiddenFor(model=>model.PortID)
                        @Html.TextBoxFor(model => model.PortCode,new { @class = "form-control" })
@@ -84,7 +84,7 @@
              </div>
 
 
-             <div class="col-md-3">
+             <div class="col-md-5">
                           <label class="required headinglabel">Country</label>
                        @Html.DropDownListFor(model => model.CountryID, (IEnumerable<SelectListItem>)ViewBag.country,new { @class = "form-control" })
                              @Html.ValidationMessageFor(model => model.CountryID)
@@ -94,12 +94,12 @@
       
        
         <div class="row no-margin" style="padding-top:10px">
-                        <div class="col-md-12">
+                        <div class="col-md-12 butdivs">
                            
                                 <input type="submit"  value="Update"  class="btn btn-primary btnwidth" id="btnsave" />
                                
                             &nbsp; 
-                                           <a href='@Url.Action("Index", "Port", new { id = 0 })' class="btn btn-primary btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+                                           <a href='@Url.Action("Index", "Port", new { id = 0 })' class="btn btn-danger btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
                            
                         </div>
                     </div>
