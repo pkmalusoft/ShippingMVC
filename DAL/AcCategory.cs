@@ -21,6 +21,7 @@ namespace DAL
     
         public int AcCategoryID { get; set; }
         public string AcCategory1 { get; set; }
+        public Nullable<int> CategoryOrder { get; set; }
     
         public virtual ICollection<AcGroup> AcGroups { get; set; }
     }

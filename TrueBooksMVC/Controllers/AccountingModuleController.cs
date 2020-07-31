@@ -38,16 +38,16 @@ namespace TrueBooksMVC.Controllers
 new AcGroupModel()
 {
 
-  AcGroupID = d.AcGroupID,
-  AcGroup = d.AcGroup1,
-  AcClass = d.AcClass,
-  AcType = d.AcType,
-  BranchID = d.AcBranchID,
-  GroupCode = d.GroupCode,
-  GroupOrder = d.GroupOrder,
-  ParentID = d.ParentID,
-  UserID = d.UserID,
-  AcCategoryID = d.AcCategoryID
+    AcGroupID = d.AcGroupID,
+    AcGroup = d.AcGroup1,
+    AcClass = d.AcClass,
+    AcType = d.AcType,
+    BranchID = d.AcBranchID,
+    GroupCode = d.GroupCode,
+    GroupOrder = d.GroupOrder,
+    ParentID = d.ParentID,
+    UserID = d.UserID,
+    AcCategoryID = d.AcCategoryID
 
 }).ToList();
             foreach (var item in data)
@@ -316,7 +316,7 @@ new AcGroupModel()
         public ActionResult EditAcGroup(AcGroupVM c)
         {
             var groups = GetAllAcGroupsByBranch(Convert.ToInt32(Session["branchid"].ToString()));
-           
+
             var isexist = GetDuplicateGroup(c.AcGroupID, c.AcGroup, c.AcCategoryID, c.subgroup);
             var actype = Getactype(c.AcTypeId);
 
@@ -2802,7 +2802,7 @@ new AcGroupModel()
                 context.SaveChanges();
 
                 ViewBag.SuccessMsg = "You have successfully updated Account Type";
-                return RedirectToAction("IndexAcType","AccountingModule",new { id = 0 });
+                return RedirectToAction("IndexAcType", "AccountingModule", new { id = 0 });
             }
             else
             {
@@ -2813,7 +2813,7 @@ new AcGroupModel()
         }
 
 
-            public ActionResult DeleteAcType(int id)
+        public ActionResult DeleteAcType(int id)
         {
             AcType c = (from x in context.AcTypes where x.Id == id select x).FirstOrDefault();
             if (c != null)
@@ -2821,7 +2821,7 @@ new AcGroupModel()
                 try
                 {
                     var p = (from a in context.AcGroups where a.AcTypeId == id select a).FirstOrDefault();
-                     if (p != null)
+                    if (p != null)
                     {
                         ViewBag.ErrorMsg = "Transaction in Use. Can not Delete";
                         throw new Exception();
@@ -2834,7 +2834,7 @@ new AcGroupModel()
 
 
                         ViewBag.SuccessMsg = "You have successfully deleted Account Type";
-                        return RedirectToAction("IndexAcType", "AccountingModule",new { id = 0 });
+                        return RedirectToAction("IndexAcType", "AccountingModule", new { id = 0 });
 
                     }
 

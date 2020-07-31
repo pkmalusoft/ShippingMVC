@@ -36,6 +36,7 @@ warning 6002: The table/view 'malusoft_accounts.dbo.AcBankDetails' does not have
           </Key>
           <Property Name="AcCategoryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="AcCategory" Type="nvarchar" MaxLength="100" />
+          <Property Name="CategoryOrder" Type="int" />
         </EntityType>
         <EntityType Name="AcCompany">
           <Key>
@@ -4721,6 +4722,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Type="Int32" Name="AcCategoryID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="AcCategory1" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="AcGroups" Relationship="SHIPPING_FinalModel.FK_AcGroup_AcCategory" FromRole="AcCategory" ToRole="AcGroup" />
+          <Property Name="CategoryOrder" Type="Int32" />
         </EntityType>
         <EntityType Name="AnalysisGroup">
           <Key>
@@ -8135,6 +8137,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <EntitySetMapping Name="AcCategories">
             <EntityTypeMapping TypeName="SHIPPING_FinalModel.AcCategory">
               <MappingFragment StoreEntitySet="AcCategory">
+                <ScalarProperty Name="CategoryOrder" ColumnName="CategoryOrder" />
                 <ScalarProperty Name="AcCategory1" ColumnName="AcCategory" />
                 <ScalarProperty Name="AcCategoryID" ColumnName="AcCategoryID" />
               </MappingFragment>
