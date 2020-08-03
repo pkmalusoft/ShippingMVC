@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<DAL.SP_GetAllPaymentsDetails_Result>
 @{
-    ViewBag.Title = "SupplierPaymentDetails";
+    ViewBag.Title = "VendorPaymentDetails";
     Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
     var isadd = true;
     string path = Request.Url.AbsolutePath.ToLower();
@@ -98,9 +98,9 @@
 
             var d = new Date();
             var curr_date = sd.getDate();
-            var curr_month = sd.getMonth();
-            var curr_year = str.getFullYear();
-            return ("01" + "-" + m_names[curr_month] + "-" + str.getFullYear());
+            var curr_month = d.getMonth();
+            var curr_year = d.getFullYear();
+            return ("01" + "-" + m_names[curr_month] + "-" + d.getFullYear());
 
 
         }
@@ -119,10 +119,10 @@
 
 
             var d = new Date();
-            var curr_date =ed.getDate();
-            var curr_month = sd.getMonth();
-            var curr_year = ed.getFullYear();
-            return (sd.getDate() + "-" + m_names[curr_month] + "-" + sd.getFullYear());
+            var curr_date =d.getDate();
+            var curr_month = d.getMonth();
+            var curr_year = d.getFullYear();
+            return (d.getDate() + "-" + m_names[curr_month] + "-" + d.getFullYear());
 
 
         }
@@ -198,7 +198,7 @@
                 </div>
             </div>
             <section class="content-header">
-                <h1>Supplier Payment<small></small></h1>
+                <h1>Vendor Payment<small></small></h1>
             </section>
             <section class="content form_block">
                 <div id="divgridJob" class="row" runat="server" style="min-height: 250px; padding: 5px; margin-right: auto; margin-left: auto;">

@@ -1271,7 +1271,7 @@
         $("#SupplierID").autocomplete({
             source: function (request, response) {
                 $.ajax({
-                    url: '/AutoComplete/Supplier',
+                    url: '/VendorInvoice/Supplier',
                     datatype: "json",
                     data: {
                         term: request.term

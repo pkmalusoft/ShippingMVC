@@ -3929,6 +3929,10 @@
     <Content Include="Views\VendorInvoice\Invoice.cshtml" />
     <Content Include="Views\VendorInvoice\InvoiceReport.cshtml" />
     <Content Include="Views\VendorInvoice\_InvoiceView.cshtml" />
+    <Content Include="Views\CreditNote\ServiceIndex.cshtml" />
+    <Content Include="Views\CreditNote\ServiceCreate.cshtml" />
+    <Content Include="Views\DebitNote\ServiceList.cshtml" />
+    <Content Include="Views\DebitNote\ServiceIndex.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Logo\" />

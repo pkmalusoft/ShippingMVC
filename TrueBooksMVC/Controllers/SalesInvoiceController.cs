@@ -835,6 +835,27 @@ namespace TrueBooksMVC.Controllers
             return symbol != null;
         }
 
+        public ActionResult Customer(string term)
+        {
+            MastersModel MM = new MastersModel();
+            if (!String.IsNullOrEmpty(term))
+            {
+                List<SP_GetAllCustomers_Result> CustomerList = new List<SP_GetAllCustomers_Result>();
+                CustomerList = MM.GetAllCustomer(term);
+                var servicecustids = (from d in entity.CUSTOMERs where d.CustomerType == 1 select d.CustomerID).ToList();
+                CustomerList = CustomerList.Where(d => servicecustids.Contains(d.CustomerID)).ToList();
 
+                return Json(CustomerList, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                List<SP_GetAllCustomers_Result> CustomerList = new List<SP_GetAllCustomers_Result>();
+                CustomerList = MM.GetAllCustomer();
+                var servicecustids = (from d in entity.CUSTOMERs where d.CustomerType == 1 select d.CustomerID).ToList();
+                CustomerList = CustomerList.Where(d => servicecustids.Contains(d.CustomerID)).ToList();
+
+                return Json(CustomerList, JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }

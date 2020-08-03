@@ -34,6 +34,7 @@ namespace TrueBooksMVC.Controllers
         public ActionResult SupplierPayment(int id)
         {
             CustomerRcieptVM cust = new CustomerRcieptVM();
+            var branchid = Convert.ToInt32(Session["branchid"]);
 
             if (Session["UserID"] != null)
             {
@@ -85,16 +86,51 @@ namespace TrueBooksMVC.Controllers
                     cust.CustomerRcieptChildVM = DAL.GetCustomerReceipt(id);
 
                     BindMasters_ForEdit(cust);
-                    ViewBag.achead = Context1.AcHeadSelectForCash(Convert.ToInt32(Session["AcCompanyID"].ToString())).OrderBy(x => x.AcHead).ToList();
-                    ViewBag.acheadbank = Context1.AcHeadSelectForBank(Convert.ToInt32(Session["AcCompanyID"].ToString())).ToList();
-
+                    //ViewBag.achead = Context1.AcHeadSelectForCash(Convert.ToInt32(Session["AcCompanyID"].ToString())).OrderBy(x => x.AcHead).ToList();
+                    //ViewBag.acheadbank = Context1.AcHeadSelectForBank(Convert.ToInt32(Session["AcCompanyID"].ToString())).ToList();
+                    var acheadforcash = (from d in Context1.AcHeads
+                                         join
+                                        s in Context1.AcGroups on d.AcGroupID equals s.AcGroupID
+                                         join
+                                         t in Context1.AcTypes on s.AcTypeId equals t.Id
+                                         where
+                                         t.AccountType.ToLower() == "cash" && s.AcBranchID == branchid
+                                         select d).ToList();
+                    var acheadforbank = (from d in Context1.AcHeads
+                                         join
+                                        s in Context1.AcGroups on d.AcGroupID equals s.AcGroupID
+                                         join
+                                         t in Context1.AcTypes on s.AcTypeId equals t.Id
+                                         where
+                                         t.AccountType.ToLower() == "bank" && s.AcBranchID == branchid
+                                         select d).ToList();
+                    ViewBag.achead = acheadforcash;
+                    ViewBag.acheadbank = acheadforbank;
                 }
                 else
                 {
                     BindMasters();
                     cust.RecPayDate = System.DateTime.UtcNow;
-                    ViewBag.achead = Context1.AcHeadSelectForCash(Convert.ToInt32(Session["AcCompanyID"].ToString())).ToList();
-                    ViewBag.acheadbank = Context1.AcHeadSelectForBank(Convert.ToInt32(Session["AcCompanyID"].ToString())).ToList();
+                    //ViewBag.achead = Context1.AcHeadSelectForCash(Convert.ToInt32(Session["AcCompanyID"].ToString())).ToList();
+                    //ViewBag.acheadbank = Context1.AcHeadSelectForBank(Convert.ToInt32(Session["AcCompanyID"].ToString())).ToList();
+                    var acheadforcash = (from d in Context1.AcHeads
+                                         join
+                                        s in Context1.AcGroups on d.AcGroupID equals s.AcGroupID
+                                         join
+                                         t in Context1.AcTypes on s.AcTypeId equals t.Id
+                                         where
+                                         t.AccountType.ToLower() == "cash" && s.AcBranchID == branchid
+                                         select d).ToList();
+                    var acheadforbank = (from d in Context1.AcHeads
+                                         join
+                                        s in Context1.AcGroups on d.AcGroupID equals s.AcGroupID
+                                         join
+                                         t in Context1.AcTypes on s.AcTypeId equals t.Id
+                                         where
+                                         t.AccountType.ToLower() == "bank" && s.AcBranchID == branchid
+                                         select d).ToList();
+                    ViewBag.achead = acheadforcash;
+                    ViewBag.acheadbank = acheadforbank;
                 }
 
             }
@@ -659,6 +695,7 @@ namespace TrueBooksMVC.Controllers
         public ActionResult SupplierTradePayment(int id)
         {
             CustomerRcieptVM cust = new CustomerRcieptVM();
+            var branchid = Convert.ToInt32(Session["branchid"]);
 
             if (Session["UserID"] != null)
             {
@@ -709,16 +746,51 @@ namespace TrueBooksMVC.Controllers
                     //cust.CustomerRcieptChildVM = DAL.GetCustomerReceipt(id);
 
                     BindMasters_ForEdit(cust);
-                    ViewBag.achead = Context1.AcHeadSelectForCash(Convert.ToInt32(Session["AcCompanyID"].ToString())).OrderBy(x => x.AcHead).ToList();
-                    ViewBag.acheadbank = Context1.AcHeadSelectForBank(Convert.ToInt32(Session["AcCompanyID"].ToString())).ToList();
-
+                    //ViewBag.achead = Context1.AcHeadSelectForCash(Convert.ToInt32(Session["AcCompanyID"].ToString())).OrderBy(x => x.AcHead).ToList();
+                    //ViewBag.acheadbank = Context1.AcHeadSelectForBank(Convert.ToInt32(Session["AcCompanyID"].ToString())).ToList();
+                    var acheadforcash = (from d in Context1.AcHeads
+                                         join
+                                        s in Context1.AcGroups on d.AcGroupID equals s.AcGroupID
+                                         join
+                                         t in Context1.AcTypes on s.AcTypeId equals t.Id
+                                         where
+                                         t.AccountType.ToLower() == "cash" && s.AcBranchID == branchid
+                                         select d).ToList();
+                    var acheadforbank = (from d in Context1.AcHeads
+                                         join
+                                        s in Context1.AcGroups on d.AcGroupID equals s.AcGroupID
+                                         join
+                                         t in Context1.AcTypes on s.AcTypeId equals t.Id
+                                         where
+                                         t.AccountType.ToLower() == "bank" && s.AcBranchID == branchid
+                                         select d).ToList();
+                    ViewBag.achead = acheadforcash;
+                    ViewBag.acheadbank = acheadforbank;
                 }
                 else
                 {
                     BindMasters();
                     cust.RecPayDate = System.DateTime.UtcNow;
-                    ViewBag.achead = Context1.AcHeadSelectForCash(Convert.ToInt32(Session["AcCompanyID"].ToString())).ToList();
-                    ViewBag.acheadbank = Context1.AcHeadSelectForBank(Convert.ToInt32(Session["AcCompanyID"].ToString())).ToList();
+                    //ViewBag.achead = Context1.AcHeadSelectForCash(Convert.ToInt32(Session["AcCompanyID"].ToString())).ToList();
+                    //ViewBag.acheadbank = Context1.AcHeadSelectForBank(Convert.ToInt32(Session["AcCompanyID"].ToString())).ToList();
+                    var acheadforcash = (from d in Context1.AcHeads
+                                         join
+                                        s in Context1.AcGroups on d.AcGroupID equals s.AcGroupID
+                                         join
+                                         t in Context1.AcTypes on s.AcTypeId equals t.Id
+                                         where
+                                         t.AccountType.ToLower() == "cash" && s.AcBranchID == branchid
+                                         select d).ToList();
+                    var acheadforbank = (from d in Context1.AcHeads
+                                         join
+                                        s in Context1.AcGroups on d.AcGroupID equals s.AcGroupID
+                                         join
+                                         t in Context1.AcTypes on s.AcTypeId equals t.Id
+                                         where
+                                         t.AccountType.ToLower() == "bank" && s.AcBranchID == branchid
+                                         select d).ToList();
+                    ViewBag.achead = acheadforcash;
+                    ViewBag.acheadbank = acheadforbank;
                 }
 
             }

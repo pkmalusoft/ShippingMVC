@@ -631,7 +631,22 @@ namespace TrueBooksMVC.Controllers
             return View();
         }
 
-
+        public ActionResult Supplier(string term)
+        {
+            MastersModel MM = new MastersModel();
+            if (!String.IsNullOrEmpty(term))
+            {
+                List<SP_GetAllSupplier_Result> Supplier = new List<SP_GetAllSupplier_Result>();
+                Supplier = MM.GetAllSupplier(term);
+                return Json(Supplier, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                List<SP_GetAllSupplier_Result> Supplier = new List<SP_GetAllSupplier_Result>();
+                Supplier = MM.GetAllSupplier();
+                return Json(Supplier, JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 
 

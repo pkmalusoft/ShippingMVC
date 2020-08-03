@@ -1,7 +1,7 @@
 ﻿@model TrueBooksMVC.Models.CustomerRcieptVM
 
 @{
-    ViewBag.Title = "SupplierPayment";
+    ViewBag.Title = "VendorPayment";
     Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
 }
 
@@ -29,7 +29,28 @@
         $(":text").css({ "border-radius": "5px" });
         $("select").css({ "border-radius": "5px" });
 
+       if ('@Model.RecPayID' == 0) {
+            $("#divCash").css({ "display": "none" });
+            $("#divBank").css({ "display": "block" });
 
+            $("#CurrencyId").val('@Session["BaseCurrencyId"]');
+            $("#EXRate").val('1.00');
+
+        }else {
+
+            if ('@Model.ChequeNo' == null || '@Model.ChequeNo' == '') {
+                $("#divCash").css({ "display": "block" });
+                $("#divBank").css({ "display": "none" });
+                $("#ChequeNo").attr({ "disabled": true })
+                $("#ChequeDate").attr({ "disabled": true })
+                $("#PaymentMode").val(2);
+
+            } else {
+                $("#divCash").css({ "display": "none" });
+                $("#divBank").css({ "display": "block" });
+
+            }
+        }
         $("#EXRate").blur(function ()
         {
             var wt = $(this).val();
@@ -206,9 +227,23 @@
         } else {
             $(x).val(parseFloat(thisval).toFixed(2));
         }
-      
-    }
 
+    }
+    function PaymentModeChange() {
+        var val = $("#PaymentMode").val();
+        if (val == 1) {
+            $("#divCash").css({ "display": "none" });
+            $("#divBank").css({ "display": "block" });
+            $("#ChequeNo").attr({ "disabled": false })
+            $("#ChequeDate").attr({ "disabled": false })
+        } else {
+            $("#divBank").css({ "display": "none" });
+            $("#divCash").css({ "display": "block" });
+            $("#ChequeNo").attr({ "disabled": true })
+            $("#ChequeDate").attr({ "disabled": true })
+        }
+
+    }
 </script>
 
 
@@ -236,7 +271,7 @@
                     <div class="row page-title">
                         <div class="col-xs-12">
                             <section class="content-header">
-                                <h1>Supplier Payment<small></small></h1>
+                                <h1>Vendor Payment<small></small></h1>
                             </section>
                         </div>
                     </div>
@@ -255,14 +290,14 @@
                         </div>
                     </div>
                     <div class="form_field">
-                        <div class="row no-margin form-layout" style="padding-top: 10px">
-                            <div class="col-xs-12">
-                                <input type="radio" value="Cash" id="Cash" class="rdo-btn" ng-checked="ck" ng-model="Cash" ng-click="disabledCash=true; ShowHide()" />
-                                <span style="color:#000; font-weight: bold; font-size: 16px">Cash</span>&nbsp;&nbsp;&nbsp;
-                                <input type="radio" value="Bank" id="Bank" class="rdo-btn spacer15" ng-model="Bank" ng-click="disabledCash=false; ShowHide2()" />
-                                <span style="color: #000; font-weight: bold; font-size: 16px">Bank</span>
-                            </div>
-                        </div>
+                        @*<div class="row no-margin form-layout" style="padding-top: 10px">
+                                <div class="col-xs-12">
+                                    <input type="radio" value="Cash" id="Cash" class="rdo-btn" ng-checked="ck" ng-model="Cash" ng-click="disabledCash=true; ShowHide()" />
+                                    <span style="color:#000; font-weight: bold; font-size: 16px">Cash</span>&nbsp;&nbsp;&nbsp;
+                                    <input type="radio" value="Bank" id="Bank" class="rdo-btn spacer15" ng-model="Bank" ng-click="disabledCash=false; ShowHide2()" />
+                                    <span style="color: #000; font-weight: bold; font-size: 16px">Bank</span>
+                                </div>
+                            </div>*@
                         <div class="row no-margin form-layout" style="padding-top: 10px">
                             <div class="col-xs-12 col-sm-4">
 
@@ -271,7 +306,7 @@
                                 @Html.TextBoxFor(model => model.DocumentNo, new { @Value = ViewBag.DocumentNos, @class = "form-control" })
 
                             </div>
-                            <div class="col-xs-12 col-sm-4">
+                            <div class="col-xs-12 col-sm-2">
                                 <label class="headinglabel">Date</label>
                                 @if (Model.RecPayDate == null)
                                 {
@@ -283,8 +318,15 @@
                                 }
 
                             </div>
+                            <div class="col-xs-12 col-sm-2">
+                                <label class="headinglabel">Payment Mode</label>
+                                <select id="PaymentMode" class="form-control" onchange="PaymentModeChange()">
+                                    <option value="1">Bank</option>
+                                    <option value="2">Cash</option>
+                                </select>
+                            </div>
                             <div class="col-xs-12 col-sm-4">
-                                <div id="divCash" ng-show="CashDiv">
+                                <div id="divCash">
 
                                     <label class=" required headinglabel" style="font-weight: bold; font-size: 17px">Cash</label>
 
@@ -295,10 +337,10 @@
                                         new SelectListItem{Text="Petty Cash-Noora",Value="Petty Cash-Noora"},
                                         new SelectListItem{Text="Petty Cash-Sreenithy",Value="Petty Cash-Sreenithy"}}, "Select", new { @class = "form-control" })*@
 
-                                    @Html.DropDownListFor(model => model.CashBank, new SelectList(@ViewBag.achead, "AcHeadID", "AcHead"), "Select", new { @class = "form-control" })
+                                    @Html.DropDownListFor(model => model.CashBank, new SelectList(@ViewBag.achead, "AcHeadID", "AcHead1"), "Select", new { @class = "form-control" })
 
                                 </div>
-                                <div id="divBank" ng-show="BankDiv">
+                                <div id="divBank">
                                     <div class="form-title">
                                         <label class=" required headinglabel" style="font-weight: bold; font-size: 17px">Bank</label>
                                     </div>
@@ -308,7 +350,7 @@
                                              new SelectListItem{Text="Unpresented Cheques",Value="Unpresented Cheques"},
                                             }, "Select", new { @class = "form-control" })*@
 
-                                        @Html.DropDownListFor(model => model.ChequeBank, new SelectList(@ViewBag.acheadbank, "AcHeadID", "AcHead"), "Select", new { @class = "form-control" })
+                                        @Html.DropDownListFor(model => model.ChequeBank, new SelectList(@ViewBag.acheadbank, "AcHeadID", "AcHead1"), "Select", new { @class = "form-control" })
                                     </div>
                                 </div>
                             </div>
@@ -316,7 +358,7 @@
                         <div class="row no-margin form-layout" style="padding-top: 10px">
                             <div class="col-xs-12 col-sm-4">
                                 <label class=" required headinglabel">Cheque No</label>
-                                @Html.TextBoxFor(model => model.ChequeNo, new { ng_disabled = "disabledCash", @class = "form-control textright", @maxlength = "20" })
+                                @Html.TextBoxFor(model => model.ChequeNo, new { @class = "form-control textright", @maxlength = "20" })
 
                             </div>
                             <div class="col-xs-12 col-sm-4">
@@ -328,7 +370,7 @@
                                 else
                                 {
 
-                                    @Html.TextBoxFor(model => model.ChequeDate, new { ng_disabled = "disabledCash", @class = "form-control" })
+                                    @Html.TextBoxFor(model => model.ChequeDate, new { @class = "form-control" })
                                 }
                             </div>
 
@@ -336,7 +378,7 @@
                             {
                                 <div class="col-xs-12 col-sm-4">
 
-                                    <label class=" required headinglabel">Supplier</label>
+                                    <label class=" required headinglabel">Vendor</label>
                                     @Html.DropDownListFor(model => model.SupplierID, (SelectList)ViewBag.Supplier, "Select", new { ng_model = "SupplierID", ng_change = "getTradeInvoice()", @class = "form-control", required = "required" })
 
                                     @Html.HiddenFor(model => model.AcCompanyID)
@@ -454,78 +496,78 @@
                                                 for (int i = 0; i < Model.CustomerRcieptChildVM.Count; i++)
                                                 {
 
-                                                <tr>
+                                                    <tr>
 
-                                                    <td>
-                                                        <div class="data1" style="text-align:right">
-                                                            @*@Model.CostUpdationDetails[i].JobCode*@
-                                                            @Model.CustomerRcieptChildVM[i].SInvoiceNo
-                                                            @Html.HiddenFor(item => @Model.CustomerRcieptChildVM[i].InvoiceID)
-                                                            @Html.HiddenFor(item => @Model.CustomerRcieptChildVM[i].RecPayID)
-                                                            @Html.HiddenFor(item => @Model.CustomerRcieptChildVM[i].RecPayDetailID)
-                                                            @Html.HiddenFor(item => @Model.CustomerRcieptChildVM[i].CurrencyId)
-                                                            @Html.HiddenFor(item => @Model.CustomerRcieptChildVM[i].AdjustmentAmount)
+                                                        <td>
+                                                            <div class="data1" style="text-align:right">
+                                                                @*@Model.CostUpdationDetails[i].JobCode*@
+                                                                @Model.CustomerRcieptChildVM[i].SInvoiceNo
+                                                                @Html.HiddenFor(item => @Model.CustomerRcieptChildVM[i].InvoiceID)
+                                                                @Html.HiddenFor(item => @Model.CustomerRcieptChildVM[i].RecPayID)
+                                                                @Html.HiddenFor(item => @Model.CustomerRcieptChildVM[i].RecPayDetailID)
+                                                                @Html.HiddenFor(item => @Model.CustomerRcieptChildVM[i].CurrencyId)
+                                                                @Html.HiddenFor(item => @Model.CustomerRcieptChildVM[i].AdjustmentAmount)
 
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="data1">
-                                                            @*@Model.CostUpdationDetails[i].JobCode*@
-                                                            @if (@Model.CustomerRcieptChildVM[i].InvoiceDate != null)
-                                                            {
-                                                                @TrueBooksMVC.Models.CommanFunctions.GetShortDateFormat(@Model.CustomerRcieptChildVM[i].InvoiceDate)
-                                                                @Html.HiddenFor(item => @Model.CustomerRcieptChildVM[i].InvoiceDate)
-                                                            }
-                                                            else
-                                                            {
-                                                                @Model.CustomerRcieptChildVM[i].InvoiceDate
-                                                                @Html.HiddenFor(item => @Model.CustomerRcieptChildVM[i].InvoiceDate)
-                                                            }
-                                                        </div>
-                                                    </td>
-                                                    <td style="text-align: right;">
-                                                        <div class="data1">
-                                                            @Html.HiddenFor(item => @Model.CustomerRcieptChildVM[i].AmountToBePaid)
-                                                            @string.Format("{0:n2}", @Model.CustomerRcieptChildVM[i].AmountToBePaid)
-                                                        </div>
-                                                    </td>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="data1">
+                                                                @*@Model.CostUpdationDetails[i].JobCode*@
+                                                                @if (@Model.CustomerRcieptChildVM[i].InvoiceDate != null)
+                                                                {
+                                                                    @TrueBooksMVC.Models.CommanFunctions.GetShortDateFormat(@Model.CustomerRcieptChildVM[i].InvoiceDate)
+                                                                    @Html.HiddenFor(item => @Model.CustomerRcieptChildVM[i].InvoiceDate)
+                                                                }
+                                                                else
+                                                                {
+                                                                    @Model.CustomerRcieptChildVM[i].InvoiceDate
+                                                                    @Html.HiddenFor(item => @Model.CustomerRcieptChildVM[i].InvoiceDate)
+                                                                }
+                                                            </div>
+                                                        </td>
+                                                        <td style="text-align: right;">
+                                                            <div class="data1">
+                                                                @Html.HiddenFor(item => @Model.CustomerRcieptChildVM[i].AmountToBePaid)
+                                                                @string.Format("{0:n2}", @Model.CustomerRcieptChildVM[i].AmountToBePaid)
+                                                            </div>
+                                                        </td>
 
-                                                    <td style="text-align: right;">
-                                                        <div class="data1">
-                                                            @Html.HiddenFor(item => @Model.CustomerRcieptChildVM[i].AmountToBeRecieved, new { @class = "AmountToBeRecieved" })
-                                                            @string.Format("{0:n2}", @Model.CustomerRcieptChildVM[i].AmountToBeRecieved)
-                                                        </div>
-                                                    </td>
-                                                    <td style="text-align: right;">
-                                                        <div class="data1">
-                                                            @Html.HiddenFor(item => @Model.CustomerRcieptChildVM[i].Balance, new { @class = "BalanceAmount" })
-                                                            @string.Format("{0:n2}", @Model.CustomerRcieptChildVM[i].Balance)
-                                                        </div>
-                                                    </td>
-                                                    <td style="text-align: right;">
-                                                        <div class="data1">
+                                                        <td style="text-align: right;">
+                                                            <div class="data1">
+                                                                @Html.HiddenFor(item => @Model.CustomerRcieptChildVM[i].AmountToBeRecieved, new { @class = "AmountToBeRecieved" })
+                                                                @string.Format("{0:n2}", @Model.CustomerRcieptChildVM[i].AmountToBeRecieved)
+                                                            </div>
+                                                        </td>
+                                                        <td style="text-align: right;">
+                                                            <div class="data1">
+                                                                @Html.HiddenFor(item => @Model.CustomerRcieptChildVM[i].Balance, new { @class = "BalanceAmount" })
+                                                                @string.Format("{0:n2}", @Model.CustomerRcieptChildVM[i].Balance)
+                                                            </div>
+                                                        </td>
+                                                        <td style="text-align: right;">
+                                                            <div class="data1">
 
-                                                            @Html.TextBoxFor(item => @Model.CustomerRcieptChildVM[i].Amount, string.Format("{0:n2}", @Model.CustomerRcieptChildVM[i].Amount), new { @class = "amt txtNum text-right AmountAllocated",@readonly="readonly" })
-                                                            @*  @string.Format("{0:n2}", @Model.CustomerRcieptChildVM[i].Amount)*@
-                                                        </div>
-                                                    </td>
-                                                    <td style="text-align: right;">
-                                                        <div class="data2">
+                                                                @Html.TextBoxFor(item => @Model.CustomerRcieptChildVM[i].Amount, string.Format("{0:n2}", @Model.CustomerRcieptChildVM[i].Amount), new { @class = "amt txtNum text-right AmountAllocated", @readonly = "readonly" })
+                                                                @*  @string.Format("{0:n2}", @Model.CustomerRcieptChildVM[i].Amount)*@
+                                                            </div>
+                                                        </td>
+                                                        <td style="text-align: right;">
+                                                            <div class="data2">
 
-                                                            @Html.TextBoxFor(item => @Model.CustomerRcieptChildVM[i].AdjustmentAmount, string.Format("{0:n2}", @Model.CustomerRcieptChildVM[i].AdjustmentAmount), new { @class = "amt1 txtNum text-right AdjustmentAmount", @readonly = "readonly" })
-                                                            @*  @string.Format("{0:n2}", @Model.CustomerRcieptChildVM[i].Amount)*@
-                                                        </div>
-                                                    </td>
-                                                    @*<td style="text-align: right;">
-            <div class="data6">{{order.Balance | currency:""}}</div>
-        </td>
-        <td style="text-align: right;">
+                                                                @Html.TextBoxFor(item => @Model.CustomerRcieptChildVM[i].AdjustmentAmount, string.Format("{0:n2}", @Model.CustomerRcieptChildVM[i].AdjustmentAmount), new { @class = "amt1 txtNum text-right AdjustmentAmount", @readonly = "readonly" })
+                                                                @*  @string.Format("{0:n2}", @Model.CustomerRcieptChildVM[i].Amount)*@
+                                                            </div>
+                                                        </td>
+                                                        @*<td style="text-align: right;">
+                                                                <div class="data6">{{order.Balance | currency:""}}</div>
+                                                            </td>
+                                                            <td style="text-align: right;">
 
-              <div class="data7 readonlyamt">{{order.Amount | currency:""}}</div>
-        <div class="data7 textamt" style="display:none"><input type="text" ng-bind="{{order.Amount}}" value="{{order.Amount}}" /></div>
+                                                                  <div class="data7 readonlyamt">{{order.Amount | currency:""}}</div>
+                                                            <div class="data7 textamt" style="display:none"><input type="text" ng-bind="{{order.Amount}}" value="{{order.Amount}}" /></div>
 
-        </td>*@
-                                                </tr>
+                                                            </td>*@
+                                                    </tr>
                                                     @*<tr>
                                                             <td>
                                                                 <div class="data1">&nbsp;</div>
@@ -555,18 +597,18 @@
                                             else
                                             {
 
-                                                    <tr style="font-weight: bold">
-                                                        <td>Invoice ID</td>
+                                                <tr style="font-weight: bold">
+                                                    <td>Invoice ID</td>
 
-                                                        <td>Invoice Date</td>
-                                                        @* <td>Job Code</td>*@
-                                                        <td>Invoice Amount</td>
-                                                        <td>Amount Received</td>
-                                                        <td>Balance</td>
-                                                        <td>Amount Allocated</td>
-                                                        <td>Adjustment Amount</td>
+                                                    <td>Invoice Date</td>
+                                                    @* <td>Job Code</td>*@
+                                                    <td>Invoice Amount</td>
+                                                    <td>Amount Received</td>
+                                                    <td>Balance</td>
+                                                    <td>Amount Allocated</td>
+                                                    <td>Adjustment Amount</td>
 
-                                                    </tr>
+                                                </tr>
 
                                                 @*  <tr ng-repeat="order in Orders">
                                                         <td>
@@ -594,32 +636,32 @@
                                                         <div class="data7 textamt" style="display:none"><input type="text" ng-bind="{{order.Amount}}" value="{{order.Amount}}" /></div>
                                                         </td>
                                                     </tr>*@
-                                                    <tr>
-                                                        <td>
-                                                            <div class="data1">&nbsp;</div>
-                                                        </td>
-                                                        @*  <td>
-            <div class="data2">&nbsp;</div>
-        </td>*@
-                                                        <td>
-                                                            <div class="data3">&nbsp;</div>
-                                                        </td>
-                                                        <td style="text-align: right;">
-                                                            <div class="data4"><b>{{FinalAmount | currency:""}}</b></div>
-                                                        </td>
-                                                        <td style="text-align: right;">
-                                                            <div class="data5">&nbsp;</div>
-                                                        </td>
-                                                        <td style="text-align: right;">
-                                                            <div class="data6"><b>{{leftAmt | currency:""}}</b></div>
-                                                        </td>
-                                                        <td style="text-align: right;">
-                                                            <div class="data7"><b>{{TotalAmt | currency:""}}</b></div>
-                                                        </td>
-                                                        <td style="text-align: right;">
-                                                            <div class="data8"><b>{{AdjustAmt | currency:""}}</b></div>
-                                                        </td>
-                                                    </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="data1">&nbsp;</div>
+                                                    </td>
+                                                    @*  <td>
+                                                            <div class="data2">&nbsp;</div>
+                                                        </td>*@
+                                                    <td>
+                                                        <div class="data3">&nbsp;</div>
+                                                    </td>
+                                                    <td style="text-align: right;">
+                                                        <div class="data4"><b>{{FinalAmount | currency:""}}</b></div>
+                                                    </td>
+                                                    <td style="text-align: right;">
+                                                        <div class="data5">&nbsp;</div>
+                                                    </td>
+                                                    <td style="text-align: right;">
+                                                        <div class="data6"><b>{{leftAmt | currency:""}}</b></div>
+                                                    </td>
+                                                    <td style="text-align: right;">
+                                                        <div class="data7"><b>{{TotalAmt | currency:""}}</b></div>
+                                                    </td>
+                                                    <td style="text-align: right;">
+                                                        <div class="data8"><b>{{AdjustAmt | currency:""}}</b></div>
+                                                    </td>
+                                                </tr>
                                             }
                                         </table>
 
@@ -665,7 +707,7 @@
             maxDate: ed,
             changeYear: true, changeMonth: true,
         });
-        $("#RecPayDate").datepicker("setDate", sd);
+        $("#RecPayDate").datepicker("setDate", new Date());
 
 
         $('#ChequeDate').datepicker({

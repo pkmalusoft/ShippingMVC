@@ -1329,7 +1329,7 @@
         $("#CustomerID").autocomplete({
             source: function (request, response) {
                 $.ajax({
-                    url: '/AutoComplete/Customer',
+                    url: '/SalesInvoice/Customer',
                     datatype: "json",
                     data: {
                         term: request.term

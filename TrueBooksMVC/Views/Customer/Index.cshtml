@@ -41,7 +41,9 @@
         });
 
 
-        var table = $('#dataTables-example').DataTable({ "sPaginationType": "full_numbers" });
+        var table = $('#dataTables-example').DataTable({
+            "sPaginationType": "full_numbers",               
+            });
 
         table.columns().every(function () {
             var that = this;
