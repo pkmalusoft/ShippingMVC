@@ -5,7 +5,7 @@
 @using DAL;
 
 @{
-    ViewBag.Title = "Sales Invoice";
+    ViewBag.Title = "Client Invoice";
     //Layout = "~/Views/Shared/_Layout.cshtml";
     Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
 
@@ -147,7 +147,7 @@
        
         <section class="content">
             <section class="content-header">
-                <h1 class="headingfont">Sales Invoice<small></small></h1>
+                <h1 class="headingfont">Client Invoice<small></small></h1>
             </section>
 			
             @*<table class="searchtabs tablserch" id="tbl1">
@@ -203,7 +203,7 @@
                                     <td>
                                         @if (isadd)
                                         {
-                                        <a href="/salesInvoice/invoice/0"><button class="btn btn-primary btnwidth" style="margin:10px"> New</button></a>
+                                        <a href="/Clientinvoice/invoice/0"><button class="btn btn-primary btnwidth" style="margin:10px"> New</button></a>
                                         }
                                     </td>
                                 </tr>
@@ -222,7 +222,7 @@
 <script type="text/javascript">
     function DeleteInvoice(ID) {
         if (confirm("Are you sure, You want to Delete Sales Invoice?")) {
-            window.location.href = "/SalesInvoice/DeleteInvoice/?id=" + ID;
+            window.location.href = "/ClientInvoice/DeleteInvoice/?id=" + ID;
         }
     }
 
@@ -278,7 +278,7 @@
         });
         showLoading();
         $.ajax({
-            url: "@Url.Action("GetSalesInvoice", "SalesInvoice")",
+            url: "@Url.Action("GetSalesInvoice", "ClientInvoice")",
             data: { fdate: $('#frmdate').val(), tdate: $('#todate').val() },
             type: "GET",
             dataType: "json",
@@ -306,7 +306,7 @@
                 //  f2();
                 //  table.draw();
                 $.ajax({
-                    url: "@Url.Action("GetSalesInvoice", "SalesInvoice")",
+                    url: "@Url.Action("GetSalesInvoice", "ClientInvoice")",
                     data: { fdate: $('#frmdate').val(), tdate: $('#todate').val() },
                     type: "GET",
                     dataType: "json",
@@ -326,7 +326,7 @@
 
 
  $("#frmdate").css("border-radius", "5px");
-    function GetCurrentDate() {
+     function GetCurrentDate() {
         var m_names = new Array("Jan", "Feb", "Mar","Apr", "May", "Jun", "Jul", "Aug", "Sep","Oct", "Nov", "Dec");
         var startdate = '@Session["FyearFrom"].ToString()';
         var enddate = '@Session["FyearTo"].ToString()';

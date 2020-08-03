@@ -2,7 +2,7 @@
 
 @{
 
-    ViewBag.Title = "Purchase Invoice";
+    ViewBag.Title = "Vendor Invoice";
     Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
     var isadd = true;
     var ismodify = true;
@@ -111,7 +111,7 @@
 
 
 <section class="content-header">
-    <h1 class="headingfont">Purchase Invoice<small></small></h1>
+    <h1 class="headingfont">Vendor Invoice<small></small></h1>
 
 </section>
 
@@ -150,7 +150,7 @@
         </div>
         <div class="row no-margin" style="padding-top: 10px">
             <div class="col-md-6">
-                <label class="headinglabel">Supplier:</label>
+                <label class="headinglabel">Vendor:</label>
                 <input type="text" id="SupplierID" value="" class="form-control" />
                 @Html.HiddenFor(model => model.SupplierID, new { id = "SelectedSupplierID", Name = "SelectedSupplierID" })
             </div>
@@ -373,7 +373,7 @@
                     }
                 }
                 &nbsp;
-                <a href="@Url.Action("index", "purchaseInvoice" , new { id=0 })" class="btn btn-danger btnwidth">Cancel</a>
+                <a href="@Url.Action("index", "VendorInvoice" , new { id=0 })" class="btn btn-danger btnwidth">Cancel</a>
                 &nbsp;
             </div>
         </div>
@@ -577,7 +577,7 @@
             $('#SupplierID').attr('readonly', 'readonly');
             $.ajax({
                 type: "GET",
-                url: "/PurchaseInvoice/GetPurchaseInvoiceDetailsByInvoiceId",
+                url: "/VendorInvoice/GetPurchaseInvoiceDetailsByInvoiceId",
                 datatype: "Json",
                 data: { InvoiceId: $('#PurchaseInvoiceID').val() },
                 success: function (data) {

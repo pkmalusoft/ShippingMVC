@@ -104,7 +104,7 @@ namespace TrueBooksMVC
 
             cmd.Parameters.Add("@StatusDiscountAmt", SqlDbType.Bit);
             cmd.Parameters["@StatusDiscountAmt"].Value = SI.StatusDiscountAmt;
-
+         
             cmd.Parameters.Add("@OtherCharges", SqlDbType.Decimal);
             cmd.Parameters["@OtherCharges"].Value = SI.OtherCharges;
 
@@ -128,6 +128,9 @@ namespace TrueBooksMVC
 
             cmd.Parameters.Add("@DiscountValueFC", SqlDbType.Decimal);
             cmd.Parameters["@DiscountValueFC"].Value = SI.DiscountValueFC;
+
+            cmd.Parameters.Add("@IsShipping", SqlDbType.Bit);
+            cmd.Parameters["@IsShipping"].Value = SI.IsShipping;
 
             try
             {
@@ -425,6 +428,8 @@ namespace TrueBooksMVC
             cmd.Parameters.Add("@DiscountValueFC", SqlDbType.Decimal);
             cmd.Parameters["@DiscountValueFC"].Value = PI.DiscountValueFC;
 
+            cmd.Parameters.Add("@IsShipping", SqlDbType.Bit);
+            cmd.Parameters["@IsShipping"].Value = PI.IsShipping;
 
 
 
@@ -1052,7 +1057,7 @@ namespace TrueBooksMVC
             return ds;
         }
 
-        public static List<SalesInvoice> SP_GetAllSalesInvoiceByDate(Nullable<System.DateTime> fdate, Nullable<System.DateTime> tdate)
+        public static List<SalesInvoice> SP_GetAllSalesInvoiceByDate(Nullable<System.DateTime> fdate, Nullable<System.DateTime> tdate,bool? isshipping)
         {
             List<SalesInvoice> dtList = new List<SalesInvoice>();
             SqlCommand cmd = new SqlCommand();
@@ -1065,6 +1070,8 @@ namespace TrueBooksMVC
 
             cmd.Parameters.Add("@tdate", SqlDbType.DateTime);
             cmd.Parameters["@tdate"].Value = tdate;
+              cmd.Parameters.Add("@IsShipping", SqlDbType.Bit);
+            cmd.Parameters["@IsShipping"].Value = isshipping;
 
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataSet ds = new DataSet();
@@ -1085,7 +1092,7 @@ namespace TrueBooksMVC
             return dtList;
         }
 
-        public static List<PurchaseInvoice> SP_GetAllPurchaseInvoiceByDate(Nullable<System.DateTime> fdate, Nullable<System.DateTime> tdate)
+        public static List<PurchaseInvoice> SP_GetAllPurchaseInvoiceByDate(Nullable<System.DateTime> fdate, Nullable<System.DateTime> tdate,bool? isshipping)
         {
             List<PurchaseInvoice> dtList = new List<PurchaseInvoice>();
             SqlCommand cmd = new SqlCommand();
@@ -1098,6 +1105,8 @@ namespace TrueBooksMVC
 
             cmd.Parameters.Add("@tdate", SqlDbType.DateTime);
             cmd.Parameters["@tdate"].Value = tdate;
+            cmd.Parameters.Add("@IsShipping", SqlDbType.Bit);
+            cmd.Parameters["@IsShipping"].Value = isshipping;
 
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataSet ds = new DataSet();

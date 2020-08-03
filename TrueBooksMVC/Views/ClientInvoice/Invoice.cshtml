@@ -2,7 +2,7 @@
 
 
 @{
-    ViewBag.Title = "Sales Invoice";
+    ViewBag.Title = "Client Invoice";
     Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
     var isadd = true;
     var ismodify = true;
@@ -101,7 +101,7 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.20/datatables.min.css" />
 <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.20/datatables.min.js"></script>
 <section class="content-header">
-    <h1 class="headingfont">Sales Invoice<small></small></h1>
+    <h1 class="headingfont">Client Invoice<small></small></h1>
 
 </section>
 <div class="containers">
@@ -145,7 +145,7 @@
             <div class="row no-margin" style="padding-top: 10px">
 
                 <div class="col-md-4">
-                    <label class="headinglabel">Customer Name:</label>
+                    <label class="headinglabel">Client Name:</label>
                     <input type="text" id="CustomerID" value="" class="form-control" />
                     @Html.HiddenFor(model => model.CustomerID, new { id = "SelectedCustomerID", Name = "SelectedCustomerID" })
                 </div>
@@ -385,7 +385,7 @@
                         }
                     }
                     &nbsp;
-                    <a href="@Url.Action("index", "SalesInvoice", new { id = 0 })" class="btn btn-danger btnwidth">Cancel</a>
+                    <a href="@Url.Action("index", "ClientInvoice", new { id = 0 })" class="btn btn-danger btnwidth">Cancel</a>
                 </div>
             </div>
         }
@@ -583,7 +583,7 @@
 
             $.ajax({
                 type: "GET",
-                url: "/SalesInvoice/GetSalesInvoiceDetailsByInvoiceId",
+                url: "/ClientInvoice/GetSalesInvoiceDetailsByInvoiceId",
                 datatype: "Json",
                 data: { InvoiceId: $('#SalesInvoiceID').val() },
                 success: function (data) {
@@ -1356,7 +1356,7 @@
             $.ajax({
 
                 type: "GET",
-                url: "/SalesInvoice/GetCreditDays",
+                url: "/ClientInvoice/GetCreditDays",
                 datatype: "Json",
                 data: { ID: Id },
                 success: function (data) {
@@ -1485,7 +1485,7 @@
             $.ajax({
 
                 type: "GET",
-                url: "/SalesInvoice/GetProductInfo",
+                url: "/ClientInvoice/GetProductInfo",
                 datatype: "Json",
                 data: { ID: Pr_id },
                 success: function (data) {
@@ -1499,7 +1499,7 @@
             $.ajax({
 
                 type: "GET",
-                url: "/SalesInvoice/GetProductInfo",
+                url: "/ClientInvoice/GetProductInfo",
                 datatype: "Json",
                 data: { ID: Pr_id },
                 success: function (data) {
@@ -1540,7 +1540,7 @@
             $.ajax({
 
                 type: "GET",
-                url: "/SalesInvoice/GetProductInfo",
+                url: "/ClientInvoice/GetProductInfo",
                 datatype: "Json",
                 data: { ID: Pr_id },
                 success: function (data) {
@@ -1553,7 +1553,7 @@
             $.ajax({
 
                 type: "GET",
-                url: "/SalesInvoice/GetProductInfo",
+                url: "/ClientInvoice/GetProductInfo",
                 datatype: "Json",
                 data: { ID: Pr_id },
                 success: function (data) {

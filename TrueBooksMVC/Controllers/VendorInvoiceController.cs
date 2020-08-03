@@ -9,11 +9,13 @@ using System.Dynamic;
 using System.Data;
 using System.Globalization;
 using System.Collections;
+
 namespace TrueBooksMVC.Controllers
 {
     [SessionExpire]
-    public class PurchaseInvoiceController : Controller
+    public class VendorInvoiceController : Controller
     {
+
         SHIPPING_FinalEntities entity = new SHIPPING_FinalEntities();
         MastersModel MM = new MastersModel();
 
@@ -62,7 +64,7 @@ namespace TrueBooksMVC.Controllers
             DateTime fdate = Convert.ToDateTime(Session["FyearFrom"]);
             DateTime tdate = Convert.ToDateTime(Session["FyearTo"]);
             List<PurchaseInvoice> AllInvoices = new List<PurchaseInvoice>();
-            AllInvoices = DAL.SP_GetAllPurchaseInvoiceByDate(Convert.ToDateTime(fdate), Convert.ToDateTime(tdate),true).ToList();
+            AllInvoices = DAL.SP_GetAllPurchaseInvoiceByDate(Convert.ToDateTime(fdate), Convert.ToDateTime(tdate),false).ToList();
 
             //    var data = (from t in AllJobs where (t.JobDate >= Convert.ToDateTime(Session["FyearFrom"]) && t.JobDate <= Convert.ToDateTime(Session["FyearTo"])) select t).ToList();
 
@@ -76,56 +78,152 @@ namespace TrueBooksMVC.Controllers
                 entity.AcJournalDetails.Remove(item);
                 entity.SaveChanges();
             }
+            var salesinvoice = (from d in entity.PurchaseInvoices where d.PurchaseInvoiceID == PurchaseInvoiceId select d).FirstOrDefault();
 
             var Purchaseinvoicedetails = (from d in entity.PurchaseInvoiceDetails where d.PurchaseInvoiceID == PurchaseInvoiceId select d).ToList();
+
+
+            var pageControl = (from d in entity.PageControlMasters where d.ControlName.ToLower() == "vendor invoice" select d).FirstOrDefault();
+            var ControlFields = (from d in entity.PageControlFields where d.PageControlId == pageControl.Id select d).ToList();
+            var accontrolheads = (from d in entity.AcHeadControls where d.Pagecontrol == pageControl.Id select d).ToList();
+
 
             var totalamount = Purchaseinvoicedetails.Sum(d => d.NetValue) - Purchaseinvoicedetails.Sum(d => d.Tax);
             var totaltax = Purchaseinvoicedetails.Sum(d => d.Tax);
             var salesval = totalamount + totaltax;
             var Cos = totalamount * 10 / 100;
             //saleskt
-            var acjournaldetails = new AcJournalDetail();
-            int maxAcJDetailID = 0;
-            maxAcJDetailID = (from c in entity.AcJournalDetails orderby c.AcJournalDetailID descending select c.AcJournalDetailID).FirstOrDefault();
-            acjournaldetails.AcJournalDetailID = maxAcJDetailID + 1;
-            acjournaldetails.AcHeadID = (from d in entity.AcHeads where d.AcHead1.ToLower() == "sales kt" select d.AcHeadID).FirstOrDefault();//SalesKt
-            acjournaldetails.AcJournalID = AcMasterId;
-            acjournaldetails.Amount = totalamount * -1;
-            entity.AcJournalDetails.Add(acjournaldetails);
-            entity.SaveChanges();
-            //Vat payable
-            var acjournaldetails1 = new AcJournalDetail();
-            acjournaldetails1.AcJournalDetailID = maxAcJDetailID + 2;
-            acjournaldetails1.AcHeadID = (from d in entity.AcHeads where d.AcHead1.ToLower() == "vat payable" select d.AcHeadID).FirstOrDefault();//vatpayable
-            acjournaldetails1.AcJournalID = AcMasterId;
-            acjournaldetails1.Amount = totaltax * -1;
-            entity.AcJournalDetails.Add(acjournaldetails1);
-            entity.SaveChanges();
-            //Customercontrolamt
-            var acjournaldetails2 = new AcJournalDetail();
-            acjournaldetails2.AcJournalDetailID = maxAcJDetailID + 3;
-            acjournaldetails2.AcHeadID = (from d in entity.AcHeads where d.AcHead1.ToLower() == "customer control accounts" select d.AcHeadID).FirstOrDefault();//customercontrolaccounts
-            acjournaldetails2.AcJournalID = AcMasterId;
-            acjournaldetails2.Amount = salesval;
-            entity.AcJournalDetails.Add(acjournaldetails2);
-            entity.SaveChanges();
-            //costofsales
-            var acjournaldetails3 = new AcJournalDetail();
-            acjournaldetails3.AcJournalDetailID = maxAcJDetailID + 4;
-            acjournaldetails3.AcHeadID = (from d in entity.AcHeads where d.AcHead1.ToLower() == "cost of sales" select d.AcHeadID).FirstOrDefault();//costofsales
-            acjournaldetails3.AcJournalID = AcMasterId;
-            acjournaldetails3.Amount = Cos;
-            entity.AcJournalDetails.Add(acjournaldetails3);
-            entity.SaveChanges();
-            //inventorycontrolaccounts
+            decimal? discount = 0;
+            if (salesinvoice.DiscountType == 1)
+            {
+                if (salesinvoice.DiscountValueFC == 0 || salesinvoice.DiscountValueFC == null)
+                {
+                    discount = totalamount * salesinvoice.DiscountValueLC / 100;
+                }
+                else
+                {
+                    discount = totalamount * salesinvoice.DiscountValueFC / 100;
+                }
+            }
+            else
+            {
+                if (salesinvoice.DiscountValueFC == 0 || salesinvoice.DiscountValueFC == null)
+                {
+                    discount = salesinvoice.DiscountValueLC;
 
-            var acjournaldetails4 = new AcJournalDetail();
-            acjournaldetails4.AcJournalDetailID = maxAcJDetailID + 5;
-            acjournaldetails4.AcHeadID = (from d in entity.AcHeads where d.AcHead1.ToLower() == "inventory control accounts" select d.AcHeadID).FirstOrDefault();//costofsales
-            acjournaldetails4.AcJournalID = AcMasterId;
-            acjournaldetails4.Amount = Cos * -1;
-            entity.AcJournalDetails.Add(acjournaldetails4);
-            entity.SaveChanges();
+                }
+                else
+                {
+                    discount = salesinvoice.DiscountValueFC;
+
+                }
+
+            }
+            foreach (var item in accontrolheads)
+            {
+
+                if (item.Remarks == 0)
+                { }
+                else
+                {
+                    var field = ControlFields.Where(d => d.Id == item.Remarks).FirstOrDefault();
+
+                    if (field.FieldName.ToLower() == "invoice total")
+                    {
+                        var acjournal_details = new AcJournalDetail();
+                        int maxAcJ_DetailID = 0;
+                        maxAcJ_DetailID = (from c in entity.AcJournalDetails orderby c.AcJournalDetailID descending select c.AcJournalDetailID).FirstOrDefault();
+                        acjournal_details.AcJournalDetailID = maxAcJ_DetailID + 1;
+                        acjournal_details.AcHeadID = item.AccountHeadID;//SalesKt
+                        acjournal_details.AcJournalID = AcMasterId;
+                        if (item.AccountNature == true)
+                        {
+                            acjournal_details.Amount = totalamount;
+                        }
+                        else
+                        {
+                            acjournal_details.Amount = totalamount * -1;
+
+                        }
+                        entity.AcJournalDetails.Add(acjournal_details);
+                        entity.SaveChanges();
+                    }
+                    else if (field.FieldName.ToLower() == "tax")
+                    {
+                        var acjournal_details = new AcJournalDetail();
+                        int maxAcJ_DetailID = 0;
+                        maxAcJ_DetailID = (from c in entity.AcJournalDetails orderby c.AcJournalDetailID descending select c.AcJournalDetailID).FirstOrDefault();
+                        acjournal_details.AcJournalDetailID = maxAcJ_DetailID + 1;
+                        acjournal_details.AcHeadID = item.AccountHeadID;//SalesKt
+                        acjournal_details.AcJournalID = AcMasterId;
+                        if (item.AccountNature == true)
+                        {
+                            acjournal_details.Amount = totaltax;
+                        }
+                        else
+                        {
+                            acjournal_details.Amount = totaltax * -1;
+
+                        }
+                        entity.AcJournalDetails.Add(acjournal_details);
+                        entity.SaveChanges();
+
+                    }
+                    else if (field.FieldName.ToLower() == "discount")
+                    {
+                        var acjournal_details = new AcJournalDetail();
+                        int maxAcJ_DetailID = 0;
+                        maxAcJ_DetailID = (from c in entity.AcJournalDetails orderby c.AcJournalDetailID descending select c.AcJournalDetailID).FirstOrDefault();
+                        acjournal_details.AcJournalDetailID = maxAcJ_DetailID + 1;
+                        acjournal_details.AcHeadID = item.AccountHeadID;//SalesKt
+                        acjournal_details.AcJournalID = AcMasterId;
+                        if (item.AccountNature == true)
+                        {
+                            acjournal_details.Amount = discount;
+                        }
+                        else
+                        {
+                            acjournal_details.Amount = discount * -1;
+
+                        }
+                        entity.AcJournalDetails.Add(acjournal_details);
+                        entity.SaveChanges();
+                    }
+                }
+
+
+            }
+            foreach (var item in accontrolheads)
+            {
+                var getallentries = (from d in entity.AcJournalDetails where d.AcJournalID == AcMasterId select d).ToList();
+                var Creditamount = getallentries.Where(d => d.Amount < 0).ToList();
+                var Debitamount = getallentries.Where(d => d.Amount > 0).ToList();
+                var Diffval = (Creditamount.Sum(d => d.Amount) * -1) - Debitamount.Sum(d => d.Amount);
+                if (item.Remarks == 0)
+                {
+
+                    var acjournal_details = new AcJournalDetail();
+                    int maxAcJ_DetailID = 0;
+                    maxAcJ_DetailID = (from c in entity.AcJournalDetails orderby c.AcJournalDetailID descending select c.AcJournalDetailID).FirstOrDefault();
+                    acjournal_details.AcJournalDetailID = maxAcJ_DetailID + 1;
+                    acjournal_details.AcHeadID = item.AccountHeadID;//SalesKt
+                    acjournal_details.AcJournalID = AcMasterId;
+                    if (item.AccountNature == true)
+                    {
+                        acjournal_details.Amount = Diffval;
+                    }
+                    else
+                    {
+                        acjournal_details.Amount = Diffval * -1;
+
+                    }
+                    entity.AcJournalDetails.Add(acjournal_details);
+                    entity.SaveChanges();
+                    break;
+
+                }
+            }
+
             return true;
         }
         private bool DeleteAndInsertRecords(FormCollection formCollection, int InvoiceId)
@@ -153,11 +251,11 @@ namespace TrueBooksMVC.Controllers
                 if (formCollection.GetValue("PurchaseInvoiceDetailID_" + InvoiceDetailsArray[c]) != null)
                 {
                     //PDetailId=
-                         strArray = (string[])formCollection.GetValue("PurchaseInvoiceDetailID_" + InvoiceDetailsArray[c]).RawValue;
+                    strArray = (string[])formCollection.GetValue("PurchaseInvoiceDetailID_" + InvoiceDetailsArray[c]).RawValue;
                     int.TryParse(strArray[0], out PDetailId);
                 }
                 PID.PurchaseInvoiceDetailID = PDetailId;
-                    PID.PurchaseInvoiceID = InvoiceId;
+                PID.PurchaseInvoiceID = InvoiceId;
 
                 if (formCollection.GetValue("Description_" + InvoiceDetailsArray[c]) != null)
                 {
@@ -301,7 +399,8 @@ namespace TrueBooksMVC.Controllers
             PI.DiscountType = Common.ParseInt(formCollection["DiscountType"]);
             PI.DiscountValueFC = Common.ParseDecimal(formCollection["DiscountValueFC"]);
             PI.DiscountValueLC = Common.ParseDecimal(formCollection["DiscountValueLC"]);
-            PI.IsShipping = true;
+            PI.IsShipping = false;
+
             BindAllMasters();
             if (Session["UserID"] == null)
             {
@@ -352,7 +451,7 @@ namespace TrueBooksMVC.Controllers
                 {
                     Session["PurchaseInvoiceID"] = i;
                     PI.PurchaseInvoiceID = i;
-                    return RedirectToAction("Index", "PurchaseInvoice");
+                    return RedirectToAction("Index", "VendorInvoice");
                 }
             }
             else if (Command == "Update")
@@ -370,13 +469,13 @@ namespace TrueBooksMVC.Controllers
                 {
                     DeleteorInsertAcJounalDetails(PI.AcJournalID, id);
                 }
-                return RedirectToAction("Index", "PurchaseInvoice");
+                return RedirectToAction("Index", "VendorInvoice");
             }
             else if (Command == "SaveInvoice")
             {
 
             }
-            return RedirectToAction("Index", "PurchaseInvoice");
+            return RedirectToAction("Index", "VendorInvoice");
 
             //return View(PI);
         }
@@ -498,8 +597,8 @@ namespace TrueBooksMVC.Controllers
 
         public ActionResult GetPurchaseInvoice(DateTime fdate, DateTime tdate)
         {
-            var data = DAL.SP_GetAllPurchaseInvoiceByDate(Convert.ToDateTime(fdate), Convert.ToDateTime(tdate),true);           
-            foreach(var item in data)
+            var data = DAL.SP_GetAllPurchaseInvoiceByDate(Convert.ToDateTime(fdate), Convert.ToDateTime(tdate),false);
+            foreach (var item in data)
             {
                 item.CurrencyID = entity.PurchaseInvoices.Find(item.PurchaseInvoiceID).CurrencyID;
                 item.PaymentTerm = entity.CurrencyMasters.Where(d => d.CurrencyID == item.CurrencyID).FirstOrDefault().CurrencyName;
@@ -630,10 +729,5 @@ namespace TrueBooksMVC.Controllers
 
             return View();
         }
-
-
     }
-
-
 }
-

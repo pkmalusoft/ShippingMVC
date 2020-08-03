@@ -37,5 +37,6 @@ namespace DAL
         public Nullable<int> DiscountType { get; set; }
         public Nullable<decimal> DiscountValueLC { get; set; }
         public Nullable<decimal> DiscountValueFC { get; set; }
+        public Nullable<bool> IsShipping { get; set; }
     }
 }

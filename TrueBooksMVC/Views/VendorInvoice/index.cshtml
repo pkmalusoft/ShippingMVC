@@ -5,7 +5,7 @@
     @using DAL;
 
     @{
-        ViewBag.Title = "Purchase Invoice";
+        ViewBag.Title = "Vendor Invoice";
         Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
 
         SHIPPING_FinalEntities entity = new SHIPPING_FinalEntities();
@@ -150,10 +150,10 @@
 
            
 			 <section class="content-header">
-                                    <h1 class="headingfont">Purchase Invoice<small></small></h1>
+                                    <h1 class="headingfont">Vendor Invoice<small></small></h1>
                   
 				  </section>
-			
+		
             <section class="content">
                 <p style="color: white" class="cbtnpadding">
                     <div id="error" style="display: none; font-family: 'Montserrat', sans-serif !important; color: red">* From Date must not be Greater than To Date</div>
@@ -183,7 +183,7 @@
                             <td>
                                 @if (isadd)
                                 {
-                                    <a href="/purchaseInvoice/invoice/0"><button class="btn btn-primary btnwidth" style="margin:10px"> New</button></a>
+                                    <a href="/vendorInvoice/invoice/0"><button class="btn btn-primary btnwidth" style="margin:10px"> New</button></a>
                                 }
                             </td>
                         </tr>
@@ -228,7 +228,7 @@
     <script type="text/javascript">
         function DeleteInvoice(ID) {
             if (confirm("Are you sure, You want to Delete Invoice?")) {
-                window.location.href = "/PurchaseInvoice/DeleteInvoice/?id=" + ID;
+                window.location.href = "/VendorInvoice/DeleteInvoice/?id=" + ID;
             }
         }
 
@@ -285,7 +285,7 @@
             });
             showLoading();
             $.ajax({
-                url: "@Url.Action("GetPurchaseInvoice", "PurchaseInvoice")",
+                url: "@Url.Action("GetPurchaseInvoice", "VendorInvoice")",
                 data: { fdate: $('#frmdate').val(), tdate: $('#todate').val() },
                 type: "GET",
                 dataType: "json",
@@ -313,7 +313,7 @@
                     //  f2();
                     //  table.draw();
                     $.ajax({
-                        url: "@Url.Action("GetPurchaseInvoice", "PurchaseInvoice")",
+                        url: "@Url.Action("GetPurchaseInvoice", "VendorInvoice")",
                         data: { fdate: $('#frmdate').val(), tdate: $('#todate').val() },
                         type: "GET",
                         dataType: "json",
@@ -334,7 +334,7 @@
 
 
         $("#frmdate").css("border-radius", "5px");
-         function GetCurrentDate() {
+        function GetCurrentDate() {
         var m_names = new Array("Jan", "Feb", "Mar","Apr", "May", "Jun", "Jul", "Aug", "Sep","Oct", "Nov", "Dec");
         var startdate = '@Session["FyearFrom"].ToString()';
         var enddate = '@Session["FyearTo"].ToString()';
@@ -360,6 +360,7 @@
         var curr_year = d.getFullYear();
         return (curr_date + "-" + m_names[curr_month] + "-" + curr_year);
     }
+
         function f2() {
 
             $.fn.dataTable.ext.search.push(

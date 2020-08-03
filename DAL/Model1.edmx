@@ -432,6 +432,7 @@ warning 6002: The table/view 'malusoft_accounts.dbo.AcHeadAssign' does not have 
           <Property Name="AcHeadID" Type="int" />
           <Property Name="CustomerID" Type="int" />
           <Property Name="statusclose" Type="bit" />
+          <Property Name="IsShipping" Type="bit" />
         </EntityType>
         <EntityType Name="CurrencyMaster">
           <Key>
@@ -509,6 +510,7 @@ warning 6002: The table/view 'malusoft_accounts.dbo.AcHeadAssign' does not have 
           <Property Name="RecPayID" Type="int" />
           <Property Name="AcHeadID" Type="int" />
           <Property Name="SupplierID" Type="int" />
+          <Property Name="IsShipping" Type="bit" />
         </EntityType>
         <EntityType Name="Department">
           <Key>
@@ -882,6 +884,7 @@ warning 6002: The table/view 'malusoft_accounts.dbo.AcHeadAssign' does not have 
           <Property Name="DiscountType" Type="int" />
           <Property Name="DiscountValueLC" Type="decimal" Precision="18" Scale="2" />
           <Property Name="DiscountValueFC" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="IsShipping" Type="bit" />
         </EntityType>
         <EntityType Name="PurchaseInvoiceDetails">
           <Key>
@@ -1003,6 +1006,7 @@ warning 6002: The table/view 'malusoft_accounts.dbo.AcHeadAssign' does not have 
           <Property Name="DiscountType" Type="int" />
           <Property Name="DiscountValueLC" Type="decimal" Precision="18" Scale="2" />
           <Property Name="DiscountValueFC" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="IsShipping" Type="bit" />
         </EntityType>
         <EntityType Name="SalesInvoiceDetails">
           <Key>
@@ -2208,6 +2212,7 @@ warning 6002: The table/view 'malusoft_accounts.dbo.qrySupplierOutstanding' does
           <Parameter Name="DiscountType" Type="int" Mode="In" />
           <Parameter Name="DiscountValueLC" Type="decimal" Mode="In" />
           <Parameter Name="DiscountValueFC" Type="decimal" Mode="In" />
+          <Parameter Name="IsShipping" Type="bit" Mode="In" />
         </Function>
         <Function Name="SP_InsertRecPay" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="RecPayDate" Type="datetime" Mode="In" />
@@ -2282,6 +2287,7 @@ warning 6002: The table/view 'malusoft_accounts.dbo.qrySupplierOutstanding' does
           <Parameter Name="DiscountType" Type="int" Mode="In" />
           <Parameter Name="DiscountValueLC" Type="decimal" Mode="In" />
           <Parameter Name="DiscountValueFC" Type="decimal" Mode="In" />
+          <Parameter Name="IsShipping" Type="bit" Mode="In" />
         </Function>
         <Function Name="SP_InsertUserDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="UserName" Type="varchar" Mode="In" />
@@ -3794,6 +3800,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
             <Parameter Name="DiscountType" Mode="In" Type="Int32" />
             <Parameter Name="DiscountValueLC" Mode="In" Type="Decimal" />
             <Parameter Name="DiscountValueFC" Mode="In" Type="Decimal" />
+            <Parameter Name="IsShipping" Mode="In" Type="Boolean" />
           </FunctionImport>
           <FunctionImport Name="SP_UpdatePurchaseInvoice">
             <Parameter Name="PurchaseInvoiceId" Mode="In" Type="Int32" />
@@ -3878,6 +3885,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
             <Parameter Name="DiscountType" Mode="In" Type="Int32" />
             <Parameter Name="DiscountValueLC" Mode="In" Type="Decimal" />
             <Parameter Name="DiscountValueFC" Mode="In" Type="Decimal" />
+            <Parameter Name="IsShipping" Mode="In" Type="Boolean" />
           </FunctionImport>
           <EntitySet Name="SalesInvoices" EntityType="SHIPPING_FinalModel.SalesInvoice" />
           <FunctionImport Name="SP_GetSalesInvoiceByID" ReturnType="Collection(SHIPPING_FinalModel.SP_GetSalesInvoiceByID_Result)">
@@ -5683,6 +5691,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Type="Int32" Name="RecPayID" />
           <Property Type="Int32" Name="AcHeadID" />
           <Property Type="Int32" Name="SupplierID" />
+          <Property Name="IsShipping" Type="Boolean" />
         </EntityType>
         <ComplexType Name="SP_GetAllCostUpdation_Result">
           <Property Type="String" Name="JobCode" Nullable="true" MaxLength="50" />
@@ -5959,6 +5968,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Type="Int32" Name="AcHeadID" />
           <Property Type="Int32" Name="CustomerID" />
           <Property Type="Boolean" Name="statusclose" />
+          <Property Name="IsShipping" Type="Boolean" />
         </EntityType>
         <ComplexType Name="SP_GetChargesbyJobIDandUser_Result">
           <Property Type="Int32" Name="InvoiceID" Nullable="false" />
@@ -6590,6 +6600,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Name="DiscountType" Type="Int32" />
           <Property Name="DiscountValueLC" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="DiscountValueFC" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="IsShipping" Type="Boolean" />
         </EntityType>
         <ComplexType Name="SP_GetSalesInvoiceByID_Result">
           <Property Type="Int32" Name="SalesInvoiceID" Nullable="false" />
@@ -6644,6 +6655,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Name="DiscountType" Type="Int32" />
           <Property Name="DiscountValueLC" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="DiscountValueFC" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="IsShipping" Type="Boolean" />
         </EntityType>
         <ComplexType Name="SP_GetPurchaseInvoiceByID_Result">
           <Property Type="Int32" Name="PurchaseInvoiceID" Nullable="false" />
@@ -9262,6 +9274,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <EntitySetMapping Name="DebitNotes">
             <EntityTypeMapping TypeName="SHIPPING_FinalModel.DebitNote">
               <MappingFragment StoreEntitySet="DebitNote">
+                <ScalarProperty Name="IsShipping" ColumnName="IsShipping" />
                 <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
                 <ScalarProperty Name="AcHeadID" ColumnName="AcHeadID" />
                 <ScalarProperty Name="RecPayID" ColumnName="RecPayID" />
@@ -9527,6 +9540,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <EntitySetMapping Name="CreditNotes">
             <EntityTypeMapping TypeName="SHIPPING_FinalModel.CreditNote">
               <MappingFragment StoreEntitySet="CreditNote">
+                <ScalarProperty Name="IsShipping" ColumnName="IsShipping" />
                 <ScalarProperty Name="statusclose" ColumnName="statusclose" />
                 <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
                 <ScalarProperty Name="AcHeadID" ColumnName="AcHeadID" />
@@ -10233,6 +10247,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <EntitySetMapping Name="SalesInvoices">
             <EntityTypeMapping TypeName="SHIPPING_FinalModel.SalesInvoice">
               <MappingFragment StoreEntitySet="SalesInvoice">
+                <ScalarProperty Name="IsShipping" ColumnName="IsShipping" />
                 <ScalarProperty Name="DeliveryId" ColumnName="DeliveryId" />
                 <ScalarProperty Name="FYearID" ColumnName="FYearID" />
                 <ScalarProperty Name="Remarks" ColumnName="Remarks" />
@@ -10290,6 +10305,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <EntitySetMapping Name="PurchaseInvoices">
             <EntityTypeMapping TypeName="SHIPPING_FinalModel.PurchaseInvoice">
               <MappingFragment StoreEntitySet="PurchaseInvoice">
+                <ScalarProperty Name="IsShipping" ColumnName="IsShipping" />
                 <ScalarProperty Name="DiscountValueFC" ColumnName="DiscountValueFC" />
                 <ScalarProperty Name="DiscountValueLC" ColumnName="DiscountValueLC" />
                 <ScalarProperty Name="DiscountType" ColumnName="DiscountType" />

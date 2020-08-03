@@ -9,12 +9,11 @@ using System.Dynamic;
 using System.Data;
 using System.Globalization;
 using System.Collections;
-
 namespace TrueBooksMVC.Controllers
 {
     [SessionExpire]
-    public class SalesInvoiceController : Controller
-    {
+    public class ClientInvoiceController : Controller
+    {  // GET: VendorInvoice //account Receivables//salesinvoice
         SHIPPING_FinalEntities entity = new SHIPPING_FinalEntities();
         MastersModel MM = new MastersModel();
         SalesInvoiceModel SM = new SalesInvoiceModel();
@@ -49,7 +48,7 @@ namespace TrueBooksMVC.Controllers
             DateTime fdate = Convert.ToDateTime(Session["FyearFrom"]);
             DateTime tdate = Convert.ToDateTime(Session["FyearTo"]);
             List<SalesInvoice> AllInvoices = new List<SalesInvoice>();
-            AllInvoices = DAL.SP_GetAllSalesInvoiceByDate(Convert.ToDateTime(fdate), Convert.ToDateTime(tdate),true).ToList();
+            AllInvoices = DAL.SP_GetAllSalesInvoiceByDate(Convert.ToDateTime(fdate), Convert.ToDateTime(tdate),false).ToList();
 
             //    var data = (from t in AllJobs where (t.JobDate >= Convert.ToDateTime(Session["FyearFrom"]) && t.JobDate <= Convert.ToDateTime(Session["FyearTo"])) select t).ToList();
 
@@ -76,7 +75,7 @@ namespace TrueBooksMVC.Controllers
             var salesinvoice = (from d in entity.SalesInvoices where d.SalesInvoiceID == salesinvoiceid select d).FirstOrDefault();
             var salesinvoicedetails = (from d in entity.SalesInvoiceDetails where d.SalesInvoiceID == salesinvoiceid select d).ToList();
 
-            var pageControl = (from d in entity.PageControlMasters where d.ControlName.ToLower() == "sales invoice" select d).FirstOrDefault();
+            var pageControl = (from d in entity.PageControlMasters where d.ControlName.ToLower() == "client invoice" select d).FirstOrDefault();
             var ControlFields = (from d in entity.PageControlFields where d.PageControlId == pageControl.Id select d).ToList();
             var accontrolheads = (from d in entity.AcHeadControls where d.Pagecontrol == pageControl.Id select d).ToList();
 
@@ -369,7 +368,7 @@ namespace TrueBooksMVC.Controllers
                     {
                         int iCharge = DAL.AddSalesInvoiceDetails(SID);
                     }
-                    
+
                 }
             }
             return true;
@@ -406,7 +405,7 @@ namespace TrueBooksMVC.Controllers
             SI.DiscountType = Common.ParseInt(formCollection["DiscountType"]);
             SI.DiscountValueLC = Common.ParseDecimal(formCollection["DiscountValueLC"]);
             SI.DiscountValueFC = Common.ParseDecimal(formCollection["DiscountValueFC"]);
-
+            SI.IsShipping = false;
             BindAllMasters();
             if (Session["UserID"] == null)
             {
@@ -425,7 +424,6 @@ namespace TrueBooksMVC.Controllers
                 SI.SalesInvoiceNo = salesNo;
                 int i = 0;
                 SI.AcJournalID = 0;
-                SI.IsShipping = true;
                 i = SM.AddSalesInvoice(SI);
                 SI.SalesInvoiceID = i;
                 DeleteAndInsertRecords(formCollection, i);
@@ -460,7 +458,7 @@ namespace TrueBooksMVC.Controllers
                     Session["SalesInvoiceID"] = i;
                     SI.SalesInvoiceID = i;
                     //return RedirectToAction("Invoice", "SalesInvoice", new { ID = i });
-                    return RedirectToAction("Index", "SalesInvoice");
+                    return RedirectToAction("Index", "ClientInvoice");
 
                 }
             }
@@ -480,7 +478,7 @@ namespace TrueBooksMVC.Controllers
                 {
                     DeleteorInsertAcJounalDetails(SI.AcJournalID, id);
                 }
-                return RedirectToAction("Index", "SalesInvoice");
+                return RedirectToAction("Index", "ClientInvoice");
 
                 //return RedirectToAction("Invoice", "SalesInvoice", new { ID = SI.SalesInvoiceID });                                          
             }
@@ -488,7 +486,7 @@ namespace TrueBooksMVC.Controllers
             {
 
             }
-            return RedirectToAction("Index", "SalesInvoice");
+            return RedirectToAction("Index", "ClientInvoice");
 
             //return View(SI);
         }
@@ -532,7 +530,7 @@ namespace TrueBooksMVC.Controllers
             AccountHead = MM.AcHeadSelectAll(Common.ParseInt(Session["branchid"].ToString()));
             Product = MM.GetAllProductServices();
 
-            var servicecustids = (from d in entity.CUSTOMERs where d.CustomerType == 1 select d.CustomerID).ToList();
+            var servicecustids = (from d in entity.CUSTOMERs where d.CustomerType == 2 select d.CustomerID).ToList();
             Customers = Customers.Where(d => servicecustids.Contains(d.CustomerID)).ToList();
             ViewBag.AccountHead = new SelectList(AccountHead, "AcHeadID", "AcHead");
             ViewBag.Product = new SelectList(Product, "ProductID", "ProductName");
@@ -619,14 +617,14 @@ namespace TrueBooksMVC.Controllers
 
         public ActionResult GetSalesInvoice(DateTime fdate, DateTime tdate)
         {
-            var data = DAL.SP_GetAllSalesInvoiceByDate(Convert.ToDateTime(fdate), Convert.ToDateTime(tdate),true);
+            var data = DAL.SP_GetAllSalesInvoiceByDate(Convert.ToDateTime(fdate), Convert.ToDateTime(tdate),false);
             foreach (var item in data)
             {
                 var salesinvoicedetails = entity.SalesInvoiceDetails.Where(s => s.SalesInvoiceID == item.SalesInvoiceID).ToList();
                 var totalamount = salesinvoicedetails.Sum(d => d.NetValue) - salesinvoicedetails.Sum(d => d.Tax);
                 var totaltax = salesinvoicedetails.Sum(d => d.Tax);
                 var salesval = totalamount + totaltax;
-                var invoice= entity.SalesInvoices.Find(item.SalesInvoiceID);
+                var invoice = entity.SalesInvoices.Find(item.SalesInvoiceID);
                 item.DiscountType = invoice.DiscountType;
                 item.DiscountValueLC = invoice.DiscountValueLC;
                 item.DiscountValueFC = invoice.DiscountValueFC;
@@ -834,7 +832,6 @@ namespace TrueBooksMVC.Controllers
                 .FirstOrDefault();
             return symbol != null;
         }
-
 
     }
 }

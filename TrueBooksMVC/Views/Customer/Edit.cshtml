@@ -226,7 +226,8 @@
                 @Html.ValidationMessageFor(model => model.WebSite)
 
             </div>
-
+			
+            
             <div class="col-md-4">
                 <label class="headinglabel">Max Credit Days</label>
                 @Html.TextBoxFor(model => model.MaxCreditDays, new { @class = "form-control textright", @tabindex = "18" })
@@ -243,7 +244,12 @@
                 @Html.ValidationMessageFor(model => model.Address3)
 
             </div>
-            <div class="col-md-4 col-md-offset-4">
+            <div class="col-md-4">
+                <label class="headinglabel">PO Box No</label>
+                @Html.TextBoxFor(model => model.POBoxNo, new { @class = "form-control textright", @tabindex = "13" })
+                @Html.ValidationMessageFor(model => model.POBoxNo)
+            </div>
+            <div class="col-md-4 ">
                 <label class="headinglabel">Max Credit Limit</label>
                 @Html.TextBoxFor(model => model.MaxCreditLimit, new { @class = "form-control textright", @Value = "0", @tabindex = "18" })
                 @Html.ValidationMessageFor(model => model.MaxCreditLimit)
@@ -256,13 +262,13 @@
                 @Html.ValidationMessageFor(model => model.City)
 
             </div>
-
-
             <div class="col-md-4">
-                <label class="headinglabel">PO Box No</label>
-                @Html.TextBoxFor(model => model.POBoxNo, new { @class = "form-control textright", @tabindex = "13" })
-                @Html.ValidationMessageFor(model => model.POBoxNo)
+                <label class="required headinglabel">WhatsApp</label>
+                @Html.TextBoxFor(model => model.WhatsAppNumber, new { @class = "form-control textright txttarget", @tabindex = "14" })
+                @Html.ValidationMessageFor(model => model.WhatsAppNumber)
+
             </div>
+
             <div class="col-md-4">
 
                 <label class="headinglabel">Exporter Code</label>
@@ -278,38 +284,28 @@
                 @Html.ValidationMessageFor(model => model.CountryID)
 
             </div>
-            <div class="col-md-4">
-                <label class="required headinglabel">WhatsApp</label>
-                @Html.TextBoxFor(model => model.WhatsAppNumber, new { @class = "form-control textright txttarget", @tabindex = "14" })
-                @Html.ValidationMessageFor(model => model.WhatsAppNumber)
-
-            </div>
+            
             <div class="col-md-4">
                 <label class="headinglabel">Discount Percentage</label>
                 @Html.TextBoxFor(model => model.DiscountPercentage, new { @class = "form-control textright", @Value = "0", @tabindex = "20" })
                 @Html.ValidationMessageFor(model => model.DiscountPercentage)
 
             </div>
-        </div>
-
-
-
-        <div class="row no-margin" style="padding-top:10px; display:flex; justify-content:flex-end;">
-
-            <div class="col-md-3" style="padding-top:15px; text-align:right;">
+            <div class="col-md-4" style="margin-top:30px">
+                <div class="col-md-6" style="padding-top:15px; text-align:right;">
 
                 @Html.CheckBox("StatusActive", new { @name = "StatusActive", @checked = "checked" }) &nbsp <label class="headinglabel">Status Active</label>
                 @Html.ValidationMessageFor(model => model.StatusActive)
             </div>
-            <div class="col-md-3" id="invoicetoid" style="padding-top:15px;text-align:right;">
+            <div class="col-md-6" id="invoicetoid" style="padding-top:15px;text-align:right;">
                 @Html.CheckBox("InvoiceTo", new { @name = "InvoiceTo" }) &nbsp <label class="headinglabel">Invoice To</label>
                 @Html.ValidationMessageFor(model => model.InvoiceTo)
 
 
             </div>
-
-
+            </div>
         </div>
+
         @*<div class="row no-margin" style="padding-top:10px">
             <div class="col-md-3" style="padding-top:15px">
                 @Html.CheckBox("StatusReserved", new { @name = "StatusReserved" }) &nbsp <label class="headinglabel">Status Reserved</label>

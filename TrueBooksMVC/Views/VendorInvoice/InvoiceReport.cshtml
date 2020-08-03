@@ -1,0 +1,398 @@
+﻿@{
+    ViewBag.Title = "Vendor Invoice Report";
+    Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
+    var Invoice = ViewBag.Invoice as DAL.PurchaseInvoice;
+    var Details = ViewBag.Details as IEnumerable<TrueBooksMVC.Models.PurchaseInvoiceDetailVM>;
+    var Company = ViewBag.Company as DAL.AcCompany;
+    var Supplier = ViewBag.Supplier as DAL.Supplier;
+    var subtotal = Convert.ToDecimal(Details.Sum(d => d.NetValue) - Details.Sum(d => d.Tax)).ToString("0.00");
+    var Netval = Convert.ToDecimal(Details.Sum(d => d.NetValue) - ViewBag.Discount).ToString("0.00");
+    var i = 1;
+    var Units = ViewBag.itemunit as IEnumerable<DAL.ItemUnit>;
+}
+<style>
+    #reportcls {
+        color: #72848c;
+    }
+
+        #reportcls > h1, h2, h3, h4, h5, h6 {
+            text-transform: uppercase;
+            color: #72848c;
+            line-height: 1.618;
+            font-family: Montserrat,sans-serif !important;
+            letter-spacing: .03em;
+        }
+
+    address {
+        margin-bottom: 1rem !important;
+        font-style: normal !important;
+        line-height: inherit !important;
+    }
+
+    #tbldetail > tbody > tr > td {
+        font-weight: 100 !important;
+        color: gray;
+    }
+
+    .display-3 {
+        font-size: 4.5rem;
+        font-weight: 300;
+        line-height: 1.2;
+    }
+
+    .table-secondary {
+        background-color: #c8cbcf;
+    }
+</style>
+
+<section class="content" id="reportcls" ion-content-print>
+
+    <span style="float:right">
+        <input type='button' class="btn btn-primary" id='btn' value='Print' onclick="printDiv()">
+    </span>
+
+    <h1 style="text-transform: uppercase;
+    color: #72848c; line-height: 0.618;">
+        Invoice
+    </h1>
+
+    @*<div class="row no-margin print" style="padding-top: 20px" id="print">
+        <div class="col-md-12 col-lg-12 col=xs-12 col-sm-12 tblbackground">*@
+
+
+    <div class="card " style="width:100% !important" id="print">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="sender-logo"><img src="~/Content/img/TrueBook_white.png" width="200" alt="Logo"></div><div class="sender-details"><address><strong>@Company.AcCompany1</strong><br>@Company.Address1, @Company.Address2<br>@Company.Address3, @Company.CountryMaster.CountryName<br>Tel: @Company.Phone</address></div>
+                </div><div class="col-sm-6">
+                    <div class="display-3 text-right">Invoice</div>
+                    <div class="invoice-date text-right">
+                        <strong>Invoice #:</strong> @Invoice.PurchaseInvoiceNo <br>
+                        <strong>Issued Date:</strong> @Invoice.PurchaseInvoiceDate.Value.ToString("dd/MM/yyyy")<br>
+                        <strong>
+                            Due Date:
+                        </strong> @Invoice.DueDate
+                    </div>
+                </div>
+            </div><hr><div class="row">
+                <div class="col-sm-4">
+                    <h3>Bill To:</h3><address>
+                        <strong>
+                            @Supplier.SupplierName
+                        </strong><br>@Supplier.Address1, @Supplier.Address2<br>@Supplier.Address3 <br>
+                        Tel: @Supplier.Phone
+                    </address>
+                </div><div class="col-sm-4">
+                    <h3>Reference:</h3>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <strong class="text-left">
+                                Quotation No./Date:
+                            </strong>
+                        </div>
+                        <div class="col-md-7">
+                            @Invoice.QuotationNumber/@Invoice.PurchaseInvoiceDate.Value.ToString("dd-MM-yyyy")
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <strong class="text-left">
+                                Order No./Date:
+                            </strong>
+                        </div>
+                        <div class="col-md-7">
+                            @Invoice.LPOReference/@Invoice.PurchaseInvoiceDate.Value.ToString("dd-MM-yyyy")
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <strong class="text-left">
+                                Sales Man:
+                            </strong>
+                        </div>
+                        <div class="col-md-7">
+                            @ViewBag.Employeename
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <h3>Payment Details:</h3>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <strong class="text-left">
+                                Base Currency:
+                            </strong>
+                        </div>
+                        <div class="col-md-7">
+                            @ViewBag.BaseCurrency
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <strong class="text-left">
+                                Invoice Currency:
+                            </strong>
+                        </div>
+                        <div class="col-md-7">
+                            @ViewBag.Currency.CurrencyName
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <strong class="text-left">
+                                Exchange Rate:
+                            </strong>
+                        </div>
+                        <div class="col-md-7">
+                            @Invoice.ExchangeRate
+                        </div>
+                    </div>
+                    <br>
+                </div>
+            </div>
+        </div><hr>
+        <div class="card-table table-responsive">
+            <table class="table table-hover" id="tbldetail">
+                <thead>
+                    <tr style="color: #72848c;font-weight:bold">
+                        <th style="color: #72848c;font-weight:bold">Product</th>
+                        <th style="color: #72848c;font-weight:bold">Description</th>
+                        <th style="color: #72848c;font-weight:bold">Unit</th>
+                        <th style="color: #72848c;font-weight:bold">Qty</th>
+                        <th style="color: #72848c;font-weight:bold" class="text-right">Rate Local Currency</th>
+                        <th style="color: #72848c;font-weight:bold" class="text-right">Rate Foreign Currency</th>
+                        <th style="color: #72848c;font-weight:bold" class="text-right">Value Local Currency</th>
+                        <th style="color: #72848c;font-weight:bold" class="text-right">Value Foreign Currency</th>
+                        <th style="color: #72848c;font-weight:bold" class="text-right">Tax %</th>
+                        <th style="color: #72848c;font-weight:bold" class="text-right">Tax</th>
+                        <th style="color: #72848c;font-weight:bold" class="text-right">Net Value</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var item in Details)
+                    {
+                        <tr>
+                            <td>@item.ProductName</td>
+                            <td>@item.Description </td>
+                            <td>
+                                @if (@Units.Where(d => d.ItemUnitID == @item.ItemUnitID).FirstOrDefault() == null) { }
+                                else
+                                {
+                                    @Units.Where(d => d.ItemUnitID == @item.ItemUnitID).FirstOrDefault().ItemUnit1
+                                }
+                            </td>
+                            <td>@item.Quantity </td>
+                            <td class="text-right">@item.Rate </td>
+                            <td class="text-right">@item.RateFC </td>
+                            <td class="text-right">@item.Value </td>
+                            <td class="text-right">@item.ValueFC </td>
+                            <td class="text-right">@item.Taxprec </td>
+                            <td class="text-right">@item.Tax </td>
+                            <td class="text-right">@item.NetValue </td>
+
+                        </tr>
+                        i = i + 1;
+                    }
+
+                    <tr><td colspan="10" class="text-right"><strong>Sub-Total</strong></td><td class="table-secondary text-right"><strong>@subtotal</strong></td></tr>
+                    <tr><td colspan="10" class="text-right"><strong>Tax</strong></td><td class="table-secondary text-right"><strong>@Convert.ToDecimal(@Details.Sum(d => d.Tax)).ToString("0.00")</strong></td></tr>
+                    <tr><td colspan="10" class="text-right"><strong>Discount</strong></td><td class="table-secondary text-right"><strong>@Convert.ToDecimal(@ViewBag.Discount).ToString("0.00")</strong></td></tr>
+                    <tr><td colspan="10" class="text-right"><strong>Grand Total</strong></td><td class="table-secondary text-right"><strong>@Netval</strong></td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="card " style="width:100% !important;display:none" id="print1">
+        <div class="card-body">
+     
+            <table style="width:100%">
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="sender-logo"><img src="~/Content/img/TrueBook_white.png" width="200" alt="Logo"></div><div class="sender-details"><address><strong>@Company.AcCompany1</strong><br>@Company.Address1, @Company.Address2<br>@Company.Address3, @Company.CountryMaster.CountryName<br>Tel: @Company.Phone</address></div>
+                        </td>
+                        <td>
+                            <div class="display-3 text-right">Invoice</div>
+                            <div class="invoice-date text-right">
+                                <strong>Invoice #:</strong> @Invoice.PurchaseInvoiceNo <br>
+                                <strong>Issued Date:</strong> @Invoice.PurchaseInvoiceDate.Value.ToString("dd/MM/yyyy")<br>
+                                <strong>
+                                    Due Date:
+                                </strong> @Invoice.DueDate
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <hr /><br /><br />
+            <table style="width:100%">
+                <tr>
+                    <td style="width:28%;" valign="top">
+                        <h3>Bill To:</h3><address>
+                            <strong>
+                                @Supplier.SupplierName
+                            </strong><br>@Supplier.Address1,<br> @Supplier.Address2,<br>@Supplier.Address3 . <br>
+                            Tel: @Supplier.Phone
+                        </address>
+                    </td>
+                    <td style="width:38%;" valign="top">
+                        <h3>Reference:</h3>
+
+                        <table>
+                            <tr>
+                                <td>
+                                    <strong class="text-left">
+                                        Quotation No./Date:
+                                    </strong>
+                                </td>
+                                <td>
+                                    @Invoice.QuotationNumber/@Invoice.PurchaseInvoiceDate.Value.ToString("dd-MM-yyyy")
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong class="text-left">
+                                        Order No./Date:
+                                    </strong>
+                                </td>
+                                <td>
+                                    @Invoice.LPOReference/@Invoice.PurchaseInvoiceDate.Value.ToString("dd-MM-yyyy")
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong class="text-left">
+                                        Sales Man:
+                                    </strong>
+                                </td>
+                                <td>
+                                    @ViewBag.Employeename
+                                </td>
+                            </tr>
+                        </table>
+
+                    </td>
+                    <td style="width:44%" valign="top">
+                        <h3>Payment Details:</h3>
+                        <table>
+                            <tr>
+                                <td>
+                                    <strong class="text-left">
+                                        Base Currency:
+                                    </strong>
+                                </td>
+                                <td>
+                                    @ViewBag.BaseCurrency
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong class="text-left">
+                                        Invoice Currency:
+                                    </strong>
+                                </td>
+                                <td>
+                                    @ViewBag.Currency.CurrencyName
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong class="text-left">
+                                        Exchange Rate:
+                                    </strong>
+                                </td>
+                                <td>
+                                    @Invoice.ExchangeRate
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div><br /><br />
+
+        <div class="card-table table-responsive">
+            <table class="table table-hover" id="tbldetail">
+                <thead>
+                    <tr style="color: #72848c;font-weight:bold">
+                        <th style="color: #72848c;font-weight:bold;width:6%">Product </th>
+                        <th style="color: #72848c;font-weight:bold;width:6%">Description </th>
+                        <th style="color: #72848c;font-weight:bold;width:3%">Unit </th>
+                        <th style="color: #72848c;font-weight:bold;width:2%">Qty </th>
+                        <th style="color: #72848c;font-weight:bold;width:10%" class="text-right">Rate <br><small style="font-size:11px;"> Local Currency </small></th>
+                        <th style="color: #72848c;font-weight:bold;width:11%" class="text-right">Rate  <br><small style="font-size:11px;"> Foreign Currency</small> </th>
+                        <th style="color: #72848c;font-weight:bold;width:10%" class="text-right">Value <br><small style="font-size:11px;">  Local Currency</small> </th>
+                        <th style="color: #72848c;font-weight:bold;width:11%" class="text-right">Value  <br><small style="font-size:11px;"> Foreign Currency </small> </th>
+                        <th style="color: #72848c;font-weight:bold;width:3%" class="text-right">Tax % </th>
+                        <th style="color: #72848c;font-weight:bold;width:3%" class="text-right">Tax </th>
+                        <th style="color: #72848c;font-weight:bold;width:8%" class="text-right">Net Value </th>
+
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var item in Details)
+                    {
+                        <tr>
+                            <td>@item.ProductName</td>
+                            <td>@item.Description </td>
+
+                            <td>
+                                @if (@Units.Where(d => d.ItemUnitID == @item.ItemUnitID).FirstOrDefault() == null) { }
+                                else
+                                {
+                                    @Units.Where(d => d.ItemUnitID == @item.ItemUnitID).FirstOrDefault().ItemUnit1
+                                }
+                            </td>
+                            <td>@item.Quantity </td>
+                            <td class="text-right">@item.Rate </td>
+                            <td class="text-right">@item.RateFC </td>
+                            <td class="text-right">@item.Value </td>
+                            <td class="text-right">@item.ValueFC </td>
+                            <td class="text-right">@item.Taxprec </td>
+                            <td class="text-right">@item.Tax </td>
+                            <td class="text-right">@item.NetValue </td>
+
+                        </tr>
+                        i = i + 1;
+                    }
+
+                    <tr><td colspan="10" class="text-right"><strong>Sub-Total</strong></td><td class="table-secondary text-right"><strong>@subtotal</strong></td></tr>
+                    <tr><td colspan="10" class="text-right"><strong>Tax</strong></td><td class="table-secondary text-right"><strong>@Convert.ToDecimal(@Details.Sum(d => d.Tax)).ToString("0.00")</strong></td></tr>
+                    <tr><td colspan="10" class="text-right"><strong>Discount</strong></td><td class="table-secondary text-right"><strong>@Convert.ToDecimal(@ViewBag.Discount).ToString("0.00")</strong></td></tr>
+                    <tr><td colspan="10" class="text-right"><strong>Grand Total</strong></td><td class="table-secondary text-right"><strong>@Netval</strong></td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    @*</div>
+        </div>*@
+</section>
+<script type="text/javascript">
+    function numberSeparator(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+    // get all second tds
+    [...document.querySelectorAll('#tbldetail tr > td:nth-child(2)')].forEach(e => {
+        // get text content and update
+        e.textContent = numberSeparator(e.textContent.trim());
+    })
+    function printDiv() {
+        var printContents = document.getElementById("print1").innerHTML;
+        var originalContents = document.body.innerHTML;
+
+        document.body.innerHTML = printContents;
+
+        window.print();
+
+        document.body.innerHTML = originalContents;
+    }
+    window.onafterprint = function () {
+        location.reload();
+    }
+
+</script>

@@ -182,6 +182,7 @@
     <Compile Include="Controllers\AirShipmentReportController.cs" />
     <Compile Include="Controllers\BranchController.cs" />
     <Compile Include="Controllers\CarrierController.cs" />
+    <Compile Include="Controllers\ClientInvoiceController.cs" />
     <Compile Include="Controllers\CommodityController.cs" />
     <Compile Include="Controllers\ContainerReportController.cs" />
     <Compile Include="Controllers\ContainerTypeController.cs" />
@@ -250,6 +251,7 @@
     <Compile Include="Controllers\TransporterController.cs" />
     <Compile Include="Controllers\UnitController.cs" />
     <Compile Include="Controllers\UserRegistrationController.cs" />
+    <Compile Include="Controllers\VendorInvoiceController.cs" />
     <Compile Include="Controllers\VesselController.cs" />
     <Compile Include="Controllers\VoyageController.cs" />
     <Compile Include="DAL\DAL.cs" />
@@ -3919,6 +3921,14 @@
     <Content Include="Views\AccountingModule\IndexAcType.cshtml" />
     <Content Include="Views\AccountingModule\CreateAcType.cshtml" />
     <Content Include="Views\AccountingModule\EditAcType.cshtml" />
+    <Content Include="Views\ClientInvoice\index.cshtml" />
+    <Content Include="Views\ClientInvoice\Invoice.cshtml" />
+    <Content Include="Views\ClientInvoice\InvoiceReport.cshtml" />
+    <Content Include="Views\ClientInvoice\_InvoiceView.cshtml" />
+    <Content Include="Views\VendorInvoice\index.cshtml" />
+    <Content Include="Views\VendorInvoice\Invoice.cshtml" />
+    <Content Include="Views\VendorInvoice\InvoiceReport.cshtml" />
+    <Content Include="Views\VendorInvoice\_InvoiceView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Logo\" />
