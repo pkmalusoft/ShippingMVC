@@ -127,7 +127,7 @@
     }
 </script>
 <section class="content-header">
-    <h1 class="headingfont">Customer Modify</h1>
+    <h1 class="headingfont">Customer - Modify</h1>
 </section>
 
 <section class="content-header">
@@ -178,7 +178,7 @@
             </div>
             <div class="col-md-4">
                 <label class="required headinglabel">Contact Mobile</label>
-                @Html.TextBoxFor(model => model.MobileNumber, new { @class = "form-control txttarget", @tabindex = "16" })
+                @Html.TextBoxFor(model => model.MobileNumber, new { @class = "form-control text-right txttarget", @tabindex = "16" })
                 @Html.ValidationMessageFor(model => model.MobileNumber)
 
             </div>

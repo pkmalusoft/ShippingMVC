@@ -553,12 +553,12 @@
                                 <label class=" required headinglabel">Cheque Date</label>
                                 @if (Model.ChequeDate != null)
                                 {
-                                    @Html.TextBoxFor(m => m.ChequeDate, new { Value = Model.ChequeDate.Value.ToString("dd-MMM-yyyy"), id = "", @class = "form-control" })
+                                    @Html.TextBoxFor(m => m.ChequeDate, new { Value = Model.ChequeDate.Value.ToString("dd-MMM-yyyy"), id = "", @class = "form-control text-right" })
                                 }
                                 else
                                 {
 
-                                    @Html.TextBoxFor(model => model.ChequeDate, new { @class = "form-control" })
+                                    @Html.TextBoxFor(model => model.ChequeDate, new { @class = "form-control text-right" })
                                 }
                             </div>
                             @if (Model.RecPayID <= 0)

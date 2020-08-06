@@ -85,11 +85,11 @@
                                         </thead>
                                         <tfoot>
                                             <tr>
-                                                <th>Id</th>
+                                                <th width="8%">Id</th>
                                                 <th>Invoice No.</th>
-                                                <th>Invoice Date</th>
-                                                <th>>Due Date</th>
-                                                <th>Supplier</th>
+                                                <th class="right_text">Invoice Date</th>
+                                                <th class="right_text">Due Date</th>
+                                                <th width="25%">Supplier</th>
                                                 <th>Currency</th>
                                                 <th style="width: 10%"></th>
                                             </tr>
@@ -99,8 +99,8 @@
                                             {
                                             <tr>
                                                 <td class="tdtarget">@Html.DisplayFor(modelItem => item.PurchaseInvoiceID)</td>
-                                                <td class="tdtarget">@Html.DisplayFor(modelItem => item.PurchaseInvoiceNo)</td>
-                                                <td class="tdtarget">@Html.DisplayFor(modelItem => item.PurchaseInvoiceDate, "{0:dd/MMM/yyyy}")</td>
+                                                <td class="tdtarget txt-red">@Html.DisplayFor(modelItem => item.PurchaseInvoiceNo)</td>
+                                                <td class="tdtarget txt-red">@Html.DisplayFor(modelItem => item.PurchaseInvoiceDate, "{0:dd/MMM/yyyy}")</td>
                                                 <td class="tdtarget">@Html.DisplayFor(modelItem => item.DueDate, "{0:dd/MMM/yyyy}")</td>
                                                 <td class="tdtarget">@Html.DisplayFor(modelItem => item.Remarks)</td>
                                                 <td class="tdtarget">@Html.DisplayFor(modelItem => item.PaymentTerm)</td>

@@ -79,6 +79,7 @@ namespace TrueBooksMVC.Controllers
 
             if (data == null)
             {
+                userregistration.EmailId = userregistration.UserName;
                 userregistration.UserID = objectSourceMaster.GetMaxNumberRegistration();               
                 db.UserRegistrations.Add(userregistration);
                 db.SaveChanges();
@@ -120,6 +121,7 @@ namespace TrueBooksMVC.Controllers
           
             if (ModelState.IsValid)
             {
+                userregistration.EmailId = userregistration.UserName;
                 db.Entry(userregistration).State = EntityState.Modified;
                 db.SaveChanges();
                 TempData["SuccessMSG"] = "You have successfully updated User.";

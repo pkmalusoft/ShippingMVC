@@ -547,6 +547,7 @@ warning 6002: The table/view 'malusoft_accounts.dbo.AcHeadAssign' does not have 
           <Property Name="Basic" Type="money" />
           <Property Name="Housing" Type="money" />
           <Property Name="TA" Type="money" />
+          <Property Name="Email" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="ItemUnit">
           <Key>
@@ -4548,6 +4549,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Type="Decimal" Name="Basic" Precision="19" Scale="4" />
           <Property Type="Decimal" Name="Housing" Precision="19" Scale="4" />
           <Property Type="Decimal" Name="TA" Precision="19" Scale="4" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="JobMode">
           <Key>
@@ -7931,6 +7933,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <EntitySetMapping Name="Employees">
             <EntityTypeMapping TypeName="SHIPPING_FinalModel.Employee">
               <MappingFragment StoreEntitySet="Employees">
+                <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="TA" ColumnName="TA" />
                 <ScalarProperty Name="Housing" ColumnName="Housing" />
                 <ScalarProperty Name="Basic" ColumnName="Basic" />

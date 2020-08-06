@@ -254,7 +254,7 @@
                             <label class="required headinglabel">Date</label>
                         </div>
                         <div class="col-md-9">
-                            @Html.TextBoxFor(model => model.Date, new { @class = "form-control", placeholder = "dd-mmm-yyyy",@readonly=true })
+                            @Html.TextBoxFor(model => model.Date, new { @class = "form-control text-right", placeholder = "dd-mmm-yyyy",@readonly=true })
                             @Html.ValidationMessageFor(model => model.Date)
                         </div>
                     </div>
@@ -325,7 +325,7 @@
                                 <label class="required headinglabel">Amount</label>
                             </div>
                             <div class="col-md-9">
-                                @Html.TextBoxFor(model => model.Amount, new { @class = "form-control" })
+                                @Html.TextBoxFor(model => model.Amount, new { @class = "form-control text-right" })
                                 @Html.ValidationMessageFor(model => model.Amount)
                             </div>
                         </div>

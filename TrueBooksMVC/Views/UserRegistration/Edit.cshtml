@@ -5,17 +5,35 @@
 }
 <script type="text/javascript">
         $(document).ready(function () {
-            $("#UserName").focus();
             $(":text").css({ "border-radius": "5px" });
             $("select").css({ "border-radius": "5px" });
             $(":password").css({ "border-radius": "5px" });
+            $("#EmployeeID").on('change', function () {
+                var empid = $("#EmployeeID").val();
+                if (empid == "" || empid == 0) {
+                    $("#UserName").val("");
+                    $("#Phone").val("");
+                    $("#EmailId").val("");
+                } else {
+                    $.ajax({
+                        type: "POST",
+                        url: "/UserRegistration/GetEmployeeByid",
+                        datatype: "Json",
+                        data: { Id: $("#EmployeeID").val() },
+                        success: function (data) {
+                            $("#UserName").val(data.data.Email);
+                            $("#Phone").val(data.data.ContactNo);
+                            $("#EmailId").val(data.data.Email);
 
+                        }
+                    });
+                }
+            });
             $("#btnsave").click(function () {
                 var uname = $("#UserName").val();
                 var pass = $("#Password").val();
                 var role = $("#RoleID option:selected").val();
                 var phone = $("#Phone").val();
-                var email = $("#EmailId").val();
                 var isactive = $("#IsActive").val();
                 var empid = $("#EmployeeID").val();
 
@@ -35,11 +53,7 @@
                 else if (phone == "") {
                     $("#alert").show();
                     return false;
-                }
-                else if (email == "") {
-                    $("#alert").show();
-                    return false;
-                }
+                }               
                 else if (isactive == "") {
                     $("#alert").show();
                     return false;
@@ -112,7 +126,7 @@
                    <div class="form-group row">
                        <div class="col-md-12">
 
-                           <label class="required headinglabel">User Name</label>
+                           <label class="required headinglabel">User Name (Email)</label>
 
                            @Html.TextBoxFor(model => model.UserName, new { @class = "form-control txttarget" })
                            @Html.ValidationMessageFor(model => model.UserName)
@@ -138,15 +152,7 @@
                            @Html.ValidationMessageFor(model => model.Phone)
                        </div>
                    </div>
-                   <div class="form-group row">
-                       <div class="col-md-12">
-
-                           <label class="required headinglabel">Email</label>
-
-                           @Html.TextBoxFor(model => model.EmailId, new { @class = "form-control txttarget" })
-                           @Html.ValidationMessageFor(model => model.EmailId)
-                       </div>
-                   </div>
+                 
                    <div class="form-group row">
                        <div class="col-md-12">
 

@@ -90,6 +90,7 @@
                 var emp = $("#EmployeeName").val();
                 var add = $("#Address1").val();
                 var con = $("#ContactNo").val();
+                var mail = $("#Email").val();
                 var des = $("#DesignationID option:selected").val();
                 var dep = $("#DepartmentID option:selected").val();
                 var loc = $("#LocationID option:selected").val();
@@ -106,6 +107,10 @@
                     return false;
                 }
                 else if (con == "") {
+                    $("#alert").show();
+                    return false;
+                }
+                else if (mail == "") {
                     $("#alert").show();
                     return false;
                 }
@@ -215,7 +220,7 @@
 
                           <div class="col-md-4">
 
-                              <label class="required headinglabel">Address 1</label>
+                              <label class="required headinglabel">Building</label>
                               @Html.TextBoxFor(model => model.Address1, new { @class = "form-control txttarget" })
                               @Html.ValidationMessageFor(model => model.Address1)
                           </div>
@@ -223,7 +228,7 @@
 
 
                           <div class="col-md-4">
-                              <label class="headinglabel">Address 2</label>
+                              <label class="headinglabel">Street</label>
                               @Html.TextBoxFor(model => model.Address2, new { @class = "form-control txttarget" })
                               @Html.ValidationMessageFor(model => model.Address2)
 
@@ -234,18 +239,28 @@
                       <div class="row no-margin" style="padding-top:10px">
 
                           <div class="col-md-4">
-                              <label class="headinglabel">Address 3</label>
+                              <label class="headinglabel">Location / Pincode</label>
                               @Html.TextBoxFor(model => model.Address3, new { @class = "form-control txttarget" })
                               @Html.ValidationMessageFor(model => model.Address3)
 
                           </div>
                           <div class="col-md-4">
                               <label class="required headinglabel">Contact No</label>
-                              @Html.TextBoxFor(model => model.ContactNo, new { @class = "form-control textright txttarget",placeholder="(123)103030100" })
+                              @Html.TextBoxFor(model => model.ContactNo, new { @class = "form-control textright txttarget", placeholder = "(123)103030100" })
                               @Html.ValidationMessageFor(model => model.ContactNo)
                           </div>
 
+                          <div class="col-md-4">
+                              <label class="required headinglabel">Email</label>
+                              @Html.TextBoxFor(model => model.Email, new { @class = "form-control txttarget", placeholder = "abc@xyz.com" })
+                              @Html.ValidationMessageFor(model => model.Email)
+                          </div>
 
+                      </div>
+
+
+
+                      <div class="row no-margin" style="padding-top:10px">
 
                           <div class="col-md-4">
 
@@ -254,12 +269,6 @@
                               @Html.ValidationMessageFor(model => model.DesignationID)
 
                           </div>
-                      </div>
-
-
-
-                      <div class="row no-margin" style="padding-top:10px">
-
                           <div class="col-md-4">
                               <label class="required headinglabel">Department</label>
                               @Html.DropDownListFor(model => model.DepartmentID, (IEnumerable<SelectListItem>)ViewBag.Department, "Select", new { @class = "form-control" })
@@ -273,16 +282,16 @@
 
 
                           </div>
+                         
+                      </div>
+
+                      <div class="row no-margin" style="padding-top:10px">
                           <div class="col-md-4">
                               <label class="headinglabel">Nationality</label>
                               @Html.TextBoxFor(model => model.Nationality, new { @class = "form-control txttarget" })
                               @Html.ValidationMessageFor(model => model.Nationality)
 
                           </div>
-                      </div>
-
-                      <div class="row no-margin" style="padding-top:10px">
-
                           <div class="col-md-4">
                               <label class="headinglabel">DOJ</label>
                               @Html.TextBoxFor(model => model.DOJ, new { @class = "form-control" })
