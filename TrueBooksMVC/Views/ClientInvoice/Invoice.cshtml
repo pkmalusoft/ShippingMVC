@@ -101,7 +101,7 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.20/datatables.min.css" />
 <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.20/datatables.min.js"></script>
 <section class="content-header">
-    <h1 class="headingfont">Client Invoice<small></small></h1>
+    <h1 class="headingfont">Client Invoice - Modify<small></small></h1>
 
 </section>
 <div class="containers">
@@ -134,12 +134,12 @@
                 </div>
                 <div class="col-md-4">
                     <label class="headinglabel">Invoice Date:</label>
-                    @Html.TextBoxFor(model => model.SalesInvoiceDate, "{0:dd-MMM-yyyy}", new { @id = "SalesInvoiceDate", @class = "form-control" })
+                    @Html.TextBoxFor(model => model.SalesInvoiceDate, "{0:dd-MMM-yyyy}", new { @id = "SalesInvoiceDate", @class = "form-control text-right" })
 
                 </div>
                 <div class="col-md-4">
                     <label class="headinglabel">Invoice Due Date:</label>
-                    @Html.TextBoxFor(model => model.DueDate, "{0:dd-MMM-yyyy}", new { @id = "DueDate", @class = "form-control" })
+                    @Html.TextBoxFor(model => model.DueDate, "{0:dd-MMM-yyyy}", new { @id = "DueDate", @class = "form-control text-right" })
                 </div>
             </div>
             <div class="row no-margin" style="padding-top: 10px">

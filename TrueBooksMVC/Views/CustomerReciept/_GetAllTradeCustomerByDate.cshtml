@@ -39,7 +39,7 @@
         });
 
 
-        var table = $('#dataTables-example').DataTable({ "sPaginationType": "full_numbers" });
+        var table = $('#dataTables-example').DataTable({ "sPaginationType": "full_numbers", "order": [[0, "desc"]]  });
 
         table.columns().every(function () {
             var that = this;

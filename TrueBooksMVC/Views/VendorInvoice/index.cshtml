@@ -267,7 +267,7 @@
             });
 
 
-            var table = $('#dataTables-example').DataTable({ "sPaginationType": "full_numbers" });
+            var table = $('#dataTables-example').DataTable({ "sPaginationType": "full_numbers", "order": [[2, "desc"]] });
             // f2();
             table.draw();
             table.search('').columns().search('').draw();

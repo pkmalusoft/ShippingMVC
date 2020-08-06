@@ -9,7 +9,7 @@ using DAL;
 using TrueBooksMVC.Models;
 using System.Data.Entity.Validation;
 using System.Diagnostics;
-
+using System.Text;
 namespace TrueBooksMVC.Controllers
 {
     [SessionExpire]
@@ -73,13 +73,13 @@ namespace TrueBooksMVC.Controllers
         public ActionResult Create(UserRegistration userregistration)
         {
             ViewBag.UserRole = db.RoleMasters.ToList();
+            var emp = db.Employees.Find(userregistration.EmployeeID);
 
             var data = db.UserRegistrations.Where(p => p.UserName.Equals(userregistration.UserName, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
 
             if (data == null)
             {
-                userregistration.UserID = objectSourceMaster.GetMaxNumberRegistration();
-
+                userregistration.UserID = objectSourceMaster.GetMaxNumberRegistration();               
                 db.UserRegistrations.Add(userregistration);
                 db.SaveChanges();
                 TempData["SuccessMSG"] = "You have successfully added User.";
@@ -190,7 +190,24 @@ namespace TrueBooksMVC.Controllers
             return RedirectToAction("Index");
         }
 
-        
+        public JsonResult GetEmployeeByid(int Id)
+        {
+            var data = db.Employees.Find(Id);
+            return Json(new { data = data }, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult GeneratePassword()
+        {
+            var length = 8;
+            const string valid = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+            StringBuilder res = new StringBuilder();
+            Random rnd = new Random();
+            while (0 < length--)
+            {
+                res.Append(valid[rnd.Next(valid.Length)]);
+            }
+            var password= res.ToString();
+            return Json(password, JsonRequestBehavior.AllowGet);
+        }
 
         //public string CheckForDuplication(string UserName)
         //{
@@ -204,11 +221,11 @@ namespace TrueBooksMVC.Controllers
         //    {
         //        return data.UserName;
         //    }
-           
-           
+
+
         //    //if (data != null)
         //    //{
-          
+
         //    //    return Json("Sorry, this name already exists", JsonRequestBehavior.AllowGet);
         //    //}
         //    //else

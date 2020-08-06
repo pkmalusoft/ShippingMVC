@@ -34,16 +34,16 @@
 <script type="text/javascript">
 
      $(document).ready(function () {
-         $('#dataTables-example').dataTable({
-             "searching": false
-         });
+         //$('#dataTables-example').dataTable({
+         //    "searching": false
+         //});
          $('#dataTables-example tfoot th').each(function () {
              var title = $(this).text();
              $(this).html('<input type="text"  style="width:90%" />');
          });
 
 
-         var table = $('#dataTables-example').DataTable();
+         var table = $('#dataTables-example').DataTable({ "sPaginationType": "full_numbers", "order": [[2, "desc"]]});
 
          table.draw();
          table.search('').columns().search('').draw();

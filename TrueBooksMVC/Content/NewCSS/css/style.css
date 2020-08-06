@@ -6247,7 +6247,7 @@ label,body .headinglabel{
 	margin-bottom:0px!important;
 }
  table.dataTable tfoot th {
-    padding: 0px 18px 12px 18px !important;
+    padding: 0px 18px 12px 10px !important;
 }
  table.dataTable td{
 	text-align:left!important;
@@ -6534,4 +6534,12 @@ display:flex; justify-content:flex-end;
 }
 .dataTables_paginate{
 	display:none!important;
+}
+.m-container + .col-xs-12 form + .col-xs-1{
+	padding-right:20px;
+	float:right;
+	width:auto;
+}
+.search_tabs_right a,.searchtabs a{
+	margin-left:100px;
 }
