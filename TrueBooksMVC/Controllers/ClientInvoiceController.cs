@@ -61,6 +61,16 @@ namespace TrueBooksMVC.Controllers
             SalesInvoice SI = new SalesInvoice();
             //PurchaseInvoiceModel vm = new PurchaseInvoiceModel();
             SI = SM.GetSalesInvoiceByID(id);
+            var context = new SHIPPING_FinalEntities();
+            if (SI.SalesInvoiceID == 0)
+            {
+                var salesinvoiceId = (from c in context.SalesInvoices orderby c.SalesInvoiceID descending select c.SalesInvoiceID).FirstOrDefault();
+                salesinvoiceId = salesinvoiceId + 1;
+                var Gen_salesno = salesinvoiceId.ToString("00000");
+
+                var salesNo = "SI-" + Gen_salesno;
+                SI.SalesInvoiceNo = salesNo;
+            }
             BindAllMasters();
             return View(SI);
         }

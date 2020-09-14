@@ -103,7 +103,7 @@
         <th>
           Job Number
         </th>
-            <th>
+            <th class="right_text">
           Amount
         </th>
       @*  <th>Action</th>*@
@@ -115,7 +115,7 @@
     <tr>
        <td>@TrueBooksMVC.Models.CommanFunctions.GetShortDateFormat(item.Date)</td>
         <td>@item.CustomerName</td>
-         <td>@item.JobNO</td>
+         <td class="txt-red">@item.JobNO</td>
          <td style="text-align:right">@item.Amount.ToString("0.00")</td>
 
     </tr>

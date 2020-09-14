@@ -7,6 +7,25 @@
 body{
 	background:#fff!important;
 	}
+.forgot .modal-header{
+	background: #04acf3;
+}
+.forgot .modal-dialog{
+	flex-grow:4;
+}
+.forgot h4 {
+	color:#fff!important;
+}
+.forgot .close{
+	font-size:30px;
+}
+.forgot input[type="submit"] {
+    border: 0;
+    background-color: #04acf3!important;
+    color: #fff;
+	width:100%!important;
+    font-size: 18px;
+}
 form{
 	margin:0!Important;
 	}
@@ -35,7 +54,7 @@ form{
 		 height: 100vh;
 		width: 100%;
 		object-fit: cover;
-		object-position: right;
+		object-position: left;
 	}
     .lice_con {
         text-align: center;
@@ -62,6 +81,7 @@ form{
     .sisu.right-column .signin-right-column {
         background-position: right !important;
     }
+	
 </style>
 <!DOCTYPE html>
 <html lang="en">
@@ -72,10 +92,11 @@ form{
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" href="~/favicon.ico">
+	<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet"/>
     <title>Truebooksoft | Login</title>
 
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700&amp;subset=latin-ext" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap" rel="stylesheet">
 
     @Styles.Render("~/assets/fonts/batch-icons/css/batch-icons.css")
     @Styles.Render("~/assets/css/bootstrap/bootstrap.min.css")
@@ -96,14 +117,16 @@ form{
                 <div class="right-column sisu">
                     <div class="row mx-0 align-items-center">
                         <div class="col-md-7 order-md-2 signin-right-column p-0 ">
-                         
-                                <img src="/assets/img/WorkSmarter.jpg">
+                         		<img src="../assets/img/WorkSmarter.jpg"/>
+                                
+								
                             
                         </div>
                         <div class="col-md-5 order-md-1 signin-left-column bg-white p-0" >
                             <a class="signin-logo d-sm-none d-md-block" href="#" style="text-align:center">
                                 <img src="~/Content/img/logo_truebookNew.png" height="70" alt="QuillPro">
-                                <h3 class="frie_forw"> @*Financial Accounting System*@</h3>
+                 
+								<h4 style="font-size:27px;color: #f59115; font-family: 'Kaushan Script', cursive; text-transform:capitalize;"> Work Smarter</h4>
 
                             </a>
 
@@ -137,6 +160,11 @@ form{
                                     <i class="batch-icon batch-icon-key"></i>
                                     Sign In
                                 </button>
+								
+								  <div class="form-group text-center" style="padding-top:10px">
+                            <a href="#myModal" data-toggle="modal"> Forgot Password ?</a>
+							</div>
+						
                                 <hr>
 
                                 <div class="lice_con">
@@ -170,6 +198,34 @@ form{
     @Scripts.Render("~/assets/plugins/jvmaps/maps/jquery.vmap.usa.js")
     @Scripts.Render("~/assets/js/misc/holder.min.js")
     @Scripts.Render("~/assets/js/scripts.js")
+	
+	<div class="modal forgot" id="myModal">
+<div class="d-flex align-items-center" style="height:100%">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Forgot Password</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+          <form action="" method="">
+         <div class="form-group">
+          <input type="text" name="txtforgotemail" id="txtforgotemail" class="form-control" placeholder="Email"/>
+         </div>
+         <div class="form-group">
+          <input type="submit" name="submit" id="btnforgotsubmit" class="form-control btn btn-primary"/>
+         </div>
+         </form>
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
     <script>
         $(document).ready(function () {
             var brId = $('#BranchID').val();
