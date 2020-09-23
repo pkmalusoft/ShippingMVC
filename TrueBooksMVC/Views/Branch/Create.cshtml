@@ -160,7 +160,7 @@
 
                     <div class="col-md-6">
                         <label class=" headinglabel required">Phone</label>
-                        @Html.TextBoxFor(model => model.phone, new { @class = "form-control txttarget", placeholder = "(123)103030100" })
+                        @Html.TextBoxFor(model => model.phone, new { @class = "form-control txttarget text-right", placeholder = "(123)103030100" })
                         @Html.ValidationMessageFor(model => model.phone)
 
                     </div>
@@ -216,14 +216,14 @@
                 <div class="row no-margin" style="padding-top:10px;">
                     <div class="col-md-6">
                         <label class="headinglabel required">Period From:</label>
-                        @*<input type="text" class="datepicker form-control" id="txtfrom" />*@
-                        @Html.TextBoxFor(model => model.FromDate, new { @class = "form-control datepicker ", placeholder = "dd-mmm-yyy" })
+                        @*<input type="text" class="datepicker form-control " id="txtfrom" />*@
+                        @Html.TextBoxFor(model => model.FromDate, new { @class = "form-control datepicker text-right ", placeholder = "dd-mmm-yyy" })
                     </div>
 
                     <div class="col-md-6">
                         <label class="headinglabel required">Period To:</label>
                         @* <input type="text" class="datepicker form-control" id="txtto" />*@
-                        @Html.TextBoxFor(model => model.ToDate, new { @class = "form-control datepicker ", placeholder = "dd-mmm-yyy" })
+                        @Html.TextBoxFor(model => model.ToDate, new { @class = "form-control text-right datepicker ", placeholder = "dd-mmm-yyy" })
                     </div>
                 </div>
                 <div class="row no-margin" style="padding-top: 10px">

@@ -7,6 +7,25 @@
 body{
 	background:#fff!important;
 	}
+.forgot .modal-header{
+	background: #04acf3;
+}
+.forgot .modal-dialog{
+	flex-grow:4;
+}
+.forgot h4 {
+	color:#fff!important;
+}
+.forgot .close{
+	font-size:30px;
+}
+.forgot input[type="submit"] {
+    border: 0;
+    background-color: #04acf3!important;
+    color: #fff;
+	width:100%!important;
+    font-size: 18px;
+}
 form{
 	margin:0!Important;
 	}
@@ -137,7 +156,12 @@ form{
                                     <i class="batch-icon batch-icon-key"></i>
                                     Sign In
                                 </button>
-                                <hr>
+								
+                        <div class="form-group text-center" style="padding-top:10px">
+                            <a href="#myModal" data-toggle="modal"> Forgot Password ?</a>
+							</div>
+						
+                                <hr/>
 
                                 <div class="lice_con">
                                     <p class="head_secti">Licenced</p>
@@ -153,6 +177,8 @@ form{
                 </div>
             </div>
         </div>
+	
+		
     }
 
     @Scripts.Render("~/assets/js/jquery/jquery-3.1.1.min.js")
@@ -170,6 +196,40 @@ form{
     @Scripts.Render("~/assets/plugins/jvmaps/maps/jquery.vmap.usa.js")
     @Scripts.Render("~/assets/js/misc/holder.min.js")
     @Scripts.Render("~/assets/js/scripts.js")
+	
+	
+<div class="modal forgot" id="myModal">
+<div class="d-flex align-items-center" style="height:100%">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Forgot Password</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+          <form action="" method="">
+         <div class="form-group">
+          <input type="text" name="txtforgotemail" id="txtforgotemail" class="form-control" placeholder="Email"/>
+         </div>
+         <div class="form-group">
+          <input type="submit" name="submit" id="btnforgotsubmit" class="form-control btn btn-primary"/>
+         </div>
+         </form>
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+        
+      </div>
+    </div>
+	</div>
+  </div>
     <script>
         $(document).ready(function () {
             var brId = $('#BranchID').val();
@@ -211,6 +271,9 @@ form{
                 });
             });
         });
+		
+		  
+ 
     </script>
 </body>
 </html>

@@ -2,15 +2,17 @@
 
 
 @{
-    ViewBag.Title = "Create";
-    Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
-    }
+                /**/
+
+                ViewBag.Title = "Create";
+                Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
+}
 
 <style>
     .headinglabel {
         font-size: 16px;
         color: #2b2929 !important;
-        display:inline;
+        display: inline;
     }
 
     .searchdiv {
@@ -51,12 +53,12 @@
                     changeYear: true,
                     changeMonth: true
                 });
-                
-               
 
 
-               
-              
+
+
+
+
 
                 $('#DOJ').datepicker({
                     dateFormat: 'dd-M-yy',
@@ -65,7 +67,7 @@
                     changeYear: true,
                     changeMonth: true,
                 });
-                
+
 
                 $(".dolclass").css({ "display": "none" });
                 $(".chkclass").css({ "display": "block" });
@@ -74,26 +76,27 @@
                 $("#StatusActive").click(function () {
                     if ($("#StatusActive").is(':checked')) {
                         $(".dolclass").css({ "display": "none" });
-                      
+
                     }
                     else {
                         $(".dolclass").css({ "display": "block" });
-                        
+
                     }
                 });
 
             });
 
-         
+
 
             $("#btnsave").click(function () {
                 var emp = $("#EmployeeName").val();
                 var add = $("#Address1").val();
                 var con = $("#ContactNo").val();
+                var mail = $("#Email").val();
                 var des = $("#DesignationID option:selected").val();
                 var dep = $("#DepartmentID option:selected").val();
                 var loc = $("#LocationID option:selected").val();
-             
+
                 $("#alert1").hide();
                 $("#alert").hide();
 
@@ -106,6 +109,10 @@
                     return false;
                 }
                 else if (con == "") {
+                    $("#alert").show();
+                    return false;
+                }
+                else if (mail == "") {
                     $("#alert").show();
                     return false;
                 }
@@ -139,13 +146,13 @@
             });
 
             $("#btnsave").click(function () {
-              
-               
+
+
 
 
                 var doj = new Date($('#DOJ').val());
                 var dol = new Date($('#DOL').val());
-                
+
                 if (doj > dol) {
                     $("#date").show();
                     return false;
@@ -173,12 +180,12 @@
                             flag = 1;
                         }
                     }
-                    
+
                     });
             });
 
         });
-    </script>
+</script>
 
 <section class="content-header">
     <h1 class="headingfont">Employee</h1>
@@ -187,166 +194,170 @@
 
 @if (ViewBag.SuccessMsg != null)
 {
-      <script type="text/javascript">
+    <script type="text/javascript">
           $(document).ready(function () {
               $.notify("@ViewBag.SuccessMsg", "success");
           });
-                                                </script>
+    </script>
 }
-      <section class="content">
-          @using (Html.BeginForm())
-          {
-              @Html.AntiForgeryToken()
-              @Html.ValidationSummary(true)
-              
-              <div class="searchdiv">
+<section class="content">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
 
-                  <fieldset>
-                      <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
-                      <div id="alert1" style="color:red;display:none;margin-left:10px;">*Employee Name Already Exist</div>
-                      <div class="row no-margin">
+        <div class="searchdiv">
 
-                          <div class="col-md-4">
-                              <label class="required headinglabel">Employee Name</label>
-                              @Html.TextBoxFor(model => model.EmployeeName, new { @class = "form-control txttarget" })
-                              @Html.ValidationMessageFor(model => model.EmployeeName)
+            <fieldset>
+                <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
+                <div id="alert1" style="color:red;display:none;margin-left:10px;">*Employee Name Already Exist</div>
+                <div class="row no-margin">
 
-                          </div>
+                    <div class="col-md-4">
+                        <label class="required headinglabel">Employee Name</label>
+                        @Html.TextBoxFor(model => model.EmployeeName, new { @class = "form-control txttarget" })
+                        @Html.ValidationMessageFor(model => model.EmployeeName)
 
-                          <div class="col-md-4">
+                    </div>
 
-                              <label class="required headinglabel">Address 1</label>
-                              @Html.TextBoxFor(model => model.Address1, new { @class = "form-control txttarget" })
-                              @Html.ValidationMessageFor(model => model.Address1)
-                          </div>
+                    <div class="col-md-4">
+
+                        <label class="required headinglabel">Building</label>
+                        @Html.TextBoxFor(model => model.Address1, new { @class = "form-control txttarget" })
+                        @Html.ValidationMessageFor(model => model.Address1)
+                    </div>
 
 
 
-                          <div class="col-md-4">
-                              <label class="headinglabel">Address 2</label>
-                              @Html.TextBoxFor(model => model.Address2, new { @class = "form-control txttarget" })
-                              @Html.ValidationMessageFor(model => model.Address2)
+                    <div class="col-md-4">
+                        <label class="headinglabel">Street</label>
+                        @Html.TextBoxFor(model => model.Address2, new { @class = "form-control txttarget" })
+                        @Html.ValidationMessageFor(model => model.Address2)
 
-                          </div>
+                    </div>
+                </div>
+
+
+                <div class="row no-margin" style="padding-top:10px">
+
+                    <div class="col-md-4">
+                        <label class="headinglabel">Location / Pincode</label>
+                        @Html.TextBoxFor(model => model.Address3, new { @class = "form-control txttarget" })
+                        @Html.ValidationMessageFor(model => model.Address3)
+
+                    </div>
+                    <div class="col-md-4">
+                        <label class="required headinglabel">Contact No</label>
+                        @Html.TextBoxFor(model => model.ContactNo, new { @class = "form-control textright txttarget", placeholder = "(123)103030100" })
+                        @Html.ValidationMessageFor(model => model.ContactNo)
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="required headinglabel">Email</label>
+                        @Html.TextBoxFor(model => model.Email, new { @class = "form-control txttarget", placeholder = "abc@xyz.com" })
+                        @Html.ValidationMessageFor(model => model.Email)
+                    </div>
+
+                </div>
+
+
+
+                <div class="row no-margin" style="padding-top:10px">
+
+                    <div class="col-md-4">
+
+                        <label class="required headinglabel">Designation</label>
+                        @Html.DropDownListFor(model => model.DesignationID, (IEnumerable<SelectListItem>)ViewBag.Designation, "Select", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.DesignationID)
+
+                    </div>
+                    <div class="col-md-4">
+                        <label class="required headinglabel">Department</label>
+                        @Html.DropDownListFor(model => model.DepartmentID, (IEnumerable<SelectListItem>)ViewBag.Department, "Select", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.DepartmentID)
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="required headinglabel">Location</label>
+                        @Html.DropDownListFor(model => model.LocationID, (IEnumerable<SelectListItem>)ViewBag.Location, "select", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.LocationID)
+
+
+                    </div>
+
+                </div>
+
+                <div class="row no-margin" style="padding-top:10px">
+                    <div class="col-md-4">
+                        <label class="headinglabel">Nationality</label>
+                        @Html.TextBoxFor(model => model.Nationality, new { @class = "form-control txttarget" })
+                        @Html.ValidationMessageFor(model => model.Nationality)
+
+                    </div>
+                    <div class="col-md-4">
+                        <label class="headinglabel">DOJ</label>
+                        @Html.TextBoxFor(model => model.DOJ, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.DOJ)
+
+                    </div>
+                    <div class="col-md-4 dolclass">
+                        <label class="headinglabel">DOL</label>
+                        @Html.TextBoxFor(model => model.DOL, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.DOL)
+
+                    </div>
+                    <div class="col-md-4 chkclass" style="padding-top:30px">
+
+                        @Html.CheckBox("StatusActive", new { @name = "StatusActive" }) &nbsp <label class="headinglabel">Status Active</label>
+                        @Html.ValidationMessageFor(model => model.StatusActive)
+
+                    </div>
+                </div>
+
+
+                @* <div class="row no-margin" style="padding-top:10px">
+
+                       <div class="col-md-3">
+                                   <label class="headinglabel">Basic</label>
+                                 @Html.TextBoxFor(model => model.Basic,new { @class = "form-control" })
+                                   @Html.ValidationMessageFor(model => model.Basic)
+
+                      </div>
+
+                       <div class="col-md-3">
+                                    <label class="headinglabel">Housing</label>
+                                  @Html.TextBoxFor(model => model.Housing,new { @class = "form-control" })
+                                  @Html.ValidationMessageFor(model => model.Housing)
                       </div>
 
 
-                      <div class="row no-margin" style="padding-top:10px">
 
-                          <div class="col-md-4">
-                              <label class="headinglabel">Address 3</label>
-                              @Html.TextBoxFor(model => model.Address3, new { @class = "form-control txttarget" })
-                              @Html.ValidationMessageFor(model => model.Address3)
-
-                          </div>
-                          <div class="col-md-4">
-                              <label class="required headinglabel">Contact No</label>
-                              @Html.TextBoxFor(model => model.ContactNo, new { @class = "form-control textright txttarget",placeholder="(123)103030100" })
-                              @Html.ValidationMessageFor(model => model.ContactNo)
-                          </div>
-
-
-
-                          <div class="col-md-4">
-
-                              <label class="required headinglabel">Designation</label>
-                              @Html.DropDownListFor(model => model.DesignationID, (IEnumerable<SelectListItem>)ViewBag.Designation, "Select", new { @class = "form-control" })
-                              @Html.ValidationMessageFor(model => model.DesignationID)
+                          <div class="col-md-3">
+                                     <label class="headinglabel">TA</label>
+                                 @Html.TextBoxFor(model => model.TA,new { @class = "form-control" })
+                                  @Html.ValidationMessageFor(model => model.TA)
 
                           </div>
-                      </div>
+                    </div>
+                *@
 
+                <div id="date" style="color:red;display:none;margin-left:10px;">*Please select valid date</div>
+                <div class="row no-margin" style="padding-top:10px">
+                    <div class="col-md-12 butdivs">
 
+                        <input type="submit" value="Save" class="btn btn-primary btnwid" id="btnsave" />
 
-                      <div class="row no-margin" style="padding-top:10px">
+                        &nbsp;
+                        <a href='@Url.Action("Index", "Employee", new { id = 0 })' class="btn btn-danger btnwid" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
 
-                          <div class="col-md-4">
-                              <label class="required headinglabel">Department</label>
-                              @Html.DropDownListFor(model => model.DepartmentID, (IEnumerable<SelectListItem>)ViewBag.Department, "Select", new { @class = "form-control" })
-                              @Html.ValidationMessageFor(model => model.DepartmentID)
-                          </div>
-
-                          <div class="col-md-4">
-                              <label class="required headinglabel">Location</label>
-                              @Html.DropDownListFor(model => model.LocationID, (IEnumerable<SelectListItem>)ViewBag.Location, "select", new { @class = "form-control" })
-                              @Html.ValidationMessageFor(model => model.LocationID)
-
-
-                          </div>
-                          <div class="col-md-4">
-                              <label class="headinglabel">Nationality</label>
-                              @Html.TextBoxFor(model => model.Nationality, new { @class = "form-control txttarget" })
-                              @Html.ValidationMessageFor(model => model.Nationality)
-
-                          </div>
-                      </div>
-
-                      <div class="row no-margin" style="padding-top:10px">
-
-                          <div class="col-md-4">
-                              <label class="headinglabel">DOJ</label>
-                              @Html.TextBoxFor(model => model.DOJ, new { @class = "form-control" })
-                              @Html.ValidationMessageFor(model => model.DOJ)
-
-                          </div>
-                          <div class="col-md-4 dolclass">
-                              <label class="headinglabel">DOL</label>
-                              @Html.TextBoxFor(model => model.DOL, new { @class = "form-control" })
-                              @Html.ValidationMessageFor(model => model.DOL)
-
-                          </div>
-                          <div class="col-md-4 chkclass" style="padding-top:30px">
-
-                              @Html.CheckBox("StatusActive", new { @name = "StatusActive" }) &nbsp <label class="headinglabel">Status Active</label>
-                              @Html.ValidationMessageFor(model => model.StatusActive)
-
-                          </div>
-                      </div>
-
-
-                      @* <div class="row no-margin" style="padding-top:10px">
-
-           <div class="col-md-3">
-                       <label class="headinglabel">Basic</label>
-                     @Html.TextBoxFor(model => model.Basic,new { @class = "form-control" })
-                       @Html.ValidationMessageFor(model => model.Basic)
-
-          </div>
-
-           <div class="col-md-3">
-                        <label class="headinglabel">Housing</label>
-                      @Html.TextBoxFor(model => model.Housing,new { @class = "form-control" })
-                      @Html.ValidationMessageFor(model => model.Housing)
-          </div>
-
-
-
-              <div class="col-md-3">
-                         <label class="headinglabel">TA</label>
-                     @Html.TextBoxFor(model => model.TA,new { @class = "form-control" })
-                      @Html.ValidationMessageFor(model => model.TA)
-
-              </div>
+                    </div>
+                </div>
+            </fieldset>
         </div>
-                      *@
+    }
 
-                      <div id="date" style="color:red;display:none;margin-left:10px;">*Please select valid date</div>
-                      <div class="row no-margin" style="padding-top:10px">
-                          <div class="col-md-12 butdivs">
-
-                              <input type="submit" value="Save" class="btn btn-primary btnwid" id="btnsave" />
-
-                              &nbsp;
-                              <a href='@Url.Action("Index", "Employee", new { id = 0 })' class="btn btn-danger btnwid" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
-
-                          </div>
-                      </div>
-                  </fieldset>
-                  </div>
-                  }
-
-          </section>
+</section>
 
 @*@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}*@
+        @Scripts.Render("~/bundles/jqueryval")
+    }*@

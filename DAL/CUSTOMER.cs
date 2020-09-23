@@ -41,5 +41,6 @@ namespace DAL
         public Nullable<int> CustomerType { get; set; }
         public string MobileNumber { get; set; }
         public string WhatsAppNumber { get; set; }
+        public string VAT { get; set; }
     }
 }

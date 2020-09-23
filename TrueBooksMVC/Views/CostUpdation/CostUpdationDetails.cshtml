@@ -265,13 +265,13 @@
                                         <label>  From Date</label>
                                     </td>
                                     <td class="searinput">
-                                        <input type="text" id="frmdate" class="form-control search-controls" />
+                                        <input type="text" id="frmdate" class="form-control search-controls text-right" />
                                     </td>
                                     <td class="searlabel">
                                         <label>  To Date</label>
                                     </td>
                                     <td class="searinput">
-                                        <input type="text" id="todate" class="form-control search-controls" />
+                                        <input type="text" id="todate" class="form-control search-controls text-right" />
                                     </td>
                                     <td class="searlabel">
                                         <input type="button" value="Search" id="btnsearch" class="btn btn-primary btnwidt" />
@@ -279,7 +279,7 @@
                                     <td>
                                         @if (isadd)
                                         {
-                                        <a href='@Url.Action("CostUpdation", "CostUpdation", new { id = 0 })' class="btn btn-primary" data-toggle="tooltip" data-placement="right" style="width:90px;">New</a>
+                                        <a href='@Url.Action("CostUpdation", "CostUpdation", new { id = 0 })' class="btn btn-primary" data-toggle="tooltip" data-placement="right" style="width:90px;">Create New</a>
                                         }
                                     </td>
                                 </tr>

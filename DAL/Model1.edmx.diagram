@@ -98,6 +98,7 @@
         <EntityTypeShape EntityType="SHIPPING_FinalModel.JStatu" Width="1.5" PointX="23.375" PointY="20.75" />
         <EntityTypeShape EntityType="SHIPPING_FinalModel.AcType" Width="1.5" PointX="23.375" PointY="23.75" />
         <EntityTypeShape EntityType="SHIPPING_FinalModel.CustomerNotification" Width="1.5" PointX="25.375" PointY="1" />
+        <EntityTypeShape EntityType="SHIPPING_FinalModel.JTimeLine" Width="1.5" PointX="25.625" PointY="14.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -164,7 +164,7 @@
                                                             else
                                                             {
                                                                 <span>&vert; </span>
-                                                                <a onclick="InvoiceNotCreated()" style="cursor:pointer" class="text-primary" title="Job Report">JR</a>
+                                                                <a href="@Url.Action("JobRegisterReport.aspx", "Reports", new { jobid = item.JobID })" style="cursor:pointer" class="text-primary" title="Job Report">JR</a>
                                                                 <span>&vert; </span>
                                                                 <a onclick="InvoiceNotCreated()" style="cursor:pointer" class="text-primary" title="Invoice">IN</a>
                                                                 <span>&vert; </span>
@@ -254,7 +254,7 @@
                                                             else
                                                             {
                                                                 <span>&vert; </span>
-                                                                <a onclick="InvoiceNotCreated()" style="cursor:pointer"  class="text-primary" title="Job Report">JR</a>
+                                                                <a href="@Url.Action("JobRegisterReport.aspx", "Reports", new { jobid = item.JobID })"  style="cursor:pointer"  class="text-primary" title="Job Report">JR</a>
                                                                 <span>&vert; </span>
                                                                 <a  onclick="InvoiceNotCreated()" style="cursor:pointer"class="text-primary" title="Invoice">IN</a>
                                                                 <span>&vert; </span>

@@ -119,7 +119,7 @@ namespace TrueBooksMVC.Controllers
                             if (query[0] == 1)
                             {
                                 var menuaccesslevels = new List<MenuAccessLevel>();
-                                var menus = (from t in entity.Menus where t.IsAccountMenu.Value == false orderby t.MenuOrder select t).ToList();
+                                var menus = (from t in entity.Menus where t.IsAccountMenu.Value == true orderby t.MenuOrder select t).ToList();
 
                                 Session["Menu"] = menus;
                             }

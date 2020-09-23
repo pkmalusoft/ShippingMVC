@@ -43,7 +43,7 @@ namespace TrueBooksMVC.Controllers
 
         public ActionResult Create()
         {
-            ViewBag.Menu = db.Menus.ToList();
+            ViewBag.Menu = db.Menus.Where(d=>d.IsAccountMenu==true).ToList();
 
             return View();
         }
@@ -55,17 +55,17 @@ namespace TrueBooksMVC.Controllers
         public ActionResult Create(Menu menu)
         {
 
-            var query = (from t in db.Menus where t.Title == menu.Title && t.IsAccountMenu==menu.IsAccountMenu select t).ToList();
+            var query = (from t in db.Menus where t.Title == menu.Title && t.IsAccountMenu==true select t).ToList();
 
             if (query.Count > 0)
             {
-                ViewBag.Menu = db.Menus.ToList();
+                ViewBag.Menu = db.Menus.Where(d=>d.IsAccountMenu==true).ToList();
                 ViewBag.SuccessMsg = "Menu is already exist";
                 return View();
             }
 
             menu.MenuID = objectSourceMaster.GetMaxNumberMenu();
-            menu.IsAccountMenu = false;
+            menu.IsAccountMenu = true;
             db.Menus.Add(menu);
             db.SaveChanges();
             if (menu.ParentID != null || menu.ParentID > 0)
@@ -108,7 +108,7 @@ namespace TrueBooksMVC.Controllers
         public ActionResult Edit(int id = 0)
         {
             Menu menu = db.Menus.Find(id);
-            ViewBag.Menu = db.Menus.ToList();
+            ViewBag.Menu = db.Menus.Where(d=>d.IsAccountMenu==true).ToList();
             if (menu == null)
             {
                 return HttpNotFound();
@@ -124,7 +124,7 @@ namespace TrueBooksMVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                menu.IsAccountMenu = false;
+                menu.IsAccountMenu = true;
                 db.Entry(menu).State = EntityState.Modified;
                 db.SaveChanges();
                 ViewBag.SuccessMsg = "You have successfully updated Menu Creation.";

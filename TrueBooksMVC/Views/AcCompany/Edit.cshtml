@@ -66,7 +66,7 @@
         });
     </script>
 <section class="content-header">
-    <h1 class="headingfont">Company</h1>
+    <h1 class="headingfont">Company - Modify</h1>
 </section>
 
 <section class="content-header">
@@ -126,25 +126,27 @@
             </div>
         </div>
         <div class="row no-margin" style="padding-top: 10px">
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <label class="headinglabel">Email</label>
                 @Html.TextBoxFor(model => model.EMail, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.EMail)
 
             </div>
 
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <label class="headinglabel required">Country</label>
                 @Html.DropDownListFor(model => model.CountryID, new SelectList(ViewBag.Country, "CountryID", "CountryName"), "Select", new { @class = "form-control txttarget" })
                 @Html.ValidationMessageFor(model => model.CountryID)
 
             </div>
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <label class="headinglabel required">Currency</label>
                 @Html.DropDownListFor(model => model.CurrencyID, new SelectList(ViewBag.Currency, "CurrencyID", "CurrencyName"), "Select", new { @class = "form-control txttarget" })
                 @Html.ValidationMessageFor(model => model.CountryID)
 
             </div>
+			</div>
+			     <div class="row no-margin" style="padding-top: 10px">
             <div class="col-md-6">
                 <label class="headinglabel required">Upload Logo</label>
                 <img src="/Content/Logo/@Model.logo" style="width:200px;height:auto" />

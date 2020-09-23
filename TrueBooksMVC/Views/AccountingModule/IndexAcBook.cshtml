@@ -117,12 +117,14 @@
 
 </section>
 
-<p class="indexbtnpadding">
+<div class="m-container">
+<p class="indexbtnpadding flex">
     @if (isadd)
     {
         @Html.ActionLink("Create New", "CreateAcBook", null, new { @class = "btn btn-primary btnwidth" })
     }
 </p>
+</div>
 <section class="content">
     @if (ViewBag.SuccessMsg != null)
     {
@@ -165,10 +167,10 @@
                     <th>
                         @Html.Label("Voucher No")
                     </th>
-                    <th>
+                    <th class="right_text">
                         @Html.Label("Transaction Date")
                     </th>
-                    <th>
+                    <th class="right_text">
                         @Html.Label("Amount")
                     </th>
                     <th>

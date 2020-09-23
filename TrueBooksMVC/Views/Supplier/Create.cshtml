@@ -320,7 +320,7 @@
 
                 <div class="col-md-4" style="padding-top:15px">
 
-                    @Html.CheckBox("StatusActive", new { @name = "StatusActive" }) &nbsp <label class="headinglabel">Status Active</label>
+                    @Html.CheckBox("StatusActive", new { @name = "StatusActive",@checked="checked" }) &nbsp <label class="headinglabel">Status Active</label>
                     @Html.ValidationMessageFor(model => model.StatusActive)
                 </div>
 

@@ -138,13 +138,25 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
                 $('#ProvisiDomestic').val(parseFloat($('#QTY').val() * $('#ProRate').val() * 1).toFixed(2));
                 $('#ProvisionExRate').val('1.00');
                 $('#ProvisionForeign').val(parseFloat($('#QTY').val() * $('#ProRate').val() * $('#ProvisionExRate').val()).toFixed(2));
+                $('#margin').val(parseFloat($('#SalesDomestic').val() - $('#ProvisiDomestic').val()).toFixed(2));
+                $('#ProvisionForeign').attr('readonly', 'readonly');
+                $('#ProvisionExRate').attr('readonly', 'readonly');
+                $('#ProvisionForeign').val('0.00');
+                $('#ProvisiDomestic').removeAttr('readonly');
             } else {
                 $('#ProvisionForeign').val(parseFloat($('#QTY').val() * $('#ProRate').val()).toFixed(2));
                 $('#ProvisiDomestic').val(parseFloat($('#QTY').val() * $('#ProRate').val() * $('#ProvisionExRate').val()).toFixed(2));
+                $('#margin').val(parseFloat($('#SalesDomestic').val() - $('#ProvisiDomestic').val()).toFixed(2));
+                $('#ProvisiDomestic').attr('readonly', 'readonly');
+                $('#ProvisionForeign').removeAttr('readonly');
+                $('#ProvisionExRate').removeAttr('readonly');
             }
         } else {
             $('#ProvisiDomestic').val('0.00');
             $('#ProvisionForeign').val('0.00');
+            $('#ProvisionExRate').attr('readonly', 'readonly');
+            $('#ProvisionForeign').attr('readonly', 'readonly');
+            $('#ProvisiDomestic').removeAttr('readonly');
         }
         CalculateSalesValue();
     }
@@ -173,16 +185,26 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
                 res = (taxValue1 / 100) * $('#SalesDomestic').val();
                 $('#taxamt').val(parseFloat(res).toFixed(2));
                 $('#margin').val(parseFloat($('#SalesDomestic').val() - $('#ProvisiDomestic').val()).toFixed(2));
+                $('#SalesForeign').attr('readonly', 'readonly');
+                $('#SalesExRate').attr('readonly', 'readonly');
+                $('#SalesForeign').val('0.00');
+                $('#SalesDomestic').removeAttr('readonly');
             } else {
                 $('#SalesForeign').val(parseFloat($('#QTY').val() * $('#SaleRate').val()).toFixed(2));
                 $('#SalesDomestic').val(parseFloat($('#QTY').val() * $('#SaleRate').val() * $('#SalesExRate').val()).toFixed(2));
                 res = (taxValue1 / 100) * $('#SalesForeign').val();
                 $('#taxamt').val(parseFloat(res).toFixed(2));
                 $('#margin').val(parseFloat($('#SalesDomestic').val() - $('#ProvisiDomestic').val()).toFixed(2));
+                $('#SalesDomestic').attr('readonly', 'readonly');
+                $('#SalesExRate').removeAttr('readonly');
+                $('#SalesForeign').removeAttr('readonly');
             }
         } else {
             $('#SalesDomestic').val('0.00');
             $('#SalesForeign').val('0.00');
+            $('#SalesForeign').attr('readonly', 'readonly');
+            $('#SalesExRate').attr('readonly', 'readonly');
+            $('#SalesDomestic').removeAttr('readonly');
         }
     }
 
@@ -196,7 +218,6 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
     }
 
     $scope.getProvisionCurEx = function () {
-        
         $http({
             url: '/Job/GetExchangeRte/' + $scope.ProvisionExR,
             method: 'GET'

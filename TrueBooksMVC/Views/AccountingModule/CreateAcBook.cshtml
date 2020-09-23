@@ -548,10 +548,10 @@
                 @Html.HiddenFor(model => model.paytype)
             </div>
         </div>
-        <div class="row no-margin">
+        <div class="row no-margin" style="padding-top:10px">
             <div class="col-md-4">
                 <label class="headinglabel">Transaction Date</label>
-                @Html.TextBoxFor(model => model.transdate, new { @class = "form-control", autocomplete = "off" })
+                @Html.TextBoxFor(model => model.transdate, new { @class = "form-control text-right", autocomplete = "off" })
                 @Html.ValidationMessageFor(model => model.transdate)
             </div>
             <div class="col-md-4">
@@ -601,7 +601,7 @@
             </div>
             <div class="col-md-3">
                 <label class="headinglabel">Cheque Date</label>
-                @Html.TextBoxFor(model => model.chequedate, new { @class = "form-control", autocomplete = "off" })
+                @Html.TextBoxFor(model => model.chequedate, new { @class = "form-control text-right", autocomplete = "off" })
                 @Html.ValidationMessageFor(model => model.chequedate)
             </div>
             <div class="col-md-3">

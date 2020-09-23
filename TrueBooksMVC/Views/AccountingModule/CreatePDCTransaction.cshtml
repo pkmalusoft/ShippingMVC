@@ -230,7 +230,7 @@
 
                 <div class="col-md-6">
                     <label class="required headinglabel">Transaction Date</label>
-                    @Html.TextBoxFor(model => model.transdate, new { @class = "form-control", placeholder = "dd-mmm-yyyy" })
+                    @Html.TextBoxFor(model => model.transdate, new { @class = "form-control text-right", placeholder = "dd-mmm-yyyy" })
                     @Html.ValidationMessageFor(model => model.transdate)
 
                 </div>
@@ -290,7 +290,7 @@
             <div class="row no-margin" style="padding-top:10px">
                 <div class="col-md-6">
                     <label class="required headinglabel">Cheque Date</label>
-                    @Html.TextBoxFor(model => model.chequedate, new { @class = "form-control", placeholder = "dd-mmm-yyyy" })
+                    @Html.TextBoxFor(model => model.chequedate, new { @class = "form-control text-right", placeholder = "dd-mmm-yyyy" })
                     @Html.ValidationMessageFor(model => model.chequedate)
 
                 </div>
@@ -322,7 +322,7 @@
 
                 <div class="col-md-4">
                     <label class="headinglabel">Amount</label>
-                    @Html.TextBoxFor(model => model.amount, new { @class = "form-control" })
+                    @Html.TextBoxFor(model => model.amount, new { @class = "form-control text-right" })
                     @Html.ValidationMessageFor(model => model.amount)
 
                 </div>

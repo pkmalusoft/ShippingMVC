@@ -15,7 +15,7 @@
           <Property Name="Amount" Type="money" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'malusoft_accounts.dbo.AcBankDetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'malusoft_shipping.dbo.AcBankDetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="AcBankDetails">
           <Key>
             <PropertyRef Name="AcBankDetailID" />
@@ -117,7 +117,7 @@ warning 6002: The table/view 'malusoft_accounts.dbo.AcBankDetails' does not have
           <Property Name="StatusControlAc" Type="bit" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'malusoft_accounts.dbo.AcHeadAssign' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'malusoft_shipping.dbo.AcHeadAssign' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="AcHeadAssign">
           <Key>
             <PropertyRef Name="ID" />
@@ -479,6 +479,7 @@ warning 6002: The table/view 'malusoft_accounts.dbo.AcHeadAssign' does not have 
           <Property Name="CustomerType" Type="int" />
           <Property Name="MobileNumber" Type="nvarchar" MaxLength="100" />
           <Property Name="WhatsAppNumber" Type="nvarchar" MaxLength="100" />
+          <Property Name="VAT" Type="nvarchar" MaxLength="20" />
         </EntityType>
         <EntityType Name="CustomerNotification">
           <Key>
@@ -547,6 +548,7 @@ warning 6002: The table/view 'malusoft_accounts.dbo.AcHeadAssign' does not have 
           <Property Name="Basic" Type="money" />
           <Property Name="Housing" Type="money" />
           <Property Name="TA" Type="money" />
+          <Property Name="Email" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="ItemUnit">
           <Key>
@@ -641,6 +643,10 @@ warning 6002: The table/view 'malusoft_accounts.dbo.AcHeadAssign' does not have 
           <Property Name="Tax" Type="decimal" Precision="5" Scale="2" />
           <Property Name="TaxAmount" Type="decimal" Precision="15" Scale="2" />
           <Property Name="Margin" Type="decimal" Precision="15" Scale="2" />
+          <Property Name="InvoiceNumber" Type="nvarchar(max)" />
+          <Property Name="InvoiceDate" Type="datetime" />
+          <Property Name="CancelReason" Type="nvarchar(max)" />
+          <Property Name="CancelledInvoice" Type="bit" />
         </EntityType>
         <EntityType Name="JobGeneration">
           <Key>
@@ -762,6 +768,18 @@ warning 6002: The table/view 'malusoft_accounts.dbo.AcHeadAssign' does not have 
           <Property Name="JobStatusId" Type="int" />
           <Property Name="EmployeeId" Type="int" />
           <Property Name="DateTime" Type="datetime" />
+        </EntityType>
+        <EntityType Name="JTimeLine">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TabName" Type="nvarchar" MaxLength="100" />
+          <Property Name="ActionType" Type="nvarchar" MaxLength="50" />
+          <Property Name="DateTime" Type="datetime" />
+          <Property Name="UserId" Type="int" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="100" />
+          <Property Name="JobId" Type="int" />
         </EntityType>
         <EntityType Name="Location">
           <Key>
@@ -1183,7 +1201,7 @@ warning 6002: The table/view 'malusoft_accounts.dbo.AcHeadAssign' does not have 
           <Property Name="Voyage" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'malusoft_accounts.dbo.qryCustomerStatement' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'malusoft_shipping.dbo.qryCustomerStatement' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="qryCustomerStatement">
           <Key>
             <PropertyRef Name="InvoiceID" />
@@ -1201,7 +1219,7 @@ warning 6002: The table/view 'malusoft_accounts.dbo.qryCustomerStatement' does n
           <Property Name="EmployeeID" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'malusoft_accounts.dbo.qrySupplierOutstanding' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'malusoft_shipping.dbo.qrySupplierOutstanding' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="qrySupplierOutstanding">
           <Key>
             <PropertyRef Name="InvoiceID" />
@@ -2485,6 +2503,7 @@ warning 6002: The table/view 'malusoft_accounts.dbo.qrySupplierOutstanding' does
           <EntitySet Name="JobStatus" EntityType="Self.JobStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="JobType" EntityType="Self.JobType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="JStatus" EntityType="Self.JStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="JTimeLine" EntityType="Self.JTimeLine" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Location" EntityType="Self.Location" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Menu" EntityType="Self.Menu" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MenuAccessLevel" EntityType="Self.MenuAccessLevel" Schema="dbo" store:Type="Tables" />
@@ -3970,6 +3989,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <EntitySet Name="JStatus" EntityType="SHIPPING_FinalModel.JStatu" />
           <EntitySet Name="AcTypes" EntityType="SHIPPING_FinalModel.AcType" />
           <EntitySet Name="CustomerNotifications" EntityType="SHIPPING_FinalModel.CustomerNotification" />
+          <EntitySet Name="JTimeLines" EntityType="SHIPPING_FinalModel.JTimeLine" />
           </EntityContainer>
         <ComplexType Name="SP_GetUserDetailForEdit_Result">
           <Property Type="Int32" Name="UserID" Nullable="false" />
@@ -4548,6 +4568,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Type="Decimal" Name="Basic" Precision="19" Scale="4" />
           <Property Type="Decimal" Name="Housing" Precision="19" Scale="4" />
           <Property Type="Decimal" Name="TA" Precision="19" Scale="4" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="JobMode">
           <Key>
@@ -5835,6 +5856,10 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Name="Tax" Type="Decimal" Precision="5" Scale="2" />
           <Property Name="TaxAmount" Type="Decimal" Precision="15" Scale="2" />
           <Property Name="Margin" Type="Decimal" Precision="15" Scale="2" />
+          <Property Name="InvoiceNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="InvoiceDate" Type="DateTime" Precision="3" />
+          <Property Name="CancelReason" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CancelledInvoice" Type="Boolean" />
         </EntityType>
         <EntityType Name="JobGeneration">
           <Key>
@@ -6935,6 +6960,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Name="CustomerType" Type="Int32" />
           <Property Name="MobileNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="WhatsAppNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="VAT" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Supplier">
           <Key>
@@ -7226,6 +7252,18 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Name="IsSms" Type="Boolean" />
           <Property Name="IsWhatsapp" Type="Boolean" />
           <Property Name="PageTypeId" Type="Int32" />
+        </EntityType>
+        <EntityType Name="JTimeLine">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TabName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ActionType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DateTime" Type="DateTime" Precision="3" />
+          <Property Name="UserId" Type="Int32" />
+          <Property Name="UserName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="JobId" Type="Int32" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -7931,6 +7969,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <EntitySetMapping Name="Employees">
             <EntityTypeMapping TypeName="SHIPPING_FinalModel.Employee">
               <MappingFragment StoreEntitySet="Employees">
+                <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="TA" ColumnName="TA" />
                 <ScalarProperty Name="Housing" ColumnName="Housing" />
                 <ScalarProperty Name="Basic" ColumnName="Basic" />
@@ -9378,6 +9417,10 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <EntitySetMapping Name="JInvoices">
             <EntityTypeMapping TypeName="SHIPPING_FinalModel.JInvoice">
               <MappingFragment StoreEntitySet="JInvoice">
+                <ScalarProperty Name="CancelledInvoice" ColumnName="CancelledInvoice" />
+                <ScalarProperty Name="CancelReason" ColumnName="CancelReason" />
+                <ScalarProperty Name="InvoiceDate" ColumnName="InvoiceDate" />
+                <ScalarProperty Name="InvoiceNumber" ColumnName="InvoiceNumber" />
                 <ScalarProperty Name="Margin" ColumnName="Margin" />
                 <ScalarProperty Name="TaxAmount" ColumnName="TaxAmount" />
                 <ScalarProperty Name="Tax" ColumnName="Tax" />
@@ -10537,6 +10580,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <EntitySetMapping Name="CUSTOMERs">
             <EntityTypeMapping TypeName="SHIPPING_FinalModel.CUSTOMER">
               <MappingFragment StoreEntitySet="CUSTOMER">
+                <ScalarProperty Name="VAT" ColumnName="VAT" />
                 <ScalarProperty Name="WhatsAppNumber" ColumnName="WhatsAppNumber" />
                 <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
                 <ScalarProperty Name="CustomerType" ColumnName="CustomerType" />
@@ -10791,6 +10835,19 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
                 <ScalarProperty Name="Message" ColumnName="Message" />
                 <ScalarProperty Name="Datetime" ColumnName="Datetime" />
                 <ScalarProperty Name="StaffId" ColumnName="StaffId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="JTimeLines">
+            <EntityTypeMapping TypeName="SHIPPING_FinalModel.JTimeLine">
+              <MappingFragment StoreEntitySet="JTimeLine">
+                <ScalarProperty Name="JobId" ColumnName="JobId" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+                <ScalarProperty Name="ActionType" ColumnName="ActionType" />
+                <ScalarProperty Name="TabName" ColumnName="TabName" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

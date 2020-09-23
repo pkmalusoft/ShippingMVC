@@ -80,13 +80,13 @@
       @*  <th>
             @Html.DisplayNameFor(model => model.CurrencyID)
         </th>*@
-        <th>
+        <th width="20%">
             @Html.DisplayNameFor(model => model.CurrencyName)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Symbol)
         </th>
-        <th>
+        <th class="right_text">
             @Html.DisplayNameFor(model => model.NoOfDecimals)
         </th>
         <th>
@@ -101,7 +101,7 @@
         <th>
             @Html.DisplayNameFor(model => model.ExchangeRate)
         </th>
-        <th>Action</th>
+        <th width="40%">Action</th>
     </tr>
     </thead>
 
@@ -116,7 +116,7 @@
         <th>
             @Html.DisplayNameFor(model => model.Symbol)
         </th>
-        <th>
+        <th class="right_text">
             @Html.DisplayNameFor(model => model.NoOfDecimals)
         </th>
         <th>
@@ -128,7 +128,7 @@
        @* <th>
             @Html.DisplayNameFor(model => model.StatusBaseCurrency)
         </th>*@
-        <th>
+        <th class="right_text">
             @Html.DisplayNameFor(model => model.ExchangeRate)
         </th>
         <th style="display:none">Action</th>
@@ -148,7 +148,7 @@
         <td>
             @Html.DisplayFor(modelItem => item.Symbol)
         </td>
-        <td style="text-align:right">
+        <td style="text-align:right!Important">
             @Html.DisplayFor(modelItem => item.NoOfDecimals)
         </td>
         <td class="tdtarget">
@@ -160,7 +160,7 @@
         <td>
             @Html.DisplayFor(modelItem => item.StatusBaseCurrency)
         </td>*@
-        <td style="text-align:right">
+        <td style="text-align:right!Important">
             @Html.DisplayFor(modelItem => item.ExchangeRate)
         </td>
         <td>

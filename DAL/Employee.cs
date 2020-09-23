@@ -30,5 +30,6 @@ namespace DAL
         public Nullable<decimal> Basic { get; set; }
         public Nullable<decimal> Housing { get; set; }
         public Nullable<decimal> TA { get; set; }
+        public string Email { get; set; }
     }
 }

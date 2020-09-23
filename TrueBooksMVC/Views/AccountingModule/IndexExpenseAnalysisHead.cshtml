@@ -60,12 +60,14 @@
     <h1 class="headingfont">Analysis Head</h1>
 
 </section>
-<p class="indexbtnpadding">
+<div class="m-container">
+<p class="indexbtnpadding flex">
     @if (isadd)
     {
     @Html.ActionLink("Create New", "CreateExpenseAnalysisHead", null, new { @class = "btn btn-primary btnwidth" })
     }
 </p>
+</div>
 <section class="content">
      @if (ViewBag.SuccessMsg != null)
      {
@@ -87,7 +89,7 @@
             @Html.Label("Head")
         </th>
       
-        <th>Action</th>
+        <th style="width:50%">Action</th>
     </tr>
 </thead>
 

@@ -262,7 +262,7 @@
                                         new SelectListItem{Text="Petty Cash-Noora",Value="Petty Cash-Noora"},
                                         new SelectListItem{Text="Petty Cash-Sreenithy",Value="Petty Cash-Sreenithy"}}, "Select", new { @class = "form-control" })*@
 
-                                    @Html.DropDownListFor(model => model.CashBank, new SelectList(@ViewBag.achead, "AcHeadID", "AcHead"), "Select", new { @class = "form-control" })
+                                    @Html.DropDownListFor(model => model.CashBank, new SelectList(@ViewBag.achead, "AcHeadID", "AcHead1"), "Select", new { @class = "form-control" })
 
                                 </div>
                                 <div id="divBank" ng-show="BankDiv">
@@ -275,7 +275,7 @@
                                              new SelectListItem{Text="Unpresented Cheques",Value="Unpresented Cheques"},
                                             }, "Select", new { @class = "form-control" })*@
 
-                                        @Html.DropDownListFor(model => model.ChequeBank, new SelectList(@ViewBag.acheadbank, "AcHeadID", "AcHead"), "Select", new { @class = "form-control" })
+                                        @Html.DropDownListFor(model => model.ChequeBank, new SelectList(@ViewBag.acheadbank, "AcHeadID", "AcHead1"), "Select", new { @class = "form-control" })
                                     </div>
                                 </div>
                             </div>

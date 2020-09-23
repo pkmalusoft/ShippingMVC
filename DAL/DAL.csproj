@@ -323,6 +323,9 @@
     <Compile Include="JStatu.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="JTimeLine.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Location.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

@@ -149,7 +149,7 @@
                                         <th>SI No</th>
                                         <th>Supplier Invoice Number</th>
                                         <th>Invoice Date</th>
-                                        <th>Supplier Name</th>
+                                        <th >Supplier Name</th>
                                         <th>Invoice Amount</th>
                                         <th style="width: 70px;">Action</th>
                                         <th style="display:none"></th>
@@ -161,11 +161,11 @@
                                 </thead>
                                 <tfoot>
                                     <tr>
-                                        <th>SI No</th>
+                                        <th class="width:8%">SI No</th>
                                         <th>Supplier Invoice Number</th>
-                                        <th>Invoice Date</th>
-                                        <th>Supplier Name</th>
-                                        <th>Invoice Amount</th>
+                                        <th class="right_text">Invoice Date</th>
+                                        <th width="30%">Supplier Name</th>
+                                        <th class="right_text">Invoice Amount</th>
                                         <th style="width: 70px;"></th>
                                         <th style="display:none"></th>
                                         <th style="display:none"></th>
@@ -183,10 +183,10 @@
                                                 @Html.DisplayFor(modelItem => item.SINo)
                                                 @Html.HiddenFor(modelItem => item.CostUpdationID)
                                             </td>
-                                            <td>@Html.DisplayFor(modelItem => item.SupplierInvoiceNumber)</td>
-                                            <td>@TrueBooksMVC.Models.CommanFunctions.GetShortDateFormat(item.InvoiceDate)</td>
+                                            <td class="txt-red">@Html.DisplayFor(modelItem => item.SupplierInvoiceNumber)</td>
+                                            <td class="txt-red">@TrueBooksMVC.Models.CommanFunctions.GetShortDateFormat(item.InvoiceDate)</td>
                                             <td>@Html.DisplayFor(modelItem => item.SupplierName)</td>
-                                            <td>@Html.DisplayFor(modelItem => item.InvoiceAmount)</td>
+                                            <td style="text-align:right!important";>@Html.DisplayFor(modelItem => item.InvoiceAmount)</td>
                                             <td>
                                                 @if (ismodify)
                                                 {

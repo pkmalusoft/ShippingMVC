@@ -9,7 +9,7 @@ using DAL;
 using TrueBooksMVC.Models;
 using System.Data.Entity.Validation;
 using System.Diagnostics;
-
+using System.Text;
 namespace TrueBooksMVC.Controllers
 {
     [SessionExpire]
@@ -17,7 +17,7 @@ namespace TrueBooksMVC.Controllers
     {
         private SHIPPING_FinalEntities db = new SHIPPING_FinalEntities();
         SourceMastersModel objectSourceMaster = new SourceMastersModel();
-       
+
         //
         // GET: /UserRegistration/
 
@@ -25,19 +25,19 @@ namespace TrueBooksMVC.Controllers
         {
             List<UserRegistrationRoleVM> userRoleObject = new List<UserRegistrationRoleVM>();
             var query = (from t in db.UserRegistrations
-                        join t1 in db.RoleMasters
-                        on t.RoleID equals t1.RoleID
-                        select new UserRegistrationRoleVM
-              {
-                  RoleName=t1.RoleName,
-                  UserName=t.UserName,
-                  phone=t.Phone,
-                  Email=t.EmailId,
-                  IsActive=t.IsActive,
-                  UserID=t.UserID
+                         join t1 in db.RoleMasters
+                         on t.RoleID equals t1.RoleID
+                         select new UserRegistrationRoleVM
+                         {
+                             RoleName = t1.RoleName,
+                             UserName = t.UserName,
+                             phone = t.Phone,
+                             Email = t.EmailId,
+                             IsActive = t.IsActive,
+                             UserID = t.UserID
 
-              }).ToList();
-                                                    
+                         }).ToList();
+
 
             return View(query);
         }
@@ -69,7 +69,7 @@ namespace TrueBooksMVC.Controllers
         // POST: /UserRegistration/Create
 
         [HttpPost]
-       // [ValidateAntiForgeryToken]
+        // [ValidateAntiForgeryToken]
         public ActionResult Create(UserRegistration userregistration)
         {
             ViewBag.UserRole = db.RoleMasters.ToList();
@@ -88,10 +88,10 @@ namespace TrueBooksMVC.Controllers
             else
             {
                 TempData["SuccessMSG"] = "Sorry, this name already exists ";
-                return RedirectToAction("Create",userregistration);
+                return RedirectToAction("Create", userregistration);
             }
 
-          
+
         }
 
         //
@@ -117,7 +117,7 @@ namespace TrueBooksMVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(UserRegistration userregistration)
         {
-          
+
             if (ModelState.IsValid)
             {
                 db.Entry(userregistration).State = EntityState.Modified;
@@ -137,9 +137,9 @@ namespace TrueBooksMVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ChangePassword(ChangePasswordVM changepass)
         {
-            string uname=Session["UserName"].ToString();
-            UserRegistration u = (from user in db.UserRegistrations where (user.UserName ==uname ) && (user.Password == changepass.Password) select user).FirstOrDefault();
-            if (u==null)
+            string uname = Session["UserName"].ToString();
+            UserRegistration u = (from user in db.UserRegistrations where (user.UserName == uname) && (user.Password == changepass.Password) select user).FirstOrDefault();
+            if (u == null)
             {
                 TempData["message"] = "Previous password is Not Valid";
                 return RedirectToAction("ChangePassword");
@@ -159,8 +159,8 @@ namespace TrueBooksMVC.Controllers
 
             }
 
-           
-           
+
+
         }
 
         //
@@ -190,7 +190,7 @@ namespace TrueBooksMVC.Controllers
             return RedirectToAction("Index");
         }
 
-        
+
 
         //public string CheckForDuplication(string UserName)
         //{
@@ -204,17 +204,37 @@ namespace TrueBooksMVC.Controllers
         //    {
         //        return data.UserName;
         //    }
-           
-           
+
+
         //    //if (data != null)
         //    //{
-          
+
         //    //    return Json("Sorry, this name already exists", JsonRequestBehavior.AllowGet);
         //    //}
         //    //else
         //    //{
         //    //    return Json(true, JsonRequestBehavior.AllowGet);
         //    //}
-        //}
+        //} public JsonResult GetEmployeeByid(int Id)
+        public JsonResult GetEmployeeByid(int Id)
+        {
+            var data = db.Employees.Find(Id);
+            return Json(new { data = data }, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult GeneratePassword()
+        {
+            var length = 8;
+            const string valid = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+            StringBuilder res = new StringBuilder();
+            Random rnd = new Random();
+            while (0 < length--)
+            {
+                res.Append(valid[rnd.Next(valid.Length)]);
+            }
+            var password = res.ToString();
+            return Json(password, JsonRequestBehavior.AllowGet);
+        }
+
+
     }
 }

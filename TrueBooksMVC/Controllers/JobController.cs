@@ -692,6 +692,16 @@ namespace TrueBooksMVC.Controllers
                     entity.JStatus.Add(jobstatus);
                     entity.SaveChanges();
                     Session["JobID"] = JobId;
+                    JTimeLine Timeline = new JTimeLine();
+                    Timeline.JobId = JobId;
+                    Timeline.TabName = "";
+                    Timeline.ActionType = "Created";
+                    Timeline.DateTime = DateTime.Now;
+                    Timeline.UserId= Convert.ToInt32(Session["UserID"]);
+                    Timeline.UserName = Session["UserName"].ToString();
+                    entity.JTimeLines.Add(Timeline);
+                    entity.SaveChanges();
+
 
                     JM.JobID = JobId;
                     return RedirectToAction("Job", "Job", new { ID = JobId });
@@ -775,7 +785,26 @@ namespace TrueBooksMVC.Controllers
                                     entity.SaveChanges();
                                 }
 
+                                JTimeLine Timeline = new JTimeLine();
+                                Timeline.JobId = JobId;
+                                Timeline.TabName = "";
+                                Timeline.ActionType = "Modified";
+                                Timeline.DateTime = DateTime.Now;
+                                Timeline.UserId = Convert.ToInt32(Session["UserID"]);
+                                Timeline.UserName = Session["UserName"].ToString();
+                                entity.JTimeLines.Add(Timeline);
+                                entity.SaveChanges();
 
+
+                                JTimeLine Timeline1 = new JTimeLine();
+                                Timeline1.JobId = JobId;
+                                Timeline1.TabName = "";
+                                Timeline1.ActionType = "Invoice Generated";
+                                Timeline1.DateTime = DateTime.Now;
+                                Timeline1.UserId = Convert.ToInt32(Session["UserID"]);
+                                Timeline1.UserName = Session["UserName"].ToString();
+                                entity.JTimeLines.Add(Timeline1);
+                                entity.SaveChanges();
 
                                 //var acjournalid = (from m in entity.JobGenerations where m.JobID == JobId select m.AcJournalID).FirstOrDefault();
                                 //if (acjournalid > 0)
@@ -1361,6 +1390,15 @@ namespace TrueBooksMVC.Controllers
                 Charges.Margin = Margin;
 
                 int iCharge = J.AddOrUpdateCharges(Charges, Session["UserID"].ToString());
+                JTimeLine Timeline = new JTimeLine();
+                Timeline.JobId = JobId;
+                Timeline.TabName = "Revenue Details";
+                Timeline.ActionType = "Modified";
+                Timeline.DateTime = DateTime.Now;
+                Timeline.UserId = Convert.ToInt32(Session["UserID"]);
+                Timeline.UserName = Session["UserName"].ToString();
+                entity.JTimeLines.Add(Timeline);
+                entity.SaveChanges();
             }
             int CargoCount = 0;
             ArrayList CargoArray = new ArrayList();
@@ -1430,6 +1468,15 @@ namespace TrueBooksMVC.Controllers
                 }
                 Cargo.GrossWeight = GrossWeight;
                 i = J.AddOrUpdateCargo(Cargo, Session["UserID"].ToString());
+                JTimeLine Timeline = new JTimeLine();
+                Timeline.JobId = JobId;
+                Timeline.TabName = "Cargo";
+                Timeline.ActionType = "Modified";
+                Timeline.DateTime = DateTime.Now;
+                Timeline.UserId = Convert.ToInt32(Session["UserID"]);
+                Timeline.UserName = Session["UserName"].ToString();
+                entity.JTimeLines.Add(Timeline);
+                entity.SaveChanges();
             }
 
             int ContainerCount = 0;
@@ -1483,6 +1530,15 @@ namespace TrueBooksMVC.Controllers
                     ContainerDescription = strArray[0].Trim();
                 }
                 ContainerObj.Description = ContainerDescription;
+                JTimeLine Timeline = new JTimeLine();
+                Timeline.JobId = JobId;
+                Timeline.TabName = "Container";
+                Timeline.ActionType = "Modified";
+                Timeline.DateTime = DateTime.Now;
+                Timeline.UserId = Convert.ToInt32(Session["UserID"]);
+                Timeline.UserName = Session["UserName"].ToString();
+                entity.JTimeLines.Add(Timeline);
+                entity.SaveChanges();
                 AddOrUpdateContainerDetails(ContainerObj);
             }
 
@@ -1532,6 +1588,15 @@ namespace TrueBooksMVC.Controllers
                 }
                 objBillOfEntry.ShippingAgentID = ShippingAgentId;
                 AddOrUpdateBill(objBillOfEntry);
+                JTimeLine Timeline = new JTimeLine();
+                Timeline.JobId = JobId;
+                Timeline.TabName = "Bill of Entry";
+                Timeline.ActionType = "Modified";
+                Timeline.DateTime = DateTime.Now;
+                Timeline.UserId = Convert.ToInt32(Session["UserID"]);
+                Timeline.UserName = Session["UserName"].ToString();
+                entity.JTimeLines.Add(Timeline);
+                entity.SaveChanges();
             }
             int NotificationCount = 0;
             ArrayList NotificationArray = new ArrayList();
@@ -2181,7 +2246,11 @@ namespace TrueBooksMVC.Controllers
                     { new SelectListItem() { Text = "SURRENDERED", Selected = false, Value = "SURRENDERED"}
                      , new SelectListItem() { Text = "WAY BILL", Selected = false, Value = "WAY BILL"}
                      , new SelectListItem() { Text = "OBL REQUIRED", Selected = false, Value = "OBL REQUIRED"}};
-
+                List<SelectListItem> FreightList = new List<SelectListItem>
+                    { new SelectListItem() { Text = "Prepaid", Selected = false, Value = "Prepaid"}
+                     , new SelectListItem() { Text = "Destination", Selected = false, Value = "Destination"}
+                     , new SelectListItem() { Text = "Collect", Selected = false, Value = "Collect"}};
+                ViewBag.Freightlist = new SelectList(FreightList, "Value", "Text");
 
                 ViewBag.BLStatusList = new SelectList(objBLStatusList, "Value", "Text");
 

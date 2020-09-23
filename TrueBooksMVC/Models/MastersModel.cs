@@ -95,6 +95,12 @@ namespace TrueBooksMVC.Models
 
             return query;
         }
+        public List<SP_GetAllVessels_Result> GetAllVesselbyTerm(string term)
+        {
+            var query = Context1.SP_GetAllVessels().Where(d=>d.Vessel.ToLower().Contains(term.ToLower())).OrderBy(x => x.Vessel).ToList();
+
+            return query;
+        }
 
         public List<SP_GetAllCarrier_Result> GetAllCarrier()
         {

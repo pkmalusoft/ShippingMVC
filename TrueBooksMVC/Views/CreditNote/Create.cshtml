@@ -236,7 +236,7 @@
                         	<label class="required headinglabel">Date</label>
 						</div>
 						<div class="col-md-9">
-							@Html.TextBoxFor(model => model.Date, new { @class = "form-control", placeholder = "dd-mmm-yyyy" })
+							@Html.TextBoxFor(model => model.Date, new { @class = "form-control text-right", placeholder = "dd-mmm-yyyy" })
 							@Html.ValidationMessageFor(model => model.Date)
 						</div>
                     </div>
@@ -266,7 +266,7 @@
                         <label class="required headinglabel">Job No</label>
 						</div>
 						<div class="col-md-9">
-                        @*@Html.DropDownListFor(model => model.JobNO, new SelectList(@ViewBag.jobno, "JobNo", "JobNo"), "Select", new { @class = "form-control" })*@
+                        @*@Html.DropDownListFor(model => model.JobNO, new SelectList(@ViewBag.jobno, "JobNo", "JobNo"), "Select", new { @class = "form-control text-right" })*@
                         <input type="text" id="JobNOStr" name="JobNOStr" value="" class="form-control" />
                         <input type="hidden" id="TradingInvoice" name="TradingInvoice" value="" class="form-control" />
                         <input type="hidden" id="JobNO" name="JobNO" value="" class="form-control" />
@@ -307,7 +307,7 @@
                         <label class="required headinglabel">Amount</label>
 						</div>
 						 <div class="col-md-9">
-                        @Html.TextBoxFor(model => model.Amount, new { @class = "form-control" })
+                        @Html.TextBoxFor(model => model.Amount, new { @class = "form-control text-right" })
                         @Html.ValidationMessageFor(model => model.Amount)
 						</div>
                     </div>

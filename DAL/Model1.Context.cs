@@ -105,6 +105,7 @@ namespace DAL
         public DbSet<JStatu> JStatus { get; set; }
         public DbSet<AcType> AcTypes { get; set; }
         public DbSet<CustomerNotification> CustomerNotifications { get; set; }
+        public DbSet<JTimeLine> JTimeLines { get; set; }
         public virtual int SP_DeleteUser(Nullable<int> uSerID)
         {
             var uSerIDParameter = uSerID.HasValue ?

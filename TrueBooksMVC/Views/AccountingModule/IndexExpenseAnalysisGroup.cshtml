@@ -62,12 +62,14 @@
     <h1 class="headingfont">Expense Analysis Group</h1>
 
 </section>
-<p class="indexbtnpadding">
+<div class="m-container">
+<p class="indexbtnpadding flex">
     @if (isadd)
     {
     @Html.ActionLink("Create New", "CreateExpenseAnalysisGroup", null, new { @class = "btn btn-primary btnwidth" })
     }
 </p>
+</div>
 <section class="content">
    @if (ViewBag.SuccessMsg != null)
    {
@@ -91,7 +93,7 @@
     <thead>
     <tr>
         
-        <th>
+        <th width="30%">
             @Html.Label("Analysis Group")
         </th>
      

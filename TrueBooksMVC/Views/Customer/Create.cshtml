@@ -159,7 +159,7 @@
             </div>
               <div class="col-md-4">
                 <label class="required headinglabel">Contact Person</label>
-                @Html.TextBoxFor(model => model.ContactPerson, new { @class = "form-control txttarget", @tabindex = "15" })
+                @Html.TextBoxFor(model => model.ContactPerson, new { @class = "form-control txttarget", @tabindex = "16" })
                 @Html.ValidationMessageFor(model => model.ContactPerson)
 
             </div>
@@ -182,7 +182,7 @@
             </div>
             <div class="col-md-4">
                 <label class="required headinglabel">Contact Mobile</label>
-                @Html.TextBoxFor(model => model.MobileNumber, new { @class = "form-control txttarget", @tabindex = "16" })
+                @Html.TextBoxFor(model => model.MobileNumber, new { @class = "form-control txttarget", @tabindex = "17" })
                 @Html.ValidationMessageFor(model => model.MobileNumber)
 
             </div>
@@ -209,7 +209,7 @@
 
             <div class="col-md-4">
                 <label class="required headinglabel">Customer Type</label>
-                @Html.DropDownListFor(model => model.CustomerType, ViewBag.CustomerType as SelectList, new { @class = "form-control",@onchange="customertypechange()", @tabindex = "17" })
+                @Html.DropDownListFor(model => model.CustomerType, ViewBag.CustomerType as SelectList, new { @class = "form-control",@onchange="customertypechange()", @tabindex = "18" })
                 @Html.ValidationMessageFor(model => model.CustomerType)
 
             </div>
@@ -233,7 +233,7 @@
 
             <div class="col-md-4">
                 <label class="headinglabel">Max Credit Days</label>
-                @Html.TextBoxFor(model => model.MaxCreditDays, new { @class = "form-control textright", @tabindex = "18" })
+                @Html.TextBoxFor(model => model.MaxCreditDays, new { @class = "form-control textright", @tabindex = "19" })
                 @Html.ValidationMessageFor(model => model.MaxCreditDays)
 
             </div>
@@ -255,7 +255,7 @@
             </div>
         <div class="col-md-4 ">
                 <label class="headinglabel">Max Credit Limit</label>
-                @Html.TextBoxFor(model => model.MaxCreditLimit, new { @class = "form-control textright", @Value = "0", @tabindex = "18" })
+                @Html.TextBoxFor(model => model.MaxCreditLimit, new { @class = "form-control textright", @Value = "0", @tabindex = "20" })
                 @Html.ValidationMessageFor(model => model.MaxCreditLimit)
             </div>
         </div>
@@ -276,7 +276,7 @@
              <div class="col-md-4">
 
                 <label class="headinglabel">Exporter Code</label>
-                @Html.TextBoxFor(model => model.ExporterCode, new { @class = "form-control", @tabindex = "19" })
+                @Html.TextBoxFor(model => model.ExporterCode, new { @class = "form-control", @tabindex = "21" })
                 @Html.ValidationMessageFor(model => model.ExporterCode)
 
             </div>
@@ -288,25 +288,34 @@
                 @Html.ValidationMessageFor(model => model.CountryID)
 
             </div>
-             
+
             <div class="col-md-4">
                 <label class="headinglabel">Discount Percentage</label>
-                @Html.TextBoxFor(model => model.DiscountPercentage, new { @class = "form-control textright", @Value = "0", @tabindex = "20" })
+                @Html.TextBoxFor(model => model.DiscountPercentage, new { @class = "form-control textright", @Value = "0", @tabindex = "15" })
                 @Html.ValidationMessageFor(model => model.DiscountPercentage)
 
             </div>
-            <div class="col-md-4"style="margin-top:30px">
-             <div class="col-md-6" style="padding-top:15px; text-align:right;">
+            <div class="col-md-4">
+                <label class="headinglabel">VAT</label>
+                @Html.TextBoxFor(model => model.VAT, new { @class = "form-control", @tabindex = "22" })
+                @Html.ValidationMessageFor(model => model.VAT)
 
-                @Html.CheckBox("StatusActive", new { @name = "StatusActive", @checked = "checked" }) &nbsp <label class="headinglabel">Status Active</label>
-                @Html.ValidationMessageFor(model => model.StatusActive)
             </div>
-            <div class="col-md-6" id="invoicetoid" style="padding-top:15px;text-align:right;">
-                @Html.CheckBox("InvoiceTo", new { @name = "InvoiceTo" }) &nbsp <label class="headinglabel">Invoice To</label>
-                @Html.ValidationMessageFor(model => model.InvoiceTo)
-
            
-          </div>
+        </div>
+        <div class="row no-margin" style="padding-top:10px;">
+            <div class="col-md-4" >
+                <div class="col-md-6" style="padding-top:15px; text-align:right;">
+
+                    @Html.CheckBox("StatusActive", new { @name = "StatusActive", @checked = "checked", @tabindex = "23" }) &nbsp <label class="headinglabel">Status Active</label>
+                    @Html.ValidationMessageFor(model => model.StatusActive)
+                </div>
+                <div class="col-md-6" id="invoicetoid" style="padding-top:15px;text-align:right;">
+                    @Html.CheckBox("InvoiceTo", new { @name = "InvoiceTo", @tabindex = "24" }) &nbsp <label class="headinglabel">Invoice To</label>
+                    @Html.ValidationMessageFor(model => model.InvoiceTo)
+
+
+                </div>
 
             </div>
         </div>
@@ -340,10 +349,10 @@
                      margin-top: 12px;
                      ">
 
-                <input type="submit" value="Save" class="btn btn-primary btnwidth" id="btnsave" />
+                <input type="submit" tabindex="24" value="Save" class="btn btn-primary btnwidth" id="btnsave" />
 
                 &nbsp;
-                <a href='@Url.Action("Index", "Customer", new { id = 0 })' class="btn btn-danger btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+                <a href='@Url.Action("Index", "Customer", new { id = 0 })' tabindex="25" class="btn btn-danger btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
 
             </div>
         </div>

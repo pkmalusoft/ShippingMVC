@@ -403,12 +403,12 @@
                                 <div class="form-field">
                                     @if (Model.CostUpdationID > 0)
                                     {
-                                        @Html.TextBoxFor(m => m.TransactionDate, new { Value = Model.TransactionDate.HasValue ? Model.TransactionDate.Value.ToString("dd-MMM-yyyy") : "", id = "TransactionDate", @class = "form-control", autocomplete = "off" })
+                                        @Html.TextBoxFor(m => m.TransactionDate, new { Value = Model.TransactionDate.HasValue ? Model.TransactionDate.Value.ToString("dd-MMM-yyyy") : "", id = "TransactionDate", @class = "form-control text-right", autocomplete = "off" })
                                         @Html.ValidationMessageFor(model => model.TransactionDate)
                                     }
                                     else
                                     {
-                                        @Html.TextBoxFor(model => model.TransactionDate, new { @class = "form-control", required = "required", autocomplete = "off" })
+                                        @Html.TextBoxFor(model => model.TransactionDate, new { @class = "form-control text-right", required = "required", autocomplete = "off" })
                                         @Html.ValidationMessageFor(model => model.TransactionDate)
                                     }
                                 </div>
@@ -460,13 +460,13 @@
                                 <div class="form-field">
                                     @if (Model.CostUpdationID > 0)
                                     {
-                                        @Html.TextBoxFor(m => m.InvoiceDate, new { Value = Model.InvoiceDate.Value.ToString("dd-MMM-yyyy"), id = "InvoiceDate", @class = "form-control", autocomplete = "off" })
+                                        @Html.TextBoxFor(m => m.InvoiceDate, new { Value = Model.InvoiceDate.Value.ToString("dd-MMM-yyyy"), id = "InvoiceDate", @class = "form-control text-right", autocomplete = "off" })
                                         @Html.ValidationMessageFor(model => model.InvoiceDate)
                                         @Html.HiddenFor(model => model.AcJournalID)
                                     }
                                     else
                                     {
-                                        @Html.TextBoxFor(model => model.InvoiceDate, new { @class = "form-control", required = "required", autocomplete = "off" })
+                                        @Html.TextBoxFor(model => model.InvoiceDate, new { @class = "form-control text-right", required = "required", autocomplete = "off" })
                                         @Html.ValidationMessageFor(model => model.InvoiceDate)
                                         @Html.HiddenFor(model => model.AcJournalID)
                                     }

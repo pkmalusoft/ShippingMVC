@@ -222,6 +222,22 @@ namespace TrueBooksMVC.Models
                 AnalysisHeadSelectList = MM.GetAnalysisHeadSelectList(Common.ParseInt(Session["AcCompanyID"].ToString()),"");
                 return Json(AnalysisHeadSelectList, JsonRequestBehavior.AllowGet);
             }
-        }       
+        }
+        public ActionResult Vessels(string term)
+        {
+            MastersModel MM = new MastersModel();
+            if (!String.IsNullOrEmpty(term))
+            {
+                List<SP_GetAllVessels_Result> Vessellist = new List<SP_GetAllVessels_Result>();
+                Vessellist = MM.GetAllVesselbyTerm(term);
+                return Json(Vessellist, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                List<SP_GetAllVessels_Result> Vessellist = new List<SP_GetAllVessels_Result>();
+                Vessellist = MM.GetAllVessels();
+                return Json(Vessellist, JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }

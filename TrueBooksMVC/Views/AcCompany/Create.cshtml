@@ -94,7 +94,7 @@
 }
 
 <section class="content-header">
-    <h1 class="headingfont">Company</h1>
+    <h1 class="headingfont">Company </h1>
 
 </section>
  @if (ViewBag.SuccessMsg != null)
@@ -162,26 +162,26 @@
                           </div>
                       </div>
                       <div class="row no-margin" style="padding-top: 10px">
-                          <div class="col-md-3">
+                          <div class="col-md-4">
                               <label class="headinglabel">Email</label>
                               @Html.TextBoxFor(model => model.EMail, new { @class = "form-control" })
                               @Html.ValidationMessageFor(model => model.EMail)
 
                           </div>
 
-                          <div class="col-md-3">
+                          <div class="col-md-4">
                               <label class="headinglabel required">Country</label>
                               @Html.DropDownListFor(model => model.CountryID, new SelectList(ViewBag.Country, "CountryID", "CountryName"), "Select", new { @class = "form-control" })
                               @Html.ValidationMessageFor(model => model.CountryID)
 
                           </div>
-                          <div class="col-md-3">
+                          <div class="col-md-4">
                               <label class="headinglabel required">Currency</label>
                               @Html.DropDownListFor(model => model.CurrencyID, new SelectList(ViewBag.Currency, "CurrencyID", "CurrencyName"), "Select", new { @class = "form-control" })
                               @Html.ValidationMessageFor(model => model.CountryID)
 
                           </div>
-                          <div class="col-md-3">
+                          <div class="col-md-6" style="padding-top: 10px">
                               <label class="headinglabel required">Upload Logo</label>
                               <input type="file" id="ImageFile" name="ImageFile" class="form-control">
 

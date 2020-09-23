@@ -114,8 +114,15 @@ namespace TrueBooksMVC.Reports
 
 
             dtcurrency.Rows.Add(r);
-
-
+            JTimeLine Timeline = new JTimeLine();
+            Timeline.JobId = JobID;
+            Timeline.TabName = "";
+            Timeline.ActionType = "Printed";
+            Timeline.DateTime = DateTime.Now;
+            Timeline.UserId = Convert.ToInt32(Session["UserID"]);
+            Timeline.UserName = Session["UserName"].ToString();
+            entity.JTimeLines.Add(Timeline);
+            entity.SaveChanges();
             ReportDataSource _rsource3 = new ReportDataSource("Currency", dtcurrency);
 
             ReportViewer1.LocalReport.DataSources.Add(_rsource3);

@@ -6412,7 +6412,7 @@ body legend {
 }
 .search_tabs_right{
 	float:right;
-	padding-right:15px;padding-top:10px;
+	padding-top:10px;
 }
 .sidebar>ul>li>ul>li>a{
 	border-bottom: 1px solid #bedbec;
@@ -6534,4 +6534,18 @@ display:flex; justify-content:flex-end;
 }
 .dataTables_paginate{
 	display:none!important;
+}
+.right_text input{
+	text-align:right;
+}
+.m-container + .col-xs-12 form + .col-xs-1 {
+    padding-right: 20px;
+    float: right;
+    width: auto;
+}
+.search_tabs_right .searlabel+ td a, .searchtabs .searlabel + td a {
+    margin-left: 100px;
+}
+body table.dataTable tbody .txt-red {
+    color: #e10909 !important;
 }

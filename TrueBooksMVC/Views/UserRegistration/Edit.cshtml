@@ -57,7 +57,7 @@
     </script>
 
 <section class="content-header">
-    <h1 class="headingfont">User</h1>
+    <h1 class="headingfont">User - Modify</h1>
 </section>
 
 <section class="content-header">
@@ -71,7 +71,7 @@
 
     <div class="row no-margin">
 
-            <div class="col-md-3">
+            <div class="col-md-4">
                  @Html.HiddenFor(model=>model.UserID)
                 <label class="required headinglabel">User Name</label>
                
@@ -79,13 +79,13 @@
                 @Html.ValidationMessageFor(model => model.UserName)
             </div>
 
-            <div class="col-md-3">
+            <div class="col-md-4">
                  <label class="required headinglabel">Password</label>
                 @Html.TextBoxFor(model => model.Password, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Password)
             </div>
 
-            <div class="col-md-3">
+            <div class="col-md-4">
                  <label class="required headinglabel">Role</label>
                   @Html.DropDownListFor(model => model.RoleID, new SelectList(ViewBag.UserRole, "RoleID", "RoleName"), "Select Role", new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.RoleID)
@@ -95,19 +95,19 @@
 
     <div class="row no-margin" style="padding-top:10px">
 
-            <div class="col-md-3">
+            <div class="col-md-4">
                      <label class="required headinglabel">Phone</label>
                 @Html.TextBoxFor(model => model.Phone, new { @class = "form-control textright txttarget" })
                 @Html.ValidationMessageFor(model => model.Phone)
             </div>
 
-            <div class="col-md-3">
+            <div class="col-md-4">
                  <label class="required headinglabel">Email</label>
                 @Html.TextBoxFor(model => model.EmailId, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.EmailId)
             </div>
        
-           <div class="col-md-3">
+           <div class="col-md-4">
                     <label class="required headinglabel">Employee ID</label>
                     
                     @Html.DropDownListFor(model => model.EmployeeID, new SelectList(ViewBag.Employee, "EmployeeID", "EmployeeName"), "Select Employee", new { @class = "form-control" })
@@ -126,8 +126,8 @@
 
           </div>
         <div class="row no-margin" style="padding-top:10px">
-            <div class="col-md-12">
-                   <input type="submit" value="Update" class="btn btn-primary btnwidth" id="btnsave" />&nbsp; <a href='@Url.Action("Index", "UserRegistration", new { id = 0 })' class="btn btn-primary btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+            <div class="col-md-12 butdivs">
+                   <input type="submit" value="Update" class="btn btn-primary btnwidth" id="btnsave" />&nbsp; <a href='@Url.Action("Index", "UserRegistration", new { id = 0 })' class="btn btn-danger btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
             </div>
         </div>
            

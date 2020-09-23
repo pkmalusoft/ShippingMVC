@@ -45,5 +45,9 @@ namespace DAL
         public Nullable<decimal> Tax { get; set; }
         public Nullable<decimal> TaxAmount { get; set; }
         public Nullable<decimal> Margin { get; set; }
+        public string InvoiceNumber { get; set; }
+        public Nullable<System.DateTime> InvoiceDate { get; set; }
+        public string CancelReason { get; set; }
+        public Nullable<bool> CancelledInvoice { get; set; }
     }
 }

@@ -165,52 +165,47 @@
 
 
     function GetCurrentDate() {
+        debugger;
         var m_names = new Array("Jan", "Feb", "Mar",
 "Apr", "May", "Jun", "Jul", "Aug", "Sep",
 "Oct", "Nov", "Dec");
 
-        var startdate = '@Session["FyearFrom"].ToString()';
-        var frdate= startdate.split(" ");
-        var from = frdate[0].split("/");
-        var f = new Date(from[2], from[1] - 1, from[0]);
+   
 
-        var enddate = '@Session["FyearTo"].ToString()';
-        var sd = new Date(startdate);
-        var ed = new Date(enddate);
+            var startdate = '@Session["FyearFrom"].ToString()';
+            var enddate = '@Session["FyearTo"].ToString()';
+            var sd = new Date(startdate);
+            var ed = new Date(enddate);
 
-        var str = new Date(startdate);
+            var str = new Date(startdate);
 
 
-        var d = new Date();
-        var curr_date = 1;
-        var curr_month = d.getMonth();
-        var curr_year = f.getFullYear();
-        return (curr_date + "-" + m_names[curr_month] + "-" + curr_year);
+            var d = new Date();
+            var curr_date = sd.getDate();
+            var curr_month = d.getMonth();
+            var curr_year = str.getFullYear();
+            return ("01" + "-" + m_names[curr_month] + "-" + d.getFullYear());
 
 
     }
     function GetEndDate() {
-        var m_names = new Array("Jan", "Feb", "Mar",
-"Apr", "May", "Jun", "Jul", "Aug", "Sep",
-"Oct", "Nov", "Dec");
+         var m_names = new Array("Jan", "Feb", "Mar",
+    "Apr", "May", "Jun", "Jul", "Aug", "Sep",
+    "Oct", "Nov", "Dec");
 
-        var startdate = '@Session["FyearFrom"].ToString()';
-        var frdate= startdate.split(" ");
-        var from = frdate[0].split("/");
-        var f = new Date(from[2], from[1] - 1, from[0]);
+            var startdate = '@Session["FyearFrom"].ToString()';
+            var enddate = '@Session["FyearTo"].ToString()';
+            var sd = new Date(startdate);
+            var ed = new Date(enddate);
 
-        var enddate = '@Session["FyearTo"].ToString()';
-        var sd = new Date(startdate);
-        var ed = new Date(enddate);
-
-        var str = new Date(startdate);
+            var str = new Date(startdate);
 
 
-        var d = new Date();
-        var curr_date = d.getDate();
-        var curr_month = d.getMonth();
-        var curr_year = f.getFullYear();
-        return (curr_date + "-" + m_names[curr_month] + "-" + curr_year);
+            var d = new Date();
+            var curr_date =ed.getDate();
+            var curr_month = d.getMonth();
+            var curr_year = ed.getFullYear();
+            return (d.getDate() + "-" + m_names[curr_month] + "-" + d.getFullYear());
 
 
     }
@@ -304,7 +299,7 @@ function (settings, data, dataIndex) {
                             </td>
                             <td>
 
-                                <a href="/job/job/0"><button class="btn btn-primary btnwidth" style="margin:10px"> New</button></a>
+                                <a href="/job/job/0"><button class="btn btn-primary btnwidth" style="margin:10px">Create New</button></a>
 
                             </td>
                         </tr>

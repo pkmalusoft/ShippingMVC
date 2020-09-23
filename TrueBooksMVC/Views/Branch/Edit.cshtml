@@ -19,7 +19,7 @@
     }
 </style>
 <section class="content-header">
-    <h1 class="headingfont">Branch</h1>
+    <h1 class="headingfont">Branch - Modify</h1>
 </section>
 <script>
 
@@ -170,7 +170,7 @@
         <div class="row no-margin" style="padding-top:10px;">
             <div class="col-md-6">
                 <label class=" headinglabel required">Phone</label>
-                @Html.TextBoxFor(model => model.Phone, new { @class = "form-control txttarget" })
+                @Html.TextBoxFor(model => model.Phone, new { @class = "form-control text-right txttarget" })
                 @Html.ValidationMessageFor(model => model.Phone)
 
             </div>
@@ -187,12 +187,12 @@
                 <label class=" headinglabel">Period From</label>
                 @*@Html.DisplayFor(model => model.fromdate, new { @class = "form-control txttarget" })
                 @Html.ValidationMessageFor(model => model.Phone)*@
-                <input type="text" value="@ViewBag.Fromdate" class="form-control txttarget" readonly /> 
+                <input type="text" value="@ViewBag.Fromdate" class="form-control text-right txttarget" readonly /> 
 
             </div>
             <div class="col-md-6">
                 <label class=" headinglabel">Period To</label>
-                <input type="text" value="@ViewBag.Todate" class="form-control txttarget" readonly />
+                <input type="text" value="@ViewBag.Todate" class="form-control text-right txttarget" readonly />
 
 
             </div>
