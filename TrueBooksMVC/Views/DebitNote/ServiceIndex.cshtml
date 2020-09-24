@@ -58,8 +58,9 @@
         $("#btnsave").click(function () {
             var date = $("#Date").val();
             var supp = $("#SupplierID option:selected").val();
-            var inv = $("#Invoice option:selected").val();
+            var inv = $("#InvoiceStr").val();
             var amt = $("#Amount").val();
+            var TradingInvoice = $("#InvoiceNo").val();
 
 
 
@@ -74,6 +75,11 @@
             else if (inv == "") {
                 $("#alert").show();
                 return false;
+            } else if (TradingInvoice == "" || TradingInvoice == 0)
+            {
+                $("#alert").hide();
+                $("#alert1").show();
+                return false;
             }
             else if (amt == "") {
                 $("#alert").show();
@@ -83,6 +89,7 @@
 
             else {
                 $("#alert").hide();
+                $("#alert1").hide();
                 return true;
             }
 
@@ -101,6 +108,8 @@
             changeYear: true,
             changeMonth: true
         });
+        $("#Date").datepicker("setDate", new Date());
+
         $("#Amount").on('change', function () {
             var value = $(this).val();
             if (value == null || value == "") {
@@ -136,7 +145,15 @@
                 getamt();
             }
         });
-
+        $('#InvoiceStr').on('input', function () {
+            var val = $(this).val();
+            if (val == "") {
+                $("#InvoiceNo").val("");
+                $('#TradingInvoice').val("");
+                $("#InvoiceAmount").val("0.00");
+                $("#AmountPaid").val("0.00");
+            }
+        });
         //$("#InvoiceNo").change(function(){
         //    $.ajax({
         //        type: "POST",
@@ -150,6 +167,7 @@
         //    });
         //})
     });
+   
     function getamt() {
 
         $.ajax({
@@ -189,6 +207,7 @@
         @Html.ValidationSummary(true)
         <div class="searchdiv sm-width">
             <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
+            <div id="alert1" style="color:red;display:none;margin-left:10px;">*Please select valid invoice number</div>
             <fieldset>
                 <div class="row no-margin">
                     <div class="form-group row">
@@ -196,7 +215,7 @@
                             <label class="headinglabel required">Date</label>
                         </div>
                         <div class="col-md-9">
-                            @Html.TextBoxFor(model => model.Date, new { @class = "form-control", placeholder = "dd-mmm-yyyy" })
+                            @Html.TextBoxFor(model => model.Date, new { @class = "form-control text-right", placeholder = "dd-mmm-yyyy",@readonly=true })
                         </div>
                     </div>
                     <div class="form-group row">
@@ -260,7 +279,7 @@
                                 <label class="headinglabel required">Amount</label>
                             </div>
                             <div class="col-md-9">
-                                @Html.TextBoxFor(model => model.Amount, new { @class = "form-control" })
+                                @Html.TextBoxFor(model => model.Amount, new { @class = "form-control text-right" })
                             </div>
 
                         </div>

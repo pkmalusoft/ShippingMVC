@@ -41,7 +41,7 @@
          });
 
 
-         var table = $('#dataTables-example').DataTable();
+         var table = $('#dataTables-example').DataTable({ "order": [[2, "desc"]]});
 
          table.draw();
          table.columns().every(function () {
@@ -70,7 +70,7 @@
                                     <table class="table table-responsive table-striped table-bordered table-hover" id="dataTables-example">
                                         <thead>
                                             <tr>
-                                                <th>Id</th>
+                                                <th width="10%">Id</th>
                                                 <th>Invoice No.</th>
                                                 <th>Invoice Date</th>
                                                 <th>Due Date</th>
@@ -82,13 +82,13 @@
                                         </thead>
                                         <tfoot>
                                             <tr>
-                                                <th>Id</th>
-                                                <th>Invoice No.</th>
+                                                <th style="width: 8%">Id</th>
+                                                <th style="width: 10%">Invoice No.</th>
                                                 <th>Invoice Date</th>
                                                 <th>>Due Date</th>
-                                                <th>Client</th>
-                                                <th>Amount</th>
-                                                <th>Currency</th>
+                                                <th style="width:25%">Client</th>
+                                                <th class="right_text" >Amount</th>
+                                                <th style="width:10%">Currency</th>
                                                 <th style="width: 10%"></th>
                                             </tr>
                                         </tfoot>
@@ -97,8 +97,8 @@
                                             {
                                             <tr>
                                                 <td class="tdtarget">@Html.DisplayFor(modelItem => item.SalesInvoiceID)</td>
-                                                <td class="tdtarget">@Html.DisplayFor(modelItem => item.SalesInvoiceNo)</td>
-                                                <td class="tdtarget">@Html.DisplayFor(modelItem =>item.SalesInvoiceDate, "{0:dd/MMM/yyyy}")</td>
+                                                <td class="tdtarget txt-red">@Html.DisplayFor(modelItem => item.SalesInvoiceNo)</td>
+                                                <td class="tdtarget txt-red">@Html.DisplayFor(modelItem =>item.SalesInvoiceDate, "{0:dd/MMM/yyyy}")</td>
                                                 <td class="tdtarget">@Html.DisplayFor(modelItem => item.DueDate, "{0:dd/MMM/yyyy}")</td>
                                                 <td class="tdtarget">@Html.DisplayFor(modelItem => item.Remarks)</td>
                                                 <td class="tdtarget">@Html.DisplayFor(modelItem => item.OtherCharges)</td>

@@ -39,7 +39,7 @@
         });
 
 
-        var table = $('#dataTables-example').DataTable({ "sPaginationType": "full_numbers" });
+        var table = $('#dataTables-example').DataTable({ "sPaginationType": "full_numbers", "order": [[0, "desc"]]  });
 
         table.columns().every(function () {
             var that = this;
@@ -95,10 +95,10 @@
                                         <tfoot>
                                             <tr>
 
-                                                <th>Payment Date</th>
+                                                <th width="12%">Payment Date</th>
                                                 <th>Document No</th>
-                                                <th>Vendor Name</th>
-                                                <th>Amount</th>
+                                                <th width="25%">Vendor Name</th>
+                                                <th class="right_text">Amount</th>
                                                 <th>Currency</th>
                                                 <th style="width: 120px;"></th>
 

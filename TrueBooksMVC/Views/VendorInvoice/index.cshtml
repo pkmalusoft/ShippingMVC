@@ -169,13 +169,13 @@
                                 From Date
                             </td>
                             <td class="searinput">
-                                <input type="text" id="frmdate" class="form-control" />
+                                <input type="text" id="frmdate" class="form-control text-right" />
                             </td>
                             <td class="searlabel">
                                 To Date
                             </td>
                             <td class="searinput">
-                                <input type="text" id="todate" class="form-control" />
+                                <input type="text" id="todate" class="form-control text-right" />
                             </td>
                             <td style="padding-left:10px;">
                                 <input type="button" value="Search" id="btnsearch" class="btn btn-primary btnwidt fa fa-search" />
@@ -183,7 +183,7 @@
                             <td>
                                 @if (isadd)
                                 {
-                                    <a href="/vendorInvoice/invoice/0"><button class="btn btn-primary btnwidth" style="margin:10px"> New</button></a>
+                                    <a href="/vendorInvoice/invoice/0"><button class="btn btn-primary btnwidth" style="margin:10px">Create New</button></a>
                                 }
                             </td>
                         </tr>
@@ -194,7 +194,7 @@
                                 From Date
                             </td>
                             <td class="searinput">
-                                <input type="text" id="frmdate" class="form-control" />
+                                <input type="text" id="frmdate" class="form-control text-right" />
                             </td>
                         </tr>
                         <tr>
@@ -202,7 +202,7 @@
                                 To Date
                             </td>
                             <td class="searinput">
-                                <input type="text" id="todate" class="form-control" />
+                                <input type="text" id="todate" class="form-control text-right" />
                             </td>
                         </tr>
                         <tr>
@@ -267,7 +267,7 @@
             });
 
 
-            var table = $('#dataTables-example').DataTable({ "sPaginationType": "full_numbers" });
+            var table = $('#dataTables-example').DataTable({ "sPaginationType": "full_numbers", "order": [[2, "desc"]] });
             // f2();
             table.draw();
             table.search('').columns().search('').draw();

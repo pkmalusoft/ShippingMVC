@@ -39,7 +39,7 @@
         });
 
 
-        var table = $('#dataTables-example').DataTable({ "sPaginationType": "full_numbers" });
+        var table = $('#dataTables-example').DataTable({ "sPaginationType": "full_numbers", "order": [[0, "desc"]]  });
 
         table.columns().every(function () {
             var that = this;
@@ -85,10 +85,10 @@
                                         <thead>
                                             <tr>
 
-                                                <th>Receipt Date</th>
-                                                <th>Receipt Number</th>
-                                                <th>Client</th>
-                                                <th>Amount</th>
+                                                <th style="width: 10%">Receipt Date</th>
+                                                <th >Receipt Number</th>
+                                                <th style="width: 25%">Client</th>
+                                                <th >Amount</th>
                                                 <th>Currency</th>
                                                 <th style="width:120px;">Action</th>
                                             </tr>
@@ -121,7 +121,7 @@
                                                 </td>
                                                 <td>@Html.DisplayFor(modelItem => item.DocumentNo)</td>
                                                 <td class="tdtarget">@customers.Where(d => d.CustomerID == item.CustomerID).FirstOrDefault().Customer1</td>
-                                                <td class="tdtarget">@Html.DisplayFor(modelItem => item.FMoney)</td>
+                                                <td class="tdtarget " style="text-align:right!important">@Html.DisplayFor(modelItem => item.FMoney)</td>
                                                 <td class="tdtarget">@Html.DisplayFor(modelItem => item.Remarks)</td>
 
                                                 <td>

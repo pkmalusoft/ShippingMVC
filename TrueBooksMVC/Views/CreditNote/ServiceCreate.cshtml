@@ -65,8 +65,9 @@
         $("#btnsave").click(function () {
             var date = $("#Date").val();
             var cust = $("#CustomerID option:selected").val();
-            var inv = $("#JobNO option:selected").val();
+            var inv = $("#JobNOStr").val();
             var amt = $("#Amount").val();
+            var JobNO = $("#JobNO").val();
 
 
 
@@ -82,6 +83,11 @@
                 $("#alert").show();
                 return false;
             }
+            else if (JobNO == "" || JobNO == 0) {
+                $("#alert").hide();
+                $("#alert1").show();
+                return false;
+            }
             else if (amt == "") {
                 $("#alert").show();
                 return false;
@@ -90,6 +96,7 @@
 
             else {
                 $("#alert").hide();
+                $("#alert1").hide();
                 return true;
             }
 
@@ -113,6 +120,7 @@
             changeYear: true,
             changeMonth: true
         });
+        $("#Date").datepicker("setDate", new Date());
 
         $("#CustomerID").change(function () {
 
@@ -163,6 +171,15 @@
                 $("#JobNOStr").val(i.item.label);
                 $('#TradingInvoice').val(i.item.Trading);
                 getamt();
+            }
+        });
+        $('#JobNOStr').on('input', function () {
+            var val = $(this).val();
+            if (val == "") {
+                $("#JobNO").val("");
+                $('#TradingInvoice').val("");
+                $("#InvoiceAmount").val("0.00");
+                $("#ReceivedAmount").val("0.00");
             }
         });
         //$("#JobNO").change(function () {
@@ -227,6 +244,7 @@
         @Html.ValidationSummary(true)
         <div class="searchdiv sm-width">
             <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
+            <div id="alert1" style="color:red;display:none;margin-left:10px;">*Please select valid invoice number</div>
             <fieldset>
 
                 <div class="row no-margin">
@@ -236,7 +254,7 @@
                             <label class="required headinglabel">Date</label>
                         </div>
                         <div class="col-md-9">
-                            @Html.TextBoxFor(model => model.Date, new { @class = "form-control", placeholder = "dd-mmm-yyyy" })
+                            @Html.TextBoxFor(model => model.Date, new { @class = "form-control text-right", placeholder = "dd-mmm-yyyy",@readonly=true })
                             @Html.ValidationMessageFor(model => model.Date)
                         </div>
                     </div>
@@ -307,7 +325,7 @@
                                 <label class="required headinglabel">Amount</label>
                             </div>
                             <div class="col-md-9">
-                                @Html.TextBoxFor(model => model.Amount, new { @class = "form-control" })
+                                @Html.TextBoxFor(model => model.Amount, new { @class = "form-control text-right" })
                                 @Html.ValidationMessageFor(model => model.Amount)
                             </div>
                         </div>

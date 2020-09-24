@@ -44,7 +44,7 @@ namespace TrueBooksMVC.Controllers
         public ActionResult Index()
         {
             var query = from t in entity.Menus
-                        where t.ParentID == null
+                        where t.ParentID == null && t.IsAccountMenu==false
                         select t;
 
             ViewBag.Menu = query;
@@ -152,7 +152,7 @@ namespace TrueBooksMVC.Controllers
 
 
             MenuAccessLevel obj = entity.MenuAccessLevels.Find(id);
-            ViewBag.Menu = new SelectList(entity.Menus, "MenuID", "Title");
+            ViewBag.Menu = new SelectList(entity.Menus.Where(d=>d.IsAccountMenu==false).ToList(), "MenuID", "Title");
             ViewBag.Role = new SelectList(entity.RoleMasters, "RoleID", "RoleName");
             return View(objViewmodel);
         }
