@@ -203,6 +203,8 @@ namespace TrueBooksMVC.Controllers
                 customernotification.Add(model);
             }
             ViewBag.CustomerNotification = customernotification;
+            List<JTimeLine> TimeLine = entity.JTimeLines.Where(d => d.JobId == id).OrderByDescending(d=>d.DateTime).ToList();
+            ViewBag.TimeLines = TimeLine;
             return View(JG);
 
         }
@@ -303,7 +305,7 @@ namespace TrueBooksMVC.Controllers
 
                 if (i > 0)
                 {
-                    DeleteAndInsertRecords(formCollection, JobId);
+                    DeleteAndInsertRecords(formCollection, JobId,1);
 
                     /*  int ChargesCount = 0;
                       ArrayList ChargesArray = new ArrayList();
@@ -720,7 +722,7 @@ namespace TrueBooksMVC.Controllers
                             if (k > 0)
                             {
                                 JobId = JM.JobID;
-                                DeleteAndInsertRecords(formCollection, JobId);
+                                DeleteAndInsertRecords(formCollection, JobId,2);
                                 var data = (from c in entity.JobGenerations where c.JobID == JobId select c).FirstOrDefault();
                                 int acjid = 0;
                                 if (data.AcJournalID != null)
@@ -796,15 +798,6 @@ namespace TrueBooksMVC.Controllers
                                 entity.SaveChanges();
 
 
-                                JTimeLine Timeline1 = new JTimeLine();
-                                Timeline1.JobId = JobId;
-                                Timeline1.TabName = "";
-                                Timeline1.ActionType = "Invoice Generated";
-                                Timeline1.DateTime = DateTime.Now;
-                                Timeline1.UserId = Convert.ToInt32(Session["UserID"]);
-                                Timeline1.UserName = Session["UserName"].ToString();
-                                entity.JTimeLines.Add(Timeline1);
-                                entity.SaveChanges();
 
                                 //var acjournalid = (from m in entity.JobGenerations where m.JobID == JobId select m.AcJournalID).FirstOrDefault();
                                 //if (acjournalid > 0)
@@ -860,6 +853,15 @@ namespace TrueBooksMVC.Controllers
                             //rgm.EditUser(UR);
                             int k = J.UpdateInvoiceNumber(Convert.ToInt32(Session["JobID"]), Convert.ToInt32(JM.InvoiceNo), Convert.ToDateTime(JM.InvoiceDate), Convert.ToInt32(Session["fyearid"].ToString()));
 
+                            JTimeLine Timeline1 = new JTimeLine();
+                            Timeline1.JobId = Convert.ToInt32(Session["JobID"]);
+                            Timeline1.TabName = "";
+                            Timeline1.ActionType = "Invoice Generated";
+                            Timeline1.DateTime = DateTime.Now;
+                            Timeline1.UserId = Convert.ToInt32(Session["UserID"]);
+                            Timeline1.UserName = Session["UserName"].ToString();
+                            entity.JTimeLines.Add(Timeline1);
+                            entity.SaveChanges();
                             if (k > 0)
                             {
                                 return RedirectToAction("JobDetails", "Job", new { ID = 21 });
@@ -1210,7 +1212,7 @@ namespace TrueBooksMVC.Controllers
         }
             */
 
-        private bool DeleteAndInsertRecords(FormCollection formCollection, int JobId)
+        private bool DeleteAndInsertRecords(FormCollection formCollection, int JobId,int Type)
         {
             if (JobId <= 0)
             {
@@ -1390,6 +1392,10 @@ namespace TrueBooksMVC.Controllers
                 Charges.Margin = Margin;
 
                 int iCharge = J.AddOrUpdateCharges(Charges, Session["UserID"].ToString());
+               
+            }
+            if (Type == 2 && ChargesCount>0)
+            {
                 JTimeLine Timeline = new JTimeLine();
                 Timeline.JobId = JobId;
                 Timeline.TabName = "Revenue Details";
@@ -1468,15 +1474,18 @@ namespace TrueBooksMVC.Controllers
                 }
                 Cargo.GrossWeight = GrossWeight;
                 i = J.AddOrUpdateCargo(Cargo, Session["UserID"].ToString());
-                JTimeLine Timeline = new JTimeLine();
-                Timeline.JobId = JobId;
-                Timeline.TabName = "Cargo";
-                Timeline.ActionType = "Modified";
-                Timeline.DateTime = DateTime.Now;
-                Timeline.UserId = Convert.ToInt32(Session["UserID"]);
-                Timeline.UserName = Session["UserName"].ToString();
-                entity.JTimeLines.Add(Timeline);
-                entity.SaveChanges();
+                if (Type == 2 && CargoCount>0)
+                {
+                    JTimeLine Timeline = new JTimeLine();
+                    Timeline.JobId = JobId;
+                    Timeline.TabName = "Cargo";
+                    Timeline.ActionType = "Modified";
+                    Timeline.DateTime = DateTime.Now;
+                    Timeline.UserId = Convert.ToInt32(Session["UserID"]);
+                    Timeline.UserName = Session["UserName"].ToString();
+                    entity.JTimeLines.Add(Timeline);
+                    entity.SaveChanges();
+                }
             }
 
             int ContainerCount = 0;
@@ -1530,6 +1539,11 @@ namespace TrueBooksMVC.Controllers
                     ContainerDescription = strArray[0].Trim();
                 }
                 ContainerObj.Description = ContainerDescription;
+               
+                AddOrUpdateContainerDetails(ContainerObj);
+            }
+            if (Type == 2 && ContainerCount>0)
+            {
                 JTimeLine Timeline = new JTimeLine();
                 Timeline.JobId = JobId;
                 Timeline.TabName = "Container";
@@ -1539,9 +1553,7 @@ namespace TrueBooksMVC.Controllers
                 Timeline.UserName = Session["UserName"].ToString();
                 entity.JTimeLines.Add(Timeline);
                 entity.SaveChanges();
-                AddOrUpdateContainerDetails(ContainerObj);
             }
-
             int BillOfEntryCount = 0;
             ArrayList BillOfEntryArray = new ArrayList();
             for (int j = 0; j < formCollection.Keys.Count; j++)
@@ -1588,6 +1600,10 @@ namespace TrueBooksMVC.Controllers
                 }
                 objBillOfEntry.ShippingAgentID = ShippingAgentId;
                 AddOrUpdateBill(objBillOfEntry);
+              
+            }
+            if (Type == 2 && BillOfEntryCount>0)
+            {
                 JTimeLine Timeline = new JTimeLine();
                 Timeline.JobId = JobId;
                 Timeline.TabName = "Bill of Entry";
@@ -1648,6 +1664,12 @@ namespace TrueBooksMVC.Controllers
             if (id != 0)
             {
                 J.DeleteJobDetails(id);
+                var JTimeline = entity.JTimeLines.Where(d => d.JobId == id).ToList();
+                foreach (var TL in JTimeline)
+                {
+                    entity.JTimeLines.Remove(TL);
+                        }
+                entity.SaveChanges();
             }
 
             return RedirectToAction("JobDetails", "Job", new { ID = 10 });

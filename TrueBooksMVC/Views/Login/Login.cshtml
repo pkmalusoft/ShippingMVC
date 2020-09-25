@@ -4,39 +4,48 @@
     Layout = null;
 }
 <style>
-body{
-	background:#fff!important;
-	}
-.forgot .modal-header{
-	background: #04acf3;
-}
-.forgot .modal-dialog{
-	flex-grow:4;
-}
-.forgot h4 {
-	color:#fff!important;
-}
-.forgot .close{
-	font-size:30px;
-}
-.forgot input[type="submit"] {
-    border: 0;
-    background-color: #04acf3!important;
-    color: #fff;
-	width:100%!important;
-    font-size: 18px;
-}
-form{
-	margin:0!Important;
-	}
-	body .sisu.right-column, body .signin-left-column{
-		min-height:auto!important;
-		height:auto!important;
-		 box-shadow:unset!important;
-	}
-	.signin-left-column form{
-		margin:0!Important;
-		}
+    body {
+        background: #fff !important;
+    }
+
+    .forgot .modal-header {
+        background: #04acf3;
+    }
+
+    .forgot .modal-dialog {
+        flex-grow: 4;
+    }
+
+    .forgot h4 {
+        color: #fff !important;
+    }
+
+    .forgot .close {
+        font-size: 30px;
+    }
+
+    .forgot input[type="submit"] {
+        border: 0;
+        background-color: #04acf3 !important;
+        color: #fff;
+        width: 100% !important;
+        font-size: 18px;
+    }
+
+    form {
+        margin: 0 !Important;
+    }
+
+    body .sisu.right-column, body .signin-left-column {
+        min-height: auto !important;
+        height: auto !important;
+        box-shadow: unset !important;
+    }
+
+    .signin-left-column form {
+        margin: 0 !Important;
+    }
+
     h3.frie_forw {
         color: #07a7e3;
         text-transform: uppercase;
@@ -44,18 +53,20 @@ form{
         font-weight: 700 !important;
         font-family: Calibri;
     }
-	body .sisu.right-column .signin-right-column{
-	  padding:0!important;
-	  padding-right: 0 !important;
-      padding-left: 0 !important;
-	 
-	}
-	.signin-right-column img{
-		 height: 100vh;
-		width: 100%;
-		object-fit: cover;
-		object-position: right;
-	}
+
+    body .sisu.right-column .signin-right-column {
+        padding: 0 !important;
+        padding-right: 0 !important;
+        padding-left: 0 !important;
+    }
+
+    .signin-right-column img {
+        height: 100vh;
+        width: 100%;
+        object-fit: cover;
+        object-position: right;
+    }
+
     .lice_con {
         text-align: center;
         margin-top: 21px;
@@ -64,11 +75,13 @@ form{
     .copy_sys {
         padding: 8px;
     }
+
     p.fries_forw {
         text-align: center;
         color: #6d6969;
         font-size: 10px;
     }
+
     p.head_secti {
         font-size: 13px;
         font-weight: 800;
@@ -78,6 +91,7 @@ form{
         font-size: 12px;
         font-weight: 800;
     }
+
     .sisu.right-column .signin-right-column {
         background-position: right !important;
     }
@@ -115,11 +129,11 @@ form{
                 <div class="right-column sisu">
                     <div class="row mx-0 align-items-center">
                         <div class="col-md-7 order-md-2 signin-right-column p-0 ">
-                         
-                                <img src="/assets/img/WorkSmarter.jpg">
-                            
+
+                            <img src="/assets/img/WorkSmarter.jpg">
+
                         </div>
-                        <div class="col-md-5 order-md-1 signin-left-column bg-white p-0" >
+                        <div class="col-md-5 order-md-1 signin-left-column bg-white p-0">
                             <a class="signin-logo d-sm-none d-md-block" href="#" style="text-align:center">
                                 <img src="~/Content/img/logo_truebookNew.png" height="70" alt="QuillPro">
                                 <h3 class="frie_forw"> @*Financial Accounting System*@</h3>
@@ -156,12 +170,12 @@ form{
                                     <i class="batch-icon batch-icon-key"></i>
                                     Sign In
                                 </button>
-								
-                        <div class="form-group text-center" style="padding-top:10px">
-                            <a href="#myModal" data-toggle="modal"> Forgot Password ?</a>
-							</div>
-						
-                                <hr/>
+
+                                <div class="form-group text-center" style="padding-top:10px">
+                                    <a href="#myModal" data-toggle="modal"> Forgot Password ?</a>
+                                </div>
+
+                                <hr />
 
                                 <div class="lice_con">
                                     <p class="head_secti">Licenced</p>
@@ -177,8 +191,8 @@ form{
                 </div>
             </div>
         </div>
-	
-		
+
+
     }
 
     @Scripts.Render("~/assets/js/jquery/jquery-3.1.1.min.js")
@@ -196,45 +210,45 @@ form{
     @Scripts.Render("~/assets/plugins/jvmaps/maps/jquery.vmap.usa.js")
     @Scripts.Render("~/assets/js/misc/holder.min.js")
     @Scripts.Render("~/assets/js/scripts.js")
-	
-	
-<div class="modal forgot" id="myModal">
-<div class="d-flex align-items-center" style="height:100%">
-    <div class="modal-dialog">
-      <div class="modal-content">
-      
-        <!-- Modal Header -->
-        <div class="modal-header">
-          <h4 class="modal-title">Forgot Password</h4>
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+
+    <div class="modal forgot" id="myModal">
+        <div class="d-flex align-items-center" style="height:100%">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Forgot Password</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <form action="" method="">
+                            <div class="form-group">
+                                <input type="text" name="txtforgotemail" id="txtforgotemail" class="form-control" placeholder="Email" />
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" name="submit" id="btnforgotsubmit" class="form-control btn btn-primary" />
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+
+                </div>
+            </div>
         </div>
-        
-        <!-- Modal body -->
-        <div class="modal-body">
-          <form action="" method="">
-         <div class="form-group">
-          <input type="text" name="txtforgotemail" id="txtforgotemail" class="form-control" placeholder="Email"/>
-         </div>
-         <div class="form-group">
-          <input type="submit" name="submit" id="btnforgotsubmit" class="form-control btn btn-primary"/>
-         </div>
-         </form>
-        </div>
-        
-        <!-- Modal footer -->
-        <div class="modal-footer">
-          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-        </div>
-        
-      </div>
     </div>
-	</div>
-  </div>
     <script>
         $(document).ready(function () {
             var brId = $('#BranchID').val();
             if (isNaN(brId)) {
-              
+
             } else {
                 $('#AcFinancialYearID').empty();
                 $('#AcFinancialYearID').append('<option value="0">Select Year</option>');
@@ -251,7 +265,7 @@ form{
                     }
 
                 });
-           
+
             }
             $('#BranchID').change(function () {
                 $('#AcFinancialYearID').empty();
@@ -271,9 +285,9 @@ form{
                 });
             });
         });
-		
-		  
- 
+
+
+
     </script>
 </body>
 </html>

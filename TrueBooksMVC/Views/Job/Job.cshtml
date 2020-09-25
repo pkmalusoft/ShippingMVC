@@ -19,9 +19,68 @@
     var StatusModel = ViewBag.JobStatusModel as IEnumerable<TrueBooksMVC.Models.JobStatusModel>;
     var CustomerNotification = ViewBag.CustomerNotification as IEnumerable<TrueBooksMVC.Models.CustomerNotificationModel>;
     var CustomerDetails = ViewBag.CustomerDetail as DAL.CUSTOMER;
+    var JobTimeline = ViewBag.TimeLines as IEnumerable<DAL.JTimeLine>;
 }
-<style>
 
+    <style >
+    .panel-body {
+        margin-bottom: 3px !important;
+    }
+
+    .ui-tabs-vertical {
+        width: 55em;
+    }
+
+        .ui-tabs-vertical .ui-tabs-nav {
+            padding: .2em .1em .2em .2em;
+            float: left;
+            width: 12em;
+        }
+
+            .ui-tabs-vertical .ui-tabs-nav li {
+                clear: left;
+                width: 100%;
+                border-bottom-width: 1px !important;
+                border-right-width: 0 !important;
+                margin: 0 -1px .2em 0;
+            }
+
+                .ui-tabs-vertical .ui-tabs-nav li a {
+                    display: block;
+                }
+
+                .ui-tabs-vertical .ui-tabs-nav li.ui-tabs-active {
+                    padding-bottom: 0;
+                    padding-right: .1em;
+                    border-right-width: 1px;
+                }
+
+        .ui-tabs-vertical .ui-tabs-panel {
+            padding: 1em;
+        }
+
+    .fc_sal {
+        color: #f72323 !important;
+    }
+
+    .lc_sal {
+        color: #1e60d8 !important;
+    }
+
+
+
+    .lc_pro {
+        color: #0b1be2;
+    }
+
+    .fc_pro {
+        color: #e60928;
+    }
+
+    #staffmodelbody {
+        max-height: calc(100vh - 200px);
+        overflow-y: auto;
+    }
     .row div[class*=divisorColumn] {
         padding-left: 0;
         padding-right: 0;
@@ -260,10 +319,13 @@
         }
     }
 </style>
-<script type="text/javascript">
-    // When the document is ready
+
+
+<script>
+    var vactualJObcode = '';
     $(document).ready(function () {
-        $("#txtVesselID").autocomplete({
+
+            $("#txtVesselID").autocomplete({
             source: function (request, response) {
                 $.ajax({
                     url: '/AutoComplete/Vessels',
@@ -319,20 +381,29 @@
         var sd = new Date(startdate);
         var ed = new Date(enddate);
 
-        $(function () {
+       
             $("#TranDate").datepicker({
                 dateFormat: 'dd-M-yy',
                 changeYear: true, changeMonth: true,
                 minDate: sd,
                 maxDate: ed,
             });
-        });
-
+       
         $("#RevenueTypeID").change(function () {
 
             var taxpre = $('#RevenueTypeID option:selected').attr('tp');
-            debugger;
             $("#tax").val(taxpre);
+            $("#QTY").val('');
+            $("#UnitID").val('');
+            $("#ProRate").val('0.00');
+            $("#ProvisiDomestic").val('0.00');
+            $("#ProvisionForeign").val('0.00');
+            $("#margin").val('0.00');
+            $("#SaleRate").val('0.00');
+            $("#SalesDomestic").val('0.00');
+            $("#SalesForeign").val('0.00');
+            $("#tax").val('');
+            $("#taxamt").val('');
 
         });
 
@@ -428,7 +499,6 @@
         $("#SubJob").attr('checked', false);
 
         $("#SubJob").change(function () {
-            debugger;
             if ($("#SubJob").is(':checked')) {
                 $("#drop").show();
             }
@@ -445,52 +515,6 @@
             }
         }
 
-        //$("#btnSave").click(function () {
-        //    $.ajax({
-        //        type: "GET",
-        //        url: "/Job/CheckForStatusSea",
-        //        datatype: "Json",
-        //        data: { jobtypeid: $('#JobTypeID option:selected').val() },
-        //        success: function (data) {
-
-        //            if (data.mystatus) {
-        //                //alert("Hiii");
-        //                //if ($("#VoyageNo").val() == "") {
-        //                //    alert("Select Voyage No");
-        //                //    return false;
-        //                //}
-        //                //else {
-        //                //    return true;
-        //                //}
-        //                alert("Success");
-        //            }
-        //            else {
-        //                //if ($("#weight").val() == "") {
-        //                //    ("Enter Weight");
-        //                //    return false;
-
-        //                //}
-        //                //else {
-        //                //    return true;
-        //                //}
-        //                alert("Fail");
-        //            }
-
-
-
-
-        //        }
-        //    });
-        //});
-
-    });
-
-
-</script>
-
-<script>
-    var vactualJObcode = '';
-    $(document).ready(function () {
 
         var flg = true;
 
@@ -512,6 +536,49 @@
 
                 }
             });
+
+            $(":text").css({ "border-radius": "5px" });
+            $("select").css({ "border-radius": "5px" });
+            $("textarea").css({ "border-radius": "5px" });
+            $('input[type=number]').css({ "border-radius": "5px" });
+
+            $("a.panel-title").click(function () {
+                $(this).toggleClass('fa fa-caret-right fa fa-caret-down');
+            });
+
+            $("#JobTypeID").change(function () {
+                $("#JobCode").val('');
+                $.ajax({
+                    type: "GET",
+                    url: "/Job/GetSeaStatus",
+                    datatype: "Json",
+                    data: { JobTypeID: $('#JobTypeID').val() },
+                    success: function (data) {
+                        if (data == true) {
+                            $("#pkgdetails").hide();
+                            $("#containerdetails").show();
+                            $("#billofLadingSea").show();
+
+                        }
+                        else if (data == false) {
+                            $("#pkgdetails").show();
+
+                            $("#billofLadingSea").hide();
+                            $("#containerdetails").hide();
+                        }
+                        getIsimportorExport();
+
+                    }
+                });
+            });
+
+
+
+            $("#pkgdetails").hide();
+            $("#containerdetails").hide();
+            $("#billofLadingSea").hide();
+
+
         });
 
 
@@ -564,6 +631,69 @@
 
         });
 
+        $("#tabs input").keypress(
+            function (event) {
+                if (event.which == '13') {
+                    event.preventDefault();
+                }
+            });
+
+        //$("#ProvisionExR").on('keydown', function (e) {
+        //    var keyCode = e.keyCode || e.which;
+        //    if (keyCode == 9) {
+        //        var localcurrency = $("#BranchLocalCurrencyId").val();
+        //        var provisioncurrency = $("#ProvisionExR").val();
+        //        if (localcurrency == provisioncurrency) {
+        //            $("#SaleRate").focus();
+
+        //        } else {
+        //            $("#ProvisionExRate").focus();
+
+        //        }
+        //    }
+        //});
+        //$("#SalesExR").on('keydown', function (e) {
+        //    var keyCode = e.keyCode || e.which;
+
+        //    if (keyCode == 9) {
+        //        var localcurrency = $("#BranchLocalCurrencyId").val();
+        //        var provisioncurrency = $("#SalesExR").val();
+        //        if (localcurrency == provisioncurrency) {
+        //            $("#tax").focus();
+        //        } else {
+        //            $("#SalesExRate").focus();
+        //        }
+        //    }
+        //});
+
+        $("#AddCargo").hide();
+        $("#AddContainer").hide();
+        $("#AddCharges").hide();
+        $("#AddBill").hide();
+        if ($("#add_cargo").click(function () {
+            $("#AddCargo").show();
+        }));
+        if ($("#add_container").click(function () {
+
+            $("#AddContainer").show();
+        }));
+        if ($("#add_charges").click(function () {
+
+            $("#AddCharges").show();
+        }));
+        if ($("#add_bill").click(function () {
+
+            $("#AddBill").show();
+        }));
+
+        $("#ProvisionExRate").blur(function () {
+            var wt = $(this).val();
+            $("#ProvisionExRate").val(parseFloat(wt).toFixed(2));
+        });
+        $("#SalesExRate").blur(function () {
+            var t = $(this).val();
+            $("#SalesExRate").val(parseFloat(t).toFixed(2));
+        });
 
     });
 
@@ -577,115 +707,6 @@
         }
 
     }
-</script>
-<style>
-    .panel-body {
-        margin-bottom: 3px !important;
-    }
-
-    .ui-tabs-vertical {
-        width: 55em;
-    }
-
-        .ui-tabs-vertical .ui-tabs-nav {
-            padding: .2em .1em .2em .2em;
-            float: left;
-            width: 12em;
-        }
-
-            .ui-tabs-vertical .ui-tabs-nav li {
-                clear: left;
-                width: 100%;
-                border-bottom-width: 1px !important;
-                border-right-width: 0 !important;
-                margin: 0 -1px .2em 0;
-            }
-
-                .ui-tabs-vertical .ui-tabs-nav li a {
-                    display: block;
-                }
-
-                .ui-tabs-vertical .ui-tabs-nav li.ui-tabs-active {
-                    padding-bottom: 0;
-                    padding-right: .1em;
-                    border-right-width: 1px;
-                }
-
-        .ui-tabs-vertical .ui-tabs-panel {
-            padding: 1em;
-        }
-
-    .fc_sal {
-        color: #f72323 !important;
-    }
-
-    .lc_sal {
-        color: #1e60d8 !important;
-    }
-
-
-
-    .lc_pro {
-        color: #0b1be2;
-    }
-
-    .fc_pro {
-        color: #e60928;
-    }
-
-    #staffmodelbody {
-        max-height: calc(100vh - 200px);
-        overflow-y: auto;
-    }
-</style>
-<script type="text/javascript">
-    $(document).ready(function () {
-
-        $(":text").css({ "border-radius": "5px" });
-        $("select").css({ "border-radius": "5px" });
-        $("textarea").css({ "border-radius": "5px" });
-        $('input[type=number]').css({ "border-radius": "5px" });
-
-        $("a.panel-title").click(function () {
-            $(this).toggleClass('fa fa-caret-right fa fa-caret-down');
-        });
-
-        $("#JobTypeID").change(function () {
-            $("#JobCode").val('');
-            $.ajax({
-                type: "GET",
-                url: "/Job/GetSeaStatus",
-                datatype: "Json",
-                data: { JobTypeID: $('#JobTypeID').val() },
-                success: function (data) {
-                    if (data == true) {
-                        $("#pkgdetails").hide();
-                        $("#containerdetails").show();
-                        $("#billofLadingSea").show();
-
-                    }
-                    else if (data == false) {
-                        $("#pkgdetails").show();
-
-                        $("#billofLadingSea").hide();
-                        $("#containerdetails").hide();
-                    }
-                    getIsimportorExport();
-
-                }
-            });
-        });
-
-
-
-        $("#pkgdetails").hide();
-        $("#containerdetails").hide();
-        $("#billofLadingSea").hide();
-
-
-
-
-    });
     function getIsimportorExport() {
         var jobtypeid = $("#JobTypeID").val();
         $.ajax({
@@ -749,53 +770,7 @@
 
         });
     }
-</script>
-<script>
-    $(document).ready(function () {
-
-        $("#tabs input").keypress(
-            function (event) {
-                if (event.which == '13') {
-                    event.preventDefault();
-                }
-            });
-        $("#tabs-1 input").keypress(
-            function (event) {
-                if (event.which == '13') {
-                    event.preventDefault();
-                }
-            });
-        $("#AddCargo").hide();
-        $("#AddContainer").hide();
-        $("#AddCharges").hide();
-        $("#AddBill").hide();
-        if ($("#add_cargo").click(function () {
-            $("#AddCargo").show();
-        }));
-        if ($("#add_container").click(function () {
-
-            $("#AddContainer").show();
-        }));
-        if ($("#add_charges").click(function () {
-
-            $("#AddCharges").show();
-        }));
-        if ($("#add_bill").click(function () {
-
-            $("#AddBill").show();
-        }));
-    });
-
-    $("#ProvisionExRate").blur(function () {
-        var wt = $(this).val();
-        $("#ProvisionExRate").val(parseFloat(wt).toFixed(2));
-    });
-    $("#SalesExRate").blur(function () {
-        var t = $(this).val();
-        $("#SalesExRate").val(parseFloat(t).toFixed(2));
-    });
-
-    function validation() {
+ function validation() {
         var Flag = true;
         if ($('#txtJobCode').val() == "") {
             Flag = false;
@@ -933,6 +908,9 @@
         $("#TimeLineModel").modal("show");
     }
 </script>
+
+
+
 
 <script src="@Url.Content("~/Scripts/angular.js")"></script>
 <script src="@Url.Content("~/MyJsFiles/CargoDescription.js")"></script>
@@ -1193,32 +1171,32 @@
                                         <div class="col-sm-7 divisorColumnNext">
                                             <div class="col-xs-6 col-sm-4 col-md-4 reve_rates no-padding">
                                                 <label class="headinglabel">Provision Rate</label>
-                                                <input type="number" class="form-control textright txtNum" ng-model="ProRate" id="ProRate" tabindex="5" placeholder="Rate" ng_change="CalcProvForeign()" />
+                                                <input type="number" class="form-control textright txtNum" ng-model="ProRate" id="ProRate" onclick="this.select();" tabindex="4" placeholder="Rate" ng_change="CalcProvForeign()" />
                                             </div>
                                             <div class="col-xs-6 col-sm-4 col-md-4 reve_rates no-padding">
                                                 <label class="headinglabel">Prov. Currency</label>
                                                 @*Html.DropDownList("ProvisionCurrency", (SelectList)ViewBag.Curency, "Select", new { id = "ProvisionExR", tabindex = "6", ng_selected = "ProvisionCurrencyID1", @ng_model = "ProvisionExR", @ng_change = "getProvisionCurEx()", @class = "form-control" })*@
-                                                <select ng-model="ProvisionExR" id="ProvisionExR" class="form-control" tabindex="6" ng_change="getProvisionCurEx()">
+                                                <select ng-model="ProvisionExR" id="ProvisionExR" class="form-control" tabindex="5" ng_change="getProvisionCurEx()" ng-keydown="provisiontabevent($event)">
                                                     <option value='0'>Select</option>
                                                     <option ng-repeat="b in CurrencyList" ng-selected="ProvisionExR==b.CurrencyID" value='{{b.CurrencyID}}'>{{b.CurrencyName}}</option>
                                                 </select>
                                             </div>
                                             <div class="col-xs-6 col-sm-4 col-md-4  reve_rates no-padding">
                                                 <label class="headinglabel">Provision Ex. Rate</label>
-                                                <input type="text" ng_model="ProexChangeRate" class="form-control textright four-decimals" tabindex="7" id="ProvisionExRate" placeholder="Provision Ex Rate" ng_change="CalcProvForeign()" />
+                                                <input type="text"  ng_model="ProexChangeRate" class="form-control textright four-decimals" tabindex="6" onclick="this.select();" ng-keydown="ProvisionExRtabevent($event)" id="ProvisionExRate" placeholder="Provision Ex Rate"  ng_change="CalcProvForeign()" />
                                             </div>
                                             <div class="col-xs-6 col-sm-4 col-md-4 reve_rates no-padding">
                                                 <label class="headinglabel lc_sal">Provision <span class="lc_pro">(LC)</span></label>
-                                                <input type="text" ng-model="ProvisionDomestic" class="form-control textright txtNum lc_pro" tabindex="8" id="ProvisiDomestic" placeholder="Provision Domestic" />
+                                                <input type="text" ng-model="ProvisionDomestic" class="form-control textright txtNum lc_pro" tabindex="7" id="ProvisiDomestic" placeholder="Provision Domestic"readonly />
                                             </div>
                                             <div class="col-xs-6 col-sm-4 col-md-4  reve_rates no-padding">
                                                 <label class="headinglabel fc_sal">Provision <span class="fc_pro">(FC)</span></label>
-                                                <input type="text" ng-model="ProvisionForeign" class="form-control textright txtNum fc_pro" tabindex="9" id="ProvisionForeign" placeholder="Provision Foreign" />
+                                                <input type="text" ng-model="ProvisionForeign" class="form-control textright txtNum fc_pro" tabindex="8" id="ProvisionForeign" placeholder="Provision Foreign" readonly />
                                             </div>
 
                                             <div class="col-xs-6 col-sm-4 col-md-4 reve_wid no-padding">
                                                 <label class="headinglabel">Margin</label>
-                                                <input type="number" class="form-control textright bg-gray" ng-model="margin" id="margin" placeholder="Margin" readonly />
+                                                <input type="number" class="form-control textright bg-gray" ng-model="margin" id="margin" placeholder="Margin" tabindex="9" readonly />
                                             </div>
                                         </div>
                                     </div>
@@ -1244,13 +1222,13 @@
                                             <div class="right_side_job" style="display:flex; flex-wrap:wrap;">
                                                 <div class=" reve_rates no-padding">
                                                     <label class="headinglabel">Sales Rate</label>
-                                                    <input type="text" class="form-control textright txtNum salrate" tabindex="10" id="SaleRate" value="0.00" ng-model="SaleRate" placeholder="Rate" ng_change="CalcSaleForeign()" />
+                                                    <input type="text" class="form-control textright txtNum salrate" tabindex="10" id="SaleRate" onclick="this.select();" value="0.00" ng-model="SaleRate" placeholder="Rate" ng_change="CalcSaleForeign()" />
                                                 </div>
 
                                                 <div class="reve_rates  no-padding">
                                                     <label class="headinglabel">Sales Currency</label>
                                                     @*     @Html.DropDownList("SalesCurrency", (SelectList)ViewBag.Curency, "", new { ng_selected = "SalesCurrencyID1", ng_model = "SalesExR", ng_change = "getSalesCurEx()", @class = "form-control" })*@
-                                                    <select ng-model="SalesExR" id="SalesExR" class="form-control" tabindex="11" ng_change="getSalesCurEx()">
+                                                    <select ng-model="SalesExR" id="SalesExR" class="form-control" tabindex="11"  ng_change="getSalesCurEx()" ng-keydown="salestabevent($event)">
                                                         <option value='0'>Select</option>
                                                         @* <option ng-repeat="b in CurrencyList" value='{{b.CurrencyID}}'>{{b.CurrencyName}}</option>*@
                                                         <option ng-repeat="b in CurrencyList" ng-selected="SalesCurrencyID==b.CurrencyID" value='{{b.CurrencyID}}'>{{b.CurrencyName}}</option>
@@ -1260,15 +1238,15 @@
 
                                                 <div class=" reve_rates no-padding">
                                                     <label class="headinglabel">Sales Ex. Rate</label>
-                                                    <input type="text" ng-model="SaleexChangeRate" class="form-control textright four-decimals" tabindex="12" id="SalesExRate" placeholder="Sales Ex Rate" ng_change="CalcSaleForeign()" />
+                                                    <input type="text" ng-model="SaleexChangeRate" class="form-control textright four-decimals" tabindex="12" onclick="this.select();" id="SalesExRate" placeholder="Sales Ex Rate" ng-keydown="salesExRtabevent($event)" ng_change="CalcSaleForeign()" />
                                                 </div>
                                                 <div class=" reve_rates no-padding">
                                                     <label class="headinglabel lc_sal">Sales <span class="lc_pro">(LC)</span></label>
-                                                    <input type="text" ng-model="SalesDomestic" ng-bind={{SaleRate}} class="form-control textright txtNum lc_pro" tabindex="13" id="SalesDomestic" placeholder="Sales Domestic" />
+                                                    <input type="text" ng-model="SalesDomestic" ng-bind={{SaleRate}} class="form-control textright txtNum lc_pro" tabindex="13" id="SalesDomestic" placeholder="Sales Domestic" readonly/>
                                                 </div>
                                                 <div class=" reve_rates no-padding">
                                                     <label class="headinglabel fc_sal">Sales <span class="fc_pro">(FC)</span></label>
-                                                    <input type="text" ng-model="SalesForeign" class="form-control textright txtNum fc_pro" tabindex="14" id="SalesForeign" placeholder="Sales Foreign" />
+                                                    <input type="text" ng-model="SalesForeign" class="form-control textright txtNum fc_pro" tabindex="14" id="SalesForeign" placeholder="Sales Foreign" readonly/>
                                                 </div>
                                                 <div class=" rev_unit no-padding">
                                                     <label class="headinglabel">Tax%</label>
@@ -1284,9 +1262,9 @@
 
                                             <div class="col-xs-6 col-sm-12 col-md-12 butdivs   no-padding" style="text-align: right; margin-top:10px;">
                                                 <input type="hidden" id="charges_update_index" value="0" />
-                                                <input type="button" id="update_charges" ng-click="updateCharges()" value="Update" style="display:none;margin-top:2px;" class="btn btn-primary btnwidth" />
+                                                <input type="button" id="update_charges" ng-click="updateCharges()" tabindex="17" value="Update" style="display:none;margin-top:2px;" class="btn btn-primary btnwidth" />
                                                 <input type="button" id="cancel_edit_charges" ng-click="cancelEditCharges()" value="Cancel" style="display:none;margin-top:2px;" class="btn btn-danger btnwidth" />
-                                                <input type="button" id="add_charges" ng-click="addCharges()" value="Add" class="btn btn-primary btnwidth" />
+                                                <input type="button" id="add_charges" ng-click="addCharges()" tabindex="17" value="Add" class="btn btn-primary btnwidth" />
                                             </div>
                                         </div>
                                     </div>
@@ -2303,7 +2281,10 @@
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody>
-                                                                               <tr><td>TimeLine Details</td></tr>
+                                                                                @foreach (var item in JobTimeline)
+                                                                                {
+                                                                               <tr><td>@item.ActionType @item.TabName on @item.DateTime by @item.UserName</td></tr>
+                                                                                }
 
                                                                             </tbody>
                                                                         </table>

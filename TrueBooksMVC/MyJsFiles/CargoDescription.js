@@ -122,6 +122,7 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
     };
 
     function CalculateProvisionValue() {
+        debugger;
         if (isNaN(parseInt($('#QTY').val()))) {
             $('#QTY').val('');
         }
@@ -142,13 +143,13 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
                 $('#ProvisionForeign').attr('readonly', 'readonly');
                 $('#ProvisionExRate').attr('readonly', 'readonly');
                 $('#ProvisionForeign').val('0.00');
-                $('#ProvisiDomestic').removeAttr('readonly');
+                //$('#ProvisiDomestic').removeAttr('readonly');
             } else {
                 $('#ProvisionForeign').val(parseFloat($('#QTY').val() * $('#ProRate').val()).toFixed(2));
                 $('#ProvisiDomestic').val(parseFloat($('#QTY').val() * $('#ProRate').val() * $('#ProvisionExRate').val()).toFixed(2));
                 $('#margin').val(parseFloat($('#SalesDomestic').val() - $('#ProvisiDomestic').val()).toFixed(2));
                 $('#ProvisiDomestic').attr('readonly', 'readonly');
-                $('#ProvisionForeign').removeAttr('readonly');
+                //$('#ProvisionForeign').removeAttr('readonly');
                 $('#ProvisionExRate').removeAttr('readonly');
             }
         } else {
@@ -156,7 +157,7 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
             $('#ProvisionForeign').val('0.00');
             $('#ProvisionExRate').attr('readonly', 'readonly');
             $('#ProvisionForeign').attr('readonly', 'readonly');
-            $('#ProvisiDomestic').removeAttr('readonly');
+            //$('#ProvisiDomestic').removeAttr('readonly');
         }
         CalculateSalesValue();
     }
@@ -188,7 +189,7 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
                 $('#SalesForeign').attr('readonly', 'readonly');
                 $('#SalesExRate').attr('readonly', 'readonly');
                 $('#SalesForeign').val('0.00');
-                $('#SalesDomestic').removeAttr('readonly');
+                //$('#SalesDomestic').removeAttr('readonly');
             } else {
                 $('#SalesForeign').val(parseFloat($('#QTY').val() * $('#SaleRate').val()).toFixed(2));
                 $('#SalesDomestic').val(parseFloat($('#QTY').val() * $('#SaleRate').val() * $('#SalesExRate').val()).toFixed(2));
@@ -197,14 +198,14 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
                 $('#margin').val(parseFloat($('#SalesDomestic').val() - $('#ProvisiDomestic').val()).toFixed(2));
                 $('#SalesDomestic').attr('readonly', 'readonly');
                 $('#SalesExRate').removeAttr('readonly');
-                $('#SalesForeign').removeAttr('readonly');
+                //$('#SalesForeign').removeAttr('readonly');
             }
         } else {
             $('#SalesDomestic').val('0.00');
             $('#SalesForeign').val('0.00');
             $('#SalesForeign').attr('readonly', 'readonly');
             $('#SalesExRate').attr('readonly', 'readonly');
-            $('#SalesDomestic').removeAttr('readonly');
+            //$('#SalesDomestic').removeAttr('readonly');
         }
     }
 
@@ -254,7 +255,46 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
     $scope.CalcProvForeign = function () {
         CalculateProvisionValue();
     };
-
+    $scope.provisiontabevent = function (keyevent) {        
+        if (keyevent.which === 9) {
+            keyevent.preventDefault();
+            var BranchLocalCurrencyId = $('#BranchLocalCurrencyId').val();
+            if (BranchLocalCurrencyId == $scope.ProvisionExR) {
+                //$("#margin").focus();
+                $("#SaleRate").focus().select();
+            } else {
+                $("#ProvisionExRate").focus().select();
+            }
+    }
+    };
+    $scope.salestabevent = function (keyevent) {
+        if (keyevent.which === 9) {
+            keyevent.preventDefault();
+            var BranchLocalCurrencyId = $('#BranchLocalCurrencyId').val();
+            if (BranchLocalCurrencyId == $scope.SalesExR) {
+                $("#tax").focus();
+            } else {
+                $("#SalesExRate").focus().select();
+            }
+        }
+    };
+    $scope.salesExRtabevent = function (keyevent) {
+        if (keyevent.which === 9) {
+            keyevent.preventDefault();
+         
+                $("#tax").focus();
+           
+        }
+    };
+    $scope.ProvisionExRtabevent = function (keyevent) {
+        if (keyevent.which === 9) {
+            keyevent.preventDefault();
+            
+            $("#SaleRate").focus().select();
+          
+        }
+    };
+   
     $scope.CalcSaleForeign = function () {
         CalculateProvisionValue();
     };
