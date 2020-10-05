@@ -4,6 +4,13 @@
     Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
 }
 <style>
+    textarea {
+        width: 100%;
+        resize: vertical;
+        border-radius: 10px;
+        border: 1px solid #ccc;
+    }
+
     .searchdiv {
         background-color: #fff;
         width: 100%;
@@ -20,6 +27,11 @@
         font-size: 16px;
         color: #2b2929 !important;
     }
+
+    .checkboxdesign {
+        display: flex;
+        align-items: center;
+    }
 </style>
 
 <script type="text/javascript">
@@ -33,7 +45,16 @@
         } else {
             $("#AcGroupID").val(Acgrpid);
         }
+        $("#TaxApplicable").click(function () {
+            if ($("#TaxApplicable").is(':checked')) {
+                $("#TaxPercent").removeAttr("readonly");
 
+            }
+            else {
+                $("#TaxPercent").val(0);
+                $("#TaxPercent").attr("readonly", "readonly");
+            }
+        });
         $("#btnsave").click(function () {
             var acgroup = $("#AcGroupID option:selected").val();
             var head = $("#AcHead1").val();
@@ -51,7 +72,7 @@
                 $("#alert").show();
                 return false;
             }
-         
+
             else {
                 $("#alert").hide();
                 return true;
@@ -73,74 +94,96 @@
     {
         @Html.AntiForgeryToken()
         @Html.ValidationSummary(true)
-       
-    <div class="searchdiv sm-width">
-        <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
-        <fieldset>
 
-            <div class="row no-margin">
-				
-				<div class="form-group row">
-                    <div class="col-md-3">
-                    <label class="required headinglabel">Account Name</label>
-					</div>
-					<div class="col-md-9">
-                    @Html.TextBoxFor(model => model.AcHead1, new { @class = "form-control txttarget" })
-                    @Html.ValidationMessageFor(model => model.AcHead1)
-				</div>
-				
-                </div>
-				
-               
-              
-				<div class="form-group row">
-					<div class="col-md-3">
-						<label class=" headinglabel">Account Code</label>
-						</div>
-						<div class="col-md-9">
-						@Html.TextBoxFor(model => model.AcHeadKey, new { @class = "form-control" })
-						@Html.ValidationMessageFor(model => model.AcHeadKey)
+        <div class="searchdiv sm-width">
+            <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
+            <fieldset>
 
-					</div>
+                <div class="row no-margin">
 
-              
-            </div>
-                <div class="form-group row">
-                    <div class="col-md-3">
-                        <label class="required headinglabel">Parent Group</label>
-                    </div>
-                    <div class="col-md-8">
-                        @Html.DropDownListFor(model => model.AcGroupID, new SelectList(ViewBag.groups, "AcGroupID", "AcGroup"), new { @class = "form-control txttarget" })
-                        @Html.ValidationMessageFor(model => model.AcGroupID)
-                    </div>
-                    <div class="col-md-1">
-                        <a href="/AccountingModule/CreateAcGroup?frmpage=2"><i style="font-size: 37px;color:#07a7e3;" class="fa fa-plus-circle"></i></a>
+                    <div class="form-group row">
+                        <div class="col-md-3">
+                            <label class="required headinglabel">Account Name</label>
+                        </div>
+                        <div class="col-md-9">
+                            @Html.TextBoxFor(model => model.AcHead1, new { @class = "form-control txttarget" })
+                            @Html.ValidationMessageFor(model => model.AcHead1)
+                        </div>
 
                     </div>
-                </div>
-				
 
 
-            <div class="row no-margin" style="padding-top:10px">
-                <div class="" style="text-align:right;padding:10px">
 
-                    <input type="submit" value="Save" class="btn btn-primary btnwid" id="btnsave" />
+                    <div class="form-group row">
+                        <div class="col-md-3">
+                            <label class=" headinglabel">Account Code</label>
+                        </div>
+                        <div class="col-md-9">
+                            @Html.TextBoxFor(model => model.AcHeadKey, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.AcHeadKey)
 
-                    &nbsp;
-                    @if (Convert.ToInt32(@Session["AcheadPage"].ToString()) == 1)
-                    {
-                        <a href='@Url.Action("IndexAcHead", "AccountingModule", new { id = 0 })' class="btn btn-danger btnwid" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
-                    }
-                    else
-                    {
-                        <a href='@Url.Action("Create", "RevenueType", new { acheadid = 0 })' class="btn btn-danger btnwid" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
-
-                    }
-                </div>
-            </div>
+                        </div>
 
 
-        </fieldset>
-    </div>
-            }
-    </section>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-3">
+                            <label class=" headinglabel">Description</label>
+                        </div>
+                        <div class="col-md-9">
+                            @Html.TextAreaFor(model => model.AccountDescription, new { @rows = "6", @cols = "45" })
+                            @Html.ValidationMessageFor(model => model.AccountDescription)
+
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-3">
+                            <label class="required headinglabel">Parent Group</label>
+                        </div>
+                        <div class="col-md-8">
+                            @Html.DropDownListFor(model => model.AcGroupID, new SelectList(ViewBag.groups, "AcGroupID", "AcGroup"), new { @class = "form-control txttarget" })
+                            @Html.ValidationMessageFor(model => model.AcGroupID)
+                        </div>
+                        <div class="col-md-1">
+                            <a href="/AccountingModule/CreateAcGroup?frmpage=2"><i style="font-size: 37px;color:#07a7e3;" class="fa fa-plus-circle"></i></a>
+
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-3 checkboxdesign" style="padding-top:10px">
+                            @Html.CheckBoxFor(model => model.TaxApplicable)
+                            @Html.ValidationMessageFor(model => model.TaxApplicable)
+                            <label class="headinglabel"> &nbsp; Tax %</label>
+                        </div>
+                        <div class="col-md-3">
+                            @Html.TextBoxFor(model => model.TaxPercent, new { @class = "form-control", @readonly="readonly" })
+                            @Html.ValidationMessageFor(model => model.TaxPercent)
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="row no-margin" style="padding-top:10px">
+                        <div class="" style="text-align:right;padding:10px">
+
+                            <input type="submit" value="Save" class="btn btn-primary btnwid" id="btnsave" />
+
+                            &nbsp;
+                            @if (Convert.ToInt32(@Session["AcheadPage"].ToString()) == 1)
+                            {
+                                <a href='@Url.Action("IndexAcHead", "AccountingModule", new { id = 0 })' class="btn btn-danger btnwid" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+                            }
+                            else
+                            {
+                                <a href='@Url.Action("Create", "RevenueType", new { acheadid = 0 })' class="btn btn-danger btnwid" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+
+                            }
+                        </div>
+                    </div>
+
+
+            </fieldset>
+        </div>
+    }
+</section>

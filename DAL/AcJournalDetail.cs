@@ -27,8 +27,9 @@ namespace DAL
         public Nullable<decimal> ExRate { get; set; }
         public Nullable<bool> Lock { get; set; }
         public int ID { get; set; }
+        public Nullable<decimal> TaxPercent { get; set; }
+        public Nullable<decimal> TaxAmount { get; set; }
     
-        public virtual AcHead AcHead { get; set; }
         public virtual AcJournalMaster AcJournalMaster { get; set; }
     }
 }

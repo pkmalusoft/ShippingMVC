@@ -14,12 +14,6 @@ namespace DAL
     
     public partial class AcHead
     {
-        public AcHead()
-        {
-            this.AcOpeningMasters = new HashSet<AcOpeningMaster>();
-            this.AcJournalDetails = new HashSet<AcJournalDetail>();
-        }
-    
         public int AcHeadID { get; set; }
         public string AcHeadKey { get; set; }
         public string AcHead1 { get; set; }
@@ -29,9 +23,12 @@ namespace DAL
         public Nullable<bool> StatusHide { get; set; }
         public Nullable<int> UserID { get; set; }
         public string Prefix { get; set; }
-        public Nullable<bool> StatusControlAc { get; set; }
+        public Nullable<bool> StatusControlAC { get; set; }
+        public string AccountDescription { get; set; }
+        public Nullable<int> AcBranchID { get; set; }
+        public Nullable<decimal> TaxPercent { get; set; }
+        public bool TaxApplicable { get; set; }
     
-        public virtual ICollection<AcOpeningMaster> AcOpeningMasters { get; set; }
-        public virtual ICollection<AcJournalDetail> AcJournalDetails { get; set; }
+        public virtual AcGroup AcGroup { get; set; }
     }
 }

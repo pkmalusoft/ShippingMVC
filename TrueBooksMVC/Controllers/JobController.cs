@@ -148,7 +148,7 @@ namespace TrueBooksMVC.Controllers
                         select t;
 
             ViewBag.MainJobId = query;
-            var StaffNotes = (from d in entity.StaffNotes where d.JobId == id && d.PageTypeId==1 orderby d.Id descending select d).ToList();
+            var StaffNotes = (from d in entity.StaffNotes where d.JobId == id && d.PageTypeId == 1 orderby d.Id descending select d).ToList();
             var branchid = Convert.ToInt32(Session["branchid"]);
             var users = (from d in entity.UserRegistrations select d).ToList();
             var staffnotemodel = new List<StaffNoteModel>();
@@ -166,7 +166,7 @@ namespace TrueBooksMVC.Controllers
             ViewBag.StaffNoteModel = staffnotemodel;
             var JobStatusModel = new List<JobStatusModel>();
             var Jstatus = (from d in entity.JStatus where d.JobId == id orderby d.Id descending select d).ToList();
-            foreach(var item in Jstatus)
+            foreach (var item in Jstatus)
             {
                 var model = new JobStatusModel();
                 model.id = item.Id;
@@ -203,7 +203,7 @@ namespace TrueBooksMVC.Controllers
                 customernotification.Add(model);
             }
             ViewBag.CustomerNotification = customernotification;
-            List<JTimeLine> TimeLine = entity.JTimeLines.Where(d => d.JobId == id).OrderByDescending(d=>d.DateTime).ToList();
+            List<JTimeLine> TimeLine = entity.JTimeLines.Where(d => d.JobId == id).OrderByDescending(d => d.DateTime).ToList();
             ViewBag.TimeLines = TimeLine;
             return View(JG);
 
@@ -305,7 +305,7 @@ namespace TrueBooksMVC.Controllers
 
                 if (i > 0)
                 {
-                    DeleteAndInsertRecords(formCollection, JobId,1);
+                    DeleteAndInsertRecords(formCollection, JobId, 1);
 
                     /*  int ChargesCount = 0;
                       ArrayList ChargesArray = new ArrayList();
@@ -699,7 +699,7 @@ namespace TrueBooksMVC.Controllers
                     Timeline.TabName = "";
                     Timeline.ActionType = "Created";
                     Timeline.DateTime = DateTime.Now;
-                    Timeline.UserId= Convert.ToInt32(Session["UserID"]);
+                    Timeline.UserId = Convert.ToInt32(Session["UserID"]);
                     Timeline.UserName = Session["UserName"].ToString();
                     entity.JTimeLines.Add(Timeline);
                     entity.SaveChanges();
@@ -722,7 +722,7 @@ namespace TrueBooksMVC.Controllers
                             if (k > 0)
                             {
                                 JobId = JM.JobID;
-                                DeleteAndInsertRecords(formCollection, JobId,2);
+                                DeleteAndInsertRecords(formCollection, JobId, 2);
                                 var data = (from c in entity.JobGenerations where c.JobID == JobId select c).FirstOrDefault();
                                 int acjid = 0;
                                 if (data.AcJournalID != null)
@@ -874,7 +874,7 @@ namespace TrueBooksMVC.Controllers
                     }
                 }
             }
-            var StaffNotes = (from d in entity.StaffNotes where d.JobId == JobId && d.PageTypeId==1 orderby d.Id descending select d).ToList();
+            var StaffNotes = (from d in entity.StaffNotes where d.JobId == JobId && d.PageTypeId == 1 orderby d.Id descending select d).ToList();
             var branchid = Convert.ToInt32(Session["branchid"]);
             var users = (from d in entity.UserRegistrations select d).ToList();
             var staffnotemodel = new List<StaffNoteModel>();
@@ -1212,7 +1212,7 @@ namespace TrueBooksMVC.Controllers
         }
             */
 
-        private bool DeleteAndInsertRecords(FormCollection formCollection, int JobId,int Type)
+        private bool DeleteAndInsertRecords(FormCollection formCollection, int JobId, int Type)
         {
             if (JobId <= 0)
             {
@@ -1237,9 +1237,12 @@ namespace TrueBooksMVC.Controllers
                     ChargesArray.Add(formCollection.Keys[j].Replace("RevenueTypeID_", "").Trim());
                 }
             }
+            
 
             for (int c = 0; c < ChargesCount; c++)
             {
+                var InvoiceNo = 10000;
+                var invoiceNumber = entity.JInvoices.Select(d => d.InvoiceNumber).ToList().LastOrDefault();
                 string[] strArray;
                 JInvoice Charges = new JInvoice();
                 Charges.UserID = Convert.ToInt32(Session["UserID"].ToString());
@@ -1390,11 +1393,24 @@ namespace TrueBooksMVC.Controllers
                     decimal.TryParse(strArray[0].Trim(), out Margin);
                 }
                 Charges.Margin = Margin;
+                Charges.CancelledInvoice = false;
+                Charges.InvoiceDate = DateTime.Now;
+                Charges.CancelReason = "";
+
+                
+                if (invoiceNumber != null)
+                {
+                    var strInvoice = invoiceNumber.Split('-');
+
+                    InvoiceNo = Convert.ToInt32(strInvoice[1]) +1;
+                }
+                //InvoiceNo = InvoiceNo + 1;
+                Charges.InvoiceNumber = "JI-" + InvoiceNo;
 
                 int iCharge = J.AddOrUpdateCharges(Charges, Session["UserID"].ToString());
-               
+
             }
-            if (Type == 2 && ChargesCount>0)
+            if (Type == 2 && ChargesCount > 0)
             {
                 JTimeLine Timeline = new JTimeLine();
                 Timeline.JobId = JobId;
@@ -1474,7 +1490,7 @@ namespace TrueBooksMVC.Controllers
                 }
                 Cargo.GrossWeight = GrossWeight;
                 i = J.AddOrUpdateCargo(Cargo, Session["UserID"].ToString());
-                if (Type == 2 && CargoCount>0)
+                if (Type == 2 && CargoCount > 0)
                 {
                     JTimeLine Timeline = new JTimeLine();
                     Timeline.JobId = JobId;
@@ -1539,10 +1555,10 @@ namespace TrueBooksMVC.Controllers
                     ContainerDescription = strArray[0].Trim();
                 }
                 ContainerObj.Description = ContainerDescription;
-               
+
                 AddOrUpdateContainerDetails(ContainerObj);
             }
-            if (Type == 2 && ContainerCount>0)
+            if (Type == 2 && ContainerCount > 0)
             {
                 JTimeLine Timeline = new JTimeLine();
                 Timeline.JobId = JobId;
@@ -1600,9 +1616,9 @@ namespace TrueBooksMVC.Controllers
                 }
                 objBillOfEntry.ShippingAgentID = ShippingAgentId;
                 AddOrUpdateBill(objBillOfEntry);
-              
+
             }
-            if (Type == 2 && BillOfEntryCount>0)
+            if (Type == 2 && BillOfEntryCount > 0)
             {
                 JTimeLine Timeline = new JTimeLine();
                 Timeline.JobId = JobId;
@@ -1668,7 +1684,7 @@ namespace TrueBooksMVC.Controllers
                 foreach (var TL in JTimeline)
                 {
                     entity.JTimeLines.Remove(TL);
-                        }
+                }
                 entity.SaveChanges();
             }
 
@@ -2993,7 +3009,7 @@ namespace TrueBooksMVC.Controllers
                 entity.SaveChanges();
                 var jobstatus = new JStatu();
                 jobstatus.JobId = Jobid;
-                jobstatus.EmployeeId= Convert.ToInt32(Session["UserID"]);
+                jobstatus.EmployeeId = Convert.ToInt32(Session["UserID"]);
                 jobstatus.DateTime = DateTime.Now;
                 jobstatus.JobStatusId = statusid;
                 entity.JStatus.Add(jobstatus);
@@ -3054,7 +3070,7 @@ namespace TrueBooksMVC.Controllers
                 UpdateCustomerNotification(JobId, Message, isemail, issms, iswhatsapp);
                 return Json(new { success = true }, JsonRequestBehavior.AllowGet);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return Json(new { success = false, message = e.Message.ToString() }, JsonRequestBehavior.AllowGet);
 
@@ -3108,7 +3124,7 @@ namespace TrueBooksMVC.Controllers
             }
             return Success;
         }
-        public JsonResult UpdateCustomerNotification(int Jobid, string Messge,bool isemail,bool issms,bool iswhatsapp)
+        public JsonResult UpdateCustomerNotification(int Jobid, string Messge, bool isemail, bool issms, bool iswhatsapp)
         {
             try
             {
@@ -3131,5 +3147,179 @@ namespace TrueBooksMVC.Controllers
 
             }
         }
+        public ActionResult JobInvoice(int ID)
+        {
+            List<SP_GetAllJobsDetails_Result> AllJobs = new List<SP_GetAllJobsDetails_Result>();
+
+            List<JInvoice> AllJobInvoices = new List<JInvoice>();
+
+            AllJobInvoices = (from t in AllJobInvoices where (t.InvoiceDate >= Convert.ToDateTime(Session["FyearFrom"]) && t.InvoiceDate <= Convert.ToDateTime(Session["FyearTo"])) select t).ToList();
+            var data = (from t in AllJobs where (t.InvoiceDate >= Convert.ToDateTime(Session["FyearFrom"]) && t.InvoiceDate <= Convert.ToDateTime(Session["FyearTo"])) select t).ToList();
+
+            return View(AllJobInvoices);
+        }
+        public ActionResult GetJobInvoice(DateTime fdate, DateTime tdate, int InvoiceStatus)
+        {
+
+
+            var data = new List<JobInvoiceModel>();
+            DateTime a = Convert.ToDateTime(Session["FyearFrom"]);
+            DateTime b = Convert.ToDateTime(Session["FyearTo"]);
+            List<JInvoice> JobInvoice = new List<JInvoice>();
+
+            var dt = (from d in entity.JInvoices
+                      join s in entity.Suppliers on d.SupplierID equals s.SupplierID
+                      join j in entity.JobGenerations on d.JobID equals j.JobID
+                      where d.InvoiceDate >= a && d.InvoiceDate <= b
+                      select new { d = d, s = s, j = j }).ToList();
+
+            var result = dt.GroupBy(g => new { g.d.InvoiceNumber })
+                          .Select(g => g.First())
+                          .ToList();
+
+            foreach (var item in result)
+            {
+                var invoice = new JobInvoiceModel();
+                invoice.Id = item.d.InvoiceID;
+                invoice.JobID = item.d.JobID;
+                invoice.InvoiceDate = item.d.InvoiceDate;
+                invoice.Amount = item.d.Margin;
+                invoice.InvoiceNo = item.d.InvoiceNumber;
+                invoice.InvoiceStatus = item.d.InvoiceStatus;
+                invoice.PaymentStatus = item.d.CostUpdationStatus;
+                invoice.JobNumber = item.j.JobCode;
+                invoice.Supplier = item.s.SupplierName;
+                invoice.IsCancelledInvoice = item.d.CancelledInvoice;
+                data.Add(invoice);
+            }
+
+            //var d1 = datas.GroupBy(x => x.job).Select(y => y.First());
+            if (InvoiceStatus == 1)
+            {
+                data = data.Where(d => d.IsCancelledInvoice == false).ToList();
+            }
+            else if (InvoiceStatus == 2)
+            {
+                data = data.Where(d => d.IsCancelledInvoice == true).ToList();
+
+            }
+            
+           
+            string view = this.RenderPartialView("_GetJobInvoice", data);
+
+            return new JsonResult
+            {
+                Data = new
+                {
+                    success = true,
+                    view = view
+                },
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet,
+                MaxJsonLength = Int32.MaxValue
+            };
+
+        }
+        public JsonResult UpdateJobInvoiceCancel(string JobInvoiceid,string CancelReason)
+        {
+            try
+            {
+                var JobInvoice = entity.JInvoices.Where(d => d.InvoiceNumber == JobInvoiceid).ToList();
+                JobInvoice.ForEach(d => { d.CancelledInvoice = true; d.CancelReason = CancelReason; });
+                entity.SaveChanges();
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception e)
+            {
+                return Json(new { success = false, message = e.Message.ToString() }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public JsonResult RegenerateInvoice(int JobId)
+        {
+            try
+            {
+                var InvoiceNo = 10000;
+                var JobInvoice = entity.JInvoices.Where(d => d.JobID == JobId).ToList();
+                JobInvoice.ForEach(d => { d.CancelledInvoice = true; d.CancelReason = "Regenerate invoice"; });
+                entity.SaveChanges();
+                var JobInvoice1 = entity.JInvoices.Where(d => d.JobID == JobId && d.CancelledInvoice==true).ToList();
+                var RecentInvoice = JobInvoice1.LastOrDefault().InvoiceNumber;
+
+                //var result = JobInvoice.GroupBy(g => new { g.InvoiceNumber })
+                //        .Select(g => g.FirstOrDefault())
+                //        .ToList();
+                var result = entity.JInvoices.Where(d => d.InvoiceNumber == RecentInvoice ).ToList();
+                var invoice = entity.JInvoices.ToList().LastOrDefault();
+                var invoiceid = 1;
+                if(invoice!=null)
+                    {
+                    invoiceid = invoice.InvoiceID + 1;
+                }
+                var invoiceNumber = entity.JInvoices.Select(d => d.InvoiceNumber).ToList().LastOrDefault();
+
+                if (invoiceNumber != null)
+                {
+                    var strInvoice = invoiceNumber.Split('-');
+
+                    InvoiceNo = Convert.ToInt32(strInvoice[1])+1 ;
+                }
+                foreach (var item in result)
+                {
+                    var newinvoice = new JInvoice();
+                    //newinvoice = item;
+                    //newinvoice.InvoiceID = invoiceid;
+                    newinvoice.AmtInWords = item.AmtInWords;
+                    newinvoice.Cost = item.Cost;
+                    newinvoice.CostUpdationStatus = item.CostUpdationStatus;
+                    newinvoice.Description = item.Description;
+                    newinvoice.InvoiceStatus = item.InvoiceStatus;
+                    newinvoice.JobID = item.JobID;
+                    newinvoice.Lock = item.Lock;
+                    newinvoice.Margin = item.Margin;
+                    newinvoice.PreInvID = item.PreInvID;
+                    newinvoice.ProvisionCurrencyID = item.ProvisionCurrencyID;
+                    newinvoice.ProvisionExchangeRate = item.ProvisionExchangeRate;
+                    newinvoice.ProvisionForeign = item.ProvisionForeign;
+                    newinvoice.ProvisionHome = item.ProvisionHome;
+                    newinvoice.ProvisionQty = item.ProvisionQty;
+                    newinvoice.ProvisionRate = item.ProvisionRate;
+                    newinvoice.Quantity = item.Quantity;
+                    newinvoice.RevenueCode = item.RevenueCode;
+                    newinvoice.RevenueTypeID = item.RevenueTypeID;
+                    newinvoice.SalesCurrencyID = item.SalesCurrencyID;
+                    newinvoice.SalesExchangeRate = item.SalesExchangeRate;
+                    newinvoice.SalesForeign = item.SalesForeign;
+                    newinvoice.SalesHome = item.SalesHome;
+                    newinvoice.SalesQty = item.SalesQty;
+                    newinvoice.SalesRate = item.SalesRate;
+                    newinvoice.SupplierID = item.SupplierID;
+                    newinvoice.Tax = item.Tax;
+                    newinvoice.TaxAmount = item.TaxAmount;
+                    newinvoice.tempInvID = item.tempInvID;
+                    newinvoice.UnitID = item.UnitID;
+                    newinvoice.UserID = item.UserID;
+                    newinvoice.CancelledInvoice = false;
+                    newinvoice.InvoiceDate = DateTime.Now;
+                    newinvoice.CancelReason = "";
+                   
+                    //InvoiceNo = InvoiceNo + 1;
+                    newinvoice.InvoiceNumber = "JI-" + InvoiceNo;
+                    //entity.JInvoices.Add(newinvoice);
+                    //entity.SaveChanges();
+                    int iCharge = J.AddOrUpdateCharges(newinvoice, Session["UserID"].ToString());
+
+                    invoiceid = invoiceid + 1;
+                }
+              
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception e)
+            {
+                return Json(new { success = false, message = e.Message.ToString() }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
     }
 }

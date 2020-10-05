@@ -40,7 +40,7 @@ namespace TrueBooksMVC.Models
         {
             JI.CostUpdationStatus = "1";
             JI.InvoiceStatus = "1";
-            int query = Context1.SP_InsertCharges(JI.InvoiceID,JI.JobID, JI.RevenueTypeID, JI.ProvisionCurrencyID, JI.ProvisionExchangeRate, JI.ProvisionForeign, JI.ProvisionHome, JI.SalesCurrencyID, JI.SalesExchangeRate, JI.SalesForeign, JI.SalesHome, JI.Cost, JI.SupplierID, JI.RevenueCode, JI.Quantity, JI.UnitID, JI.ProvisionRate, JI.SalesRate, JI.AmtInWords, JI.InvoiceStatus, JI.CostUpdationStatus, Convert.ToInt32(UserID),JI.Description, JI.Tax, JI.TaxAmount, JI.Margin);
+            int query = Context1.SP_InsertCharges(JI.InvoiceID,JI.JobID, JI.RevenueTypeID, JI.ProvisionCurrencyID, JI.ProvisionExchangeRate, JI.ProvisionForeign, JI.ProvisionHome, JI.SalesCurrencyID, JI.SalesExchangeRate, JI.SalesForeign, JI.SalesHome, JI.Cost, JI.SupplierID, JI.RevenueCode, JI.Quantity, JI.UnitID, JI.ProvisionRate, JI.SalesRate, JI.AmtInWords, JI.InvoiceStatus, JI.CostUpdationStatus, Convert.ToInt32(UserID),JI.Description, JI.Tax, JI.TaxAmount, JI.Margin,JI.InvoiceDate,JI.InvoiceNumber,JI.CancelledInvoice, JI.CancelReason);
             return query;
         }
 

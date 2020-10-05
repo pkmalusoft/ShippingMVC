@@ -14,6 +14,11 @@ namespace DAL
     
     public partial class AcGroup
     {
+        public AcGroup()
+        {
+            this.AcHeads = new HashSet<AcHead>();
+        }
+    
         public int AcGroupID { get; set; }
         public Nullable<int> AcBranchID { get; set; }
         public string AcGroup1 { get; set; }
@@ -27,7 +32,10 @@ namespace DAL
         public Nullable<int> AcCategoryID { get; set; }
         public string GroupCode { get; set; }
         public Nullable<int> AcTypeId { get; set; }
+        public Nullable<int> AcCompanyID { get; set; }
     
         public virtual AcCategory AcCategory { get; set; }
+        public virtual BranchMaster BranchMaster { get; set; }
+        public virtual ICollection<AcHead> AcHeads { get; set; }
     }
 }

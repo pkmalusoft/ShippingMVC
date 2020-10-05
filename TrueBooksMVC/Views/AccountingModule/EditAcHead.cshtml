@@ -14,6 +14,15 @@
         border-radius: 10px;
         box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
     }
+    .checkboxdesign {
+        display: flex;
+        align-items: center;
+    }
+    .headinglabel {
+        font-family: Calibri;
+        font-size: 16px;
+        color: #2b2929 !important;
+    }
 </style>
 <script type="text/javascript">
     $(document).ready(function () {
@@ -21,7 +30,24 @@
         $(":text").css({ "border-radius": "5px" });
         $("select").css({ "border-radius": "5px" });
 
+        if ($("#TaxApplicable").is(':checked')) {
+            $("#TaxPercent").removeAttr("readonly");
 
+        }
+        else {
+            $("#TaxPercent").val(0);
+            $("#TaxPercent").attr("readonly", "readonly");
+        }
+        $("#TaxApplicable").click(function () {
+            if ($("#TaxApplicable").is(':checked')) {
+                $("#TaxPercent").removeAttr("readonly");
+
+            }
+            else {
+                $("#TaxPercent").val(0);
+                $("#TaxPercent").attr("readonly", "readonly");
+            }
+        });
         $("#btnsave").click(function () {
             var acgroup = $("#AcGroupID option:selected").val();
             var head = $("#AcHead").val();
@@ -64,36 +90,73 @@
 
         <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
         <div class="row no-margin">
-		
-           <div class="form-group row">
-            <div class="col-md-3">
-                <label class="required headinglabel">Account Name</label>
-				</div>
-				<div class="col-md-9">
-                @Html.TextBoxFor(model => model.AcHead, new { @class = "form-control txttarget" })
-                @Html.ValidationMessageFor(model => model.AcHead)
-				</div>
-            </div>
-			<div class="form-group row">
-            <div class="col-md-3">
-                <label class="headinglabel">Account Code</label>
-				</div>
-				<div class="col-md-9">
-                @Html.TextBoxFor(model => model.AcHeadKey, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.AcHeadKey)
-				</div>
-            </div>
-			<div class="form-group row">
-            <div class="col-md-3">
-                @Html.HiddenFor(model => model.AcHeadID)
-                <label class="required headinglabel">Parent Group</label>
-			</div>
-			<div class="col-md-9">
-                @Html.DropDownListFor(model => model.AcGroupID, new SelectList(ViewBag.groups, "AcGroupID", "AcGroup"), new { @class = "form-control txttarget" })
-                @Html.ValidationMessageFor(model => model.AcGroupID)
-			</div>
-            </div>
 
+            <div class="form-group row">
+                <div class="col-md-3">
+                    <label class="required headinglabel">Account Name</label>
+                </div>
+                <div class="col-md-9">
+                    @Html.TextBoxFor(model => model.AcHead, new { @class = "form-control txttarget" })
+                    @Html.ValidationMessageFor(model => model.AcHead)
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-3">
+                    <label class="headinglabel">Account Code</label>
+                </div>
+                <div class="col-md-9">
+                    @Html.TextBoxFor(model => model.AcHeadKey, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.AcHeadKey)
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-3">
+                    <label class=" headinglabel">Description</label>
+                </div>
+                <div class="col-md-9">
+                    @Html.TextAreaFor(model => model.AccountDescription, new { @rows = "6", @cols = "45" })
+                    @Html.ValidationMessageFor(model => model.AccountDescription)
+
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-3">
+                    @Html.HiddenFor(model => model.AcHeadID)
+                    <label class="required headinglabel">Parent Group</label>
+                </div>
+                <div class="col-md-9">
+                    @Html.DropDownListFor(model => model.AcGroupID, new SelectList(ViewBag.groups, "AcGroupID", "AcGroup"), new { @class = "form-control txttarget" })
+                    @Html.ValidationMessageFor(model => model.AcGroupID)
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-3 checkboxdesign" style="padding-top:10px">
+                    @if (Model.TaxApplicable == true)
+                    {
+                        @Html.CheckBoxFor(model => model.TaxApplicable, new { @checked = "checked" })
+                    }
+                    else
+                    {
+                        @Html.CheckBoxFor(model => model.TaxApplicable )
+                    }
+                    @Html.ValidationMessageFor(model => model.TaxApplicable)
+
+                    <label class="headinglabel"> &nbsp; Tax %</label>
+                </div>
+                <div class="col-md-3">
+                    @if (Model.TaxApplicable == true)
+                    {
+                        @Html.TextBoxFor(model => model.TaxPercent, new { @class = "form-control"})
+
+                    }
+                    else
+                    {
+                        @Html.TextBoxFor(model => model.TaxPercent, new { @class = "form-control", @readonly = "readonly" })
+                    }
+                    @Html.ValidationMessageFor(model => model.TaxPercent)
+                </div>
+
+            </div>
         </div>
 
     

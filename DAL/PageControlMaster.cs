@@ -16,5 +16,6 @@ namespace DAL
     {
         public int Id { get; set; }
         public string ControlName { get; set; }
+        public Nullable<bool> AcPosting { get; set; }
     }
 }

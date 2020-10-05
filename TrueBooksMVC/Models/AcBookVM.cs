@@ -34,7 +34,12 @@ namespace TrueBooksMVC.Models
         public int AcJournalID { get; set; }
         public string VoucherType { get; set; }
         public string VoucherNo { get; set; }
-        public List<AcJournalDetailVM> AcJDetailVM { get; set; }
-        
+        public decimal Taxpercent { get; set; }
+
+        public decimal taxamount { get; set; }
+        public List<AcJournalDetailVM> AcJDetailVM
+        {
+            get; set;
+        }
     }
 }

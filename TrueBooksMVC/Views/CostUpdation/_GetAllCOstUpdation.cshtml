@@ -190,7 +190,7 @@
                                             <td>
                                                 @if (ismodify)
                                                 {
-                                                <a href='@Url.Action("CostUpdation", "CostUpdation", new { id = item.CostUpdationID })' data-toggle="tooltip" data-placement="left" title="Edit"><i class="fa fa-pencil"></i></a>}
+                                                <a href='@Url.Action("CostUpdation", "CostUpdation", new { id = item.CostUpdationID,Jobid=0 })' data-toggle="tooltip" data-placement="left" title="Edit"><i class="fa fa-pencil"></i></a>}
                                                 |
 
                                                 @*    <a href='@Url.Action("DeleteCost", "CostUpdation", new { id = item.CostUpdationID })' data-toggle="tooltip" data-placement="right" title="Delete"><i class="fa fa-times-circle"></i></a>*@

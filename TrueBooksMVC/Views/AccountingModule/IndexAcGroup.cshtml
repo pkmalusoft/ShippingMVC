@@ -88,68 +88,71 @@
 <div class="table-responsive tblbackground" style="padding:15px">
 <table class="table table-responsive table-hover table-striped table-bordered tblfont" id="dataTables-example">
     <thead>
-    <tr>
-        
-        <th>
-         Account Category
-        </th>
-        <th>
-           Parent Group
-        </th>
-        <th>
-           Group Name
-        </th>
-      
-        <th>Action</th>
-    </tr>
-</thead>
-    <tfoot>
         <tr>
             <th>
-                Account Category
+                Group Name
             </th>
             <th>
                 Parent Group
             </th>
             <th>
+                Account Category
+            </th>
+
+
+            <th>Action</th>
+        </tr>
+</thead>
+    <tfoot>
+        <tr>
+            <th>
                 Group Name
             </th>
+            <th>
+                Parent Group
+            </th>
+            <th>
+                Account Category
+            </th>
+
+
             <th style="display:none">Action</th>
         </tr>
 </tfoot>
     <tbody>
 @foreach (var item in Model) {
-    <tr>
-      
-        <td class="tdtarget">
-            @Html.DisplayFor(modelItem => item.AcCategory)
-        </td>
-     @*   <td class="tdtarget">
+        <tr>
+            <td class="tdtarget">
+                @Html.DisplayFor(modelItem => item.AcGroup)
+            </td>
+            <td class="tdtarget">
+                @Html.DisplayFor(modelItem => item.ParentNode)
+            </td>
+            <td class="tdtarget">
+                @Html.DisplayFor(modelItem => item.AcCategory)
+            </td>
+            @*   <td class="tdtarget">
             @Html.DisplayFor(modelItem => item.ParentNode)
         </td>*@
-        <td class="tdtarget">
-            @Html.DisplayFor(modelItem => item.ParentNode)
-        </td>
-          <td class="tdtarget">
-            @Html.DisplayFor(modelItem => item.AcGroup)
-        </td>
-       
-        <td>
-           @*  @Html.ActionLink("Edit", "Edit", new { id=item.CountryID }) |
+
+
+
+            <td>
+                @*  @Html.ActionLink("Edit", "Edit", new { id=item.CountryID }) |
             @Html.ActionLink("Details", "Details", new { id=item.CountryID }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.CountryID })*@
-            @if (ismodify)
-            {
-            <a href="@Url.Action("EditAcGroup", new { id = item.AcGroupID })"><i class="fa fa-pencil"></i></a>
-            } |
-@*<a href="@Url.Action("Delete", new { id = item.CountryID })"><i class="fa fa-times"></i></a>*@
-           @if (isdelete)
-           {
-            <a href="#" onclick="Delete(ID=@item.AcGroupID)"><i class="fa fa-times"></i></a>
-           }
+                @if (ismodify)
+                {
+                    <a href="@Url.Action("EditAcGroup", new { id = item.AcGroupID })"><i class="fa fa-pencil"></i></a>
+                } |
+                @*<a href="@Url.Action("Delete", new { id = item.CountryID })"><i class="fa fa-times"></i></a>*@
+                @if (isdelete)
+                {
+                    <a href="#" onclick="Delete(ID=@item.AcGroupID)"><i class="fa fa-times"></i></a>
+                }
 
-        </td>
-    </tr>
+            </td>
+        </tr>
 }
 </tbody>
 </table>

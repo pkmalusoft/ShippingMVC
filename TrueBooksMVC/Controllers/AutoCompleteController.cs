@@ -12,6 +12,7 @@ namespace TrueBooksMVC.Models
     {
         //
         // GET: /AutoComplete/
+        SHIPPING_FinalEntities entity = new SHIPPING_FinalEntities();
 
         public ActionResult Index()
         {
@@ -23,8 +24,25 @@ namespace TrueBooksMVC.Models
             MastersModel MM = new MastersModel();
             if (!String.IsNullOrEmpty(term))
             {
+                var Jobid = Convert.ToInt32(Session["CostUpdationJobid"]);
                 List<SP_GetAllSupplier_Result> Supplier = new List<SP_GetAllSupplier_Result>();
-                Supplier = MM.GetAllSupplier(term);
+               
+                if (term == " ")
+                {
+                    Supplier = MM.GetAllSupplier();
+
+                }
+                else
+                {
+                    Supplier = MM.GetAllSupplier(term);
+                }
+                if (Jobid > 0)
+                {
+                    var JDetails = entity.JInvoices.Where(d => d.JobID == Jobid).ToList();
+                    var supplierids = JDetails.Select(d => d.SupplierID).ToList();
+                    Supplier = Supplier.Where(d => supplierids.Contains(d.SupplierID)).ToList();
+                }
+                
                 return Json(Supplier, JsonRequestBehavior.AllowGet);
             }
             else

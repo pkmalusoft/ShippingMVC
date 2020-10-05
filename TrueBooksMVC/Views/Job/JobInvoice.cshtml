@@ -1,26 +1,25 @@
-﻿@model IEnumerable<DAL.SP_GetAllJobsDetails_Result>
+﻿@model IEnumerable<DAL.JInvoice>
 
 @using TrueBooksMVC.Models
 @using System.Linq
 @using DAL;
 
 @{
-    ViewBag.Title = "JobDetails";
-    //Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "JobInvoice";
     Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
 
     SHIPPING_FinalEntities entity = new SHIPPING_FinalEntities();
-
-    var jobstatus = ViewBag.Jobstatus as IEnumerable<JobStatu>;
 }
 
 <style>
     tfoot {
         display: table-header-group;
     }
-  table.dataTable tfoot th {
-    padding: 0px 9px 12px 0 !important;
-}
+
+    table.dataTable tfoot th {
+        padding: 0px 9px 12px 0 !important;
+    }
+
     #tbl1 tr {
         height: 35px;
     }
@@ -80,31 +79,31 @@
         $("#frmdate").val(GetCurrentDate());
         $("#todate").val(GetEndDate());
 
-        $('#dataTables-example tfoot th:not(:last)').each(function () {
-            var title = $(this).text();
-            $(this).html('<input type="text" style="width:90%" />');
-        });
+        //$('#dataTables-example tfoot th:not(:last)').each(function () {
+        //    var title = $(this).text();
+        //    $(this).html('<input type="text" style="width:90%" />');
+        //});
 
 
-        var table = $('#dataTables-example').DataTable({ "sPaginationType": "full_numbers" });
-        f2();
-        table.draw();
+        //var table = $('#dataTables-example').DataTable({ "sPaginationType": "full_numbers" });
+        //f2();
+        //table.draw();
 
-        table.columns().every(function () {
-            var that = this;
+        //table.columns().every(function () {
+        //    var that = this;
 
-            $('input', this.footer()).on('keyup change', function () {
-                if (that.search() !== this.value) {
-                    that
-                        .search(this.value)
-                        .draw();
-                }
-            });
-        });
+        //    $('input', this.footer()).on('keyup change', function () {
+        //        if (that.search() !== this.value) {
+        //            that
+        //                .search(this.value)
+        //                .draw();
+        //        }
+        //    });
+        //});
         showLoading();
         $.ajax({
-            url: "@Url.Action("GetJob", "Job")",
-            data: { fdate: $('#frmdate').val(), tdate: $('#todate').val(), jobstatus:0 },
+            url: "@Url.Action("GetJobInvoice", "Job")",
+            data: { fdate: $('#frmdate').val(), tdate: $('#todate').val(), InvoiceStatus:0 },
             type: "GET",
             dataType: "json",
             success: function (data) {
@@ -121,6 +120,7 @@
 
 
         $("#btnsearch").click(function () {
+            debugger;
             var frm = new Date($('#frmdate').val());
             var dto = new Date($('#todate').val());
 
@@ -138,8 +138,8 @@
                 //  f2();
                 //  table.draw();
                 $.ajax({
-                    url: "@Url.Action("GetJob", "Job")",
-                    data: { fdate: $('#frmdate').val(), tdate: $('#todate').val(), jobstatus: $("#jobstatus").val() },
+                    url: "@Url.Action("GetJobInvoice", "Job")",
+                    data: { fdate: $('#frmdate').val(), tdate: $('#todate').val(), InvoiceStatus: $("#InvoiceStatus").val() },
                     type: "GET",
                     dataType: "json",
                     success: function (data) {
@@ -165,12 +165,11 @@
 
 
     function GetCurrentDate() {
-        debugger;
         var m_names = new Array("Jan", "Feb", "Mar",
 "Apr", "May", "Jun", "Jul", "Aug", "Sep",
 "Oct", "Nov", "Dec");
 
-   
+
 
             var startdate = '@Session["FyearFrom"].ToString()';
             var enddate = '@Session["FyearTo"].ToString()';
@@ -228,6 +227,56 @@ function (settings, data, dataIndex) {
 }
 );
     }
+    function CancelInvoice(invoiceno) {
+        if (confirm("Are you sure, You want to Cancel Invoice?")) {
+            $("#cancelInvoiceid").val(invoiceno);
+            $("#CancelModal").modal('show');
+        }
+    }
+    function ReGenerateInvoice(JobId) {
+        if (confirm("Are you sure, You want to Regenerate Invoice?")) {
+            $.ajax({
+                type: "GET",
+                url: "/Job/RegenerateInvoice",
+                datatype: "Json",
+                data: { JobId: JobId },
+                success: function (data) {
+                    if (data.success == true) {
+                        $.notify("Invoice Regenerate Successfully !!", "success");
+                        window.setTimeout(function () {
+                            location.reload();
+                        }, 1000);
+                    } else {
+                        $.notify(data.message, "error");
+                    }
+                }
+            });
+        }
+    }
+    function SaveCancelReason() {
+        var Jobid = $("#cancelInvoiceid").val();
+        var CancelReason = $("#txtCancelReason").val();
+        if (CancelReason == "" || CancelReason == null) {
+            alert("Please Enter Cancel Reason !")
+        } else {
+            $.ajax({
+                type: "GET",
+                url: "/Job/UpdateJobInvoiceCancel",
+                datatype: "Json",
+                data: { JobInvoiceid: Jobid, CancelReason: CancelReason },
+                success: function (data) {
+                    if (data.success == true) {
+                        $.notify("Invoice Cancelled Successfully !!", "success");
+                        window.setTimeout(function () {
+                            location.reload();
+                        }, 1000);
+                    } else {
+                        $.notify(data.message, "error");                        
+                    }
+                }
+            });
+        }
+    }
 </script>
 
 
@@ -244,7 +293,7 @@ function (settings, data, dataIndex) {
 <div ng-app="MyApp" ng-controller="MyController">
     <div class="" dir="ltr" id="main" runat="server">
         <section class="content-header">
-            <h1 class="headingfont">Job Details<small></small></h1>
+            <h1 class="headingfont">Job Invoice<small></small></h1>
 
         </section>
         <p class="cbtnpadding">
@@ -274,64 +323,34 @@ function (settings, data, dataIndex) {
                                 Status
                             </td>
                             <td class="searinput">
-                                <select class="form-control" id="jobstatus">
-                                    <option value="0">Select</option>
-                                    @foreach(var itm in jobstatus)
-                                    {
-                                        <option value="@itm.JobStatusId">@itm.StatusName</option>
-                                    }
+                                <select class="form-control" id="InvoiceStatus">
+                                    <option value="0">All</option>
+                                    <option value="1">Active Invoice</option>
+                                    <option value="2">Cancelled Invoice</option>
+                                   
                                 </select>
                             </td>
                             <td class="searlabel ">
                                 From Date
                             </td>
                             <td class="searinput">
-                                <input type="text" id="frmdate" class="form-control text-right" />
-                            </td>
-                            <td class="searlabel">
-                                To Date
-                            </td>
-                            <td class="searinput">
-                                <input type="text" id="todate" class="form-control text-right" />
-                            </td>
-                            <td style="padding-left:10px;">
-                                <input type="button" value="Search" id="btnsearch" class="btn btn-primary btnwidt fa fa-search" />
-                            </td>
-                            <td>
-
-                                <a href="/job/job/0"><button class="btn btn-primary btnwidth" style="margin:10px">Create New</button></a>
-
-                            </td>
-                        </tr>
-
-                    </table>
-                </div>
-                @*<table class="searchtabs tablserch" id="tbl1">
-                        <tr>
-                            <td class="searlabel">
-                                From Date
-                            </td>
-                            <td class="searinput">
                                 <input type="text" id="frmdate" class="form-control" />
                             </td>
-                            </tr><br />
-                        <tr>
                             <td class="searlabel">
                                 To Date
                             </td>
                             <td class="searinput">
                                 <input type="text" id="todate" class="form-control" />
                             </td>
-                            </tr><br />
-                        <tr>
-                            <td></td>
-                            <td style="text-align:center">
-                                <input type="button" value="Search" id="btnsearch" class="btn btn-primary btnwid fa fa-search" />
+                            <td style="padding-left:10px;">
+                                <input type="button" value="Search" id="btnsearch" class="btn btn-primary btnwidt fa fa-search" />
                             </td>
+                           
                         </tr>
 
-
-                    </table>*@
+                    </table>
+                </div>
+          
             </p>
 
 
@@ -344,12 +363,57 @@ function (settings, data, dataIndex) {
                     </div>
                 </div>
             </div>
-            
+
         </section>
 
     </div>
 </div>
+<div id="wrapper">
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="modal fade CancelModal" id="CancelModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" >
+                        <div class="modal-content">
 
+                            <div class="modal-header" style="background-color: #f5f5f5;">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+                                <h4 class="modal-title" id="CancelReasonModal1">
+                                    <span style="font-size: 18px; color: #3c8dbc !important; text-align:center">Cancel Invoice</span>
+                                </h4>
+                            </div>
+
+                            <div class="modal-body" id="Cancelreasonbody">
+                                <div class="container-fluid">
+                                    <div class="row" style="padding-top: 5px">
+                                        <input type="hidden" name="cancelInvoiceid" id="cancelInvoiceid" />
+                                        <div class="col-sm-8">
+                                            <div class="row form-group">
+                                                
+                                                    <label> Cancel Reason</label>
+                                                    <textarea id="txtCancelReason" placeholder="Enter Cancel Reason" rows="4" cols="80"></textarea>
+                                                
+                                            </div>
+                                            
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer" style="padding-top: 5px;text-align:right">
+                                
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                        <button type="button" name="SaveCancelReason" class="btn btn-primary" onclick="SaveCancelReason()" id="SaveCancelReason">Save</button>
+                                 
+                                    </div>
+                                </div>
+                            </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <script type="text/javascript">
     function DeleteBranch(ID) {
         if (confirm("Are you sure, You want to Delete Job?")) {

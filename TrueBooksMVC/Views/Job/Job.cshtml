@@ -945,7 +945,7 @@
                                 <li><a style="color:#35b8eb;cursor:pointer" onclick="ShowStaffNotes()">Staff Notes</a></li>
                                 <li><a style="color:#35b8eb;cursor:pointer" onclick="ShowJobstatusModel()">Job Status</a></li>
                                 <li><a style="color:#35b8eb;cursor:pointer" onclick="ShowCustomerNotification()">Customer Notification</a></li>
-                                <li><a style="color:#35b8eb" href="@Url.Action("CostUpdation", "CostUpdation", new { id = 0 })">Cost Update</a></li>
+                                <li><a style="color:#35b8eb" href="@Url.Action("CostUpdation", "CostUpdation", new { id = 0,Jobid=Model.JobID })">Cost Update</a></li>
                                 <li><a style="color:#35b8eb;cursor:pointer" onclick="ShowJobTimeLine()">Time Line</a></li>
                             </ul>
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">

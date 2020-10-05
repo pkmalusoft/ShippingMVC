@@ -87,8 +87,8 @@ warning 6002: The table/view 'malusoft_shipping.dbo.AcBankDetails' does not have
           <Key>
             <PropertyRef Name="AcGroupID" />
           </Key>
-          <Property Name="AcGroupID" Type="int" Nullable="false" />
-          <Property Name="AcBranchID" Type="int" />
+          <Property Name="AcGroupID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AcCompanyID" Type="int" />
           <Property Name="AcGroup" Type="nvarchar" MaxLength="50" />
           <Property Name="AcType" Type="nvarchar" MaxLength="2" />
           <Property Name="AcClass" Type="nvarchar" MaxLength="2" />
@@ -99,13 +99,14 @@ warning 6002: The table/view 'malusoft_shipping.dbo.AcBankDetails' does not have
           <Property Name="UserID" Type="int" />
           <Property Name="AcCategoryID" Type="int" />
           <Property Name="GroupCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="AcBranchID" Type="int" />
           <Property Name="AcTypeId" Type="int" />
         </EntityType>
         <EntityType Name="AcHead">
           <Key>
             <PropertyRef Name="AcHeadID" />
           </Key>
-          <Property Name="AcHeadID" Type="int" Nullable="false" />
+          <Property Name="AcHeadID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="AcHeadKey" Type="nvarchar" MaxLength="10" />
           <Property Name="AcHead" Type="nvarchar" MaxLength="50" />
           <Property Name="AcGroupID" Type="int" />
@@ -114,7 +115,11 @@ warning 6002: The table/view 'malusoft_shipping.dbo.AcBankDetails' does not have
           <Property Name="StatusHide" Type="bit" />
           <Property Name="UserID" Type="int" />
           <Property Name="Prefix" Type="nchar" MaxLength="10" />
-          <Property Name="StatusControlAc" Type="bit" />
+          <Property Name="StatusControlAC" Type="bit" />
+          <Property Name="AccountDescription" Type="varchar(max)" />
+          <Property Name="AcBranchID" Type="int" />
+          <Property Name="TaxPercent" Type="numeric" Precision="10" Scale="2" />
+          <Property Name="TaxApplicable" Type="bit" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'malusoft_shipping.dbo.AcHeadAssign' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -160,6 +165,8 @@ warning 6002: The table/view 'malusoft_shipping.dbo.AcHeadAssign' does not have 
           <Property Name="FAmount" Type="money" />
           <Property Name="ExRate" Type="money" />
           <Property Name="Lock" Type="bit" />
+          <Property Name="TaxPercent" Type="numeric" Precision="10" Scale="2" />
+          <Property Name="TaxAmount" Type="numeric" Precision="10" Scale="2" />
         </EntityType>
         <EntityType Name="AcJournalMaster">
           <Key>
@@ -844,6 +851,7 @@ warning 6002: The table/view 'malusoft_shipping.dbo.AcHeadAssign' does not have 
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ControlName" Type="nvarchar" MaxLength="100" />
+          <Property Name="AcPosting" Type="bit" />
         </EntityType>
         <EntityType Name="PaymentTerms">
           <Key>
@@ -1296,6 +1304,30 @@ warning 6002: The table/view 'malusoft_shipping.dbo.qrySupplierOutstanding' does
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_AcGroup_BranchMaster">
+          <End Role="BranchMaster" Type="Self.BranchMaster" Multiplicity="0..1" />
+          <End Role="AcGroup" Type="Self.AcGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BranchMaster">
+              <PropertyRef Name="BranchID" />
+            </Principal>
+            <Dependent Role="AcGroup">
+              <PropertyRef Name="AcCompanyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AcHead_AcGroup">
+          <End Role="AcGroup" Type="Self.AcGroup" Multiplicity="0..1" />
+          <End Role="AcHead" Type="Self.AcHead" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AcGroup">
+              <PropertyRef Name="AcGroupID" />
+            </Principal>
+            <Dependent Role="AcHead">
+              <PropertyRef Name="AcGroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_AcOpeningMaster_AcCompany">
           <End Role="AcCompany" Type="Self.AcCompany" Multiplicity="0..1" />
           <End Role="AcOpeningMaster" Type="Self.AcOpeningMaster" Multiplicity="*" />
@@ -1317,18 +1349,6 @@ warning 6002: The table/view 'malusoft_shipping.dbo.qrySupplierOutstanding' does
             </Principal>
             <Dependent Role="AcOpeningMaster">
               <PropertyRef Name="AcFinancialYearID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_AcOpeningMaster_AcHead">
-          <End Role="AcHead" Type="Self.AcHead" Multiplicity="0..1" />
-          <End Role="AcOpeningMaster" Type="Self.AcOpeningMaster" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AcHead">
-              <PropertyRef Name="AcHeadID" />
-            </Principal>
-            <Dependent Role="AcOpeningMaster">
-              <PropertyRef Name="AcHeadID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1483,6 +1503,10 @@ warning 6002: The table/view 'malusoft_shipping.dbo.qrySupplierOutstanding' does
           <Parameter Name="AcGroupID" Type="int" Mode="In" />
           <Parameter Name="UserID" Type="int" Mode="In" />
           <Parameter Name="Prefix" Type="nchar" Mode="In" />
+          <Parameter Name="Description" Type="varchar(max)" Mode="In" />
+          <Parameter Name="Taxapplicable" Type="bit" Mode="In" />
+          <Parameter Name="Taxpercent" Type="numeric" Mode="In" />
+          <Parameter Name="BranchId" Type="int" Mode="In" />
         </Function>
         <Function Name="AcHeadSelectAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="BranchID" Type="int" Mode="In" />
@@ -1502,6 +1526,9 @@ warning 6002: The table/view 'malusoft_shipping.dbo.qrySupplierOutstanding' does
           <Parameter Name="AcHead" Type="nvarchar" Mode="In" />
           <Parameter Name="AcGroupID" Type="int" Mode="In" />
           <Parameter Name="Prefix" Type="nchar" Mode="In" />
+          <Parameter Name="Description" Type="varchar(max)" Mode="In" />
+          <Parameter Name="Taxapplicable" Type="bit" Mode="In" />
+          <Parameter Name="Taxpercent" Type="numeric" Mode="In" />
         </Function>
         <Function Name="AcJournalDetailDelete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="AcJournalDetailIDs" Type="nvarchar(max)" Mode="In" />
@@ -2067,6 +2094,10 @@ warning 6002: The table/view 'malusoft_shipping.dbo.qrySupplierOutstanding' does
           <Parameter Name="Tax" Type="numeric" Mode="In" />
           <Parameter Name="TaxAmount" Type="numeric" Mode="In" />
           <Parameter Name="Margin" Type="numeric" Mode="In" />
+          <Parameter Name="InvoiceDate" Type="datetime" Mode="In" />
+          <Parameter Name="InvoiceNumber" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="CancelledInvoice" Type="bit" Mode="In" />
+          <Parameter Name="Cancelreason" Type="nvarchar(max)" Mode="In" />
         </Function>
         <Function Name="SP_InsertContainerDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="JContainerDetailID" Type="int" Mode="In" />
@@ -2601,16 +2632,20 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
             <End Role="AcCategory" EntitySet="AcCategory" />
             <End Role="AcGroup" EntitySet="AcGroup" />
           </AssociationSet>
+          <AssociationSet Name="FK_AcGroup_BranchMaster" Association="Self.FK_AcGroup_BranchMaster">
+            <End Role="BranchMaster" EntitySet="BranchMaster" />
+            <End Role="AcGroup" EntitySet="AcGroup" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AcHead_AcGroup" Association="Self.FK_AcHead_AcGroup">
+            <End Role="AcGroup" EntitySet="AcGroup" />
+            <End Role="AcHead" EntitySet="AcHead" />
+          </AssociationSet>
           <AssociationSet Name="FK_AcOpeningMaster_AcCompany" Association="Self.FK_AcOpeningMaster_AcCompany">
             <End Role="AcCompany" EntitySet="AcCompany" />
             <End Role="AcOpeningMaster" EntitySet="AcOpeningMaster" />
           </AssociationSet>
           <AssociationSet Name="FK_AcOpeningMaster_AcFinancialYear" Association="Self.FK_AcOpeningMaster_AcFinancialYear">
             <End Role="AcFinancialYear" EntitySet="AcFinancialYear" />
-            <End Role="AcOpeningMaster" EntitySet="AcOpeningMaster" />
-          </AssociationSet>
-          <AssociationSet Name="FK_AcOpeningMaster_AcHead" Association="Self.FK_AcOpeningMaster_AcHead">
-            <End Role="AcHead" EntitySet="AcHead" />
             <End Role="AcOpeningMaster" EntitySet="AcOpeningMaster" />
           </AssociationSet>
           <AssociationSet Name="FK_AnalysisHead_AcCompany" Association="Self.FK_AnalysisHead_AcCompany">
@@ -2935,7 +2970,6 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <FunctionImport Name="SP_GetSupplierByRevenueTypeID1" ReturnType="Collection(String)">
           <Parameter Name="RevenuTypeId" Mode="In" Type="Int32" />
           </FunctionImport>
-          <EntitySet Name="AcHeads" EntityType="SHIPPING_FinalModel.AcHead" />
           <EntitySet Name="AcHeadAssigns" EntityType="SHIPPING_FinalModel.AcHeadAssign" />
           <EntitySet Name="Menus" EntityType="SHIPPING_FinalModel.Menu" />
           <FunctionImport Name="AcHeadAssignInsert">
@@ -3019,6 +3053,10 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
             <Parameter Name="AcGroupID" Mode="In" Type="Int32" />
             <Parameter Name="UserID" Mode="In" Type="Int32" />
             <Parameter Name="Prefix" Mode="In" Type="String" />
+            <Parameter Name="Description" Mode="In" Type="String" />
+            <Parameter Name="Taxapplicable" Mode="In" Type="Boolean" />
+            <Parameter Name="Taxpercent" Mode="In" Type="Decimal" />
+            <Parameter Name="BranchId" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="AcHeadSelectAll" ReturnType="Collection(SHIPPING_FinalModel.AcHeadSelectAll_Result)">
           <Parameter Name="BranchID" Mode="In" Type="Int32" />
@@ -3032,6 +3070,9 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
             <Parameter Name="AcHead" Mode="In" Type="String" />
             <Parameter Name="AcGroupID" Mode="In" Type="Int32" />
             <Parameter Name="Prefix" Mode="In" Type="String" />
+            <Parameter Name="Description" Mode="In" Type="String" />
+            <Parameter Name="Taxapplicable" Mode="In" Type="Boolean" />
+            <Parameter Name="Taxpercent" Mode="In" Type="Decimal" />
           </FunctionImport>
           <FunctionImport Name="AnalysisGroupDelete">
           <Parameter Name="AnalysisGroupIDs" Mode="In" Type="String" />
@@ -3116,11 +3157,6 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
             <Parameter Name="FyearID" Mode="In" Type="Int32" />
             <Parameter Name="BranchID" Mode="In" Type="Int32" />
           </FunctionImport>
-          <EntitySet Name="AcOpeningMasters" EntityType="SHIPPING_FinalModel.AcOpeningMaster" />
-          <AssociationSet Name="FK_AcOpeningMaster_AcHead" Association="SHIPPING_FinalModel.FK_AcOpeningMaster_AcHead">
-            <End Role="AcHead" EntitySet="AcHeads" />
-            <End Role="AcOpeningMaster" EntitySet="AcOpeningMasters" />
-          </AssociationSet>
           <FunctionImport Name="AcOpeningMasterInsert">
             <Parameter Name="FYearID" Mode="In" Type="Int32" />
             <Parameter Name="OPDate" Mode="In" Type="DateTime" />
@@ -3426,6 +3462,10 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
             <Parameter Name="Tax" Mode="In" Type="Decimal" />
             <Parameter Name="TaxAmount" Mode="In" Type="Decimal" />
             <Parameter Name="Margin" Mode="In" Type="Decimal" />
+            <Parameter Name="InvoiceDate" Mode="In" Type="DateTime" />
+            <Parameter Name="InvoiceNumber" Mode="In" Type="String" />
+            <Parameter Name="CancelledInvoice" Mode="In" Type="Boolean" />
+            <Parameter Name="Cancelreason" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="Report_TradingProfitAndLoss" ReturnType="Collection(SHIPPING_FinalModel.Report_TradingProfitAndLoss_Result)">
             <Parameter Name="FromDate" Mode="In" Type="DateTime" />
@@ -3517,10 +3557,6 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <EntitySet Name="qrySupplierOutstandings" EntityType="SHIPPING_FinalModel.qrySupplierOutstanding" />
           <EntitySet Name="qryCustomerStatements" EntityType="SHIPPING_FinalModel.qryCustomerStatement" />
           <EntitySet Name="AcFinancialYears" EntityType="SHIPPING_FinalModel.AcFinancialYear" />
-          <AssociationSet Name="FK_AcOpeningMaster_AcFinancialYear" Association="SHIPPING_FinalModel.FK_AcOpeningMaster_AcFinancialYear">
-            <End Role="AcFinancialYear" EntitySet="AcFinancialYears" />
-            <End Role="AcOpeningMaster" EntitySet="AcOpeningMasters" />
-          </AssociationSet>
           <EntitySet Name="DebitNotes" EntityType="SHIPPING_FinalModel.DebitNote" />
           <FunctionImport Name="SP_GetAllCostUpdation" ReturnType="Collection(SHIPPING_FinalModel.SP_GetAllCostUpdation_Result)" >
             <Parameter Name="FromDate" Mode="In" Type="DateTime" />
@@ -3528,10 +3564,6 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           </FunctionImport>
           <EntitySet Name="AcJournalDetails" EntityType="SHIPPING_FinalModel.AcJournalDetail" />
           <EntitySet Name="AcJournalMasters" EntityType="SHIPPING_FinalModel.AcJournalMaster" />
-          <AssociationSet Name="FK_AcJournalDetail_AcHead" Association="SHIPPING_FinalModel.FK_AcJournalDetail_AcHead">
-            <End Role="AcHead" EntitySet="AcHeads" />
-            <End Role="AcJournalDetail" EntitySet="AcJournalDetails" />
-          </AssociationSet>
           <AssociationSet Name="FK_AcJournalDetail_AcJournalMaster" Association="SHIPPING_FinalModel.FK_AcJournalDetail_AcJournalMaster">
             <End Role="AcJournalMaster" EntitySet="AcJournalMasters" />
             <End Role="AcJournalDetail" EntitySet="AcJournalDetails" />
@@ -3958,10 +3990,6 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
             <End Role="Location" EntitySet="Locations" />
             <End Role="AcCompany" EntitySet="AcCompanies" />
           </AssociationSet>
-          <AssociationSet Name="FK_AcOpeningMaster_AcCompany" Association="SHIPPING_FinalModel.FK_AcOpeningMaster_AcCompany">
-            <End Role="AcCompany" EntitySet="AcCompanies" />
-            <End Role="AcOpeningMaster" EntitySet="AcOpeningMasters" />
-          </AssociationSet>
           <AssociationSet Name="FK_AnalysisHead_AcCompany" Association="SHIPPING_FinalModel.FK_AnalysisHead_AcCompany">
             <End Role="AcCompany" EntitySet="AcCompanies" />
             <End Role="AnalysisHead" EntitySet="AnalysisHeads" />
@@ -3990,6 +4018,24 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <EntitySet Name="AcTypes" EntityType="SHIPPING_FinalModel.AcType" />
           <EntitySet Name="CustomerNotifications" EntityType="SHIPPING_FinalModel.CustomerNotification" />
           <EntitySet Name="JTimeLines" EntityType="SHIPPING_FinalModel.JTimeLine" />
+          <AssociationSet Name="FK_AcGroup_BranchMaster" Association="SHIPPING_FinalModel.FK_AcGroup_BranchMaster">
+            <End Role="BranchMaster" EntitySet="BranchMasters" />
+            <End Role="AcGroup" EntitySet="AcGroups" />
+          </AssociationSet>
+          <EntitySet Name="AcOpeningMasters" EntityType="SHIPPING_FinalModel.AcOpeningMaster" />
+          <AssociationSet Name="FK_AcOpeningMaster_AcCompany" Association="SHIPPING_FinalModel.FK_AcOpeningMaster_AcCompany">
+            <End Role="AcCompany" EntitySet="AcCompanies" />
+            <End Role="AcOpeningMaster" EntitySet="AcOpeningMasters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AcOpeningMaster_AcFinancialYear" Association="SHIPPING_FinalModel.FK_AcOpeningMaster_AcFinancialYear">
+            <End Role="AcFinancialYear" EntitySet="AcFinancialYears" />
+            <End Role="AcOpeningMaster" EntitySet="AcOpeningMasters" />
+          </AssociationSet>
+          <EntitySet Name="AcHeads" EntityType="SHIPPING_FinalModel.AcHead" />
+          <AssociationSet Name="FK_AcHead_AcGroup" Association="SHIPPING_FinalModel.FK_AcHead_AcGroup">
+            <End Role="AcGroup" EntitySet="AcGroups" />
+            <End Role="AcHead" EntitySet="AcHeads" />
+          </AssociationSet>
           </EntityContainer>
         <ComplexType Name="SP_GetUserDetailForEdit_Result">
           <Property Type="Int32" Name="UserID" Nullable="false" />
@@ -4690,23 +4736,6 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Type="DateTime" Name="TransactionDate" Nullable="true" Precision="23" />
           <Property Type="Decimal" Name="InvoiceAmount" Nullable="true" Precision="18" />
         </ComplexType>
-        <EntityType Name="AcHead">
-          <Key>
-            <PropertyRef Name="AcHeadID" />
-          </Key>
-          <Property Type="Int32" Name="AcHeadID" Nullable="false" />
-          <Property Type="String" Name="AcHeadKey" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="AcHead1" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="AcGroupID" />
-          <Property Type="Int32" Name="ParentID" />
-          <Property Type="Int32" Name="HeadOrder" />
-          <Property Type="Boolean" Name="StatusHide" />
-          <Property Type="Int32" Name="UserID" />
-          <Property Type="String" Name="Prefix" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Type="Boolean" Name="StatusControlAc" />
-          <NavigationProperty Name="AcOpeningMasters" Relationship="SHIPPING_FinalModel.FK_AcOpeningMaster_AcHead" FromRole="AcHead" ToRole="AcOpeningMaster" />
-          <NavigationProperty Name="AcJournalDetails" Relationship="SHIPPING_FinalModel.FK_AcJournalDetail_AcHead" FromRole="AcHead" ToRole="AcJournalDetail" />
-        </EntityType>
         <EntityType Name="AcHeadAssign">
           <Key>
             <PropertyRef Name="ID" />
@@ -4965,39 +4994,6 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Type="Int32" Name="AcJournalID1" Nullable="false" />
           <Property Type="Boolean" Name="StatusReconciled" Nullable="true" />
         </ComplexType>
-        <EntityType Name="AcOpeningMaster">
-          <Key>
-            <PropertyRef Name="AcOpeningID" />
-          </Key>
-          <Property Type="Int32" Name="AcOpeningID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="Int32" Name="AcFinancialYearID" />
-          <Property Type="DateTime" Name="OPDate" Precision="3" />
-          <Property Type="Int32" Name="AcHeadID" />
-          <Property Type="Decimal" Name="Amount" Precision="19" Scale="4" />
-          <Property Type="Int32" Name="UserID" />
-          <Property Type="Int32" Name="PartyID" />
-          <Property Type="Int32" Name="BranchID" />
-          <Property Type="Boolean" Name="StatusImport" />
-          <Property Type="Int32" Name="SupplierID" />
-          <Property Type="Int32" Name="AssetMasterID" />
-          <Property Type="Int32" Name="AcCompanyID" />
-          <Property Type="String" Name="InvRemarks" MaxLength="500" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="AcHead" Relationship="SHIPPING_FinalModel.FK_AcOpeningMaster_AcHead" FromRole="AcOpeningMaster" ToRole="AcHead" />
-          <NavigationProperty Name="AcFinancialYear" Relationship="SHIPPING_FinalModel.FK_AcOpeningMaster_AcFinancialYear" FromRole="AcOpeningMaster" ToRole="AcFinancialYear" />
-          <NavigationProperty Name="AcCompany" Relationship="SHIPPING_FinalModel.FK_AcOpeningMaster_AcCompany" FromRole="AcOpeningMaster" ToRole="AcCompany" />
-        </EntityType>
-        <Association Name="FK_AcOpeningMaster_AcHead">
-          <End Type="SHIPPING_FinalModel.AcHead" Role="AcHead" Multiplicity="0..1" />
-          <End Type="SHIPPING_FinalModel.AcOpeningMaster" Role="AcOpeningMaster" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AcHead">
-              <PropertyRef Name="AcHeadID" />
-            </Principal>
-            <Dependent Role="AcOpeningMaster">
-              <PropertyRef Name="AcHeadID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <ComplexType Name="AcOpeningMasterSelectAll_Result">
           <Property Type="Int32" Name="AcFinancialYearID" Nullable="true" />
           <Property Type="Int32" Name="AcHeadID" Nullable="true" />
@@ -5684,18 +5680,6 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Type="Boolean" Name="Lock" />
           <NavigationProperty Name="AcOpeningMasters" Relationship="SHIPPING_FinalModel.FK_AcOpeningMaster_AcFinancialYear" FromRole="AcFinancialYear" ToRole="AcOpeningMaster" />
         </EntityType>
-        <Association Name="FK_AcOpeningMaster_AcFinancialYear">
-          <End Type="SHIPPING_FinalModel.AcFinancialYear" Role="AcFinancialYear" Multiplicity="0..1" />
-          <End Type="SHIPPING_FinalModel.AcOpeningMaster" Role="AcOpeningMaster" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AcFinancialYear">
-              <PropertyRef Name="AcFinancialYearID" />
-            </Principal>
-            <Dependent Role="AcOpeningMaster">
-              <PropertyRef Name="AcFinancialYearID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="DebitNote">
           <Key>
             <PropertyRef Name="DebitNoteID" />
@@ -5743,9 +5727,10 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Type="Decimal" Name="FAmount" Precision="19" Scale="4" />
           <Property Type="Decimal" Name="ExRate" Precision="19" Scale="4" />
           <Property Type="Boolean" Name="Lock" />
-          <NavigationProperty Name="AcHead" Relationship="SHIPPING_FinalModel.FK_AcJournalDetail_AcHead" FromRole="AcJournalDetail" ToRole="AcHead" />
           <NavigationProperty Name="AcJournalMaster" Relationship="SHIPPING_FinalModel.FK_AcJournalDetail_AcJournalMaster" FromRole="AcJournalDetail" ToRole="AcJournalMaster" />
           <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TaxPercent" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="TaxAmount" Type="Decimal" Precision="10" Scale="2" />
         </EntityType>
         <EntityType Name="AcJournalMaster">
           <Key>
@@ -5769,18 +5754,6 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <NavigationProperty Name="AcJournalDetails" Relationship="SHIPPING_FinalModel.FK_AcJournalDetail_AcJournalMaster" FromRole="AcJournalMaster" ToRole="AcJournalDetail" />
           <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
         </EntityType>
-        <Association Name="FK_AcJournalDetail_AcHead">
-          <End Type="SHIPPING_FinalModel.AcHead" Role="AcHead" Multiplicity="0..1" />
-          <End Type="SHIPPING_FinalModel.AcJournalDetail" Role="AcJournalDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AcHead">
-              <PropertyRef Name="AcHeadID" />
-            </Principal>
-            <Dependent Role="AcJournalDetail">
-              <PropertyRef Name="AcHeadID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_AcJournalDetail_AcJournalMaster">
           <End Type="SHIPPING_FinalModel.AcJournalMaster" Role="AcJournalMaster" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
@@ -6827,6 +6800,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <NavigationProperty Name="CurrencyMaster" Relationship="SHIPPING_FinalModel.FK_BranchMaster_CurrencyMaster" FromRole="BranchMaster" ToRole="CurrencyMaster" />
           <NavigationProperty Name="Designation" Relationship="SHIPPING_FinalModel.FK_BranchMaster_Designation" FromRole="BranchMaster" ToRole="Designation" />
           <NavigationProperty Name="Location" Relationship="SHIPPING_FinalModel.FK_BranchMaster_Location" FromRole="BranchMaster" ToRole="Location" />
+          <NavigationProperty Name="AcGroups" Relationship="SHIPPING_FinalModel.FK_AcGroup_BranchMaster" FromRole="BranchMaster" ToRole="AcGroup" />
         </EntityType>
         <Association Name="FK_BranchMaster_CountryMaster">
           <End Type="SHIPPING_FinalModel.CountryMaster" Role="CountryMaster" Multiplicity="0..1" />
@@ -7031,8 +7005,8 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <NavigationProperty Name="CurrencyMaster" Relationship="SHIPPING_FinalModel.FK_AcCompany_CurrencyMaster" FromRole="AcCompany" ToRole="CurrencyMaster" />
           <NavigationProperty Name="Designation" Relationship="SHIPPING_FinalModel.FK_AcCompany_Designation" FromRole="AcCompany" ToRole="Designation" />
           <NavigationProperty Name="Location" Relationship="SHIPPING_FinalModel.FK_AcCompany_Location" FromRole="AcCompany" ToRole="Location" />
-          <NavigationProperty Name="AcOpeningMasters" Relationship="SHIPPING_FinalModel.FK_AcOpeningMaster_AcCompany" FromRole="AcCompany" ToRole="AcOpeningMaster" />
           <NavigationProperty Name="AnalysisHeads" Relationship="SHIPPING_FinalModel.FK_AnalysisHead_AcCompany" FromRole="AcCompany" ToRole="AnalysisHead" />
+          <NavigationProperty Name="AcOpeningMasters" Relationship="SHIPPING_FinalModel.FK_AcOpeningMaster_AcCompany" FromRole="AcCompany" ToRole="AcOpeningMaster" />
         </EntityType>
         <Association Name="FK_AcCompany_CountryMaster">
           <End Type="SHIPPING_FinalModel.CountryMaster" Role="CountryMaster" Multiplicity="0..1" />
@@ -7079,18 +7053,6 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
             </Principal>
             <Dependent Role="AcCompany">
               <PropertyRef Name="LocationID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_AcOpeningMaster_AcCompany">
-          <End Type="SHIPPING_FinalModel.AcCompany" Role="AcCompany" Multiplicity="0..1" />
-          <End Type="SHIPPING_FinalModel.AcOpeningMaster" Role="AcOpeningMaster" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AcCompany">
-              <PropertyRef Name="AcCompanyID" />
-            </Principal>
-            <Dependent Role="AcOpeningMaster">
-              <PropertyRef Name="BranchID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -7157,6 +7119,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ControlName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="AcPosting" Type="Boolean" />
         </EntityType>
         <EntityType Name="AcHeadControl">
           <Key>
@@ -7189,6 +7152,9 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Name="GroupCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="AcCategory" Relationship="SHIPPING_FinalModel.FK_AcGroup_AcCategory" FromRole="AcGroup" ToRole="AcCategory" />
           <Property Name="AcTypeId" Type="Int32" />
+          <Property Name="AcCompanyID" Type="Int32" />
+          <NavigationProperty Name="BranchMaster" Relationship="SHIPPING_FinalModel.FK_AcGroup_BranchMaster" FromRole="AcGroup" ToRole="BranchMaster" />
+          <NavigationProperty Name="AcHeads" Relationship="SHIPPING_FinalModel.FK_AcHead_AcGroup" FromRole="AcGroup" ToRole="AcHead" />
         </EntityType>
         <Association Name="FK_AcGroup_AcCategory">
           <End Type="SHIPPING_FinalModel.AcCategory" Role="AcCategory" Multiplicity="0..1" />
@@ -7265,6 +7231,94 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Name="UserName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="JobId" Type="Int32" />
         </EntityType>
+        <Association Name="FK_AcGroup_BranchMaster">
+          <End Type="SHIPPING_FinalModel.BranchMaster" Role="BranchMaster" Multiplicity="0..1" />
+          <End Type="SHIPPING_FinalModel.AcGroup" Role="AcGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BranchMaster">
+              <PropertyRef Name="BranchID" />
+            </Principal>
+            <Dependent Role="AcGroup">
+              <PropertyRef Name="AcCompanyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="AcOpeningMaster">
+          <Key>
+            <PropertyRef Name="AcOpeningID" />
+          </Key>
+          <Property Name="AcOpeningID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AcFinancialYearID" Type="Int32" />
+          <Property Name="OPDate" Type="DateTime" Precision="3" />
+          <Property Name="AcHeadID" Type="Int32" />
+          <Property Name="Amount" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="PartyID" Type="Int32" />
+          <Property Name="BranchID" Type="Int32" />
+          <Property Name="StatusImport" Type="Boolean" />
+          <Property Name="SupplierID" Type="Int32" />
+          <Property Name="AssetMasterID" Type="Int32" />
+          <Property Name="AcCompanyID" Type="Int32" />
+          <Property Name="InvRemarks" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AcCompany" Relationship="SHIPPING_FinalModel.FK_AcOpeningMaster_AcCompany" FromRole="AcOpeningMaster" ToRole="AcCompany" />
+          <NavigationProperty Name="AcFinancialYear" Relationship="SHIPPING_FinalModel.FK_AcOpeningMaster_AcFinancialYear" FromRole="AcOpeningMaster" ToRole="AcFinancialYear" />
+        </EntityType>
+        <Association Name="FK_AcOpeningMaster_AcCompany">
+          <End Type="SHIPPING_FinalModel.AcCompany" Role="AcCompany" Multiplicity="0..1" />
+          <End Type="SHIPPING_FinalModel.AcOpeningMaster" Role="AcOpeningMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AcCompany">
+              <PropertyRef Name="AcCompanyID" />
+            </Principal>
+            <Dependent Role="AcOpeningMaster">
+              <PropertyRef Name="BranchID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AcOpeningMaster_AcFinancialYear">
+          <End Type="SHIPPING_FinalModel.AcFinancialYear" Role="AcFinancialYear" Multiplicity="0..1" />
+          <End Type="SHIPPING_FinalModel.AcOpeningMaster" Role="AcOpeningMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AcFinancialYear">
+              <PropertyRef Name="AcFinancialYearID" />
+            </Principal>
+            <Dependent Role="AcOpeningMaster">
+              <PropertyRef Name="AcFinancialYearID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="AcHead">
+          <Key>
+            <PropertyRef Name="AcHeadID" />
+          </Key>
+          <Property Name="AcHeadID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AcHeadKey" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="AcHead1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AcGroupID" Type="Int32" />
+          <Property Name="ParentID" Type="Int32" />
+          <Property Name="HeadOrder" Type="Int32" />
+          <Property Name="StatusHide" Type="Boolean" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="Prefix" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="StatusControlAC" Type="Boolean" />
+          <Property Name="AccountDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="AcBranchID" Type="Int32" />
+          <Property Name="TaxPercent" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="TaxApplicable" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="AcGroup" Relationship="SHIPPING_FinalModel.FK_AcHead_AcGroup" FromRole="AcHead" ToRole="AcGroup" />
+        </EntityType>
+        <Association Name="FK_AcHead_AcGroup">
+          <End Type="SHIPPING_FinalModel.AcGroup" Role="AcGroup" Multiplicity="0..1" />
+          <End Type="SHIPPING_FinalModel.AcHead" Role="AcHead" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AcGroup">
+              <PropertyRef Name="AcGroupID" />
+            </Principal>
+            <Dependent Role="AcHead">
+              <PropertyRef Name="AcGroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -8125,22 +8179,6 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="SP_GetSupplierByRevenueTypeID1" FunctionName="SHIPPING_FinalModel.Store.SP_GetSupplierByRevenueTypeID" />
-          <EntitySetMapping Name="AcHeads">
-            <EntityTypeMapping TypeName="SHIPPING_FinalModel.AcHead">
-              <MappingFragment StoreEntitySet="AcHead">
-                <ScalarProperty Name="StatusControlAc" ColumnName="StatusControlAc" />
-                <ScalarProperty Name="Prefix" ColumnName="Prefix" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="StatusHide" ColumnName="StatusHide" />
-                <ScalarProperty Name="HeadOrder" ColumnName="HeadOrder" />
-                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
-                <ScalarProperty Name="AcGroupID" ColumnName="AcGroupID" />
-                <ScalarProperty Name="AcHead1" ColumnName="AcHead" />
-                <ScalarProperty Name="AcHeadKey" ColumnName="AcHeadKey" />
-                <ScalarProperty Name="AcHeadID" ColumnName="AcHeadID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="AcHeadAssigns">
             <EntityTypeMapping TypeName="SHIPPING_FinalModel.AcHeadAssign">
               <MappingFragment StoreEntitySet="AcHeadAssign">
@@ -8479,25 +8517,6 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="AcOpeningMasters">
-            <EntityTypeMapping TypeName="SHIPPING_FinalModel.AcOpeningMaster">
-              <MappingFragment StoreEntitySet="AcOpeningMaster">
-                <ScalarProperty Name="InvRemarks" ColumnName="InvRemarks" />
-                <ScalarProperty Name="AcCompanyID" ColumnName="AcCompanyID" />
-                <ScalarProperty Name="AssetMasterID" ColumnName="AssetMasterID" />
-                <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
-                <ScalarProperty Name="StatusImport" ColumnName="StatusImport" />
-                <ScalarProperty Name="BranchID" ColumnName="BranchID" />
-                <ScalarProperty Name="PartyID" ColumnName="PartyID" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="Amount" ColumnName="Amount" />
-                <ScalarProperty Name="AcHeadID" ColumnName="AcHeadID" />
-                <ScalarProperty Name="OPDate" ColumnName="OPDate" />
-                <ScalarProperty Name="AcFinancialYearID" ColumnName="AcFinancialYearID" />
-                <ScalarProperty Name="AcOpeningID" ColumnName="AcOpeningID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="AcOpeningMasterInsert" FunctionName="SHIPPING_FinalModel.Store.AcOpeningMasterInsert" />
           <FunctionImportMapping FunctionImportName="AcOpeningMasterSelectAll" FunctionName="SHIPPING_FinalModel.Store.AcOpeningMasterSelectAll">
             <ResultMapping>
@@ -9349,6 +9368,8 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <EntitySetMapping Name="AcJournalDetails">
             <EntityTypeMapping TypeName="SHIPPING_FinalModel.AcJournalDetail">
               <MappingFragment StoreEntitySet="AcJournalDetail">
+                <ScalarProperty Name="TaxAmount" ColumnName="TaxAmount" />
+                <ScalarProperty Name="TaxPercent" ColumnName="TaxPercent" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Lock" ColumnName="Lock" />
                 <ScalarProperty Name="ExRate" ColumnName="ExRate" />
@@ -10745,6 +10766,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <EntitySetMapping Name="PageControlMasters">
             <EntityTypeMapping TypeName="SHIPPING_FinalModel.PageControlMaster">
               <MappingFragment StoreEntitySet="PageControlMaster">
+                <ScalarProperty Name="AcPosting" ColumnName="AcPosting" />
                 <ScalarProperty Name="ControlName" ColumnName="ControlName" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
@@ -10767,6 +10789,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <EntitySetMapping Name="AcGroups">
             <EntityTypeMapping TypeName="SHIPPING_FinalModel.AcGroup">
               <MappingFragment StoreEntitySet="AcGroup">
+                <ScalarProperty Name="AcCompanyID" ColumnName="AcCompanyID" />
                 <ScalarProperty Name="AcTypeId" ColumnName="AcTypeId" />
                 <ScalarProperty Name="GroupCode" ColumnName="GroupCode" />
                 <ScalarProperty Name="AcCategoryID" ColumnName="AcCategoryID" />
@@ -10849,6 +10872,45 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
                 <ScalarProperty Name="ActionType" ColumnName="ActionType" />
                 <ScalarProperty Name="TabName" ColumnName="TabName" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AcOpeningMasters">
+            <EntityTypeMapping TypeName="SHIPPING_FinalModel.AcOpeningMaster">
+              <MappingFragment StoreEntitySet="AcOpeningMaster">
+                <ScalarProperty Name="InvRemarks" ColumnName="InvRemarks" />
+                <ScalarProperty Name="AcCompanyID" ColumnName="AcCompanyID" />
+                <ScalarProperty Name="AssetMasterID" ColumnName="AssetMasterID" />
+                <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
+                <ScalarProperty Name="StatusImport" ColumnName="StatusImport" />
+                <ScalarProperty Name="BranchID" ColumnName="BranchID" />
+                <ScalarProperty Name="PartyID" ColumnName="PartyID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="AcHeadID" ColumnName="AcHeadID" />
+                <ScalarProperty Name="OPDate" ColumnName="OPDate" />
+                <ScalarProperty Name="AcFinancialYearID" ColumnName="AcFinancialYearID" />
+                <ScalarProperty Name="AcOpeningID" ColumnName="AcOpeningID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AcHeads">
+            <EntityTypeMapping TypeName="SHIPPING_FinalModel.AcHead">
+              <MappingFragment StoreEntitySet="AcHead">
+                <ScalarProperty Name="TaxApplicable" ColumnName="TaxApplicable" />
+                <ScalarProperty Name="TaxPercent" ColumnName="TaxPercent" />
+                <ScalarProperty Name="AcBranchID" ColumnName="AcBranchID" />
+                <ScalarProperty Name="AccountDescription" ColumnName="AccountDescription" />
+                <ScalarProperty Name="StatusControlAC" ColumnName="StatusControlAC" />
+                <ScalarProperty Name="Prefix" ColumnName="Prefix" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="StatusHide" ColumnName="StatusHide" />
+                <ScalarProperty Name="HeadOrder" ColumnName="HeadOrder" />
+                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
+                <ScalarProperty Name="AcGroupID" ColumnName="AcGroupID" />
+                <ScalarProperty Name="AcHead1" ColumnName="AcHead" />
+                <ScalarProperty Name="AcHeadKey" ColumnName="AcHeadKey" />
+                <ScalarProperty Name="AcHeadID" ColumnName="AcHeadID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -75,11 +75,11 @@
                                                 <th>Job Code</th>
                                                 <th>Job Date</th>
                                                 <th>Job Type</th>
-                                                <th>Shipper</th>
-                                                <th style="width:130px">Consignee</th>
-                                                <th style="width:130px">Customer</th>
+                                              
+                                                <th style="width:18%">Consignee</th>
+                                                <th style="width:18%">Customer</th>
                                                 <th style="width:30px">Invoice No</th>
-                                                <th>Invoice Date</th>
+                                                <th width="7%">Invoice Date</th>
                                                 <th>Load Port</th>
                                                 <th>Destination Port</th>
                                                 <th style="width: 18%">Action</th>
@@ -90,7 +90,7 @@
                                                 <th>Job Code</th>
                                                 <th>Job Date</th>
                                                 <th>Job Type</th>
-                                                <th>Shipper</th>
+                                                
                                                 <th>Consignee</th>
                                                 <th>Customer</th>
                                                 <th>Invoice No</th>
@@ -124,11 +124,7 @@
 
                                                         <td>@TrueBooksMVC.Models.CommanFunctions.GetShortDateFormat(item.JobDate)</td>
                                                         <td class="tdtarget">@Html.DisplayFor(modelItem => item.Description)</td>
-                                                        <td>
-                                                            @*@Html.DisplayFor(modelItem => item.Shipper,new { @title = "Doit contenir ... spécial" })*@
-                                                            @*    <span title="@item.Shipper">@item.Shipper.ToString().Substring(0,2)</span>*@
-                                                            <span title="@item.ShipperName" class="tdtarget">@item.ShipperName</span>
-                                                        </td>
+                                                       
                                                         <td>@*@Html.DisplayFor(modelItem => item.Consignee)*@ <span title="@item.ConsigneeName" class="tdtarget">@item.ConsigneeName</span></td>
                                                         <td>@*@Html.DisplayFor(modelItem => item.Customer)*@ <span title="@item.Customer" class="tdtarget">@item.Customer</span></td>
                                                         <td class="textright">
@@ -206,11 +202,7 @@
 
                                                         <td>@TrueBooksMVC.Models.CommanFunctions.GetShortDateFormat(item.JobDate)</td>
                                                         <td class="tdtarget">@Html.DisplayFor(modelItem => item.Description)</td>
-                                                        <td>
-                                                            @*@Html.DisplayFor(modelItem => item.Shipper,new { @title = "Doit contenir ... spécial" })*@
-                                                            @*    <span title="@item.Shipper">@item.Shipper.ToString().Substring(0,2)</span>*@
-                                                            <span title="@item.ShipperName" class="tdtarget">@item.ShipperName</span>
-                                                        </td>
+                                                     
                                                         <td>@*@Html.DisplayFor(modelItem => item.Consignee)*@ <span title="@item.ConsigneeName" class="tdtarget">@item.ConsigneeName</span></td>
                                                         <td>@*@Html.DisplayFor(modelItem => item.Customer)*@ <span title="@item.Customer" class="tdtarget">@item.Customer</span></td>
                                                         <td class="textright">

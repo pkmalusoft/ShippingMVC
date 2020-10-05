@@ -107,9 +107,23 @@ namespace TrueBooksMVC.Reports
 
             DataRow r = dtcurrency.NewRow();
             r[0] = cur.CurrencyName;
-            r[1] = dd.First().CurrencyName;
+            if (dd.Count > 0)
+            {
+                r[1] = dd.First().CurrencyName;
+                    }
+            else
+            {
+                r[1] = "";
+            }
             r[2] = "(" + cur.Symbol + ")";
-            r[3] = "(" + dd.First().Symbol + ")";
+            if (dd.Count > 0)
+            {
+                r[1] = dd.First().CurrencyName;
+            }
+            else
+            {
+                r[3] = "";
+            }
             r[4] = NumberToWords(Convert.ToInt32(shome));
 
 

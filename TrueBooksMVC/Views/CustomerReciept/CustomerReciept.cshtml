@@ -401,7 +401,7 @@
                     <div class="row page-title">
                         <div class="col-xs-12">
                             <section class="content-header">
-                                <h1>Customer Receipt-Shipping<small></small></h1>
+                                <h1>Customer Receipt<small></small></h1>
 
                             </section>
 
@@ -409,14 +409,14 @@
                     </div>
 
                     <div class="row back-to-list">
-                        <div class="col-xs-10" style="padding-left: 30px">
+                        <div class="pull-left" style="padding-left: 30px">
                             <a href='@Url.Action("CustomerRecieptDetails", "CustomerReciept", new { id = 0 })' class="btn btn-primary  btnwidth">Back to list</a>
                             @Html.HiddenFor(model => model.RecPayID)
                             @Html.HiddenFor(model => model.RecPayDetailID)
                             @Html.HiddenFor(model => model.AcJournalID)
                             @Html.HiddenFor(model => model.StatusEntry)
                         </div>
-                        <div style="text-align:right;" class="col-xs-2">
+                        <div style="text-align:right;" class="pull-left">
                             <div class="navbar-custom-menu">
                                 <ul class="nav navbar-nav">
 
@@ -436,7 +436,9 @@
                                 </ul>
                             </div>
                         </div>
+						
                     </div>
+					<div class="clear"></div>
                     <div class="form_field">
                         @*<div class="row no-margin form-layout" style="padding-top: 10px">
                             <div class="col-xs-12">
@@ -448,12 +450,12 @@
                         </div>*@
                         <div class="row no-margin form-layout" style="padding-top: 10px">
                             <div class="col-xs-12 col-sm-4">
-                                <label class="headinglabel">Document No</label>
+                                <label class="headinglabel">Document Number</label>
                                 @Html.TextBoxFor(model => model.DocumentNo, new { @Value = ViewBag.DocumentNos, @class = "form-control", @readonly = "readonly" })
 
                             </div>
                             <div class="col-xs-12 col-sm-2">
-                                <label class="headinglabel">Date</label>
+                                <label class="headinglabel">Document Date</label>
                                 @Html.TextBoxFor(model => model.RecPayDate, new { Value = Model.RecPayDate.Value.ToString("dd-MMM-yyyy"), @class = "form-control text-right" })
 
                             </div>
@@ -529,7 +531,7 @@
                                     @Html.DropDownListFor(model => model.CurrencyId, (SelectList)ViewBag.Currency, "Select", new { ng_model = "ExR", ng_change = "getselectval()", @class = "form-control", required = "required" })
 
                                 </div>
-                                <div class="col-xs-12 col-sm-4">
+                                <div class="col-xs-12 col-sm-2">
                                     <label class="headinglabel">Exchange Rate</label>
                                     @Html.TextBoxFor(model => model.EXRate, new { ng_model = "exChangeRate", @class = "form-control textright" })
 
@@ -539,11 +541,15 @@
                                 <input type="checkbox" class="chkAllocate" />&nbsp;&nbsp;&nbsp;<label class="headinglabel">Auto Allocate</label>
 
                         </div>
-                                *@<div class="col-xs-12 col-sm-4">
+                                *@<div class="col-xs-12 col-sm-2">
                                     <label class=" required headinglabel">Amount</label>
                                     @Html.TextBoxFor(model => model.FMoney, new { ng_model = "Amt", ng_change = "getvalueofamount()", @class = "form-control aamt textright TotalInvoiceAmount", required = "required" })
 
                                 </div>
+								<div class="col-xs-12 col-sm-4">
+                                <label class="headinglabel">Remarks</label>
+                                @Html.TextAreaFor(model => model.Remarks, new { @class = "form-control txttarget" })
+                            </div>
                             }
                             else
                             {
@@ -552,7 +558,7 @@
 
                                     @Html.DropDownListFor(model => model.CurrencyId, (SelectList)ViewBag.Currency, "Select", new { @class = "form-control" })
                                 </div>
-                                <div class="col-xs-12 col-sm-4">
+                                <div class="col-xs-12 col-sm-2">
                                     <label class="headinglabel">Exchange Rate</label>
                                     @Html.TextBoxFor(model => model.EXRate, new { @readonly = "readonly", @class = "form-control" })
 
@@ -579,16 +585,17 @@
                                     @Html.HiddenFor(model => model.FMoney)
 
                                 </div>
-
-                            }
-
-
-                        </div>
-                        <div class="row no-margin form-layout" style="padding-top: 10px">
-                            <div class="col-xs-12 col-sm-4">
+								<div class="col-xs-12 col-sm-4">
                                 <label class="headinglabel">Remarks</label>
                                 @Html.TextAreaFor(model => model.Remarks, new { @class = "form-control txttarget" })
                             </div>
+
+                            }
+							
+
+                        </div>
+                        <div class="row no-margin form-layout" style="padding-top: 10px">
+                            
                             <div class="col-xs-12 col-sm-8">
                                 <p style="color:red;display:none;font-size: 15px;margin-top: 30px;" id="msg1">Amount Paid TillDate + Amount Allocated cannot be greater than Balance.</p>
                             </div>

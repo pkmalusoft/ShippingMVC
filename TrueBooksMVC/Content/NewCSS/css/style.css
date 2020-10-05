@@ -46,7 +46,9 @@ input[type="text"]:focus, input[type="checkbox"]:focus, input[type="radio"]:focu
     overflow: hidden;
     background-color: #fdfeff;
 }
-
+.clear{
+	clear:both;
+}
     .wrapper:before, .wrapper:after {
         content: " ";
         display: table;
@@ -55,7 +57,16 @@ input[type="text"]:focus, input[type="checkbox"]:focus, input[type="radio"]:focu
     .wrapper:after {
         clear: both;
     }
-
+.back-to-list{
+	float:right;
+}
+.back-to-list .dropdown-toggle{
+	padding: 0;
+    padding-left: 40px;
+}
+.back-to-list .dropdown-toggle i{
+	padding-top:0!important;
+}
 .layout-boxed .wrapper {
     max-width: 1250px;
     margin: 0 auto;
@@ -376,7 +387,7 @@ a {
 
 .content-header {
     position: relative;
-    padding: 15px 15px 0 15px;
+    padding: 15px 15px 0 35px;
 }
 
     .content-header > h1 {
@@ -5711,10 +5722,12 @@ table.text-center, table.text-center td, table.text-center th {
     }
 }
 
+
 .table thead {
-    background-color: white;
+    background-color: #35b8eb;
     color: white;
 }
+
 
 .panel {
     border: 0px !important;
@@ -5771,8 +5784,8 @@ td.tab_class p {
 .card-body{
 	min-height:100px;
 }
-.searinput > input#frmdate, .searinput > input#todate {
-    margin: 0;
+table.searchtabs input[type="button"]{
+	margin-top:10px;
 }
 td.tabs_class p {
     background-color: #f43a59;
@@ -5823,11 +5836,23 @@ input[type=text]:focus, textarea:focus {
    /* box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;*/
     border-radius: 10px;
 }
+
+table.searchtabs a{
+	margin-left:50px;
+	margin-top: 10px;
+    display: inline-block;
+}
 .searlabel {
-    color: #565656;
+   color: #289ecc;;
     padding: 15px 10px;
     font-size: 16px;
     font-weight: 600;
+}
+.searlabe label,.searlabel label{
+color: #289ecc!important;
+}
+body table.dataTable tbody td{
+	font-size:14px!important;
 }
 .btnwidt {
     width: 100px;
@@ -5841,7 +5866,7 @@ input[type=text]:focus, textarea:focus {
 }
 label > select {
     width: 30%!important;
-    height: 40px;
+    height: 30px;
     padding: 3px;
     margin-left: 10px;
     margin-right: 10px;
@@ -5891,11 +5916,15 @@ body .search_tabs_right.searchdivs,.search_tabs_right .searchdivs{
 	 background-color: #f8fbff;
 }
 body .form-control {
-    height: 50px !important;
-    padding: 0px 15px !important;
+    height: 40px !important;
+    padding: 6px 12px!important;
 	margin-top: 10px;
     font-size: 17px !important;
 	font-weight:normal!important;
+	border-radius:10px!important;
+}
+body .form-control:focus,input:focus {
+	    outline-color: #35b8eb;
 }
 .searcfied {
     width: 27%;
@@ -5935,7 +5964,7 @@ body .searchdiv{
 select#AcFYearID {
     margin-top: 0 !important;
 	width:auto!important;
-	border-radius:5px;
+	border-radius:10px;
 }
 nav.navbar.navbar-static-top {
     text-transform: uppercase;
@@ -6228,23 +6257,32 @@ label,body .headinglabel{
 	font-weight:normal!important;
 	margin-bottom:0!important;
 }
-.btn{
+body .btn{
 	font-size:18px!important;
-	height:50px;
-	line-height:50px;
-	padding:0;
+	height:40px;
+	line-height:40px;
+	padding:0!important;
+	border-radius:10px!important;
 	min-width:120px;
 }
 .btnwidth{
 	min-width:120px;
 	width:auto!important;
 }
+body a#closejob, body a#openjob{
+	padding:0!important;
+	line-height:40px;
+	border-radius:10px!Important;
+}
  table.dataTable thead th{
 	padding-bottom:5px!important;
 	color: #565656 !important;
 }
- table.dataTable thead th label{
+ body table.dataTable thead th label{
 	margin-bottom:0px!important;
+	 color:#fff!important;
+	 font-size:12px!important;
+	 
 }
  table.dataTable tfoot th {
     padding: 0px 18px 12px 18px !important;
@@ -6307,13 +6345,23 @@ body table.dataTable thead th{
 .form_block .dropdown-menu>.active>a, .dropdown-menu>.active>a:focus, .dropdown-menu>.active>a:hover{
 	background:#fff;
 }
+body table.dataTable tfoot th{
+	padding: 10px 5px 12px 5px !important;
+}
+body table.dataTable tfoot th:first-of-type{
+	padding-left:13px!important;
+}
 .form_block .dataTables_wrapper .dataTables_length{
 	margin-bottom:5px;
 }
 .table.dataTable thead th, table.dataTable tfoot th{
-	font-size:15px!important;
+	font-size:12px!important;
+	
 }
-.table.dataTable tfoot th input{ border-radius:5px; border:1px solid #ccc; height: 40px; width:100%;}
+.table.dataTable thead th{
+	color:#fff!important;
+}
+.table.dataTable tfoot th input{ border-radius:10px; border:1px solid #ccc; height: 38px; width:100%;}
 .ui-widget-header{
 	border:0 !important;
 }
@@ -6325,7 +6373,7 @@ body table.dataTable thead th{
 }
 .jobform .ui-tabs .ui-tabs-nav li{
 	 clear: unset;
-     width: unset;
+     width: 12%;
 	float:none;
 	display:inline-block;
 }
@@ -6413,6 +6461,11 @@ body legend {
 .search_tabs_right{
 	float:right;
 	padding-top:10px;
+	padding-right:30px;
+	
+}
+.tblbackground .search_tabs_right{ 
+	
 }
 .sidebar>ul>li>ul>li>a{
 	border-bottom: 1px solid #bedbec;
@@ -6545,6 +6598,7 @@ display:flex; justify-content:flex-end;
 }
 .search_tabs_right .searlabel+ td a, .searchtabs .searlabel + td a {
     margin-left: 100px;
+	margin-top:10px;
 }
 body table.dataTable tbody .txt-red {
     color: #e10909 !important;

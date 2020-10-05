@@ -29,11 +29,11 @@
 
             $("#ReferenceCode").css("text-transform", "uppercase");
 
-             if ('@Model.CustomerType' == 0 || '@Model.CustomerType' == null) {
+             @*if ('@Model.CustomerType' == 0 || '@Model.CustomerType' == null) {
 
         } else {
                  $("#CustomerType").val('@Model.CustomerType');
-             }
+             }*@
             $("#btnsave").click(function () {
                 var cust = $("#Customer1").val();
                 var ref = $("#ReferenceCode").val();
@@ -43,7 +43,7 @@
 
                 var email = $("#Email").val();
                 var fax = $("#Fax").val();
-                var CustomerType = $("#CustomerType").val();
+                //var CustomerType = $("#CustomerType").val();
                 var ContactMob = $("#MobileNumber").val();
                 var Whatsapp = $("#WhatsAppNumber").val();
 
@@ -85,11 +85,11 @@
                     $("#alert").show();
                     return false;
                 }
-              else if (CustomerType == "") {
+              //else if (CustomerType == "") {
 
-                    $("#alert").show();
-                    return false;
-                }
+              //      $("#alert").show();
+              //      return false;
+              //  }
                 else {
                     $("#alert").hide();
                     return true;
@@ -202,24 +202,24 @@
 
             </div>
 
-
-            <div class="col-md-4">
-                <label class="required headinglabel">Customer Type</label>
-                @Html.DropDownListFor(model => model.CustomerType, ViewBag.CustomerType as SelectList, new { @class = "form-control", @onchange = "customertypechange()", @tabindex = "18" })
-                @Html.ValidationMessageFor(model => model.CustomerType)
-
-            </div>
-
-        </div>
-
-        <div class="row no-margin" style="padding-top:10px;">
-
             <div class="col-md-4">
                 <label class="headinglabel">Street</label>
                 @Html.TextBoxFor(model => model.Address2, new { @class = "form-control txttarget", @tabindex = "4" })
                 @Html.ValidationMessageFor(model => model.Address2)
 
             </div>
+            @*<div class="col-md-4">
+            <label class="required headinglabel">Customer Type</label>
+            @Html.DropDownListFor(model => model.CustomerType, ViewBag.CustomerType as SelectList, new { @class = "form-control", @onchange = "customertypechange()", @tabindex = "18" })
+            @Html.ValidationMessageFor(model => model.CustomerType)
+
+        </div>*@
+
+        </div>
+
+        <div class="row no-margin" style="padding-top:10px;">
+
+
             <div class="col-md-4">
                 <label class="headinglabel">Website</label>
                 @Html.TextBoxFor(model => model.WebSite, new { @class = "form-control", @tabindex = "11" })
@@ -235,15 +235,15 @@
 
             </div>
 
-
-        </div>
-        <div class="row no-margin" style="padding-top:10px;">
             <div class="col-md-4">
                 <label class="headinglabel">Location/Pin Code</label>
                 @Html.TextBoxFor(model => model.Address3, new { @class = "form-control txttarget", @tabindex = "5" })
                 @Html.ValidationMessageFor(model => model.Address3)
 
             </div>
+        </div>
+        <div class="row no-margin" style="padding-top:10px;">
+
             <div class="col-md-4">
                 <label class="headinglabel">PO Box No</label>
                 @Html.TextBoxFor(model => model.POBoxNo, new { @class = "form-control textright", @tabindex = "13" })
@@ -254,14 +254,15 @@
                 @Html.TextBoxFor(model => model.MaxCreditLimit, new { @class = "form-control textright", @Value = "0", @tabindex = "19" })
                 @Html.ValidationMessageFor(model => model.MaxCreditLimit)
             </div>
-        </div>
-        <div class="row no-margin" style="padding-top:10px;">
             <div class="col-md-4">
                 <label class="required headinglabel">City</label>
                 @Html.TextBoxFor(model => model.City, new { @class = "form-control txttarget", @tabindex = "6" })
                 @Html.ValidationMessageFor(model => model.City)
 
             </div>
+        </div>
+        <div class="row no-margin" style="padding-top:10px;">
+
             <div class="col-md-4">
                 <label class="required headinglabel">WhatsApp</label>
                 @Html.TextBoxFor(model => model.WhatsAppNumber, new { @class = "form-control textright txttarget", @tabindex = "14" })
@@ -276,14 +277,15 @@
                 @Html.ValidationMessageFor(model => model.ExporterCode)
 
             </div>
-        </div>
-        <div class="row no-margin" style="padding-top:10px;">
             <div class="col-md-4">
                 <label class="required headinglabel">Country</label>
                 @Html.DropDownListFor(model => model.CountryID, (IEnumerable<SelectListItem>)ViewBag.country, "select", new { @class = "form-control", @tabindex = "7" })
                 @Html.ValidationMessageFor(model => model.CountryID)
 
             </div>
+        </div>
+        <div class="row no-margin" style="padding-top:10px;">
+
 
             <div class="col-md-4">
                 <label class="headinglabel">Discount Percentage</label>
@@ -291,16 +293,14 @@
                 @Html.ValidationMessageFor(model => model.DiscountPercentage)
 
             </div>
-            <div class="col-md-4" >
-                
-                    <label class="headinglabel">VAT</label>
-                    @Html.TextBoxFor(model => model.VAT, new { @class = "form-control", @tabindex = "21" })
-                    @Html.ValidationMessageFor(model => model.VAT)
+            <div class="col-md-4">
 
-               
+                <label class="headinglabel">VAT</label>
+                @Html.TextBoxFor(model => model.VAT, new { @class = "form-control", @tabindex = "21" })
+                @Html.ValidationMessageFor(model => model.VAT)
+
+
             </div>
-        </div>
-        <div class="row no-margin" style="padding-top:10px;">
             <div class="col-md-4">
                 <div class="col-md-6" style="padding-top:15px; text-align:right;">
 
@@ -316,6 +316,7 @@
 
             </div>
         </div>
+       
 
         @*<div class="row no-margin" style="padding-top:10px">
             <div class="col-md-3" style="padding-top:15px">

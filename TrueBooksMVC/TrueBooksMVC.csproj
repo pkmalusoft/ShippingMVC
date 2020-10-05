@@ -299,6 +299,7 @@
     <Compile Include="Models\EmployeeDesignationVM.cs" />
     <Compile Include="Models\GetAllCostUpdation_Result.cs" />
     <Compile Include="Models\JobAnalysisReportVM.cs" />
+    <Compile Include="Models\JobInvoiceModel.cs" />
     <Compile Include="Models\JobModeJobTypeVM.cs" />
     <Compile Include="Models\JobModel.cs" />
     <Compile Include="Models\JobRegisterVM.cs" />
@@ -3933,6 +3934,8 @@
     <Content Include="Views\CreditNote\ServiceCreate.cshtml" />
     <Content Include="Views\DebitNote\ServiceList.cshtml" />
     <Content Include="Views\DebitNote\ServiceIndex.cshtml" />
+    <Content Include="Views\Job\JobInvoice.cshtml" />
+    <Content Include="Views\Job\_GetJobInvoice.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Logo\" />

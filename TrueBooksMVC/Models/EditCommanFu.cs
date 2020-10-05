@@ -47,7 +47,7 @@ namespace TrueBooksMVC.Models
                     AcJournalDetail acjD = new AcJournalDetail();
                     acjD.AcJournalDetailID = itme1.AcJournalDetailID;
                     acjD.AcJournalID = itme1.AcJournalID;
-                    acjD.AcHead = itme1.AcHead;
+                    //acjD.AcHead = itme1.AcHead;
                     acjD.AcHeadID = itme1.AcHeadID;
                     if (itme1.Amount < 0)
                     {

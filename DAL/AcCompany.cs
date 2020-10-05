@@ -16,8 +16,8 @@ namespace DAL
     {
         public AcCompany()
         {
-            this.AcOpeningMasters = new HashSet<AcOpeningMaster>();
             this.AnalysisHeads = new HashSet<AnalysisHead>();
+            this.AcOpeningMasters = new HashSet<AcOpeningMaster>();
         }
     
         public int AcCompanyID { get; set; }
@@ -51,7 +51,7 @@ namespace DAL
         public virtual CurrencyMaster CurrencyMaster { get; set; }
         public virtual Designation Designation { get; set; }
         public virtual Location Location { get; set; }
-        public virtual ICollection<AcOpeningMaster> AcOpeningMasters { get; set; }
         public virtual ICollection<AnalysisHead> AnalysisHeads { get; set; }
+        public virtual ICollection<AcOpeningMaster> AcOpeningMasters { get; set; }
     }
 }

@@ -523,7 +523,7 @@ new AcGroupModel()
             {
                 id = x.AcHeadID + 1;
             }
-            context.AcHeadInsert(id, a.AcHeadKey, a.AcHead1, a.AcGroupID, Convert.ToInt32(Session["AcCompanyID"].ToString()), a.Prefix);
+            context.AcHeadInsert(id, a.AcHeadKey, a.AcHead1, a.AcGroupID, Convert.ToInt32(Session["AcCompanyID"].ToString()), a.Prefix, a.AccountDescription, a.TaxApplicable,a.TaxPercent, Convert.ToInt32(Session["branchid"].ToString()));
             var acheadfrompage = Convert.ToInt32(Session["AcheadPage"].ToString());
             if (acheadfrompage == 1)
             {
@@ -547,9 +547,9 @@ new AcGroupModel()
         [HttpPost]
         public ActionResult EditAcHead(AcHeadSelectByID_Result a)
         {
-            context.AcHeadUpdate(a.AcHeadKey, a.AcHeadID, a.AcHead, a.AcGroupID, a.Prefix);
+            context.AcHeadUpdate(a.AcHeadKey, a.AcHeadID, a.AcHead, a.AcGroupID, a.Prefix,a.AccountDescription,a.TaxApplicable,a.TaxPercent);
             ViewBag.SuccessMsg = "You have successfully updated Account Head.";
-            return View("IndexAcHead", context.AcHeadSelectAll(Convert.ToInt32(Session["AcCompanyID"].ToString())));
+            return View("IndexAcHead", context.AcHeadSelectAll(Convert.ToInt32(Session["branchid"].ToString())));
         }
 
 

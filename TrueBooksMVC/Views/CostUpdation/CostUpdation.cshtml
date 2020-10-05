@@ -194,7 +194,6 @@
                 datatype: "Json",
                 data: { supplierID: $('#SelectedSupplierID').val() },
                 success: function (data) {
-                    debugger;
 
                     $("#MultiJobID").empty();
                     if ($("#MultiJobID").length > 0) {
@@ -254,6 +253,7 @@
         });
 
         function ValidateTotal() {
+            debugger;
             var TotalAmount = 0;
             $('#tbl1 tr').not(':first').each(function (i, obj) {
                 var AmountPaidTillDate = parseFloat($(obj).find('.AmountPaidTillDate').val());
@@ -280,7 +280,12 @@
                 $('#msg1').show();
                 $('#msg1').text('Sum of Invoice Amount cannot be greater than Total Invoice Amount');
                 return false;
+            } else if (TotalInvoiceAmount > TotalAmount) {
+                $('#msg1').show();
+                $('#msg1').text('Total Invoice Amount cannot be greater than Sum of Invoice Amount ');
+                return false;
             } else {
+
                 return true;
             }
         }
@@ -326,7 +331,7 @@
                         '<td class="text-right">0.00 <input type="hidden" name="CostUpdationDetails[' + i + '].AmountPaidTillDate" value="0" class="AmountPaidTillDate" /></td>' +
                         '<td class="fullTextTd"><input type="text" id="" class="invamt txtNum textright LoadedInvoiceAmount" onBlur="f1(this)" name="CostUpdationDetails[' + i + '].InvoiceAmount" autocomplete="off" /> <input name="CostUpdationDetails[' + i + '].CostUpdationDetailID" type="hidden" value="0" /> <input  name="CostUpdationDetails[' + i + '].SalesCurrencyID" value="' + data[i].SalesCurrencyID + '" type="hidden" /> ' +
                                                '</td>' +
-                                               '<td class="fullTextTd"><input type="text" id="" name="CostUpdationDetails[' + i + '].SupplierReference"></input><input name="CostUpdationDetails[' + i + '].SalesExchangeRate" value="' + data[i].SalesExchangeRate + '" type="hidden" /> <input  name="CostUpdationDetails[' + i + '].SalesForeign" value="' + data[i].SalesForeign + '" type="hidden"> <input  name="CostUpdationDetails[' + i + '].SalesHome" value="' + data[i].SalesHome + '" type="hidden" /><input  name="CostUpdationDetails[' + i + '].SupplierID" value="' + data[i].SupplierID + '" type="hidden"><input  name="CostUpdationDetails[' + i + '].JInvoiceID" value="' + data[i].InvoiceID + '" type="hidden"><input  name="CostUpdationDetails[' + i + '].Cost" value="' + data[i].Cost + '" type="hidden"> <input  name="CostUpdationDetails[' + i + '].InvoiceID" value="' + data[i].InvoiceID + '" type="hidden">' +
+                                               '<td class="fullTextTd" style="display:none"><input type="text" id="" name="CostUpdationDetails[' + i + '].SupplierReference"></input><input name="CostUpdationDetails[' + i + '].SalesExchangeRate" value="' + data[i].SalesExchangeRate + '" type="hidden" /> <input  name="CostUpdationDetails[' + i + '].SalesForeign" value="' + data[i].SalesForeign + '" type="hidden"> <input  name="CostUpdationDetails[' + i + '].SalesHome" value="' + data[i].SalesHome + '" type="hidden" /><input  name="CostUpdationDetails[' + i + '].SupplierID" value="' + data[i].SupplierID + '" type="hidden"><input  name="CostUpdationDetails[' + i + '].JInvoiceID" value="' + data[i].InvoiceID + '" type="hidden"><input  name="CostUpdationDetails[' + i + '].Cost" value="' + data[i].Cost + '" type="hidden"> <input  name="CostUpdationDetails[' + i + '].InvoiceID" value="' + data[i].InvoiceID + '" type="hidden">' +
                                                '<input  name="CostUpdationDetails[' + i + '].JobID" value="' + data[i].JobID + '" type="hidden">' +
 
                                                '</td>' +
@@ -549,7 +554,7 @@
                                                 </td>
                                             }
                                             <td>Invoice Amount</td>
-                                            <td>Refference No</td>
+                                            @*<td>Refference No</td>*@
                                         </tr>
                                         @if (Model.CostUpdationID > 0)
                                         {
@@ -610,7 +615,7 @@
                                                         @Html.TextBoxFor(item => @Model.CostUpdationDetails[i].InvoiceAmount, new { @class = "amt txtNum textright LoadedInvoiceAmount", autocomplete = "off" })
 
                                                     </td>
-                                                    <td class="fullwidthtd">
+                                                    <td class="fullwidthtd" style="display:none">
 
                                                         @Html.TextBoxFor(item => @Model.CostUpdationDetails[i].supplierReference, new { autocomplete = "off", @class = "supplierReference" })
 

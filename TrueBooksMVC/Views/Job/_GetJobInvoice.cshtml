@@ -1,0 +1,165 @@
+﻿@model IEnumerable<TrueBooksMVC.Models.JobInvoiceModel>
+
+@using TrueBooksMVC.Models
+@using System.Linq
+@using DAL
+
+@{
+    Layout = null;
+    SHIPPING_FinalEntities entity = new SHIPPING_FinalEntities();
+    string path = "/Job/JobInvoice/0";
+
+    var i = 1;
+
+}
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $('#dataTables-example tfoot th').each(function () {
+            var title = $(this).text();
+            $(this).html('<input type="text"  style="width:90%" />');
+        });
+
+
+        var table = $('#dataTables-example').DataTable();
+
+        table.draw();
+        table.columns().every(function () {
+            var that = this;
+            $('input', this.footer()).on('keyup change', function () {
+
+                    if (that.search() !== this.value) {
+                        that
+                            .search(this.value)
+                            .draw();
+                    }
+
+            });
+        });
+
+    });
+
+    function AddInvoiceNumber(Jobid) {
+        location.href = "@Url.Action("Job","Job")/" + Jobid;
+
+    }
+    function InvoiceNotCreated() {
+        alert("Invoice not Generated !!")
+    }
+   
+</script>
+
+@*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">*@
+
+<div id="divgridJob" class="row" runat="server" style="min-height: 250px; padding: 5px; margin-right: auto; margin-left: auto;">
+    <div class="col-md-12">
+        <div class=" box-primary">
+            <div class="box-body">
+                <div class="form-group">
+
+                    <div class="row">
+                        <div class="tab-content">
+                            <div class="panel panel-danger">
+                                <div class="panel-body">
+
+                                    <table class="table table-responsive table-striped table-bordered table-hover" id="dataTables-example">
+                                        <thead>
+                                            <tr>
+                                                @*//SL.NO    INVOICE_NO.   INVOICE_DATE   JOB_NUMBER CUSTOMER   AMOUNT   PAYMENT_STATUS  ACTION INVOICE_STATUS*@
+                                                <th>SL.NO</th>
+                                                <th>Invoice No.</th>
+                                                <th>Invoice Date</th>
+                                                <th>Job No.</th>
+                                                <th>Supplier</th>
+                                                <th>Amount</th>
+                                                <th>Payment Status</th>
+                                                <th>Invoice Status</th>
+                                                <th style="width: 18%">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tfoot>
+                                            <tr>
+                                                <th>SL.NO</th>
+                                                <th>Invoice No.</th>
+                                                <th>Invoice Date</th>
+                                                <th>Job No.</th>
+                                                <th>Supplier</th>
+                                                <th>Amount</th>
+                                                <th>Payment Status</th>
+                                                <th>Invoice Status</th>
+                                            </tr>
+                                        </tfoot>
+
+
+                                        <tbody>
+                                            @foreach (var item in Model)
+                                            {
+
+                                                <tr>
+
+                                                    <td>@i</td>
+                                                    <td>@item.InvoiceNo</td>
+
+                                                    <td>@TrueBooksMVC.Models.CommanFunctions.GetShortDateFormat(item.InvoiceDate)</td>
+                                                    <td class="tdtarget">@Html.DisplayFor(modelItem => item.JobNumber)</td>
+                                                    <td>
+                                                        <span title="@item.Supplier" class="tdtarget">@item.Supplier</span>
+                                                    </td>
+                                                    <td class="textright">
+
+                                                        @item.Amount
+                                                    </td>
+                                                    @if (item.PaymentStatus == "1 ")
+                                                    {
+                                                        <td>Pending</td>
+                                                    }
+                                                    else
+                                                    {                                                        
+                                                           <td>Completed</td>
+                                                    }
+                                                    @if (item.IsCancelledInvoice==true)
+                                                    {
+                                                        <td>Cancelled</td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td>Active</td>
+                                                    }
+
+                                                    <td style="width: 18%">
+                                                        <a target="_blank" href="@Url.Action("InvoiceReport.aspx", "Reports", new { jobid = item.JobID })" class="text-primary" title="View"><b><i class="fa fa-eye"></i></b></a>
+                                                        <span>&vert; </span>
+                                                        <a target="_blank" href="@Url.Action("InvoiceReport.aspx", "Reports", new { jobid = item.JobID })" class="text-primary" title="Print"><b><i class="fa fa-print"></i></b></a>
+                                                        @if (item.IsCancelledInvoice == false || item.IsCancelledInvoice==null)
+                                                        {
+                                                            <span>&vert; </span>
+                                                            <a style="cursor:pointer" onclick="CancelInvoice('@item.InvoiceNo')" class="text-primary" title="Cancel"><b><i class="fa fa-times"></i></b></a>
+                                                        }
+                                                        @if (item.IsCancelledInvoice==true)
+                                                        {
+                                                            <span>&vert; </span>
+                                                            <a onclick="ReGenerateInvoice(@item.JobID)" class="text-primary" title="Re Generate"><b><i class="fa fa-refresh"></i></b></a>
+                                                        }
+
+
+                                                    </td>
+                                                </tr>
+                                                i = i + 1;
+
+                                            }
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -17,7 +17,7 @@ namespace TrueBooksMVC.Models
 
         public List<SP_GetAllCostUpdation_Result> AllCostUpdation()
         {
-            return Context1.SP_GetAllCostUpdation().ToList();
+            return Context1.SP_GetAllCostUpdation(DateTime.Now,DateTime.Now).ToList();
         }
 
         public List<SP_GetJobCodesForCostUpdation_Result> GetJobCodes()

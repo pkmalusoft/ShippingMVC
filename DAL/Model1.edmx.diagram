@@ -25,15 +25,12 @@
         <EntityTypeShape EntityType="SHIPPING_FinalModel.MenuAccessLevel" Width="1.5" PointX="10.25" PointY="8.625" />
         <EntityTypeShape EntityType="SHIPPING_FinalModel.ContainerType" Width="1.5" PointX="6.1522170799561859" PointY="18.635275134181267" />
         <EntityTypeShape EntityType="SHIPPING_FinalModel.Port" Width="1.5" PointX="3.125" PointY="35" />
-        <EntityTypeShape EntityType="SHIPPING_FinalModel.AcHead" Width="1.5" PointX="6.875" PointY="25.75" />
         <EntityTypeShape EntityType="SHIPPING_FinalModel.AcHeadAssign" Width="1.5" PointX="10.625" PointY="32.75" />
         <EntityTypeShape EntityType="SHIPPING_FinalModel.Menu" Width="1.5" PointX="8.3302079664218276" PointY="28.50951529876772" />
         <EntityTypeShape EntityType="SHIPPING_FinalModel.AcCategory" Width="1.5" PointX="2.25" PointY="6.625" />
         <EntityTypeShape EntityType="SHIPPING_FinalModel.AnalysisGroup" Width="1.5" PointX="0.38807531091760622" PointY="7.2412133846623883" />
         <EntityTypeShape EntityType="SHIPPING_FinalModel.AnalysisHead" Width="1.5" PointX="7.4768096522785763" PointY="22.549188877711625" />
         <AssociationConnector Association="SHIPPING_FinalModel.FK_AnalysisHead_AnalysisGroup" />
-        <EntityTypeShape EntityType="SHIPPING_FinalModel.AcOpeningMaster" Width="1.5" PointX="12.375" PointY="23.25" />
-        <AssociationConnector Association="SHIPPING_FinalModel.FK_AcOpeningMaster_AcHead" />
         <EntityTypeShape EntityType="SHIPPING_FinalModel.AcMemoBankDetail" Width="1.5" PointX="0.5" PointY="13.875" />
         <EntityTypeShape EntityType="SHIPPING_FinalModel.AcMemoJournalDetail" Width="1.5" PointX="8.625" PointY="6.625" />
         <EntityTypeShape EntityType="SHIPPING_FinalModel.AcMemoJournalMaster" Width="1.5" PointX="11.75" PointY="7.125" />
@@ -49,18 +46,16 @@
         <EntityTypeShape EntityType="SHIPPING_FinalModel.qrySupplierOutstanding" Width="1.5" PointX="9.14945480280996" PointY="20.974237928620649" />
         <EntityTypeShape EntityType="SHIPPING_FinalModel.qryCustomerStatement" Width="1.5" PointX="3.375" PointY="28" />
         <EntityTypeShape EntityType="SHIPPING_FinalModel.AcFinancialYear" Width="1.5" PointX="3.2225405924127157" PointY="8.3110697457152742" />
-        <AssociationConnector Association="SHIPPING_FinalModel.FK_AcOpeningMaster_AcFinancialYear" />
         <EntityTypeShape EntityType="SHIPPING_FinalModel.DebitNote" Width="1.5" PointX="8.1014516689355727" PointY="24.530845936634972" />
         <EntityTypeShape EntityType="SHIPPING_FinalModel.AcJournalDetail" Width="1.5" PointX="7.5" PointY="17.5" />
         <EntityTypeShape EntityType="SHIPPING_FinalModel.AcJournalMaster" Width="1.5" PointX="0.5" PointY="30.25" />
-        <AssociationConnector Association="SHIPPING_FinalModel.FK_AcJournalDetail_AcHead" />
         <AssociationConnector Association="SHIPPING_FinalModel.FK_AcJournalDetail_AcJournalMaster" />
         <EntityTypeShape EntityType="SHIPPING_FinalModel.CostUpdationDetail" Width="1.5" PointX="15.875" PointY="11.125" />
         <EntityTypeShape EntityType="SHIPPING_FinalModel.JInvoice" Width="1.5" PointX="3.875" PointY="13.625" />
         <EntityTypeShape EntityType="SHIPPING_FinalModel.JobGeneration" Width="1.5" PointX="15.25" PointY="21.5" IsExpanded="true" />
         <EntityTypeShape EntityType="SHIPPING_FinalModel.RecPayDetail" Width="1.5" PointX="0.092225985644490457" PointY="6.166356179009358" />
         <EntityTypeShape EntityType="SHIPPING_FinalModel.CreditNote" Width="1.5" PointX="14.5" PointY="17.125" />
-        <EntityTypeShape EntityType="SHIPPING_FinalModel.CostUpdation" Width="1.5" PointX="3.75" PointY="19.875" />
+        <EntityTypeShape EntityType="SHIPPING_FinalModel.CostUpdation" Width="1.5" PointX="3.625" PointY="23.125" />
         <EntityTypeShape EntityType="SHIPPING_FinalModel.AcBankDetail" Width="1.5" PointX="1.878019916768195" PointY="11.988378768781377" />
         <EntityTypeShape EntityType="SHIPPING_FinalModel.SalesInvoice" Width="1.5" PointX="14.375" PointY="0.75" />
         <EntityTypeShape EntityType="SHIPPING_FinalModel.PurchaseInvoice" Width="2.375" PointX="12.375" PointY="11.75" />
@@ -83,7 +78,6 @@
         <AssociationConnector Association="SHIPPING_FinalModel.FK_AcCompany_CurrencyMaster" />
         <AssociationConnector Association="SHIPPING_FinalModel.FK_AcCompany_Designation" />
         <AssociationConnector Association="SHIPPING_FinalModel.FK_AcCompany_Location" />
-        <AssociationConnector Association="SHIPPING_FinalModel.FK_AcOpeningMaster_AcCompany" />
         <AssociationConnector Association="SHIPPING_FinalModel.FK_AnalysisHead_AcCompany" />
         <EntityTypeShape EntityType="SHIPPING_FinalModel.ProductService" Width="1.5" PointX="6.375" PointY="10.75" />
         <EntityTypeShape EntityType="SHIPPING_FinalModel.AcAnalysisHeadAllocation" Width="2.25" PointX="18.375" PointY="0.75" />
@@ -99,6 +93,12 @@
         <EntityTypeShape EntityType="SHIPPING_FinalModel.AcType" Width="1.5" PointX="23.375" PointY="23.75" />
         <EntityTypeShape EntityType="SHIPPING_FinalModel.CustomerNotification" Width="1.5" PointX="25.375" PointY="1" />
         <EntityTypeShape EntityType="SHIPPING_FinalModel.JTimeLine" Width="1.5" PointX="25.625" PointY="14.75" />
+        <AssociationConnector Association="SHIPPING_FinalModel.FK_AcGroup_BranchMaster" />
+        <EntityTypeShape EntityType="SHIPPING_FinalModel.AcOpeningMaster" Width="1.5" PointX="25.875" PointY="7.75" />
+        <AssociationConnector Association="SHIPPING_FinalModel.FK_AcOpeningMaster_AcCompany" />
+        <AssociationConnector Association="SHIPPING_FinalModel.FK_AcOpeningMaster_AcFinancialYear" />
+        <EntityTypeShape EntityType="SHIPPING_FinalModel.AcHead" Width="1.5" PointX="6.75" PointY="37.875" />
+        <AssociationConnector Association="SHIPPING_FinalModel.FK_AcHead_AcGroup" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

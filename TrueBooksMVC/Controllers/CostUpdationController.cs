@@ -21,10 +21,10 @@ namespace TrueBooksMVC.Controllers
         //
         // GET: /CostUpdation/
 
-        public ActionResult CostUpdation(int id)
+        public ActionResult CostUpdation(int id,int Jobid)
         {
             costUpdationVM Cost = new costUpdationVM();
-
+            Session["CostUpdationJobid"] = Jobid;
             if (Session["UserID"] != null)
             {
                 if (id > 0)
@@ -158,6 +158,7 @@ namespace TrueBooksMVC.Controllers
 
         public ActionResult CostUpdationDetails(int ID)
         {
+            Session["CostUpdationJobid"] = 0;
             List<GetAllCostUpdation_Result> CostUpdations = new List<GetAllCostUpdation_Result>();
 
             CostUpdations = DAL.SP_GetAllCostUpdation(Convert.ToDateTime(Session["FyearFrom"]), Convert.ToDateTime(Session["FyearTo"]));

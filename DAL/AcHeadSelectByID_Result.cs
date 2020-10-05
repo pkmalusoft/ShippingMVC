@@ -23,5 +23,11 @@ namespace DAL
         public Nullable<int> UserID { get; set; }
         public string Prefix { get; set; }
         public Nullable<bool> StatusControlAc { get; set; }
+        public string AccountDescription { get; set; }
+
+        public Nullable<decimal> TaxPercent { get; set; }
+
+        public bool TaxApplicable { get; set; }
+
     }
 }

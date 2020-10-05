@@ -28,8 +28,7 @@ namespace DAL
         public Nullable<int> AcCompanyID { get; set; }
         public string InvRemarks { get; set; }
     
-        public virtual AcHead AcHead { get; set; }
-        public virtual AcFinancialYear AcFinancialYear { get; set; }
         public virtual AcCompany AcCompany { get; set; }
+        public virtual AcFinancialYear AcFinancialYear { get; set; }
     }
 }
