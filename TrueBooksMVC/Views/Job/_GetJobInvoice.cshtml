@@ -8,7 +8,6 @@
     Layout = null;
     SHIPPING_FinalEntities entity = new SHIPPING_FinalEntities();
     string path = "/Job/JobInvoice/0";
-
     var i = 1;
 
 }
@@ -71,7 +70,7 @@
                                                 <th>Invoice No.</th>
                                                 <th>Invoice Date</th>
                                                 <th>Job No.</th>
-                                                <th>Supplier</th>
+                                                <th>Customer</th>
                                                 <th>Amount</th>
                                                 <th>Payment Status</th>
                                                 <th>Invoice Status</th>
@@ -128,9 +127,9 @@
                                                     }
 
                                                     <td style="width: 18%">
-                                                        <a target="_blank" href="@Url.Action("InvoiceReport.aspx", "Reports", new { jobid = item.JobID })" class="text-primary" title="View"><b><i class="fa fa-eye"></i></b></a>
+                                                        <a target="_blank" href="@Url.Action("JobInvoiceReport", "Job", new { jobid = item.JobID })" class="text-primary" title="View"><b><i class="fa fa-eye"></i></b></a>
                                                         <span>&vert; </span>
-                                                        <a target="_blank" href="@Url.Action("InvoiceReport.aspx", "Reports", new { jobid = item.JobID })" class="text-primary" title="Print"><b><i class="fa fa-print"></i></b></a>
+                                                        <a target="_blank" href="@Url.Action("JobInvoiceReport", "Job", new { jobid = item.JobID })" class="text-primary" title="Print"><b><i class="fa fa-print"></i></b></a>
                                                         @if (item.IsCancelledInvoice == false || item.IsCancelledInvoice==null)
                                                         {
                                                             <span>&vert; </span>

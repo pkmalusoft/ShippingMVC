@@ -428,7 +428,8 @@
                 });
             });
 
-            $(".tdtarget").each(function () {
+        
+                $(".tdtarget").each(function () {
                 var x = $(this);
                 var str = "";
                 str = x.text();
@@ -471,6 +472,9 @@
 
             });
         });*@
+        function numberWithCommas(x) {
+            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
     </script>
 </head>
 @{

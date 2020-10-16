@@ -54,7 +54,6 @@
         <EntityTypeShape EntityType="SHIPPING_FinalModel.JInvoice" Width="1.5" PointX="3.875" PointY="13.625" />
         <EntityTypeShape EntityType="SHIPPING_FinalModel.JobGeneration" Width="1.5" PointX="15.25" PointY="21.5" IsExpanded="true" />
         <EntityTypeShape EntityType="SHIPPING_FinalModel.RecPayDetail" Width="1.5" PointX="0.092225985644490457" PointY="6.166356179009358" />
-        <EntityTypeShape EntityType="SHIPPING_FinalModel.CreditNote" Width="1.5" PointX="14.5" PointY="17.125" />
         <EntityTypeShape EntityType="SHIPPING_FinalModel.CostUpdation" Width="1.5" PointX="3.625" PointY="23.125" />
         <EntityTypeShape EntityType="SHIPPING_FinalModel.AcBankDetail" Width="1.5" PointX="1.878019916768195" PointY="11.988378768781377" />
         <EntityTypeShape EntityType="SHIPPING_FinalModel.SalesInvoice" Width="1.5" PointX="14.375" PointY="0.75" />
@@ -99,6 +98,8 @@
         <AssociationConnector Association="SHIPPING_FinalModel.FK_AcOpeningMaster_AcFinancialYear" />
         <EntityTypeShape EntityType="SHIPPING_FinalModel.AcHead" Width="1.5" PointX="6.75" PointY="37.875" />
         <AssociationConnector Association="SHIPPING_FinalModel.FK_AcHead_AcGroup" />
+        <EntityTypeShape EntityType="SHIPPING_FinalModel.CreditNote" Width="1.5" PointX="25.375" PointY="18.75" />
+        <EntityTypeShape EntityType="SHIPPING_FinalModel.JobEnquiry" Width="1.5" PointX="25.375" PointY="23.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

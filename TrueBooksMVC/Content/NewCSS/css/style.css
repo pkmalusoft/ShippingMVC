@@ -320,7 +320,7 @@ a {
     float: left;
     background-color: transparent;
     background-image: none;
-    padding: 20px 31px;
+    padding: 14px 31px;
     font-family: fontAwesome;
     font-size: 31px;
     color: #97a9b2 !important;
@@ -5744,6 +5744,7 @@ table.text-center, table.text-center td, table.text-center th {
     font-family: Calibri !important;
     letter-spacing: 0.03em;
     font-size: 18px;
+	font-weight:bold;
 }
 .card {
     box-shadow:0 0 10px #f1f1f1;
@@ -5919,7 +5920,7 @@ body .form-control {
     height: 40px !important;
     padding: 6px 12px!important;
 	margin-top: 10px;
-    font-size: 17px !important;
+    font-size: 15px !important;
 	font-weight:normal!important;
 	border-radius:10px!important;
 }
@@ -5969,7 +5970,7 @@ select#AcFYearID {
 nav.navbar.navbar-static-top {
     text-transform: uppercase;
     letter-spacing: 0.03rem;
-    padding: 1.5rem 3rem;
+    padding: 1rem 3rem;
     z-index: 9000;
     -webkit-border-radius: 0;
     -moz-border-radius: 0;
@@ -6126,6 +6127,7 @@ li.treeli > a {
     }
     td.searinput {
         padding: 17px;
+		
     }
     .searlabel {
         color: #1b1a1a;
@@ -6250,8 +6252,9 @@ li.treeli > a {
     transform: rotate(-90deg);
 }
 label,body .headinglabel{
-	font-size:18px!important;
-	color: #565656 !important;
+	font-size:16px!important;
+	color: #289ecc!important;
+	font-weight:bold!important;
 }
 .headinglabel{
 	font-weight:normal!important;
@@ -6390,9 +6393,9 @@ body .shadowbr{
 option {
     font-size: 16px!important;
 }
-.table>tbody>tr:nth-of-type(odd),body .data tbody>tr:nth-of-type(odd) {
+/*.table>tbody>tr:nth-of-type(odd),body .data tbody>tr:nth-of-type(odd) {
     background-color: #f9f9f9!important;
-}
+}*/
 body .data tbody>tr:nth-of-type(1){
 	background-color:#35b8eb!important;
 }
@@ -6554,7 +6557,8 @@ body .searchdiv,.content>#divgridJob>.col-md-12>.box-primary>.box-body>.form-gro
     margin-top: 44px;
 }
 label, body .headinglabel {
-    font-size: 21px !important;
+    font-size: 18px !important;
+	
 }
 .sidebar .nav li a {
     font-size: 17px;
@@ -6603,3 +6607,38 @@ display:flex; justify-content:flex-end;
 body table.dataTable tbody .txt-red {
     color: #e10909 !important;
 }
+.jobform .ui-tabs .ui-tabs-nav .ui-tabs-anchor{
+	background: #ffffff;
+    border-radius: 10px;
+    color: #289ecc;
+
+    border: 1px solid #289ecc;
+}
+.jobform .ui-tabs .ui-tabs-nav li{
+   background: transparent!Important;
+    border: 0!important;
+}
+.jobform .ui-tabs-vertical .ui-tabs-nav li.ui-tabs-active a{
+	background:#35b8eb;
+	color:#fff;
+}
+.no-padding{
+	padding:0;
+}
+.tabsser{
+	margin-bottom:15px;
+}
+body .fullwidthtd input {
+    border: 1px solid #ccc!important;
+    border-radius: 10px!important;
+}
+.title_space{
+	margin-top:50px;
+}
+.multiselect-clear-filter{
+	    min-width: 50px!important;
+    margin-top: 10px;
+    margin-left: 5px!important;
+}
+.multiselect-filter span.input-group-addon {
+	display:none;

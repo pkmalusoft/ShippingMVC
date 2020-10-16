@@ -49,24 +49,46 @@
             //    }
             //});
 
-
             $("#AcGroup").change(function () {
                 var thisval = $(this).val();
                 if (thisval == null || thisval == "") {
-
+                    $("#AcTypeId").val('').trigger('change');
+                    $("#AcTypeId").removeAttr('readonly');
                 } else {
                     $.ajax({
                         url: '/AccountingModule/GetAcCategoryByParentid',
                         type: "GET",
                         dataType: "JSON",
                         data: { parentId: $(this).val() },
-                        success: function (groups) {
-                            $("#AcCategoryID").val(groups);
+                        success: function (response) {
+                            debugger;
+
+                            //$("#AcCategoryID").val(groups);
+                            $("#AcCategoryID").val(response.categoryid);
+                            $("#AcTypeId").val(response.acttypeid).trigger('change');
+                            $("#AcTypeId").attr('readonly', 'readonly');
 
                         }
                     });
                 }
             });
+            //$("#AcGroup").change(function () {
+            //    var thisval = $(this).val();
+            //    if (thisval == null || thisval == "") {
+
+            //    } else {
+            //        $.ajax({
+            //            url: '/AccountingModule/GetAcCategoryByParentid',
+            //            type: "GET",
+            //            dataType: "JSON",
+            //            data: { parentId: $(this).val() },
+            //            success: function (groups) {
+            //                $("#AcCategoryID").val(groups);
+
+            //            }
+            //        });
+            //    }
+            //});
 
             //$("#AcCategoryID").change(function () {
             //    $("#AcGroup").empty('');

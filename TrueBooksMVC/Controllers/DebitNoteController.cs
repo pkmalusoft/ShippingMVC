@@ -137,7 +137,6 @@ namespace TrueBooksMVC.Controllers
 
 
             DebitNote d = new DebitNote();
-
             d.DebitNoteID = max + 1;
             d.DebitNoteNo = "D-" + (max + 1);
             d.InvoiceID = v.InvoiceNo;
@@ -151,6 +150,7 @@ namespace TrueBooksMVC.Controllers
             d.SupplierID = v.SupplierID;
             d.InvoiceType = "S";
             d.IsShipping = true;
+            d.Remarks = v.Remarks;
             db.DebitNotes.Add(d);
             db.SaveChanges();
 

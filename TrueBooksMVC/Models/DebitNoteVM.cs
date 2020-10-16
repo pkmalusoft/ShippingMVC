@@ -18,5 +18,6 @@ namespace TrueBooksMVC.Models
 
         public string JobNo { get; set; }
         public string SupplierName { get; set; }
+        public string Remarks { get; set; }
     }
 }

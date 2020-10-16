@@ -1,0 +1,255 @@
+﻿@model DAL.JobEnquiry
+
+@{
+    ViewBag.Title = "Job Enquiry";
+    Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
+
+
+    if (Convert.ToInt32(Session["UserRoleID"]) > 1)
+    {
+        TrueBooksMVC.Models.SourceMastersModel obj = new TrueBooksMVC.Models.SourceMastersModel();
+
+
+    }
+
+}
+
+<style>
+    .panel-body {
+        margin-bottom: 3px !important;
+    }
+
+    .shadowbr {
+        padding-top: 0 !important;
+    }
+
+    #charges_table th, #charges_table td {
+        padding-bottom: 0 !important;
+    }
+
+    .inner-tab-content .headinglabel {
+        padding-bottom: 0 !important;
+    }
+
+    .form-group {
+        margin-bottom: 0;
+    }
+</style>
+
+
+<script>
+    var vactualJObcode = '';
+    $(document).ready(function () {
+        if ('@Model.Id' > 0) {
+            $("#EnquiryType").val('@Model.EnquiryType');
+        }
+
+        var startdate = '@Session["FyearFrom"].ToString()';
+        var enddate = '@Session["FyearTo"].ToString()';
+        var sd = new Date(startdate);
+        var ed = new Date(enddate);
+
+
+        $("#EnquiryDate").datepicker({
+                dateFormat: 'dd-M-yy',
+                changeYear: true, changeMonth: true,
+                minDate: sd,
+                maxDate: ed,
+        });
+        var form = $("#EnquiryForm");
+        form.validate({
+            rules: {
+                EnquiryDate: "required",
+                EnquiryType: "required",
+                LoadPort: "required",
+                DestinationPort: "required",
+               
+
+                Shipper: "required",
+                Consignee: "required"
+
+            },
+            messages: {
+                EnquiryDate: "This field is required",
+                EnquiryType: "This field is required",
+                LoadPort: "This field is required",
+                DestinationPort: "This field is required",
+                Shipper: "This field is required",
+                Consignee: "This field is required"
+
+            }
+        });
+
+        $("#submit").click(function () {
+            if ($("#EnquiryForm").valid()) {
+                return true;
+            }
+        });
+    });
+
+
+
+
+</script>
+
+
+<div class="container-fluid">
+
+    <div class="" dir="ltr" id="main" runat="server" style="width: 100%;">
+        <section class="content-header" style="padding-bottom:30px !important">
+            <h1 class="headingfont">Job Enquiry<small></small></h1>
+            <div class="row form-group cbtnpadding  back-to-list">
+                <div class="pull-left">
+                    <a href='@Url.Action("JobEnquiryList", "Job", new { id = 0 })' class="btn btn-primary" data-toggle="tooltip" data-placement="right" title="Click here">Back to list</a>
+                </div>
+
+            </div>
+            <div class="clear"></div>
+        </section>
+
+
+
+
+
+        @using (Html.BeginForm(new { id="EnquiryForm"}))
+        {
+            @Html.ValidationSummary(true)
+
+
+            <section class="content jobform">
+                <div class="row no-margin">
+                    <div class="col-md-3">
+                        <label class="headinglabel">Enquiry No</label>
+                        <input type="text" class="form-control" id="EnquiryNo" value="@Model.EnquiryNo" name="EnquiryNo" readonly />
+                        @Html.ValidationMessageFor(model => model.EnquiryNo)
+
+                    </div>
+                    <div class="col-md-3">
+
+
+
+                        <label class="headinglabel required">Enquiry Date</label>
+
+                        @Html.TextBoxFor(m => m.EnquiryDate, new { Value = Model.EnquiryDate.Value.ToString("dd-MMM-yyyy"), id = "EnquiryDate", @class = "form-control required" })
+                        @Html.ValidationMessageFor(model => model.EnquiryDate)
+
+                    </div>
+                    <div class="col-md-3">
+                        <label class="headinglabel required">Enquiry Type</label>
+                        <select class="form-control"  id="EnquiryType" name="EnquiryType" required>
+                            <option value="">Select</option>
+                            <option value="1">Telephone</option>
+                            <option value="2">Email</option>
+                            <option value="3">Walk-in</option>
+                            <option value="4">Customer Login</option>
+                        </select>
+
+                    </div>
+                </div>
+                <div class="row no-margin" style="padding-top:5px">
+
+                    <div class="col-md-3">
+                        <label class="headinglabel required">Load Port</label>
+                        <input type="text" class="form-control" id="LoadPort" value="@Model.LoadPort" name="LoadPort" required/>
+                        @Html.ValidationMessageFor(model => model.LoadPort)
+
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class=" headinglabel required">Destination Port</label>
+                        <input type="text" class="form-control" id="DestinationPort" value="@Model.DestinationPort" name="DestinationPort" required/>
+                        @Html.ValidationMessageFor(model => model.DestinationPort)
+
+                    </div>
+                    <div class="col-md-3">
+                        <label class="headinglabel">Place of Receipt</label>
+                        <input type="text" class="form-control" id="ReceiptPlace" value="@Model.ReceiptPlace" name="ReceiptPlace" />
+                        @Html.ValidationMessageFor(model => model.ReceiptPlace)
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="headinglabel">Place of Delivery</label>
+                        <input type="text" class="form-control" id="DeliveryPlace" value="@Model.DeliveryPlace" name="DeliveryPlace" />
+                        @Html.ValidationMessageFor(model => model.DeliveryPlace)
+
+                    </div>
+                </div>
+                <div class="row no-margin" style="padding-top:5px">
+                    <div class="col-md-3 form-group">
+                        <label class=" headinglabel required">Shipper</label>
+                        <input type="text" class="form-control" name="Shipper" value="@Model.Shipper" id="Shipper" required/>
+                        @Html.ValidationMessageFor(model => model.Shipper)
+
+
+
+                    </div>
+
+                    <div class="col-md-3 form-group">
+                        <label class="headinglabel required">Consignee</label>
+                        <input type="text" class="form-control" id="Consignee" value="@Model.Consignee" name="Consignee" required/>
+                        @Html.ValidationMessageFor(model => model.Consignee)
+
+                    </div>
+
+
+                    <div class="col-md-3">
+                        <label class=" headinglabel">Invoice To</label>
+                        <input type="text" class="form-control" id="InvoiceTo" value="@Model.InvoiceTo" name="InvoiceTo" />
+                        @Html.ValidationMessageFor(model => model.InvoiceTo)
+
+                    </div>
+
+
+                    <div class="col-md-3">
+                        <label class=" headinglabel">Notify To</label>
+                        <input type="text" class="form-control" name="NotifyTo" value="@Model.NotifyTo" id="NotifyTo" />
+                        @Html.ValidationMessageFor(model => model.NotifyTo)
+
+
+
+                    </div>
+
+                </div>
+
+
+                <div class="row no-margin" style="padding-top:5px;">
+                    <div class="col-md-12">
+                        <label class=" headinglabel">Remarks</label>
+                        <input type="text" class="form-control" id="Remarks" value="@Model.Remarks" name="Remarks" />
+                    </div>
+
+
+                </div>
+                <br />
+                <br />
+
+
+                <div class="row no-margin buttons" style="padding-top: 10px">
+                    <div class="col-md-12 butdivs">
+                        @{ if (Model.Id > 0)
+                            {
+
+                                <input type="submit" id="submit" name="Command" value="Update" class="btn btn-primary btnwidth" />
+
+                            }
+                            else
+                            {
+                                <input type="submit" name="Save" id="submit" value="Save" class="btn btn-primary btnwidth" />
+
+                            }
+
+                        }
+                        &nbsp;
+                        <a href='@Url.Action("JobEnquiryList", "Job", new { id = 0 })' class="btn btn-danger btnwidth">Cancel</a>
+
+
+
+                    </div>
+                </div>
+
+            </section>
+        }
+    </div>
+
+</div>
+<link href="~/Content/themes/base/minified/jquery-ui.min.css" rel="stylesheet" />

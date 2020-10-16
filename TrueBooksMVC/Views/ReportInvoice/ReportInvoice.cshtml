@@ -103,7 +103,8 @@
             {
                 if ($("#plain").is(':checked')) {
                     @*window.location.href = '@Url.Action("InvoiceReportPlain", "ReportInvoice", new { JobID = ViewBag.id})';*@
-                     window.location.href = '/Reports/InvoiceReport.aspx?jobid=' + '@ViewBag.id', target = _blank;
+                     //window.location.href = '/Reports/InvoiceReport.aspx?jobid=' + '@ViewBag.id', target = _blank;
+                    window.location.href = '/Job/JobInvoiceReport?jobid=' + '@ViewBag.id', target = _blank;
                     @*window.location.href = '@System.Configuration.ConfigurationManager.AppSettings["spath"].ToString()' + '/Reports/InvoiceReport.aspx?jobid=' + '@ViewBag.id', target = _blank;*@
                 }
                 if ($("#formatted").is(':checked')) {

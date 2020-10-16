@@ -58,7 +58,7 @@
 </script>
 
 <section class="content-header">
-    <h1 class="headingfont">PDC Transaction</h1>
+    <h1 class="headingfont">Post Dated Cheques </h1>
 
 </section>
 <div class="m-container">
@@ -84,16 +84,19 @@
     <tr>
         
         <th>
-            @Html.Label("Voucher No")
+            @Html.Label("Voucher Number")
         </th>
          <th>
-            @Html.Label("Voucher Type")
+		   @Html.Label("Transaction Date")
         </th>
          <th>
-            @Html.Label("Transaction Date")
+        	 @Html.Label("Voucher Type")
+        </th>
+		 <th>
+            @Html.Label("Amount")
         </th>
         <th>
-            @Html.Label("Remark")
+            @Html.Label("Remarks")
         </th>
       
       
@@ -105,13 +108,16 @@
     <tr>
         
         <th>
-            @Html.Label("Voucher No")
+            @Html.Label("Voucher Number")
+        </th>
+		 <th class="right_text">
+            @Html.Label("Transaction Date")
         </th>
          <th>
             @Html.Label("Voucher Type")
         </th>
-         <th class="right_text">
-            @Html.Label("Transaction Date")
+         <th>
+            @Html.Label("Amount")
         </th>
         <th>
             @Html.Label("Remark")

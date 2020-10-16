@@ -27,5 +27,6 @@ namespace DAL
         public Nullable<int> AcHeadID { get; set; }
         public Nullable<int> SupplierID { get; set; }
         public Nullable<bool> IsShipping { get; set; }
+        public string Remarks { get; set; }
     }
 }

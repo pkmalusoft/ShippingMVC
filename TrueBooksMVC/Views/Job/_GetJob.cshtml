@@ -72,17 +72,17 @@
                                     <table class="table table-responsive table-striped table-bordered table-hover" id="dataTables-example">
                                         <thead>
                                             <tr>
-                                                <th>Job Code</th>
-                                                <th>Job Date</th>
-                                                <th>Job Type</th>
+                                                <th style="width:7%">Job Code</th>
+                                                <th style="width:7%">Job Date</th>
+                                                <th style="width:7%">Job Type</th>
                                               
                                                 <th style="width:18%">Consignee</th>
                                                 <th style="width:18%">Customer</th>
-                                                <th style="width:30px">Invoice No</th>
+                                                <th width="7%" >Invoice Number</th>
                                                 <th width="7%">Invoice Date</th>
-                                                <th>Load Port</th>
-                                                <th>Destination Port</th>
-                                                <th style="width: 18%">Action</th>
+                                                <th width="10%">Load Port</th>
+                                                <th width="10%">Destination Port</th>
+                                                <th style="width: 8%">Action</th>
                                             </tr>
                                         </thead>
                                         <tfoot>
@@ -146,11 +146,11 @@
                                                                     <span>&vert; </span>
                                                                     <a target="_blank" href="@Url.Action("JobRegisterReport.aspx", "Reports", new { jobid = item.JobID })" class="text-primary" title="Job Report"><b>JR</b></a>
                                                                     <span>&vert; </span>
-                                                                    <a target="_blank" href="@Url.Action("InvoiceReport.aspx", "Reports", new { jobid = item.JobID })" class="text-primary" title="Invoice"><b>IN</b></a>
+                                                                    <a target="_blank" href="@Url.Action("JobInvoiceReport", "Job", new { jobid = item.JobID })" class="text-primary" title="Invoice"><b>IN</b></a>
                                                                     <span>&vert; </span>
                                                                     <a target="_blank" href="@Url.Action("DeliveryNote.aspx", "Reports", new { jobid = item.JobID })" class="text-primary" title="Delivery Note"><b>DN</b></a>
                                                                     <span>&vert; </span>
-                                                                    <a target="_blank" href="@Url.Action("InvoiceReport.aspx", "Reports", new { jobid = item.JobID })" class="text-primary" title="Arrival Note"><b>AN</b></a>
+                                                                    <a target="_blank" href="@Url.Action("JobInvoiceReport", "Job", new { jobid = item.JobID })" class="text-primary" title="Arrival Note"><b>AN</b></a>
                                                                     <span>&vert; </span>
                                                                     <a target="_blank" href="@Url.Action("ArrivalReportPlain", "ReportInvoice", new { JobID = item.JobID})" class="text-primary" title="Truck Conginment"><b>TC</b></a>
 
@@ -233,11 +233,11 @@
                                                                     <span>&vert; </span>
                                                                     <a target="_blank" href="@Url.Action("JobRegisterReport.aspx", "Reports", new { jobid = item.JobID })" class="text-primary" title="Job Report">JR</a>
                                                                     <span>&vert; </span>
-                                                                    <a target="_blank" href="@Url.Action("InvoiceReport.aspx", "Reports", new { jobid = item.JobID })" class="text-primary" title="Invoice">IN</a>
+                                                                    <a target="_blank" href="@Url.Action("JobInvoiceReport", "Job", new { jobid = item.JobID })" class="text-primary" title="Invoice">IN</a>
                                                                     <span>&vert; </span>
                                                                     <a target="_blank" href="@Url.Action("DeliveryNote.aspx", "Reports", new { jobid = item.JobID })" class="text-primary" title="Delivery Note">DN</a>
                                                                     <span>&vert; </span>
-                                                                    <a target="_blank" href="@Url.Action("InvoiceReport.aspx", "Reports", new { jobid = item.JobID })" class="text-primary" title="Arrival Note">AN</a>
+                                                                    <a target="_blank" href="@Url.Action("JobInvoiceReport", "Job", new { jobid = item.JobID })" class="text-primary" title="Arrival Note">AN</a>
                                                                     <span>&vert; </span>
                                                                     <a target="_blank" href="@Url.Action("ArrivalReportPlain", "ReportInvoice", new { JobID = item.JobID})" class="text-primary" title="Truck Conginment">TC</a>
                                                                 }

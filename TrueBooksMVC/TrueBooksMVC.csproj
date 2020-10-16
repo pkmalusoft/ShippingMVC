@@ -3936,6 +3936,9 @@
     <Content Include="Views\DebitNote\ServiceIndex.cshtml" />
     <Content Include="Views\Job\JobInvoice.cshtml" />
     <Content Include="Views\Job\_GetJobInvoice.cshtml" />
+    <Content Include="Views\Job\JobEnquiry.cshtml" />
+    <Content Include="Views\Job\JobEnquiryList.cshtml" />
+    <Content Include="Views\Job\_GetJobEnquiry.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Logo\" />

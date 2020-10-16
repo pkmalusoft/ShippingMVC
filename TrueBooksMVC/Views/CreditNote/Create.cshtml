@@ -150,7 +150,7 @@
 
                             return {
                                 label: val.JobNo,
-                                value: val.JobNum,
+                                value: val.JobNo,
                                 Trading: val.Istrading
                             }
                         }))
@@ -225,91 +225,99 @@
     {
         @Html.AntiForgeryToken()
         @Html.ValidationSummary(true)
-        <div class="searchdiv sm-width">
+        <div class="searchdiv">
             <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
             <fieldset>
 
                 <div class="row no-margin">
 
-						<div class="form-group row">
-                        <div class="col-md-3">
-                        	<label class="required headinglabel">Date</label>
-						</div>
-						<div class="col-md-9">
-							@Html.TextBoxFor(model => model.Date, new { @class = "form-control text-right", placeholder = "dd-mmm-yyyy" })
-							@Html.ValidationMessageFor(model => model.Date)
-						</div>
+                    <div class="form-group row">
+                        <div class="col-md-2">
+                            <label class="required headinglabel">Credit Note Number</label>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" id="CreditNoteNo" name="CreditNoteNo" class="form-control" value="@ViewBag.CreditNoteNum" readonly />
+                            @Html.ValidationMessageFor(model => model.CreditNoteNo)
+                        </div>
+                        <div class="col-md-2">
+                            <label class="required headinglabel">Date</label>
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(model => model.Date, new { @class = "form-control text-right", placeholder = "dd-mmm-yyyy" })
+                            @Html.ValidationMessageFor(model => model.Date)
+                        </div>
                     </div>
 
 
                     <div class="form-group row">
-                        <div class="col-md-3">
-                        <label class="headinglabel">Expence A/C</label>
-						</div>
-							<div class="col-md-9">
-                        @Html.DropDownListFor(model => model.AcHeadID, new SelectList(@ViewBag.achead, "AcHeadID", "AcHead1"), "Select", new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.AcHeadID)
+                        <div class="col-md-2">
+                            <label class="headinglabel">Expence A/C</label>
+                        </div>
+                        <div class="col-md-4">
+                            @Html.DropDownListFor(model => model.AcHeadID, new SelectList(@ViewBag.achead, "AcHeadID", "AcHead1"), "Select", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.AcHeadID)
+                        </div>
+                        <div class="col-md-2">
+                            <label class="headinglabel required">Customer</label>
+                        </div>
+                        <div class="col-md-4">
+                            @Html.DropDownListFor(model => model.CustomerID, new SelectList(@ViewBag.customer, "CustomerID", "Customer1"), "Select", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.CustomerID)
+                        </div>
                     </div>
-                </div>
-                <div class="row no-margin" style="padding-top:10px">
-				 <div class="form-group row">
-                        <div class="col-md-3">
-                        <label class="headinglabel required">Customer</label>
-						</div>
-						<div class="col-md-9">
-                        @Html.DropDownListFor(model => model.CustomerID, new SelectList(@ViewBag.customer, "CustomerID", "Customer1"), "Select", new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.CustomerID)
-						</div>
-                    </div>
-                   <div class="form-group row">
-                        <div class="col-md-3">
-                        <label class="required headinglabel">Job No</label>
-						</div>
-						<div class="col-md-9">
-                        @*@Html.DropDownListFor(model => model.JobNO, new SelectList(@ViewBag.jobno, "JobNo", "JobNo"), "Select", new { @class = "form-control text-right" })*@
-                        <input type="text" id="JobNOStr" name="JobNOStr" value="" class="form-control" />
-                        <input type="hidden" id="TradingInvoice" name="TradingInvoice" value="" class="form-control" />
-                        <input type="hidden" id="JobNO" name="JobNO" value="" class="form-control" />
-                        @Html.ValidationMessageFor(model => model.JobNO)
-					</div>
+              
+                    <div class="form-group row">
+                        <div class="col-md-2">
+                            <label class="required headinglabel">Invoice No</label>
+                        </div>
+                        <div class="col-md-4">
+                            @*@Html.DropDownListFor(model => model.JobNO, new SelectList(@ViewBag.jobno, "JobNo", "JobNo"), "Select", new { @class = "form-control text-right" })*@
+                            <input type="text" id="JobNOStr" name="JobNOStr" value="" class="form-control" />
+                            <input type="hidden" id="TradingInvoice" name="TradingInvoice" value="" class="form-control" />
+                            <input type="hidden" id="JobNO" name="JobNO" value="" class="form-control" />
+                            @Html.ValidationMessageFor(model => model.JobNO)
+                        </div>
+                        <div class="col-md-2">
 
+                            <label class="headinglabel">Invoice Amount</label>
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(model => model.InvoiceAmount, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.InvoiceAmount)
+                        </div>
                     </div>
 
 
-                </div>
+              
+               
+                    <div class="form-group row">
+                        <div class="col-md-2">
 
-                <div class="row no-margin" style="padding-top:10px">
+                            <label class="headinglabel">Amount Paid</label>
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(model => model.ReceivedAmount, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.ReceivedAmount)
+                        </div>
+                        <div class="col-md-2">
 
- 					<div class="form-group row">
-                        <div class="col-md-3">
-                   
-                        <label class="headinglabel">Invoice Amount</label>
-						</div>
-						 <div class="col-md-9">
-                        @Html.TextBoxFor(model => model.InvoiceAmount, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.InvoiceAmount)
-						</div>
-
+                            <label class="required headinglabel">Amount</label>
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(model => model.Amount, new { @class = "form-control text-right" })
+                            @Html.ValidationMessageFor(model => model.Amount)
+                        </div>
                     </div>
-					<div class="form-group row">
-                        <div class="col-md-3">
-                    
-                        <label class="headinglabel">Received Amount</label>
-						</div>
-						<div class="col-md-9">
-                        @Html.TextBoxFor(model => model.ReceivedAmount, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.ReceivedAmount)
-					</div>
-                    </div>
-					<div class="form-group row">
-                        <div class="col-md-3">
-                   		
-                        <label class="required headinglabel">Amount</label>
-						</div>
-						 <div class="col-md-9">
-                        @Html.TextBoxFor(model => model.Amount, new { @class = "form-control text-right" })
-                        @Html.ValidationMessageFor(model => model.Amount)
-						</div>
+                    <div class="form-group row">
+                        <div class="col-md-2">
+
+                            <label class="headinglabel">Remarks</label>
+                        </div>
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(model => model.Remarks, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Remarks)
+                        </div>
+                       
                     </div>
                 </div>
 

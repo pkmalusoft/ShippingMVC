@@ -8,6 +8,50 @@ function deleteCharge(obj,InvId) {
         $('#DeletedInvoiceIds').val(DeletedInvoiceIds + ',' + InvId);
     }
     $(obj).closest('tr').remove();
+    GetChargesTotal();
+}
+function GetChargesTotal() {
+    var rowlen = 0;
+    var protot = 0;
+    var saletot = 0;
+    var taxtot = 0;
+    var margintot = 0;
+    $("#charges_table > tbody > tr").each(function () {
+        rowlen = rowlen + 1;
+    });
+    for (var a = 1; a < rowlen; a++) {
+        var ProvisionHome = $("#ProvisionHome_" + a).val();
+        if (protot == 0) {
+            protot = parseFloat(ProvisionHome).toFixed(2);
+        } else {
+            protot = parseFloat(protot) + parseFloat(ProvisionHome);
+        }
+        var SaleHome = $("#SalesHome_" + a).val();
+        if (saletot == 0) {
+            saletot = parseFloat(SaleHome).toFixed(2);
+        } else {
+            saletot = parseFloat(saletot) + parseFloat(SaleHome);
+        }
+        var TaxHome = $("#taxamt_" + a).val();
+        if (taxtot == 0) {
+            taxtot = parseFloat(TaxHome).toFixed(2);
+        } else {
+            taxtot = parseFloat(taxtot) + parseFloat(TaxHome);
+        }
+        var MarginHome = $("#margin_" + a).val();
+        if (margintot == 0) {
+            margintot = parseFloat(MarginHome).toFixed(2);
+        } else {
+            margintot = parseFloat(margintot) + parseFloat(MarginHome);
+        }
+    }
+    $("#ProvisionTot").text(parseFloat(protot).toFixed(2));
+    $("#SalesTot").text(parseFloat(saletot).toFixed(2));
+    $("#TaxTot").text(parseFloat(taxtot).toFixed(2));
+    $("#MarginTot").text(parseFloat(margintot).toFixed(2));
+}
+function deleteGeneratedCharge(obj, InvId) {
+    alert("Invoice Generated! Can't Delete!")
 }
 function DeletedCargo(obj, CargoId) {
     var DeletedCargoIds = $('#DeletedCargoIds').val();
@@ -300,7 +344,9 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
     };
    
     var vCharges = JSON.parse('[]');
-
+    
+    $scope.InvoiceGenerated = function (index) {
+        alert("Invoice Generated! Modify Restricted !")};
     $scope.editCharges = function (index) {
         var objRevenueTypeID = $('#RevenueTypeID_' + index).val();
         $('#RevenueTypeID').val(objRevenueTypeID);
@@ -471,9 +517,9 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
         $("#charges_table").append(tdString);
         $("#AddCharges").show();
         ClearChargesTab();
-
+        GetChargesTotal();
     };
-
+   
     function ClearChargesTab() {
         $scope.InvoiceID = '';
         $('#RevenueTypeID').val('');
@@ -563,11 +609,20 @@ app.controller('cargoController', function ($scope, $http, cargoService) {
                 tdString = tdString + '<td><div class="data13"><input type="text" value="' + (ChargeObj.Tax ? ChargeObj.Tax : 0) + '" title="' + (ChargeObj.Tax ? ChargeObj.Tax : 0) + '" name="tax_' + vCharges.length + '" id="tax_' + vCharges.length + '" style="width:100%;border:none; text-align:right" readonly/></div></td>';
                 tdString = tdString + '<td><div class="data14"><input type="text" value="' + (ChargeObj.TaxAmount ? parseFloat(ChargeObj.TaxAmount).toFixed(2) : 0.00) + '" title="' + (ChargeObj.TaxAmount ? ChargeObj.TaxAmount : 0) + '" name="taxamt_' + vCharges.length + '" id="taxamt_' + vCharges.length + '" style="width:100%;border:none;text-align:right" readonly/></div></td>';
                 tdString = tdString + '<td><div class="data15"><input type="text" value="' + (ChargeObj.Margin ? parseFloat(ChargeObj.Margin).toFixed(2) : 0.00) + '" title="' + (ChargeObj.Margin ? ChargeObj.Margin : 0) + '" name="margin_' + vCharges.length + '" id="margin_' + vCharges.length + '" style="width:100%;border:none; text-align:right" readonly /></div></td>';
-                tdString = tdString + '<td><a href="javascript:void(0)" onclick="angular.element(this).scope().editCharges(' + vCharges.length + ')"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="deleteCharge(this,' + ChargeObj.InvoiceID + ')"><i class="fa fa-times-circle"></i></a></td>';
+                debugger;
+                if (ChargeObj.InvoiceStatus == "0") {
+                    tdString = tdString + '<td><a href="javascript:void(0)" onclick="angular.element(this).scope().editCharges(' + vCharges.length + ')"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="deleteCharge(this,' + ChargeObj.InvoiceID + ')"><i class="fa fa-times-circle"></i></a></td>';
+
+                } else {
+                    tdString = tdString + '<td><a href="javascript:void(0)" onclick="angular.element(this).scope().InvoiceGenerated(' + vCharges.length + ')"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="deleteGeneratedCharge(this,' + ChargeObj.InvoiceID + ')"><i class="fa fa-times-circle"></i></a></td>';
+}
                 tdString = tdString + '</tr>';
                 $("#charges_table").append(tdString);
             }
             $("#AddCharges").show();
+            GetChargesTotal();
+
+           
         });
     };
 

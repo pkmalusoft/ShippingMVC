@@ -75,7 +75,6 @@ namespace DAL
         public DbSet<JInvoice> JInvoices { get; set; }
         public DbSet<JobGeneration> JobGenerations { get; set; }
         public DbSet<RecPayDetail> RecPayDetails { get; set; }
-        public DbSet<CreditNote> CreditNotes { get; set; }
         public DbSet<CostUpdation> CostUpdations { get; set; }
         public DbSet<AcBankDetail> AcBankDetails { get; set; }
         public DbSet<SalesInvoice> SalesInvoices { get; set; }
@@ -97,15 +96,17 @@ namespace DAL
         public DbSet<PageControlField> PageControlFields { get; set; }
         public DbSet<PageControlMaster> PageControlMasters { get; set; }
         public DbSet<AcHeadControl> AcHeadControls { get; set; }
-        public DbSet<AcGroup> AcGroups { get; set; }
         public DbSet<JobStatu> JobStatus { get; set; }
         public DbSet<StaffNote> StaffNotes { get; set; }
         public DbSet<JStatu> JStatus { get; set; }
-        public DbSet<AcType> AcTypes { get; set; }
         public DbSet<CustomerNotification> CustomerNotifications { get; set; }
         public DbSet<JTimeLine> JTimeLines { get; set; }
         public DbSet<AcOpeningMaster> AcOpeningMasters { get; set; }
+        public DbSet<AcGroup> AcGroups { get; set; }
         public DbSet<AcHead> AcHeads { get; set; }
+        public DbSet<AcType> AcTypes { get; set; }
+        public DbSet<CreditNote> CreditNotes { get; set; }
+        public DbSet<JobEnquiry> JobEnquiries { get; set; }
     
         public virtual int SP_DeleteUser(Nullable<int> uSerID)
         {

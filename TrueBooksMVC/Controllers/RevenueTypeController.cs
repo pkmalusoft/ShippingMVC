@@ -53,8 +53,22 @@ namespace ShippingFinal.Controllers
         public ActionResult Create(int acheadid)
         {
             ViewBag.AcheadId = acheadid;
-
-            ViewBag.accounthead = entity.AcHeads.OrderBy(x => x.AcHead1).ToList();
+            var accounthead = entity.AcHeads.ToList().OrderBy(s => s.AcHead1);
+            //var accounthead = context.AcHeadSelectAll(Convert.ToInt32(Session["AcCompanyID"].ToString())).OrderBy(d=>d.AcHead);
+            foreach (var item in accounthead)
+            {
+                var acgroup = entity.AcGroups.Where(d => d.AcGroupID == item.AcGroupID).FirstOrDefault();
+                if (acgroup != null)
+                {
+                    var actype = entity.AcTypes.Where(d => d.Id == acgroup.AcTypeId).FirstOrDefault();
+                    if (actype != null)
+                    {
+                        item.AcHead1 = item.AcHead1 + " - " + actype.AccountType;
+                    }
+                }
+            }
+            ViewBag.accounthead = accounthead;
+            //ViewBag.accounthead = entity.AcHeads.OrderBy(x => x.AcHead1).ToList();
             return View();
         }
 
@@ -80,6 +94,20 @@ namespace ShippingFinal.Controllers
                 TempData["SuccessMSG"] = "You have successfully added Revenue Type.";
                 return RedirectToAction("Index");
             }
+            var accounthead = entity.AcHeads.ToList().OrderBy(s => s.AcHead1);
+            foreach (var item in accounthead)
+            {
+                var acgroup = entity.AcGroups.Where(d => d.AcGroupID == item.AcGroupID).FirstOrDefault();
+                if (acgroup != null)
+                {
+                    var actype = entity.AcTypes.Where(d => d.Id == acgroup.AcTypeId).FirstOrDefault();
+                    if (actype != null)
+                    {
+                        item.AcHead1 = item.AcHead1 + " - " + actype.AccountType;
+                    }
+                }
+            }
+            ViewBag.accounthead = accounthead;
 
             return View(revenuetype);
         }
@@ -113,7 +141,20 @@ namespace ShippingFinal.Controllers
 
         public ActionResult Edit(int id = 0)
         {
-            ViewBag.accounthead = entity.AcHeads.ToList();
+            var accounthead = entity.AcHeads.ToList().OrderBy(s => s.AcHead1);
+            foreach (var item in accounthead)
+            {
+                var acgroup = entity.AcGroups.Where(d => d.AcGroupID == item.AcGroupID).FirstOrDefault();
+                if (acgroup != null)
+                {
+                    var actype = entity.AcTypes.Where(d => d.Id == acgroup.AcTypeId).FirstOrDefault();
+                    if (actype != null)
+                    {
+                        item.AcHead1 = item.AcHead1 + " - " + actype.AccountType;
+                    }
+                }
+            }
+            ViewBag.accounthead = accounthead;
             RevenueType revenuetype = objSourceMastersModel.GetRevenueTypeById(id);
             if (revenuetype == null)
             {
@@ -135,7 +176,20 @@ namespace ShippingFinal.Controllers
                 TempData["SuccessMSG"] = "You have successfully updated Revenue Type.";
                 return RedirectToAction("Index");
             }
-
+            var accounthead = entity.AcHeads.ToList().OrderBy(s => s.AcHead1);
+            foreach (var item in accounthead)
+            {
+                var acgroup = entity.AcGroups.Where(d => d.AcGroupID == item.AcGroupID).FirstOrDefault();
+                if (acgroup != null)
+                {
+                    var actype = entity.AcTypes.Where(d => d.Id == acgroup.AcTypeId).FirstOrDefault();
+                    if (actype != null)
+                    {
+                        item.AcHead1 = item.AcHead1 + " - " + actype.AccountType;
+                    }
+                }
+            }
+            ViewBag.accounthead = accounthead;
             return View(revenuetype);
         }
 

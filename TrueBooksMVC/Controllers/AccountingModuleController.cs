@@ -49,7 +49,7 @@ new AcGroupModel()
     UserID = d.UserID,
     AcCategoryID = d.AcCategoryID
 
-}).ToList();
+}).ToList().OrderBy(d => d.AcGroup);
             foreach (var item in data)
             {
                 var ParentNode = parents.Where(d => d.AcGroupID == item.ParentID).FirstOrDefault();
@@ -523,7 +523,7 @@ new AcGroupModel()
             {
                 id = x.AcHeadID + 1;
             }
-            context.AcHeadInsert(id, a.AcHeadKey, a.AcHead1, a.AcGroupID, Convert.ToInt32(Session["AcCompanyID"].ToString()), a.Prefix, a.AccountDescription, a.TaxApplicable,a.TaxPercent, Convert.ToInt32(Session["branchid"].ToString()));
+            context.AcHeadInsert(id, a.AcHeadKey, a.AcHead1, a.AcGroupID, Convert.ToInt32(Session["AcCompanyID"].ToString()), a.Prefix, a.AccountDescription, a.TaxApplicable, a.TaxPercent, Convert.ToInt32(Session["branchid"].ToString()));
             var acheadfrompage = Convert.ToInt32(Session["AcheadPage"].ToString());
             if (acheadfrompage == 1)
             {
@@ -539,15 +539,24 @@ new AcGroupModel()
 
         public ActionResult EditAcHead(int id)
         {
-            var result = context.AcHeadSelectByID(id);
+            AcHeadSelectByID_Result result = new AcHeadSelectByID_Result();
+            var achead = context.AcHeads.Find(id);  // AcHeadSelectByID(id);
+            result.AcHeadID = achead.AcHeadID;
+            result.AcHead = achead.AcHead1;
+            result.AcHeadKey = achead.AcHeadKey;
+            result.AcGroupID = achead.AcGroupID;
+            result.AccountDescription = achead.AccountDescription;
+            result.Prefix = achead.Prefix;
+            result.TaxPercent = achead.TaxPercent;
+            result.TaxApplicable = achead.TaxApplicable;
             ViewBag.groups = GetAllAcGroupsByBranch(Convert.ToInt32(Session["branchid"].ToString()));
-            return View(result.FirstOrDefault());
+            return View(result);
         }
 
         [HttpPost]
         public ActionResult EditAcHead(AcHeadSelectByID_Result a)
         {
-            context.AcHeadUpdate(a.AcHeadKey, a.AcHeadID, a.AcHead, a.AcGroupID, a.Prefix,a.AccountDescription,a.TaxApplicable,a.TaxPercent);
+            context.AcHeadUpdate(a.AcHeadKey, a.AcHeadID, a.AcHead, a.AcGroupID, a.Prefix, a.AccountDescription, a.TaxApplicable, a.TaxPercent);
             ViewBag.SuccessMsg = "You have successfully updated Account Head.";
             return View("IndexAcHead", context.AcHeadSelectAll(Convert.ToInt32(Session["branchid"].ToString())));
         }
@@ -2600,8 +2609,22 @@ new AcGroupModel()
         [HttpGet]
         public ActionResult CreateAcHeadControl()
         {
-
-            ViewBag.AccountHeadID = context.AcHeadSelectAll(Convert.ToInt32(Session["AcCompanyID"].ToString()));
+            var BranchId = Convert.ToInt32(Session["AcCompanyID"]);
+            var accounthead = context.AcHeads.ToList().OrderBy(s => s.AcHead1);
+            //var accounthead = context.AcHeadSelectAll(Convert.ToInt32(Session["AcCompanyID"].ToString())).OrderBy(d=>d.AcHead);
+            foreach (var item in accounthead)
+            {
+                var acgroup = context.AcGroups.Where(d => d.AcGroupID == item.AcGroupID).FirstOrDefault();
+                if (acgroup != null)
+                {
+                    var actype = context.AcTypes.Where(d => d.Id == acgroup.AcTypeId).FirstOrDefault();
+                    if (actype != null)
+                    {
+                        item.AcHead1 = item.AcHead1 + " - " + actype.AccountType;
+                    }
+                }
+            }
+            ViewBag.AccountHeadID = accounthead;
             var PageControl = context.PageControlMasters.ToList();
             ViewBag.Pagecontrol = new SelectList(PageControl, "Id", "ControlName");
             var PageControlField = context.PageControlFields.ToList();
@@ -2612,7 +2635,22 @@ new AcGroupModel()
         [HttpPost]
         public ActionResult CreateAcHeadControl(AcHeadControl acheadcontrol)
         {
-            ViewBag.AccountHeadID = context.AcHeadSelectAll(Convert.ToInt32(Session["AcCompanyID"].ToString())).ToList();
+            var BranchId = Convert.ToInt32(Session["branchid"]);
+            var accounthead = context.AcHeads.ToList().OrderBy(s => s.AcHead1);
+            //var accounthead = context.AcHeadSelectAll(Convert.ToInt32(Session["AcCompanyID"].ToString())).OrderBy(d=>d.AcHead);
+            foreach (var item in accounthead)
+            {
+                var acgroup = context.AcGroups.Where(d => d.AcGroupID == item.AcGroupID).FirstOrDefault();
+                if (acgroup != null)
+                {
+                    var actype = context.AcTypes.Where(d => d.Id == acgroup.AcTypeId).FirstOrDefault();
+                    if (actype != null)
+                    {
+                        item.AcHead1 = item.AcHead1 + " - " + actype.AccountType;
+                    }
+                }
+            }
+            ViewBag.AccountHeadID = accounthead;
             var PageControl = context.PageControlMasters.ToList();
             ViewBag.Pagecontrol = new SelectList(PageControl, "Id", "ControlName");
             var PageControlField = context.PageControlFields.ToList();
@@ -2646,7 +2684,22 @@ new AcGroupModel()
         {
             var data = context.AcHeadControls.Find(Id);
 
-            ViewBag.AccountHeadID = context.AcHeads.ToList();
+            var BranchId = Convert.ToInt32(Session["branchid"]);
+            var accounthead = context.AcHeads.ToList().OrderBy(s => s.AcHead1);
+            //var accounthead = context.AcHeadSelectAll(Convert.ToInt32(Session["AcCompanyID"].ToString())).OrderBy(d=>d.AcHead);
+            foreach (var item in accounthead)
+            {
+                var acgroup = context.AcGroups.Where(d => d.AcGroupID == item.AcGroupID).FirstOrDefault();
+                if (acgroup != null)
+                {
+                    var actype = context.AcTypes.Where(d => d.Id == acgroup.AcTypeId).FirstOrDefault();
+                    if (actype != null)
+                    {
+                        item.AcHead1 = item.AcHead1 + " - " + actype.AccountType;
+                    }
+                }
+            }
+            ViewBag.AccountHeadID = accounthead;
             var PageControl = context.PageControlMasters.ToList();
             ViewBag.Pagecontrol = PageControl;
             var PageControlField = context.PageControlFields.Where(d => d.PageControlId == data.Pagecontrol).ToList();
@@ -2659,7 +2712,22 @@ new AcGroupModel()
         {
             var data = context.AcHeadControls.Find(acheadcontrol.Id);
 
-            ViewBag.AccountHeadID = context.AcHeads.ToList();
+            var BranchId = Convert.ToInt32(Session["branchid"]);
+            var accounthead = context.AcHeads.ToList().OrderBy(s => s.AcHead1);
+            //var accounthead = context.AcHeadSelectAll(Convert.ToInt32(Session["AcCompanyID"].ToString())).OrderBy(d=>d.AcHead);
+            foreach (var item in accounthead)
+            {
+                var acgroup = context.AcGroups.Where(d => d.AcGroupID == item.AcGroupID).FirstOrDefault();
+                if (acgroup != null)
+                {
+                    var actype = context.AcTypes.Where(d => d.Id == acgroup.AcTypeId).FirstOrDefault();
+                    if (actype != null)
+                    {
+                        item.AcHead1 = item.AcHead1 + " - " + actype.AccountType;
+                    }
+                }
+            }
+            ViewBag.AccountHeadID = accounthead;
             var PageControl = context.PageControlMasters.ToList();
             ViewBag.Pagecontrol = PageControl;
             var PageControlField = context.PageControlFields.Where(d => d.PageControlId == data.Pagecontrol).ToList();

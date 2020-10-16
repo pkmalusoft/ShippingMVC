@@ -1,26 +1,25 @@
-﻿@model IEnumerable<DAL.SP_GetAllJobsDetails_Result>
+﻿@model IEnumerable<DAL.JobEnquiry>
 
 @using TrueBooksMVC.Models
 @using System.Linq
 @using DAL;
 
 @{
-    ViewBag.Title = "JobDetails";
-    //Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "JobEnquiry";
     Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
-
     SHIPPING_FinalEntities entity = new SHIPPING_FinalEntities();
 
-    var jobstatus = ViewBag.Jobstatus as IEnumerable<JobStatu>;
 }
 
 <style>
     tfoot {
         display: table-header-group;
     }
-  table.dataTable tfoot th {
-    padding: 0px 9px 12px 0 !important;
-}
+
+    table.dataTable tfoot th {
+        padding: 0px 9px 12px 0 !important;
+    }
+
     #tbl1 tr {
         height: 35px;
     }
@@ -103,8 +102,8 @@
         });
         showLoading();
         $.ajax({
-            url: "@Url.Action("GetJob", "Job")",
-            data: { fdate: $('#frmdate').val(), tdate: $('#todate').val(), jobstatus:0 },
+            url: "@Url.Action("GetJobEnquiry", "Job")",
+            data: { fdate: $('#frmdate').val(), tdate: $('#todate').val() },
             type: "GET",
             dataType: "json",
             success: function (data) {
@@ -138,8 +137,8 @@
                 //  f2();
                 //  table.draw();
                 $.ajax({
-                    url: "@Url.Action("GetJob", "Job")",
-                    data: { fdate: $('#frmdate').val(), tdate: $('#todate').val(), jobstatus: $("#jobstatus").val() },
+                    url: "@Url.Action("GetJobEnquiry", "Job")",
+                    data: { fdate: $('#frmdate').val(), tdate: $('#todate').val() },
                     type: "GET",
                     dataType: "json",
                     success: function (data) {
@@ -165,12 +164,12 @@
 
 
     function GetCurrentDate() {
-        debugger;
+        
         var m_names = new Array("Jan", "Feb", "Mar",
 "Apr", "May", "Jun", "Jul", "Aug", "Sep",
 "Oct", "Nov", "Dec");
 
-   
+
 
             var startdate = '@Session["FyearFrom"].ToString()';
             var enddate = '@Session["FyearTo"].ToString()';
@@ -244,7 +243,7 @@ function (settings, data, dataIndex) {
 <div ng-app="MyApp" ng-controller="MyController">
     <div class="" dir="ltr" id="main" runat="server">
         <section class="content-header">
-            <h1 class="headingfont">Job<small></small></h1>
+            <h1 class="headingfont">Job Enquiry<small></small></h1>
 
         </section>
         <p class="cbtnpadding">
@@ -258,7 +257,7 @@ function (settings, data, dataIndex) {
                 if (x >= fs && x <= to)
                 {
                     @*<a href='@Url.Action("Job", "Job", new { id = 0 })' class="btn btn-primary btnwidth" data-toggle="tooltip" data-placement="right" style="margin-left:-6px;">Add </a>*@
-                    <input type="hidden" id="hdnEditJobID" />
+                    <input type="hidden" id="hdnEditJobEnquiryID" />
                 }
             }
 
@@ -270,18 +269,7 @@ function (settings, data, dataIndex) {
                     <table class="searchtabs tabsser" id="tbl1">
 
                         <tr>
-                            <td class="searlabel ">
-                                Status
-                            </td>
-                            <td class="searinput">
-                                <select class="form-control" id="jobstatus">
-                                    <option value="0">Select</option>
-                                    @foreach(var itm in jobstatus)
-                                    {
-                                        <option value="@itm.JobStatusId">@itm.StatusName</option>
-                                    }
-                                </select>
-                            </td>
+                           
                             <td class="searlabel ">
                                 From Date
                             </td>
@@ -299,39 +287,14 @@ function (settings, data, dataIndex) {
                             </td>
                             <td>
 
-                                <a href="/job/job/0"><button class="btn btn-primary btnwidth" style="margin:10px">Create New</button></a>
+                                <a href="/job/jobEnquiry/0"><button class="btn btn-primary btnwidth" style="margin:10px">Create New</button></a>
 
                             </td>
                         </tr>
 
                     </table>
                 </div>
-                @*<table class="searchtabs tablserch" id="tbl1">
-                        <tr>
-                            <td class="searlabel">
-                                From Date
-                            </td>
-                            <td class="searinput">
-                                <input type="text" id="frmdate" class="form-control" />
-                            </td>
-                            </tr><br />
-                        <tr>
-                            <td class="searlabel">
-                                To Date
-                            </td>
-                            <td class="searinput">
-                                <input type="text" id="todate" class="form-control" />
-                            </td>
-                            </tr><br />
-                        <tr>
-                            <td></td>
-                            <td style="text-align:center">
-                                <input type="button" value="Search" id="btnsearch" class="btn btn-primary btnwid fa fa-search" />
-                            </td>
-                        </tr>
-
-
-                    </table>*@
+           
             </p>
 
 
@@ -344,16 +307,16 @@ function (settings, data, dataIndex) {
                     </div>
                 </div>
             </div>
-            
+
         </section>
 
     </div>
 </div>
 
 <script type="text/javascript">
-    function DeleteBranch(ID) {
-        if (confirm("Are you sure, You want to Delete Job?")) {
-            window.location.href = "/Job/DeleteJob/?id=" + ID;
+    function DeleteEnquiry(ID) {
+        if (confirm("Are you sure, You want to Delete Job Enquiry?")) {
+            window.location.href = "/Job/DeleteJobEnquiry/?id=" + ID;
         }
     }
 </script>

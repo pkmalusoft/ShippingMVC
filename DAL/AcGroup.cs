@@ -20,7 +20,7 @@ namespace DAL
         }
     
         public int AcGroupID { get; set; }
-        public Nullable<int> AcBranchID { get; set; }
+        public Nullable<int> AcCompanyID { get; set; }
         public string AcGroup1 { get; set; }
         public string AcType { get; set; }
         public string AcClass { get; set; }
@@ -31,8 +31,8 @@ namespace DAL
         public Nullable<int> UserID { get; set; }
         public Nullable<int> AcCategoryID { get; set; }
         public string GroupCode { get; set; }
+        public Nullable<int> AcBranchID { get; set; }
         public Nullable<int> AcTypeId { get; set; }
-        public Nullable<int> AcCompanyID { get; set; }
     
         public virtual AcCategory AcCategory { get; set; }
         public virtual BranchMaster BranchMaster { get; set; }

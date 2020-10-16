@@ -522,7 +522,7 @@
 </section>
 
 
-<section class="content jobform">
+<section class="content jobform title_space">
 
     @using (Html.BeginForm())
     {
@@ -535,44 +535,49 @@
                 <label class="headinglabel">Transaction No.</label>
                 <input type="text" name="TransactionNo" id="TransactionNo" readonly="readonly" class="form-control" />
             </div>
+             <div class="col-md-4">
+                <label class="headinglabel">Transaction Date</label>
+                @Html.TextBoxFor(model => model.transdate, new { @class = "form-control text-right", autocomplete = "off" })
+                @Html.ValidationMessageFor(model => model.transdate)
+            </div>
             <div class="col-md-4">
                 <label class="headinglabel">Transaction Type</label>
                 @Html.DropDownListFor(model => model.transtype, ViewBag.transtypes as SelectList, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.transtype)
                 @Html.HiddenFor(Model => Model.TransactionType)
             </div>
-            <div class="col-md-4">
+           
+        </div>
+        <div class="row no-margin" style="padding-top:10px">
+           
+            <div class="col-md-2">
                 <label class="headinglabel">Payment Type</label>
                 @Html.DropDownListFor(model => model.paytype, ViewBag.paytypes as SelectList, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.paytype)
                 @Html.HiddenFor(model => model.paytype)
             </div>
-        </div>
-        <div class="row no-margin" style="padding-top:10px">
-            <div class="col-md-4">
-                <label class="headinglabel">Transaction Date</label>
-                @Html.TextBoxFor(model => model.transdate, new { @class = "form-control text-right", autocomplete = "off" })
-                @Html.ValidationMessageFor(model => model.transdate)
-            </div>
-            <div class="col-md-4">
+
+            <div class="col-md-3">
                 <label class="headinglabel">Account Head</label>
                 <input type="text" id="AcHead" value="" class="form-control" autocomplete="off" />
                 @Html.HiddenFor(model => model.SelectedAcHead, new { Value = "0", id = "SelectedAcHead" })
             </div>
-            <div class="col-md-4">
+            <div class="col-md-2">
                 <label class="headinglabel">Reference</label>
                 @Html.TextBoxFor(model => model.reference, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.reference)
             </div>
-        </div>
-        <div class="row no-margin" style="padding-top:10px">
-            <div class="col-md-4">
+             <div class="col-md-5">
                 <label class="headinglabel">Remarks</label>
                 @Html.TextAreaFor(model => model.remarks, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.remarks)
                 <span id="balance"></span>
             </div>
         </div>
+        <div class="row no-margin" style="padding-top:10px">
+           
+        </div>
+
         @*   <div class="row no-margin" style="padding-top:10px">
             <div class="col-md-12">
 

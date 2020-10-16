@@ -204,9 +204,7 @@
                 <div id="divgridJob" class="row" runat="server" style="min-height: 250px; padding: 5px; margin-right: auto; margin-left: auto;">
                     <div class="col-md-12">
                         <div class="row no-margin">
-                            <div class="col-md-12 tblbackground">
-
-                                <div id="error" style="display: none; font-family: Calibri; color: red">* From Date must not be Greater than To Date</div>
+                             <div id="error" style="display: none; font-family: Calibri; color: red">* From Date must not be Greater than To Date</div>
                                 <div class="search_tabs_right">
                                     <table class="searchtabs " id="tbl1">
 
@@ -215,13 +213,13 @@
                                                 <label>From Date</label>
                                             </td>
                                             <td class="searinput">
-                                                <input type="text" id="frmdate" class="form-control" />
+                                                <input type="text" id="frmdate" class="form-control text-right" />
                                             </td>
                                             <td class="searlabel">
                                                 <label>  To Date</label>
                                             </td>
                                             <td class="searinput">
-                                                <input type="text" id="todate" class="form-control" />
+                                                <input type="text" id="todate" class="form-control text-right" />
                                             </td>
                                             <td class="searlabel">
                                                 <input type="button" value="Search" id="btnsearch" class="btn btn-primary btnwidt" />
@@ -235,6 +233,10 @@
                                         </tr>
                                     </table>
                                 </div>
+                            
+                            <div class="col-md-12 tblbackground">
+
+                               
                                 <div class="row customer_details">
                                     <div class="col-md-12 padding_none" id="result">
                                     </div>

@@ -221,6 +221,7 @@
                             }
                         </div>
                     </div>
+				<div class="clear"></div>	
                     <div class="form_field">
                         <div class="row no-margin form-layout" style="padding-top: 10px">
                             <div class="col-xs-12">
@@ -242,11 +243,11 @@
                                 <label class="headinglabel">Date</label>
                                 @if (Model.RecPayDate == null)
                                 {
-                                    @Html.TextBoxFor(model => model.RecPayDate, new { @class = "form-control" })
+                                    @Html.TextBoxFor(model => model.RecPayDate, new { @class = "form-control text-right" })
                                 }
                                 else
                                 {
-                                    @Html.TextBoxFor(model => model.RecPayDate, new { Value = Model.RecPayDate.Value.ToString("dd-MMM-yyyy"), @class = "form-control" })
+                                    @Html.TextBoxFor(model => model.RecPayDate, new { Value = Model.RecPayDate.Value.ToString("dd-MMM-yyyy"), @class = "form-control text-right" })
                                 }
 
                             </div>
@@ -290,12 +291,12 @@
                                 <label class=" required headinglabel">Cheque Date</label>
                                 @if (Model.ChequeDate != null)
                                 {
-                                    @Html.TextBoxFor(m => m.ChequeDate, new { Value = Model.ChequeDate.Value.ToString("dd-MMM-yyyy"), id = "", @class = "form-control" })
+                                    @Html.TextBoxFor(m => m.ChequeDate, new { Value = Model.ChequeDate.Value.ToString("dd-MMM-yyyy"), id = "", @class = "form-control text-right" })
                                 }
                                 else
                                 {
 
-                                    @Html.TextBoxFor(model => model.ChequeDate, new { ng_disabled = "disabledCash", @class = "form-control" })
+                                    @Html.TextBoxFor(model => model.ChequeDate, new { ng_disabled = "disabledCash", @class = "form-control text-right" })
                                 }
                             </div>
 

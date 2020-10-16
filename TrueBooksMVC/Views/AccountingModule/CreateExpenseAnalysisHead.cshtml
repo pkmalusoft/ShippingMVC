@@ -73,30 +73,36 @@
 @Html.AntiForgeryToken()
 @Html.ValidationSummary(true)
 
-<div class="searchdiv">
+<div class="searchdiv sm-width">
     <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
     <fieldset>
 
-        <div class="row no-margin">
+        <div class="row no-margin form-group">
 
-            <div class="col-md-12">
+            <div class="col-md-3">
                 <label class="required headinglabel">Analysis Group</label>
+            </div>
+            <div class="col-md-9">
                 @Html.DropDownListFor(model => model.AnalysisGroupID, new SelectList(ViewBag.groups, "AnalysisGroupID", "AnalysisGroup"), "Select", new { @class = "form-control txttarget" })
                 @Html.ValidationMessageFor(model => model.AnalysisGroupID)
 
             </div>
         </div>
-        <div class="row no-margin" style="padding-top:10px">
-            <div class="col-md-12">
+        <div class="row no-margin form-group" style="padding-top:10px">
+            <div class="col-md-3">
                 <label class="required headinglabel">Analysis Head</label>
+            </div>
+            <div class="col-md-9">
                 @Html.TextBoxFor(model => model.AnalysisHead1, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.AnalysisHead1)
 
             </div>
         </div>
-        <div class="row no-margin" style="padding-top:10px">
-            <div class="col-md-12">
+        <div class="row no-margin form-group" style="padding-top:10px">
+            <div class="col-md-3">
                 <label class="required headinglabel">Analysis Code</label>
+            </div>
+            <div class="col-md-9">
                 @Html.TextBoxFor(model => model.AnalysisCode, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.AnalysisCode)
 
