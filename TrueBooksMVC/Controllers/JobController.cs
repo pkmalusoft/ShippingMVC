@@ -92,16 +92,24 @@ namespace TrueBooksMVC.Controllers
                     {
                         JG.InvoiceDate = System.DateTime.UtcNow;
                     }
-
-                    if (Convert.ToInt32(JG.InvoiceNo) > 0)
+                    var jinvoices = entity.JInvoices.Where(d => d.JobID == JG.JobID && d.InvoiceStatus == "1").ToList();
+                    if (jinvoices.Count > 0)
                     {
-                        JG.InvoiceNo = JG.InvoiceNo;
                         ViewBag.IsInvoiveGenerated = true;
                     }
                     else
                     {
-
                         ViewBag.IsInvoiveGenerated = false;
+
+                    }
+                    if (Convert.ToInt32(JG.InvoiceNo) > 0)
+                    {
+                        JG.InvoiceNo = JG.InvoiceNo;
+
+                    }
+                    else
+                    {
+
                         var invoice = (from t in entity.JobGenerations where t.JobID == JG.JobID select t.InvoiceNo).FirstOrDefault();
                         JG.InvoiceNo = Convert.ToInt32(invoice.Value);
                         if (invoice == 0)
@@ -706,7 +714,7 @@ namespace TrueBooksMVC.Controllers
 
 
                     JM.JobID = JobId;
-                    return RedirectToAction("Job", "Job", new { ID = JobId });
+                    return RedirectToAction("JobDetails", "Job", new { ID = JobId });
                 }
             }
             else if (Command == "Update")
@@ -723,69 +731,123 @@ namespace TrueBooksMVC.Controllers
                             {
                                 JobId = JM.JobID;
                                 DeleteAndInsertRecords(formCollection, JobId, 2);
+
                                 var data = (from c in entity.JobGenerations where c.JobID == JobId select c).FirstOrDefault();
-                                int acjid = 0;
-                                if (data.AcJournalID != null)
-                                {
-                                    acjid = data.AcJournalID.Value;
-                                }
-                                int acprovjid = 0;
-                                if (data.AcProvisionCostJournalID != null)
-                                {
-                                    acprovjid = data.AcProvisionCostJournalID.Value;
-                                }
+                                //int acjid = 0;
+                                //if (data.AcJournalID != null)
+                                //{
+                                //    acjid = data.AcJournalID.Value;
+                                //}
+                                //else
+                                //{
+                                //    var LatestJournal = entity.AcJournalMasters.ToList().LastOrDefault();
+                                //    var JournalId = 1;
+                                //    if(LatestJournal !=null)
+                                //    {
+                                //        JournalId = LatestJournal.AcJournalID + 1;
+                                //    }
+                                //    var acjournalmaster = new AcJournalMaster();
+                                //    acjournalmaster.AcFinancialYearID = Convert.ToInt32(Session["fyearid"]);
+                                //    acjournalmaster.AcCompanyID = Convert.ToInt32(Session["AcCompanyID"]);
+                                //    acjournalmaster.VoucherType = "J";
+                                //    acjournalmaster.TransType = 1;
+                                //    acjournalmaster.UserID = Convert.ToInt32(Session["UserID"]);
+                                //    acjournalmaster.AcJournalID = JournalId;
+                                //    acjournalmaster.VoucherNo = JM.JobCode;
+                                //    entity.AcJournalMasters.Add(acjournalmaster);
+                                //    entity.SaveChanges();
+                                //    var job = (from d in entity.JobGenerations where d.JobID == JobId select d).FirstOrDefault();
+                                //    job.AcJournalID = JournalId;
+                                //    entity.Entry(job).State = EntityState.Modified;
+                                //    entity.SaveChanges();
+                                //    acjid = JournalId;
+                                //}
+                                //int acprovjid = 0;
+                                //if (data.AcProvisionCostJournalID != null)
+                                //{
+                                //    acprovjid = data.AcProvisionCostJournalID.Value;
+                                //}
 
-                                decimal shome = 0;
-                                decimal phome = 0;
-                                if (entity.JInvoices.Where(x => x.JobID == JobId).Count() > 0)
-                                {
-                                    shome = entity.JInvoices.Where(x => x.JobID == JobId).Sum(x => x.SalesHome ?? 0);
-                                    phome = entity.JInvoices.Where(x => x.JobID == JobId).Sum(x => x.ProvisionHome ?? 0);
-                                }
+                                //decimal shome = 0;
+                                //decimal phome = 0;
+                                //if (entity.JInvoices.Where(x => x.JobID == JobId).Count() > 0)
+                                //{
+                                //    shome = entity.JInvoices.Where(x => x.JobID == JobId).Sum(x => x.SalesHome ?? 0);
+                                //    phome = entity.JInvoices.Where(x => x.JobID == JobId).Sum(x => x.ProvisionHome ?? 0);
+                                //}
+                                //var jinvoices = entity.JInvoices.Where(x => x.JobID == JobId).ToList();
+                                //foreach (var item in jinvoices)
+                                //{
+                                //    var Rev_achead = entity.RevenueTypes.Where(d => d.RevenueTypeID ==item.RevenueTypeID).FirstOrDefault();
+                                //    int acdet = (from x in entity.AcJournalDetails where x.AcJournalID == acjid && x.AcHeadID == Rev_achead.AcHeadID  select x.AcJournalDetailID).FirstOrDefault();
+                                //    var acdata= (from x in entity.AcJournalDetails where x.AcJournalDetailID == acdet select x).FirstOrDefault();
+                                //    if(acdata !=null)
+                                //    {
+                                //        acdata.Amount = item.SalesHome;
+                                //        entity.Entry(acdata).State = EntityState.Modified;
+                                //        entity.SaveChanges();
+                                //    }
+                                //    else
+                                //    {
+                                //        var acJournalDetailid = entity.AcJournalDetails.ToList().LastOrDefault();
+                                //        var acjournalDet_id = 1;
+                                //        if(acJournalDetailid !=null)
+                                //        {
+                                //            acjournalDet_id = acJournalDetailid.AcJournalDetailID + 1;
+                                //        }
+                                //        acdata = new AcJournalDetail();
+                                //        acdata.AcHeadID = Rev_achead.AcHeadID;
+                                //        acdata.AcJournalID = acjid;
+                                //        acdata.Amount = item.SalesHome;
+                                //        acdata.AcJournalDetailID = acjournalDet_id;
+                                //        entity.AcJournalDetails.Add(acdata);
+                                //        entity.SaveChanges();
 
-                                int custcontrolacid = (from c in entity.AcHeadAssigns select c.CustomerControlAcID.Value).FirstOrDefault();
-                                int freightacheadid = 158;
-                                int provcontrolacid = (from c in entity.AcHeadAssigns select c.ProvisionCostControlAcID.Value).FirstOrDefault();
-                                int accruedcontrolacid = (from c in entity.AcHeadAssigns select c.AccruedCostControlAcID.Value).FirstOrDefault();
 
-                                int acjdetail1 = (from x in entity.AcJournalDetails where x.AcJournalID == acjid && x.AcHeadID == custcontrolacid select x.AcJournalDetailID).FirstOrDefault();
+                                //    }
+                                //}
 
-                                var data1 = (from x in entity.AcJournalDetails where x.AcJournalDetailID == acjdetail1 select x).FirstOrDefault();
-                                if (data1 != null)
-                                {
-                                    data1.Amount = shome;
-                                }
-                                if (data1 != null)
-                                {
-                                    entity.Entry(data1).State = EntityState.Modified;
-                                    entity.SaveChanges();
-                                }
-                                acjdetail1 = (from x in entity.AcJournalDetails where x.AcJournalID == acjid && x.AcHeadID == freightacheadid select x.AcJournalDetailID).FirstOrDefault();
-                                data1 = (from x in entity.AcJournalDetails where x.AcJournalDetailID == acjdetail1 select x).FirstOrDefault();
-                                if (data1 != null)
-                                {
-                                    data1.Amount = -shome;
-                                    entity.Entry(data1).State = EntityState.Modified;
-                                    entity.SaveChanges();
-                                }
 
-                                acjdetail1 = (from x in entity.AcJournalDetails where x.AcJournalID == acprovjid && x.AcHeadID == provcontrolacid select x.AcJournalDetailID).FirstOrDefault();
-                                data1 = (from x in entity.AcJournalDetails where x.AcJournalDetailID == acjdetail1 select x).FirstOrDefault();
-                                if (data1 != null)
-                                {
-                                    data1.Amount = phome;
-                                    entity.Entry(data1).State = EntityState.Modified;
-                                    entity.SaveChanges();
-                                }
+                                //var pagecontrol = (from d in entity.PageControlMasters where d.ControlName.ToLower() == "generate invoice" select d).FirstOrDefault();
+                                //var accountsetup = (from d in entity.AcHeadControls where d.Pagecontrol == pagecontrol.Id select d).FirstOrDefault();
 
-                                acjdetail1 = (from x in entity.AcJournalDetails where x.AcJournalID == acprovjid && x.AcHeadID == accruedcontrolacid select x.AcJournalDetailID).FirstOrDefault();
-                                data1 = (from x in entity.AcJournalDetails where x.AcJournalDetailID == acjdetail1 select x).FirstOrDefault();
-                                if (data1 != null)
-                                {
-                                    data1.Amount = -phome;
-                                    entity.Entry(data1).State = EntityState.Modified;
-                                    entity.SaveChanges();
-                                }
+                                ////int custcontrolacid = (from c in entity.AcHeadAssigns select c.CustomerControlAcID.Value).FirstOrDefault();
+                                //////int freightacheadid = 158;
+                                //////int provcontrolacid = (from c in entity.AcHeadAssigns select c.ProvisionCostControlAcID.Value).FirstOrDefault();
+                                //////int accruedcontrolacid = (from c in entity.AcHeadAssigns select c.AccruedCostControlAcID.Value).FirstOrDefault();
+
+                                //var acjdetail1 = (from x in entity.AcJournalDetails where x.AcJournalID == acjid && x.AcHeadID == accountsetup.AccountHeadID select x).FirstOrDefault();
+                                //int acjdetail2 = 0;
+                                //if (acjdetail1 !=null)
+                                //{
+                                //    acjdetail2 = acjdetail1.AcJournalDetailID;
+                                //}                               
+                                //var data1 = (from x in entity.AcJournalDetails where x.AcJournalDetailID == acjdetail2 select x).FirstOrDefault();
+                                //if (data1 != null)
+                                //{
+                                //    data1.Amount = -shome;
+                                //    entity.Entry(data1).State = EntityState.Modified;
+                                //    entity.SaveChanges();
+                                //}
+                                //else
+                                //{
+                                //    var acJournalDetailid = entity.AcJournalDetails.ToList().LastOrDefault();
+                                //    var acjournalDet_id = 1;
+                                //    if (acJournalDetailid != null)
+                                //    {
+                                //        acjournalDet_id = acJournalDetailid.AcJournalDetailID + 1;
+                                //    }
+
+                                //    data1 = new AcJournalDetail();
+                                //    data1.AcHeadID = accountsetup.AccountHeadID;
+                                //    data1.AcJournalID = acjid;
+                                //    data1.Amount = -shome;
+                                //    data1.AcJournalDetailID = acjournalDet_id;
+                                //    entity.AcJournalDetails.Add(data1);
+                                //    entity.SaveChanges();
+
+                                //}
+
 
                                 JTimeLine Timeline = new JTimeLine();
                                 Timeline.JobId = JobId;
@@ -851,8 +913,165 @@ namespace TrueBooksMVC.Controllers
                         if (Session["UserID"] != null)
                         {
                             //rgm.EditUser(UR);
-                            int k = J.UpdateInvoiceNumber(Convert.ToInt32(Session["JobID"]), Convert.ToInt32(JM.InvoiceNo), Convert.ToDateTime(JM.InvoiceDate), Convert.ToInt32(Session["fyearid"].ToString()));
+                            //int k = J.UpdateInvoiceNumber(Convert.ToInt32(Session["JobID"]), Convert.ToInt32(JM.InvoiceNo), Convert.ToDateTime(JM.InvoiceDate), Convert.ToInt32(Session["fyearid"].ToString()));
+                            JobId = Convert.ToInt32(Session["JobID"]);
+                            var jobinvoice = (from d in entity.JobGenerations where d.JobID == JobId select d).FirstOrDefault();
+                            jobinvoice.InvoiceNo = 1;
+                            entity.Entry(jobinvoice).State = EntityState.Modified;
+                            entity.SaveChanges();
 
+                            var data = (from c in entity.JobGenerations where c.JobID == JobId select c).FirstOrDefault();
+                            int acjid = 0;
+                            if (data.AcJournalID != null)
+                            {
+                                acjid = data.AcJournalID.Value;
+                            }
+                            else
+                            {
+                                var LatestJournal = entity.AcJournalMasters.ToList().LastOrDefault();
+                                var JournalId = 1;
+                                if (LatestJournal != null)
+                                {
+                                    JournalId = LatestJournal.AcJournalID + 1;
+                                }
+                                var acjournalmaster = new AcJournalMaster();
+                                acjournalmaster.AcFinancialYearID = Convert.ToInt32(Session["fyearid"]);
+                                acjournalmaster.AcCompanyID = Convert.ToInt32(Session["AcCompanyID"]);
+                                acjournalmaster.VoucherType = "CI";
+                                acjournalmaster.TransType = null;
+                                acjournalmaster.TransDate = DateTime.Now;
+                                acjournalmaster.UserID = Convert.ToInt32(Session["UserID"]);
+                                acjournalmaster.AcJournalID = JournalId;
+                                acjournalmaster.VoucherNo = JM.JobCode;
+                                entity.AcJournalMasters.Add(acjournalmaster);
+                                entity.SaveChanges();
+                                var job = (from d in entity.JobGenerations where d.JobID == JobId select d).FirstOrDefault();
+                                job.AcJournalID = JournalId;
+                                entity.Entry(job).State = EntityState.Modified;
+                                entity.SaveChanges();
+                                acjid = JournalId;
+                            }
+                            int acprovjid = 0;
+                            if (data.AcProvisionCostJournalID != null)
+                            {
+                                acprovjid = data.AcProvisionCostJournalID.Value;
+                            }
+
+                            decimal shome = 0;
+                            decimal phome = 0;
+                            if (entity.JInvoices.Where(x => x.JobID == JobId && x.CancelledInvoice == false).Count() > 0)
+                            {
+                                shome = entity.JInvoices.Where(x => x.JobID == JobId && x.CancelledInvoice == false).Sum(x => x.SalesHome ?? 0);
+                                phome = entity.JInvoices.Where(x => x.JobID == JobId && x.CancelledInvoice == false).Sum(x => x.SalesHome ?? 0);
+                            }
+                            var jinvoices = entity.JInvoices.Where(x => x.JobID == JobId && x.CancelledInvoice == false).ToList();
+                            foreach (var item in jinvoices)
+                            {
+                                var Rev_achead = entity.RevenueTypes.Where(d => d.RevenueTypeID == item.RevenueTypeID).FirstOrDefault();
+                                int acdet = (from x in entity.AcJournalDetails where x.AcJournalID == acjid && x.AcHeadID == Rev_achead.AcHeadID select x.AcJournalDetailID).FirstOrDefault();
+                                var acdata = (from x in entity.AcJournalDetails where x.AcJournalDetailID == acdet select x).FirstOrDefault();
+                                if (acdata != null)
+                                {
+                                    acdata.Amount = item.SalesHome;
+                                    entity.Entry(acdata).State = EntityState.Modified;
+                                    entity.SaveChanges();
+                                }
+                                else
+                                {
+                                    var acJournalDetailid = entity.AcJournalDetails.ToList().LastOrDefault();
+                                    var acjournalDet_id = 1;
+                                    if (acJournalDetailid != null)
+                                    {
+                                        acjournalDet_id = acJournalDetailid.AcJournalDetailID + 1;
+                                    }
+                                    acdata = new AcJournalDetail();
+                                    acdata.AcHeadID = Rev_achead.AcHeadID;
+                                    acdata.AcJournalID = acjid;
+                                    acdata.Amount = item.SalesHome;
+                                    acdata.AcJournalDetailID = acjournalDet_id;
+                                    entity.AcJournalDetails.Add(acdata);
+                                    entity.SaveChanges();
+
+
+                                }
+                            }
+
+
+                            var pagecontrol = (from d in entity.PageControlMasters where d.ControlName.ToLower() == "generate invoice" select d).FirstOrDefault();
+                            var accountsetup = (from d in entity.AcHeadControls where d.Pagecontrol == pagecontrol.Id select d).FirstOrDefault();
+
+                            //int custcontrolacid = (from c in entity.AcHeadAssigns select c.CustomerControlAcID.Value).FirstOrDefault();
+                            ////int freightacheadid = 158;
+                            ////int provcontrolacid = (from c in entity.AcHeadAssigns select c.ProvisionCostControlAcID.Value).FirstOrDefault();
+                            ////int accruedcontrolacid = (from c in entity.AcHeadAssigns select c.AccruedCostControlAcID.Value).FirstOrDefault();
+
+                            var acjdetail1 = (from x in entity.AcJournalDetails where x.AcJournalID == acjid && x.AcHeadID == accountsetup.AccountHeadID select x).FirstOrDefault();
+                            int acjdetail2 = 0;
+                            if (acjdetail1 != null)
+                            {
+                                acjdetail2 = acjdetail1.AcJournalDetailID;
+                            }
+                            var data1 = (from x in entity.AcJournalDetails where x.AcJournalDetailID == acjdetail2 select x).FirstOrDefault();
+                            if (data1 != null)
+                            {
+                                data1.Amount = -shome;
+                                entity.Entry(data1).State = EntityState.Modified;
+                                entity.SaveChanges();
+                            }
+                            else
+                            {
+                                var acJournalDetailid = entity.AcJournalDetails.ToList().LastOrDefault();
+                                var acjournalDet_id = 1;
+                                if (acJournalDetailid != null)
+                                {
+                                    acjournalDet_id = acJournalDetailid.AcJournalDetailID + 1;
+                                }
+
+                                data1 = new AcJournalDetail();
+                                data1.AcHeadID = accountsetup.AccountHeadID;
+                                data1.AcJournalID = acjid;
+                                data1.Amount = -shome;
+                                data1.AcJournalDetailID = acjournalDet_id;
+                                entity.AcJournalDetails.Add(data1);
+                                entity.SaveChanges();
+
+                            }
+
+                            var alljinvoices = (from d in entity.JInvoices where d.JobID == JobId && d.CancelledInvoice == false select d).ToList();
+                            var InvoiceNo = 10000;
+                            var invoiceNumber = entity.JInvoices.Select(d => d.InvoiceNumber).ToList().LastOrDefault();
+
+                            foreach (var item in alljinvoices)
+                            {
+                                var j_invoice = entity.JInvoices.Where(d => d.InvoiceID == item.InvoiceID).FirstOrDefault();
+                                j_invoice.CancelledInvoice = false;
+                                j_invoice.InvoiceDate = DateTime.Now;
+                                j_invoice.CancelReason = "";
+
+                                var invoicenum = "";
+                                if (invoiceNumber != null)
+                                {
+                                    var strInvoice = invoiceNumber.Split('-');
+                                    var strinvoicenum = strInvoice[1].Split('/');
+                                    if (strinvoicenum.Count() > 1)
+                                    {
+                                        var invnum = Convert.ToInt32(strinvoicenum[1]) + 1;
+                                        invoicenum = "/" + invnum;
+                                        InvoiceNo = Convert.ToInt32(strinvoicenum[0]);
+                                    }
+                                    else
+                                    {
+                                        invoicenum = "/1";
+                                        InvoiceNo = Convert.ToInt32(strinvoicenum[0]);
+                                    }
+                                    //InvoiceNo = Convert.ToInt32(strInvoice[1]) + 1;
+                                }
+                                //InvoiceNo = InvoiceNo + 1;
+                                j_invoice.InvoiceNumber = "JI-" + InvoiceNo;
+                                j_invoice.InvoiceStatus = "1";
+                                entity.Entry(j_invoice).State = EntityState.Modified;
+                                entity.SaveChanges();
+                            }
                             JTimeLine Timeline1 = new JTimeLine();
                             Timeline1.JobId = Convert.ToInt32(Session["JobID"]);
                             Timeline1.TabName = "";
@@ -862,10 +1081,14 @@ namespace TrueBooksMVC.Controllers
                             Timeline1.UserName = Session["UserName"].ToString();
                             entity.JTimeLines.Add(Timeline1);
                             entity.SaveChanges();
-                            if (k > 0)
-                            {
-                                return RedirectToAction("JobDetails", "Job", new { ID = 21 });
-                            }
+                            var acJournalmaster = new AcJournalMaster();
+
+
+
+                            ////if (k > 0)
+                            ////{
+                            return RedirectToAction("JobDetails", "Job", new { ID = 21 });
+                            //}
                         }
                         else
                         {
@@ -1237,7 +1460,7 @@ namespace TrueBooksMVC.Controllers
                     ChargesArray.Add(formCollection.Keys[j].Replace("RevenueTypeID_", "").Trim());
                 }
             }
-            
+            var Jobgeneration = (from d in entity.JobGenerations where d.JobID == JobId select d).FirstOrDefault();
 
             for (int c = 0; c < ChargesCount; c++)
             {
@@ -1247,7 +1470,7 @@ namespace TrueBooksMVC.Controllers
                 JInvoice Charges = new JInvoice();
                 Charges.UserID = Convert.ToInt32(Session["UserID"].ToString());
                 Charges.JobID = JobId;
-                Charges.CostUpdationStatus = "1";
+                Charges.CostUpdationStatus = "0";
 
                 int InvoiceID = 0;
                 if (formCollection.GetValue("InvoiceID_" + ChargesArray[c]) != null)
@@ -1264,6 +1487,7 @@ namespace TrueBooksMVC.Controllers
                     int.TryParse(strArray[0], out RevenueTypeID);
                 }
                 Charges.RevenueTypeID = RevenueTypeID;
+                var RevenueType = entity.RevenueTypes.Where(d => d.RevenueTypeID == RevenueTypeID).FirstOrDefault();
                 int SupplierId = 0;
                 if (formCollection.GetValue("SupplierID_" + ChargesArray[c]) != null)
                 {
@@ -1334,7 +1558,7 @@ namespace TrueBooksMVC.Controllers
                     strArray = (string[])formCollection.GetValue("SalesRate_" + ChargesArray[c]).RawValue;
                     decimal.TryParse(strArray[0].Trim(), out SalesRate);
                 }
-                Charges.SalesRate = ProvForiegn;
+                Charges.SalesRate = SalesRate;
                 int SalesCurrencyId = 0;
                 if (formCollection.GetValue("SalesCurrencyId_" + ChargesArray[c]) != null)
                 {
@@ -1393,19 +1617,44 @@ namespace TrueBooksMVC.Controllers
                     decimal.TryParse(strArray[0].Trim(), out Margin);
                 }
                 Charges.Margin = Margin;
-                Charges.CancelledInvoice = false;
-                Charges.InvoiceDate = DateTime.Now;
-                Charges.CancelReason = "";
-
-                
-                if (invoiceNumber != null)
+                Charges.RevenueCode = RevenueType.RevenueCode;
+                if (Jobgeneration.InvoiceNo > 0)
                 {
-                    var strInvoice = invoiceNumber.Split('-');
+                    Charges.CancelledInvoice = false;
+                    Charges.InvoiceDate = DateTime.Now;
+                    Charges.CancelReason = "";
 
-                    InvoiceNo = Convert.ToInt32(strInvoice[1]) +1;
+
+                    var invoicenum = "";
+                    if (invoiceNumber != null)
+                    {
+                        var strInvoice = invoiceNumber.Split('-');
+                        var strinvoicenum = strInvoice[1].Split('/');
+                        if (strinvoicenum.Count() > 1)
+                        {
+                            var invnum = Convert.ToInt32(strinvoicenum[1]) + 1;
+                            invoicenum = "/" + invnum;
+                            InvoiceNo = Convert.ToInt32(strinvoicenum[0]);
+                        }
+                        else
+                        {
+                            invoicenum = "/1";
+                            InvoiceNo = Convert.ToInt32(strinvoicenum[0]);
+                        }
+                        //InvoiceNo = Convert.ToInt32(strInvoice[1]) + 1;
+                    }
+                    //InvoiceNo = InvoiceNo + 1;
+                    Charges.InvoiceNumber = "JI-" + InvoiceNo;
+                    Charges.InvoiceStatus = "1";
                 }
-                //InvoiceNo = InvoiceNo + 1;
-                Charges.InvoiceNumber = "JI-" + InvoiceNo;
+                else
+                {
+                    Charges.CancelledInvoice = false;
+                    Charges.InvoiceDate = null;
+                    Charges.CancelReason = "";
+                    Charges.InvoiceNumber = null;
+                    Charges.InvoiceStatus = "0";
+                }
 
                 int iCharge = J.AddOrUpdateCharges(Charges, Session["UserID"].ToString());
 
@@ -1934,6 +2183,13 @@ namespace TrueBooksMVC.Controllers
 
                 //  var AllInvoices = J.GetContainerByJob(JobID, Convert.ToInt32(Session["UserID"]));
                 var AllInvoices = J.GetChargesByJob(JobID, Convert.ToInt32(Session["UserID"]));
+                foreach (var item in AllInvoices)
+                {
+                    //var jinvoice = entity.JInvoices.Where(d => d.InvoiceID == item.InvoiceID).FirstOrDefault();
+                    //var invoices = (from d in entity.JInvoices where d.InvoiceID == item.InvoiceID select d).FirstOrDefault();
+                    item.SalesRate = item.SalesHome / Convert.ToDecimal(item.Quantity);
+                    item.InvoiceStatus = item.InvoiceStatus.Trim();
+                }
                 return Json(AllInvoices, JsonRequestBehavior.AllowGet);
             }
             else
@@ -2637,12 +2893,12 @@ namespace TrueBooksMVC.Controllers
             {
                 datas = (from j in entity.JobGenerations
                          join c in entity.CUSTOMERs on j.ConsignerID equals c.CustomerID
-                         join c1 in entity.CUSTOMERs on j.ConsignerID equals c1.CustomerID
+                         join c1 in entity.CUSTOMERs on j.ConsigneeID equals c1.CustomerID
                          join jt in entity.JobTypes on j.JobTypeID equals jt.JobTypeID
-                         join E in entity.Employees on j.EmployeeID equals E.EmployeeID
+                         //join E in entity.Employees on j.EmployeeID equals E.EmployeeID
                          join L in entity.Ports on j.LoadPortID equals L.PortID
                          join D in entity.Ports on j.DestinationPortID equals D.PortID
-                         where j.CostUpdatedOrNot == "N" && j.JobStatus == true
+                         where j.CostUpdatedOrNot == "N"
                          select new JobRegisterVM
                          {
                              InvoiceNo = j.InvoiceNo,
@@ -2664,12 +2920,12 @@ namespace TrueBooksMVC.Controllers
             {
                 datas = (from j in entity.JobGenerations
                          join c in entity.CUSTOMERs on j.ConsignerID equals c.CustomerID
-                         join c1 in entity.CUSTOMERs on j.ConsignerID equals c1.CustomerID
+                         join c1 in entity.CUSTOMERs on j.ConsigneeID equals c1.CustomerID
                          join jt in entity.JobTypes on j.JobTypeID equals jt.JobTypeID
-                         join E in entity.Employees on j.EmployeeID equals E.EmployeeID
+                         //join E in entity.Employees on j.EmployeeID equals E.EmployeeID
                          join L in entity.Ports on j.LoadPortID equals L.PortID
                          join D in entity.Ports on j.DestinationPortID equals D.PortID
-                         where j.CostUpdatedOrNot == "N" && j.JobStatus == true && j.JobStatusId == jobstatus
+                         where j.CostUpdatedOrNot == "N"
                          select new JobRegisterVM
                          {
                              InvoiceNo = j.InvoiceNo,
@@ -2718,8 +2974,6 @@ namespace TrueBooksMVC.Controllers
             {
 
                 BindAllMasters();
-
-
                 Session["JobID"] = id;
 
                 JG = J.JobGenerationByJobID(id);
@@ -3170,7 +3424,7 @@ namespace TrueBooksMVC.Controllers
             var dt = (from d in entity.JInvoices
                       join s in entity.Suppliers on d.SupplierID equals s.SupplierID
                       join j in entity.JobGenerations on d.JobID equals j.JobID
-                      where d.InvoiceDate >= a && d.InvoiceDate <= b
+                      where (d.InvoiceDate >= a && d.InvoiceDate <= b) && d.InvoiceStatus == "1"
                       select new { d = d, s = s, j = j }).ToList();
 
             var result = dt.GroupBy(g => new { g.d.InvoiceNumber })
@@ -3179,11 +3433,12 @@ namespace TrueBooksMVC.Controllers
 
             foreach (var item in result)
             {
+                var amount = entity.JInvoices.Where(d => d.JobID == item.j.JobID && d.CancelledInvoice == false).ToList();
                 var invoice = new JobInvoiceModel();
                 invoice.Id = item.d.InvoiceID;
                 invoice.JobID = item.d.JobID;
                 invoice.InvoiceDate = item.d.InvoiceDate;
-                invoice.Amount = item.d.Margin;
+                invoice.Amount = amount.Sum(d => d.SalesHome);
                 invoice.InvoiceNo = item.d.InvoiceNumber;
                 invoice.InvoiceStatus = item.d.InvoiceStatus;
                 invoice.PaymentStatus = item.d.CostUpdationStatus;
@@ -3203,8 +3458,8 @@ namespace TrueBooksMVC.Controllers
                 data = data.Where(d => d.IsCancelledInvoice == true).ToList();
 
             }
-            
-           
+
+
             string view = this.RenderPartialView("_GetJobInvoice", data);
 
             return new JsonResult
@@ -3219,13 +3474,32 @@ namespace TrueBooksMVC.Controllers
             };
 
         }
-        public JsonResult UpdateJobInvoiceCancel(string JobInvoiceid,string CancelReason)
+        public JsonResult UpdateJobInvoiceCancel(string JobInvoiceid, string CancelReason)
         {
             try
             {
                 var JobInvoice = entity.JInvoices.Where(d => d.InvoiceNumber == JobInvoiceid).ToList();
                 JobInvoice.ForEach(d => { d.CancelledInvoice = true; d.CancelReason = CancelReason; });
                 entity.SaveChanges();
+                var JobId = JobInvoice.FirstOrDefault().JobID;
+                var jobinvoice = (from d in entity.JobGenerations where d.JobID == JobId select d).FirstOrDefault();
+                jobinvoice.InvoiceNo = 0;
+                jobinvoice.AcJournalID = 0;
+                entity.Entry(jobinvoice).State = EntityState.Modified;
+                entity.SaveChanges();
+                var jobcode = entity.JobGenerations.Where(d => d.JobID == JobId).FirstOrDefault();
+                var acjournal = entity.AcJournalMasters.Where(d => d.VoucherNo == jobcode.JobCode).FirstOrDefault();
+                if (acjournal != null)
+                {
+                    var acjournaldetails = entity.AcJournalDetails.Where(d => d.AcJournalID == acjournal.AcJournalID).ToList();
+                    entity.AcJournalMasters.Remove(acjournal);
+                    entity.SaveChanges();
+                    foreach (var item in acjournaldetails)
+                    {
+                        entity.AcJournalDetails.Remove(item);
+                        entity.SaveChanges();
+                    }
+                }
                 return Json(new { success = true }, JsonRequestBehavior.AllowGet);
 
             }
@@ -3243,26 +3517,39 @@ namespace TrueBooksMVC.Controllers
                 var JobInvoice = entity.JInvoices.Where(d => d.JobID == JobId).ToList();
                 JobInvoice.ForEach(d => { d.CancelledInvoice = true; d.CancelReason = "Regenerate invoice"; });
                 entity.SaveChanges();
-                var JobInvoice1 = entity.JInvoices.Where(d => d.JobID == JobId && d.CancelledInvoice==true).ToList();
+                var JobInvoice1 = entity.JInvoices.Where(d => d.JobID == JobId && d.CancelledInvoice == true).ToList();
                 var RecentInvoice = JobInvoice1.LastOrDefault().InvoiceNumber;
 
                 //var result = JobInvoice.GroupBy(g => new { g.InvoiceNumber })
                 //        .Select(g => g.FirstOrDefault())
                 //        .ToList();
-                var result = entity.JInvoices.Where(d => d.InvoiceNumber == RecentInvoice ).ToList();
+                var result = entity.JInvoices.Where(d => d.InvoiceNumber == RecentInvoice).ToList();
                 var invoice = entity.JInvoices.ToList().LastOrDefault();
                 var invoiceid = 1;
-                if(invoice!=null)
-                    {
+                if (invoice != null)
+                {
                     invoiceid = invoice.InvoiceID + 1;
                 }
                 var invoiceNumber = entity.JInvoices.Select(d => d.InvoiceNumber).ToList().LastOrDefault();
+                var invoicenum = "";
 
                 if (invoiceNumber != null)
                 {
                     var strInvoice = invoiceNumber.Split('-');
+                    var strinvoicenum = strInvoice[1].Split('/');
+                    if (strinvoicenum.Count() > 1)
+                    {
+                        var invnum = Convert.ToInt32(strinvoicenum[1]) + 1;
+                        invoicenum = "/" + invnum;
+                        InvoiceNo = Convert.ToInt32(strinvoicenum[0]);
+                    }
+                    else
+                    {
+                        invoicenum = "/1";
+                        InvoiceNo = Convert.ToInt32(strinvoicenum[0]);
+                    }
 
-                    InvoiceNo = Convert.ToInt32(strInvoice[1])+1 ;
+
                 }
                 foreach (var item in result)
                 {
@@ -3302,16 +3589,137 @@ namespace TrueBooksMVC.Controllers
                     newinvoice.CancelledInvoice = false;
                     newinvoice.InvoiceDate = DateTime.Now;
                     newinvoice.CancelReason = "";
-                   
+
                     //InvoiceNo = InvoiceNo + 1;
-                    newinvoice.InvoiceNumber = "JI-" + InvoiceNo;
+                    newinvoice.InvoiceNumber = "JI-" + InvoiceNo + invoicenum;
                     //entity.JInvoices.Add(newinvoice);
                     //entity.SaveChanges();
                     int iCharge = J.AddOrUpdateCharges(newinvoice, Session["UserID"].ToString());
 
                     invoiceid = invoiceid + 1;
                 }
-              
+                var jobinvoice = (from d in entity.JobGenerations where d.JobID == JobId select d).FirstOrDefault();
+                jobinvoice.InvoiceNo = 1;
+                entity.Entry(jobinvoice).State = EntityState.Modified;
+                entity.SaveChanges();
+
+                var data = (from c in entity.JobGenerations where c.JobID == JobId select c).FirstOrDefault();
+                int acjid = 0;
+                if (data.AcJournalID != null && data.AcJournalID > 0)
+                {
+                    acjid = data.AcJournalID.Value;
+                }
+                else
+                {
+                    var LatestJournal = entity.AcJournalMasters.ToList().LastOrDefault();
+                    var JournalId = 1;
+                    if (LatestJournal != null)
+                    {
+                        JournalId = LatestJournal.AcJournalID + 1;
+                    }
+                    var job = (from d in entity.JobGenerations where d.JobID == JobId select d).FirstOrDefault();
+
+                    var acjournalmaster = new AcJournalMaster();
+                    acjournalmaster.AcFinancialYearID = Convert.ToInt32(Session["fyearid"]);
+                    acjournalmaster.AcCompanyID = Convert.ToInt32(Session["AcCompanyID"]);
+                    acjournalmaster.VoucherType = "CI";
+                    acjournalmaster.TransType = null;
+                    acjournalmaster.TransDate = DateTime.Now;
+                    acjournalmaster.UserID = Convert.ToInt32(Session["UserID"]);
+                    acjournalmaster.AcJournalID = JournalId;
+                    acjournalmaster.VoucherNo = job.JobCode;
+                    entity.AcJournalMasters.Add(acjournalmaster);
+                    entity.SaveChanges();
+                    job.AcJournalID = JournalId;
+                    entity.Entry(job).State = EntityState.Modified;
+                    entity.SaveChanges();
+                    acjid = JournalId;
+                }
+                int acprovjid = 0;
+                if (data.AcProvisionCostJournalID != null)
+                {
+                    acprovjid = data.AcProvisionCostJournalID.Value;
+                }
+
+                decimal shome = 0;
+                decimal phome = 0;
+                if (entity.JInvoices.Where(x => x.JobID == JobId && x.CancelledInvoice == false).Count() > 0)
+                {
+                    shome = entity.JInvoices.Where(x => x.JobID == JobId && x.CancelledInvoice == false).Sum(x => x.SalesHome ?? 0);
+                    phome = entity.JInvoices.Where(x => x.JobID == JobId && x.CancelledInvoice == false).Sum(x => x.ProvisionHome ?? 0);
+                }
+                var jinvoices = entity.JInvoices.Where(x => x.JobID == JobId && x.CancelledInvoice == false).ToList();
+                foreach (var item in jinvoices)
+                {
+                    var Rev_achead = entity.RevenueTypes.Where(d => d.RevenueTypeID == item.RevenueTypeID).FirstOrDefault();
+                    int acdet = (from x in entity.AcJournalDetails where x.AcJournalID == acjid && x.AcHeadID == Rev_achead.AcHeadID select x.AcJournalDetailID).FirstOrDefault();
+                    var acdata = (from x in entity.AcJournalDetails where x.AcJournalDetailID == acdet select x).FirstOrDefault();
+                    if (acdata != null)
+                    {
+                        acdata.Amount = item.SalesHome;
+                        entity.Entry(acdata).State = EntityState.Modified;
+                        entity.SaveChanges();
+                    }
+                    else
+                    {
+                        var acJournalDetailid = entity.AcJournalDetails.ToList().LastOrDefault();
+                        var acjournalDet_id = 1;
+                        if (acJournalDetailid != null)
+                        {
+                            acjournalDet_id = acJournalDetailid.AcJournalDetailID + 1;
+                        }
+                        acdata = new AcJournalDetail();
+                        acdata.AcHeadID = Rev_achead.AcHeadID;
+                        acdata.AcJournalID = acjid;
+                        acdata.Amount = item.SalesHome;
+                        acdata.AcJournalDetailID = acjournalDet_id;
+                        entity.AcJournalDetails.Add(acdata);
+                        entity.SaveChanges();
+
+
+                    }
+                }
+
+
+                var pagecontrol = (from d in entity.PageControlMasters where d.ControlName.ToLower() == "generate invoice" select d).FirstOrDefault();
+                var accountsetup = (from d in entity.AcHeadControls where d.Pagecontrol == pagecontrol.Id select d).FirstOrDefault();
+
+                //int custcontrolacid = (from c in entity.AcHeadAssigns select c.CustomerControlAcID.Value).FirstOrDefault();
+                ////int freightacheadid = 158;
+                ////int provcontrolacid = (from c in entity.AcHeadAssigns select c.ProvisionCostControlAcID.Value).FirstOrDefault();
+                ////int accruedcontrolacid = (from c in entity.AcHeadAssigns select c.AccruedCostControlAcID.Value).FirstOrDefault();
+
+                var acjdetail1 = (from x in entity.AcJournalDetails where x.AcJournalID == acjid && x.AcHeadID == accountsetup.AccountHeadID select x).FirstOrDefault();
+                int acjdetail2 = 0;
+                if (acjdetail1 != null)
+                {
+                    acjdetail2 = acjdetail1.AcJournalDetailID;
+                }
+                var data1 = (from x in entity.AcJournalDetails where x.AcJournalDetailID == acjdetail2 select x).FirstOrDefault();
+                if (data1 != null)
+                {
+                    data1.Amount = -shome;
+                    entity.Entry(data1).State = EntityState.Modified;
+                    entity.SaveChanges();
+                }
+                else
+                {
+                    var acJournalDetailid = entity.AcJournalDetails.ToList().LastOrDefault();
+                    var acjournalDet_id = 1;
+                    if (acJournalDetailid != null)
+                    {
+                        acjournalDet_id = acJournalDetailid.AcJournalDetailID + 1;
+                    }
+
+                    data1 = new AcJournalDetail();
+                    data1.AcHeadID = accountsetup.AccountHeadID;
+                    data1.AcJournalID = acjid;
+                    data1.Amount = -shome;
+                    data1.AcJournalDetailID = acjournalDet_id;
+                    entity.AcJournalDetails.Add(data1);
+                    entity.SaveChanges();
+
+                }
                 return Json(new { success = true }, JsonRequestBehavior.AllowGet);
 
             }
@@ -3320,133 +3728,21 @@ namespace TrueBooksMVC.Controllers
                 return Json(new { success = false, message = e.Message.ToString() }, JsonRequestBehavior.AllowGet);
             }
         }
-        [HttpGet]
-        public ActionResult JobEnquiry(int id)
+        public ActionResult JobInvoiceReport(int jobid)
         {
-            var JobEnquiry = entity.JobEnquiries.Where(d => d.Id == id).FirstOrDefault();
-            var CreditNotes = entity.JobEnquiries.ToList().LastOrDefault();
-            var EnquiryNo = 1;
-            if (CreditNotes != null)
-            {
-                var CreditNumstr = CreditNotes.EnquiryNo.Split('-');
-                if (CreditNumstr.Count() > 1)
-                {
-                    EnquiryNo = Convert.ToInt32(CreditNumstr[1]) + 1;
-                }
-            }
-            var CreditNumber = EnquiryNo.ToString("0000");
-            var datetime = DateTime.Now;
-            var CreditnoteNum = datetime.ToString("ddMMyyyy") + "-" + CreditNumber;
-            if (JobEnquiry==null)
-            {
-                JobEnquiry = new JobEnquiry();
-                JobEnquiry.EnquiryDate = DateTime.Now;
-                JobEnquiry.EnquiryNo = CreditnoteNum;
-            }
-            return View(JobEnquiry);
-
+            var job = entity.JobGenerations.Where(d => d.JobID == jobid).FirstOrDefault();
+            var jobinvoices = entity.SP_GetInvoiceReport(jobid).ToList();
+            var company = entity.AcCompanies.FirstOrDefault();
+            int uid = Convert.ToInt32(Session["UserID"].ToString());
+            var user = (from c in entity.UserRegistrations where c.UserID == uid select c.UserName).FirstOrDefault();
+            var Invoices = entity.JInvoices.Where(d => d.JobID == jobid && d.CancelledInvoice == false && d.InvoiceStatus == "1").ToList();
+            ViewBag.Job = job;
+            ViewBag.Jobinvoices = jobinvoices;
+            ViewBag.Invoices = Invoices;
+            ViewBag.Company = company;
+            ViewBag.User = user;
+            return View();
         }
-        [HttpPost]
-        public ActionResult JobEnquiry(JobEnquiry JE)
-        {
-            var JobEnquiry = entity.JobEnquiries.Where(d => d.Id == JE.Id).FirstOrDefault();
-            if (JobEnquiry == null)
-            {
-                JobEnquiry = new JobEnquiry();
-            }
-            try
-            {
-               
-                JobEnquiry.InvoiceTo = JE.InvoiceTo;
-                JobEnquiry.BranchId = Convert.ToInt32(Session["branchid"]);
-                JobEnquiry.Consignee = JE.Consignee;
-                JobEnquiry.CreatedDate = DateTime.Now;
-                JobEnquiry.DeliveryPlace = JE.DeliveryPlace;
-                JobEnquiry.DestinationPort = JE.DestinationPort;
-                JobEnquiry.EnquiryDate = JE.EnquiryDate;
-                JobEnquiry.EnquiryNo = JE.EnquiryNo;
-                JobEnquiry.EnquiryType = JE.EnquiryType;
-                JobEnquiry.InvoiceTo = JE.InvoiceTo;
-                JobEnquiry.LoadPort = JE.LoadPort;
-                JobEnquiry.NotifyTo = JE.NotifyTo;
-                JobEnquiry.ReceiptPlace = JE.ReceiptPlace;
-                JobEnquiry.Remarks = JE.Remarks;
-                JobEnquiry.Shipper = JE.Shipper;
-                JobEnquiry.UserId = Convert.ToInt32(Session["UserID"].ToString());
-                if (JobEnquiry.Id == 0)
-                {
-                    entity.JobEnquiries.Add(JobEnquiry);
-                }
-                entity.SaveChanges();
-                return RedirectToAction("JobEnquiryList", "Job", new { ID = JobEnquiry.Id });
-            }
-            catch
-            {
-                return View(JobEnquiry);
-            }
 
-        }
-        public ActionResult JobEnquiryList(int ID)
-        {
-            List<JobEnquiry> AllJobs = new List<JobEnquiry>();
-            var branchid = Convert.ToInt32(Session["branchid"]);
-            AllJobs = entity.JobEnquiries.Where(d => d.BranchId == branchid).ToList();
-            DateTime a = Convert.ToDateTime(Session["FyearFrom"]);
-            DateTime b = Convert.ToDateTime(Session["FyearTo"]);           
-            var data = (from t in AllJobs where (t.EnquiryDate >= Convert.ToDateTime(Session["FyearFrom"]) && t.EnquiryDate <= Convert.ToDateTime(Session["FyearTo"])) select t).ToList();
-            if (ID > 0)
-            {
-                ViewBag.SuccessMsg = "You have successfully added Enquiry.";
-            }
-            if (ID == 10)
-            {
-                ViewBag.SuccessMsg = "You have successfully deleted Enquiry.";
-            }
-            var EnquiryType = new string[] {"", "Telephone", "Email", "Walk-in", "Customer Login" };
-            data.ForEach(d => d.EnquiryType = EnquiryType[Convert.ToInt32(d.EnquiryType)]);
-
-            return View(data);
-        }
-        public ActionResult GetJobEnquiry(DateTime fdate, DateTime tdate)
-        {
-
-            List<JobEnquiry> AllJobs = new List<JobEnquiry>();
-            var branchid = Convert.ToInt32(Session["branchid"]);
-            AllJobs = entity.JobEnquiries.Where(d => d.BranchId == branchid).ToList();
-            DateTime a = Convert.ToDateTime(Session["FyearFrom"]);
-            DateTime b = Convert.ToDateTime(Session["FyearTo"]);
-            var data = (from t in AllJobs where (t.EnquiryDate >= Convert.ToDateTime(Session["FyearFrom"]) && t.EnquiryDate <= Convert.ToDateTime(Session["FyearTo"])) select t).ToList();
-
-            var EnquiryType = new string[] { "", "Telephone", "Email", "Walk-in", "Customer Login" };
-            data.ForEach(d => d.EnquiryType = EnquiryType[Convert.ToInt32(d.EnquiryType)]);
-
-            string view = this.RenderPartialView("_GetJobEnquiry", data);
-
-            return new JsonResult
-            {
-                Data = new
-                {
-                    success = true,
-                    view = view
-                },
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet,
-                MaxJsonLength = Int32.MaxValue
-            };
-
-        }
-        [HttpGet]
-        public ActionResult DeleteJobEnquiry(int id)
-        {
-            // int k = 0;
-            if (id != 0)
-            {
-                var JobEnquiry = entity.JobEnquiries.Where(d => d.Id == id).FirstOrDefault();
-                entity.JobEnquiries.Remove(JobEnquiry);
-                entity.SaveChanges();
-            }
-
-            return RedirectToAction("JobEnquiryList", "Job", new { ID = 10 });
-
-        }
     }
 }
