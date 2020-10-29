@@ -1,295 +1,85 @@
-﻿@model DAL.UserRegistration
-
-@{
+﻿@{
     Layout = null;
 }
-<style>
-    body {
-        background: #fff !important;
-    }
-
-    .forgot .modal-header {
-        background: #04acf3;
-    }
-
-    .forgot .modal-dialog {
-        flex-grow: 4;
-    }
-
-    .forgot h4 {
-        color: #fff !important;
-    }
-
-    .forgot .close {
-        font-size: 30px;
-    }
-
-    .forgot input[type="submit"] {
-        border: 0;
-        background-color: #04acf3 !important;
-        color: #fff;
-        width: 100% !important;
-        font-size: 18px;
-    }
-
-    form {
-        margin: 0 !Important;
-    }
-
-    body .sisu.right-column, body .signin-left-column {
-        min-height: auto !important;
-        height: auto !important;
-        box-shadow: unset !important;
-    }
-
-    .signin-left-column form {
-        margin: 0 !Important;
-    }
-
-    h3.frie_forw {
-        color: #07a7e3;
-        text-transform: uppercase;
-        font-size: 22px;
-        font-weight: 700 !important;
-        font-family: Calibri;
-    }
-
-    body .sisu.right-column .signin-right-column {
-        padding: 0 !important;
-        padding-right: 0 !important;
-        padding-left: 0 !important;
-    }
-
-    .signin-right-column img {
-        height: 100vh;
-        width: 100%;
-        object-fit: cover;
-        object-position: right;
-    }
-
-    .lice_con {
-        text-align: center;
-        margin-top: 21px;
-    }
-
-    .copy_sys {
-        padding: 8px;
-    }
-
-    p.fries_forw {
-        text-align: center;
-        color: #6d6969;
-        font-size: 10px;
-    }
-
-    p.head_secti {
-        font-size: 13px;
-        font-weight: 800;
-    }
-
-    p.lice_forw {
-        font-size: 12px;
-        font-weight: 800;
-    }
-
-    .sisu.right-column .signin-right-column {
-        background-position: right !important;
-    }
-</style>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="~/favicon.ico">
-    <title>Truebooksoft | Login</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Truebook Shipping</title>
+    <link href="https://fonts.googleapis.com/css?family=Heebo:400,400i,500,700|Titillium+Web:600" rel="stylesheet">
+    <link href="~/Content/dist/css/Home.css" rel="stylesheet" />
+    <script src="https://unpkg.com/scrollreveal@4.0.0/dist/scrollreveal.min.js"></script>
+    <style>
+        .text-danger {
+            color: red;
+        }
 
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700&amp;subset=latin-ext" rel="stylesheet">
-
-    @Styles.Render("~/assets/fonts/batch-icons/css/batch-icons.css")
-    @Styles.Render("~/assets/css/bootstrap/bootstrap.min.css")
-    @Styles.Render("~/assets/css/bootstrap/mdb.min.css")
-    @Styles.Render("~/assets/plugins/custom-scrollbar/jquery.mCustomScrollbar.min.css")
-    @Styles.Render("~/assets/css/hamburgers/hamburgers.css")
-    @Styles.Render("~/assets/fonts/font-awesome/css/font-awesome.min.css")
-    @Styles.Render("~/assets/plugins/jvmaps/jqvmap.min.css")
-    @Styles.Render("~/assets/css/quillpro/quillpro.css")
+        a {
+            cursor: pointer !important;
+        }
+    </style>
 </head>
 
 <body>
-    @using (Html.BeginForm("", "", FormMethod.Post, new { @class = "login clearfix", @role = "form" }))
-    {
-        @Html.AntiForgeryToken()
-        <div class="container-fluid">
-            <div class="row">
-                <div class="right-column sisu">
-                    <div class="row mx-0 align-items-center">
-                        <div class="col-md-7 order-md-2 signin-right-column p-0 ">
-
-                            <img src="/assets/img/WorkSmarter.jpg">
-
-                        </div>
-                        <div class="col-md-5 order-md-1 signin-left-column bg-white p-0">
-                            <a class="signin-logo d-sm-none d-md-block" href="#" style="text-align:center">
-                                <img src="~/Content/img/logo_truebookNew.png" height="70" alt="QuillPro">
-                                <h3 class="frie_forw"> @*Financial Accounting System*@</h3>
-
-                            </a>
-
-
-                            <form>
-
-
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">User Name</label>
-                                    @Html.TextBoxFor(model => model.UserName, new { @class = "form-control login", @placeholder = "User Name:" })
-                                </div>
-                                <div class="form-group">
-                                    <label for="exampleInputPassword1">Password</label>
-                                    @Html.PasswordFor(model => model.Password, new { @class = "form-control pwd", @placeholder = "Password:" })
-                                </div>
-                                <div class="form-group">
-                                    <label for="exampleInputPassword1">Branch</label>
-                                    @Html.DropDownListFor(model => model.BranchID, new SelectList(ViewBag.Branch, "BranchID", "BranchName"), "Select Branch", new { @class = "form-control" })
-                                </div>
-                                <div class="form-group">
-                                    <label for="exampleInputPassword1">Year</label>
-                                    @Html.DropDownListFor(model => model.AcFinancialYearID, new SelectList(ViewBag.fyears, "AcFinancialYearID", "FYearName"), "Select Year", new { @class = "form-control" })
-                                </div>
-                                <div class="form-group">
-                                    @if (ViewBag.ErrorMessage != null)
-                                    {
-                                        <span class="text-danger">@ViewBag.ErrorMessage</span>
-                                    }
-                                </div>
-                                <button type="submit" value="Login" class="btn btn-primary btn-gradient btn-block">
-                                    <i class="batch-icon batch-icon-key"></i>
-                                    Sign In
-                                </button>
-
-                                <div class="form-group text-center" style="padding-top:10px">
-                                    <a href="#myModal" data-toggle="modal"> Forgot Password ?</a>
-                                </div>
-
-                                <hr />
-
-                                <div class="lice_con">
-                                    <p class="head_secti">Licenced</p>
-                                    <p class="lice_forw"> Malusoft India </p>
-                                </div>
-
-                                <div class="copy_sys">
-                                    <p class="fries_forw"> All rights reserved: Malusoft &vert; Bangalore &vert; India &vert;</p>
-                                </div>
-                            </form>
-                        </div>
+    <section class="hero">
+        <div class="container">
+            <div class="loginBlock">
+                <img class="logo" src="~/Content/img/TrueBook_white.png" alt="">
+                <h1>Freight Forwarding system</h1>
+                @using (Html.BeginForm("Login", "Login", FormMethod.Post, new { @class = "login clearfix", @role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="form-group">
+                        <input type="text" id="UserName" name="UserName" class="form-control autoFiled" placeholder="User Name" required />
                     </div>
+                    <div class="form-group">
+                        <input type="password" id="Password" name="Password" class="form-control" placeholder="Password" required />
+
+                    </div>
+                    <div class="form-group">
+                        @if (ViewBag.ErrorMessage != null)
+                        {
+                            <span class="text-danger">@ViewBag.ErrorMessage</span>
+                        }
+                    </div>
+                    <div class="otherLogin">
+                        <ul>
+                            <li><a onclick="SignAsDifferentUser()">Sign as different user</a></li>
+                            <li><a href="#">Forgot Password</a></li>
+                            <li><a href="#">Change Password</a></li>
+                        </ul>
+
+                        <input type="submit" class="button button-primary button-lg" value="Sign In" />
+                    </div>
+                }
+                <div class="footer">
+                    <p>powered by : </p>
+                    <img src="~/Content/img/malusoft.png" class="logo2" alt="">
                 </div>
             </div>
         </div>
 
-
-    }
-
-    @Scripts.Render("~/assets/js/jquery/jquery-3.1.1.min.js")
-    @Scripts.Render("~/assets/js/bootstrap/popper.min.js")
-    @Scripts.Render("~/assets/js/bootstrap/bootstrap.min.js")
-    @Scripts.Render("~/assets/js/bootstrap/mdb.min.js")
-    @Scripts.Render("~/assets/plugins/velocity/velocity.min.js")
-    @Scripts.Render("~/assets/plugins/velocity/velocity.ui.min.js")
-    @Scripts.Render("~/assets/plugins/custom-scrollbar/jquery.mCustomScrollbar.concat.min.js")
-    @Scripts.Render("~/assets/plugins/jquery_visible/jquery.visible.min.js")
-    @Scripts.Render("~/assets/plugins/jquery_visible/jquery.visible.min.js")
-    @Scripts.Render("~/assets/js/misc/ie10-viewport-bug-workaround.js")
-    @Scripts.Render("~/assets/plugins/chartjs/chart.bundle.min.js")
-    @Scripts.Render("~/assets/plugins/jvmaps/jquery.vmap.min.js")
-    @Scripts.Render("~/assets/plugins/jvmaps/maps/jquery.vmap.usa.js")
-    @Scripts.Render("~/assets/js/misc/holder.min.js")
-    @Scripts.Render("~/assets/js/scripts.js")
-
-
-    <div class="modal forgot" id="myModal">
-        <div class="d-flex align-items-center" style="height:100%">
-            <div class="modal-dialog">
-                <div class="modal-content">
-
-                    <!-- Modal Header -->
-                    <div class="modal-header">
-                        <h4 class="modal-title">Forgot Password</h4>
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    </div>
-
-                    <!-- Modal body -->
-                    <div class="modal-body">
-                        <form action="" method="">
-                            <div class="form-group">
-                                <input type="text" name="txtforgotemail" id="txtforgotemail" class="form-control" placeholder="Email" />
-                            </div>
-                            <div class="form-group">
-                                <input type="submit" name="submit" id="btnforgotsubmit" class="form-control btn btn-primary" />
-                            </div>
-                        </form>
-                    </div>
-
-                    <!-- Modal footer -->
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </div>
-    <script>
-        $(document).ready(function () {
-            var brId = $('#BranchID').val();
-            if (isNaN(brId)) {
-
-            } else {
-                $('#AcFinancialYearID').empty();
-                $('#AcFinancialYearID').append('<option value="0">Select Year</option>');
-                $.ajax({
-                    type: "POST",
-                    url: "/Login/GetFYear",
-                    datatype: "Json",
-                    data: { id: $('#BranchID').val() },
-                    success: function (data) {
-                        $('#AcFinancialYearID').empty();
-                        $.each(data, function (index, value) {
-                            $('#AcFinancialYearID').append('<option value="' + value.AcFinancialYearID + '">' + value.FYearName + '</option>');
-                        });
-                    }
-
-                });
-
-            }
-            $('#BranchID').change(function () {
-                $('#AcFinancialYearID').empty();
-                $('#AcFinancialYearID').append('<option value="0">Select Year</option>');
-                $.ajax({
-                    type: "POST",
-                    url: "/Login/GetFYear",
-                    datatype: "Json",
-                    data: { id: $('#BranchID').val() },
-                    success: function (data) {
-                        $('#AcFinancialYearID').empty();
-                        $.each(data, function (index, value) {
-                            $('#AcFinancialYearID').append('<option value="' + value.AcFinancialYearID + '">' + value.FYearName + '</option>');
-                        });
-                    }
-
-                });
-            });
-        });
+    </section>
 
 
 
-    </script>
+
+
+
 </body>
+
 </html>
 
+@Scripts.Render("~/assets/js/jquery/jquery-3.1.1.min.js")
+@Scripts.Render("~/assets/js/bootstrap/popper.min.js")
+@Scripts.Render("~/assets/js/bootstrap/bootstrap.min.js")
+<script type="text/javascript">
+    function SignAsDifferentUser() {
+        $("#UserName").val('');
+        $("#Password").val('');
+        $("#UserName").focus();
+    }
 
+</script>

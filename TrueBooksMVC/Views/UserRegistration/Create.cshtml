@@ -203,6 +203,15 @@
                     </div>
                     <div class="form-group row">
                         <div class="col-md-12">
+
+                            <label class="required headinglabel">Branch Id </label>
+
+                            @Html.DropDownListFor(model => model.BranchID, new SelectList(ViewBag.Branch, "BranchID", "BranchName"), "Select Branch", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.BranchID)
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-12">
                             <div class="col-md-1">
                                 <input type="checkbox" style="margin-top: 11px" />
                             </div>
@@ -222,6 +231,7 @@
                                 <label>Active User</label>
 
                             </div>
+
                         </div>
                     </div>
 

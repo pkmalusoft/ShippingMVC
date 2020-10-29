@@ -65,74 +65,80 @@
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
        <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
-    <fieldset>
-      
-        
+       <fieldset>
 
-    <div class="row no-margin">
 
-            <div class="col-md-4">
-                 @Html.HiddenFor(model=>model.UserID)
-                <label class="required headinglabel">User Name</label>
-               
-                @Html.TextBoxFor(model => model.UserName, new { @class = "form-control txttarget" })
-                @Html.ValidationMessageFor(model => model.UserName)
-            </div>
 
-            <div class="col-md-4">
-                 <label class="required headinglabel">Password</label>
-                @Html.TextBoxFor(model => model.Password, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Password)
-            </div>
+           <div class="row no-margin">
 
-            <div class="col-md-4">
-                 <label class="required headinglabel">Role</label>
-                  @Html.DropDownListFor(model => model.RoleID, new SelectList(ViewBag.UserRole, "RoleID", "RoleName"), "Select Role", new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.RoleID)
-            </div>
+               <div class="col-md-4">
+                   @Html.HiddenFor(model => model.UserID)
+                   <label class="required headinglabel">User Name</label>
 
-    </div>
+                   @Html.TextBoxFor(model => model.UserName, new { @class = "form-control txttarget" })
+                   @Html.ValidationMessageFor(model => model.UserName)
+               </div>
 
-    <div class="row no-margin" style="padding-top:10px">
+               <div class="col-md-4">
+                   <label class="required headinglabel">Password</label>
+                   @Html.TextBoxFor(model => model.Password, new { @class = "form-control" })
+                   @Html.ValidationMessageFor(model => model.Password)
+               </div>
 
-            <div class="col-md-4">
-                     <label class="required headinglabel">Phone</label>
-                @Html.TextBoxFor(model => model.Phone, new { @class = "form-control textright txttarget" })
-                @Html.ValidationMessageFor(model => model.Phone)
-            </div>
+               <div class="col-md-4">
+                   <label class="required headinglabel">Role</label>
+                   @Html.DropDownListFor(model => model.RoleID, new SelectList(ViewBag.UserRole, "RoleID", "RoleName"), "Select Role", new { @class = "form-control" })
+                   @Html.ValidationMessageFor(model => model.RoleID)
+               </div>
 
-            <div class="col-md-4">
-                 <label class="required headinglabel">Email</label>
-                @Html.TextBoxFor(model => model.EmailId, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.EmailId)
-            </div>
-       
-           <div class="col-md-4">
-                    <label class="required headinglabel">Employee ID</label>
-                    
-                    @Html.DropDownListFor(model => model.EmployeeID, new SelectList(ViewBag.Employee, "EmployeeID", "EmployeeName"), "Select Employee", new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.EmployeeID)
-                </div>
-             
-        
-        </div>  
+           </div>
 
-          <div class="row no-margin" style="padding-top:10px">
-                 <div class="col-md-3">
-                    <label class="required headinglabel">IsActive</label>
-                    @Html.CheckBox("IsActive", new {@name = "IsActive" })
-                    @Html.ValidationMessageFor(model => model.IsActive)
-                </div>
+           <div class="row no-margin" style="padding-top:10px">
 
-          </div>
-        <div class="row no-margin" style="padding-top:10px">
-            <div class="col-md-12 butdivs">
+               <div class="col-md-4">
+                   <label class="required headinglabel">Phone</label>
+                   @Html.TextBoxFor(model => model.Phone, new { @class = "form-control textright txttarget" })
+                   @Html.ValidationMessageFor(model => model.Phone)
+               </div>
+
+               <div class="col-md-4">
+                   <label class="required headinglabel">Email</label>
+                   @Html.TextBoxFor(model => model.EmailId, new { @class = "form-control" })
+                   @Html.ValidationMessageFor(model => model.EmailId)
+               </div>
+
+               <div class="col-md-4">
+                   <label class="required headinglabel">Employee ID</label>
+
+                   @Html.DropDownListFor(model => model.EmployeeID, new SelectList(ViewBag.Employee, "EmployeeID", "EmployeeName"), "Select Employee", new { @class = "form-control" })
+                   @Html.ValidationMessageFor(model => model.EmployeeID)
+               </div>
+
+
+           </div>
+
+           <div class="row no-margin" style="padding-top:10px">
+               <div class="col-md-4">
+                   <label class="required headinglabel">Branch Id </label>
+                   @Html.DropDownListFor(model => model.BranchID, new SelectList(ViewBag.Branch, "BranchID", "BranchName"), "Select Branch", new { @class = "form-control" })
+                   @Html.ValidationMessageFor(model => model.BranchID)
+               </div>
+               <div class="col-md-4">
+                   <label class="required headinglabel">IsActive</label>
+                   @Html.CheckBox("IsActive", new { @name = "IsActive" })
+                   @Html.ValidationMessageFor(model => model.IsActive)
+               </div>
+
+           </div>
+         
+           <div class="row no-margin" style="padding-top:10px">
+               <div class="col-md-12 butdivs">
                    <input type="submit" value="Update" class="btn btn-primary btnwidth" id="btnsave" />&nbsp; <a href='@Url.Action("Index", "UserRegistration", new { id = 0 })' class="btn btn-danger btnwidth" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
-            </div>
-        </div>
-           
-       
-    </fieldset>
+               </div>
+           </div>
+
+
+       </fieldset>
 }
 
 </section>

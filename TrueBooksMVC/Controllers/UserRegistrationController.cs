@@ -62,6 +62,7 @@ namespace TrueBooksMVC.Controllers
         {
             ViewBag.UserRole = db.RoleMasters.ToList();
             ViewBag.Employee = db.Employees.ToList();
+            ViewBag.Branch = db.BranchMasters.ToList();
             return View();
         }
 
@@ -73,6 +74,7 @@ namespace TrueBooksMVC.Controllers
         public ActionResult Create(UserRegistration userregistration)
         {
             ViewBag.UserRole = db.RoleMasters.ToList();
+            ViewBag.Branch = db.BranchMasters.ToList();
 
             var data = db.UserRegistrations.Where(p => p.UserName.Equals(userregistration.UserName, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
 
@@ -101,6 +103,8 @@ namespace TrueBooksMVC.Controllers
         {
             ViewBag.UserRole = db.RoleMasters.ToList();
             ViewBag.Employee = db.Employees.ToList();
+            ViewBag.Branch = db.BranchMasters.ToList();
+
             UserRegistration userRegistration = objectSourceMaster.GetUserRegistrationById(id);
             //UserRegistration userregistration = db.UserRegistrations.Find(id);
             if (userRegistration == null)
@@ -117,6 +121,7 @@ namespace TrueBooksMVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(UserRegistration userregistration)
         {
+            ViewBag.Branch = db.BranchMasters.ToList();
 
             if (ModelState.IsValid)
             {

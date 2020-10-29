@@ -3743,6 +3743,133 @@ namespace TrueBooksMVC.Controllers
             ViewBag.User = user;
             return View();
         }
+        [HttpGet]
+        public ActionResult JobEnquiry(int id)
+        {
+            var JobEnquiry = entity.JobEnquiries.Where(d => d.Id == id).FirstOrDefault();
+            var CreditNotes = entity.JobEnquiries.ToList().LastOrDefault();
+            var EnquiryNo = 1;
+            if (CreditNotes != null)
+            {
+                var CreditNumstr = CreditNotes.EnquiryNo.Split('-');
+                if (CreditNumstr.Count() > 1)
+                {
+                    EnquiryNo = Convert.ToInt32(CreditNumstr[1]) + 1;
+                }
+            }
+            var CreditNumber = EnquiryNo.ToString("0000");
+            var datetime = DateTime.Now;
+            var CreditnoteNum = datetime.ToString("ddMMyyyy") + "-" + CreditNumber;
+            if (JobEnquiry == null)
+            {
+                JobEnquiry = new JobEnquiry();
+                JobEnquiry.EnquiryDate = DateTime.Now;
+                JobEnquiry.EnquiryNo = CreditnoteNum;
+            }
+            return View(JobEnquiry);
 
+        }
+        [HttpPost]
+        public ActionResult JobEnquiry(JobEnquiry JE)
+        {
+            var JobEnquiry = entity.JobEnquiries.Where(d => d.Id == JE.Id).FirstOrDefault();
+            if (JobEnquiry == null)
+            {
+                JobEnquiry = new JobEnquiry();
+            }
+            try
+            {
+
+                JobEnquiry.InvoiceTo = JE.InvoiceTo;
+                JobEnquiry.BranchId = Convert.ToInt32(Session["branchid"]);
+                JobEnquiry.Consignee = JE.Consignee;
+                JobEnquiry.CreatedDate = DateTime.Now;
+                JobEnquiry.DeliveryPlace = JE.DeliveryPlace;
+                JobEnquiry.DestinationPort = JE.DestinationPort;
+                JobEnquiry.EnquiryDate = JE.EnquiryDate;
+                JobEnquiry.EnquiryNo = JE.EnquiryNo;
+                JobEnquiry.EnquiryType = JE.EnquiryType;
+                JobEnquiry.InvoiceTo = JE.InvoiceTo;
+                JobEnquiry.LoadPort = JE.LoadPort;
+                JobEnquiry.NotifyTo = JE.NotifyTo;
+                JobEnquiry.ReceiptPlace = JE.ReceiptPlace;
+                JobEnquiry.Remarks = JE.Remarks;
+                JobEnquiry.Shipper = JE.Shipper;
+                JobEnquiry.UserId = Convert.ToInt32(Session["UserID"].ToString());
+                if (JobEnquiry.Id == 0)
+                {
+                    entity.JobEnquiries.Add(JobEnquiry);
+                }
+                entity.SaveChanges();
+                return RedirectToAction("JobEnquiryList", "Job", new { ID = JobEnquiry.Id });
+            }
+            catch
+            {
+                return View(JobEnquiry);
+            }
+
+        }
+        public ActionResult JobEnquiryList(int ID)
+        {
+            List<JobEnquiry> AllJobs = new List<JobEnquiry>();
+            var branchid = Convert.ToInt32(Session["branchid"]);
+            AllJobs = entity.JobEnquiries.Where(d => d.BranchId == branchid).ToList();
+            DateTime a = Convert.ToDateTime(Session["FyearFrom"]);
+            DateTime b = Convert.ToDateTime(Session["FyearTo"]);
+            var data = (from t in AllJobs where (t.EnquiryDate >= Convert.ToDateTime(Session["FyearFrom"]) && t.EnquiryDate <= Convert.ToDateTime(Session["FyearTo"])) select t).ToList();
+            if (ID > 0)
+            {
+                ViewBag.SuccessMsg = "You have successfully added Enquiry.";
+            }
+            if (ID == 10)
+            {
+                ViewBag.SuccessMsg = "You have successfully deleted Enquiry.";
+            }
+            var EnquiryType = new string[] { "", "Telephone", "Email", "Walk-in", "Customer Login" };
+            data.ForEach(d => d.EnquiryType = EnquiryType[Convert.ToInt32(d.EnquiryType)]);
+
+            return View(data);
+        }
+        public ActionResult GetJobEnquiry(DateTime fdate, DateTime tdate)
+        {
+
+            List<JobEnquiry> AllJobs = new List<JobEnquiry>();
+            var branchid = Convert.ToInt32(Session["branchid"]);
+            AllJobs = entity.JobEnquiries.Where(d => d.BranchId == branchid).ToList();
+            DateTime a = Convert.ToDateTime(Session["FyearFrom"]);
+            DateTime b = Convert.ToDateTime(Session["FyearTo"]);
+            var data = (from t in AllJobs where (t.EnquiryDate >= Convert.ToDateTime(Session["FyearFrom"]) && t.EnquiryDate <= Convert.ToDateTime(Session["FyearTo"])) select t).ToList();
+
+            var EnquiryType = new string[] { "", "Telephone", "Email", "Walk-in", "Customer Login" };
+            data.ForEach(d => d.EnquiryType = EnquiryType[Convert.ToInt32(d.EnquiryType)]);
+
+            string view = this.RenderPartialView("_GetJobEnquiry", data);
+
+            return new JsonResult
+            {
+                Data = new
+                {
+                    success = true,
+                    view = view
+                },
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet,
+                MaxJsonLength = Int32.MaxValue
+            };
+
+        }
+        [HttpGet]
+        public ActionResult DeleteJobEnquiry(int id)
+        {
+            // int k = 0;
+            if (id != 0)
+            {
+                var JobEnquiry = entity.JobEnquiries.Where(d => d.Id == id).FirstOrDefault();
+                entity.JobEnquiries.Remove(JobEnquiry);
+                entity.SaveChanges();
+            }
+
+            return RedirectToAction("JobEnquiryList", "Job", new { ID = 10 });
+
+        }
     }
 }
