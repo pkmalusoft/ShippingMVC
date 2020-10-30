@@ -156,11 +156,10 @@ namespace TrueBooksMVC.Controllers
 
                     return RedirectToAction("Home", "Home");
                 }
-                ViewBag.ErrorMessage = "Invalid Credentials";
-                ViewBag.Branch = entity.BranchMasters.ToList();
-
-                ViewBag.fyears = entity.AcFinancialYearSelect(Convert.ToInt32(Session["branchid"])).ToList();
-                return View();
+                Session["LoginStatus"] = "Login";
+                Session["StatusMessage"] = "User does not exists!";
+                //return RedirectToAction("Login");
+                return RedirectToAction("Index", "Login");
             }
             else
             {
@@ -168,7 +167,7 @@ namespace TrueBooksMVC.Controllers
                 ViewBag.Branch = entity.BranchMasters.ToList();
 
                 ViewBag.fyears = entity.AcFinancialYearSelect(Convert.ToInt32(Session["branchid"])).ToList();
-                return View();
+                return RedirectToAction("Index", "Login");
             }
 
         }
