@@ -3772,6 +3772,11 @@ namespace TrueBooksMVC.Controllers
         [HttpPost]
         public ActionResult JobEnquiry(JobEnquiry JE)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(JE);
+            }
+
             var JobEnquiry = entity.JobEnquiries.Where(d => d.Id == JE.Id).FirstOrDefault();
             if (JobEnquiry == null)
             {

@@ -52,7 +52,7 @@ namespace TrueBooksMVC.Controllers
 
         [HttpPost]
         public ActionResult Edit(Airline u)
-        {
+        { 
             if (ModelState.IsValid)
             {
                 context.Entry(u).State = EntityState.Modified;
@@ -61,7 +61,6 @@ namespace TrueBooksMVC.Controllers
                 return RedirectToAction("Index");
             }
             return View();
-
 
         }
 

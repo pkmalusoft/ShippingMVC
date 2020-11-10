@@ -185,7 +185,7 @@ namespace TrueBooksMVC.Controllers
 
             // @ViewBag.SignOut = "You have successfully signout.";
             FormsAuthentication.SignOut();
-            return RedirectToAction("Index");
+            return RedirectToAction("Login");
         }
         public ActionResult GetChangeFyear(int FyearId)
         {

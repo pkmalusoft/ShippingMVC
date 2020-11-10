@@ -5866,7 +5866,7 @@ body table.dataTable tbody td{
     background: linear-gradient(135deg, #07a7e3 0%, #32dac3 100%);
 }
 label > select {
-    width: 30%!important;
+    width: 33% !important;
     height: 30px;
     padding: 3px;
     margin-left: 10px;

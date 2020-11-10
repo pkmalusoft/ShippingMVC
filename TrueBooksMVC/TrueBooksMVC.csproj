@@ -41,6 +41,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.6.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
+      <HintPath>..\packages\BouncyCastle.1.8.6.1\lib\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
     <Reference Include="DotNetOpenAuth.AspNet, Version=4.3.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
       <HintPath>..\packages\DotNetOpenAuth.AspNet.4.3.3.13295\lib\net45-full\DotNetOpenAuth.AspNet.dll</HintPath>
     </Reference>
@@ -1574,6 +1577,7 @@
     <Content Include="Content\NewCSS\js\owl.carousel.min.js" />
     <Content Include="Content\NewCSS\js\page\dashboard.js" />
     <Content Include="Content\NewCSS\js\page\dashboard2.js" />
+    <Content Include="Content\NewCSS\js\parsley.js" />
     <Content Include="Content\NewCSS\js\wow.min.js" />
     <Content Include="Content\NewCSS\plugins\jQuery\jQuery-2.2.0.min.js" />
     <Content Include="Content\plugins\bootstrap-slider\bootstrap-slider.js" />
