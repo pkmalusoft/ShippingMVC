@@ -34,6 +34,7 @@
     #charges_table th, #charges_table td {
         padding-bottom: 0 !important;
     }
+
     #cancel_edit_charges i {
         color: #fff;
     }
@@ -358,6 +359,14 @@
         body .jobform {
             min-width: 95% !important;
         }
+    }
+
+    body .data1 tbody > tr:nth-of-type(1) {
+        background-color: transparent !important;
+    }
+
+    body .data1 table {
+        border: none !important;
     }
 </style>
 
@@ -870,6 +879,9 @@
             alert("Job not Created !!")
         }
     }
+    function InvoicePrint() {
+         alert("Job not Created !!")
+    }
     function SaveStaffNotes() {
            var Jobid = '@Model.JobID';
         var staffnote = $("#txtStaffnote").val();
@@ -975,8 +987,23 @@
 
                                 <ul class="dropdown-menu extended logout" style="top:100%!important; right:0!Important;left:unset;">
                                     <li><a style="color:#35b8eb" href="@Url.Action("JobRegisterReport.aspx", "Reports", new { jobid = Model.JobID })">Job Report</a></li>
-                                    <li><a style="color:#35b8eb;cursor:pointer" onclick="AddInvoiceNumber()">Generate Invoice</a></li>
-                                    <li><a style="color:#35b8eb" href="@Url.Action("JobInvoiceReport", "Job", new { jobid = Model.JobID })">Print Invoice</a></li>
+                                    @if (Model.JobID == 0)
+                                    {
+                                        @*<li><a style="color:#35b8eb;cursor:pointer" onclick="AddInvoiceNumber()">Generate Invoice</a></li>
+
+                                            <li><a style="color:#35b8eb;cursor:pointer" onclick="InvoicePrint()">Print Invoice</a></li>*@
+                                    }
+                                    else if (@ViewBag.IsInvoiveGenerated == false)
+                                    {
+                                        <li><a style="color:#35b8eb" href="@Url.Action("JobInvoiceReport", "Job", new { jobid = Model.JobID })">Print Invoice</a></li>
+
+                                    }
+                                    else
+                                    {
+                                        <li><a style="color:#35b8eb;cursor:pointer" onclick="AddInvoiceNumber()">Generate Invoice</a></li>
+
+                                        <li><a style="color:#35b8eb" href="@Url.Action("JobInvoiceReport", "Job", new { jobid = Model.JobID })">Print Invoice</a></li>
+                                    }
                                     <li><a style="color:#35b8eb" href="@Url.Action("DeliveryNote.aspx", "Reports", new { jobid = Model.JobID })">Delivery Note</a></li>
                                     <li><a style="color:#35b8eb" href="@Url.Action("ArrivalReportPlain", "ReportInvoice", new { JobID = Model.JobID})">Arrival Note</a></li>
                                     <li><a style="color:#35b8eb;cursor:pointer" onclick="ShowStaffNotes()">Staff Notes</a></li>
@@ -1387,15 +1414,59 @@
                                                     <div class="title12">Local Currency</div>
                                                 </div>*@
                                             <div class="ico_cla"><span style="font-size:15px;cursor:pointer" onclick="openNav()"><i class="fa fa-expand" aria-hidden="true"></i></span></div>
-                                            <div class="row">
-                                                <div class="col-md-6 col-md-offset-5">
-                                                    <span id="ProvisionTot" style="padding-left:77px" class="text-yellow"></span>
-                                                    <span id="SalesTot"  style="padding-left:33px" class="text-primary"></span>
-                                                    <span id="TaxTot"  style="padding-left:41%" class="text-black"></span>
-                                                    <span id="MarginTot"  style="padding-left:4%" class="text-success"></span>
-                                                </div>
+                                            @if (Model.JobID > 0)
+                                            {
+                                                <div class="data1">
+                                                    @*<div class="col-md-6 col-md-offset-5">
+                                                            <span id="ProvisionTot" style="padding-left:77px" class="text-yellow"></span>
+                                                            <span id="SalesTot"  style="padding-left:33px" class="text-primary"></span>
+                                                            <span id="TaxTot"  style="padding-left:41%" class="text-black"></span>
+                                                            <span id="MarginTot"  style="padding-left:4%" class="text-success"></span>
+                                                        </div>*@
+                                                    @*<div class="data" style="overflow:auto;">*@
+                                                    <table class="table smalltablewidth fulltablewidth">
+                                                        <tr>
+                                                            <td width="20%"></td>
+                                                            <td width="20%"></td>
+                                                            <td width="1%"></td>
+                                                            <td width="5%"></td>
+                                                            <td id="provin_rate" class="hideinsummary"></td>
+                                                            <td id="provin_curr" class="hideinsummary"></td>
+                                                            <td id="provinex_rate" class="hideinsummary">
+                                                                Provision Ex. Rate
+                                                            </td>
+                                                            <td width="8%" class="lc_pro">
+                                                                <span id="ProvisionTot" class="text-yellow"></span>
+                                                            </td>
+                                                            <td id="provin_forgin" class="hideinsummary">
+                                                                Provision FC
+                                                            </td>
+                                                            <td id="sale_rate" class="hideinsummary">
+                                                                Sales Rate
+                                                            </td>
+                                                            <td id="sale_exrate" class="hideinsummary">
+                                                                Sales Ex. Rate
+                                                            </td>
+                                                            <td width="8%" class="lc_pro">
+                                                                <span id="SalesTot" class="text-primary"></span>
+                                                            </td>
+                                                            <td id="sale_curr"></td>
+                                                            <td width="8%" class="fc_pro"></td>
+                                                            <td width="5%"></td>
+                                                            <td width="6%">
+                                                                <span id="TaxTot" class="text-black"></span>
 
-                                            </div>
+                                                            </td>
+                                                            <td width="8%">
+                                                                <span id="MarginTot" class="text-success"></span>
+
+                                                            </td>
+                                                            <td>  </td>
+                                                        </tr>
+                                                    </table>
+                                                    @*</div>*@
+                                                </div>
+                                            }
                                             <div class="data" style="overflow:auto;">
                                                 <table border="1" class="table table-responsive table-bordered smalltablewidth fulltablewidth " id="charges_table">
                                                     <tr>
@@ -2203,8 +2274,7 @@
                                                                     Invoice No
                                                                 </div>
                                                                 <div class="col-xs-7 col-sm-4">
-                                                                    @Html.TextBoxFor(model => model.InvoiceNo, new { @class = "form-control" })
-
+                                                                    <input type="text" class="form-control" value="@ViewBag.InvoiceNumber" />
                                                                 </div>
                                                             </div>
                                                         </div>

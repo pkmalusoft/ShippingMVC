@@ -418,13 +418,13 @@
             nonSelectedText: 'None selected',
             nSelectedText: 'selected',
             allSelectedText: 'All selected',
-            numberDisplayed: 3,
+            numberDisplayed: 0,
             disableIfEmpty: false,
             disabledText: '',
             delimiterText: ', ',
             templates: {
                 button: '<button type="button" class="multiselect dropdown-toggle" data-toggle="dropdown"><span class="multiselect-selected-text"></span> <b class="caret"></b></button>',
-                ul: '<ul class="multiselect-container dropdown-menu"></ul>',
+                ul: '<ul class="multiselect-container dropdown-menu "></ul>',
                 filter: '<li class="multiselect-item multiselect-filter"><div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span><input class="form-control multiselect-search" type="text"></div></li>',
                 filterClearBtn: '<span class="input-group-btn"><button class="btn btn-default multiselect-clear-filter" type="button"><i class="glyphicon glyphicon-remove-circle"></i></button></span>',
                 li: '<li><a tabindex="0"><label></label></a></li>',
@@ -492,7 +492,7 @@
             this.$ul = $(this.options.templates.ul);
 
             if (this.options.dropRight) {
-                this.$ul.addClass('pull-right');
+                this.$ul.addClass('pull-center');
             }
 
             // Set max height of dropdown menu to activate auto scrollbar.
@@ -1017,7 +1017,9 @@
                     // Adds optional filter clear button
                     if(this.options.includeFilterClearBtn) {
                         var clearBtn = $(this.options.templates.filterClearBtn);
-                        clearBtn.on('click', $.proxy(function(event){
+                        clearBtn.on('click', $.proxy(function (event) {
+                            
+                            this.$button.click();
                             clearTimeout(this.searchTimeout);
 
                             this.$filter.find('.multiselect-search').val('');

@@ -141,5 +141,9 @@ namespace TrueBooksMVC.Models
         public Nullable<System.DateTime> DepartingDate { get; set; }
         public Nullable<bool> Lock { get; set; }
 
+
+        public String InvoiceNumber { get; set; }
+        public String Job_Status { get; set; }
+
     }
 }

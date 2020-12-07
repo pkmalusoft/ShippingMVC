@@ -78,7 +78,9 @@
     <Reference Include="Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ReportViewer.2012.Runtime.11.0.3452.0\lib\Microsoft.ReportViewer.WebForms.DLL</HintPath>
     </Reference>
-    <Reference Include="Microsoft.SqlServer.Types, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.SqlServer.Types, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SqlServer.Types.14.0.1016.290\lib\net40\Microsoft.SqlServer.Types.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Web.WebPages.OAuth, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebPages.OAuth.3.2.7\lib\net45\Microsoft.Web.WebPages.OAuth.dll</HintPath>
     </Reference>
@@ -1386,6 +1388,7 @@
     <Content Include="Content\bootstrap-multiselect.js" />
     <Content Include="Content\css\bootstrap-inputs.css" />
     <Content Include="Content\css\bootstrap.min.css" />
+    <Content Include="Content\css\skins\skin-black.min.css" />
     <Content Include="Content\css\skins\_all-skins.min.css" />
     <Content Include="Content\dist\css\Home.css" />
     <Content Include="Content\dist\img\avatar.png" />
@@ -2655,6 +2658,7 @@
     <Content Include="assets\sass\quillpro\quillpro\_quillpro-mixins.scss" />
     <Content Include="assets\sass\quillpro\quillpro\_quillpro-print.scss" />
     <Content Include="assets\sass\quillpro\quillpro\_quillpro-variables.scss" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\Shipping.pubxml" />
     <Content Include="Reports\Shipping_Test_18_12_2016.bak" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
@@ -3946,6 +3950,8 @@
     <Content Include="Views\Job\JobEnquiryList.cshtml" />
     <Content Include="Views\Job\_GetJobEnquiry.cshtml" />
     <Content Include="Views\Login\Index.cshtml" />
+    <Content Include="Views\Home\UserProfile.cshtml" />
+    <Content Include="Views\Job\JobInvoiceReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Logo\" />

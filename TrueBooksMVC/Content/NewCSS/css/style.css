@@ -524,7 +524,7 @@ a {
     -moz-transition: -moz-transform .3s ease-in-out, width .3s ease-in-out;
     -o-transition: -o-transform .3s ease-in-out, width .3s ease-in-out;
     transition: transform .3s ease-in-out, width .3s ease-in-out;
-    background-color: #4ca3d6;
+    /*background-color: #4ca3d6;*/background-color: black;
 }
 
 @media (max-width:767px) {
@@ -6641,4 +6641,14 @@ body .fullwidthtd input {
     margin-left: 5px!important;
 }
 .multiselect-filter span.input-group-addon {
-	display:none;
+    display: none;
+}
+select {
+    background-color: lightyellow !important;
+}
+.ui-autocomplete-input {
+    background-color: lightyellow !important;
+}
+.ui-autocomplete > li {
+    background-color: lightyellow !important;
+}

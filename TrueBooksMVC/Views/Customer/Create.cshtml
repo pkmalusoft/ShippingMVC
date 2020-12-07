@@ -48,7 +48,7 @@
             //var CustomerType = $("#CustomerType").val();
             var ContactMob = $("#MobileNumber").val();
             var Whatsapp = $("#WhatsAppNumber").val();
-
+            var phone_pattern = /([0-9]{10})|(\([0-9]{3}\)\s+[0-9]{3}\-[0-9]{4})/;
 
 
             if (cust == "") {
@@ -88,6 +88,22 @@
                 $("#alert").show();
                 return false;
             }
+            else if (phone_pattern.test(phone) == false)
+            {
+
+                $("#Mobalert").show();
+                return false;
+            }
+            else if (phone_pattern.test(ContactMob) == false) {
+
+                $("#Mobalert").show();
+                return false;
+            }
+            else if (phone_pattern.test(Whatsapp) == false) {
+
+                $("#Mobalert").show();
+                return false;
+            }
          
             //else if (CustomerType == "") {
 
@@ -96,6 +112,7 @@
             //}
             else {
                 $("#alert").hide();
+                $("#Mobalert").hide();
                 return true;
             }
 
@@ -142,6 +159,7 @@
     @Html.ValidationSummary(true)
     <fieldset class="searchdiv">
         <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
+        <div id="Mobalert" style="color:red;display:none;margin-left:10px;">*Please Enter a Valid Number (numeric values minimum 10 digit)</div>
 
         <div class="row no-margin">
 

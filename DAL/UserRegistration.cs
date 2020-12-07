@@ -24,5 +24,6 @@ namespace DAL
         public int EmployeeID { get; set; }
         public Nullable<int> AcFinancialYearID { get; set; }
         public Nullable<int> BranchID { get; set; }
+        public string Image { get; set; }
     }
 }

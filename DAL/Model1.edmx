@@ -1208,6 +1208,7 @@ warning 6002: The table/view 'malusoft_shipping.dbo.AcHeadAssign' does not have 
           <Property Name="EmployeeID" Type="int" Nullable="false" />
           <Property Name="AcFinancialYearID" Type="int" />
           <Property Name="BranchID" Type="int" />
+          <Property Name="Image" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="Validity">
           <Key>
@@ -5320,6 +5321,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Type="Int32" Name="EmployeeID" Nullable="false" />
           <Property Name="AcFinancialYearID" Type="Int32" />
           <Property Name="BranchID" Type="Int32" />
+          <Property Name="Image" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Airline">
           <Key>
@@ -8953,6 +8955,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <EntitySetMapping Name="UserRegistrations">
             <EntityTypeMapping TypeName="SHIPPING_FinalModel.UserRegistration">
               <MappingFragment StoreEntitySet="UserRegistration">
+                <ScalarProperty Name="Image" ColumnName="Image" />
                 <ScalarProperty Name="BranchID" ColumnName="BranchID" />
                 <ScalarProperty Name="AcFinancialYearID" ColumnName="AcFinancialYearID" />
                 <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />

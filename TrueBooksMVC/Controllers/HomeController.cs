@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-
+using TrueBooksMVC.Models;
 namespace TrueBooksMVC.Controllers
 {
     [SessionExpire]
@@ -196,8 +196,23 @@ namespace TrueBooksMVC.Controllers
            
 
         }
+        public ActionResult UserProfile()
+        {
+            ViewBag.UserRole = entity.RoleMasters.ToList();
+            ViewBag.Employee = entity.Employees.ToList();
+            ViewBag.Branch = entity.BranchMasters.ToList();
+            SourceMastersModel objectSourceMaster = new SourceMastersModel();
+            var LoginId = Convert.ToInt32(Session["UserID"]);
+            UserRegistration userRegistration = objectSourceMaster.GetUserRegistrationById(LoginId);
+            //UserRegistration userregistration = db.UserRegistrations.Find(id);
+            if (userRegistration == null)
+            {
+                return HttpNotFound();
+            }
+            return View(userRegistration);
+        }
 
-     
+
     }
 }
 

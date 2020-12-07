@@ -43,6 +43,50 @@ namespace TrueBooksMVC.Controllers
                 BindAllMasters();
 
 
+                if (id > 0)
+                {
+
+
+                    var InvoiceNo = 10000;
+                    var invoiceNumber = entity.JInvoices.Select(d => d.InvoiceNumber).ToList().LastOrDefault();
+
+                  
+                        var invoicenum = "";
+                        if (invoiceNumber != null)
+                        {
+                            var strInvoice = invoiceNumber.Split('-');
+                            var strinvoicenum = strInvoice[1].Split('/');
+                            if (strinvoicenum.Count() > 1)
+                            {
+                                var invnum = Convert.ToInt32(strinvoicenum[1]) + 1;
+                                invoicenum = "/" + invnum;
+                                InvoiceNo = Convert.ToInt32(strinvoicenum[0]);
+                            }
+                            else
+                            {
+                                invoicenum = "/1";
+                                InvoiceNo = Convert.ToInt32(strinvoicenum[0]);
+                            }
+                        }
+                       ViewBag.InvoiceNumber = "JI-" + InvoiceNo+invoicenum;
+
+
+
+                }
+                else
+                {
+                    var InvoiceNo = 10000;
+                    ViewBag.InvoiceNumber = "JI-" + InvoiceNo;
+
+                }
+
+
+
+
+
+
+
+
                 Session["JobID"] = id;
 
                 JG = J.JobGenerationByJobID(id);
@@ -733,6 +777,9 @@ namespace TrueBooksMVC.Controllers
                                 DeleteAndInsertRecords(formCollection, JobId, 2);
 
                                 var data = (from c in entity.JobGenerations where c.JobID == JobId select c).FirstOrDefault();
+                                data.JobStatusId = 2;
+                                entity.Entry(data).State = EntityState.Modified;
+                                entity.SaveChanges();
                                 //int acjid = 0;
                                 //if (data.AcJournalID != null)
                                 //{
@@ -947,6 +994,7 @@ namespace TrueBooksMVC.Controllers
                                 entity.SaveChanges();
                                 var job = (from d in entity.JobGenerations where d.JobID == JobId select d).FirstOrDefault();
                                 job.AcJournalID = JournalId;
+                                job.JobStatusId = 3;
                                 entity.Entry(job).State = EntityState.Modified;
                                 entity.SaveChanges();
                                 acjid = JournalId;
@@ -1067,7 +1115,7 @@ namespace TrueBooksMVC.Controllers
                                     //InvoiceNo = Convert.ToInt32(strInvoice[1]) + 1;
                                 }
                                 //InvoiceNo = InvoiceNo + 1;
-                                j_invoice.InvoiceNumber = "JI-" + InvoiceNo;
+                                j_invoice.InvoiceNumber = "JI-" + InvoiceNo+ invoicenum;
                                 j_invoice.InvoiceStatus = "1";
                                 entity.Entry(j_invoice).State = EntityState.Modified;
                                 entity.SaveChanges();
@@ -2139,25 +2187,44 @@ namespace TrueBooksMVC.Controllers
         public string AddOrUpdateContainerDetails(JContainerDetail ContainerDetail)
         {
             JContainerDetail jJContainerDetail = new JContainerDetail();
-
-            //if (ContainerDetail.JobID > 0)
-            //{
-            //    ContainerDetail.UserID = Convert.ToInt32(Session["UserID"].ToString());
-            //    entity.Entry(ContainerDetail).State = EntityState.Modified;
-            //    entity.SaveChanges();
-            //}
+            jJContainerDetail = (from d in entity.JContainerDetails where d.JContainerDetailID == ContainerDetail.JContainerDetailID select d).FirstOrDefault();
+            if(jJContainerDetail==null)
+            {
+                jJContainerDetail = new JContainerDetail();
+            }
+            if (jJContainerDetail.JContainerDetailID > 0)
+            {
+                jJContainerDetail.UserID = Convert.ToInt32(Session["UserID"].ToString());
+                entity.Entry(jJContainerDetail).State = EntityState.Modified;
+                entity.SaveChanges();
+            }
             if (Session["UserID"] != null)
             {
-                //  if (ContainerDetail.JContainerDetailID <= 0)
-                //  {
-                int i = J.AddOrUpdateContainerDetails(ContainerDetail, Session["UserID"].ToString());
-                //   }
-                // else
-                //   {
-                //  entity.Entry(ContainerDetail).State = EntityState.Modified;
-                //     entity.SaveChanges();
-                //     entity.Entry(ContainerDetail).State = EntityState.Detached;
-                // }
+                if (jJContainerDetail.JContainerDetailID <= 0)
+                {
+                    try
+                    {
+                        //int i = J.AddOrUpdateContainerDetails(ContainerDetail, Session["UserID"].ToString());
+                        jJContainerDetail.ContainerNo = ContainerDetail.ContainerNo;
+                        jJContainerDetail.ContainerTypeID = ContainerDetail.ContainerTypeID;
+                        jJContainerDetail.Description = ContainerDetail.Description;
+                        jJContainerDetail.JobID = ContainerDetail.JobID;
+                        jJContainerDetail.SealNo = ContainerDetail.SealNo;
+                        jJContainerDetail.UserID = Convert.ToInt32(Session["UserID"].ToString());
+                        entity.JContainerDetails.Add(jJContainerDetail);
+                        entity.SaveChanges();
+                    }
+                    catch
+                    {
+
+                    }
+                }
+                else
+                {
+                    entity.Entry(jJContainerDetail).State = EntityState.Modified;
+                    entity.SaveChanges();
+                    entity.Entry(jJContainerDetail).State = EntityState.Detached;
+                }
                 var containers = (from t in entity.JContainerDetails orderby t.JContainerDetailID descending select t).FirstOrDefault();
             }
 
@@ -2183,14 +2250,20 @@ namespace TrueBooksMVC.Controllers
 
                 //  var AllInvoices = J.GetContainerByJob(JobID, Convert.ToInt32(Session["UserID"]));
                 var AllInvoices = J.GetChargesByJob(JobID, Convert.ToInt32(Session["UserID"]));
+                var All_Invoices = new List<SP_GetChargesbyJobIDandUser_Result>();
+
                 foreach (var item in AllInvoices)
                 {
                     //var jinvoice = entity.JInvoices.Where(d => d.InvoiceID == item.InvoiceID).FirstOrDefault();
-                    //var invoices = (from d in entity.JInvoices where d.InvoiceID == item.InvoiceID select d).FirstOrDefault();
-                    item.SalesRate = item.SalesHome / Convert.ToDecimal(item.Quantity);
-                    item.InvoiceStatus = item.InvoiceStatus.Trim();
+                    var invoices = (from d in entity.JInvoices where d.InvoiceID == item.InvoiceID select d).FirstOrDefault();
+                    if (invoices.CancelledInvoice == false)
+                    {
+                        item.SalesRate = item.SalesHome / Convert.ToDecimal(item.Quantity);
+                        item.InvoiceStatus = item.InvoiceStatus.Trim();
+                        All_Invoices.Add(item);
+                    }
                 }
-                return Json(AllInvoices, JsonRequestBehavior.AllowGet);
+                return Json(All_Invoices, JsonRequestBehavior.AllowGet);
             }
             else
             {
@@ -2344,8 +2417,25 @@ namespace TrueBooksMVC.Controllers
                     JobID = 0;
                 }
 
-                var AllConta = J.GetContainerByJob(JobID, Convert.ToInt32(Session["UserID"]));
-                return Json(AllConta, JsonRequestBehavior.AllowGet);
+                //var AllConta = J.GetContainerByJob(JobID, Convert.ToInt32(Session["UserID"]));
+                var Containers = (from d in entity.JContainerDetails where d.JobID == JobID select d).ToList();
+                var Container_list = new List<SP_GetContainerDecbyJobIDandUser_Result>();
+                foreach(var item in Containers)
+                {
+                    var Container= new SP_GetContainerDecbyJobIDandUser_Result();
+                    Container.ContainerNo = item.ContainerNo;
+                    var ContainerType = entity.ContainerTypes.Where(d => d.ContainerTypeID == item.ContainerTypeID).FirstOrDefault();
+                    Container.ContainerType = ContainerType == null ? "Select" : ContainerType.ContainerType1;
+                    Container.ContainerTypeID = item.ContainerTypeID;
+                    Container.Description = item.Description;
+                    Container.JContainerDetailID = item.JContainerDetailID;
+                    Container.JobID = item.JobID;
+                    Container.SealNo = item.SealNo;
+                    Container.UserID = item.UserID;
+                    Container_list.Add(Container);
+
+                }
+                return Json(Container_list, JsonRequestBehavior.AllowGet);
             }
             else
             {
@@ -2898,6 +2988,7 @@ namespace TrueBooksMVC.Controllers
                          //join E in entity.Employees on j.EmployeeID equals E.EmployeeID
                          join L in entity.Ports on j.LoadPortID equals L.PortID
                          join D in entity.Ports on j.DestinationPortID equals D.PortID
+                         join s in entity.JobStatus on j.JobStatusId equals s.JobStatusId
                          where j.CostUpdatedOrNot == "N"
                          select new JobRegisterVM
                          {
@@ -2912,12 +3003,15 @@ namespace TrueBooksMVC.Controllers
                              ConsigneeName = c1.Customer1,
                              Customer = c.Customer1,
                              LoadPort = L.Port1,
-                             DestinationPort = D.Port1
+                             DestinationPort = D.Port1,
+                             Job_Status = s.StatusName
+
 
                          }).ToList();
             }
             else
             {
+
                 datas = (from j in entity.JobGenerations
                          join c in entity.CUSTOMERs on j.ConsignerID equals c.CustomerID
                          join c1 in entity.CUSTOMERs on j.ConsigneeID equals c1.CustomerID
@@ -2925,7 +3019,8 @@ namespace TrueBooksMVC.Controllers
                          //join E in entity.Employees on j.EmployeeID equals E.EmployeeID
                          join L in entity.Ports on j.LoadPortID equals L.PortID
                          join D in entity.Ports on j.DestinationPortID equals D.PortID
-                         where j.CostUpdatedOrNot == "N"
+                         join s in entity.JobStatus on j.JobStatusId equals s.JobStatusId
+                         where j.CostUpdatedOrNot == "N" && j.JobStatusId == jobstatus
                          select new JobRegisterVM
                          {
                              InvoiceNo = j.InvoiceNo,
@@ -2939,10 +3034,12 @@ namespace TrueBooksMVC.Controllers
                              ConsigneeName = c1.Customer1,
                              Customer = c.Customer1,
                              LoadPort = L.Port1,
-                             DestinationPort = D.Port1
+                             DestinationPort = D.Port1,
+                             Job_Status = s.StatusName
 
                          }).ToList();
             }
+            datas.ForEach(d => d.InvoiceNumber = (from i in entity.JInvoices where i.JobID == d.JobID && i.CancelledInvoice == false select i).FirstOrDefault() == null ? "" : (from i in entity.JInvoices where i.JobID == d.JobID && i.CancelledInvoice == false select i).FirstOrDefault().InvoiceNumber);
             string view = this.RenderPartialView("_GetJob", datas);
 
             return new JsonResult
@@ -3631,6 +3728,7 @@ namespace TrueBooksMVC.Controllers
                     entity.AcJournalMasters.Add(acjournalmaster);
                     entity.SaveChanges();
                     job.AcJournalID = JournalId;
+                    job.JobStatusId = 3;
                     entity.Entry(job).State = EntityState.Modified;
                     entity.SaveChanges();
                     acjid = JournalId;

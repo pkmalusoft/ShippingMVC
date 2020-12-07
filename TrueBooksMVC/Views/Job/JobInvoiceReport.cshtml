@@ -1,0 +1,252 @@
+﻿@{
+    Layout = null; ViewBag.Title = "Invoice Report";
+    Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
+    var Job = ViewBag.Job as DAL.JobGeneration;
+    var JobInvoice = ViewBag.Jobinvoices as IEnumerable<DAL.SP_GetInvoiceReport_Result>;
+    var Company = ViewBag.Company as DAL.AcCompany;
+    var User = ViewBag.User as DAL.UserRegistration;
+    var Invoices = ViewBag.Invoices as IEnumerable<DAL.JInvoice>;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: Calibri;
+        }
+
+        p {
+            line-height: 28px;
+        }
+
+        h1 {
+            font-size: 50px;
+        }
+
+        .d-flex {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .reportRow {
+            justify-content: space-between;
+        }
+
+        body {
+            max-width: 1050px;
+            margin: auto;
+        }
+
+        .space {
+            padding: 30px 0;
+        }
+
+        .companyDetails li strong {
+            display: block;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        .logo {
+            margin-bottom: 10px;
+        }
+
+        li {
+            line-height: 23px;
+        }
+
+        .billItem {
+            width: 33.33%;
+        }
+
+        h3 {
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            font-size: 25px;
+        }
+
+        .headerRight table th {
+            text-align: right;
+            padding-right: 10px;
+        }
+
+        .billItem table th {
+            text-align: left;
+        }
+
+        .table-right {
+            text-align: right !important;
+            padding-right: 20px !important;
+        }
+
+        .reportHead {
+            border-bottom: 1px solid #ccc;
+        }
+
+        .text-center {
+            text-align: center !important;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .itemTable table tr {
+            border-bottom: 1px solid #eee;
+        }
+
+        .itemTable table th {
+            text-align: left;
+        }
+
+        .itemTable table th, .itemTable table td {
+            padding: 12px 5px;
+        }
+
+        .priceDetails td:first-of-type {
+            text-align: right;
+            padding-right: 40px;
+        }
+
+        .priceDetails td {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+
+    <header class="reportHead space">
+        <div class="reportRow d-flex">
+            <div class="headerLeft ">
+                <div class="logo">
+                    <img src="TrueBook_white.png" alt="" style="width:200px">
+                </div>
+                <ul class="companyDetails">
+                    <li><strong>Base5Builder, Inc.</strong></li>
+                    <li>
+                        795 Folsom Ave, Suite 600<br />
+                        San Francisco, CA 94107
+                    </li>
+                    <li>Tel: (123) 456-7890</li>
+                </ul>
+            </div>
+            <div class="headerRight">
+                <h1>Invoice</h1>
+                <table>
+                    <tr>
+                        <th>Invoice #:</th>
+                        <td>@JobInvoice.FirstOrDefault().InvoiceNo</td>
+                    </tr>
+                    <tr>
+                        <th>Issued Date:</th>
+                        <td>@JobInvoice.FirstOrDefault().InvoiceDate</td>
+                    </tr>
+                    @*<tr>
+                            <th>Due Date:</th>
+                            <td>30/10/2017</td>
+                        </tr>*@
+                </table>
+            </div>
+        </div>
+    </header>
+    <section class="invoiceDetails space">
+        <div class="billDetails d-flex">
+            <div class="billItem">
+                <h3>BILL TO:</h3>
+                <ul class="billTo">
+                    <li><strong>@Job.ConsigneeID</strong></li>
+                    <li>
+                        795 Folsom Ave, Suite 600<br />
+                        San Francisco, CA 94107
+                    </li>
+                    <li>Tel: (123) 456-7890</li>
+                </ul>
+            </div>
+            <div class="billItem">
+                <h3>Ship TO:</h3>
+                <ul class="billTo">
+                    <li><strong>Massive Dynamic, Inc.</strong></li>
+                    <li>
+                        795 Folsom Ave, Suite 600<br />
+                        San Francisco, CA 94107
+                    </li>
+                    <li>Tel: (123) 456-7890</li>
+                </ul>
+            </div>
+            <div class="billItem">
+                <h3>Payment Details:</h3>
+                <table>
+                    <tr>
+                        <th>Account Name:</th>
+                        <td>Base5Builder, Inc.</td>
+                    </tr>
+                    <tr>
+                        <th>Account Number:</th>
+                        <td>098 0981 2348</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <section class="itemsBlock">
+        <div class="itemTable">
+            <table>
+                <tr>
+                    <th>#</th>
+                    <th>Decription</th>
+                    <th class="table-right">Provision (FC)</th>
+                    <th class="table-right">Provision (LC)</th>
+                    <th class="table-right">Sales (FC)</th>
+                    <th class="table-right">Sales (LC)</th>
+                    <th class="table-right">Margin</th>
+
+                </tr>
+                @foreach (var item in Invoices)
+                {
+                    <tr>
+                        <td>1</td>
+                        <td>@item.RevenueCode</td>
+                        <td class="table-right">@item.ProvisionHome</td>
+                        <td class="table-right">@item.ProvisionForeign</td>
+                        <td class="table-right"> @item.SalesForeign</td>
+                        <td class="table-right">@item.SalesHome</td>
+                        <td class="table-right">@item.Margin</td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+
+    </section>
+    <br />
+    <section>
+        <div class="row form-group">
+            <div class="col-md-12" id="printdiv" style="text-align:right">
+                <input type="button" class="btn btn-primary" id="Print" value="Print" />
+            </div>
+        </div>
+    </section>
+</body>
+</html>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".navbar-static-top").css("display", "none");
+        $("#Print").on("click", function () {
+            $("#printdiv").css("display", "none");
+            window.print();
+            $("#printdiv").css("text-align", "right");
+            $("#printdiv").css("display", "block");
+        });
+    });
+</script>

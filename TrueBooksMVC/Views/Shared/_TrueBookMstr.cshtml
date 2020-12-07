@@ -559,8 +559,8 @@
                             <!-- Menu Toggle Button -->
 
                             <ul class="dropdown-menu extended logout">
-                                <li><a href="#"><i class=" fa fa-suitcase"></i>Profile</a></li>
-                                <li><a href="#"><i class="fa fa-cog"></i>Settings</a></li>
+                                <li><a href="@Url.Action("UserProfile", "Home")"><i class=" fa fa-suitcase"></i>Profile</a></li>
+                                @*<li><a href="#"><i class="fa fa-cog"></i>Settings</a></li>*@
                                 <li><a href="@Url.Action("Signout", "Login")"><i class="fa fa-key"></i>Log Out</a></li>
                             </ul>
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">

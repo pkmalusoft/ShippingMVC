@@ -10,6 +10,7 @@ using TrueBooksMVC.Models;
 using System.Data.Entity.Validation;
 using System.Diagnostics;
 using System.Text;
+using System.IO;
 namespace TrueBooksMVC.Controllers
 {
     [SessionExpire]
@@ -71,7 +72,7 @@ namespace TrueBooksMVC.Controllers
 
         [HttpPost]
         // [ValidateAntiForgeryToken]
-        public ActionResult Create(UserRegistration userregistration)
+        public ActionResult Create(UserRegistration userregistration,HttpPostedFileBase Image)
         {
             ViewBag.UserRole = db.RoleMasters.ToList();
             ViewBag.Branch = db.BranchMasters.ToList();
@@ -81,7 +82,22 @@ namespace TrueBooksMVC.Controllers
             if (data == null)
             {
                 userregistration.UserID = objectSourceMaster.GetMaxNumberRegistration();
+                foreach (string item in Request.Files)
+                {
+                    var fileContent = Request.Files[item];
+                    if (fileContent != null && fileContent.FileName != null)
+                    {
+                        if (item == "Image")
+                        {
+                            var image = ImagetoBase64(fileContent);
 
+
+                            userregistration.Image = image;
+
+                        }
+
+                    }
+                }
                 db.UserRegistrations.Add(userregistration);
                 db.SaveChanges();
                 TempData["SuccessMSG"] = "You have successfully added User.";
@@ -98,7 +114,17 @@ namespace TrueBooksMVC.Controllers
 
         //
         // GET: /UserRegistration/Edit/5
-
+        public string ImagetoBase64(HttpPostedFileBase Path)
+        {
+            string theFileName = Path.FileName;
+            byte[] thePictureAsBytes = new byte[Path.ContentLength];
+            using (BinaryReader theReader = new BinaryReader(Path.InputStream))
+            {
+                thePictureAsBytes = theReader.ReadBytes(Path.ContentLength);
+            }
+            string thePictureDataAsString = Convert.ToBase64String(thePictureAsBytes);
+            return thePictureDataAsString;
+        }
         public ActionResult Edit(int id = 0)
         {
             ViewBag.UserRole = db.RoleMasters.ToList();
@@ -119,12 +145,28 @@ namespace TrueBooksMVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(UserRegistration userregistration)
+        public ActionResult Edit(UserRegistration userregistration, HttpPostedFileBase Image)
         {
             ViewBag.Branch = db.BranchMasters.ToList();
 
             if (ModelState.IsValid)
             {
+                foreach (string item in Request.Files)
+                {
+                    var fileContent = Request.Files[item];
+                    if (fileContent != null && fileContent.FileName != null)
+                    {
+                        if (item == "Image")
+                        {
+                            var image = ImagetoBase64(fileContent);
+
+
+                            userregistration.Image = image;
+
+                        }
+
+                    }
+                }
                 db.Entry(userregistration).State = EntityState.Modified;
                 db.SaveChanges();
                 TempData["SuccessMSG"] = "You have successfully updated User.";
