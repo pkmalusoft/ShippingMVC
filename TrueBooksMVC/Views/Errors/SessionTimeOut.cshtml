@@ -18,12 +18,16 @@
 
                     <div class="alert alert-danger alert-dismissable" role="alert" id="divErrorMessage">
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-                        <h4><i class="icon fa fa-check"></i>Your session has timed out. <br />Please login again.</h4>
+                        <h4>
+                            <i class="icon fa fa-check"></i>You have been logged out due to idle time. <br /> Please login again. <br />
+                            <a href="/Login/index?Login=true">YES</a>
+                            / &nbsp; @Html.ActionLink("NO", "Index", "Login")
+                        </h4>
                         <div id="divFinalError"></div>
                     </div>
                 </div>
                 <br />
-                @Html.ActionLink("CLICK HERE TO LOGIN", "Index", "Login")
+
             </div>
         </div>
     </div>

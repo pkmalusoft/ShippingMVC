@@ -361,6 +361,32 @@
         }
     }
 
+    @@media screen and (max-width: 1200px) and (min-width: 1024px) {
+        body .headinglabel {
+            font-size: 12px !important;
+        }
+
+        .jobform .ui-tabs-vertical .ui-tabs-nav li a {
+            font-size: 13px;
+        }
+
+        .buttonGroup {
+            margin-top: 0 !important;
+        }
+    }
+
+    @@media screen and (max-width: 1400px) {
+        .reve_rates {
+            max-width: 12.3%;
+        }
+    }
+
+    @@media (min-width: 1700px) {
+        body .jobform {
+            min-width: 95% !important;
+        }
+    }
+
     body .data1 tbody > tr:nth-of-type(1) {
         background-color: transparent !important;
     }
@@ -401,6 +427,21 @@
 
             }
         });
+        debugger;
+        if ('@Model.JobID' > 0) {
+            $('#VesselID').val('@Model.VesselID');
+            $.ajax({
+                type: "GET",
+                url: "/Job/GetVessleById",
+                datatype: "Json",
+                data: { Id:'@Model.VesselID' },
+                success: function (data) {
+                    $("#txtVesselID").val(data.Vessel1);
+
+                }
+            });
+        }
+
         $('.txtNum').blur(function () {
             if (isNaN(parseInt($(this).val()))) {
                 $(this).val('0.00');
@@ -1057,12 +1098,13 @@
                     <div class="col-md-2">
 
 
-
-                        <label class="required headinglabel">Job Type</label>
-                        <label class="headinglabel" style="margin-bottom: 3px;padding-left: 50px !important; ">
-                            <input type="checkbox" id="SubJob" name="SubJob" style="height: 12px; width: 12px; margin-bottom: 0px" />
-                            SubJob
-                        </label>
+                        <div class="flex">
+                            <label class="required headinglabel">Job Type</label>
+                            <label class="headinglabel" style="margin-bottom: 3px; ">
+                                <input type="checkbox" id="SubJob" name="SubJob" style="height: 12px; width: 12px; margin-bottom: 0px;text-align:right" />
+                                SubJob
+                            </label>
+                        </div>
                         @{
                             if (Model.JobID > 0)
                             {
@@ -1244,11 +1286,11 @@
                                     </div>
                                     <div class="col-sm-7 divisorColumnNext">
                                         <div class="col-xs-6 col-sm-4 col-md-4 reve_rates no-padding">
-                                            <label class="headinglabel">Provision Rate</label>
+                                            <label class="headinglabel">Prov Rate</label>
                                             <input type="number" class="form-control textright txtNum" ng-model="ProRate" id="ProRate" onclick="this.select();" tabindex="4" placeholder="Rate" ng_change="CalcProvForeign()" />
                                         </div>
                                         <div class="col-xs-6 col-sm-4 col-md-4 reve_rates no-padding">
-                                            <label class="headinglabel">Prov. Currency</label>
+                                            <label class="headinglabel">P.Currency</label>
                                             @*Html.DropDownList("ProvisionCurrency", (SelectList)ViewBag.Curency, "Select", new { id = "ProvisionExR", tabindex = "6", ng_selected = "ProvisionCurrencyID1", @ng_model = "ProvisionExR", @ng_change = "getProvisionCurEx()", @class = "form-control" })*@
                                             <select ng-model="ProvisionExR" id="ProvisionExR" class="form-control" tabindex="5" ng_change="getProvisionCurEx()" ng-keydown="provisiontabevent($event)">
                                                 <option value='0'>Select</option>
@@ -1256,15 +1298,15 @@
                                             </select>
                                         </div>
                                         <div class="col-xs-6 col-sm-4 col-md-4  reve_rates no-padding">
-                                            <label class="headinglabel">Pro Ex. Rate</label>
+                                            <label class="headinglabel">P. Ex. Rate</label>
                                             <input type="text" ng_model="ProexChangeRate" class="form-control textright four-decimals" tabindex="6" onclick="this.select();" ng-keydown="ProvisionExRtabevent($event)" id="ProvisionExRate" placeholder="Provision Ex Rate" ng_change="CalcProvForeign()" />
                                         </div>
                                         <div class="col-xs-6 col-sm-4 col-md-4 reve_rates no-padding">
-                                            <label class="headinglabel lc_sal">Provision <span class="lc_pro">(LC)</span></label>
+                                            <label class="headinglabel lc_sal">Prov. <span class="lc_pro">(LC)</span></label>
                                             <input type="text" ng-model="ProvisionDomestic" class="form-control textright txtNum lc_pro" tabindex="7" id="ProvisiDomestic" placeholder="Provision Domestic" readonly />
                                         </div>
                                         <div class="col-xs-6 col-sm-4 col-md-4  reve_rates no-padding">
-                                            <label class="headinglabel fc_sal">Provision <span class="fc_pro">(FC)</span></label>
+                                            <label class="headinglabel fc_sal">Prov. <span class="fc_pro">(FC)</span></label>
                                             <input type="text" ng-model="ProvisionForeign" class="form-control textright txtNum fc_pro" tabindex="8" id="ProvisionForeign" placeholder="Provision Foreign" readonly />
                                         </div>
 
@@ -1300,7 +1342,7 @@
                                             </div>
 
                                             <div class="reve_rates  no-padding">
-                                                <label class="headinglabel">Sales Currency</label>
+                                                <label class="headinglabel">S. Currency</label>
                                                 @*     @Html.DropDownList("SalesCurrency", (SelectList)ViewBag.Curency, "", new { ng_selected = "SalesCurrencyID1", ng_model = "SalesExR", ng_change = "getSalesCurEx()", @class = "form-control" })*@
                                                 <select ng-model="SalesExR" id="SalesExR" class="form-control" tabindex="11" ng_change="getSalesCurEx()" ng-keydown="salestabevent($event)">
                                                     <option value='0'>Select</option>
@@ -1311,7 +1353,7 @@
                                             </div>
 
                                             <div class=" reve_rates no-padding">
-                                                <label class="headinglabel">Sales Ex. Rate</label>
+                                                <label class="headinglabel">S. Ex. Rate</label>
                                                 <input type="text" ng-model="SaleexChangeRate" class="form-control textright four-decimals" tabindex="12" onclick="this.select();" id="SalesExRate" placeholder="Sales Ex Rate" ng-keydown="salesExRtabevent($event)" ng_change="CalcSaleForeign()" />
                                             </div>
                                             <div class=" reve_rates no-padding">
@@ -1330,7 +1372,7 @@
                                                 <label class="headinglabel">Tax Amt.</label>
                                                 <input type="text" class="form-control textright bg-gray" ng-model="taxamt" id="taxamt" tabindex="16" placeholder="Tax Amount" value="0.00" readonly />
                                             </div>
-                                            <div class="  no-padding" style="text-align: right; margin-top:46px; display:inline-block;">
+                                            <div class="  buttonGroup no-padding" style="text-align: right; margin-top:46px; display:inline-block;">
                                                 <input type="hidden" id="charges_update_index" value="0" />
                                                 <button type="button" id="update_charges" ng-click="updateCharges()" tabindex="17" value="Update" style="display:none;margin-top:2px;" class="btn btn-primary btnwidth"><i class="fa fa-check"></i></button>
                                                 <button type="button" id="cancel_edit_charges" ng-click="cancelEditCharges()" value="Cancel" style="display:none;margin-top:2px;" class="btn btn-danger btnwidth"><i class="fa fa-times"></i></button>
@@ -1351,6 +1393,7 @@
                                         $("#charges_table").css("left", "10px");
                                         $("#charges_table").css("z-index", "11");
                                         $("#charges_table").css("background-color", "white");
+                                        $("#charges_table").css("width", "97%");
                                         //  $("#provin_rate").css("display", "block");
                                         //   $("#provin_curr").css("display", "block");
                                         //   $("#provinex_rate").css("display", "block");
@@ -1375,6 +1418,8 @@
                                         $("#charges_table").css("top", "unset");
                                         $("#charges_table").css("left", "0px");
                                         $("#charges_table").css("z-index", "1");
+                                        $("#charges_table").css("width", "100%");
+
                                         //  $("#provin_rate").css("display", "none");
                                         //  $("#provin_curr").css("display", "none");
                                         //   $("#provinex_rate").css("display", "none");

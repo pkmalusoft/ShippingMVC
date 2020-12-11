@@ -14,6 +14,7 @@ namespace TrueBooksMVC.Models
         public string AcRemark { get; set; }
         public string AcHead { get; set; }
         public int AcJournalDetID { get; set; }
+        public bool IsDeleted { get; set; }
 
         public string drcr { get; set; }
 

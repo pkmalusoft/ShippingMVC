@@ -2362,9 +2362,103 @@ namespace TrueBooksMVC.Models
             }
             return false;
         }
-    
+
 
         #endregion
+        #region reportheading
+        public static string GetReportHeader1(int branchId)
+        {
+            SHIPPING_FinalEntities db = new SHIPPING_FinalEntities();
+            string reportheader = "";
+            reportheader = db.BranchMasters.Find(branchId).BranchName;
+
+            //var setuptype = db.Where(cc => cc.TypeName == "ReportHeader1").FirstOrDefault();
+            //if (setuptype == null)
+            //{
+            //    reportheader = db.BranchMasters.Find(branchId).BranchName;
+            //}
+            //else
+            //{
+                //var setup = db.GeneralSetups.Where(cc => cc.BranchId == branchId && cc.SetupTypeID == setuptype.ID).FirstOrDefault();
+                //if (setup != null)
+                //{
+                //    reportheader = setup.Text1;
+                //}
+                //else
+                //{
+                //    reportheader = db.BranchMasters.Find(branchId).BranchName;
+                //}
+            //}
+
+            return reportheader;
+
+
+        }
+
+        public static string GetReportHeader2(int branchId)
+        {
+            SHIPPING_FinalEntities db = new SHIPPING_FinalEntities();
+            string reportheader = "";
+            var branch = db.BranchMasters.Find(branchId);
+            //var setuptype = db.GeneralSetupTypes.Where(cc => cc.TypeName == "ReportHeader2").FirstOrDefault();
+            reportheader = branch.City + branch.CountryMaster.CountryName;
+
+            //if (setuptype == null)
+            //{
+            //    reportheader = branch.CityName + branch.CountryName;
+            //}
+            //else
+            //{
+                //var setup = db.GeneralSetups.Where(cc => cc.BranchId == branchId && cc.SetupTypeID == setuptype.ID).FirstOrDefault();
+                //if (setup != null)
+                //{
+                //    reportheader = setup.Text1;
+                //}
+                //else
+                //{
+
+                //    reportheader = branch.CityName + branch.CountryName;
+                //}
+            //}
+
+            return reportheader;
+
+
+        }
+
+        public static int GetCompanyCurrencyID(int companyid)
+        {
+            SHIPPING_FinalEntities db = new SHIPPING_FinalEntities();
+            var company = db.AcCompanies.Find(companyid);
+            if (company != null)
+            {
+                if (company.CurrencyID != null)
+                    return Convert.ToInt32(company.CurrencyID);
+                else
+                    return 0;
+            }
+            else
+                return 0;
+        }
+        #endregion
+        public static string GetUserFullName(int userid, string usertype)
+        {
+            SHIPPING_FinalEntities db = new SHIPPING_FinalEntities();
+            string userfullname = "";
+          
+                var emp = db.UserRegistrations.Where(cc => cc.UserID == userid).FirstOrDefault();
+            if (emp != null)
+            {
+                userfullname = emp.UserName;
+            }
+            else
+            {
+                userfullname = "User";
+            }
+            return userfullname;
+
+
+        }
     }
 }
 

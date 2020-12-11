@@ -154,6 +154,10 @@
             /*/background: url(images/loader-64x/Preloader_2.gif) center no-repeat #fff;*/
         }
 
+        .navbar-custom-menu .navbar-nav {
+            padding-left: 12px;
+        }
+
         .dataTables_wrapper .dataTables_paginate .paginate_button {
             box-sizing: border-box;
             display: inline-block;
@@ -277,9 +281,14 @@
         .sidebar > ul > li > ul > li > a {
             border-bottom: none !important;
         }
+
         select {
             background-color: lightgoldenrodyellow;
         }
+
+        #dataTables-example_length > label > select {
+            width: 33% !important;
+        }       
     </style>
 
     <style>
@@ -348,9 +357,28 @@
         label.final_per {
             text-align: center;
             /* margin-top: 7px; */
-            padding: 9px;
+            padding: 0 9px;
             font-size: 12px;
+            font-size: 14px !important;
+            color: #908f8f !important;
+            margin-bottom: 0;
+            font-weight: normal !important;
         }
+
+        .user-menu .dropdown-toggle {
+            padding-top: 0;
+            padding-bottom: 0;
+            background: #35b8eb;
+            border-radius: 50px;
+            display: flex;
+            padding: 0 20px;
+            align-items: CENTER;
+            color: #fff;
+        }
+
+            .user-menu .dropdown-toggle:hover {
+                color: #fff;
+            }
     </style>
 
     <script>
@@ -428,7 +456,7 @@
                 });
             });
 
-        
+
                 $(".tdtarget").each(function () {
                 var x = $(this);
                 var str = "";
@@ -512,65 +540,76 @@
         <!-- Main Header -->
         <header class="main-header">
             <!-- Header Navbar -->
-            <nav class="navbar navbar-static-top" role="navigation">
+            <nav class="navbar  navbar-static-top" role="navigation">
                 <!-- Sidebar toggle button-->
-                <a href="/Home/Home" class="logoimages">
-                    <!-- mini logo for sidebar mini 50x50 pixels -->
-                    <!-- logo for regular state and mobile devices -->
-                    <span class="logosmall">
-                        <img class="img-responsive logonav" src="~/Content/img/TrueBook_white.png" alt="logolarge">
-                    </span>
-                </a>
-                <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button"><span class="sr-only">Toggle navigation</span> </a>
-                <div style="display: inline-block; padding-top: 15px;margin-top: 6px;">
-                    <div class="row">
-                        <div class="col-md-12" style="display:flex">
-                            <label class="final_per">Financial Period</label>
-                            @Html.DropDownList("AcFYearID", new SelectList(AcYearList, "AcFinancialYearID", "FYearName"), new { @class = "form-control fin_pre" })
-
-                        </div>
+                <div class="d-flex justify-between">
+                    <div class="leftHeader d-flex align_center">
+                        <a href="/Home/Home" class="logoimages">
+                            <!-- mini logo for sidebar mini 50x50 pixels -->
+                            <!-- logo for regular state and mobile devices -->
+                            <span class="logosmall">
+                                <img class="img-responsive logonav" src="~/Content/img/TrueBook_white.png" alt="logolarge">
+                            </span>
+                        </a>
+                        <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button"><span class="sr-only">Toggle navigation</span> </a>
                     </div>
-                </div>
-                <div style="display: inline-block;padding-bottom:7px;padding-top:9px;margin-top: 6px;">
-                    <div class="row">
-                        <div class="col-md-12" style="display:flex">
-                            @{
-                                string txttitle = Session["BranchName"] + " - " + Session["BaseCurrencySymbol"];
-                                var res = txttitle;
-                                if (txttitle.Length > 40)
-                                {
-                                    res = txttitle.Substring(0, 38) + "...";
+                    <div class="rightHeader d-flex align_center">
+
+                        <div>
+
+                            <div class="col-md-12" style="display:flex;    border: 1px solid #ccc;
+    border-radius: 10px;
+    height: 40px;
+    line-height: 40px;">
+                                @{
+                                    string txttitle = Session["BranchName"] + " - " + Session["BaseCurrencySymbol"];
+                                    var res = txttitle;
+                                    if (txttitle.Length > 40)
+                                    {
+                                        res = txttitle.Substring(0, 38) + "...";
+
+                                    }
 
                                 }
+                                <label class="final_per" title="@Session["BranchName"] - @Session["BaseCurrencySymbol"]">@res</label>
 
-                            }
-                            <label class="final_per" title="@Session["BranchName"] - @Session["BaseCurrencySymbol"]">@res</label>
+                            </div>
+
 
                         </div>
+                        <div>
+                            <div class="row">
+                                <div class="col-md-12 align_center  d-flex">
 
-                    </div>
-                </div>
-                <!-- Navbar Right Menu -->
-                <div class="navbar-custom-menu">
-                    <ul class="nav navbar-nav">
+                                    @Html.DropDownList("AcFYearID", new SelectList(AcYearList, "AcFinancialYearID", "FYearName"), new { @class = "form-control fin_pre" })
 
-                        <!-- User Account Menu -->
-                        <li class="dropdown user user-menu">
-                            <!-- Menu Toggle Button -->
+                                </div>
+                            </div>
+                        </div>
 
-                            <ul class="dropdown-menu extended logout">
-                                <li><a href="@Url.Action("UserProfile", "Home")"><i class=" fa fa-suitcase"></i>Profile</a></li>
-                                @*<li><a href="#"><i class="fa fa-cog"></i>Settings</a></li>*@
-                                <li><a href="@Url.Action("Signout", "Login")"><i class="fa fa-key"></i>Log Out</a></li>
+                        <!-- Navbar Right Menu -->
+                        <div class="navbar-custom-menu">
+                            <ul class="nav navbar-nav">
+
+                                <!-- User Account Menu -->
+                                <li class="dropdown user user-menu">
+                                    <!-- Menu Toggle Button -->
+
+                                    <ul class="dropdown-menu extended logout">
+                                        <li><a href="@Url.Action("UserProfile", "Home")"><i class=" fa fa-suitcase"></i>Profile</a></li>
+                                        @*<li><a href="#"><i class="fa fa-cog"></i>Settings</a></li>*@
+                                        <li><a href="@Url.Action("Signout", "Login")"><i class="fa fa-key"></i>Log Out</a></li>
+                                    </ul>
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        <!-- The user image in the navbar-->
+                                        <img src="~/Content/NewCSS/img/user2-160x160.jpg" class="user-image" alt="User Image">
+                                        <!-- hidden-xs hides the username on small devices so only the image appears. -->
+                                        <span class="hidden-xs">@UserName</span> <b class="caret"></b>
+                                    </a>
+                                </li>
                             </ul>
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <!-- The user image in the navbar-->
-                                <img src="~/Content/NewCSS/img/user2-160x160.jpg" class="user-image" alt="User Image">
-                                <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                                <span class="hidden-xs">@UserName</span> <b class="caret"></b>
-                            </a>
-                        </li>
-                    </ul>
+                        </div>
+                    </div>
                 </div>
             </nav>
         </header>
@@ -664,40 +703,42 @@
 
                         @helper RenderMenuList(List<DAL.Menu> menuList, DAL.Menu mi)
                         {
-                            foreach (var item1 in menuList.Where(p => p.ParentID == mi.MenuID))
-                            {
+                                            /**/
 
-                                var haschilds = "";
-                                var haschilds1 = "";
-                                var fontweight = "";
+                                            foreach (var item1 in menuList.Where(p => p.ParentID == mi.MenuID))
+                                            {
 
-                                if (menuList.Count(p => p.ParentID == item1.MenuID) > 0)
-                                {
-                                    haschilds = "nav-parent collapsed";
-                                    haschilds1 = "data-toggle=collapse";
-                                    fontweight = "font-weight:bold;color:beige;font-size:15px;padding-left:27px";
-                                }
-                                else
-                                {
-                                    fontweight = "padding-left:40px";
+                                                var haschilds = "";
+                                                var haschilds1 = "";
+                                                var fontweight = "";
 
-                                }
-                                @:<li class="nav-item">
-                                    <a class="nav-link @haschilds" @haschilds1 style="@fontweight" id="@item1.MenuID" href=@item1.Link><i class="@item1.imgclass"></i><span>@item1.Title</span></a>
-                                    if (menuList.Count(p => p.ParentID == item1.MenuID) > 0)
-                                    {
-                                        @:<ul class="nav nav-pills collapse">
-                                        }
-                                        @RenderMenuList(menuList, item1)
-                                        if (menuList.Count(p => p.ParentID == item1.MenuID) > 0)
-                                        {
-                                        @:</ul>
-                                    }
-                                    else
-                                    {
-                                    @:</li>
-                                }
-                            }
+                                                if (menuList.Count(p => p.ParentID == item1.MenuID) > 0)
+                                                {
+                                                    haschilds = "nav-parent collapsed";
+                                                    haschilds1 = "data-toggle=collapse";
+                                                    fontweight = "font-weight:bold;color:beige;font-size:15px;padding-left:27px";
+                                                }
+                                                else
+                                                {
+                                                    fontweight = "padding-left:40px";
+
+                                                }
+                                                @:<li class="nav-item">
+                                                    <a class="nav-link @haschilds" @haschilds1 style="@fontweight" id="@item1.MenuID" href=@item1.Link><i class="@item1.imgclass"></i><span>@item1.Title</span></a>
+                                                    if (menuList.Count(p => p.ParentID == item1.MenuID) > 0)
+                                                    {
+                                                        @:<ul class="nav nav-pills collapse">
+                                                        }
+                                                        @RenderMenuList(menuList, item1)
+                                                        if (menuList.Count(p => p.ParentID == item1.MenuID) > 0)
+                                                        {
+                                                        @:</ul>
+                                                    }
+                                                    else
+                                                    {
+                                                    @:</li>
+                                                }
+                                            }
                         }
 
                     }

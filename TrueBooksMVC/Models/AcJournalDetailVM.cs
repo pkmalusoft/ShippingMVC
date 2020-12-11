@@ -13,6 +13,11 @@ namespace TrueBooksMVC.Models
         public decimal Amt { get; set; }
 
         public int AcJournalDetID { get; set; }
+        public int? SupplierID { get; set; }
+        public decimal? Taxpercent { get; set; }
+        public decimal? TaxAmount { get; set; }
+        public string SupplierName { get; set; }
+
         public List<AcExpenseAllocationVM> AcExpAllocationVM { get; set; }
     }
 }

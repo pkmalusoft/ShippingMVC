@@ -203,7 +203,7 @@ namespace TrueBooksMVC.Controllers
 
         }
 
-        public ActionResult Index()
+        public ActionResult Index(string Login)
         {
             var compdetail = entity.AcCompanies.FirstOrDefault();
             ViewBag.CompanyName = compdetail.AcCompany1;
@@ -213,7 +213,12 @@ namespace TrueBooksMVC.Controllers
             ViewBag.fyears = entity.AcFinancialYearSelect(Convert.ToInt32(Session["branchid"])).ToList();
             // Session["fyearid"] = 1;
 
-           
+            ViewBag.Login = "0";
+            if (Login == "true")
+            {
+                ViewBag.Login = "1";
+            }
+
             return View();
         }
         public ActionResult ForgotPassword()

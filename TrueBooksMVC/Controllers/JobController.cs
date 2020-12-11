@@ -2351,10 +2351,29 @@ namespace TrueBooksMVC.Controllers
                 {
                     JobID = 0;
                 }
+                var userid = Convert.ToInt32(Session["UserID"]);
+                var allbill = entity.JBIllOfEntries.Where(d => d.JobID == JobID && d.UserID == userid).ToList();
+                var Bill_list = new List<SP_GetBillsbyJobIDandUser_Result>();
+                foreach (var item in allbill)
+                {
+                    var Billresult = new SP_GetBillsbyJobIDandUser_Result();
+                    var agent = entity.ShippingAgents.Where(d => d.ShippingAgentID == item.ShippingAgentID).FirstOrDefault();
+                    if(agent!=null)
+                    {
+                        Billresult.AgentName = agent.AgentName;
 
+                    }
+                    Billresult.BIllOfEntry = item.BIllOfEntry;
+                    Billresult.BIllOfEntryID = item.BIllOfEntryID;
+                    Billresult.BillofEntryDate = item.BillofEntryDate;
+                    Billresult.JobID = item.JobID;
+                    Billresult.UserID = item.UserID;
+                    Billresult.ShippingAgentID = item.ShippingAgentID;
+                    Bill_list.Add(Billresult);
 
-                var AllBill = J.GetBillByJob(JobID, Convert.ToInt32(Session["UserID"]));
-                return Json(AllBill, JsonRequestBehavior.AllowGet);
+                }
+                //var AllBill = J.GetBillByJob(JobID, Convert.ToInt32(Session["UserID"]));
+                return Json(Bill_list, JsonRequestBehavior.AllowGet);
             }
             else
             {
@@ -3834,11 +3853,15 @@ namespace TrueBooksMVC.Controllers
             int uid = Convert.ToInt32(Session["UserID"].ToString());
             var user = (from c in entity.UserRegistrations where c.UserID == uid select c.UserName).FirstOrDefault();
             var Invoices = entity.JInvoices.Where(d => d.JobID == jobid && d.CancelledInvoice == false && d.InvoiceStatus == "1").ToList();
+            var consignee = entity.CUSTOMERs.Where(d => d.CustomerID == job.ConsigneeID).FirstOrDefault();
+            var consigner = entity.CUSTOMERs.Where(d => d.CustomerID == job.ConsignerID).FirstOrDefault();
             ViewBag.Job = job;
             ViewBag.Jobinvoices = jobinvoices;
             ViewBag.Invoices = Invoices;
             ViewBag.Company = company;
             ViewBag.User = user;
+            ViewBag.Consignee = consignee;
+            ViewBag.Consigner = consigner;
             return View();
         }
         [HttpGet]
@@ -3968,6 +3991,15 @@ namespace TrueBooksMVC.Controllers
 
             return RedirectToAction("JobEnquiryList", "Job", new { ID = 10 });
 
+        }
+        public JsonResult GetVessleById(int Id)
+        {
+            var data = entity.Vessels.Where(d => d.VesselID == Id).FirstOrDefault();
+            if(data==null)
+            {
+                data = new Vessel();
+            }
+            return Json(data, JsonRequestBehavior.AllowGet);
         }
     }
 }

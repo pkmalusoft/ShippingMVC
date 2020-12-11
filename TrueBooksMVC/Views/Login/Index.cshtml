@@ -88,7 +88,10 @@
             $("#LoginModal").on('shown.bs.modal', function () {
                 $("#UserName").focus();
             });
-
+                if ("@ViewBag.Login" == "1")
+            {
+                $('.alogin').click();
+            }
         });
     </script>
     <style>
@@ -628,12 +631,12 @@
                                 </div>
                                 <div class="otherLogin">
                                     <ul>
-                                        <li><a href="#" id="asignin">Sign as different user</a></li>
+                                        <li><a href="#" id="asignin">Sign In as different user</a></li>
                                         <li><a href="Javascript:void(0)" class="aforgot" id="aforgot">Forgot Password</a></li>
                                         <li><a href="Javascript:void(0)" class="achangepass" id="achangepass">Change Password</a></li>
                                     </ul>
 
-                                    <input type="submit" class="button button-primary " value="Sign Up" />
+                                    <input type="submit" class="button button-primary " value="Sign In" />
                                     @*<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>*@
                                 </div>
                             }

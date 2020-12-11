@@ -146,6 +146,20 @@ namespace TrueBooksMVC.Models
                 return Json(PortsList, JsonRequestBehavior.AllowGet);
             }
         }
+        //public ActionResult AccountHead(string term)
+        //{
+        //    int branchID = Convert.ToInt32(Session["branchid"].ToString());
+        //    if (!String.IsNullOrEmpty(term))
+        //    {
+        //        var AccountHeadList = entity.AcHeads.Where(c => c.AcBranchID == branchID && c.AcHead1.ToLower().Contains(term.ToLower())).ToList(); ;
+        //        return Json(AccountHeadList, JsonRequestBehavior.AllowGet);
+        //    }
+        //    else
+        //    {
+        //        var AccountHeadList = entity.AcHeads.ToList();
+        //        return Json(AccountHeadList, JsonRequestBehavior.AllowGet);
+        //    }
+        //}
         public ActionResult PortById(int Id)
         {
             MastersModel MM = new MastersModel();

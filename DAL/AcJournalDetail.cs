@@ -29,6 +29,7 @@ namespace DAL
         public int ID { get; set; }
         public Nullable<decimal> TaxPercent { get; set; }
         public Nullable<decimal> TaxAmount { get; set; }
+        public Nullable<int> SupplierID { get; set; }
     
         public virtual AcJournalMaster AcJournalMaster { get; set; }
     }

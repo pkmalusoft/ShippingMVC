@@ -65,8 +65,7 @@
         });
 
         function format(d) {
-            // `d` is the original data object for the row
-            debugger;
+           
             var JournalDetailId = d[5];
             var DataHtml = '';
             $.ajax({
@@ -75,13 +74,11 @@
                 datatype: "Json",
                 data: { DetailId: JournalDetailId },
                 success: function (data) {
-                    debugger;
+                    
                     DataHtml = '<table>';
                     $.each(data, function (index, value) {
-                        debugger;
                         DataHtml = DataHtml + '<tr><td>' + value.AcHead + '</td><td class="textright">' + value.Amount + '</td><td>' + value.Remarks + '</td></tr>';
                     });
-                    debugger;
                     DataHtml = DataHtml + '</table>';
                     $('#pr_' + JournalDetailId).append(DataHtml);
                 }
@@ -91,7 +88,6 @@
         }
 
         $('#dataTables-example tbody').on('click', 'td.details-control', function () {
-            debugger;
             var tr = $(this).closest('tr');
             var row = table.row(tr);
             if (row.child.isShown()) {
@@ -107,9 +103,94 @@
                 $(this).find('img').attr('src', '/Content/img/details_close.png');
             }
         });
+          var startdate = '@Session["FyearFrom"].ToString()';
+        var enddate = '@Session["FyearTo"].ToString()';
+        var sd = new Date(startdate);
+        var ed = new Date(enddate);
 
+         $("#btnsearch").click(function () {
+            var frm = new Date($('#frmdate').val());
+            var dto = new Date($('#todate').val());
+
+            showLoading();
+
+            if (frm > dto) {
+
+                $("#error").show();
+                hideLoading();
+                return false;
+
+            }
+            else {
+                $("#error").hide();
+
+                location.href = '@Url.Action("IndexAcBook","AccountingModule")?FromDate=' + $('#frmdate').val() + "&ToDate=" + $('#todate').val();
+            }
+        });
+        $("#frmdate").datepicker({
+            dateFormat: 'dd-M-yy',
+            changeYear: true, changeMonth: true,
+            minDate: sd,
+            maxDate:ed,
+
+        });
+
+
+        $("#frmdate").val(GetEndDate());
+        $("#todate").val(GetEndDate());
+
+        $("#todate").datepicker({
+            dateFormat: 'dd-M-yy',
+            changeYear: true, changeMonth: true,
+            minDate: sd,
+            maxDate:ed,
+
+        });
     });
+     function GetCurrentDate() {
+        var m_names = new Array("Jan", "Feb", "Mar",
+"Apr", "May", "Jun", "Jul", "Aug", "Sep",
+"Oct", "Nov", "Dec");
 
+   
+
+            var startdate = '@Session["FyearFrom"].ToString()';
+            var enddate = '@Session["FyearTo"].ToString()';
+            var sd = new Date(startdate);
+            var ed = new Date(enddate);
+
+            var str = new Date(startdate);
+
+
+            var d = new Date();
+            var curr_date = sd.getDate();
+            var curr_month = d.getMonth();
+            var curr_year = str.getFullYear();
+            return ("01" + "-" + m_names[curr_month] + "-" + d.getFullYear());
+
+
+    }
+    function GetEndDate() {
+         var m_names = new Array("Jan", "Feb", "Mar",
+    "Apr", "May", "Jun", "Jul", "Aug", "Sep",
+    "Oct", "Nov", "Dec");
+
+            var startdate = '@Session["FyearFrom"].ToString()';
+            var enddate = '@Session["FyearTo"].ToString()';
+            var sd = new Date(startdate);
+            var ed = new Date(enddate);
+
+            var str = new Date(startdate);
+
+
+            var d = new Date();
+            var curr_date =ed.getDate();
+            var curr_month = d.getMonth();
+            var curr_year = ed.getFullYear();
+            return (d.getDate() + "-" + m_names[curr_month] + "-" + d.getFullYear());
+
+
+    }
 </script>
 
 <section class="content-header">
@@ -118,12 +199,41 @@
 </section>
 
 <div class="m-container">
-<p class="indexbtnpadding flex">
-    @if (isadd)
-    {
-        @Html.ActionLink("Create New", "CreateAcBook", null, new { @class = "btn btn-primary btnwidth" })
-    }
-</p>
+    <p class="indexbtnpadding flex">
+        <div id="error" style="display: none; font-family: 'Montserrat', sans-serif !important; color: red">* From Date must not be Greater than To Date</div>
+
+        <table class="searchtabs tabsser" id="tbl1">
+
+            <tr>
+
+                <td class="searlabel ">
+                    From Date
+                </td>
+                <td class="searinput">
+                    <input type="text" id="frmdate" class="form-control text-right" />
+                </td>
+                <td class="searlabel">
+                    To Date
+                </td>
+                <td class="searinput">
+                    <input type="text" id="todate" class="form-control text-right" />
+                </td>
+                <td style="padding-left:10px;">
+                    <input type="button" value="Search" id="btnsearch" class="btn btn-primary btnwidt fa fa-search" />
+                </td>
+                <td>
+
+                    @if (isadd)
+                    {
+                        @Html.ActionLink("Create New", "CreateAcBook", null, new { @class = "btn btn-primary btnwidth" })
+                    }
+                </td>
+            </tr>
+
+        </table>
+
+
+    </p>
 </div>
 <section class="content">
     @if (ViewBag.SuccessMsg != null)
@@ -201,12 +311,17 @@
                         </td>
                         <td>
                             @*  @Html.ActionLink("Edit", "Edit", new { id=item.CountryID }) |
-                                @Html.ActionLink("Details", "Details", new { id=item.CountryID }) |
-                                @Html.ActionLink("Delete", "Delete", new { id=item.CountryID })*@
+        @Html.ActionLink("Details", "Details", new { id=item.CountryID }) |
+        @Html.ActionLink("Delete", "Delete", new { id=item.CountryID })*@
                             @if (ismodify)
                             {
-                            <a href="@Url.Action("EditAcBook", new { id = item.AcJournalID })"><i class="fa fa-pencil"></i></a>
-                            } @*<a href="@Url.Action("Delete", new { id = item.CountryID })"><i class="fa fa-times"></i></a>*@
+                                <a href="@Url.Action("EditAcBook", new { id = item.AcJournalID })"><i class="fa fa-pencil"></i></a>
+                            }
+                            <span>&vert; </span>
+                            @if (isdelete)
+                            {
+                                <a href="@Url.Action("DeleteAcBook", new { id = item.AcJournalID })"><i class="fa fa-times"></i></a>
+                            }
                             @* <a href="#" onclick="Delete(ID=@item.AcCategoryID)"><i class="fa fa-times"></i></a>*@
 
                         </td>

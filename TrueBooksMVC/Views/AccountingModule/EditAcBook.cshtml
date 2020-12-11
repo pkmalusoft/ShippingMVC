@@ -7,7 +7,14 @@
     #details tr {
         height: 32px;
     }
+    .taxCheck input {
+        margin-right: 6px;
+    }
 
+    .checkboxdesign {
+        display: flex;
+        align-items: center;
+    }
     .headinglabel {
         font-family: Calibri;
         font-size: 16px;
@@ -117,7 +124,37 @@
                 }
             }
         });
+        $("#SupplierName").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '/AutoComplete/Supplier',
+                    datatype: "json",
+                    data: {
+                        term: request.term
+                    },
+                    success: function (data) {
+                        response($.map(data, function (val, item) {
+                            return {
+                                label: val.SupplierName,
+                                value: val.SupplierName,
+                                SupplierId: val.SupplierId
+                            }
+                        }))
+                    }
+                })
+            },
+            minLength: 1,
+            autoFocus: true,
+            select: function (e, i) {
+                e.preventDefault();
+                $("#SupplierName").val(i.item.label);
+                $('#SupplierId').val(i.item.SupplierId);
 
+
+
+            },
+
+        });
         $("#chequedate").val(GetCurrentDate())
          function GetCurrentDate() {
         var m_names = new Array("Jan", "Feb", "Mar","Apr", "May", "Jun", "Jul", "Aug", "Sep","Oct", "Nov", "Dec");
@@ -386,7 +423,7 @@
                     var s = 'name="AcExpAllocationVM';
                     var ExpTableHtml = $('#ExpAllocationTable').clone().attr("id", i + "_ExpAllocationTable").css('display', 'none').addClass('CostAllocationDetail').wrap('<p>').parent().html();
                     ExpTableHtml = ExpTableHtml.replace(/name="AcExpAllocationVM/g, 'name="AcJDetailVM[' + i + '].AcExpAllocationVM');
-                    var objHtml = '<tr>' + '<td style="padding-left:10px"><input type="hidden" class=JAcHead id="JAcHead_' + i + '" value=' + $("#SelectedReceivedFrom").val() + ' name="AcJDetailVM[' + i + '].AcHeadID"><input type="text" class="clsreceivedfrom" id="ReceivedFrom_' + i +'" value="' + $("#ReceivedFrom").val() + '" name="AcJDetailVM[' + i + '].AcHead"></td><td class=textright style="padding-right:10px"><input type="text" class="JAcAmt text-right txtNum" value=' + $("#amount").val() + ' name="AcJDetailVM[' + i + '].Amt"></td>' + '<td style="padding-left:10px"><input type="text"  value="' + $("#remark1").val() +'"  name="AcJDetailVM[' + i + '].Rem"></td>';
+                var objHtml = '<tr>' + '<td style="padding-left:10px"><input type="hidden" class=JAcHead id="JAcHead_' + i + '" value=' + $("#SelectedReceivedFrom").val() + ' name="AcJDetailVM[' + i + '].AcHeadID"><input type="hidden"  id="Supplier_' + i + '" value=' + $("#SupplierId").val() + ' name="AcJDetailVM[' + i + '].SupplierId"><input type="text" class="clsreceivedfrom" id="ReceivedFrom_' + i + '" value="' + $("#ReceivedFrom").val() + '" name="AcJDetailVM[' + i + '].AcHead"></td><td class=textright style="padding-right:10px"><input type="text" class="JAcAmt text-right txtNum" value=' + $("#amount").val() + ' name="AcJDetailVM[' + i + '].Amt"></td><td class=textright style="padding-right:10px"><input type="text" class="text-right txtNum" value=' + $("#TaxPercent").val() + ' name="AcJDetailVM[' + i + '].TaxPercent"></td><td class=textright style="padding-right:10px"><input type="text" class="text-right txtNum" value=' + $("#TaxAmount").val() + ' name="AcJDetailVM[' + i + '].TaxAmount"></td><td class=textright style="padding-right:10px">' + $("#SupplierName").val() + '</td>' + '<td style="padding-left:10px"><input type="text"  value="' + $("#remark1").val() +'"  name="AcJDetailVM[' + i + '].Rem"></td>';
                     objHtml = objHtml + '<td><img src="/Content/img/details_open.png" id="plus_minus" style="cursor: pointer;" class="open" />' + ExpTableHtml + '</td>';
                     objHtml = objHtml + '<td><a href="javascript:void(0)" id="DeleteNewRow"><i class="fa fa-times"></i></a></td>';
                     objHtml = objHtml + '</tr>';
@@ -557,7 +594,7 @@
                                 ExpTableHtml = ExpTableHtml + '</table>';
                               //  $('#ExpAllocationTable').append(ExpTableHtml);
                                 ExpTableHtml = ExpTableHtml.replace(/name="AcExpAllocationVM/g, 'name="AcJDetailVM[' + i + '].AcExpAllocationVM');
-                                var objHtml = '<tr>' + '<td style="padding-left:10px"><input type="hidden" class=JAcHead id="JAcHead_' + i +'" value=' + value.AcHeadID + ' name="AcJDetailVM[' + i + '].AcHeadID"><input type="text" class="clsreceivedfrom" id="ReceivedFrom_'+i+'" value=" ' + value.AcHead + '" name="AcJDetailVM[' + i + '].AcHead"></td><td class=textright style="padding-right:10px"><input type="text" class="JAcAmt text-right txtNum" value=' + parseFloat(value.Amt).toFixed(2) + ' name="AcJDetailVM[' + i + '].Amt"></td>' + '<td style="padding-left:10px"><input type="text" value="' + value.Rem + '" name="AcJDetailVM[' + i + '].Rem"></td>';
+                                var objHtml = '<tr>' + '<td style="padding-left:10px"><input type="hidden" class=JAcHead id="JAcHead_' + i + '" value=' + value.AcHeadID + ' name="AcJDetailVM[' + i + '].AcHeadID"><input type="hidden" class=JAcHead id="SupplierId_' + i + '" value=' + value.SupplierId + ' name="AcJDetailVM[' + i + '].SupplierId"><input type="text" class="clsreceivedfrom" id="ReceivedFrom_' + i + '" value=" ' + value.AcHead + '" name="AcJDetailVM[' + i + '].AcHead"></td><td class=textright style="padding-right:10px"><input type="text" class="JAcAmt text-right txtNum" value=' + parseFloat(value.Amt).toFixed(2) + ' name="AcJDetailVM[' + i + '].Amt"></td><td class=textright style="padding-right:10px"><input type="text" class="text-right txtNum" value=' + value.TaxPercent + ' name="AcJDetailVM[' + i + '].TaxPercent"></td><td class=textright style="padding-right:10px"><input type="text" class="text-right txtNum" value=' + parseFloat(value.TaxAmount).toFixed(2) + ' name="AcJDetailVM[' + i + '].TaxAmount"></td><td class=textright style="padding-right:10px"><input type="text" class="" value=' + value.SupplierName + ' name="AcJDetailVM[' + i + '].SupplierName"></td>' + '<td style="padding-left:10px"><input type="text" value="' + value.Rem + '" name="AcJDetailVM[' + i + '].Rem"></td>';
                                 objHtml = objHtml + '<td><img src="/Content/img/details_open.png" id="plus_minus" style="cursor: pointer;" class="open" />' + ExpTableHtml + '</td>';
                                 objHtml = objHtml + '<td><a href="javascript:void(0)" id="DeleteNewRow"><i class="fa fa-times"></i></a><input type="hidden" class="AcJournalDetID" name="AcJDetailVM[' + i + '].AcJournalDetID" value=' + value.AcJournalDetID + ' /></td>';
                                 objHtml = objHtml + '</tr>';
@@ -599,7 +636,7 @@
                                 var s = 'name="AcExpAllocationVM';
                                 var ExpTableHtml = $('#ExpAllocationTable').clone().attr("id", i + "_ExpAllocationTable").css('display', 'none').addClass('CostAllocationDetail').wrap('<p>').parent().html();
                                 ExpTableHtml = ExpTableHtml.replace(/name="AcExpAllocationVM/g, 'name="AcJDetailVM[' + i + '].AcExpAllocationVM');
-                                var objHtml = '<tr>' + '<td style="padding-left:10px">' + value.AcHead + '<input type="hidden" class=JAcHead value=' + value.AcHeadID + ' name="AcJDetailVM[' + i + '].AcHeadID"><input type="hidden" value=' + $("#ReceivedFrom").val() + ' name="AcJDetailVM[' + i + '].AcHead"></td><td class=textright style="padding-right:10px">' + parseFloat(value.Amt).toFixed(2) + '<input type="text" class="JAcAmt" value=' + parseFloat(value.Amt).toFixed(2) + ' name="AcJDetailVM[' + i + '].Amt"></td>' + '<td style="padding-left:10px">' + value.Rem + '<input type="text" value=' + value.Rem + ' name="AcJDetailVM[' + i + '].Rem"></td>';
+                                var objHtml = '<tr>' + '<td style="padding-left:10px">' + value.AcHead + '<input type="hidden" class=JAcHead value=' + value.AcHeadID + ' name="AcJDetailVM[' + i + '].AcHeadID"><input type="hidden" class= value=' + value.SupplierId + ' name="AcJDetailVM[' + i + '].SupplierId"><input type="hidden" value=' + $("#ReceivedFrom").val() + ' name="AcJDetailVM[' + i + '].AcHead"></td><td class=textright style="padding-right:10px">' + parseFloat(value.Amt).toFixed(2) + '<input type="text" class="JAcAmt" value=' + parseFloat(value.Amt).toFixed(2) + ' name="AcJDetailVM[' + i + '].Amt"></td><td class=textright style="padding-right:10px"><input type="text" class="text-right txtNum" value=' + $("#TaxPercent").val() + ' name="AcJDetailVM[' + i + '].TaxPercent"></td><td class=textright style="padding-right:10px"> '+ $("#SupplierName").val() + '</td>' + '<td style="padding-left:10px">' + value.Rem + '<input type="text" value=' + value.Rem + ' name="AcJDetailVM[' + i + '].Rem"></td>';
                                 objHtml = objHtml + '<td><img src="/Content/img/details_open.png" id="plus_minus" style="cursor: pointer;" class="open" />' + ExpTableHtml + '</td>';
                                 objHtml = objHtml + '<td><a href="javascript:void(0)" id="DeleteNewRow"><i class="fa fa-times"></i></a><input type="hidden" name="AcJDetailVM[' + i + '].AcJournalDetID" value=' + value.AcJournalDetID + ' /></td>';
                                 objHtml = objHtml + '</tr>';
@@ -658,7 +695,73 @@
 
             });
         });
+        $("#AmountIncludingTax").click(function () {
+            if ($("#AmountIncludingTax").is(':checked')) {
+                if ($("#TaxPercent").val() > 0 && $("#amount").val() > 0) {
+                    var amount = parseFloat($("#amount").val());
+                    var TaxPercent = parseFloat($("#TaxPercent").val()) / 100.00;
+                    var TaxAmount = amount - (amount / (1 + TaxPercent));
+                    $("#TaxAmount").val(TaxAmount.toFixed(2));
+                }
+                else {
+                    $("#TaxAmount").val(0);
+                }
+            }
+            else {
+                if ($("#TaxPercent").val() > 0 && $("#amount").val() > 0) {
+                    var tamount = ($("#amount").val() * $("#TaxPercent").val()) / 100.00;
+                    $("#TaxAmount").val(tamount.toFixed(2));
+                }
+                else {
+                    $("#TaxAmount").val(0);
+                }
+            }
+        });
+        $("#amount").change(function () {
+            if ($("#AmountIncludingTax").is(':checked')) {
+                if ($("#TaxPercent").val() > 0 && $("#amount").val() > 0) {
+                    var amount = parseFloat($("#amount").val());
+                    var TaxPercent = parseFloat($("#TaxPercent").val()) / 100.00;
+                    var TaxAmount = amount - (amount / (1 + TaxPercent));
+                    $("#TaxAmount").val(TaxAmount.toFixed(2));
+                }
+                else {
+                    $("#TaxAmount").val(0);
+                }
+            }
+            else {
+                if ($("#TaxPercent").val() > 0 && $("#amount").val() > 0) {
+                    var tamount = ($("#amount").val() * $("#TaxPercent").val()) / 100.00;
+                    $("#TaxAmount").val(tamount.toFixed(2));
+                }
+                else {
+                    $("#TaxAmount").val(0);
+                }
+            }
+        });
 
+        $("#TaxPercent").change(function () {
+            if ($("#AmountIncludingTax").is(':checked')) {
+                if ($("#TaxPercent").val() > 0 && $("#amount").val() > 0) {
+                    var amount = parseFloat($("#amount").val());
+                    var TaxPercent = parseFloat($("#TaxPercent").val()) / 100.00;
+                    var TaxAmount = amount - (amount / (1 + TaxPercent));
+                    $("#TaxAmount").val(TaxAmount.toFixed(2));
+                }
+                else {
+                    $("#TaxAmount").val(0);
+                }
+            }
+            else {
+                if ($("#TaxPercent").val() > 0 && $("#amount").val() > 0) {
+                    var tamount = ($("#amount").val() * $("#TaxPercent").val()) / 100.00;
+                    $("#TaxAmount").val(tamount.toFixed(2));
+                }
+                else {
+                    $("#TaxAmount").val(0);
+                }
+            }
+        });
         $("#AcHead").autocomplete({
             source: function (request, response) {
                 $.ajax({
@@ -882,7 +985,7 @@
         <fieldset>
             <legend style="">Add Details</legend>
             <div class="row no-margin">
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <label class="headinglabel label1">Received From</label>
                     @Html.TextBoxFor(model => model.ReceivedFrom, new { @id = "ReceivedFrom", @class = "form-control", autocomplete = "off" })
                     @Html.HiddenFor(model => model.SelectedReceivedFrom, new { Value = "0", id = "SelectedReceivedFrom" })
@@ -892,12 +995,27 @@
                     @Html.TextBoxFor(model => model.amount, new { @class = "form-control textright txtNum" })
                     @Html.ValidationMessageFor(model => model.amount)
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-1">
+                    <label class="headinglabel">Tax %</label>
+                    @Html.TextBoxFor(model => model.TaxPercent, new { @class = "form-control textright txtNum" })
+                    @Html.ValidationMessageFor(model => model.TaxPercent)
+                </div>
+                <div class="col-md-1">
+                    <label class="headinglabel">Tax Amt</label>
+                    @Html.TextBoxFor(model => model.TaxAmount, new { @class = "form-control textright txtNum" })
+                    @Html.ValidationMessageFor(model => model.TaxAmount)
+                </div>
+                <div class="col-md-2">
+                    <label class="headinglabel">Supplier</label>
+                    <input type="text" id="SupplierName" name="SupplierName" class="form-control" autocomplete="off" />
+                    @Html.HiddenFor(model => model.SupplierId, new { Value = "0", id = "SupplierId" })
+                </div>
+                <div class="col-md-2">
                     <label class="headinglabel">Remark</label>
                     @Html.TextAreaFor(model => model.remark1, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.remark1)
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-1">
                     <label class="headinglabel">Exp. Allocation</label>
                     <a href="javascript:void(0)" class="Allocate"><i class="fa fa-bars"></i></a>
                 </div>
@@ -907,10 +1025,10 @@
                     <button type="button" style="height: 25px !important;margin-top:14px; vertical-align: middle;" index="1" id="btnAdd" class="addmore">+</button>
                 </div>
                 @*<div class="col-md-12 butdivs">
-                <br />
-                <button type="button" class="btn btn-primary btnwidth" id="btnAdd">Add</button>
-                <input type="button" class="btn btn-primary" value="Update" id="btnUpdate" style="display:none;">
-            </div>*@
+            <br />
+            <button type="button" class="btn btn-primary btnwidth" id="btnAdd">Add</button>
+            <input type="button" class="btn btn-primary" value="Update" id="btnUpdate" style="display:none;">
+        </div>*@
             </div>
             <br />
 
@@ -919,6 +1037,9 @@
                     <tr>
                         <td>AcHead</td>
                         <td>Amount</td>
+                        <td>Tax %</td>
+                        <td>Tax Amt</td>
+                        <td>Supplier</td>
                         <td>Remark</td>
                         <td>Exp. Allocation</td>
                         <td>Delete</td>

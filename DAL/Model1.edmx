@@ -69,6 +69,13 @@ warning 6002: The table/view 'malusoft_shipping.dbo.AcBankDetails' does not have
           <Property Name="ContactPerson" Type="nvarchar" MaxLength="100" />
           <Property Name="logo" Type="nvarchar" MaxLength="500" />
         </EntityType>
+        <EntityType Name="AccountHeadControl">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ControlName" Type="nvarchar(max)" />
+        </EntityType>
         <EntityType Name="AcFinancialYear">
           <Key>
             <PropertyRef Name="AcFinancialYearID" />
@@ -167,6 +174,7 @@ warning 6002: The table/view 'malusoft_shipping.dbo.AcHeadAssign' does not have 
           <Property Name="Lock" Type="bit" />
           <Property Name="TaxPercent" Type="numeric" Precision="10" Scale="2" />
           <Property Name="TaxAmount" Type="numeric" Precision="10" Scale="2" />
+          <Property Name="SupplierID" Type="int" />
         </EntityType>
         <EntityType Name="AcJournalMaster">
           <Key>
@@ -1570,10 +1578,14 @@ warning 6002: The table/view 'malusoft_shipping.dbo.qrySupplierOutstanding' does
         <Function Name="AcJournalMasterSelectAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="FYearID" Type="int" Mode="In" />
           <Parameter Name="BranchID" Type="int" Mode="In" />
+          <Parameter Name="Fromdate" Type="datetime" Mode="In" />
+          <Parameter Name="Todate" Type="datetime" Mode="In" />
         </Function>
         <Function Name="AcJournalMasterSelectAllJV" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="FYearID" Type="int" Mode="In" />
           <Parameter Name="BranchID" Type="int" Mode="In" />
+          <Parameter Name="Fromdate" Type="datetime" Mode="In" />
+          <Parameter Name="Todate" Type="datetime" Mode="In" />
         </Function>
         <Function Name="AcJournalMasterSelectByID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="AcJournalID" Type="int" Mode="In" />
@@ -2515,6 +2527,7 @@ warning 6002: The table/view 'malusoft_shipping.dbo.qrySupplierOutstanding' does
           <EntitySet Name="AcAnalysisHeadAllocation" EntityType="Self.AcAnalysisHeadAllocation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AcCategory" EntityType="Self.AcCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AcCompany" EntityType="Self.AcCompany" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AccountHeadControl" EntityType="Self.AccountHeadControl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AcFinancialYear" EntityType="Self.AcFinancialYear" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AcGroup" EntityType="Self.AcGroup" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AcHead" EntityType="Self.AcHead" Schema="dbo" store:Type="Tables" />
@@ -3167,6 +3180,8 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <FunctionImport Name="AcJournalMasterSelectAllJV" ReturnType="Collection(SHIPPING_FinalModel.AcJournalMasterSelectAllJV_Result)">
             <Parameter Name="FYearID" Mode="In" Type="Int32" />
             <Parameter Name="BranchID" Mode="In" Type="Int32" />
+            <Parameter Name="Fromdate" Mode="In" Type="DateTime" />
+            <Parameter Name="Todate" Mode="In" Type="DateTime" />
           </FunctionImport>
           <FunctionImport Name="AcJournalMasterSelectByID" ReturnType="Collection(SHIPPING_FinalModel.AcJournalMasterSelectByID_Result)">
           <Parameter Name="AcJournalID" Mode="In" Type="Int32" />
@@ -3228,6 +3243,8 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <FunctionImport Name="AcJournalMasterSelectAll" ReturnType="Collection(SHIPPING_FinalModel.AcJournalMasterSelectAll_Result)">
             <Parameter Name="FYearID" Mode="In" Type="Int32" />
             <Parameter Name="BranchID" Mode="In" Type="Int32" />
+            <Parameter Name="Fromdate" Mode="In" Type="DateTime" />
+            <Parameter Name="Todate" Mode="In" Type="DateTime" />
           </FunctionImport>
           <FunctionImport Name="AcJournalMasterUpdate">
             <Parameter Name="AcJournalID" Mode="In" Type="Int32" />
@@ -4062,6 +4079,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           </AssociationSet>
           <EntitySet Name="CreditNotes" EntityType="SHIPPING_FinalModel.CreditNote" />
           <EntitySet Name="JobEnquiries" EntityType="SHIPPING_FinalModel.JobEnquiry" />
+          <EntitySet Name="AccountHeadControls" EntityType="SHIPPING_FinalModel.AccountHeadControl" />
           </EntityContainer>
         <ComplexType Name="SP_GetUserDetailForEdit_Result">
           <Property Type="Int32" Name="UserID" Nullable="false" />
@@ -5759,6 +5777,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="TaxPercent" Type="Decimal" Precision="10" Scale="2" />
           <Property Name="TaxAmount" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="SupplierID" Type="Int32" />
         </EntityType>
         <EntityType Name="AcJournalMaster">
           <Key>
@@ -7368,6 +7387,13 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
           <Property Name="UserId" Type="Int32" />
           <Property Name="BranchId" Type="Int32" />
+        </EntityType>
+        <EntityType Name="AccountHeadControl">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ControlName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -9420,6 +9446,7 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
           <EntitySetMapping Name="AcJournalDetails">
             <EntityTypeMapping TypeName="SHIPPING_FinalModel.AcJournalDetail">
               <MappingFragment StoreEntitySet="AcJournalDetail">
+                <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
                 <ScalarProperty Name="TaxAmount" ColumnName="TaxAmount" />
                 <ScalarProperty Name="TaxPercent" ColumnName="TaxPercent" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
@@ -10985,6 +11012,14 @@ FROM [dbo].[qrySupplierOutstanding] AS [qrySupplierOutstanding]</DefiningQuery>
                 <ScalarProperty Name="EnquiryType" ColumnName="EnquiryType" />
                 <ScalarProperty Name="EnquiryDate" ColumnName="EnquiryDate" />
                 <ScalarProperty Name="EnquiryNo" ColumnName="EnquiryNo" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AccountHeadControls">
+            <EntityTypeMapping TypeName="SHIPPING_FinalModel.AccountHeadControl">
+              <MappingFragment StoreEntitySet="AccountHeadControl">
+                <ScalarProperty Name="ControlName" ColumnName="ControlName" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

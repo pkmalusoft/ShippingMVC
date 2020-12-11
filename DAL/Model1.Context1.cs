@@ -107,6 +107,7 @@ namespace DAL
         public DbSet<AcType> AcTypes { get; set; }
         public DbSet<CreditNote> CreditNotes { get; set; }
         public DbSet<JobEnquiry> JobEnquiries { get; set; }
+        public DbSet<AccountHeadControl> AccountHeadControls { get; set; }
     
         public virtual int SP_DeleteUser(Nullable<int> uSerID)
         {
@@ -1640,7 +1641,7 @@ namespace DAL
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AcJournalMasterInsertJV", transactionNoParameter, transDateParameter, acFinancialYearIDParameter, voucherTypeParameter, transTypeParameter, remarkParameter, userIDParameter, branchIDParameter, referenceParameter, acJournalDetailParameter, acAnalysisHeadDetailParameter);
         }
     
-        public virtual ObjectResult<AcJournalMasterSelectAllJV_Result> AcJournalMasterSelectAllJV(Nullable<int> fYearID, Nullable<int> branchID)
+        public virtual ObjectResult<AcJournalMasterSelectAllJV_Result> AcJournalMasterSelectAllJV(Nullable<int> fYearID, Nullable<int> branchID, Nullable<System.DateTime> fromdate, Nullable<System.DateTime> todate)
         {
             var fYearIDParameter = fYearID.HasValue ?
                 new ObjectParameter("FYearID", fYearID) :
@@ -1650,7 +1651,15 @@ namespace DAL
                 new ObjectParameter("BranchID", branchID) :
                 new ObjectParameter("BranchID", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<AcJournalMasterSelectAllJV_Result>("AcJournalMasterSelectAllJV", fYearIDParameter, branchIDParameter);
+            var fromdateParameter = fromdate.HasValue ?
+                new ObjectParameter("Fromdate", fromdate) :
+                new ObjectParameter("Fromdate", typeof(System.DateTime));
+    
+            var todateParameter = todate.HasValue ?
+                new ObjectParameter("Todate", todate) :
+                new ObjectParameter("Todate", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<AcJournalMasterSelectAllJV_Result>("AcJournalMasterSelectAllJV", fYearIDParameter, branchIDParameter, fromdateParameter, todateParameter);
         }
     
         public virtual ObjectResult<AcJournalMasterSelectByID_Result> AcJournalMasterSelectByID(Nullable<int> acJournalID)
@@ -1842,7 +1851,7 @@ namespace DAL
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AcJournalMasterInsert", transDateParameter, acFinancialYearIDParameter, voucherTypeParameter, acHeadIDParameter, transTypeParameter, remarkParameter, userIDParameter, amountParameter, branchIDParameter, referenceParameter, acJournalDetailParameter, acAnalysisHeadDetailParameter, bankNameParameter, chequeNoParameter, chequeDateParameter, partyNameParameter);
         }
     
-        public virtual ObjectResult<AcJournalMasterSelectAll_Result> AcJournalMasterSelectAll(Nullable<int> fYearID, Nullable<int> branchID)
+        public virtual ObjectResult<AcJournalMasterSelectAll_Result> AcJournalMasterSelectAll(Nullable<int> fYearID, Nullable<int> branchID, Nullable<System.DateTime> fromdate, Nullable<System.DateTime> todate)
         {
             var fYearIDParameter = fYearID.HasValue ?
                 new ObjectParameter("FYearID", fYearID) :
@@ -1852,7 +1861,15 @@ namespace DAL
                 new ObjectParameter("BranchID", branchID) :
                 new ObjectParameter("BranchID", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<AcJournalMasterSelectAll_Result>("AcJournalMasterSelectAll", fYearIDParameter, branchIDParameter);
+            var fromdateParameter = fromdate.HasValue ?
+                new ObjectParameter("Fromdate", fromdate) :
+                new ObjectParameter("Fromdate", typeof(System.DateTime));
+    
+            var todateParameter = todate.HasValue ?
+                new ObjectParameter("Todate", todate) :
+                new ObjectParameter("Todate", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<AcJournalMasterSelectAll_Result>("AcJournalMasterSelectAll", fYearIDParameter, branchIDParameter, fromdateParameter, todateParameter);
         }
     
         public virtual int AcJournalMasterUpdate(Nullable<int> acJournalID, Nullable<System.DateTime> transDate, string remark, Nullable<int> userID, Nullable<decimal> amount, string reference, string voucherType, Nullable<int> branchID, Nullable<int> acFinancialYearID, Nullable<int> acHeadID, string acJournalDetail, string acAnalysisHeadDetail, string bankName, string chequeNo, Nullable<System.DateTime> chequeDate, string partyName)

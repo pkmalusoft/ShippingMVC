@@ -1,11 +1,15 @@
 ﻿@{
-    Layout = null; ViewBag.Title = "Invoice Report";
-    Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
-    var Job = ViewBag.Job as DAL.JobGeneration;
-    var JobInvoice = ViewBag.Jobinvoices as IEnumerable<DAL.SP_GetInvoiceReport_Result>;
-    var Company = ViewBag.Company as DAL.AcCompany;
-    var User = ViewBag.User as DAL.UserRegistration;
-    var Invoices = ViewBag.Invoices as IEnumerable<DAL.JInvoice>;
+                /**/
+
+                Layout = null; ViewBag.Title = "Invoice Report";
+                Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
+                var Job = ViewBag.Job as DAL.JobGeneration;
+                var JobInvoice = ViewBag.Jobinvoices as IEnumerable<DAL.SP_GetInvoiceReport_Result>;
+                var Company = ViewBag.Company as DAL.AcCompany;
+                var User = ViewBag.User as DAL.UserRegistration;
+                var Invoices = ViewBag.Invoices as IEnumerable<DAL.JInvoice>;
+                var Consignee = ViewBag.Consignee as DAL.CUSTOMER;
+                var Consigner = ViewBag.Consigner as DAL.CUSTOMER;
 }
 
 <!DOCTYPE html>
@@ -132,12 +136,13 @@
                     <img src="TrueBook_white.png" alt="" style="width:200px">
                 </div>
                 <ul class="companyDetails">
-                    <li><strong>Base5Builder, Inc.</strong></li>
+                    <li><strong>@Company.AcCompany1</strong></li>
                     <li>
-                        795 Folsom Ave, Suite 600<br />
-                        San Francisco, CA 94107
+                        @Company.Address1<br />
+                        @Company.Address2<br />
+                        @Company.Address3<br />
                     </li>
-                    <li>Tel: (123) 456-7890</li>
+                    <li>@Company.Phone</li>
                 </ul>
             </div>
             <div class="headerRight">
@@ -164,38 +169,42 @@
             <div class="billItem">
                 <h3>BILL TO:</h3>
                 <ul class="billTo">
-                    <li><strong>@Job.ConsigneeID</strong></li>
+                    <li><strong>@Consignee.Customer1</strong></li>
                     <li>
-                        795 Folsom Ave, Suite 600<br />
-                        San Francisco, CA 94107
+                        @Consignee.Address1<br />
+                        @Consignee.Address2<br />
+                        @Consignee.Address3<br />
+
                     </li>
-                    <li>Tel: (123) 456-7890</li>
+                    <li>@Consignee.Phone</li>
                 </ul>
             </div>
             <div class="billItem">
                 <h3>Ship TO:</h3>
                 <ul class="billTo">
-                    <li><strong>Massive Dynamic, Inc.</strong></li>
+                    <li><strong>@Consigner.Customer1</strong></li>
                     <li>
-                        795 Folsom Ave, Suite 600<br />
-                        San Francisco, CA 94107
+                        @Consigner.Address1<br />
+                        @Consigner.Address2<br />
+                        @Consigner.Address3<br />
+
                     </li>
-                    <li>Tel: (123) 456-7890</li>
+                    <li>@Consigner.Phone</li>
                 </ul>
             </div>
-            <div class="billItem">
-                <h3>Payment Details:</h3>
-                <table>
-                    <tr>
-                        <th>Account Name:</th>
-                        <td>Base5Builder, Inc.</td>
-                    </tr>
-                    <tr>
-                        <th>Account Number:</th>
-                        <td>098 0981 2348</td>
-                    </tr>
-                </table>
-            </div>
+            @*<div class="billItem">
+                    <h3>Payment Details:</h3>
+                    <table>
+                        <tr>
+                            <th>Account Name:</th>
+                            <td>@Company.AcCompany1</td>
+                        </tr>
+                        <tr>
+                            <th>Account Number:</th>
+                            <td>@Company.AcCompanyID</td>
+                        </tr>
+                    </table>
+                </div>*@
         </div>
     </section>
 

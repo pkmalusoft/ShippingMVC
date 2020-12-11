@@ -24,6 +24,32 @@
 <script type="text/javascript">
         $(document).ready(function () {
 
+            $("#AcHead").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: '/AutoComplete/AccountHead',
+                        datatype: "json",
+                        data: {
+                            term: request.term
+                        },
+                        success: function (data) {
+                            response($.map(data, function (val, item) {
+                                return {
+                                    label: val.AcHead,
+                                    value: val.AcHead,
+                                    AcHeadID: val.AcHeadID
+                                }
+                            }))
+                        }
+                    })
+                }, minLength: 1,
+                select: function (e, i) {
+                    e.preventDefault();
+                    $("#AcHead").val(i.item.label);
+                    $('#AccountHeadID').val(i.item.AcHeadID);
+                }
+            });
+
             $(":text").css({ "border-radius": "5px" });
             $("select").css({ "border-radius": "5px" });
 
@@ -101,28 +127,34 @@
 					</div>
                     <div class="row form-group">
 						<div class="col-md-3">
-                        <label class="required headinglabel">Control Account Name</label>
+                            <label class="required headinglabel">Account Control Head</label>
 						</div>
-						<div class="col-md-9">
-                        @Html.TextBoxFor(model => model.AccountName, new { @class = "form-control txttarget" })
-                        @Html.ValidationMessageFor(model => model.AccountName)
-						</div>
+                        <div class="col-md-9">
+                            @Html.DropDownListFor(model => model.AccountName, new SelectList(ViewBag.AccountControl, "ControlName", "ControlName"), "Select", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.AccountName)
+                            @*@Html.TextBoxFor(model => model.AccountName, new { @class = "form-control txttarget" })
+                            @Html.ValidationMessageFor(model => model.AccountName)*@
+                        </div>
                     </div>
                     <div>
 					<div class="row form-group">
 					<div class="col-md-3">
                         <label class="required headinglabel">Account Head</label>
 						</div>
-							<div class="col-md-9">
-                        @Html.DropDownListFor(model => model.AccountHeadID, new SelectList(ViewBag.AccountHeadID, "AcHeadID", "AcHead1"), "Select", new { @class = "form-control txttarget" })
+                    <div class="col-md-9">
+                        <input type="text" id="AcHead" value="" class="form-control" autocomplete="off" />
+                        @Html.HiddenFor(model => model.AccountHeadID, new { Value = "0", id = "AccountHeadID" })
+                        @*@Html.DropDownListFor(model => model.AccountHeadID, new SelectList(ViewBag.AccountHeadID, "AcHeadID", "AcHead"), "Select", new { @class = "form-control txttarget" })*@
                         @Html.ValidationMessageFor(model => model.AccountHeadID)
+                        @*@Html.DropDownListFor(model => model.AccountHeadID, new SelectList(ViewBag.AccountHeadID, "AcHeadID", "AcHead1"), "Select", new { @class = "form-control txttarget" })
+                        @Html.ValidationMessageFor(model => model.AccountHeadID)*@
                     </div>
 					</div>
                 </div>
 
                 <div class="row  form-group" style="padding-top:10px">
                    <div class="col-md-3">
-                        <label class="required headinglabel">Debit/Credit</label>
+                        <label class="required headinglabel">Account Nature</label>
 						</div>
 						<div class="col-md-9">
                         @*@Html.DropDownListFor(model => model.AccountNature, new SelectList(ViewBag.AccountNature, "ID", "Name"), "Select", new { @class = "form-control txttarget" })*@
@@ -137,7 +169,7 @@
 
                     <div class="row form-group">
 					<div class="col-md-3">
-                        <label class="required headinglabel">Field Name</label>
+                        <label class="required headinglabel">Field </label>
 					</div>
 					<div class="col-md-9">
                         @*<select class="form-control txttarget" id="Remarks" name="Remarks">

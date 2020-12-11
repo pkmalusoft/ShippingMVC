@@ -35,7 +35,7 @@ namespace TrueBooksMVC
             }
 
             cmd.Parameters.Add("@SalesInvoiceDate", SqlDbType.DateTime);
-            if(SI.SalesInvoiceDate == DateTime.MinValue)
+            if (SI.SalesInvoiceDate == DateTime.MinValue)
             {
                 cmd.Parameters["@SalesInvoiceDate"].Value = DBNull.Value;
             }
@@ -43,7 +43,7 @@ namespace TrueBooksMVC
             {
                 cmd.Parameters["@SalesInvoiceDate"].Value = SI.SalesInvoiceDate;
             }
-            
+
 
             cmd.Parameters.Add("@Reference", SqlDbType.NVarChar);
             cmd.Parameters["@Reference"].Value = SI.Reference;
@@ -76,7 +76,7 @@ namespace TrueBooksMVC
                 cmd.Parameters["@CreditDays"].Value = "";
             }
             cmd.Parameters.Add("@DueDate", SqlDbType.DateTime);
-            if(SI.DueDate == DateTime.MinValue)
+            if (SI.DueDate == DateTime.MinValue)
             {
                 cmd.Parameters["@DueDate"].Value = DBNull.Value;
             }
@@ -84,7 +84,7 @@ namespace TrueBooksMVC
             {
                 cmd.Parameters["@DueDate"].Value = SI.DueDate;
             }
-            
+
 
             cmd.Parameters.Add("@AcJouranalID", SqlDbType.Int);
             if (SI.SalesInvoiceNo != null)
@@ -96,7 +96,7 @@ namespace TrueBooksMVC
                 cmd.Parameters["@AcJouranalID"].Value = "";
             }
 
-             cmd.Parameters.Add("@BranchID", SqlDbType.Int);
+            cmd.Parameters.Add("@BranchID", SqlDbType.Int);
             cmd.Parameters["@BranchID"].Value = SI.BranchID;
 
             cmd.Parameters.Add("@Discount", SqlDbType.Decimal);
@@ -104,7 +104,7 @@ namespace TrueBooksMVC
 
             cmd.Parameters.Add("@StatusDiscountAmt", SqlDbType.Bit);
             cmd.Parameters["@StatusDiscountAmt"].Value = SI.StatusDiscountAmt;
-         
+
             cmd.Parameters.Add("@OtherCharges", SqlDbType.Decimal);
             cmd.Parameters["@OtherCharges"].Value = SI.OtherCharges;
 
@@ -289,7 +289,7 @@ namespace TrueBooksMVC
             cmd.Connection = new SqlConnection(Common.GetConnectionString);
             cmd.CommandText = "SP_DeleteSalesInvoice";
             cmd.CommandType = CommandType.StoredProcedure;
-          
+
             cmd.Parameters.Add("@SalesInvoiceId", SqlDbType.Int);
             cmd.Parameters["@SalesInvoiceId"].Value = Id;
 
@@ -335,7 +335,7 @@ namespace TrueBooksMVC
             {
                 cmd.Parameters["@PurchaseInvoiceNo"].Value = "";
             }
-            
+
 
             cmd.Parameters.Add("@PurchaseInvoiceDate", SqlDbType.DateTime);
             if (PI.PurchaseInvoiceDate == DateTime.MinValue)
@@ -417,7 +417,7 @@ namespace TrueBooksMVC
             cmd.Parameters["@Remarks"].Value = PI.Remarks;
 
             cmd.Parameters.Add("@FYearID", SqlDbType.Int);
-            cmd.Parameters["@FYearID"].Value = PI.FYearID;                     
+            cmd.Parameters["@FYearID"].Value = PI.FYearID;
 
             cmd.Parameters.Add("@DiscountType", SqlDbType.Int);
             cmd.Parameters["@DiscountType"].Value = PI.DiscountType;
@@ -462,7 +462,7 @@ namespace TrueBooksMVC
             cmd.Parameters.Add("@PurchaseInvoiceId", SqlDbType.Int);
             cmd.Parameters["@PurchaseInvoiceId"].Value = PI.PurchaseInvoiceID;
             //cmd.Parameters["@PurchaseInvoiceId"].Direction = ParameterDirection.InputOutput;
-            
+
             cmd.Parameters.Add("@PurchaseInvoiceNo", SqlDbType.NVarChar);
             if (PI.PurchaseInvoiceNo != null)
             {
@@ -590,7 +590,7 @@ namespace TrueBooksMVC
             cmd.Connection = new SqlConnection(Common.GetConnectionString);
             cmd.CommandText = "SP_DeletePurchaseInvoice";
             cmd.CommandType = CommandType.StoredProcedure;
-           
+
             cmd.Parameters.Add("@PurchaseInvoiceId", SqlDbType.Int);
             cmd.Parameters["@PurchaseInvoiceId"].Value = Id;
 
@@ -661,9 +661,9 @@ namespace TrueBooksMVC
             else
             {
                 cmd.Parameters["@PurchaseInvoiceID"].Value = 0;
-            }            
+            }
 
-         
+
             cmd.Parameters.Add("@ProductID", SqlDbType.Int);
 
             if (PID.ProductID != null)
@@ -692,28 +692,28 @@ namespace TrueBooksMVC
             cmd.Parameters.Add("@ValueFC", SqlDbType.Decimal);
             cmd.Parameters["@ValueFC"].Value = PID.ValueFC;
 
-                cmd.Parameters.Add("@Taxprec", SqlDbType.Decimal);
-                cmd.Parameters["@Taxprec"].Value = PID.Taxprec;
+            cmd.Parameters.Add("@Taxprec", SqlDbType.Decimal);
+            cmd.Parameters["@Taxprec"].Value = PID.Taxprec;
 
-                cmd.Parameters.Add("@Tax", SqlDbType.Decimal);
-                cmd.Parameters["@Tax"].Value = PID.Tax;
+            cmd.Parameters.Add("@Tax", SqlDbType.Decimal);
+            cmd.Parameters["@Tax"].Value = PID.Tax;
 
-                cmd.Parameters.Add("@NetValue", SqlDbType.Decimal);
-                cmd.Parameters["@NetValue"].Value = PID.NetValue;
+            cmd.Parameters.Add("@NetValue", SqlDbType.Decimal);
+            cmd.Parameters["@NetValue"].Value = PID.NetValue;
 
-                cmd.Parameters.Add("@AcHeadID", SqlDbType.Int);
-                cmd.Parameters["@AcHeadID"].Value = PID.AcHeadID;
+            cmd.Parameters.Add("@AcHeadID", SqlDbType.Int);
+            cmd.Parameters["@AcHeadID"].Value = PID.AcHeadID;
 
-                cmd.Parameters.Add("@JobID", SqlDbType.Int);
-                cmd.Parameters["@JobID"].Value = PID.JobID;
-                cmd.Parameters.Add("@Description", SqlDbType.NVarChar);
-                cmd.Parameters["@Description"].Value = PID.Description;
-
-
+            cmd.Parameters.Add("@JobID", SqlDbType.Int);
+            cmd.Parameters["@JobID"].Value = PID.JobID;
+            cmd.Parameters.Add("@Description", SqlDbType.NVarChar);
+            cmd.Parameters["@Description"].Value = PID.Description;
 
 
 
-                try
+
+
+            try
             {
                 cmd.Connection.Open();
                 i = cmd.ExecuteNonQuery();
@@ -741,7 +741,7 @@ namespace TrueBooksMVC
 
             cmd.Parameters.Add("@PurchaseInvoiceDetailID", SqlDbType.Int);
             cmd.Parameters["@PurchaseInvoiceDetailID"].Value = PID.PurchaseInvoiceDetailID;
-           // cmd.Parameters["@PurchaseInvoiceDetailID"].Direction = ParameterDirection.InputOutput;
+            // cmd.Parameters["@PurchaseInvoiceDetailID"].Direction = ParameterDirection.InputOutput;
 
             cmd.Parameters.Add("@PurchaseInvoiceID", SqlDbType.Int);
             if (PID.PurchaseInvoiceID != null)
@@ -908,13 +908,13 @@ namespace TrueBooksMVC
             cmd.Parameters["@ValueLC"].Value = SID.ValueLC;
 
             cmd.Parameters.Add("@ValueFC", SqlDbType.Decimal);
-            cmd.Parameters["@ValueFC"].Value = SID.ValueFC;                    
+            cmd.Parameters["@ValueFC"].Value = SID.ValueFC;
 
             cmd.Parameters.Add("@Tax", SqlDbType.Decimal);
             cmd.Parameters["@Tax"].Value = SID.Tax;
 
             cmd.Parameters.Add("@NetValue", SqlDbType.Decimal);
-            cmd.Parameters["@NetValue"].Value = SID.NetValue;                    
+            cmd.Parameters["@NetValue"].Value = SID.NetValue;
 
             cmd.Parameters.Add("@JobID", SqlDbType.Int);
             cmd.Parameters["@JobID"].Value = SID.JobID;
@@ -1024,7 +1024,7 @@ namespace TrueBooksMVC
 
             return Convert.ToInt32(cmd.Parameters["@SalesInvoiceDetailID"].Value);
         }
-        public static DataSet GetSalesInvoiceDetailsById( int SalesInvoiceID)
+        public static DataSet GetSalesInvoiceDetailsById(int SalesInvoiceID)
         {
             SqlCommand cmd = new SqlCommand();
             cmd.Connection = new SqlConnection(Common.GetConnectionString);
@@ -1033,7 +1033,7 @@ namespace TrueBooksMVC
 
             cmd.Parameters.Add("@SalesInvoiceId", SqlDbType.Int);
             cmd.Parameters["@SalesInvoiceId"].Value = SalesInvoiceID;
-                       
+
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataSet ds = new DataSet();
             da.Fill(ds);
@@ -1057,7 +1057,7 @@ namespace TrueBooksMVC
             return ds;
         }
 
-        public static List<SalesInvoice> SP_GetAllSalesInvoiceByDate(Nullable<System.DateTime> fdate, Nullable<System.DateTime> tdate,bool? isshipping)
+        public static List<SalesInvoice> SP_GetAllSalesInvoiceByDate(Nullable<System.DateTime> fdate, Nullable<System.DateTime> tdate, bool? isshipping)
         {
             List<SalesInvoice> dtList = new List<SalesInvoice>();
             SqlCommand cmd = new SqlCommand();
@@ -1070,7 +1070,7 @@ namespace TrueBooksMVC
 
             cmd.Parameters.Add("@tdate", SqlDbType.DateTime);
             cmd.Parameters["@tdate"].Value = tdate;
-              cmd.Parameters.Add("@IsShipping", SqlDbType.Bit);
+            cmd.Parameters.Add("@IsShipping", SqlDbType.Bit);
             cmd.Parameters["@IsShipping"].Value = isshipping;
 
             SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -1092,7 +1092,7 @@ namespace TrueBooksMVC
             return dtList;
         }
 
-        public static List<PurchaseInvoice> SP_GetAllPurchaseInvoiceByDate(Nullable<System.DateTime> fdate, Nullable<System.DateTime> tdate,bool? isshipping)
+        public static List<PurchaseInvoice> SP_GetAllPurchaseInvoiceByDate(Nullable<System.DateTime> fdate, Nullable<System.DateTime> tdate, bool? isshipping)
         {
             List<PurchaseInvoice> dtList = new List<PurchaseInvoice>();
             SqlCommand cmd = new SqlCommand();
@@ -1120,7 +1120,7 @@ namespace TrueBooksMVC
                     PurchaseInvoiceID = int.Parse(row["PurchaseInvoiceID"].ToString()),
                     PurchaseInvoiceNo = row["PurchaseInvoiceNo"].ToString(),
                     PurchaseInvoiceDate = row["PurchaseInvoiceDate"] != DBNull.Value ? Convert.ToDateTime(row["PurchaseInvoiceDate"]) : DateTime.Now,
-                    DueDate = row["DueDate"]  != DBNull.Value ?  Convert.ToDateTime(row["DueDate"].ToString()) : DateTime.Now,
+                    DueDate = row["DueDate"] != DBNull.Value ? Convert.ToDateTime(row["DueDate"].ToString()) : DateTime.Now,
                     Remarks = row["SupplierName"].ToString(),
                 }).ToList();
             }
@@ -1148,22 +1148,22 @@ namespace TrueBooksMVC
                 .Select(row => new SP_GetAllJobsDetails_Result
                 {
                     JobID = int.Parse(row["JobID"].ToString()),
-                   // InvoiceNo = int.Parse(row["InvoiceNo"].ToString()),
-                  //  InvoiceDate = row["InvoiceDate"] != DBNull.Value ? Convert.ToDateTime(row["InvoiceDate"]) : DateTime.Now,
-                  //  JobDate = row["JobDate"] != DBNull.Value ? Convert.ToDateTime(row["JobDate"].ToString()) : DateTime.Now,
+                    // InvoiceNo = int.Parse(row["InvoiceNo"].ToString()),
+                    //  InvoiceDate = row["InvoiceDate"] != DBNull.Value ? Convert.ToDateTime(row["InvoiceDate"]) : DateTime.Now,
+                    //  JobDate = row["JobDate"] != DBNull.Value ? Convert.ToDateTime(row["JobDate"].ToString()) : DateTime.Now,
                     JobDescription = row["JobDescription"].ToString(),
                     JobCode = row["JobCode"].ToString(),
-                 //   CostUpdatedOrNot = row["CostUpdatedOrNot"].ToString(),
-                 //   Shipper = row["Shipper"].ToString(),
-                  //  Consignee = row["Consignee"].ToString(),
-                  //  Customer = row["Customer"].ToString()
-    }).ToList();
+                    //   CostUpdatedOrNot = row["CostUpdatedOrNot"].ToString(),
+                    //   Shipper = row["Shipper"].ToString(),
+                    //  Consignee = row["Consignee"].ToString(),
+                    //  Customer = row["Customer"].ToString()
+                }).ToList();
             }
             return dtList;
         }
 
 
-       public static DataSet SP_JobRegisterReportPrintByJObID(int JobId)
+        public static DataSet SP_JobRegisterReportPrintByJObID(int JobId)
         {
             SqlCommand cmd = new SqlCommand();
             cmd.Connection = new SqlConnection(Common.GetConnectionString);
@@ -1211,7 +1211,7 @@ namespace TrueBooksMVC
             return ds;
         }
 
-        public static List<GetAllCostUpdation_Result> SP_GetAllCostUpdation(DateTime FromDate,DateTime ToDate)
+        public static List<GetAllCostUpdation_Result> SP_GetAllCostUpdation(DateTime FromDate, DateTime ToDate)
         {
             SqlCommand cmd = new SqlCommand();
             cmd.Connection = new SqlConnection(Common.GetConnectionString);
@@ -1229,14 +1229,14 @@ namespace TrueBooksMVC
             da.Fill(ds);
             List<GetAllCostUpdation_Result> objList = new List<GetAllCostUpdation_Result>();
             GetAllCostUpdation_Result obj;
-           if (ds != null && ds.Tables.Count > 0)
+            if (ds != null && ds.Tables.Count > 0)
             {
-                for(int i=0; i < ds.Tables[0].Rows.Count; i++)
+                for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
                 {
                     obj = new GetAllCostUpdation_Result();
                     obj.SINo = Common.ParseInt(ds.Tables[0].Rows[i]["SINo"].ToString());
                     obj.SupplierInvoiceNumber = ds.Tables[0].Rows[i]["SupplierInvoiceNumber"].ToString();
-                    if(ds.Tables[0].Rows[i]["InvoiceDate"] != DBNull.Value)
+                    if (ds.Tables[0].Rows[i]["InvoiceDate"] != DBNull.Value)
                     {
                         obj.InvoiceDate = Convert.ToDateTime(ds.Tables[0].Rows[i]["InvoiceDate"].ToString());
                     }
@@ -1282,7 +1282,7 @@ namespace TrueBooksMVC
                     obj.ProvisionForeign = Common.ParseDecimal(ds.Tables[0].Rows[i]["ProvisionForeign"].ToString());
                     obj.ProvisionHome = Common.ParseDecimal(ds.Tables[0].Rows[i]["ProvisionHome"].ToString());
                     obj.SalesCurrencyID = Common.ParseInt(ds.Tables[0].Rows[i]["SalesCurrencyID"].ToString());
-                    obj.SalesExchangeRate=Common.ParseDecimal(ds.Tables[0].Rows[i]["SalesExchangeRate"].ToString());
+                    obj.SalesExchangeRate = Common.ParseDecimal(ds.Tables[0].Rows[i]["SalesExchangeRate"].ToString());
                     obj.SalesForeign = Common.ParseDecimal(ds.Tables[0].Rows[i]["SalesForeign"].ToString());
                     obj.SalesHome = Common.ParseDecimal(ds.Tables[0].Rows[i]["SalesHome"].ToString());
                     obj.Variance = Common.ParseDecimal(ds.Tables[0].Rows[i]["Variance"].ToString());
@@ -1307,7 +1307,7 @@ namespace TrueBooksMVC
                 }
             }
             return objList;
-         }
+        }
 
         public static List<AcAnalysisHeadAllocationVM> GetAcJDetailsExpenseAllocation(int AcJournalDetailID)
         {
@@ -1331,7 +1331,7 @@ namespace TrueBooksMVC
                     obj.AcAnalysisHeadAllocationID = Common.ParseInt(ds.Tables[0].Rows[i]["AcAnalysisHeadAllocationID"].ToString());
                     obj.AcjournalDetailID = Common.ParseInt(ds.Tables[0].Rows[i]["AcjournalDetailID"].ToString());
                     obj.AnalysisHeadID = Common.ParseInt(ds.Tables[0].Rows[i]["AnalysisHeadID"].ToString());
-                    if(ds.Tables[0].Rows[i]["Amount"] == DBNull.Value)
+                    if (ds.Tables[0].Rows[i]["Amount"] == DBNull.Value)
                     {
                         obj.Amount = 0;
                     }
@@ -1351,7 +1351,7 @@ namespace TrueBooksMVC
             int iReturn = 0;
             SqlCommand cmd = new SqlCommand();
             cmd.Connection = new SqlConnection(Common.GetConnectionString);
-            cmd.CommandText = "INSERT INTO AcJournalDetail(AcJournalDetailID,AcJournalID,AcHeadID,Amount,Remarks,BranchID) VALUES(@AcJournalDetailID,@AcJournalID,@AcHeadID,@Amount,@Remarks,@BranchID)";
+            cmd.CommandText = "INSERT INTO AcJournalDetail(AcJournalDetailID,AcJournalID,AcHeadID,Amount,Remarks,BranchID,SupplierID,TaxPercent,TaxAmount) VALUES(@AcJournalDetailID,@AcJournalID,@AcHeadID,@Amount,@Remarks,@BranchID,@SupplierID,@TaxPercent,@TaxAmount)";
             cmd.CommandType = CommandType.Text;
 
             cmd.Parameters.Add("@AcJournalDetailID", SqlDbType.Int);
@@ -1363,8 +1363,8 @@ namespace TrueBooksMVC
             cmd.Parameters.Add("@AcHeadID", SqlDbType.Int);
             cmd.Parameters["@AcHeadID"].Value = ObjectAcJournalDetail.AcHeadID;
 
-         //   cmd.Parameters.Add("@AnalysisHeadID", SqlDbType.Int);
-        //    cmd.Parameters["@AnalysisHeadID"].Value = ObjectAcJournalDetail.AnalysisHeadID;
+            //   cmd.Parameters.Add("@AnalysisHeadID", SqlDbType.Int);
+            //    cmd.Parameters["@AnalysisHeadID"].Value = ObjectAcJournalDetail.AnalysisHeadID;
 
             cmd.Parameters.Add("@Amount", SqlDbType.Money);
             cmd.Parameters["@Amount"].Value = ObjectAcJournalDetail.Amount;
@@ -1374,13 +1374,20 @@ namespace TrueBooksMVC
 
             cmd.Parameters.Add("@BranchID", SqlDbType.Int);
             cmd.Parameters["@BranchID"].Value = ObjectAcJournalDetail.BranchID;
+            cmd.Parameters.Add("@SupplierID", SqlDbType.Int);
+            cmd.Parameters["@SupplierID"].Value = ObjectAcJournalDetail.SupplierID;
+            cmd.Parameters.Add("@TaxPercent", SqlDbType.Int);
+            cmd.Parameters["@TaxPercent"].Value = ObjectAcJournalDetail.TaxPercent;
+            cmd.Parameters.Add("@TaxAmount", SqlDbType.Int);
+            cmd.Parameters["@TaxAmount"].Value = ObjectAcJournalDetail.TaxAmount;
 
             try
             {
                 cmd.Connection.Open();
                 iReturn = cmd.ExecuteNonQuery();
                 cmd.Connection.Close();
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
 
             }
@@ -1393,7 +1400,7 @@ namespace TrueBooksMVC
             int iReturn = 0;
             SqlCommand cmd = new SqlCommand();
             cmd.Connection = new SqlConnection(Common.GetConnectionString);
-            cmd.CommandText = "UPDATE AcJournalDetail SET AcJournalID=@AcJournalID,AcHeadID=@AcHeadID,AnalysisHeadID=@AnalysisHeadID,Amount=@Amount,Remarks=@Remarks,BranchID=@BranchID WHERE AcJournalDetailID = @AcJournalDetailID";
+            cmd.CommandText = "UPDATE AcJournalDetail SET AcJournalID=@AcJournalID,AcHeadID=@AcHeadID,AnalysisHeadID=@AnalysisHeadID,Amount=@Amount,Remarks=@Remarks,BranchID=@BranchID,TaxPercent=@Taxpercent,TaxAmount=@TaxAmount,SupplierID=@SupplierID WHERE AcJournalDetailID = @AcJournalDetailID";
             cmd.CommandType = CommandType.Text;
 
             cmd.Parameters.Add("@AcJournalDetailID", SqlDbType.Int);
@@ -1416,6 +1423,13 @@ namespace TrueBooksMVC
 
             cmd.Parameters.Add("@BranchID", SqlDbType.Int);
             cmd.Parameters["@BranchID"].Value = ObjectAcJournalDetail.BranchID;
+            cmd.Parameters.Add("@SupplierID", SqlDbType.Int);
+            cmd.Parameters["@SupplierID"].Value = ObjectAcJournalDetail.SupplierID;
+            cmd.Parameters.Add("@Taxpercent", SqlDbType.Decimal);
+            cmd.Parameters["@Taxpercent"].Value = ObjectAcJournalDetail.TaxPercent;
+            cmd.Parameters.Add("@TaxAmount", SqlDbType.Decimal);
+            cmd.Parameters["@TaxAmount"].Value = ObjectAcJournalDetail.TaxAmount;
+
 
             try
             {
@@ -1470,7 +1484,7 @@ namespace TrueBooksMVC
             {
 
             }
-            
+
             return iReturn;
         }
 
@@ -1589,7 +1603,7 @@ namespace TrueBooksMVC
             return objList;
         }
 
-        public static int InsertOrUpdateAcBankDetails(AcBankDetail ObjectAcBankDetail,int isupdate)
+        public static int InsertOrUpdateAcBankDetails(AcBankDetail ObjectAcBankDetail, int isupdate)
         {
             int iReturn = 0;
             SqlCommand cmd = new SqlCommand();
@@ -1664,7 +1678,7 @@ namespace TrueBooksMVC
                 for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
                 {
                     obj = new CustomerRcieptChildVM();
-                    if(ds.Tables[0].Rows[i]["RecPayDate"] != DBNull.Value)
+                    if (ds.Tables[0].Rows[i]["RecPayDate"] != DBNull.Value)
                     {
                         obj.InvoiceDate = Convert.ToDateTime(ds.Tables[0].Rows[i]["RecPayDate"]);
                     }
@@ -1680,7 +1694,7 @@ namespace TrueBooksMVC
             }
             return objList;
         }
-     
+
 
         public static List<CustomerRcieptChildVM> GetCustomerReceipt(int RecPayID)
         {

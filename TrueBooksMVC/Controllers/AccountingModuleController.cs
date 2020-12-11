@@ -8,7 +8,7 @@ using DAL;
 using System.IO;
 using System.Data;
 using System.Data.SqlClient;
-
+using System.Data.Entity.Validation;
 
 
 namespace TrueBooksMVC.Controllers
@@ -706,10 +706,26 @@ new AcGroupModel()
 
 
 
-        public ActionResult AcJournalVoucherIndex()
+        public ActionResult AcJournalVoucherIndex(string FromDate, string ToDate)
         {
-
-            return View(context.AcJournalMasterSelectAllJV(Convert.ToInt32(Session["fyearid"].ToString()), Convert.ToInt32(Session["AcCompanyID"].ToString())));
+           
+            if (!String.IsNullOrEmpty(FromDate) && !String.IsNullOrEmpty(ToDate))
+            {
+                var SDate = Convert.ToDateTime(FromDate);
+                var EDate = Convert.ToDateTime(ToDate);
+                ViewBag.StartDate = SDate;
+                ViewBag.EDate = EDate;
+                var list = context.AcJournalMasterSelectAllJV(Convert.ToInt32(Session["fyearid"].ToString()), Convert.ToInt32(Session["AcCompanyID"].ToString()), SDate, EDate);
+                return View(list);
+            }
+            else
+            {
+                var SDate = DateTime.Now;
+                var EDate = DateTime.Now;
+                ViewBag.StartDate = SDate;
+                ViewBag.EDate = EDate;
+            }
+                return View(context.AcJournalMasterSelectAllJV(Convert.ToInt32(Session["fyearid"].ToString()), Convert.ToInt32(Session["AcCompanyID"].ToString()),DateTime.Now.Date,DateTime.Now));
         }
 
         public ActionResult AcJournalVoucherCreate()
@@ -749,26 +765,29 @@ new AcGroupModel()
 
             for (int i = 0; i < data.acJournalDetailsList.Count; i++)
             {
-                AcJournalDetail acjournalDetails = new AcJournalDetail();
-                if (data.acJournalDetailsList[i].IsDebit == 1)
+                if (data.acJournalDetailsList[i].IsDeleted != true)
                 {
-                    acjournalDetails.Amount = Convert.ToDecimal(data.acJournalDetailsList[i].Amount);
-                }
-                else
-                {
-                    acjournalDetails.Amount = (-1) * Convert.ToDecimal(data.acJournalDetailsList[i].Amount);
-                }
+                    AcJournalDetail acjournalDetails = new AcJournalDetail();
+                    if (data.acJournalDetailsList[i].IsDebit == 1)
+                    {
+                        acjournalDetails.Amount = Convert.ToDecimal(data.acJournalDetailsList[i].Amount);
+                    }
+                    else
+                    {
+                        acjournalDetails.Amount = (-1) * Convert.ToDecimal(data.acJournalDetailsList[i].Amount);
+                    }
 
-                acjournalDetails.AcJournalID = acJournalMaster.AcJournalID;
-                acjournalDetails.AcHeadID = data.acJournalDetailsList[i].acHeadID;
-                acjournalDetails.Remarks = data.acJournalDetailsList[i].AcRemark;
-                acjournalDetails.BranchID = Convert.ToInt32(Session["AcCompanyID"]);
-                int maxAcJDetailID = 0;
-                maxAcJDetailID = (from c in context.AcJournalDetails orderby c.AcJournalDetailID descending select c.AcJournalDetailID).FirstOrDefault();
+                    acjournalDetails.AcJournalID = acJournalMaster.AcJournalID;
+                    acjournalDetails.AcHeadID = data.acJournalDetailsList[i].acHeadID;
+                    acjournalDetails.Remarks = data.acJournalDetailsList[i].AcRemark;
+                    acjournalDetails.BranchID = Convert.ToInt32(Session["AcCompanyID"]);
+                    int maxAcJDetailID = 0;
+                    maxAcJDetailID = (from c in context.AcJournalDetails orderby c.AcJournalDetailID descending select c.AcJournalDetailID).FirstOrDefault();
 
-                acjournalDetails.AcJournalDetailID = maxAcJDetailID + 1;
-                context.AcJournalDetails.Add(acjournalDetails);
-                context.SaveChanges();
+                    acjournalDetails.AcJournalDetailID = maxAcJDetailID + 1;
+                    context.AcJournalDetails.Add(acjournalDetails);
+                    context.SaveChanges();
+                }
             }
             ViewBag.SuccessMsg = "You have successfully added Journal Voucher.";
             return RedirectToAction("AcJournalVoucherIndex");
@@ -839,27 +858,30 @@ new AcGroupModel()
 
             for (int i = 0; i < data.acJournalDetailsList.Count; i++)
             {
-                AcJournalDetail acjournalDetails = new AcJournalDetail();
-                int maxAcJDetailID = 0;
-                maxAcJDetailID = (from c in context.AcJournalDetails orderby c.AcJournalDetailID descending select c.AcJournalDetailID).FirstOrDefault();
-
-                acjournalDetails.AcJournalDetailID = maxAcJDetailID + 1;
-                if (data.acJournalDetailsList[i].IsDebit == 1)
+                if (data.acJournalDetailsList[i].IsDeleted != true)
                 {
-                    acjournalDetails.Amount = Convert.ToDecimal(data.acJournalDetailsList[i].Amount);
-                }
-                else
-                {
-                    acjournalDetails.Amount = (-1) * Convert.ToDecimal(data.acJournalDetailsList[i].Amount);
-                }
+                    AcJournalDetail acjournalDetails = new AcJournalDetail();
+                    int maxAcJDetailID = 0;
+                    maxAcJDetailID = (from c in context.AcJournalDetails orderby c.AcJournalDetailID descending select c.AcJournalDetailID).FirstOrDefault();
+
+                    acjournalDetails.AcJournalDetailID = maxAcJDetailID + 1;
+                    if (data.acJournalDetailsList[i].IsDebit == 1)
+                    {
+                        acjournalDetails.Amount = Convert.ToDecimal(data.acJournalDetailsList[i].Amount);
+                    }
+                    else
+                    {
+                        acjournalDetails.Amount = (-1) * Convert.ToDecimal(data.acJournalDetailsList[i].Amount);
+                    }
 
 
-                acjournalDetails.AcJournalID = obj.AcJournalID;
-                acjournalDetails.AcHeadID = data.acJournalDetailsList[i].acHeadID;
-                acjournalDetails.Remarks = data.acJournalDetailsList[i].AcRemark;
-                acjournalDetails.BranchID = Convert.ToInt32(Session["AcCompanyID"]);
-                context.AcJournalDetails.Add(acjournalDetails);
-                context.SaveChanges();
+                    acjournalDetails.AcJournalID = obj.AcJournalID;
+                    acjournalDetails.AcHeadID = data.acJournalDetailsList[i].acHeadID;
+                    acjournalDetails.Remarks = data.acJournalDetailsList[i].AcRemark;
+                    acjournalDetails.BranchID = Convert.ToInt32(Session["AcCompanyID"]);
+                    context.AcJournalDetails.Add(acjournalDetails);
+                    context.SaveChanges();
+                }
             }
             ViewBag.SuccessMsg = "You have successfully added Journal Voucher.";
             return RedirectToAction("AcJournalVoucherIndex");
@@ -905,9 +927,22 @@ new AcGroupModel()
         }
 
 
-        public ActionResult IndexAcBook()
+        public ActionResult IndexAcBook(string FromDate,string ToDate)
         {
-            return View(context.AcJournalMasterSelectAll(Convert.ToInt32(Session["fyearid"].ToString()), Convert.ToInt32(Session["AcCompanyID"].ToString())));
+            if(!String.IsNullOrEmpty(FromDate)&& !String.IsNullOrEmpty(ToDate))
+            {
+                var SDate = Convert.ToDateTime(FromDate);
+                var EDate = Convert.ToDateTime(ToDate);
+                var AcBookList=  context.AcJournalMasterSelectAll(Convert.ToInt32(Session["fyearid"].ToString()), Convert.ToInt32(Session["AcCompanyID"].ToString()),SDate,EDate);
+                return View(AcBookList);
+
+            }
+            else
+            {
+                var AcBookList = context.AcJournalMasterSelectAll(Convert.ToInt32(Session["fyearid"].ToString()), Convert.ToInt32(Session["AcCompanyID"].ToString()), DateTime.Now.Date, DateTime.Now);
+                return View(AcBookList);
+
+            }
         }
 
 
@@ -1199,6 +1234,9 @@ new AcGroupModel()
                 acJournalDetail.BranchID = Convert.ToInt32(Session["branchid"]);
                 acJournalDetail.AcJournalID = ajm.AcJournalID;
                 acJournalDetail.Remarks = v.AcJDetailVM[i].Rem;
+                acJournalDetail.TaxAmount = v.AcJDetailVM[i].TaxAmount;
+                acJournalDetail.TaxPercent = v.AcJDetailVM[i].Taxpercent;
+                acJournalDetail.SupplierID = v.AcJDetailVM[i].SupplierID;
 
                 if (StatusTrans == "P")
                 {
@@ -1231,7 +1269,7 @@ new AcGroupModel()
             }
 
             ViewBag.SuccessMsg = "You have successfully added Record";
-            return View("IndexAcBook", context.AcJournalMasterSelectAll(Convert.ToInt32(Session["fyearid"].ToString()), Convert.ToInt32(Session["AcCompanyID"].ToString())));
+            return View("IndexAcBook", context.AcJournalMasterSelectAll(Convert.ToInt32(Session["fyearid"].ToString()), Convert.ToInt32(Session["AcCompanyID"].ToString()),DateTime.Now.Date,DateTime.Now));
 
         }
 
@@ -1372,6 +1410,9 @@ new AcGroupModel()
                 acJournalDetail.BranchID = Convert.ToInt32(Session["branchid"]);
                 acJournalDetail.AcJournalID = ajm.AcJournalID;
                 acJournalDetail.Remarks = v.AcJDetailVM[i].Rem;
+                acJournalDetail.SupplierID = v.AcJDetailVM[i].SupplierID;
+                acJournalDetail.TaxAmount = v.AcJDetailVM[i].TaxAmount;
+                acJournalDetail.TaxPercent = v.AcJDetailVM[i].Taxpercent;
                 if (StatusTrans == "P")
                 {
                     acJournalDetail.Amount = (v.AcJDetailVM[i].Amt);
@@ -1445,7 +1486,7 @@ new AcGroupModel()
                 DAL.DeleteAcAnalysisHeadAllocation(iAcAnalysisHeadAllocation);
             }
             ViewBag.SuccessMsg = "You have successfully added Record";
-            return View("IndexAcBook", context.AcJournalMasterSelectAll(Convert.ToInt32(Session["fyearid"].ToString()), Convert.ToInt32(Session["AcCompanyID"].ToString())));
+            return View("IndexAcBook", context.AcJournalMasterSelectAll(Convert.ToInt32(Session["fyearid"].ToString()), Convert.ToInt32(Session["AcCompanyID"].ToString()),DateTime.Now.Date,DateTime.Now));
             //string cheque = "";
             //string StatusTrans = "";
 
@@ -1635,7 +1676,22 @@ new AcGroupModel()
 
 
 
-
+        public ActionResult DeleteAcBook(int id)
+        {
+            var  a = (from c in context.AcJournalMasters where c.AcJournalID == id select c).FirstOrDefault();
+            a.StatusDelete = true;
+            context.SaveChanges();
+            ViewBag.SuccessMsg = "You have successfully deleted Account Journal.";
+            return View("IndexAcBook", context.AcJournalMasterSelectAll(Convert.ToInt32(Session["fyearid"].ToString()), Convert.ToInt32(Session["AcCompanyID"].ToString()), DateTime.Now.Date, DateTime.Now));
+        }
+        public ActionResult DeleteAcJournalVoucher(int id)
+        {
+            AcJournalMaster a = (from c in context.AcJournalMasters where c.AcJournalID == id select c).FirstOrDefault();
+            a.StatusDelete = true;
+            context.SaveChanges();
+            ViewBag.SuccessMsg = "You have successfully deleted Account Journal.";
+            return View("AcJournalVoucherIndex", context.AcJournalMasterSelectAllJV(Convert.ToInt32(Session["fyearid"].ToString()), Convert.ToInt32(Session["AcCompanyID"].ToString()),DateTime.Now.Date,DateTime.Now));
+        }
         public JsonResult GetAcJDetails(Nullable<int> id, int? transtype)
         {
             //var acjlist = (from c in context.AcJournalDetails where c.AcJournalID == id select c).ToList();
@@ -1651,7 +1707,6 @@ new AcGroupModel()
             }
 
             var acjlist = context.AcJournalDetailSelectByAcJournalID(id, TransType).ToList();
-
             List<AcJournalDetailVM> AcJDetailVM = new List<AcJournalDetailVM>();
             foreach (var item in acjlist)
             {
@@ -1671,6 +1726,15 @@ new AcGroupModel()
                 }
                 v.Rem = item.Remarks;
                 v.AcJournalDetID = item.AcJournalDetailID;
+                var details = (from d in context.AcJournalDetails where d.AcJournalDetailID == item.AcJournalDetailID select d).FirstOrDefault();
+                v.SupplierID = details.SupplierID;
+                var supplier = (from d in context.Suppliers where d.SupplierID == details.SupplierID select d).FirstOrDefault();
+                if (supplier != null)
+                {
+                    v.SupplierName = supplier.SupplierName;
+                }
+                v.Taxpercent = details.TaxPercent;
+                v.TaxAmount = details.TaxAmount;
                 AcJDetailVM.Add(v);
             }
 
@@ -2612,24 +2676,24 @@ new AcGroupModel()
             var BranchId = Convert.ToInt32(Session["AcCompanyID"]);
             var accounthead = context.AcHeads.ToList().OrderBy(s => s.AcHead1);
             //var accounthead = context.AcHeadSelectAll(Convert.ToInt32(Session["AcCompanyID"].ToString())).OrderBy(d=>d.AcHead);
-            foreach (var item in accounthead)
-            {
-                var acgroup = context.AcGroups.Where(d => d.AcGroupID == item.AcGroupID).FirstOrDefault();
-                if (acgroup != null)
-                {
-                    var actype = context.AcTypes.Where(d => d.Id == acgroup.AcTypeId).FirstOrDefault();
-                    if (actype != null)
-                    {
-                        item.AcHead1 = item.AcHead1 + " - " + actype.AccountType;
-                    }
-                }
-            }
+            //foreach (var item in accounthead)
+            //{
+            //    var acgroup = context.AcGroups.Where(d => d.AcGroupID == item.AcGroupID).FirstOrDefault();
+            //    if (acgroup != null)
+            //    {
+            //        var actype = context.AcTypes.Where(d => d.Id == acgroup.AcTypeId).FirstOrDefault();
+            //        if (actype != null)
+            //        {
+            //            item.AcHead1 = item.AcHead1 + " - " + actype.AccountType;
+            //        }
+            //    }
+            //}
             ViewBag.AccountHeadID = accounthead;
             var PageControl = context.PageControlMasters.ToList();
             ViewBag.Pagecontrol = new SelectList(PageControl, "Id", "ControlName");
             var PageControlField = context.PageControlFields.ToList();
             ViewBag.Remarks = new SelectList(PageControlField, "Id", "FieldName");
-
+            ViewBag.AccountControl = context.AccountHeadControls.ToList();
             return View();
         }
         [HttpPost]
@@ -2638,45 +2702,55 @@ new AcGroupModel()
             var BranchId = Convert.ToInt32(Session["branchid"]);
             var accounthead = context.AcHeads.ToList().OrderBy(s => s.AcHead1);
             //var accounthead = context.AcHeadSelectAll(Convert.ToInt32(Session["AcCompanyID"].ToString())).OrderBy(d=>d.AcHead);
-            foreach (var item in accounthead)
-            {
-                var acgroup = context.AcGroups.Where(d => d.AcGroupID == item.AcGroupID).FirstOrDefault();
-                if (acgroup != null)
-                {
-                    var actype = context.AcTypes.Where(d => d.Id == acgroup.AcTypeId).FirstOrDefault();
-                    if (actype != null)
-                    {
-                        item.AcHead1 = item.AcHead1 + " - " + actype.AccountType;
-                    }
-                }
-            }
+            //foreach (var item in accounthead)
+            //{
+            //    var acgroup = context.AcGroups.Where(d => d.AcGroupID == item.AcGroupID).FirstOrDefault();
+            //    if (acgroup != null)
+            //    {
+            //        var actype = context.AcTypes.Where(d => d.Id == acgroup.AcTypeId).FirstOrDefault();
+            //        if (actype != null)
+            //        {
+            //            item.AcHead1 = item.AcHead1 + " - " + actype.AccountType;
+            //        }
+            //    }
+            //}
             ViewBag.AccountHeadID = accounthead;
             var PageControl = context.PageControlMasters.ToList();
             ViewBag.Pagecontrol = new SelectList(PageControl, "Id", "ControlName");
             var PageControlField = context.PageControlFields.ToList();
             ViewBag.Remarks = new SelectList(PageControlField, "Id", "FieldName");
+            ViewBag.AccountControl = context.AccountHeadControls.ToList();
 
             var data = new AcHeadControl();
             data.AccountHeadID = acheadcontrol.AccountHeadID;
             data.AccountName = acheadcontrol.AccountName;
             data.AccountNature = acheadcontrol.AccountNature;
             data.Remarks = acheadcontrol.Remarks;
-            data.Pagecontrol = acheadcontrol.Pagecontrol;
-            if (ModelState.IsValid)
-            {
-                if (acheadcontrol.Remarks == 0)
+            try {
+                data.Pagecontrol = acheadcontrol.Pagecontrol;
+                if (ModelState.IsValid)
                 {
-                    data.CheckSum = false;
+                    if (acheadcontrol.Remarks == 0)
+                    {
+                        data.CheckSum = false;
+                    }
+                    else
+                    {
+                        data.CheckSum = true;
+                    }
+                    context.AcHeadControls.Add(data);
+                    context.SaveChanges();
+
+                    ViewBag.SuccessMsg = "You have successfully added Account Assign Head";
+                    return RedirectToAction("IndexAcHeadAssign");
+
                 }
-                else
-                {
-                    data.CheckSum = true;
-                }
-                context.AcHeadControls.Add(data);
-                context.SaveChanges();
-                ViewBag.SuccessMsg = "You have successfully added Account Assign Head";
-                return RedirectToAction("IndexAcHeadAssign");
             }
+            catch (DbEntityValidationException e)
+            {
+
+            }
+            
             return View(acheadcontrol);
         }
         [HttpGet]
@@ -2686,24 +2760,31 @@ new AcGroupModel()
 
             var BranchId = Convert.ToInt32(Session["branchid"]);
             var accounthead = context.AcHeads.ToList().OrderBy(s => s.AcHead1);
-            //var accounthead = context.AcHeadSelectAll(Convert.ToInt32(Session["AcCompanyID"].ToString())).OrderBy(d=>d.AcHead);
-            foreach (var item in accounthead)
+            var acheadName = context.AcHeads.Where(d => d.AcHeadID == data.AccountHeadID).FirstOrDefault();
+            if (acheadName == null)
             {
-                var acgroup = context.AcGroups.Where(d => d.AcGroupID == item.AcGroupID).FirstOrDefault();
-                if (acgroup != null)
-                {
-                    var actype = context.AcTypes.Where(d => d.Id == acgroup.AcTypeId).FirstOrDefault();
-                    if (actype != null)
-                    {
-                        item.AcHead1 = item.AcHead1 + " - " + actype.AccountType;
-                    }
-                }
+                acheadName = new AcHead();
             }
+            ViewBag.acheadname = acheadName.AcHead1;
+            //var accounthead = context.AcHeadSelectAll(Convert.ToInt32(Session["AcCompanyID"].ToString())).OrderBy(d=>d.AcHead);
+            //foreach (var item in accounthead)
+            //{
+            //    var acgroup = context.AcGroups.Where(d => d.AcGroupID == item.AcGroupID).FirstOrDefault();
+            //    if (acgroup != null)
+            //    {
+            //        var actype = context.AcTypes.Where(d => d.Id == acgroup.AcTypeId).FirstOrDefault();
+            //        if (actype != null)
+            //        {
+            //            item.AcHead1 = item.AcHead1 + " - " + actype.AccountType;
+            //        }
+            //    }
+            //}
             ViewBag.AccountHeadID = accounthead;
             var PageControl = context.PageControlMasters.ToList();
             ViewBag.Pagecontrol = PageControl;
             var PageControlField = context.PageControlFields.Where(d => d.PageControlId == data.Pagecontrol).ToList();
             ViewBag.Remarks = PageControlField;
+            ViewBag.AccountControl = context.AccountHeadControls.ToList();
 
             return View(data);
         }
@@ -2712,27 +2793,33 @@ new AcGroupModel()
         {
             var data = context.AcHeadControls.Find(acheadcontrol.Id);
 
+            var acheadName = context.AcHeads.Where(d => d.AcHeadID == data.AccountHeadID).FirstOrDefault();
+            if(acheadName==null)
+            {
+                acheadName = new AcHead();
+            }
+            ViewBag.acheadname = acheadName.AcHead1;
             var BranchId = Convert.ToInt32(Session["branchid"]);
             var accounthead = context.AcHeads.ToList().OrderBy(s => s.AcHead1);
             //var accounthead = context.AcHeadSelectAll(Convert.ToInt32(Session["AcCompanyID"].ToString())).OrderBy(d=>d.AcHead);
-            foreach (var item in accounthead)
-            {
-                var acgroup = context.AcGroups.Where(d => d.AcGroupID == item.AcGroupID).FirstOrDefault();
-                if (acgroup != null)
-                {
-                    var actype = context.AcTypes.Where(d => d.Id == acgroup.AcTypeId).FirstOrDefault();
-                    if (actype != null)
-                    {
-                        item.AcHead1 = item.AcHead1 + " - " + actype.AccountType;
-                    }
-                }
-            }
+            //foreach (var item in accounthead)
+            //{
+            //    var acgroup = context.AcGroups.Where(d => d.AcGroupID == item.AcGroupID).FirstOrDefault();
+            //    if (acgroup != null)
+            //    {
+            //        var actype = context.AcTypes.Where(d => d.Id == acgroup.AcTypeId).FirstOrDefault();
+            //        if (actype != null)
+            //        {
+            //            item.AcHead1 = item.AcHead1 + " - " + actype.AccountType;
+            //        }
+            //    }
+            //}
             ViewBag.AccountHeadID = accounthead;
             var PageControl = context.PageControlMasters.ToList();
             ViewBag.Pagecontrol = PageControl;
             var PageControlField = context.PageControlFields.Where(d => d.PageControlId == data.Pagecontrol).ToList();
             ViewBag.Remarks = PageControlField;
-
+            ViewBag.AccountControl = context.AccountHeadControls.ToList();
 
             data.AccountHeadID = acheadcontrol.AccountHeadID;
             data.AccountName = acheadcontrol.AccountName;
@@ -2920,8 +3007,30 @@ new AcGroupModel()
             return RedirectToAction("IndexAcType", "AccountingModule", new { id = 0 });
         }
 
+        public ActionResult AccountHead(string term)
+        {
+            int branchID = Convert.ToInt32(Session["branchid"].ToString());
+            if (!String.IsNullOrEmpty(term))
+            {
+             var  AccountHeadList = context.AcHeads.Where(c => c.AcBranchID==branchID && c.AcHead1.ToLower().Contains(term.ToLower())).ToList(); ;
+             return Json(AccountHeadList, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                var AccountHeadList = context.AcHeads.ToList();                
+                return Json(AccountHeadList, JsonRequestBehavior.AllowGet);
+            }
+        }
 
-
+        public JsonResult GetAcHeadById(int Id)
+        {
+            var data = (from d in context.AcHeads where d.AcHeadID == Id select d).FirstOrDefault();
+            if(data==null)
+            {
+                data = new AcHead();
+            }
+            return Json(new{ data = data}, JsonRequestBehavior.AllowGet);
+        }
     }
 
 
