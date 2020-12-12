@@ -67,6 +67,11 @@ namespace TrueBooksMVC.Controllers
 
                 if (query.Count > 0)
                 {
+                    ViewBag.Company = new SelectList(db.AcCompanies, "AcCompanyID", "AcCompany1");
+                    ViewBag.CountryID = new SelectList(db.CountryMasters, "CountryID", "CountryName");
+                    ViewBag.CurrencyID = new SelectList(db.CurrencyMasters, "CurrencyID", "CurrencyName");
+                    ViewBag.DesignationID = new SelectList(db.Designations, "DesignationID", "Designation1");
+                    ViewBag.LocationID = new SelectList(db.Locations, "LocationID", "Location1");
                     ViewBag.SuccessMsg = "Branch name is already exist";
                     return View();
                 }

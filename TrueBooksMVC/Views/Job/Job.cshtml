@@ -1642,12 +1642,14 @@
                         <div class="panel-body shadowbr">
                             <div class="row no-margin">
                                 <div class="col-xs-6 col-sm-3 col-md-3 no-padding">
-                                    <label class="headinglabel">Container Type</label>
+                                    <label class="headinglabel required">Container Type</label>
                                     <input type="hidden" name="JContainerDetailID" id="JContainerDetailID" value="0" ng-model="JContainerDetailID" />
-                                    <select ng-model="ContainerTypeID" id="ContainerTypeID" class="form-control" ng_change="getContainers()">
-                                        <option value='0'>Select</option>
+                                    <select ng-model="ContainerTypeID" id="ContainerTypeID" class="form-control" ng_change="getContainers()" required>
+                                        <option value="">Select</option>
                                         <option ng-repeat="b in ContainerTypeList" ng-selected="ContainerTypeID==b.ContainerTypeID" value='{{b.ContainerTypeID}}'>{{b.ContainerType}}</option>
                                     </select>
+                                    <span class="field-validation-error" id="spanContainerTypeID"></span>
+
                                 </div>
                                 <div class="col-xs-6 col-sm-3 col-md-3 no-padding">
                                     <label class="headinglabel">Container No</label>

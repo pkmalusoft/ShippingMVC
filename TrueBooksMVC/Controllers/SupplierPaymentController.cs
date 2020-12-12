@@ -443,9 +443,99 @@ namespace TrueBooksMVC.Controllers
                     
                             
                     }
+                var data = (from c in Context1.RecPays where c.RecPayID == RecP.RecPayID select c).FirstOrDefault();
+                int acjid = 0;
+                if (data.AcJournalID != null)
+                {
+                    acjid = data.AcJournalID.Value;
                 }
-                
-            return RedirectToAction("SupplierPaymentDetails", "SupplierPayment", new { ID = RecP.RecPayID });
+                else
+                {
+                    var LatestJournal = Context1.AcJournalMasters.ToList().LastOrDefault();
+                    var JournalId = 1;
+                    if (LatestJournal != null)
+                    {
+                        JournalId = LatestJournal.AcJournalID + 1;
+                    }
+                    var acjournalmaster = new AcJournalMaster();
+                    acjournalmaster.AcFinancialYearID = Convert.ToInt32(Session["fyearid"]);
+                    acjournalmaster.AcCompanyID = Convert.ToInt32(Session["AcCompanyID"]);
+                    acjournalmaster.VoucherType = "CBR";
+                    acjournalmaster.TransType = null;
+                    acjournalmaster.TransDate = DateTime.Now;
+                    acjournalmaster.UserID = Convert.ToInt32(Session["UserID"]);
+                    acjournalmaster.AcJournalID = JournalId;
+                    acjournalmaster.VoucherNo = data.DocumentNo;
+                    Context1.AcJournalMasters.Add(acjournalmaster);
+                    Context1.SaveChanges();
+                    var Costupdate = (from d in Context1.RecPays where d.RecPayID == RecP.RecPayID select d).FirstOrDefault();
+                    Costupdate.AcJournalID = JournalId;
+                    Context1.Entry(Costupdate).State = EntityState.Modified;
+                    Context1.SaveChanges();
+                    acjid = JournalId;
+                }
+
+
+
+
+                var pagecontrol = (from d in Context1.PageControlMasters where d.ControlName.ToLower() == "customer receipts" select d).FirstOrDefault();
+                var accountsetup = (from d in Context1.AcHeadControls where d.Pagecontrol == pagecontrol.Id select d).ToList();
+
+                //int custcontrolacid = (from c in entity.AcHeadAssigns select c.CustomerControlAcID.Value).FirstOrDefault();
+                ////int freightacheadid = 158;
+                ////int provcontrolacid = (from c in entity.AcHeadAssigns select c.ProvisionCostControlAcID.Value).FirstOrDefault();
+                ////int accruedcontrolacid = (from c in entity.AcHeadAssigns select c.AccruedCostControlAcID.Value).FirstOrDefault();
+                foreach (var acsetup in accountsetup)
+                {
+                    var acjdetail1 = (from x in Context1.AcJournalDetails where x.AcJournalID == acjid && x.AcHeadID == acsetup.AccountHeadID select x).FirstOrDefault();
+                    int acjdetail2 = 0;
+                    decimal? amount = 0;
+                    if (acsetup.AccountName.ToLower() == "paid amount")
+                    {
+                        if (acsetup.AccountNature == true)
+                        {
+                            amount = RecP.Amount * -1;
+                        }
+                        else
+                        {
+                            amount = RecP.Amount;
+                        }
+                    }
+                    
+                    if (acjdetail1 != null)
+                    {
+                        acjdetail2 = acjdetail1.AcJournalDetailID;
+                    }
+                    var data1 = (from x in Context1.AcJournalDetails where x.AcJournalDetailID == acjdetail2 select x).FirstOrDefault();
+                    if (data1 != null)
+                    {
+                        data1.Amount = amount;
+                        Context1.Entry(data1).State = EntityState.Modified;
+                        Context1.SaveChanges();
+                    }
+                    else
+                    {
+                        var acJournalDetailid = Context1.AcJournalDetails.ToList().LastOrDefault();
+                        var acjournalDet_id = 1;
+                        if (acJournalDetailid != null)
+                        {
+                            acjournalDet_id = acJournalDetailid.AcJournalDetailID + 1;
+                        }
+
+                        data1 = new AcJournalDetail();
+                        data1.AcHeadID = acsetup.AccountHeadID;
+                        data1.AcJournalID = acjid;
+                        data1.Amount = amount;
+                        data1.AcJournalDetailID = acjournalDet_id;
+                        Context1.AcJournalDetails.Add(data1);
+                        Context1.SaveChanges();
+
+                    }
+                }
+
+                }
+
+                return RedirectToAction("SupplierPaymentDetails", "SupplierPayment", new { ID = RecP.RecPayID });
 
         }
 

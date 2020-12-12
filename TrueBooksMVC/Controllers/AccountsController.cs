@@ -15,6 +15,7 @@ using CrystalDecisions.CrystalReports.Engine;
 using CrystalDecisions.Shared;
 namespace TrueBooksMVC.Controllers
 {
+    [SessionExpire]
     public class AccountsController : Controller
     {
        
@@ -672,18 +673,6 @@ namespace TrueBooksMVC.Controllers
                     return View(result.FirstOrDefault());
                 }
             }
-
-
-
-            //Methods for AcHeadAssign
-
-            //public ActionResult IndexAcHeadAssign()
-            //{
-            //    return View(db.AcHeadAssignSelectAll());
-            //}
-
-
-
 
 
             public ActionResult CreateAcHeadAssign()
@@ -2960,7 +2949,7 @@ namespace TrueBooksMVC.Controllers
                 ViewBag.Remarks = PageControlField;
                 ViewBag.AccountControl = db.AccountHeadControls.ToList();
                 if (db.AcHeads.Find(data.AccountHeadID) != null)
-                    @ViewBag.AccountHeadName = db.AcHeads.Find(data.AccountHeadID).AcHead1;
+                    ViewBag.AccountHeadName = db.AcHeads.Find(data.AccountHeadID).AcHead1;
 
                 return View(data);
             }

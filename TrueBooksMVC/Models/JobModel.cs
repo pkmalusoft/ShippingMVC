@@ -18,8 +18,8 @@ namespace TrueBooksMVC.Models
 
         public int AddJob(JobGeneration JG)
         {
-            ObjectParameter objMaxJobId = new ObjectParameter("MaxJObID",0);
-            int query = Convert.ToInt32(Context1.SP_InsertJob(JG.JobCode, JG.JobTypeID, JG.JobDate, JG.ConsignerID, JG.ConsigneeID, JG.InvoiceToID, JG.EmployeeID, JG.ShipperID, JG.IPTNo, JG.RefNo, JG.BillOfEnquiry, JG.BLDate, JG.DeliveryOrderNo, JG.BLStatus, JG.CLFValue, JG.DepositAmount, JG.DepositDate, JG.ReceiptNo, JG.RefundDate, JG.RefundAmount, JG.VesselID, JG.VoyageNo, JG.Freight, JG.SailingDate, JG.ArrivalDate, JG.MBL, JG.HBL, JG.LoadPortID, JG.DestinationPortID, JG.DeliveryPlaceID, JG.ReceiptPlaceID, JG.CountryofOriginID, JG.TransporterID, JG.CollectionDate, JG.DeliveryInstructions, JG.TruckRegNo, JG.DriverDetails, JG.Remarks, JG.RotationNo, JG.CarrierID, JG.CollectionPoint, JG.DeliveryNote, JG.DeliveryPoint, JG.CollectionInstructions, Convert.ToInt32(JG.InvoiceNo.Value), Convert.ToDateTime(JG.InvoiceDate), JG.MainJobID.HasValue ? JG.MainJobID.Value : 0,JG.DeliveryDate,JG.DepartingDate,JG.Flight,JG.MAWB,JG.HAWB, JG.MRN,JG.DeliveryOrderDate, JG.shippingInstruction, objMaxJobId));
+            ObjectParameter objMaxJobId = new ObjectParameter("MaxJObID", 0);
+            int query = Convert.ToInt32(Context1.SP_InsertJob(JG.JobCode, JG.JobTypeID, JG.JobDate, JG.ConsignerID, JG.ConsigneeID, JG.InvoiceToID, JG.EmployeeID, JG.ShipperID, JG.IPTNo, JG.RefNo, JG.BillOfEnquiry, JG.BLDate, JG.DeliveryOrderNo, JG.BLStatus, JG.CLFValue, JG.DepositAmount, JG.DepositDate, JG.ReceiptNo, JG.RefundDate, JG.RefundAmount, JG.VesselID, JG.VoyageNo, JG.Freight, JG.SailingDate, JG.ArrivalDate, JG.MBL, JG.HBL, JG.LoadPortID, JG.DestinationPortID, JG.DeliveryPlaceID, JG.ReceiptPlaceID, JG.CountryofOriginID, JG.TransporterID, JG.CollectionDate, JG.DeliveryInstructions, JG.TruckRegNo, JG.DriverDetails, JG.Remarks, JG.RotationNo, JG.CarrierID, JG.CollectionPoint, JG.DeliveryNote, JG.DeliveryPoint, JG.CollectionInstructions, Convert.ToInt32(JG.InvoiceNo.Value), Convert.ToDateTime(JG.InvoiceDate), JG.MainJobID.HasValue ? JG.MainJobID.Value : 0, JG.DeliveryDate, JG.DepartingDate, JG.Flight, JG.MAWB, JG.HAWB, JG.MRN, JG.DeliveryOrderDate, JG.shippingInstruction, objMaxJobId));
 
             return Convert.ToInt32(objMaxJobId.Value);
         }
@@ -40,7 +40,7 @@ namespace TrueBooksMVC.Models
         {
             JI.CostUpdationStatus = "1";
             JI.InvoiceStatus = "1";
-            int query = Context1.SP_InsertCharges(JI.InvoiceID,JI.JobID, JI.RevenueTypeID, JI.ProvisionCurrencyID, JI.ProvisionExchangeRate, JI.ProvisionForeign, JI.ProvisionHome, JI.SalesCurrencyID, JI.SalesExchangeRate, JI.SalesForeign, JI.SalesHome, JI.Cost, JI.SupplierID, JI.RevenueCode, JI.Quantity, JI.UnitID, JI.ProvisionRate, JI.SalesRate, JI.AmtInWords, JI.InvoiceStatus, JI.CostUpdationStatus, Convert.ToInt32(UserID),JI.Description, JI.Tax, JI.TaxAmount, JI.Margin,JI.InvoiceDate,JI.InvoiceNumber,JI.CancelledInvoice, JI.CancelReason);
+            int query = Context1.SP_InsertCharges(JI.InvoiceID, JI.JobID, JI.RevenueTypeID, JI.ProvisionCurrencyID, JI.ProvisionExchangeRate, JI.ProvisionForeign, JI.ProvisionHome, JI.SalesCurrencyID, JI.SalesExchangeRate, JI.SalesForeign, JI.SalesHome, JI.Cost, JI.SupplierID, JI.RevenueCode, JI.Quantity, JI.UnitID, JI.ProvisionRate, JI.SalesRate, JI.AmtInWords, JI.InvoiceStatus, JI.CostUpdationStatus, Convert.ToInt32(UserID), JI.Description, JI.Tax, JI.TaxAmount, JI.Margin, JI.InvoiceDate, JI.InvoiceNumber, JI.CancelledInvoice, JI.CancelReason);
             return query;
         }
 
@@ -102,7 +102,7 @@ namespace TrueBooksMVC.Models
                 JG1.LoadPortID = item.LoadPortID;
 
                 JG1.Freight = item.Freight;
-                JG1.BLStatus= item.BLStatus1;
+                JG1.BLStatus = item.BLStatus1;
                 JG1.CarrierID = item.CarrierID;
                 JG1.CLFValue = item.CLFValue;
                 JG1.CollectionDate = item.CollectionDate;
@@ -117,7 +117,7 @@ namespace TrueBooksMVC.Models
                 JG1.DeliveryOrderDate = item.DeliveryOrderDate;
                 JG1.DeliveryOrderNo = item.DeliveryOrderNo;
                 JG1.DeliveryPoint = item.DeliveryPoint;
-                JG1.DepositAmount = item.DepositAmount;
+                JG1.DepositAmount = Math.Round(Convert.ToDecimal(item.DepositAmount), 2);
                 JG1.DepositDate = item.DepositDate;
                 JG1.DriverDetails = item.DriverDetails;
                 JG1.HBL = item.HBL;
@@ -125,7 +125,7 @@ namespace TrueBooksMVC.Models
                 JG1.IPTNo = item.IPTNo;
                 JG1.RefNo = item.RefNo;
                 JG1.MBL = item.MBL;
-                JG1.RefundAmount = item.RefundAmount;
+                JG1.RefundAmount = Math.Round(Convert.ToDecimal(item.RefundAmount), 2);
                 JG1.RefundDate = item.RefundDate;
                 JG1.Remarks = item.Remarks;
                 JG1.RotationNo = item.RotationNo;
@@ -144,7 +144,7 @@ namespace TrueBooksMVC.Models
                 JG1.MAWB = item.MAWB;
                 JG1.Flight = item.Flight;
                 JG1.DepartingDate = item.DepartingDate;
-              
+
                 //JG1.BLStatus1 = JG1.BLStatus1;
 
 
@@ -256,7 +256,7 @@ namespace TrueBooksMVC.Models
             return i;
         }
 
-        public int DeleteJobDetailsByJobID(int JobID,string InvoiceIds,string DeletedCargoIds,string DeletedContainerIds,string DeletedBillOfEntryIds,string DeletedAuditLogIDs)
+        public int DeleteJobDetailsByJobID(int JobID, string InvoiceIds, string DeletedCargoIds, string DeletedContainerIds, string DeletedBillOfEntryIds, string DeletedAuditLogIDs)
         {
             int i = Context1.SP_DeleteJobDetailsByJobID(JobID, InvoiceIds, DeletedCargoIds, DeletedContainerIds, DeletedBillOfEntryIds, DeletedAuditLogIDs);
             return i;
@@ -294,14 +294,14 @@ namespace TrueBooksMVC.Models
             return i;
         }
 
-        public int UpdateJobIDinAllModules(int JobID, int UserID,int fyearid)
+        public int UpdateJobIDinAllModules(int JobID, int UserID, int fyearid)
         {
-            int i = Context1.SP_UpdateCargoContainerBillByJobID(JobID, UserID,fyearid);
+            int i = Context1.SP_UpdateCargoContainerBillByJobID(JobID, UserID, fyearid);
 
             return i;
         }
 
-        public int UpdateInvoiceNumber(int JobID, int InvoiceNumber, DateTime Invdate,int Fyearid)
+        public int UpdateInvoiceNumber(int JobID, int InvoiceNumber, DateTime Invdate, int Fyearid)
         {
             int i = Context1.SP_UpdateInvoiceNumber(InvoiceNumber, Invdate, JobID);
 

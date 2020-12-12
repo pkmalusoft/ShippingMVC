@@ -146,12 +146,104 @@ namespace TrueBooksMVC.Controllers
                         //}
                         n = n + 1;
                     }
-                    CU.saveAcJournalDetails(costupdationId, Convert.ToInt32(Session["fyearid"]));
+
+                    var data = (from c in entity.CostUpdations where c.CostUpdationID == costupdationId select c).FirstOrDefault();
+                    int acjid = 0;
+                    if (data.AcJournalID != null)
+                    {
+                        acjid = data.AcJournalID.Value;
+                    }
+                    else
+                    {
+                        var LatestJournal = entity.AcJournalMasters.ToList().LastOrDefault();
+                        var JournalId = 1;
+                        if (LatestJournal != null)
+                        {
+                            JournalId = LatestJournal.AcJournalID + 1;
+                        }
+                        var acjournalmaster = new AcJournalMaster();
+                        acjournalmaster.AcFinancialYearID = Convert.ToInt32(Session["fyearid"]);
+                        acjournalmaster.AcCompanyID = Convert.ToInt32(Session["AcCompanyID"]);
+                        acjournalmaster.VoucherType = "CI";
+                        acjournalmaster.TransType = null;
+                        acjournalmaster.TransDate = DateTime.Now;
+                        acjournalmaster.UserID = Convert.ToInt32(Session["UserID"]);
+                        acjournalmaster.AcJournalID = JournalId;
+                        acjournalmaster.VoucherNo = data.DocumentNo;
+                        entity.AcJournalMasters.Add(acjournalmaster);
+                        entity.SaveChanges();
+                        var Costupdate = (from d in entity.CostUpdations where d.CostUpdationID == costupdationId select d).FirstOrDefault();
+                        Costupdate.AcJournalID = JournalId;
+                        entity.SaveChanges();
+                        acjid = JournalId;
+                    }
+
+
+
+
+                    var pagecontrol = (from d in entity.PageControlMasters where d.ControlName.ToLower() == "cost update" select d).FirstOrDefault();
+                    var accountsetup = (from d in entity.AcHeadControls where d.Pagecontrol == pagecontrol.Id select d).ToList();
+
+                    //int custcontrolacid = (from c in entity.AcHeadAssigns select c.CustomerControlAcID.Value).FirstOrDefault();
+                    ////int freightacheadid = 158;
+                    ////int provcontrolacid = (from c in entity.AcHeadAssigns select c.ProvisionCostControlAcID.Value).FirstOrDefault();
+                    ////int accruedcontrolacid = (from c in entity.AcHeadAssigns select c.AccruedCostControlAcID.Value).FirstOrDefault();
+                    foreach (var acsetup in accountsetup)
+                    {
+                        var acjdetail1 = (from x in entity.AcJournalDetails where x.AcJournalID == acjid && x.AcHeadID == acsetup.AccountHeadID select x).FirstOrDefault();
+                        int acjdetail2 = 0;
+                        decimal? amount = 0;
+                        if (acsetup.AccountName.ToLower() == "invoice amount")
+                        {
+                            if (acsetup.AccountNature == true)
+                            {
+                                amount = CostU.InvoiceAmount * -1;
+                            }
+                            else
+                            {
+                                amount = CostU.InvoiceAmount;
+                            }
+                        }
+
+                        if (acjdetail1 != null)
+                        {
+                            acjdetail2 = acjdetail1.AcJournalDetailID;
+                        }
+                        var data1 = (from x in entity.AcJournalDetails where x.AcJournalDetailID == acjdetail2 select x).FirstOrDefault();
+                        if (data1 != null)
+                        {
+                            data1.Amount = amount;
+                            entity.SaveChanges();
+                        }
+                        else
+                        {
+                            var acJournalDetailid = entity.AcJournalDetails.ToList().LastOrDefault();
+                            var acjournalDet_id = 1;
+                            if (acJournalDetailid != null)
+                            {
+                                acjournalDet_id = acJournalDetailid.AcJournalDetailID + 1;
+                            }
+
+                            data1 = new AcJournalDetail();
+                            data1.AcHeadID = acsetup.AccountHeadID;
+                            data1.AcJournalID = acjid;
+                            data1.Amount = amount;
+                            data1.AcJournalDetailID = acjournalDet_id;
+                            entity.AcJournalDetails.Add(data1);
+                            entity.SaveChanges();
+
+                        }
+
+
+
+                        //CU.saveAcJournalDetails(costupdationId, Convert.ToInt32(Session["fyearid"]));
+
+                    }
                 }
-            }
-            else
-            {
-                return RedirectToAction("Login", "Login");
+                else
+                {
+                    return RedirectToAction("Login", "Login");
+                }
             }
             return RedirectToAction("CostUpdationDetails", "CostUpdation", new { ID = 15 });
         }

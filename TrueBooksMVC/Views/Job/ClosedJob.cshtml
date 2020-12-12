@@ -90,9 +90,10 @@
     <script src="~/Content/jquery.dataTables.min.js"></script>
 
     <script type="text/javascript">
-
+     
         var vIsClosedJObLoaded = false;
         $(document).ready(function () {
+            
             $("#frmdate").css("border-radius", "5px");
             $("#todate").css("border-radius", "5px");
             $("#frmdate1").css("border-radius", "5px");
@@ -194,12 +195,11 @@
                     var jobid = $(this).parent("td").parent("tr").find("#JobID").val();
                 }
             });
-        });
+        
 
 
-    </script>
-    <script type="text/javascript">
-        $(document).ready(function () {
+    
+            
             $("#btnsearch").click(function () {
 
 
@@ -256,13 +256,50 @@
             });
             $("#closejob").click(function () {
 
-                // $("#clousejobdate").show();
-                // $("#openejobdate").hide();
-                $("#tabs-2").hide();
-                $("#tabs-3").show();
+                //// $("#clousejobdate").show();
+                //// $("#openejobdate").hide();
+                //$("#tabs-2").hide();
+                //$("#tabs-3").show();
+                var tbl = $('#dataTables-example').DataTable();
+                var selectedIds = "";
+               
+                var rowcollection = tbl.$(".chkClose:checked", { "page": "all" });
+                rowcollection.each(function (index, elem) {
+                    var checkbox_value = $(this).val();
+                    if (selectedIds == "") {
+                        selectedIds = checkbox_value;
+                    } else {
+                        selectedIds = selectedIds+","+ checkbox_value;
+                    }
+                });
+
+                if (selectedIds == "") {
+                    alert("Please select job from list !");
+                } else {
+                     $.ajax({
+                    url: "@Url.Action("CloseJobsById", "Job")",
+
+                    type: "GET",
+                         data: { selectedVal: selectedIds},
+                    dataType: "json",
+                         success: function (data) {
+                             if (data.success == true) {
+                                 alert("Job Closed Successfully!")
+                                 location.reload();
+                             } else {
+                                 alert(data.message);
+                             }
+                    },
+                    error: function () {
+                        alert("Failed! Please try again.");
+                    }
+                });
+                }
             });
+            document.getElementById("btnsearch1").click(); 
 
         });
+
     </script>
 
     <div ng-app="MyApp" ng-controller="MyController">
@@ -283,168 +320,215 @@
                                 <div class="form-group">
                                     @if (@ViewBag.SuccessMsg != null)
                                     {
-                                    <div class="alert alert-success alert-dismissable" role="alert" id="divMsgHeader" ng-show="SuccessAlert">
-                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-                                        <h4><i class="icon fa fa-check"></i>Alert!</h4>
-                                        <div id="divFinalMsg">@ViewBag.SuccessMsg</div>
-                                    </div>
+                                        <div class="alert alert-success alert-dismissable" role="alert" id="divMsgHeader" ng-show="SuccessAlert">
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                            <h4><i class="icon fa fa-check"></i>Alert!</h4>
+                                            <div id="divFinalMsg">@ViewBag.SuccessMsg</div>
+                                        </div>
                                     }
                                     @using (@Html.BeginForm())
                                     {
-                                    <ul class="nav nav-tabs" style="display:flex; justify-content:flex-end; padding-right:15px;">
-                                        <li><a href="#tabs-1" id="openjob" class="btn btn-primary">Open Job</a></li>
+                                        @*<ul class="nav nav-tabs" style="display:flex; justify-content:flex-end; padding-right:15px;">
+                <li><a href="#tabs-1" id="openjob" class="btn btn-primary">Open Job</a></li>
 
-                                        <li><a href="#tabs-2" id="closejob" class="btn btn-primary">Close Job</a></li>
-                                    </ul>@*
-                                    @*  <div class="row" id="tabs-1">
-                                        <div class="tab-content">
-                                            <div class="panel panel-danger">
-                                                <div class="panel-body">
-                                                    <div class="dataTable_wrapper tblbackground">
-                                                        <table class="table table-striped table-bordered table-hover" id="dataTables-example">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th></th>
-                                                                    <th>Job Code</th>
-                                                                    <th>Job Date</th>
-                                                                    <th>Job Type</th>
-                                                                    <th>Shipper</th>
-                                                                    <th>Consignee</th>
-                                                                    <th>Customer</th>
-                                                                    <th>Invoice No</th>
-                                                                    <th>Invoice Date</th>
+                <li><a href="#tabs-2" id="closejob" class="btn btn-primary">Close Job</a></li>
+            </ul>*@@*
+            @*  <div class="row" id="tabs-1">
+                <div class="tab-content">
+                    <div class="panel panel-danger">
+                        <div class="panel-body">
+                            <div class="dataTable_wrapper tblbackground">
+                                <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>Job Code</th>
+                                            <th>Job Date</th>
+                                            <th>Job Type</th>
+                                            <th>Shipper</th>
+                                            <th>Consignee</th>
+                                            <th>Customer</th>
+                                            <th>Invoice No</th>
+                                            <th>Invoice Date</th>
 
-                                                                </tr>
-                                                            </thead>
-                                                            <tfoot>
-                                                                <tr>
-                                                                    <th style="display:none"></th>
-                                                                    <th>Job Code</th>
-                                                                    <th>Job Date</th>
-                                                                    <th>Job Type</th>
-                                                                    <th>Shipper</th>
-                                                                    <th>Consignee</th>
-                                                                    <th>Customer</th>
-                                                                    <th>Invoice No</th>
-                                                                    <th>Invoice Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th style="display:none"></th>
+                                            <th>Job Code</th>
+                                            <th>Job Date</th>
+                                            <th>Job Type</th>
+                                            <th>Shipper</th>
+                                            <th>Consignee</th>
+                                            <th>Customer</th>
+                                            <th>Invoice No</th>
+                                            <th>Invoice Date</th>
 
-                                                                </tr>
-                                                            </tfoot>
-
-
-                                                            <tbody>
-
-                                                                @for (int i = 0; i < Model.Count(); i++)
-                                                                {
-                                                                <tr>
-                                                                    <td>@Html.CheckBoxFor(model => Model[i].IsSelected, new { @class = "chkselected" })</td>
-                                                                    @Html.HiddenFor(model => Model[i].JobID)
-                                                                    @Html.HiddenFor(model => Model[i].JobCode)
-                                                                    @Html.HiddenFor(model => Model[i].JobDescription)
-                                                                    @Html.HiddenFor(model => Model[i].Shipper)
-                                                                    @Html.HiddenFor(model => Model[i].Consignee)
-                                                                    @Html.HiddenFor(model => Model[i].Customer)
-                                                                    @Html.HiddenFor(model => Model[i].InvoiceNo)
-                                                                    @Html.HiddenFor(model => Model[i].InvoiceDate)
-
-                                                                    <td>@Html.DisplayFor(modelItem => Model[i].JobCode)</td>
-                                                                    <td>@TrueBooksMVC.Models.CommanFunctions.GetShortDateFormat(Model[i].JobDate)</td>
-                                                                    <td class="tdtarget">@Html.DisplayFor(modelItem => Model[i].JobDescription)</td>
-                                                                    <td>
-                                                                        @Html.DisplayFor(modelItem => item.Shipper,new { @title = "Doit contenir ... spécial" })
-                                                                        <span title="@item.Shipper">@item.Shipper.ToString().Substring(0,2)</span>
-                                                                        <span title="@Model[i].Shipper" class="tdtarget">@Model[i].Shipper</span>
-                                                                    </td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.Consignee) <span title="@Model[i].Consignee" class="tdtarget">@Model[i].Consignee</span></td>
-                                                                    <td>@Html.DisplayFor(modelItem => item.Customer) <span title="@Model[i].Customer" class="tdtarget">@Model[i].Customer</span></td>
-                                                                    <td class="textright">
-                                                                        @if (Model[i].InvoiceNo > 0)
-                                                                        {@Html.DisplayFor(modelItem => Model[i].InvoiceNo)  }
-                                                                    </td>
-                                                                    <td>@TrueBooksMVC.Models.CommanFunctions.GetShortDateFormat(Model[i].InvoiceDate) </td>
-
-                                                                </tr>
+                                        </tr>
+                                    </tfoot>
 
 
-                                                                }
+                                    <tbody>
 
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                    <div style="padding-top:10px">
-                                                        <input type="submit" class="btn btn-primary" value="Save" />
+                                        @for (int i = 0; i < Model.Count(); i++)
+                                        {
+                                        <tr>
+                                            <td>@Html.CheckBoxFor(model => Model[i].IsSelected, new { @class = "chkselected" })</td>
+                                            @Html.HiddenFor(model => Model[i].JobID)
+                                            @Html.HiddenFor(model => Model[i].JobCode)
+                                            @Html.HiddenFor(model => Model[i].JobDescription)
+                                            @Html.HiddenFor(model => Model[i].Shipper)
+                                            @Html.HiddenFor(model => Model[i].Consignee)
+                                            @Html.HiddenFor(model => Model[i].Customer)
+                                            @Html.HiddenFor(model => Model[i].InvoiceNo)
+                                            @Html.HiddenFor(model => Model[i].InvoiceDate)
 
-                                                    </div>
-                                                </div>
+                                            <td>@Html.DisplayFor(modelItem => Model[i].JobCode)</td>
+                                            <td>@TrueBooksMVC.Models.CommanFunctions.GetShortDateFormat(Model[i].JobDate)</td>
+                                            <td class="tdtarget">@Html.DisplayFor(modelItem => Model[i].JobDescription)</td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Shipper,new { @title = "Doit contenir ... spécial" })
+                                                <span title="@item.Shipper">@item.Shipper.ToString().Substring(0,2)</span>
+                                                <span title="@Model[i].Shipper" class="tdtarget">@Model[i].Shipper</span>
+                                            </td>
+                                            <td>@Html.DisplayFor(modelItem => item.Consignee) <span title="@Model[i].Consignee" class="tdtarget">@Model[i].Consignee</span></td>
+                                            <td>@Html.DisplayFor(modelItem => item.Customer) <span title="@Model[i].Customer" class="tdtarget">@Model[i].Customer</span></td>
+                                            <td class="textright">
+                                                @if (Model[i].InvoiceNo > 0)
+                                                {@Html.DisplayFor(modelItem => Model[i].InvoiceNo)  }
+                                            </td>
+                                            <td>@TrueBooksMVC.Models.CommanFunctions.GetShortDateFormat(Model[i].InvoiceDate) </td>
+
+                                        </tr>
+
+
+                                        }
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div style="padding-top:10px">
+                                <input type="submit" class="btn btn-primary" value="Save" />
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>*@
+
+                                @*<div class="rows" id="tabs-2">
+        <div class="tab-content">
+            <div class="panel panel-danger">
+                <div class="search_tabs_right">
+                    <table class="searchtab form_block" id="tbl1">
+                        <tr id="openejobdate">
+                            <td class="searlabe">
+                                <label>From Date</label>
+                            </td>
+                            <td class="searinpu">
+                                <input type="text" id="frmdate" class="form-control text-right" />
+                            </td>
+                            <td class="searlabe">
+                                <label>To Date</label>
+                            </td>
+                            <td class="searinpu">
+                                <input type="text" id="todate" class="form-control text-right" />
+                            </td>
+                            <td>
+                                <input type="button" value="Search" id="btnsearch" class="btn btn-primary btnwidt form-control" />
+                            </td>
+                            <td>
+                                <ul class="nav nav-tabs" style="display:flex; justify-content:flex-end; padding-right:15px;">
+
+                                    <li><a href="#tabs-2" id="closejob" class="btn btn-primary">Close Job</a></li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="panel-body" id="contents">
+                </div>
+            </div>
+        </div>
+
+    </div>*@
+
+
+                                @*<div class="rows" id="tabs-3">
+        <div class="tab-content">
+            <div class="panel panel-danger">
+                <div class="search_tabs_right">
+                    <table class="searchtab" id="tbl2">
+                        <tr id="clousejobdate">
+                            <td class="searlabe">
+                                <b>From Date</b>
+                            </td>
+                            <td class="searinpu">
+                                <input type="text" id="frmdate1" class="form-control text-right" />
+                            </td>
+                            <td class="searlabe">
+                                <b>To Date</b>
+                            </td>
+                            <td class="searinpu">
+                                <input type="text" id="todate1" class="form-control text-right" />
+                            </td>
+                            <td>
+                                <input type="button" value="Search" id="btnsearch1" class="btn btn-primary btnwidt form-control" />
+                            </td>
+                            <td>
+                                <ul class="nav nav-tabs" style="display:flex; justify-content:flex-end; padding-right:15px;">
+
+                                    <li><a href="#tabs-2" id="closejob" class="btn btn-primary">Close Job</a></li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="panel-body" id="contents1">
+                </div>
+            </div>
+        </div>
+
+    </div>*@
+                                <div class="rows">
+                                    <div class="tab-content">
+                                        <div class="panel panel-danger">
+                                            <div class="search_tabs_right">
+                                                <table class="searchtab" id="tbl2">
+                                                    <tr id="clousejobdate">
+                                                        <td class="searlabe">
+                                                            <b>From Date</b>
+                                                        </td>
+                                                        <td class="searinpu">
+                                                            <input type="text" id="frmdate1" class="form-control text-right" />
+                                                        </td>
+                                                        <td class="searlabe">
+                                                            <b>To Date</b>
+                                                        </td>
+                                                        <td class="searinpu">
+                                                            <input type="text" id="todate1" class="form-control text-right" />
+                                                        </td>
+                                                        <td>
+                                                            <input type="button" value="Search" id="btnsearch1" class="btn btn-primary btnwidt form-control" />
+                                                        </td>
+                                                        <td>
+                                                            <ul class="nav nav-tabs" style="display:flex; justify-content:flex-end; padding-right:15px;">
+
+                                                                <li><a id="closejob" class="btn btn-primary">Close Job</a></li>
+                                                            </ul>
+                                                        </td>
+                                                    </tr>
+                                                </table>
                                             </div>
-
-                                        </div>
-                                    </div>*@
-
-                                    <div class="rows" id="tabs-2">
-                                        <div class="tab-content">
-                                            <div class="panel panel-danger">
-                                                <div class="search_tabs_right">
-                                                    <table class="searchtab form_block" id="tbl1">
-                                                        <tr id="openejobdate">
-                                                            <td class="searlabe">
-                                                                <label>From Date</label>
-                                                            </td>
-                                                            <td class="searinpu">
-                                                                <input type="text" id="frmdate" class="form-control text-right" />
-                                                            </td>
-                                                            <td class="searlabe">
-                                                                <label>To Date</label>
-                                                            </td>
-                                                            <td class="searinpu">
-                                                                <input type="text" id="todate" class="form-control text-right" />
-                                                            </td>
-                                                            <td>
-                                                                <input type="button" value="Search" id="btnsearch" class="btn btn-primary btnwidt form-control" />
-                                                            </td>
-                                                        </tr>
-                                                    </table>
-                                                </div>
-                                                <div class="panel-body" id="contents">
-                                                </div>
+                                            <div class="panel-body" id="contents1">
                                             </div>
                                         </div>
-
                                     </div>
 
-
-                                    <div class="rows" id="tabs-3">
-                                        <div class="tab-content">
-                                            <div class="panel panel-danger">
-                                                <div class="search_tabs_right">
-                                                    <table class="searchtab" id="tbl2">
-                                                        <tr id="clousejobdate">
-                                                            <td class="searlabe">
-                                                                <b>From Date</b>
-                                                            </td>
-                                                            <td class="searinpu">
-                                                                <input type="text" id="frmdate1" class="form-control text-right" />
-                                                            </td>
-                                                            <td class="searlabe">
-                                                                <b>To Date</b>
-                                                            </td>
-                                                            <td class="searinpu">
-                                                                <input type="text" id="todate1" class="form-control text-right" />
-                                                            </td>
-                                                            <td>
-                                                                <input type="button" value="Search" id="btnsearch1" class="btn btn-primary btnwidt form-control" />
-                                                            </td>
-                                                        </tr>
-                                                    </table>
-                                                </div>
-                                                <div class="panel-body" id="contents1">
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-
-                                    }
+                                </div>
+                            }
                                 </div>
 
                             </div>
