@@ -4059,6 +4059,7 @@
     <Content Include="Views\Accounts\ucPDCOutstandings.cshtml" />
     <Content Include="Views\Accounts\YearEndProcess.cshtml" />
     <Content Include="Views\Accounts\_ExpAllocate.cshtml" />
+    <Content Include="Views\Job\JobEnquiry - Copy.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Logo\" />

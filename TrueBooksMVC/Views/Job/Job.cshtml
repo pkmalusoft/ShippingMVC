@@ -427,8 +427,8 @@
 
             }
         });
-        debugger;
-        if ('@Model.JobID' > 0) {
+
+        if ('@Model.JobID' > 0 && '@Model.VesselID'>0) {
             $('#VesselID').val('@Model.VesselID');
             $.ajax({
                 type: "GET",
@@ -1054,7 +1054,7 @@
                                     <li><a style="color:#35b8eb;cursor:pointer" onclick="ShowJobTimeLine()">Time Line</a></li>
                                 </ul>
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <i style="font-size: 30px;color:#35b8eb;padding-top: 11px;" class="fa fa-cog"></i>
+                                    <i style="font-size: 30px;color:white;padding-top: 11px;" class="fa fa-cog"></i>
                                 </a>
                             </li>
                         </ul>
@@ -1142,7 +1142,7 @@
                         @{
                             if (Model.JobID > 0)
                             {
-                                @Html.TextBoxFor(model => model.JobCode, new { @class = "form-control", @id = "txtJobCode", required = "required" })
+                                @Html.TextBoxFor(model => model.JobCode, new { @class = "form-control", @id = "txtJobCode", required = "required",@readonly="readonly" })
                             }
                             else
                             {
@@ -1610,7 +1610,7 @@
                             <div class="row no-margin border1px" style="padding-top: 10px">
                                 <div class="col-xs-12 no-padding" style="text-align: right">
                                     <input type="hidden" id="cargo_update_index" value="0">
-                                    <input type="button" id="add_cargo" data-ng-click="addCargoDesc()" value="Add" class="btn btn-primary btnwidth" />
+                                    <input type="button" id="add_cargo" data-ng-click="addCargoDesc()" value="Add" class="btn btn-primary btnwidth" tabindex="7" />
                                     <input type="button" id="update_cargo" data-ng-click="updateCargo()" value="Update" style="display:none;" class="btn btn-primary btnwidth" />
                                     <input type="button" id="cancel_edit_cargo" data-ng-click="cancelEditCargo()" value="Cancel" style="display:none;" class="btn btn-primary btnwidth" />
                                 </div>
@@ -1644,30 +1644,29 @@
                                 <div class="col-xs-6 col-sm-3 col-md-3 no-padding">
                                     <label class="headinglabel required">Container Type</label>
                                     <input type="hidden" name="JContainerDetailID" id="JContainerDetailID" value="0" ng-model="JContainerDetailID" />
-                                    <select ng-model="ContainerTypeID" id="ContainerTypeID" class="form-control" ng_change="getContainers()" required>
+                                    <select ng-model="ContainerTypeID" id="ContainerTypeID" tabindex="1" class="form-control" ng_change="getContainers()" required>
                                         <option value="">Select</option>
                                         <option ng-repeat="b in ContainerTypeList" ng-selected="ContainerTypeID==b.ContainerTypeID" value='{{b.ContainerTypeID}}'>{{b.ContainerType}}</option>
                                     </select>
                                     <span class="field-validation-error" id="spanContainerTypeID"></span>
-
                                 </div>
                                 <div class="col-xs-6 col-sm-3 col-md-3 no-padding">
                                     <label class="headinglabel">Container No</label>
-                                    <input type="text" tabindex="1" class="form-control" ng-model="ContainerNo" id="ContainerNo" placeholder="Container No" />
+                                    <input type="text" tabindex="2" class="form-control" ng-model="ContainerNo" id="ContainerNo" placeholder="Container No" />
 
                                 </div>
                                 <div class="col-xs-6 col-sm-3 col-md-3 no-padding">
                                     <label class="headinglabel">Seal No</label>
-                                    <input type="text" tabindex="2" class="form-control" ng-model="SealNo" id="SealNo" placeholder="Seal No" />
+                                    <input type="text" tabindex="3" class="form-control" ng-model="SealNo" id="SealNo" placeholder="Seal No" />
                                 </div>
                                 <div class="col-xs-6 col-sm-3 col-md-3 no-padding">
                                     <label class="headinglabel">Description</label>
-                                    <input type="text" tabindex="3" class="form-control" ng-model="ContainerDescription" id="ContainerDescription" placeholder="Description" />
+                                    <input type="text" tabindex="4" class="form-control" ng-model="ContainerDescription" id="ContainerDescription" placeholder="Description" />
                                 </div>
                             </div>
                             <div class="row no-margin border1px" style="padding-top: 10px">
                                 <div class="col-xs-12 no-padding" style="text-align: right">
-                                    <input type="button" id="add_container" data-ng-click="addContainerDetails()" value="Add" class="btn btn-primary btnwidth" />
+                                    <input type="button" id="add_container" tabindex="5" data-ng-click="addContainerDetails()" value="Add" class="btn btn-primary btnwidth" />
                                     <input type="hidden" id="container_update_index" value="0">
                                     <input type="button" id="update_container" data-ng-click="updateContainerDetails()" value="Update" style="display:none;" class="btn btn-primary btnwidth" />
                                     <input type="button" id="cancel_edit_container" data-ng-click="cancelEditContainerDetails()" value="Cancel" style="display:none;" class="btn btn-primary btnwidth" />
@@ -1711,7 +1710,7 @@
                                             <label class="headinglabel">Customer Ref. No.</label>
                                         </div>
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(m => m.RefNo, new { id = "RefNo", @class = "form-control", tabindex = "2", autocomplete = "off" })
+                                            @Html.TextBoxFor(m => m.RefNo, new { id = "RefNo", @class = "form-control", tabindex = "4", autocomplete = "off" })
                                         </div>
                                     </div>
                                     <div>
@@ -1720,7 +1719,7 @@
                                         </div>
                                         <div class="col-sm-8">
 
-                                            @Html.TextBoxFor(m => m.RotationNo, new { id = "RotationNo", @class = "form-control", tabindex = "3", autocomplete = "off" })
+                                            @Html.TextBoxFor(m => m.RotationNo, new { id = "RotationNo", @class = "form-control", tabindex = "7", autocomplete = "off" })
                                         </div>
                                     </div>
                                     <div>
@@ -1733,12 +1732,12 @@
                                             @if (Model.BLDate != null)
                                             {
 
-                                                @Html.TextBoxFor(m => m.BLDate, "{0:dd-MMM-yyyy}", new { id = "BLDate", @class = "form-control", tabindex = "4", autocomplete = "off" })
+                                                @Html.TextBoxFor(m => m.BLDate, "{0:dd-MMM-yyyy}", new { id = "BLDate", @class = "form-control", tabindex = "10", autocomplete = "off" })
                                                 @Html.ValidationMessageFor(model => model.BLDate)
                                             }
                                             else
                                             {
-                                                @Html.TextBoxFor(m => m.BLDate, new { id = "BLDate", @class = "form-control", tabindex = "4", autocomplete = "off" })
+                                                @Html.TextBoxFor(m => m.BLDate, new { id = "BLDate", @class = "form-control", tabindex = "10", autocomplete = "off" })
                                                 @Html.ValidationMessageFor(model => model.BLDate)
                                             }
 
@@ -1751,12 +1750,12 @@
                                         <div class="col-sm-8">
                                             @if (Model.DeliveryOrderDate != null)
                                             {
-                                                @Html.TextBoxFor(m => m.DeliveryOrderDate, "{0:dd-MMM-yyyy}", new { id = "DeliveryOrderDate", @class = "form-control", tabindex = "7", autocomplete = "off" })
+                                                @Html.TextBoxFor(m => m.DeliveryOrderDate, "{0:dd-MMM-yyyy}", new { id = "DeliveryOrderDate", @class = "form-control", tabindex = "13", autocomplete = "off" })
                                                 @Html.ValidationMessageFor(model => model.DeliveryOrderDate)
                                             }
                                             else
                                             {
-                                                @Html.TextBoxFor(m => m.DeliveryOrderDate, new { id = "DeliveryOrderDate", @class = "form-control", tabindex = "7", autocomplete = "off" })
+                                                @Html.TextBoxFor(m => m.DeliveryOrderDate, new { id = "DeliveryOrderDate", @class = "form-control", tabindex = "13", autocomplete = "off" })
                                                 @Html.ValidationMessageFor(model => model.DeliveryOrderDate)
                                             }
                                         </div>
@@ -1769,7 +1768,7 @@
                                             <label class="headinglabel">Country Of Orgin</label>
                                         </div>
                                         <div class="col-sm-8">
-                                            @Html.DropDownListFor(model => model.CountryofOriginID, (SelectList)ViewBag.Countries, "Select", new { @class = "form-control", tabindex = "5", @readonly = "readonly" })
+                                            @Html.DropDownListFor(model => model.CountryofOriginID, (SelectList)ViewBag.Countries, "Select", new { @class = "form-control", tabindex = "2", @readonly = "readonly" })
 
                                         </div>
                                     </div>
@@ -1778,7 +1777,7 @@
                                             <label class="headinglabel">MRN</label>
                                         </div>
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(m => m.MRN, new { id = "MRN", @class = "form-control", tabindex = "8", autocomplete = "off" })
+                                            @Html.TextBoxFor(m => m.MRN, new { id = "MRN", @class = "form-control", tabindex = "5", autocomplete = "off" })
 
                                         </div>
                                     </div>
@@ -1788,7 +1787,7 @@
                                             <label class="headinglabel">Delivery Order No.</label>
                                         </div>
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(m => m.DeliveryOrderNo, new { value = Model.DeliveryOrderNo, id = "DeliveryOrderNo", @class = "form-control", tabindex = "6", autocomplete = "off" })
+                                            @Html.TextBoxFor(m => m.DeliveryOrderNo, new { value = Model.DeliveryOrderNo, id = "DeliveryOrderNo", @class = "form-control", tabindex = "8", autocomplete = "off" })
 
                                         </div>
                                     </div>
@@ -1799,7 +1798,7 @@
                                             <label class="headinglabel">CLF Value</label>
                                         </div>
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(m => m.CLFValue, new { id = "CLFValue", @class = "form-control textright two-decimals", tabindex = "9", autocomplete = "off" })
+                                            @Html.TextBoxFor(m => m.CLFValue, new { id = "CLFValue", @class = "form-control textright two-decimals", tabindex = "11", autocomplete = "off" })
 
                                         </div>
                                     </div>
@@ -1808,7 +1807,7 @@
                                             <label class="headinglabel">Deposit Amount</label>
                                         </div>
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(m => m.DepositAmount, new { id = "DepositAmount", tabindex = "10", @class = "form-control textright two-decimals", autocomplete = "off" })
+                                            @Html.TextBoxFor(m => m.DepositAmount, new { id = "DepositAmount", @class = "form-control textright two-decimals", tabindex = "14", autocomplete = "off" })
 
                                         </div>
 
@@ -1825,12 +1824,12 @@
                                         <div class="col-sm-8">
                                             @if (Model.DepositDate != null)
                                             {
-                                                @Html.TextBoxFor(m => m.DepositDate, "{0:dd-MMM-yyyy}", new { id = "DepositDate", tabindex = "11", @class = "form-control", autocomplete = "off" })
+                                                @Html.TextBoxFor(m => m.DepositDate, "{0:dd-MMM-yyyy}", new { id = "DepositDate", tabindex = "3", @class = "form-control", autocomplete = "off" })
                                                 @Html.ValidationMessageFor(model => model.DepositDate)
                                             }
                                             else
                                             {
-                                                @Html.TextBoxFor(m => m.DepositDate, new { id = "DepositDate", @class = "form-control", tabindex = "11", autocomplete = "off" })
+                                                @Html.TextBoxFor(m => m.DepositDate, new { id = "DepositDate", @class = "form-control", tabindex = "3", autocomplete = "off" })
                                                 @Html.ValidationMessageFor(model => model.DepositDate)
                                             }
                                         </div>
@@ -1841,7 +1840,7 @@
                                             <label class="headinglabel">Receipt No</label>
                                         </div>
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(m => m.ReceiptNo, new { id = "ReceiptNo", @class = "form-control", tabindex = "12", autocomplete = "off" })
+                                            @Html.TextBoxFor(m => m.ReceiptNo, new { id = "ReceiptNo", @class = "form-control", tabindex = "6", autocomplete = "off" })
 
                                         </div>
                                     </div>
@@ -1853,12 +1852,12 @@
                                         <div class="col-sm-8">
                                             @if (Model.RefundDate != null)
                                             {
-                                                @Html.TextBoxFor(m => m.RefundDate, "{0:dd-MMM-yyyy}", new { id = "RefundDate", tabindex = "13", @class = "form-control", autocomplete = "off" })
+                                                @Html.TextBoxFor(m => m.RefundDate, "{0:dd-MMM-yyyy}", new { id = "RefundDate", tabindex = "9", @class = "form-control", autocomplete = "off" })
                                                 @Html.ValidationMessageFor(model => model.RefundDate)
                                             }
                                             else
                                             {
-                                                @Html.TextBoxFor(m => m.RefundDate, new { id = "RefundDate", @class = "form-control", tabindex = "13", autocomplete = "off" })
+                                                @Html.TextBoxFor(m => m.RefundDate, new { id = "RefundDate", @class = "form-control", tabindex = "9", autocomplete = "off" })
                                                 @Html.ValidationMessageFor(model => model.RefundDate)
                                             }
                                         </div>
@@ -1868,7 +1867,7 @@
                                             <label tabs-7tabs-7="headinglabel">Refund Amount</label>
                                         </div>
                                         <div class="col-sm-8">
-                                            @Html.TextBoxFor(m => m.RefundAmount, new { id = "RefundAmount", @class = "form-control textright two-decimals", tabindex = "14", autocomplete = "off" })
+                                            @Html.TextBoxFor(m => m.RefundAmount, new { id = "RefundAmount", @class = "form-control textright two-decimals", tabindex = "12", autocomplete = "off" })
 
                                         </div>
                                     </div>
@@ -2051,7 +2050,7 @@
                                                 <label class="headinglabel">Transporter</label>
                                             </div>
                                             <div class="col-sm-8">
-                                                @Html.DropDownListFor(model => model.TransporterID, (SelectList)ViewBag.Transporters, "Select", new { @class = "form-control" })
+                                                @Html.DropDownListFor(model => model.TransporterID, (SelectList)ViewBag.Transporters, "Select", new { @class = "form-control", tabindex = "1" })
                                                 @Html.ValidationMessageFor(model => model.TransporterID)
                                             </div>
                                         </div>
@@ -2064,12 +2063,12 @@
                                                 @if (Model.DeliveryDate != null)
                                                 {
 
-                                                    @Html.TextBoxFor(m => m.DeliveryDate, "{0:dd-MMM-yyyy}", new { id = "", @class = "form-control", autocomplete = "off" })
+                                                    @Html.TextBoxFor(m => m.DeliveryDate, "{0:dd-MMM-yyyy}", new { id = "", @class = "form-control", autocomplete = "off", tabindex = "4" })
                                                     @Html.ValidationMessageFor(model => model.DeliveryDate)
                                                 }
                                                 else
                                                 {
-                                                    @Html.TextBoxFor(model => model.DeliveryDate, new { @class = "form-control", autocomplete = "off" })
+                                                    @Html.TextBoxFor(model => model.DeliveryDate, new { @class = "form-control", autocomplete = "off", tabindex = "4" })
                                                     @Html.ValidationMessageFor(model => model.DeliveryDate)
                                                 }
 
@@ -2082,7 +2081,7 @@
                                                 <label class="headinglabel">Delivery Note No</label>
                                             </div>
                                             <div class="col-sm-8">
-                                                @Html.TextBoxFor(model => model.DeliveryNote, new { @class = "form-control" })
+                                                @Html.TextBoxFor(model => model.DeliveryNote, new { @class = "form-control", tabindex = "6" })
                                                 @Html.ValidationMessageFor(model => model.DeliveryNote)
                                             </div>
                                         </div>
@@ -2091,7 +2090,7 @@
                                                 <label class="headinglabel">Delivery</label>
                                             </div>
                                             <div class="col-sm-8">
-                                                @Html.TextBoxFor(model => model.DeliveryInstructions, new { @class = "form-control" })
+                                                @Html.TextBoxFor(model => model.DeliveryInstructions, new { @class = "form-control", tabindex = "9" })
                                                 @Html.ValidationMessageFor(model => model.DeliveryInstructions)
                                             </div>
                                         </div>
@@ -2102,7 +2101,7 @@
                                                 <label class="headinglabel">Delivery Point</label>
                                             </div>
                                             <div class="col-sm-8">
-                                                @Html.TextBoxFor(model => model.DeliveryPoint, new { @class = "form-control" })
+                                                @Html.TextBoxFor(model => model.DeliveryPoint, new { @class = "form-control", tabindex = "2" })
                                                 @Html.ValidationMessageFor(model => model.DeliveryPoint)
                                             </div>
                                         </div>
@@ -2112,7 +2111,7 @@
                                             </div>
                                             <div class="col-sm-8">
 
-                                                @Html.TextBoxFor(model => model.TruckRegNo, new { @class = "form-control" })
+                                                @Html.TextBoxFor(model => model.TruckRegNo, new { @class = "form-control", tabindex = "5" })
                                                 @Html.ValidationMessageFor(model => model.TruckRegNo)
                                             </div>
                                         </div>
@@ -2124,12 +2123,12 @@
                                                 @if (Model.CollectionDate != null)
                                                 {
 
-                                                    @Html.TextBoxFor(m => m.CollectionDate, "{0:dd-MMM-yyyy}", new { id = "", @class = "form-control" })
+                                                    @Html.TextBoxFor(m => m.CollectionDate, "{0:dd-MMM-yyyy}", new { id = "", @class = "form-control", tabindex = "7" })
                                                     @Html.ValidationMessageFor(model => model.CollectionDate)
                                                 }
                                                 else
                                                 {
-                                                    @Html.TextBoxFor(model => model.CollectionDate, new { @class = "form-control" })
+                                                    @Html.TextBoxFor(model => model.CollectionDate, new { @class = "form-control", tabindex = "7" })
                                                     @Html.ValidationMessageFor(model => model.CollectionDate)
                                                 }
 
@@ -2140,7 +2139,7 @@
                                                 <label class="headinglabel">Collection Point</label>
                                             </div>
                                             <div class="col-sm-8">
-                                                @Html.TextAreaFor(model => model.CollectionPoint, new { @class = "form-control message", rows = "50", cols = "80" })
+                                                @Html.TextAreaFor(model => model.CollectionPoint, new { @class = "form-control message", rows = "50", cols = "80", tabindex = "10" })
                                                 @Html.ValidationMessageFor(model => model.CollectionPoint)
                                             </div>
                                         </div>
@@ -2153,7 +2152,7 @@
                                                 <label class="headinglabel">Collection Instructions</label>
                                             </div>
                                             <div class="col-sm-8">
-                                                @Html.TextAreaFor(model => model.CollectionInstructions, new { @class = "form-control2 message", rows = "50", cols = "80" })
+                                                @Html.TextAreaFor(model => model.CollectionInstructions, new { @class = "form-control2 message", rows = "50", cols = "80", tabindex = "3" })
                                                 @Html.ValidationMessageFor(model => model.CollectionInstructions)
                                             </div>
                                         </div>
@@ -2162,7 +2161,7 @@
                                                 <label class="headinglabel">Driver Details</label>
                                             </div>
                                             <div class="col-sm-8">
-                                                @Html.TextBoxFor(model => model.DriverDetails, new { @class = "form-control" })
+                                                @Html.TextBoxFor(model => model.DriverDetails, new { @class = "form-control", tabindex = "8" })
                                                 @Html.ValidationMessageFor(model => model.DriverDetails)
                                             </div>
                                         </div>

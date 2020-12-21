@@ -36,16 +36,13 @@
     }
 </style>
 
-<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.js"></script>
-<script>
 
+<script>
     var vactualJObcode = '';
     $(document).ready(function () {
         if ('@Model.Id' > 0) {
             $("#EnquiryType").val('@Model.EnquiryType');
         }
-
-
 
         var startdate = '@Session["FyearFrom"].ToString()';
         var enddate = '@Session["FyearTo"].ToString()';
@@ -66,7 +63,7 @@
                 EnquiryType: "required",
                 LoadPort: "required",
                 DestinationPort: "required",
-
+               
 
                 Shipper: "required",
                 Consignee: "required"
@@ -89,37 +86,8 @@
             }
         });
     });
-    $(function () {
-        $("#DestinationPort").change(function () {
-            var dport = $('#DestinationPort').val();
-            var lport = $('#LoadPort').val();
-            if (dport == lport) {
-                $("#dportID").text("Load Port and Destination Port can not be same.");
-                $("#dportID").show();
-            }
-            else {
 
-                $("#dportID").hide();
-            }
 
-        });
-    });
-
-    $(function () {
-        $("#LoadPort").change(function () {
-            var dport = $('#DestinationPort').val();
-            var lport = $('#LoadPort').val();
-            if (dport == lport) {
-                $("#lportID").text("Load Port and Destination Port can not be same.");
-                $("#lportID").show();
-            }
-            else {
-
-                $("#lportID").hide();
-            }
-
-        });
-    });
 
 
 </script>
@@ -143,7 +111,7 @@
 
 
 
-        @using (Html.BeginForm(new { id = "EnquiryForm" }))
+        @using (Html.BeginForm(new { id="EnquiryForm"}))
         {
             @Html.ValidationSummary(true)
 
@@ -167,7 +135,7 @@
                     </div>
                     <div class="col-md-3">
                         <label class="headinglabel required">Enquiry Type</label>
-                        <select class="form-control" id="EnquiryType" name="EnquiryType" required>
+                        <select class="form-control"  id="EnquiryType" name="EnquiryType" required>
                             <option value="">Select</option>
                             <option value="1">Telephone</option>
                             <option value="2">Email</option>
@@ -181,16 +149,16 @@
 
                     <div class="col-md-3">
                         <label class="headinglabel required">Load Port</label>
-                        <input type="text" class="form-control" id="LoadPort" value="@Model.LoadPort" name="LoadPort" required />
+                        <input type="text" class="form-control" id="LoadPort" value="@Model.LoadPort" name="LoadPort" required/>
                         @Html.ValidationMessageFor(model => model.LoadPort)
-                        <span class="field-validation-error" id="lportID"></span>
+
                     </div>
 
                     <div class="col-md-3">
                         <label class=" headinglabel required">Destination Port</label>
-                        <input type="text" class="form-control" id="DestinationPort" value="@Model.DestinationPort" name="DestinationPort" required />
+                        <input type="text" class="form-control" id="DestinationPort" value="@Model.DestinationPort" name="DestinationPort" required/>
                         @Html.ValidationMessageFor(model => model.DestinationPort)
-                        <span class="field-validation-error" id="dportID"></span>
+
                     </div>
                     <div class="col-md-3">
                         <label class="headinglabel">Place of Receipt</label>
@@ -208,7 +176,7 @@
                 <div class="row no-margin" style="padding-top:5px">
                     <div class="col-md-3 form-group">
                         <label class=" headinglabel required">Shipper</label>
-                        <input type="text" class="form-control" name="Shipper" value="@Model.Shipper" id="Shipper" required />
+                        <input type="text" class="form-control" name="Shipper" value="@Model.Shipper" id="Shipper" required/>
                         @Html.ValidationMessageFor(model => model.Shipper)
 
 
@@ -217,7 +185,7 @@
 
                     <div class="col-md-3 form-group">
                         <label class="headinglabel required">Consignee</label>
-                        <input type="text" class="form-control" id="Consignee" value="@Model.Consignee" name="Consignee" required />
+                        <input type="text" class="form-control" id="Consignee" value="@Model.Consignee" name="Consignee" required/>
                         @Html.ValidationMessageFor(model => model.Consignee)
 
                     </div>

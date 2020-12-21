@@ -3,35 +3,43 @@
 @{
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_TrueBookMstr.cshtml";
-    
-<style>
-    .headinglabel {
-        font-size: 16px;
-        color: #2b2929 !important;
-        display: inline;
-    }
 
-    .searchdiv {
-        background-color: #fff;
-        width: 100%;
-        margin: 0 auto;
-        max-width: 800px;
-        padding: 20px;
-        margin-top: 50px;
-        border-radius: 10px;
-        box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
-    }
-</style>
- 
-    
+    <style>
+        .headinglabel {
+            font-size: 16px;
+            color: #2b2929 !important;
+            display: inline;
+        }
+
+        .searchdiv {
+            background-color: #fff;
+            width: 100%;
+            margin: 0 auto;
+            max-width: 800px;
+            padding: 20px;
+            margin-top: 50px;
+            border-radius: 10px;
+            box-shadow: 0 9px 23px rgba(0, 0, 0, 0.09), 0 5px 5px rgba(0, 0, 0, 0.06) !important;
+        }
+    </style>
+
+
     <script type="text/javascript">
-        $(document).ready(function () {
+        function Validate(event) {
+            var regex = new RegExp("^[0-9-()]");
+            var key = String.fromCharCode(event.charCode ? event.which : event.charCode);
+            if (!regex.test(key)) {
+                event.preventDefault();
+                return false;
+            }
+        }
+         $(document).ready(function () {
             $("#AcCompany1").focus();
             $(":text").css({ "border-radius": "5px" });
             $("select").css({ "border-radius": "5px" });
 
             $("#EMail").css("text-transform", "lowercase");
-          
+
 
             $(".txttarget").change(function () {
                 var x = $(this);
@@ -97,124 +105,125 @@
     <h1 class="headingfont">Company </h1>
 
 </section>
- @if (ViewBag.SuccessMsg != null)
-    {
-      <script type="text/javascript">
+@if (ViewBag.SuccessMsg != null)
+{
+    <script type="text/javascript">
           $(document).ready(function () {
               $.notify("@ViewBag.SuccessMsg", "success");
           });
-                                                </script>
+
+    </script>
+}
+   
+<section class="content">
+    @using (Html.BeginForm("Create", "AcCompany", FormMethod.Post, new { @id = "AcCompany", enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        <div class="searchdiv">
+
+            <fieldset>
+                <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
+                <div class="row no-margin">
+
+                    <div class="col-md-6">
+                        <label class="required headinglabel">Company Name</label>
+                        @Html.TextBoxFor(model => model.AcCompany1, new { @class = "form-control txttarget" })
+                        @Html.ValidationMessageFor(model => model.AcCompany1)
+
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="required headinglabel">Contact Person</label>
+                        @Html.TextBoxFor(model => model.ContactPerson, new { @class = "form-control txttarget" })
+                        @Html.ValidationMessageFor(model => model.ContactPerson)
+
+                    </div>
+                </div>
+                <div class="row no-margin" style="padding-top: 10px">
+                    <div class="col-md-6">
+                        <label class="required headinglabel">Building</label>
+                        @Html.TextBoxFor(model => model.Address1, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Address1)
+
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="headinglabel">Street</label>
+                        @Html.TextBoxFor(model => model.Address2, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Address2)
+
+                    </div>
+                </div>
+                <div class="row no-margin" style="padding-top: 10px">
+                    <div class="col-md-6">
+                        <label class="headinglabel">Pincode/Location</label>
+                        @Html.TextBoxFor(model => model.Address3, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Address3)
+
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="required headinglabel">Phone</label>
+                        @Html.TextBoxFor(model => model.Phone, new { @class = "form-control textright", onkeypress = "return Validate(event);" })
+                        @Html.ValidationMessageFor(model => model.Phone)
+
+                    </div>
+                </div>
+                <div class="row no-margin" style="padding-top: 10px">
+                    <div class="col-md-4">
+                        <label class="headinglabel">Email</label>
+                        @Html.TextBoxFor(model => model.EMail, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.EMail)
+
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="headinglabel required">Country</label>
+                        @Html.DropDownListFor(model => model.CountryID, new SelectList(ViewBag.Country, "CountryID", "CountryName"), "Select", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.CountryID)
+
+                    </div>
+                    <div class="col-md-4">
+                        <label class="headinglabel required">Currency</label>
+                        @Html.DropDownListFor(model => model.CurrencyID, new SelectList(ViewBag.Currency, "CurrencyID", "CurrencyName"), "Select", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.CountryID)
+
+                    </div>
+                    <div class="col-md-6" style="padding-top: 10px">
+                        <label class="headinglabel required">Upload Logo</label>
+                        <input type="file" id="ImageFile" name="ImageFile" class="form-control">
+
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+                <div class="row no-margin" style="padding-top: 10px">
+                    <div class="col-md-12 butdivs">
+
+                        <input type="submit" value="Save" class="btn btn-primary btnwid" id="btnsave" />
+
+                        &nbsp;
+                        <a href='@Url.Action("Index", "AcCompany", new { id = 0 })' class="btn btn-danger btnwid" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
+
+                    </div>
+                </div>
+
+
+            </fieldset>
+
+        </div>
     }
 
-      <section class="content">
-          @using (Html.BeginForm("Create", "AcCompany", FormMethod.Post, new { @id= "AcCompany", enctype = "multipart/form-data" }))
-          {
-              @Html.AntiForgeryToken()
-              @Html.ValidationSummary(true)
-              <div class="searchdiv">
-                
-                  <fieldset>
-                      <div id="alert" style="color:red;display:none;margin-left:10px;">*Please fill mandatory fields</div>
-                      <div class="row no-margin">
-                         
-                          <div class="col-md-6">
-                              <label class="required headinglabel">Company Name</label>
-                              @Html.TextBoxFor(model => model.AcCompany1, new { @class = "form-control txttarget" })
-                              @Html.ValidationMessageFor(model => model.AcCompany1)
-
-                          </div>
-
-                          <div class="col-md-6">
-                              <label class="required headinglabel">Contact Person</label>
-                              @Html.TextBoxFor(model => model.ContactPerson, new { @class = "form-control txttarget" })
-                              @Html.ValidationMessageFor(model => model.ContactPerson)
-
-                          </div>
-                      </div>
-                      <div class="row no-margin" style="padding-top: 10px">
-                          <div class="col-md-6">
-                              <label class="required headinglabel">Building</label>
-                              @Html.TextBoxFor(model => model.Address1, new { @class = "form-control" })
-                              @Html.ValidationMessageFor(model => model.Address1)
-
-                          </div>
-
-                          <div class="col-md-6">
-                              <label class="headinglabel">Street</label>
-                              @Html.TextBoxFor(model => model.Address2, new { @class = "form-control" })
-                              @Html.ValidationMessageFor(model => model.Address2)
-
-                          </div>
-                      </div>
-                      <div class="row no-margin" style="padding-top: 10px">
-                          <div class="col-md-6">
-                              <label class="headinglabel">Pincode/Location</label>
-                              @Html.TextBoxFor(model => model.Address3, new { @class = "form-control" })
-                              @Html.ValidationMessageFor(model => model.Address3)
-
-                          </div>
-
-                          <div class="col-md-6">
-                              <label class="required headinglabel">Phone</label>
-                              @Html.TextBoxFor(model => model.Phone, new { @class = "form-control textright" })
-                              @Html.ValidationMessageFor(model => model.Phone)
-
-                          </div>
-                      </div>
-                      <div class="row no-margin" style="padding-top: 10px">
-                          <div class="col-md-4">
-                              <label class="headinglabel">Email</label>
-                              @Html.TextBoxFor(model => model.EMail, new { @class = "form-control" })
-                              @Html.ValidationMessageFor(model => model.EMail)
-
-                          </div>
-
-                          <div class="col-md-4">
-                              <label class="headinglabel required">Country</label>
-                              @Html.DropDownListFor(model => model.CountryID, new SelectList(ViewBag.Country, "CountryID", "CountryName"), "Select", new { @class = "form-control" })
-                              @Html.ValidationMessageFor(model => model.CountryID)
-
-                          </div>
-                          <div class="col-md-4">
-                              <label class="headinglabel required">Currency</label>
-                              @Html.DropDownListFor(model => model.CurrencyID, new SelectList(ViewBag.Currency, "CurrencyID", "CurrencyName"), "Select", new { @class = "form-control" })
-                              @Html.ValidationMessageFor(model => model.CountryID)
-
-                          </div>
-                          <div class="col-md-6" style="padding-top: 10px">
-                              <label class="headinglabel required">Upload Logo</label>
-                              <input type="file" id="ImageFile" name="ImageFile" class="form-control">
-
-                          </div>
-                      </div>
-
-
-
-                     
-
-
-                  
-
-                      <div class="row no-margin" style="padding-top: 10px">
-                          <div class="col-md-12 butdivs">
-
-                              <input type="submit" value="Save" class="btn btn-primary btnwid" id="btnsave" />
-
-                              &nbsp;
-                              <a href='@Url.Action("Index", "AcCompany", new { id = 0 })' class="btn btn-danger btnwid" data-toggle="tooltip" data-placement="right" title="Click here">Cancel</a>
-
-                          </div>
-                      </div>
-
-
-                  </fieldset>
-
-                  </div>
-                  }
-
-          </section>
+</section>
 
 @*@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}*@
+        @Scripts.Render("~/bundles/jqueryval")
+    }*@
 

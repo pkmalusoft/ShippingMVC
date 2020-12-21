@@ -162,7 +162,18 @@ namespace TrueBooksMVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(branchmaster).State = EntityState.Modified;
+                var branch = (from d in db.BranchMasters where d.BranchID == branchmaster.BranchID select d).FirstOrDefault();
+                branch.BranchName = branchmaster.BranchName;
+                branch.Address1 = branchmaster.Address1;
+                branch.AcCompanyID = branchmaster.AcCompanyID;
+                branch.CurrencyID = branchmaster.CurrencyID;
+                branch.CountryID = branchmaster.CountryID;
+                branch.EMail = branchmaster.EMail;
+                branch.Website = branchmaster.Website;
+                branch.City = branchmaster.City;
+                branch.ContactPerson = branchmaster.ContactPerson;
+                branch.Phone = branchmaster.Phone;
+                db.Entry(branch).State = EntityState.Modified;
                 db.SaveChanges();
                 TempData["SuccessMsg"] = "You have successfully updated Branch.";
                 return RedirectToAction("Index");

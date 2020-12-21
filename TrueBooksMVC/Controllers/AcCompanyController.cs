@@ -158,7 +158,13 @@ namespace ShippingFinal.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             objSourceMastersModel.DeleteCompany(id);
-            ViewBag.SuccessMsg = "You have successfully deleted Company.";
+            var branches = (from d in db.BranchMasters where d.AcCompanyID == id select d).ToList();
+            foreach(var item in branches)
+            {
+                db.BranchMasters.Remove(item);
+                db.SaveChanges();
+            }
+            ViewBag.SuccessMsg = "You have successfully deleted Company and their branches.";
             return View("Index", objSourceMastersModel.GetAllAcCompanies());
         }
 

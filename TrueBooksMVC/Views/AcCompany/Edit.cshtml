@@ -63,7 +63,16 @@
 
             });
 
-        });
+    });
+
+    function Validate(event) {
+        var regex = new RegExp("^[0-9-()]");
+        var key = String.fromCharCode(event.charCode ? event.which : event.charCode);
+        if (!regex.test(key)) {
+            event.preventDefault();
+            return false;
+        }
+    }
     </script>
 <section class="content-header">
     <h1 class="headingfont">Company - Modify</h1>
@@ -120,7 +129,7 @@
 
             <div class="col-md-6">
                 <label class="required headinglabel">Phone</label>
-                @Html.TextBoxFor(model => model.Phone, new { @class = "form-control textright txttarget" })
+                @Html.TextBoxFor(model => model.Phone, new { @class = "form-control textright txttarget", onkeypress = "return Validate(event);" })
                 @Html.ValidationMessageFor(model => model.Phone)
 
             </div>

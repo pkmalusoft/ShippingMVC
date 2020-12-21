@@ -19,35 +19,35 @@
     }
 }
 <style>
-     tfoot {
-            display: table-header-group;
-     }
-        </style>
+    tfoot {
+        display: table-header-group;
+    }
+</style>
 <script type="text/javascript">
-       $(document).ready(function () {
+    $(document).ready(function () {
 
-           $('#dataTables-example tfoot th').each(function () {
-               var title = $(this).text();
-               $(this).html('<input type="text"  />');
-           });
+        $('#dataTables-example tfoot th').each(function () {
+            var title = $(this).text();
+            $(this).html('<input type="text"  />');
+        });
 
 
-           var table = $('#dataTables-example').DataTable({ "sPaginationType": "full_numbers" });
+        var table = $('#dataTables-example').DataTable({ "sPaginationType": "full_numbers" });
 
-           table.columns().every(function () {
-               var that = this;
+        table.columns().every(function () {
+            var that = this;
 
-               $('input', this.footer()).on('keyup change', function () {
-                   if (that.search() !== this.value) {
-                       that
-                           .search(this.value)
-                           .draw();
-                   }
-               });
-           });
-       });
+            $('input', this.footer()).on('keyup change', function () {
+                if (that.search() !== this.value) {
+                    that
+                        .search(this.value)
+                        .draw();
+                }
+            });
+        });
+    });
 
-    </script>
+</script>
 <style>
     .tblbackground {
         background-color: #fff;
@@ -60,12 +60,12 @@
 
 </section>
 <div class="m-container">
-<p class="indexbtnpadding flex">
-    @if (isadd)
-    {
-    @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary btnwidth" })
-    }
-</p>
+    <p class="indexbtnpadding flex">
+        @if (isadd)
+        {
+            @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary btnwidth" })
+        }
+    </p>
 </div>
 <section class="content">
     @if (TempData["SuccessMsg"] != null)
@@ -81,8 +81,8 @@
             <thead>
                 <tr>
                     @*<th>
-                    @Html.DisplayNameFor(model => model.BranchID)
-                </th>*@
+                            @Html.DisplayNameFor(model => model.BranchID)
+                        </th>*@
                     <th>
                         @Html.DisplayNameFor(model => model.BranchName)
                     </th>
@@ -90,73 +90,73 @@
                         @Html.DisplayNameFor(model => model.Address1)
                     </th>
                     @* <th>
-                    @Html.DisplayNameFor(model => model.Address2)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Address3)
-                </th>*@
+                            @Html.DisplayNameFor(model => model.Address2)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Address3)
+                        </th>*@
                     <th>
                         @Html.DisplayNameFor(model => model.CountryMaster.CountryName)
                     </th>
                     @*<th>
-                    @Html.DisplayNameFor(model => model.CityID)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Location.Location1)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.KeyPerson)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Designation.Designation1)
-                </th>*@
+                            @Html.DisplayNameFor(model => model.CityID)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Location.Location1)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.KeyPerson)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Designation.Designation1)
+                        </th>*@
                     @*<th>
-                    @Html.DisplayNameFor(model => model.Phone)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.PhoneNo1)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.PhoneNo2)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.PhoneNo3)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.PhoneNo4)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.MobileNo1)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.MobileNo2)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.EMail)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Website)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.BranchPrefix)
-                </th>*@
+                            @Html.DisplayNameFor(model => model.Phone)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.PhoneNo1)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.PhoneNo2)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.PhoneNo3)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.PhoneNo4)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.MobileNo1)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.MobileNo2)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.EMail)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Website)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.BranchPrefix)
+                        </th>*@
                     <th>
                         @Html.DisplayNameFor(model => model.CurrencyMaster.CurrencyName)
                     </th>
                     @*<th>
-                    @Html.DisplayNameFor(model => model.AcCompanyID)
-                </th>*@
+                            @Html.DisplayNameFor(model => model.AcCompanyID)
+                        </th>*@
                     @* <th>
-                    @Html.DisplayNameFor(model => model.StatusAssociate)
-                </th>*@
-                    <th></th>
+                            @Html.DisplayNameFor(model => model.StatusAssociate)
+                        </th>*@
+                    <th>Action</th>
                 </tr>
             </thead>
             <tfoot>
                 <tr>
                     @*<th>
-                    @Html.DisplayNameFor(model => model.BranchID)
-                </th>*@
+                            @Html.DisplayNameFor(model => model.BranchID)
+                        </th>*@
                     <th>
                         @Html.DisplayNameFor(model => model.BranchName)
                     </th>
@@ -164,75 +164,75 @@
                         @Html.DisplayNameFor(model => model.Address1)
                     </th>
                     @* <th>
-                    @Html.DisplayNameFor(model => model.Address2)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Address3)
-                </th>*@
+                            @Html.DisplayNameFor(model => model.Address2)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Address3)
+                        </th>*@
                     <th>
                         @Html.DisplayNameFor(model => model.CountryMaster.CountryName)
                     </th>
                     @*<th>
-                    @Html.DisplayNameFor(model => model.CityID)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Location.Location1)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.KeyPerson)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Designation.Designation1)
-                </th>*@
+                            @Html.DisplayNameFor(model => model.CityID)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Location.Location1)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.KeyPerson)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Designation.Designation1)
+                        </th>*@
                     @*<th>
-                    @Html.DisplayNameFor(model => model.Phone)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.PhoneNo1)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.PhoneNo2)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.PhoneNo3)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.PhoneNo4)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.MobileNo1)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.MobileNo2)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.EMail)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Website)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.BranchPrefix)
-                </th>*@
+                            @Html.DisplayNameFor(model => model.Phone)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.PhoneNo1)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.PhoneNo2)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.PhoneNo3)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.PhoneNo4)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.MobileNo1)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.MobileNo2)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.EMail)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Website)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.BranchPrefix)
+                        </th>*@
                     <th>
                         @Html.DisplayNameFor(model => model.CurrencyMaster.CurrencyName)
                     </th>
                     @*<th>
-                    @Html.DisplayNameFor(model => model.AcCompanyID)
-                </th>*@
+                            @Html.DisplayNameFor(model => model.AcCompanyID)
+                        </th>*@
                     @* <th>
-                    @Html.DisplayNameFor(model => model.StatusAssociate)
-                </th>*@
+                            @Html.DisplayNameFor(model => model.StatusAssociate)
+                        </th>*@
                     <th></th>
                 </tr>
-                </tfoot>
+            </tfoot>
             <tbody>
                 @foreach (var item in Model)
                 {
                     <tr>
                         @*<td>
-                        @Html.DisplayFor(modelItem => item.BranchID)
-                    </td>*@
+                                @Html.DisplayFor(modelItem => item.BranchID)
+                            </td>*@
                         <td>
                             @Html.DisplayFor(modelItem => item.BranchName)
                         </td>
@@ -240,65 +240,65 @@
                             @Html.DisplayFor(modelItem => item.Address1)
                         </td>
                         @*  <td>
-                        @Html.DisplayFor(modelItem => item.Address2)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Address3)
-                    </td>*@
+                                @Html.DisplayFor(modelItem => item.Address2)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Address3)
+                            </td>*@
                         <td>
                             @Html.DisplayFor(modelItem => item.CountryMaster.CountryName)
                         </td>
                         @*<td>
-                        @Html.DisplayFor(modelItem => item.CityID)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Location.Location1)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.KeyPerson)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Designation.Designation1)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Phone)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.PhoneNo1)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.PhoneNo2)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.PhoneNo3)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.PhoneNo4)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.MobileNo1)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.MobileNo2)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.EMail)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Website)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.BranchPrefix)
-                    </td>*@
+                                @Html.DisplayFor(modelItem => item.CityID)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Location.Location1)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.KeyPerson)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Designation.Designation1)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Phone)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PhoneNo1)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PhoneNo2)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PhoneNo3)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PhoneNo4)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.MobileNo1)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.MobileNo2)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.EMail)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Website)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.BranchPrefix)
+                            </td>*@
                         <td>
                             @Html.DisplayFor(modelItem => item.CurrencyMaster.CurrencyName)
                         </td>
                         @* <td>
-                        @Html.DisplayFor(modelItem => item.AcCompanyID)
-                    </td>*@
+                                @Html.DisplayFor(modelItem => item.AcCompanyID)
+                            </td>*@
                         @*<td>
-                        @Html.DisplayFor(modelItem => item.StatusAssociate)
-                    </td>*@
+                                @Html.DisplayFor(modelItem => item.StatusAssociate)
+                            </td>*@
                         <td>
                             @if (ismodify)
                             {

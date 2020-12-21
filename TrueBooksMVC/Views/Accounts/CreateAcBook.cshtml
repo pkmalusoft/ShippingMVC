@@ -814,18 +814,20 @@
         <br />
         <div class="row no-margin" style="padding-top:10px">
             <table class="table table-bordered table-responsive" id="details" >
+            <thead>
                 <tr>
-                    <td style="width:15%">AcHead</td>
-                    <td style="width:2%">Tax</td>
-                    <td style="width:10%">Amount</td>
-                    <td style="width:5%">Tax%</td>
-                    <td style="width:5%">Tax Amt.</td>
-                    <td style="width:10%">Supplier</td>
-                    <td style="width:15%">Remark/Ref No.</td>
+                    <th style="width:15%">AcHead</th>
+                    <th style="width:2%">Tax</th>
+                    <th style="width:10%">Amount</th>
+                    <th style="width:5%">Tax%</th>
+                    <th style="width:5%">Tax Amt.</th>
+                    <th style="width:10%">Supplier</th>
+                    <th style="width:15%">Remark/Ref No.</th>
 
-                    <td style="width:15%">Exp. Allocation</td>
-                    <td style="width:5%">Delete</td>
+                    <th style="width:15%">Exp. Allocation</th>
+                    <th style="width:5%">Delete</th>
                 </tr>
+                </thead>
             </table>
             @Html.HiddenFor(model => model.AcJournalDetail)
             @Html.HiddenFor(model => model.TotalAmt)
